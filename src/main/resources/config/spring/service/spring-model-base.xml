@@ -10,15 +10,8 @@
     http://www.springframework.org/schema/mvc
     http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
+    <context:component-scan base-package="com.xm.service" />
+    <context:annotation-config />
 
-    <!--<bean id="productService" class="com.fs.falcon.client.FalconHessianServiceClientFactory">-->
-        <!--<property name="serviceInteface" value="com.fs.api.demo.product.ProductService"/>-->
-        <!--<property name="domain" value="falcon-demo-provider"/>-->
-    <!--</bean>-->
-    <!--<bean id="productServicenetty" class="com.falcon.spring.FalconServiceFactory" lazy-init="false">-->
-        <!--<property name="domain" value="falconDemo"/>-->
-        <!--<property name="serviceInterface" value="com.fs.api.demo.product.ProductService"/>-->
-    <!--</bean>-->
-
-
+    <bean class="com.xm.service.ServiceAPIDocumentBeanFactoryPostProcessor"></bean>
 </beans>

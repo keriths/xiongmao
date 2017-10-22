@@ -1,14 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
-       xsi:schemaLocation="
-    http://www.springframework.org/schema/beans
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-    http://www.springframework.org/schema/context
-    http://www.springframework.org/schema/context/spring-context-3.0.xsd
     http://www.springframework.org/schema/mvc
-    http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+    http://www.springframework.org/schema/mvc/spring-mvc.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
     <context:component-scan base-package="com.xm.web"/>
     <mvc:annotation-driven/>
@@ -21,5 +21,80 @@
             <!--</list>-->
         <!--</property>-->
     <!--</bean>-->
+    <!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->
+    <!--<bean id="mappingJacksonHttpMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">-->
+        <!--<property name="supportedMediaTypes">-->
+            <!--<list>-->
+                <!--<value>text/html;charset=UTF-8</value>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+    <mvc:annotation-driven>
+        <mvc:message-converters register-defaults="false">
+            <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"></bean>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="writeAcceptCharset" value="false"></property>
+            </bean>
+            <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"></bean>
+            <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"></bean>
+            <bean class="org.springframework.http.converter.support.AllEncompassingFormHttpMessageConverter"></bean>
+            <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>text/html;charset=UTF-8</value>
+                        <value>application/json</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+        <!--配置超时时间-->
+        <mvc:async-support default-timeout="3000" task-executor="taskExecutor">
+            <!-- 这里可以配置callable或者deferred-result拦截器 -->
+        </mvc:async-support>
+    </mvc:annotation-driven>
+    <mvc:default-servlet-handler/>
+    <bean id="taskExecutor" class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+        <!--关于pool的设置值要大于1，不然异步没有效果-->
+        <property name="corePoolSize" value="50"/>
+        <property name="maxPoolSize" value="500"/>
+        <property name="queueCapacity" value="1000"/>
+        <property name="keepAliveSeconds" value="60"/>
+    </bean>
+    <!-- annotation的方法映射适配器 -->
+    <bean id="handlerAdapter"
+          class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter" >
+        <property name="order" value="0"></property>
+        <property name="messageConverters">
+            <list>
+                <bean class="com.xm.web.converter.XMLHttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>text/html;charset=UTF-8</value>
+                        </list>
+                    </property>
+                </bean>
+                <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter"></bean>
+                <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                    <property name="writeAcceptCharset" value="false"></property>
+                </bean>
+                <bean class="org.springframework.http.converter.ResourceHttpMessageConverter"></bean>
+                <bean class="org.springframework.http.converter.xml.SourceHttpMessageConverter"></bean>
+                <bean class="org.springframework.http.converter.support.AllEncompassingFormHttpMessageConverter"></bean>
+                <bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+                    <property name="supportedMediaTypes">
+                        <list>
+                            <value>text/html;charset=UTF-8</value>
+                            <value>application/json</value>
+                        </list>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
 
+    <!--annotation默认的方法映射适配器 -->
+    <bean id="handlerMapping"
+          class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+        <property name="order" value="1" />
+    </bean>
 </beans>
