@@ -7,11 +7,12 @@ import java.util.LinkedHashMap;
  * Created by fanshuai on 17/10/22.
  */
 public class ApiMethod {
-    private String apiCode;
     private String serviceDesc;
-    private String methodDesc;
-    private Object serviceObj;
     private String serviceId;
+    private Object serviceObj;
+
+    private String apiCode;
+    private String methodDesc;
     private Method method;
     private LinkedHashMap<String,ApiParam> paramMap;
 

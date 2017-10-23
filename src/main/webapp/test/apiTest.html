@@ -1,0 +1,140 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>test</title>
+    <meta name="description" content="description" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="zh-cn" />
+    <meta name="robots" content="all" />
+    <meta name="author" content="test" />
+    <meta name="Copyright" content="test" />
+    <style type="text/css">
+            /*.serviceName a:link ul{display: none}*/
+            /* 已被访问的链接 */
+            /*.serviceName a:visited ul{display: none}*/
+            /*a:visited ul{display: none}*/
+            /* 鼠标指针移动到链接上 */
+            /*.serviceName a:hover ul{display: block}*/
+            /*a:hover ul{display: none}*/
+            /* 正在被点击的链接 */
+            /*.serviceName a:active ul{display: none}*/
+        </style>
+        <script type="text/javascript" src="/js/jquery.min.js"></script>
+    </head>
+    <body>
+        <div id="left" style="width: 49%;border: 1px solid #ccc;float: left">
+            <ul id="serviceUl">
+                <li >
+                    <a class="serviceName">接口</a>
+                    <ul name="serviceMethodUl" style="display: none">
+                        <li class="serviceMethodLi">
+                            方法
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div id="right" style="width: 49%;border: 1px solid #ccc;float: left">
+            <form id="testForm" action="">
+                <div>
+                    apiCode:<input id="apiCodeLabel" readonly name="apiCode"/> </label>
+                </div>
+                <div id="paramsDiv">
+                </div>
+                <div>
+                    <button type="button" id="processTestForm">提交</button>
+                </div>
+                <div>
+                    返回：
+                    <div id="response">
+
+                    </div>
+                </div>
+            </form>
+        </div>
+        <script type="text/javascript">
+            $.ajax({
+                url:"/manage/serviceNameList",
+                dataType: 'json',
+                success:function(data, textStatus, jqXHR){
+                    var serviceUl = $("#serviceUl");
+                    var html = "";
+                    $(data).each(function(i,val){
+                        html = html+"<li><a class='serviceName'>"+val+"</a></li>";
+                    });
+                    serviceUl.html(html);
+                }
+            });
+            $("#serviceUl").on("click",".serviceMethodLi",function(){
+                var _serviceMethodLi = $(this);
+                var apiCode = _serviceMethodLi.attr("apiCode");
+                $("#apiCodeLabel").val(apiCode);
+                $.ajax({
+                    url: "/manage/serviceMethod?apiCode=" + apiCode,
+                    dataType: 'json',
+                    success: function (data, textStatus, jqXHR) {
+                        var paramsDivHtml = "";
+                        var paramList = data.paramList;
+                        if(paramList!=null){
+                            $(paramList).each(function(index,param){
+                                paramsDivHtml = paramsDivHtml +
+                                "<div>" +
+                                        param.paramDesc+"<br/>"+param.paramName+"<input name='"+param.paramName+"'>"+param.paramTypeName
+                                "</div>";
+                            });
+                        }
+                        $("#paramsDiv").html(paramsDivHtml);
+                    }
+                });
+            });
+            $("#serviceUl").on("click",".serviceName",function(){
+                var _serviceNameA = $(this);
+                var _serviceMethodUl = $(this).parent().find("UL[name='serviceMethodUl']");
+                if(_serviceMethodUl.length==0){
+                    //加载
+                    $.ajax({
+                        url:"/manage/serviceMethodList?serviceName="+$(this).text(),
+                        dataType: 'json',
+                        success:function(data, textStatus, jqXHR){
+                            var serviceUl = $("#serviceUl");
+                            var html = "<ul name='serviceMethodUl' isHide='1'>";
+                            $(data).each(function(i,val){
+                                html = html+"<li class='serviceMethodLi' apiCode='"+val.apiCode+"'>"+val.methodDesc+" "+val.methodName+"(";
+                                if(val.paramList != null){
+                                    $(val.paramList).each(function(index,param){
+                                        if(index>0){
+                                            html = html+",";
+                                        }
+                                        html = html+param.paramTypeName+" "+param.paramName;
+                                    });
+                                }
+                                html = html+")</li>";
+                            });
+                            html = html+"</ul>"
+                            _serviceNameA.after(html);
+                        }
+                    });
+                }else{
+                    var isHide = _serviceMethodUl.attr("isHide");
+                    if(isHide==null || isHide == 0){
+                        _serviceMethodUl.attr("isHide",1);
+                        _serviceMethodUl.show();
+                    }else{
+                        _serviceMethodUl.attr("isHide",0);
+                        _serviceMethodUl.hide();
+                    }
+                }
+            });
+            $("#processTestForm").click(function(){
+                $.ajax({
+                    url:"/manage/processServiceMethod",
+                    data:$('#testForm').serialize(),
+                    success: function (data, textStatus, jqXHR){
+                        $("#response").html(data);
+                    }
+                })
+            });
+        </script>
+    </body>
+</html>

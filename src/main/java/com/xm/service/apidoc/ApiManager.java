@@ -1,9 +1,6 @@
 package com.xm.service.apidoc;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by fanshuai on 17/10/22.
@@ -11,6 +8,21 @@ import java.util.Map;
 public class ApiManager {
     private static Map<String,ApiMethod> apiMethodMap;
     private static Map<String,List<ApiMethod>> apiMethodListMap;
+
+    public static Set<String> serviceNameList(){
+        if (apiMethodListMap==null){
+            return null;
+        }
+        Set<String> keySet = apiMethodListMap.keySet();
+        return keySet;
+    }
+
+    public static List<ApiMethod> getServiceMethodList(String serviceName){
+        if (apiMethodListMap==null){
+            return null;
+        }
+        return apiMethodListMap.get(serviceName);
+    }
 
     public static void addApiMethod(ApiMethod apiMethod){
         if (apiMethodMap==null){

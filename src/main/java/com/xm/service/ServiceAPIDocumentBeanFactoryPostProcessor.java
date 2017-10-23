@@ -89,7 +89,7 @@ public class ServiceAPIDocumentBeanFactoryPostProcessor implements BeanFactoryPo
             }
 
             ApiServiceDoc apiServiceDoc = (ApiServiceDoc) serviceClass.getAnnotation(ApiServiceDoc.class);
-            String apiServiceDesc = apiServiceDoc.name()+"["+serviceClass.getName()+"]";
+            String apiServiceDesc = apiServiceDoc.name()+"("+serviceClass.getName()+")";
             System.out.print("\nApiService-" + apiServiceDoc.name());
             Method[] methods = serviceClass.getMethods();
             for (Method method : methods){
