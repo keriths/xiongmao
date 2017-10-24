@@ -19,6 +19,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -134,7 +135,7 @@ public class TestAction {
             ApiMethodParamVO paramVO = new ApiMethodParamVO();
             paramVO.setParamName(p.getParamName());
             paramVO.setParamDesc(p.getParamDesc());
-            paramVO.setParamTypeName(p.getParamType().getSimpleName());
+            paramVO.setParamTypeName(p.getParamClass().getSimpleName());
             paramList.add(paramVO);
         }
         return paramList;

@@ -17,6 +17,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.Map;
 
 /**
@@ -90,7 +91,6 @@ public class ServiceAPIDocumentBeanFactoryPostProcessor implements BeanFactoryPo
 
             ApiServiceDoc apiServiceDoc = (ApiServiceDoc) serviceClass.getAnnotation(ApiServiceDoc.class);
             String apiServiceDesc = apiServiceDoc.name()+"("+serviceClass.getName()+")";
-            System.out.print("\nApiService-" + apiServiceDoc.name());
             Method[] methods = serviceClass.getMethods();
             for (Method method : methods){
                 ApiMethodDoc apiMethodDoc = method.getAnnotation(ApiMethodDoc.class);
@@ -105,18 +105,17 @@ public class ServiceAPIDocumentBeanFactoryPostProcessor implements BeanFactoryPo
                 apiMethod.setApiCode(apiMethodDoc.apiCode());
                 apiMethod.setMethodDesc(apiMethodDoc.name());
 
-                Class<?> returnType = method.getReturnType();
-                String name = method.getName();
-
                 CtMethod ctMethod = getCtMethod(ctClass, method);
                 Annotation[][] parameterAnnotations = method.getParameterAnnotations();
-                Class<?>[] parameterTypes = method.getParameterTypes();
+                Type[] parameterTypes = method.getGenericParameterTypes();
+                Class[] parameterClasses = method.getParameterTypes();
                 MethodInfo methodInfo = ctMethod.getMethodInfo();
                 CodeAttribute codeAttribute = methodInfo.getCodeAttribute();
                 LocalVariableAttribute attribute = (LocalVariableAttribute)codeAttribute.getAttribute(LocalVariableAttribute.tag);
                 int pos = Modifier.isStatic(ctMethod.getModifiers()) ? 0 : 1;
                 for (int i = 0;i<parameterTypes.length;i++) {
-                    Class parameterType = parameterTypes[i];
+                    Type parameterType = parameterTypes[i];
+                    Class parameterClass = parameterClasses[i];
                     String paramtypeName = attribute.variableName(i + pos);
                     ApiParamDoc apiParamDoc = getApiParamDoc(parameterAnnotations[i]);
 
@@ -124,6 +123,7 @@ public class ServiceAPIDocumentBeanFactoryPostProcessor implements BeanFactoryPo
                     apiParam.setParamDesc(apiParamDoc==null?"":apiParamDoc.desc());
                     apiParam.setParamName(paramtypeName);
                     apiParam.setParamType(parameterType);
+                    apiParam.setParamClass(parameterClass);
                     apiMethod.addParam(apiParam);
                 }
                 ApiManager.addApiMethod(apiMethod);
