@@ -13,5 +13,5 @@
     <context:component-scan base-package="com.xm.service" />
     <context:annotation-config />
 
-    <bean class="com.xm.service.ServiceAPIDocumentBeanFactoryPostProcessor"></bean>
+    <bean class="com.xm.service.processor.ServiceAPIDocumentBeanFactoryPostProcessor"></bean>
 </beans>

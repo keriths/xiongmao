@@ -7,7 +7,7 @@ import com.xm.service.apidoc.ApiMethod;
 import com.xm.service.apidoc.ApiParam;
 import com.xm.web.test.vo.ApiMethodParamVO;
 import com.xm.web.test.vo.ApiMethodVO;
-import com.xm.web.vo.DefaultXMLRetVO;
+import com.xm.web.vo.DefaultXMLDTO;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -18,8 +18,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
 import java.util.*;
 
@@ -42,8 +40,8 @@ public class TestAction {
 
     @RequestMapping(value = "/")
     @ResponseBody
-    public DefaultXMLRetVO testXmlAction(){
-        DefaultXMLRetVO vo =  new DefaultXMLRetVO();
+    public DefaultXMLDTO testXmlAction(){
+        DefaultXMLDTO vo =  new DefaultXMLDTO();
         vo.setCode(200);
         vo.setErrorMsg("成功"+testService.getTestName());
         return vo;

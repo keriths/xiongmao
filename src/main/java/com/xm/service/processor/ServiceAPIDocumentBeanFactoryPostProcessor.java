@@ -1,4 +1,4 @@
-package com.xm.service;
+package com.xm.service.processor;
 
 import com.xm.service.annotations.ApiMethodDoc;
 import com.xm.service.annotations.ApiParamDoc;

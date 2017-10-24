@@ -47,8 +47,8 @@
                 </div>
                 <div>
                     返回：
-                    <div id="response">
-
+                    <div>
+                        <textarea rows="100" cols="100" id="response"></textarea>
                     </div>
                 </div>
             </form>
@@ -131,7 +131,7 @@
                     url:"/manage/processServiceMethod",
                     data:$('#testForm').serialize(),
                     success: function (data, textStatus, jqXHR){
-                        $("#response").html(data);
+                        $("#response").val(data);
                     }
                 })
             });

@@ -1,5 +1,7 @@
 package com.xm.web.vo;
 
+import com.xm.service.dto.XMLDTO;
+
 import javax.xml.bind.annotation.*;
 
 /**
@@ -7,7 +9,7 @@ import javax.xml.bind.annotation.*;
  */
 @XmlAccessorType(XmlAccessType.PUBLIC_MEMBER)
 @XmlRootElement(name = "data")
-public class DefaultXMLRetVO implements XMLRetVO {
+public class DefaultXMLDTO implements XMLDTO {
     private int code;
     private String errorMsg;
 

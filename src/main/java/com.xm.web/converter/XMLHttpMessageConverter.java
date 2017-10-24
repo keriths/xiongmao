@@ -1,24 +1,18 @@
 package com.xm.web.converter;
 
-import com.alibaba.fastjson.JSON;
-import com.xm.web.vo.XMLRetVO;
+import com.xm.service.dto.XMLDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
-import org.springframework.http.MediaType;
 import org.springframework.http.converter.AbstractHttpMessageConverter;
-import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
 
-import javax.xml.bind.JAXB;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.StringWriter;
-import java.util.List;
 
 /**
  * Created by fanshuai on 17/10/22.
@@ -26,7 +20,7 @@ import java.util.List;
 public class XMLHttpMessageConverter extends AbstractHttpMessageConverter {
     @Override
     protected boolean supports(Class clazz) {
-        if (XMLRetVO.class.isAssignableFrom(clazz)){
+        if (XMLDTO.class.isAssignableFrom(clazz)){
             return true;
         }
         return false;
