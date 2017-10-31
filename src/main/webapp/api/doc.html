@@ -19,11 +19,22 @@
             /*a:hover ul{display: none}*/
             /* 正在被点击的链接 */
             /*.serviceName a:active ul{display: none}*/
+            body{padding: 0px;margin: 0px;}
+            #top{width: 100%;padding: 0px;margin: 0px;height: 5px;}
+            #left{line-height: 20px;font-size: 16px;margin-right: 2px;margin-left: 2px;}
+            #right{}
+            .paramLabel{font-size: 18px;padding-top: 1px;margin-top: 1px;line-height: 22px;margin-left: 2px;}
+            .paramInput{width: 90%;height: 23px;border: 1px solid #ccc;font-size: 18px;margin-left: 2px;}
+            .processBtn{width: 60px;height: 30px;margin: 2px 1px 2px 2px ;font-size: 18px;}
+            #response{height: 150px;width: 90%}
         </style>
         <script type="text/javascript" src="/js/jquery.min.js"></script>
     </head>
     <body>
-        <div id="left" style="width: 49%;border: 1px solid #ccc;float: left">
+        <div id="top">
+
+        </div>
+        <div id="left" style="width: 40%;border: 1px solid #ccc;float: left">
             <ul id="serviceUl">
                 <li >
                     <a class="serviceName">接口</a>
@@ -35,20 +46,23 @@
                 </li>
             </ul>
         </div>
-        <div id="right" style="width: 49%;border: 1px solid #ccc;float: left">
+        <div id="right" style="width: 50%;border: 1px solid #ccc;float: left">
             <form id="testForm" action="">
                 <div>
-                    apiCode:<input id="apiCodeLabel" readonly name="apiCode"/> </label>
+                    <div class="paramLabel">接口编码<br/>apiCode:</div>
+                    <input class="paramInput" id="apiCodeLabel" readonly name="apiCode"/> </label>
                 </div>
                 <div id="paramsDiv">
                 </div>
                 <div>
-                    <button type="button" id="processTestForm">提交</button>
+                    <button type="button" id="processTestForm" class="processBtn">提交</button>
                 </div>
                 <div>
-                    返回：
                     <div>
-                        <textarea rows="100" cols="100" id="response"></textarea>
+                        返回：
+                    </div>
+                    <div>
+                        <textarea id="response"></textarea>
                     </div>
                 </div>
             </form>
@@ -80,7 +94,8 @@
                             $(paramList).each(function(index,param){
                                 paramsDivHtml = paramsDivHtml +
                                 "<div>" +
-                                        param.paramDesc+"<br/>"+param.paramName+"<input name='"+param.paramName+"'>"+param.paramTypeName
+                                        "<div class='paramLabel'>"+"参数描述("+param.paramDesc+")类型("+param.paramTypeName+")<br/>"+param.paramName+":</div>"
+                                +"<input class='paramInput' name='"+param.paramName+"'>"
                                 "</div>";
                             });
                         }
@@ -132,6 +147,9 @@
                     data:$('#testForm').serialize(),
                     success: function (data, textStatus, jqXHR){
                         $("#response").val(data);
+                    },
+                    error:function(XMLHttpRequest, textStatus, errorThrown){
+                        $("#response").val(errorThrown);
                     }
                 })
             });

@@ -1,4 +1,4 @@
-package com.xm.web.test;
+package com.xm.web.api;
 
 import com.alibaba.fastjson.JSON;
 import com.xm.service.TestService;
@@ -25,7 +25,7 @@ import java.util.*;
  * Created by fanshuai on 17/10/22.
  */
 @Controller
-public class TestAction {
+public class ApiAction {
     @Resource(name = "testService")
     private TestService testService;
     @RequestMapping(value = "/test")
@@ -54,8 +54,10 @@ public class TestAction {
     @RequestMapping(value = "/manage/serviceMethodList")
     @ResponseBody
     public List<ApiMethodVO> getServiceMethodList(String serviceName){
+        System.out.println(serviceName);
         List<ApiMethod> apiMethodList = ApiManager.getServiceMethodList(serviceName);
         if (CollectionUtils.isEmpty(apiMethodList)){
+            System.out.println("apiMethodList is null");
             return null;
         }
         List<ApiMethodVO> voList = new ArrayList<ApiMethodVO>(apiMethodList.size());
@@ -79,6 +81,7 @@ public class TestAction {
             Object obj = apiMethod.getMethod().invoke(apiMethod.getServiceObj(),param);
             return obj;
         } catch (Exception e) {
+            e.printStackTrace();
             return e;
         }
     }
@@ -89,17 +92,22 @@ public class TestAction {
             return null;
         }
         Object[] param=new Object[paramMap.size()];
-        int paramIndex = 0;
+        int paramIndex = -1;
         for (Map.Entry<String, ApiParam> entry:paramMap.entrySet()){
+            paramIndex++;
             ApiParam apiParam = entry.getValue();
             String paramName = apiParam.getParamName();
             String paramValue = getRequest().getParameter(paramName);
             if (StringUtils.isEmpty(paramValue)){
                 continue;
             }
-            Object obj = JSON.parseObject(paramValue, apiParam.getParamType());
+            Object obj = null;
+            if (apiParam.getParamType()==String.class){
+                obj = paramValue;
+            }else {
+                obj = JSON.parseObject(paramValue, apiParam.getParamType());
+            }
             param[paramIndex] = obj;
-            paramIndex++;
         }
         return param;
     }
