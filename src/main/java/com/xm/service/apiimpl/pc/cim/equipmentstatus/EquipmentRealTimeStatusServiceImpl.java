@@ -17,7 +17,7 @@ import java.util.List;
 @ApiServiceDoc(name = "CIM_设备实时状态")
 public class EquipmentRealTimeStatusServiceImpl {
     @ApiMethodDoc(apiCode = "CIM_EquipmentStatus_ArrayStatus",name = "Array设备状态显示")
-    public XMLDTO arrayStatus(){
+    public MapDTO arrayStatus(){
 //        ArrayStatusDTO dto = new ArrayStatusDTO();
 //        dto.activationNum=231;
 //        dto.activationRate=0.96;
@@ -37,7 +37,7 @@ public class EquipmentRealTimeStatusServiceImpl {
         return map;
     }
     @ApiMethodDoc(apiCode = "CIM_EquipmentStatus_ArrayCargoVolume",name = "Array过货量推移图")
-    public XMLDTO arrayCargoVolume(){
+    public MapDTO arrayCargoVolume(){
         MapDTO map = new MapDTO();
         ArrayCargoVolumeDTO dto = new ArrayCargoVolumeDTO();
         List<ArrayCargoVolumeDTO.ArrayCargoVolumeItemValue> valueList = Lists.newArrayList(
@@ -47,14 +47,14 @@ public class EquipmentRealTimeStatusServiceImpl {
                 new ArrayCargoVolumeDTO.ArrayCargoVolumeItemValue(14,3200),
                 new ArrayCargoVolumeDTO.ArrayCargoVolumeItemValue(15,6000));
         dto.valueList=valueList;
-            map.put("list",valueList,"过货量推移图");
+            map.put("numList",valueList,"过货量推移图");
         return map;
     }
 
     @ApiMethodDoc(apiCode = "CIM_EquipmentStatus_Array2F",name = "Array2F设备状态")
     public MapDTO Array2F(){
         MapDTO map = new MapDTO();
-        map.put("PFX-01C", "1");
+        map.put("PFX-01C", "1","pfx01c");
         return map;
     }
 }
