@@ -15,6 +15,7 @@ public class ApiMethod {
     private String methodDesc;
     private Method method;
     private LinkedHashMap<String,ApiParam> paramMap;
+    private ApiMethodResultType apiMethodResultType;
 
 
 
@@ -80,6 +81,14 @@ public class ApiMethod {
 
     public void setParamMap(LinkedHashMap<String, ApiParam> paramMap) {
         this.paramMap = paramMap;
+    }
+
+    public ApiMethodResultType getApiMethodResultType() {
+        return apiMethodResultType;
+    }
+
+    public void setApiMethodResultType(ApiMethodResultType apiMethodResultType) {
+        this.apiMethodResultType = apiMethodResultType;
     }
 
     @Override
