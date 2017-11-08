@@ -127,6 +127,7 @@ public class ApiAction {
         vo.setMethodDesc(apiMethod.getMethodDesc());
         vo.setMethodName(apiMethod.getMethod().getName());
         vo.setParamList(getParamVOList(apiMethod));
+        vo.setApiMethodResultType(apiMethod.getApiMethodResultType());
         return vo;
     }
 

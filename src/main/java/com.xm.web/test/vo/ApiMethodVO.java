@@ -1,5 +1,7 @@
 package com.xm.web.test.vo;
 
+import com.xm.service.apidoc.ApiMethodResultType;
+
 import java.util.List;
 
 /**
@@ -10,6 +12,7 @@ public class ApiMethodVO {
     private String methodDesc;
     private String methodName;
     private List<ApiMethodParamVO> paramList;
+    private ApiMethodResultType apiMethodResultType;
 
     public String getApiCode() {
         return apiCode;
@@ -41,5 +44,13 @@ public class ApiMethodVO {
 
     public void setParamList(List<ApiMethodParamVO> paramList) {
         this.paramList = paramList;
+    }
+
+    public ApiMethodResultType getApiMethodResultType() {
+        return apiMethodResultType;
+    }
+
+    public void setApiMethodResultType(ApiMethodResultType apiMethodResultType) {
+        this.apiMethodResultType = apiMethodResultType;
     }
 }

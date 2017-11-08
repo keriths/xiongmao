@@ -23,11 +23,6 @@ public class EquipmentRealTimeStatusResultDTO {
     private String faultRate;
     @ApiResultFieldDesc(desc = "AMHS链接状态")
     private String amhsStatus;
-    @ApiResultFieldDesc(desc = "testField")
-    private List<Map<String,ArrayStatusDTO>> testField;
-    private List<ArrayCargoVolumeDTO> ArrayCargoVolumeDTasdfafO;
-    private EquipmentRealTimeStatusResultDTO dto;
-    private List<EquipmentRealTimeStatusResultDTO> asdf;
 
     public String getActivationNum() {
         return activationNum;
