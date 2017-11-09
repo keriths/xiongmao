@@ -111,13 +111,15 @@
                 });
                 apiDocTableHtml=apiDocTableHtml+"<tr><td colspan='3'></td></tr>";
                 apiDocTableHtml=apiDocTableHtml+"<tr class='resultTr'><td>返回：</td><td colspan='2'>"+data.apiMethodResultType.resultTypeSingleName+"</td></tr>";
-                $.each(data.apiMethodResultType.typeFieldDetailLinkedHashMap,function(k,v){
-                    apiDocTableHtml=apiDocTableHtml+"<tr class='resultTypeNameTr'><td colspan='3'>"+ v.typeSingleName.replace("<","&lt").replace(">","&gt")+"</td></tr>";
-                    apiDocTableHtml=apiDocTableHtml+"<tr class='resultTypeFieldTitleTr'><td>名称</td><td>类型</td><td>描述</td></tr>";
-                    $(v.fieldDetailList).each(function(index,val){
-                        apiDocTableHtml=apiDocTableHtml+"<tr class='resultTypeFieldTr'><td>"+val.fieldName+"</td><td>"+html2Escape(val.fieldTypeSingleName)+"</td><td>"+val.fieldDesc+"</td></tr>";
+                if(data.apiMethodResultType.typeFieldDetailLinkedHashMap!=null){
+                    $.each(data.apiMethodResultType.typeFieldDetailLinkedHashMap,function(k,v){
+                        apiDocTableHtml=apiDocTableHtml+"<tr class='resultTypeNameTr'><td colspan='3'>"+ v.typeSingleName.replace("<","&lt").replace(">","&gt")+"</td></tr>";
+                        apiDocTableHtml=apiDocTableHtml+"<tr class='resultTypeFieldTitleTr'><td>名称</td><td>类型</td><td>描述</td></tr>";
+                        $(v.fieldDetailList).each(function(index,val){
+                            apiDocTableHtml=apiDocTableHtml+"<tr class='resultTypeFieldTr'><td>"+val.fieldName+"</td><td>"+html2Escape(val.fieldTypeSingleName)+"</td><td>"+val.fieldDesc+"</td></tr>";
+                        });
                     });
-                });
+                }
                 apiDocTableHtml=apiDocTableHtml+"</table>";
                 $("#apiDetailDoc").html(apiDocTableHtml);
             }
@@ -160,16 +162,7 @@
                             var serviceUl = $("#serviceUl");
                             var html = "<ul name='serviceMethodUl' isHide='1'>";
                             $(data).each(function(i,val){
-                                html = html+"<li class='serviceMethodLi' apiCode='"+val.apiCode+"'>"+val.methodDesc+" "+val.methodName+"(";
-                                if(val.paramList != null){
-                                    $(val.paramList).each(function(index,param){
-                                        if(index>0){
-                                            html = html+",";
-                                        }
-                                        html = html+param.paramTypeName+" "+param.paramName;
-                                    });
-                                }
-                                html = html+")</li>";
+                                html = html+"<li class='serviceMethodLi' apiCode='"+val.apiCode+"'>"+val.methodDesc+"</li>";
                             });
                             html = html+"</ul>"
                             _serviceNameA.after(html);
