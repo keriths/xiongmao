@@ -1,14 +1,17 @@
 package com.xm.service.apiimpl.pc.cim.equipmentstatus;
 
-import com.google.common.collect.Lists;
+import com.xm.dao.cim.TestCIMDAO;
 import com.xm.service.annotations.ApiMethodDoc;
 import com.xm.service.annotations.ApiParamDoc;
 import com.xm.service.annotations.ApiServiceDoc;
-import com.xm.service.dto.MapDTO;
-import com.xm.service.dto.XMLDTO;
+import com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.ArrayEquipmentRealTimeStatusFourFResultDTO;
+import com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentRealTimeStatusResultDTO;
+import com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentThroughputTransitResultDTO;
+import com.xm.service.apiimpl.pc.cim.equipmentstatus.service.ArrayEquipmentRealTimeStatusFourFServiceImpl;
+import com.xm.service.apiimpl.pc.cim.equipmentstatus.service.EquipmentThroughputTransitServiceImpl;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -17,6 +20,12 @@ import java.util.List;
 @Service("EquipmentRealTimeStatusService")
 @ApiServiceDoc(name = "CIM设备实时状态")
 public class EquipmentRealTimeStatusServiceImpl {
+    @Resource(name = "ArrayEquipmentRealTimeStatusFourFService")
+    private ArrayEquipmentRealTimeStatusFourFServiceImpl arrayEquipmentRealTimeStatusFourFService;
+    @Resource(name = "EquipmentThroughputTransitService")
+    private EquipmentThroughputTransitServiceImpl equipmentThroughputTransitService;
+    @Resource(name = "testCIMDAOa")
+    public TestCIMDAO testCIMDAO;
     @ApiMethodDoc(apiCode = "CIM_EquipmentStatus_ArrayStatus",name = "设备状态显示")
     public EquipmentRealTimeStatusResultDTO equipmentRealTimeStatus(@ApiParamDoc(desc = "设备名称如Array,Ceel,CF,SL-OC(*)")String equipment){
         EquipmentRealTimeStatusResultDTO result = new EquipmentRealTimeStatusResultDTO();
@@ -27,7 +36,24 @@ public class EquipmentRealTimeStatusServiceImpl {
         result.setFaultNum("60");
         result.setFaultRate("0.3");
         result.setAmhsStatus("1");
+        List l = testCIMDAO.getById();
         return result;
     }
+    @ApiMethodDoc(apiCode = "CIM_ThroughputTransit_Array",name = "设备过货量显示")
+    public EquipmentThroughputTransitResultDTO ThroughputTransit(@ApiParamDoc(desc = "设备名称如Array,Ceel,CF,SL-OC(*)")String equipment){
+        return equipmentThroughputTransitService.ThroughputTransit(equipment);
+    }
 
+    @ApiMethodDoc(apiCode = "CIM_EquipmentStatus_ArrayStatus4F",name = "设备状态显示-2F")
+    public ArrayEquipmentRealTimeStatusFourFResultDTO arrayEquipmentRealTimeStatusFourF(){
+        return arrayEquipmentRealTimeStatusFourFService.arrayEquipmentRealTimeStatusFourF();
+    }
+
+    public TestCIMDAO getTestCIMDAO() {
+        return testCIMDAO;
+    }
+
+    public void setTestCIMDAO(TestCIMDAO testCIMDAO) {
+        this.testCIMDAO = testCIMDAO;
+    }
 }
