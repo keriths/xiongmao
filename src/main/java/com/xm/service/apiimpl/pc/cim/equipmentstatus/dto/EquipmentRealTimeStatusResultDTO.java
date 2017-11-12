@@ -1,4 +1,4 @@
-package com.xm.service.apiimpl.pc.cim.equipmentstatus;
+package com.xm.service.apiimpl.pc.cim.equipmentstatus.dto;
 
 import com.xm.service.annotations.ApiResultFieldDesc;
 

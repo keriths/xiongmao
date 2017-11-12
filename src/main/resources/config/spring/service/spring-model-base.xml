@@ -10,8 +10,9 @@
     http://www.springframework.org/schema/mvc
     http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
-    <context:component-scan base-package="com.xm.service" />
+    <context:component-scan base-package="com.xm" />
     <context:annotation-config />
-
+    <import resource="spring-model-database-cim.xml"/>
+    <import resource="spring-model-database-fmcs.xml"/>
     <bean class="com.xm.service.processor.ServiceAPIDocumentBeanFactoryPostProcessor"></bean>
 </beans>

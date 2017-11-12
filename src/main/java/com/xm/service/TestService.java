@@ -14,7 +14,7 @@ import java.util.Map;
  * Created by fanshuai on 17/10/22.
  */
 @Service("testService")
-@ApiServiceDoc(name = "测试服务")
+//@ApiServiceDoc(name = "测试服务")
 public class TestService {
     @ApiMethodDoc(apiCode = "testService.testName",name = "测试方法")
     public String getTestName(){
