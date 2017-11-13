@@ -11,6 +11,7 @@ import javassist.bytecode.LocalVariableAttribute;
 import javassist.bytecode.MethodInfo;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
+import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -29,7 +30,8 @@ import java.util.Map;
 /**
  * Created by fanshuai on 17/10/22.
  */
-public class ServiceAPIDocumentBeanFactoryPostProcessor implements BeanFactoryPostProcessor{
+@Component
+public class ServiceAPIDocumentBeanPostProcessor implements BeanPostProcessor {
     private boolean isSameMethod(Method method,CtMethod ctMethod){
         if (!method.getName().equals(ctMethod.getName())){
             return false;
@@ -74,7 +76,6 @@ public class ServiceAPIDocumentBeanFactoryPostProcessor implements BeanFactoryPo
         }
         throw new RuntimeException("not found ctMethod"+method.getName());
     }
-    @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         Map<String, Object> apiServiceMap = beanFactory.getBeansWithAnnotation(ApiServiceDoc.class);
         if (CollectionUtils.isEmpty(apiServiceMap)){
@@ -298,5 +299,51 @@ public class ServiceAPIDocumentBeanFactoryPostProcessor implements BeanFactoryPo
             }
         }
         return apiParamDoc;
+    }
+
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        return bean;
+    }
+
+    @Override
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+        Object serviceObj = bean;
+        String serviceId = beanName;
+        Class serviceClass = serviceObj.getClass();
+
+        ApiServiceDoc apiServiceDoc = (ApiServiceDoc) serviceClass.getAnnotation(ApiServiceDoc.class);
+        if (apiServiceDoc==null){
+            return bean;
+        }
+        String apiServiceDesc = apiServiceDoc.name();
+        if (ApiManager.getServiceMethodList(apiServiceDesc)!=null){
+            throw new RuntimeException(apiServiceDesc+" cant more then one");
+        }
+
+        CtClass ctClass = getCtClass(serviceClass);
+
+        Method[] methods = serviceClass.getMethods();
+        for (Method method : methods){
+            ApiMethodDoc apiMethodDoc = method.getAnnotation(ApiMethodDoc.class);
+            if (apiMethodDoc==null){
+                continue;
+            }
+            ApiMethod apiMethod = new ApiMethod();
+            apiMethod.setMethod(method);
+            apiMethod.setServiceId(serviceId);
+            apiMethod.setServiceObj(serviceObj);
+            apiMethod.setServiceDesc(apiServiceDesc);
+            apiMethod.setApiCode(apiMethodDoc.apiCode());
+            apiMethod.setMethodDesc(apiMethodDoc.name());
+
+            ApiMethodResultType apiMethodResultType = getApiMethodResultType(method);
+            LinkedHashMap<String, ApiParam> paramMap = getStringApiParamLinkedHashMap(ctClass, method);
+            apiMethod.setParamMap(paramMap);
+            apiMethod.setApiMethodResultType(apiMethodResultType);
+
+            ApiManager.addApiMethod(apiMethod);
+        }
+        return bean;
     }
 }

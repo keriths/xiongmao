@@ -33,7 +33,7 @@
         <constructor-arg index="0" ref="cimSqlSessionFactory" />
     </bean>
     <bean id="cimMapperConfig" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.xm.dao.cim" />
+        <property name="basePackage" value="com.xm.service.dao.cim" />
         <property name="sqlSessionFactoryBeanName" value="cimSqlSessionFactory" />
         <property name="sqlSessionTemplateBeanName" value="cimSqlSessionTemplate" />
     </bean>

@@ -1,10 +1,10 @@
-package com.xm.dao.cim;
+package com.xm.service.dao.fmcs;
 
 import java.util.List;
 
 /**
  * Created by fanshuai on 17/11/11.
  */
-public interface TestCIMDAO {
+public interface TestFMCSDAO {
     List getById();
 }

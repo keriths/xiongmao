@@ -1,6 +1,6 @@
 package com.xm.service.apiimpl.pc.cim.equipmentstatus;
 
-import com.xm.dao.cim.TestCIMDAO;
+import com.xm.service.dao.cim.TestCIMDAO;
 import com.xm.service.annotations.ApiMethodDoc;
 import com.xm.service.annotations.ApiParamDoc;
 import com.xm.service.annotations.ApiServiceDoc;
@@ -24,7 +24,7 @@ public class EquipmentRealTimeStatusServiceImpl {
     private ArrayEquipmentRealTimeStatusFourFServiceImpl arrayEquipmentRealTimeStatusFourFService;
     @Resource(name = "EquipmentThroughputTransitService")
     private EquipmentThroughputTransitServiceImpl equipmentThroughputTransitService;
-    @Resource(name = "testCIMDAOa")
+    @Resource(name = "testCIMDAO")
     public TestCIMDAO testCIMDAO;
     @ApiMethodDoc(apiCode = "CIM_EquipmentStatus_ArrayStatus",name = "设备状态显示")
     public EquipmentRealTimeStatusResultDTO equipmentRealTimeStatus(@ApiParamDoc(desc = "设备名称如Array,Ceel,CF,SL-OC(*)")String equipment){

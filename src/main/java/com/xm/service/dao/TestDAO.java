@@ -1,4 +1,4 @@
-package com.xm.dao;
+package com.xm.service.dao;
 
 /**
  * Created by fanshuai on 17/10/31.

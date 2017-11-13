@@ -1,7 +1,8 @@
 package com.xm.web.api;
 
 import com.alibaba.fastjson.JSON;
-import com.xm.dao.cim.TestCIMDAO;
+import com.xm.service.apiimpl.pc.cim.equipmentstatus.EquipmentRealTimeStatusServiceImpl;
+import com.xm.service.dao.cim.TestCIMDAO;
 import com.xm.service.TestService;
 import com.xm.service.apidoc.ApiManager;
 import com.xm.service.apidoc.ApiMethod;
@@ -31,6 +32,8 @@ public class ApiAction {
     private TestService testService;
     @Resource(name = "testCIMDAO")
     private TestCIMDAO testCIMDAO;
+    @Resource(name = "EquipmentRealTimeStatusService")
+    private EquipmentRealTimeStatusServiceImpl equipmentRealTimeStatusService;
     @RequestMapping(value = "/test")
     @ResponseBody
     public Object testAction(){
