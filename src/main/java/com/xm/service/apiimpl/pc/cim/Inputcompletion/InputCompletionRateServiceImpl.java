@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 public class InputCompletionRateServiceImpl {
 
     @ApiMethodDoc(apiCode = "CIM_inputCompletionRate" , name = "投入达成率接口")
-    public InputCompletionRetDTO inputCompletionRate(@ApiParamDoc(desc = "产品,为空时是全部") String product,@ApiParamDoc(desc = "统计时间类型天d周w月m周w")String dateType){
+    public InputCompletionRetDTO inputCompletionRate(@ApiParamDoc(desc = "产品,为空时是全部") String product,@ApiParamDoc(desc = "统计时间类型天d周w月m")String dateType){
 
         return null;
     }

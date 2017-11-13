@@ -28,7 +28,7 @@
         <property name="configLocation" value="classpath:config/spring/sqlmap/cim/mybatis-config.xml"></property>
         <property name="mapperLocations" value="classpath:config/spring/sqlmap/cim/sqlmap-*.xml"></property>
         <property name="dataSource" ref="cimDataSource" />
-    </bean>
+</bean>
     <bean id="cimSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
         <constructor-arg index="0" ref="cimSqlSessionFactory" />
     </bean>
