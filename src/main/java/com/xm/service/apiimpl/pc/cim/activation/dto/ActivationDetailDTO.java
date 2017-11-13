@@ -1,5 +1,6 @@
 package com.xm.service.apiimpl.pc.cim.activation.dto;
 
+import com.xm.service.annotations.ApiResultFieldDesc;
 import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
@@ -11,15 +12,20 @@ import java.util.List;
  */
 public class ActivationDetailDTO implements Serializable{
 
-    private Integer status;
-    private Integer statusNum;
-
+    @ApiResultFieldDesc(desc = "厂别,如Array,Cell,CF,SL-OC")
     private String factory;
+    @ApiResultFieldDesc(desc = "EQP类型,如RUN,TRB,WAIT,MAN,MNT")
     private String eqpType;
+    @ApiResultFieldDesc(desc = "时间")
     private String dateTime;
+    @ApiResultFieldDesc(desc = "EQP类型的某个状态值列表")
     private List<ActivationStatusDTO> statusDTOList;
+    @ApiResultFieldDesc(desc = "目标值")
     private Integer target;
+    @ApiResultFieldDesc(desc = "稼动率小数")
     private BigDecimal activation;
+    @ApiResultFieldDesc(desc = "每个状态的Tact Time")
+    private Integer tactTime;
 
     public BigDecimal getActivation() {
         // TODO 稼动率实现
@@ -58,5 +64,45 @@ public class ActivationDetailDTO implements Serializable{
 
     public void setTarget(Integer target) {
         this.target = target;
+    }
+
+    public String getFactory() {
+        return factory;
+    }
+
+    public void setFactory(String factory) {
+        this.factory = factory;
+    }
+
+    public String getEqpType() {
+        return eqpType;
+    }
+
+    public void setEqpType(String eqpType) {
+        this.eqpType = eqpType;
+    }
+
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
+    }
+
+    public List<ActivationStatusDTO> getStatusDTOList() {
+        return statusDTOList;
+    }
+
+    public void setStatusDTOList(List<ActivationStatusDTO> statusDTOList) {
+        this.statusDTOList = statusDTOList;
+    }
+
+    public Integer getTactTime() {
+        return tactTime;
+    }
+
+    public void setTactTime(Integer tactTime) {
+        this.tactTime = tactTime;
     }
 }
