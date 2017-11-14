@@ -8,7 +8,7 @@ import java.util.List;
  * Created by fanshuai on 17/11/12.
  */
 public class ActivationRetDTO {
-    @ApiResultFieldDesc(desc = "EQP类型在各个状态(如PHOTO,PVD)不同时间点的状态值显示")
+    @ApiResultFieldDesc(desc = "设备稼动显示如Array,Cell")
     List<ActivationDetailDTO> detailDTOList;
 
     public List<ActivationDetailDTO> getDetailDTOList() {

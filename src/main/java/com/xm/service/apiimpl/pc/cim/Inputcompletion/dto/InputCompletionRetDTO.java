@@ -14,6 +14,7 @@ public class InputCompletionRetDTO implements Serializable{
     private List<InputCompletionData> completionDataList;
 
     public List<InputCompletionData> getCompletionDataList() {
+
         return completionDataList;
     }
 
