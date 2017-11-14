@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.cim.DwrProductTtFidsDAO" >
+    <select id="queryMonthAvg" resultType="com.xm.service.apiimpl.pc.cim.tactTime.TactTimeMonthAvgDataDTO" parameterType="map">
+        select
+            avg(TT_TARGET) as target,
+            avg(TOTAL_GLS_QTY) as actual,
+            PRODUCTID as productId
+        from DWR_PRODUCT_TT_FIDS
+        WHERE
+          FACTORY=#{factory}
+          AND PRODUCTID IN
+          <foreach collection="productIdList" item="productId" open="(" separator="," close=")" >
+              #{productId}
+          </foreach>
+        <![CDATA[
+          and PERIODDATE >= #{beginDate}
+          and PERIODDATE <= #{endDate}
+          ]]>
+        group by PRODUCTID
+    </select>
+</mapper>

@@ -1,6 +1,11 @@
 package com.xm.util;
 
+import org.springframework.util.CollectionUtils;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -21,4 +26,22 @@ public class MapUtils {
         }
         return m;
     }
+
+    public static <K,V> Map<K,V> listToMap(List<V> listValue,String getMethodName) {
+        try {
+            Map<K,V> mapValue = new HashMap<K, V>();
+            if (CollectionUtils.isEmpty(listValue)){
+                return mapValue;
+            }
+            Method method = listValue.get(0).getClass().getMethod(getMethodName);
+            for (V val:listValue){
+                K key = (K)method.invoke(val);
+                mapValue.put(key,val);
+            }
+            return mapValue;
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    }
+
 }

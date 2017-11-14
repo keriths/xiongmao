@@ -4,6 +4,7 @@ import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.annotations.ApiServiceDoc;
+import com.xm.platform.apidoc.*;
 import javassist.*;
 import javassist.bytecode.CodeAttribute;
 import javassist.bytecode.LocalVariableAttribute;

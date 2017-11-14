@@ -14,7 +14,8 @@
     </select>
 
     <select id="onthlyMean" resultMap="BaseResultMap" parameterType="java.lang.String">
-        select avg(TT_TARGET) as target,avg(TOTAL_GLS_QTY) as actual,PRODUCTTYPE from DWR_PRODUCT_TT_FIDS
+        select avg(TT_TARGET) as target,avg(TOTAL_GLS_QTY) as actual,PRODUCTTYPE
+        from DWR_PRODUCT_TT_FIDS
         WHERE FACTORY=#{0,jdbcType=VARCHAR} AND PRODUCTTYPE=#{1,jdbcType=VARCHAR}
         and PERIODDATE &gt;= to_date( to_char(sysdate,'YYYY-MM')|| '-01','YYYY-MM-DD')
         and TO_CHAR(PERIODDATE,'yyyy-mm-dd') &lt;=  TO_CHAR(SYSDATE,'yyyy-mm-dd')
