@@ -3,11 +3,14 @@ package com.xm.service.apiimpl.pc.cim.Inputcompletion.dto;
 import com.xm.service.annotations.ApiResultFieldDesc;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 
 /**
  * Created by fanshuai on 17/11/12.
  */
 public class InputCompletionData implements Serializable{
+    @ApiResultFieldDesc(desc = "厂别")
+    private String factory;
     @ApiResultFieldDesc(desc = "计划")
     private Integer plan;
     @ApiResultFieldDesc(desc = "实际")
@@ -17,7 +20,15 @@ public class InputCompletionData implements Serializable{
     @ApiResultFieldDesc(desc = "横坐标时间")
     private String date;
     @ApiResultFieldDesc(desc = "产品类型")
-    private String producttype;
+    private String productType;
+
+    public String getFactory() {
+        return factory;
+    }
+
+    public void setFactory(String factory) {
+        this.factory = factory;
+    }
 
     public Integer getPlan() {
         return plan;
@@ -36,6 +47,11 @@ public class InputCompletionData implements Serializable{
     }
 
     public Double getCompletionRate() {
+
+        Integer a = plan;
+        Integer b = actual;
+        DecimalFormat df=new DecimalFormat("0.00");
+        Double completionRate = Double.valueOf(df.format((float)a/b)).doubleValue();
         return completionRate;
     }
 
@@ -51,11 +67,11 @@ public class InputCompletionData implements Serializable{
         this.date = date;
     }
 
-    public String getProducttype() {
-        return producttype;
+    public String getProductType() {
+        return productType;
     }
 
-    public void setProducttype(String producttype) {
-        this.producttype = producttype;
+    public void setProductType(String productType) {
+        this.productType = productType;
     }
 }

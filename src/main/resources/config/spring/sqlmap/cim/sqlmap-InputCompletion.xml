@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.cim.InputCompletionDAO" >
+    <resultMap id="ResultMap" type="com.xm.service.apiimpl.pc.cim.Inputcompletion.dto.InputCompletionData">
+        <result column="FACTORY" property="factory" jdbcType="VARCHAR"></result>
+        <result column="PERIODDATE" property="date" jdbcType="VARCHAR"></result>
+        <result column="PRODUCTTYPE" property="product" jdbcType="VARCHAR"></result>
+        <result column="PLAN_INPUT_GLS_QTY" property="plan" jdbcType="DOUBLE"></result>
+        <result column="ACTUAL_INPUT_GLS_QTY" property="actual" jdbcType="DOUBLE"></result>
+        <!--<result column="" property="completionRate" jdbcType=""></result>-->
+
+    </resultMap>
+
+    <select id="InputCompletionRate" resultMap="ResultMap" parameterType="java.lang.String">
+        select FACTORY,PERIODDATE,PLAN_INPUT_GLS_QTY,ACTUAL_INPUT_GLS_QTY from DWS_PRODUCT_INPUT_FIDS WHERE PRODUCTTYPE=#{0,jdbcType=VARCHAR}
+    </select>
+</mapper>
