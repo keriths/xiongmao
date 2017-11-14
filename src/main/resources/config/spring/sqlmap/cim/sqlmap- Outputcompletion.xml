@@ -2,13 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.cim.OutputcompletionDAO" >
     <resultMap id="BaseResultMap" type="com.xm.service.apiimpl.pc.cim.Outputcompletion.OutputCompletionData">
+        <result column="FACTORY" property="factory" jdbcType="VARCHAR"></result>
         <result column="PLAN_OUTPUT_PNL_QTY" property="plan" jdbcType="DOUBLE"></result>
         <result column="ACTUAL_OUTPUT_PNL_QTY" property="actual" jdbcType="DOUBLE"></result>
         <!--<result column="" property="completionRate" jdbcType=""></result>-->
         <result column="PERIODDATE" property="date" jdbcType="DATE"></result>
     </resultMap>
     
-    <select id="OutputCompletionRate" resultMap="BaseResultMap" parameterType="java.lang.String">
-      select PLAN_OUTPUT_PNL_QTY,ACTUAL_OUTPUT_PNL_QTY,PERIODDATE from DWS_PRODUCT_OUTPUT_FIDS WHERE FACTORY=#{0,jdbcType=VARCHAR}
+    <select id="OutputCompletionRate" resultMap="BaseResultMap" parameterType="Map">
+        select sum(PLAN_OUTPUT_PNL_QTY),sum(ACTUAL_OUTPUT_PNL_QTY),FACTORY,PERIODDATE from DWS_PRODUCT_OUTPUT_FIDS
+        WHERE
+        <if test="product!=null and product!=''">
+            PRODUCTTYPE=#{product,jdbcType=VARCHAR} and
+        </if>
+        <if test="dateType=='d'.toString()">
+            PERIODDATE &gt;=to_date(to_char(sysdate-7,'yyyy/mm/dd'),'yyyy/mm/dd')
+        </if>
+        <if test="dateType=='m'.toString()">
+            PERIODDATE &gt;=to_date(to_char(add_months(sysdate,-12),'yyyy/mm/dd'),'yyyy/mm/dd')
+        </if>
+        <if test="dateType=='w'.toString()">
+            PERIODDATE &gt;=to_date(to_char(add_months(sysdate,-3),'yyyy/mm/dd'),'yyyy/mm/dd')
+        </if>
+        GROUP BY FACTORY,PERIODDATE
     </select>
 </mapper>
