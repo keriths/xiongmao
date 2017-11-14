@@ -1,6 +1,6 @@
 package com.xm.service.apiimpl.pc.fmcs;
 
-import com.xm.service.annotations.ApiServiceDoc;
+import com.xm.platform.annotations.ApiServiceDoc;
 import org.springframework.stereotype.Service;
 
 /**

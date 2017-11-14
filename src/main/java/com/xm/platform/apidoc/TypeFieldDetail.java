@@ -1,4 +1,4 @@
-package com.xm.service.apidoc;
+package com.xm.platform.apidoc;
 
 import java.io.Serializable;
 import java.util.List;

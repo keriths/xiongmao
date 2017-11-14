@@ -1,13 +1,12 @@
 package com.xm.service.apiimpl.pc.cim.tactTime;
 
-import com.xm.service.annotations.ApiMethodDoc;
-import com.xm.service.annotations.ApiParamDoc;
-import com.xm.service.annotations.ApiServiceDoc;
+import com.xm.platform.annotations.ApiMethodDoc;
+import com.xm.platform.annotations.ApiParamDoc;
+import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.service.dao.cim.TactTimeDAO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Iterator;
 import java.util.List;
 
 /**

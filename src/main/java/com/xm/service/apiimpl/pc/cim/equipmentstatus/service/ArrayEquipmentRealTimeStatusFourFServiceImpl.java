@@ -3,7 +3,7 @@ package com.xm.service.apiimpl.pc.cim.equipmentstatus.service;
 import com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.ArrayEquipmentRealTimeStatusFourFResultDTO;
 import org.springframework.stereotype.Service;
 
-import com.xm.service.annotations.ApiMethodDoc;
+import com.xm.platform.annotations.ApiMethodDoc;
 
 /**
  * Created by fanshuai on 17/10/24.

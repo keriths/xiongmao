@@ -1,8 +1,8 @@
 package com.xm.service.apiimpl.pc.cim.Inputcompletion;
 
-import com.xm.service.annotations.ApiMethodDoc;
-import com.xm.service.annotations.ApiParamDoc;
-import com.xm.service.annotations.ApiServiceDoc;
+import com.xm.platform.annotations.ApiMethodDoc;
+import com.xm.platform.annotations.ApiParamDoc;
+import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.service.apiimpl.pc.cim.Inputcompletion.dto.InputCompletionData;
 import com.xm.service.apiimpl.pc.cim.Inputcompletion.dto.InputCompletionRetDTO;
 import com.xm.service.dao.cim.InputCompletionDAO;

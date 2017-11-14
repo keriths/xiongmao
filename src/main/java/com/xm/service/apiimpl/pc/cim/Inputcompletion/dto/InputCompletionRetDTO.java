@@ -1,7 +1,6 @@
 package com.xm.service.apiimpl.pc.cim.Inputcompletion.dto;
 
-import com.xm.service.annotations.ApiResultFieldDesc;
-import com.xm.service.apiimpl.pc.cim.Inputcompletion.dto.InputCompletionData;
+import com.xm.platform.annotations.ApiResultFieldDesc;
 
 import java.io.Serializable;
 import java.util.List;

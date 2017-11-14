@@ -14,5 +14,5 @@
     <context:annotation-config />
     <import resource="spring-model-database-cim.xml"/>
     <import resource="spring-model-database-fmcs.xml"/>
-    <!--<bean class="com.xm.service.processor.ServiceAPIDocumentBeanFactoryPostProcessor"></bean>-->
+    <!--<bean class="com.xm.platform.processor.ServiceAPIDocumentBeanFactoryPostProcessor"></bean>-->
 </beans>

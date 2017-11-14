@@ -1,9 +1,6 @@
 package com.xm.service.apiimpl.pc.cim.equipmentstatus.dto;
 
-import com.xm.service.annotations.ApiResultFieldDesc;
-
-import java.util.List;
-import java.util.Map;
+import com.xm.platform.annotations.ApiResultFieldDesc;
 
 /**
  * Created by fanshuai on 17/11/8.

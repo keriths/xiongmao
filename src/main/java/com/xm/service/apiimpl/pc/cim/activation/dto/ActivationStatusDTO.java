@@ -1,8 +1,6 @@
 package com.xm.service.apiimpl.pc.cim.activation.dto;
 
-import com.xm.service.annotations.ApiResultFieldDesc;
-
-import java.math.BigDecimal;
+import com.xm.platform.annotations.ApiResultFieldDesc;
 
 /**
  * Created by fanshuai on 17/11/12.

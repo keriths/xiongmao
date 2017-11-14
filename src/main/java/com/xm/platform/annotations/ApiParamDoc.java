@@ -1,4 +1,4 @@
-package com.xm.service.annotations;
+package com.xm.platform.annotations;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -6,10 +6,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Created by fanshuai on 17/11/8.
+ * Created by fanshuai on 17/10/22.
  */
-@Target({ ElementType.FIELD })
+@Target({ ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ApiResultFieldDesc {
+public @interface ApiParamDoc {
+    /**
+     * 参数说明
+     * @return
+     */
     String desc();
 }

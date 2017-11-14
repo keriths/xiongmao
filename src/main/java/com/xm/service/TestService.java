@@ -1,9 +1,8 @@
 package com.xm.service;
 
 import com.alibaba.fastjson.JSON;
-import com.xm.service.annotations.ApiMethodDoc;
-import com.xm.service.annotations.ApiParamDoc;
-import com.xm.service.annotations.ApiServiceDoc;
+import com.xm.platform.annotations.ApiMethodDoc;
+import com.xm.platform.annotations.ApiParamDoc;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;

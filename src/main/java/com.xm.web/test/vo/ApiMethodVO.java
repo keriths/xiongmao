@@ -1,6 +1,6 @@
 package com.xm.web.test.vo;
 
-import com.xm.service.apidoc.ApiMethodResultType;
+import com.xm.platform.apidoc.ApiMethodResultType;
 
 import java.util.List;
 

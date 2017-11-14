@@ -1,8 +1,8 @@
 package com.xm.service.apiimpl.pc.cim.activation;
 
-import com.xm.service.annotations.ApiMethodDoc;
-import com.xm.service.annotations.ApiParamDoc;
-import com.xm.service.annotations.ApiServiceDoc;
+import com.xm.platform.annotations.ApiMethodDoc;
+import com.xm.platform.annotations.ApiParamDoc;
+import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.service.apiimpl.pc.cim.activation.dto.ActivationDetailDTO;
 import com.xm.service.apiimpl.pc.cim.activation.dto.ActivationRetDTO;
 import com.xm.service.apiimpl.pc.cim.activation.dto.ActivationStatusDTO;

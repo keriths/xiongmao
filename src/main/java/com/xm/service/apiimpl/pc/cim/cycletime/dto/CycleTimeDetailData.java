@@ -1,6 +1,6 @@
 package com.xm.service.apiimpl.pc.cim.cycletime.dto;
 
-import com.xm.service.annotations.ApiResultFieldDesc;
+import com.xm.platform.annotations.ApiResultFieldDesc;
 
 import java.math.BigDecimal;
 
