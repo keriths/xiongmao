@@ -1,17 +1,14 @@
 package com.xm.service.apiimpl.pc.cim.tactTime;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.service.dto.BaseRetDTO;
 
 import java.util.List;
 
 /**
  * Created by fanshuai on 17/11/15.
  */
-public class TactTimeMonthAvgRetDTO {
-    @ApiResultFieldDesc(desc = "失败描述")
-    private String errorMsg;
-    @ApiResultFieldDesc(desc = "是否成功")
-    private Boolean success = true;
+public class TactTimeMonthAvgRetDTO  extends BaseRetDTO {
     @ApiResultFieldDesc(desc = "月度平均值数据列表")
     private List<TactTimeMonthAvgDataDTO> tactTimeMonthAvgDataDTOList;
 
