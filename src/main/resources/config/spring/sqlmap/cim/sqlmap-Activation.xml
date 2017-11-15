@@ -1,6 +1,27 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.cim.ActivationDAO" >
+
+    <!--<resultMap id="ResultMap" type="com.xm.service.apiimpl.pc.cim.activation.dto.ActivationStatusDTO">
+        <result column="FACTORY" property="factory" jdbcType="VARCHAR"></result>
+        <result column="EQP_TYPE" property="type" jdbcType="VARCHAR"></result>
+        <result column="EQP_STATUS" property="status" jdbcType="VARCHAR"></result>
+        <result column="INTERFACE_TIME" property="time" jdbcType="DATE"></result>
+    </resultMap>
+
+    <select id="ActivationStatus" resultMap="ResultMap" parameterType="java.lang.String">
+        select FACTORY,EQP_TYPE,EQP_STATUS,INTERFACE_TIME from DWR_EQP_OEE_FIDS WHERE EQP_STATUS=#{0,jdbcType=VARCHAR}
+    </select>-->
+    <select id="ActivationStatus" resultType="com.xm.service.apiimpl.pc.cim.activation.dto.ActivationStatusDTO" parameterType="map">
+        select FACTORY as factory,
+               EQP_TYPE as eqpType,
+               EQP_STATUS as status,
+               INTERFACE_TIME as datetime
+        from DWR_EQP_OEE_FIDS
+        WHERE EQP_STATUS=#{0,jdbcType=VARCHAR}
+
+    </select>
+
     <resultMap id="Map" type="com.xm.service.apiimpl.pc.cim.activation.dto.ActivationDetailDTO">
         <result column="FACTORY" property="factory" jdbcType="VARCHAR"></result>
         <result column="EQP_TYPE" property="type" jdbcType="VARCHAR"></result>
@@ -9,12 +30,22 @@
         <result column="INTERFACE_TIME" property="time" jdbcType="DATE"></result>
     </resultMap>
 
-    <select id="activationdetail" resultType="Map" parameterType="java.lang.String">
-        select FACTORY,EQP_TYPE,EQP_STATUS,STATUS_DURATION from DWS_EQP_OEE_FIDS WHERE FACTORY=#{0,jdbcType=VARCHAR},EQP_STATUS=#{1,jdbcType=VARCHAR}
+    <select id="ActivationDetail" resultType="Map" parameterType="java.lang.String">
+        select FACTORY,EQP_TYPE,EQP_STATUS,STATUS_DURATION from DWR_EQP_OEE_FIDS WHERE FACTORY=#{0,jdbcType=VARCHAR} and EQP_STATUS=#{1,jdbcType=VARCHAR}
     </select>
+    <!--<select id="ActivationDetail" resultType="com.xm.service.apiimpl.pc.cim.activation.dto.ActivationDetailDTO" parameterType="map">
+        select FACTORY as factory,
+               EQP_TYPE as eqpType,
+               EQP_STATUS as status,
+               STATUS_DURATION as statusDuration,
+        from DWR_EQP_OEE_FIDS
+        WHERE FACTORY=#{0,jdbcType=VARCHAR}
+        and EQP_STATUS=#{1,jdbcType=VARCHAR}
 
-    <select id="activationstatus" resultMap="Map" parameterType="java.lang.String">
-        select FACTORY,EQP_TYPE,EQP_STATUS,INTERFACE_TIME,PERIODDATE from DWS_EQP_OEE_FIDS WHERE EQP_STATUS=#{0,jdbcType=VARCHAR}
-    </select>
+    </select>-->
+
+
+
+
 
 </mapper>

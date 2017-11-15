@@ -7,12 +7,31 @@ import com.xm.platform.annotations.ApiResultFieldDesc;
  */
 public class ActivationStatusDTO {
     @ApiResultFieldDesc(desc = "EQP类型的状态,如PHOTO,PVD,CVD,WET,DE")
-    private Integer status;
-    @ApiResultFieldDesc(desc = "某个状态EQP类型的状态值")
+    private String status;
+    @ApiResultFieldDesc(desc = "某个状态EQP类型的某个时间的状态值")
     private Integer statusNum;
-
+    @ApiResultFieldDesc(desc = "厂别,如Array,Cell,CF,SL-OC")
+    private String factory;
+    @ApiResultFieldDesc(desc = "EQP类型,如RUN,TRB,WAIT,MAN,MNT")
+    private String eqpType;
     @ApiResultFieldDesc(desc = "数据写入时间")
     private String dateTime;
+
+    public String getFactory() {
+        return factory;
+    }
+
+    public void setFactory(String factory) {
+        this.factory = factory;
+    }
+
+    public String getEqpType() {
+        return eqpType;
+    }
+
+    public void setEqpType(String eqpType) {
+        this.eqpType = eqpType;
+    }
 
     public String getDateTime() {
         return dateTime;
@@ -22,11 +41,11 @@ public class ActivationStatusDTO {
         this.dateTime = dateTime;
     }
 
-    public Integer getStatus() {
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 

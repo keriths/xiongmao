@@ -3,15 +3,47 @@
 <mapper namespace="com.xm.service.dao.cim.InputCompletionDAO" >
     <resultMap id="ResultMap" type="com.xm.service.apiimpl.pc.cim.Inputcompletion.dto.InputCompletionData">
         <result column="FACTORY" property="factory" jdbcType="VARCHAR"></result>
-        <result column="PERIODDATE" property="date" jdbcType="VARCHAR"></result>
+        <result column="PERIODDATE" property="dateTime" jdbcType="VARCHAR"></result>
         <result column="PRODUCTTYPE" property="product" jdbcType="VARCHAR"></result>
         <result column="PLAN_INPUT_GLS_QTY" property="plan" jdbcType="DOUBLE"></result>
         <result column="ACTUAL_INPUT_GLS_QTY" property="actual" jdbcType="DOUBLE"></result>
         <!--<result column="" property="completionRate" jdbcType=""></result>-->
 
     </resultMap>
-
-    <select id="InputCompletionRate" resultMap="ResultMap" parameterType="java.lang.String">
+    <!--<select id="InputCompletionRate" resultMap="ResultMap" parameterType="java.lang.String">
         select FACTORY,PERIODDATE,PLAN_INPUT_GLS_QTY,ACTUAL_INPUT_GLS_QTY from DWS_PRODUCT_INPUT_FIDS WHERE PRODUCTTYPE=#{0,jdbcType=VARCHAR}
+    </select>-->
+
+    <select id="InputCompletionRate" resultMap="ResultMap" parameterType="Map">
+        select
+        <if test="dateType=='d'.toString()">/*按天*/
+            TO_CHAR(PERIODDATE,'dd') as dateTime,
+        </if>
+        <if test="dateType=='m'.toString()">/*按月*/
+            TO_CHAR(PERIODDATE,'YYYY-MM') as dateTime,
+        </if>
+        <if test="dateType=='q'.toString()">/*按季度*/
+            TO_CHAR(PERIODDATE,'YYYY-MM') as dateTime,
+        </if>
+        sum(PLAN_INPUT_GLS_QTY) as plan,sum(ACTUAL_INPUT_GLS_QTY) as actual,FACTORY from DWS_PRODUCT_INPUT_FIDS
+        <![CDATA[
+          WHERE PERIODDATE >= #{beginDate}
+          and PERIODDATE <= #{endDate}
+         ]]>
+        <if test="product!=null and product!=''">
+            AND PRODUCTTYPE=#{product,jdbcType=VARCHAR}
+        </if>
+        GROUP BY
+        <if test="dateType=='d'.toString()">/*按天*/
+            TO_CHAR(PERIODDATE,'dd'),
+        </if>
+        <if test="dateType=='m'.toString()">/*按月*/
+            TO_CHAR(PERIODDATE,'YYYY-MM'),
+        </if>
+        <if test="dateType=='q'.toString()">/*按季度*/
+            TO_CHAR(PERIODDATE,'YYYY-MM'),
+        </if>
+        FACTORY
     </select>
+
 </mapper>

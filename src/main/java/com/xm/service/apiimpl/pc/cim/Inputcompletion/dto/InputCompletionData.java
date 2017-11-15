@@ -3,7 +3,8 @@ package com.xm.service.apiimpl.pc.cim.Inputcompletion.dto;
 import com.xm.platform.annotations.ApiResultFieldDesc;
 
 import java.io.Serializable;
-import java.text.DecimalFormat;
+import java.math.BigDecimal;
+
 
 /**
  * Created by fanshuai on 17/11/12.
@@ -18,9 +19,7 @@ public class InputCompletionData implements Serializable{
     @ApiResultFieldDesc(desc = "达成率小数")
     private Double completionRate;
     @ApiResultFieldDesc(desc = "横坐标时间")
-    private String date;
-    @ApiResultFieldDesc(desc = "产品类型")
-    private String productType;
+    private String dateTime;
 
     public String getFactory() {
         return factory;
@@ -48,30 +47,24 @@ public class InputCompletionData implements Serializable{
 
     public Double getCompletionRate() {
 
-        Integer a = plan;
-        Integer b = actual;
-        DecimalFormat df=new DecimalFormat("0.00");
-        Double completionRate = Double.valueOf(df.format((float)a/b)).doubleValue();
+        Integer a = this.plan;
+        Integer b = this.actual;
+        /*DecimalFormat df=new DecimalFormat("0.00");
+        Double completionRate = Double.valueOf(df.format((float)a/b)).doubleValue();*/
+        double completionRate = new BigDecimal((float)a/b).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
         return completionRate;
+
     }
 
     public void setCompletionRate(Double completionRate) {
         this.completionRate = completionRate;
     }
 
-    public String getDate() {
-        return date;
+    public String getDateTime() {
+        return dateTime;
     }
 
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getProductType() {
-        return productType;
-    }
-
-    public void setProductType(String productType) {
-        this.productType = productType;
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
     }
 }

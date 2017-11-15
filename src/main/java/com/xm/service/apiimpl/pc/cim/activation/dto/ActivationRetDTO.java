@@ -8,14 +8,14 @@ import java.util.List;
  * Created by fanshuai on 17/11/12.
  */
 public class ActivationRetDTO {
-    @ApiResultFieldDesc(desc = "设备稼动显示如Array,Cell")
-    List<ActivationDetailDTO> detailDTOList;
+    @ApiResultFieldDesc(desc = "设备稼动状态值显示如Array,Cell")
+    List<ActivationDetailDTO> detailDateList;
 
     public List<ActivationDetailDTO> getDetailDTOList() {
-        return detailDTOList;
+        return detailDateList;
     }
 
     public void setDetailDTOList(List<ActivationDetailDTO> detailDTOList) {
-        this.detailDTOList = detailDTOList;
+        this.detailDateList = detailDTOList;
     }
 }

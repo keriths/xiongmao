@@ -12,7 +12,7 @@ package com.xm.service.dao.cim;
 @Repository("activationDAO")
 public interface ActivationDAO {
 
-    List<ActivationDetailDTO> ActivationDetail(String factory,String status);
+    List<ActivationDetailDTO> ActivationDetail(String factory, String status);
 
     List<ActivationStatusDTO> ActivationStatus(String status);
 }

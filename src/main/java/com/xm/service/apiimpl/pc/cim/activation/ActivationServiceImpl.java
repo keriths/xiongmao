@@ -23,7 +23,7 @@ public class ActivationServiceImpl {
     private ActivationDAO activationDAO;
 
     @ApiMethodDoc(apiCode = "CIM_ActivationStatus",name = "EQP类型的状态接口")
-    public ActivationDetailDTO activationDetail(@ApiParamDoc(desc = "状态如PHOTO PVD")String status){
+    public ActivationDetailDTO activationStatus(@ApiParamDoc(desc = "状态如PHOTO PVD")String status){
 
         ActivationDetailDTO actD = new ActivationDetailDTO();
         List<ActivationStatusDTO> actStatus = activationDAO.ActivationStatus(status);

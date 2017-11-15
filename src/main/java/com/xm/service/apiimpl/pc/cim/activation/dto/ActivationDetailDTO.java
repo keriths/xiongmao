@@ -12,32 +12,47 @@ import java.util.List;
  */
 public class ActivationDetailDTO implements Serializable{
     @ApiResultFieldDesc(desc = "EQP类型的状态,如PHOTO,PVD,CVD,WET,DE")
-    private Integer status;
+    private String status;
     @ApiResultFieldDesc(desc = "某个状态EQP类型的状态值")
     private BigDecimal statusNum;
     @ApiResultFieldDesc(desc = "厂别,如Array,Cell,CF,SL-OC")
     private String factory;
     @ApiResultFieldDesc(desc = "EQP类型,如RUN,TRB,WAIT,MAN,MNT")
     private String eqpType;
-    @ApiResultFieldDesc(desc = "EQP类型在各个状态(如PHOTO,PVD)不同时间点的状态值显示")
-    private List<ActivationStatusDTO> statusDTOList;
+    @ApiResultFieldDesc(desc = "EQP类型在各个状态(如PHOTO,PVD)的状态值显示")
+    public List<ActivationStatusDTO> statusDTOList;
     @ApiResultFieldDesc(desc = "目标值")
     private Integer target;
     @ApiResultFieldDesc(desc = "稼动率小数")
     private BigDecimal activation;
+    @ApiResultFieldDesc(desc = "EQP状态累计时间")
+    private Double statusDuration;
     @ApiResultFieldDesc(desc = "每个状态的Tact Time")
     private Integer tactTime;
 
-    public Integer getStatus() {
+    public Double getStatusDuration() {
+        return statusDuration;
+    }
+
+    public void setStatusDuration(Double statusDuration) {
+        this.statusDuration = statusDuration;
+    }
+
+    public BigDecimal getStatusNum() {
+        return statusNum;
+    }
+
+    public String getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
     private BigDecimal getStatusNum(String run) {
         //TODO 实现
+
         return statusNum;
     }
 
@@ -53,7 +68,7 @@ public class ActivationDetailDTO implements Serializable{
         BigDecimal t = new BigDecimal(getTarget());
         BigDecimal runStatusNum = getStatusNum("RUN");
         return  runStatusNum.divide(t).setScale(4,BigDecimal.ROUND_HALF_UP);
-       //return activation;
+        //return activation;
     }
 
     public void setActivation(BigDecimal activation) {
@@ -97,7 +112,6 @@ public class ActivationDetailDTO implements Serializable{
     public void setEqpType(String eqpType) {
         this.eqpType = eqpType;
     }
-
 
 
     public List<ActivationStatusDTO> getStatusDTOList() {
