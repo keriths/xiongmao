@@ -1,8 +1,7 @@
-package com.xm.util;
+package com.xm.platform.util;
 
 import org.springframework.util.CollectionUtils;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.List;

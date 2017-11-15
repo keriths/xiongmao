@@ -2,7 +2,7 @@ package com.xm.service.dto;
 
 import com.alibaba.fastjson.JSON;
 import com.xm.platform.annotations.ApiResultFieldDesc;
-import com.xm.util.Md5Util;
+import com.xm.platform.util.Md5Util;
 
 import java.io.Serializable;
 

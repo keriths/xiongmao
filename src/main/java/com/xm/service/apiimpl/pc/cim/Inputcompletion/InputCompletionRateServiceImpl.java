@@ -6,7 +6,7 @@ import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.service.apiimpl.pc.cim.Inputcompletion.dto.InputCompletionData;
 import com.xm.service.apiimpl.pc.cim.Inputcompletion.dto.InputCompletionRetDTO;
 import com.xm.service.dao.cim.InputCompletionDAO;
-import com.xm.util.DateUtils;
+import com.xm.platform.util.DateUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;

@@ -1,4 +1,4 @@
-package com.xm.util;
+package com.xm.platform.util;
 
 import org.joda.time.DateTime;
 

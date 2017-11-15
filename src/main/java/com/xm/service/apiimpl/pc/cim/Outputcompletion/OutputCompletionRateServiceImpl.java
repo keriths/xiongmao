@@ -4,8 +4,7 @@ import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.service.dao.cim.OutputcompletionDAO;
-import com.xm.util.DateUtils;
-import org.apache.ibatis.annotations.Param;
+import com.xm.platform.util.DateUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
