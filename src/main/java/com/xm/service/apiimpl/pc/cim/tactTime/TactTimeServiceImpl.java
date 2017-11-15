@@ -22,14 +22,24 @@ import java.util.Map;
  */
 
 @Service("TactTimeService")
-@ApiServiceDoc(name = "CIM_TactTime")
+@ApiServiceDoc(name = "CIM_TactTime(完成)")
 public class TactTimeServiceImpl {
 
-    @Resource
-    private TactTimeDAO tactTimeDAO;
+    private static Map<String,List<String>> factoryProductIdListMap = MapUtils.newMap(
+            "Array",Lists.newArrayList("PHOTO","PVD","CVD","WET","DE"),
+            "Cell",Lists.newArrayList("PI","FDV","ODF","HSW","KOL"),
+            "CF",Lists.newArrayList("BM","ITO","PS","RGB","RML"),
+            "SL-OC",Lists.newArrayList("MBD","POL","OLB","MLR","Aging")
+    );
 
     @Resource(name = "dwrProductTtFidsDAOB")
     private DwrProductTtFidsDAOB dwrProductTtFidsDAO;
+
+    /**
+    @Resource
+    private TactTimeDAO tactTimeDAO;
+
+
 
     @ApiMethodDoc(apiCode = "Tact_time_onthlyMean",name = "设备Tact_time月度平均值")
     public TactTimeRetDto onthlyMean(@ApiParamDoc(desc = "厂别：如array") String factory, @ApiParamDoc(desc = "产品类型：如PHOTO、PVD") String productType){
@@ -38,34 +48,89 @@ public class TactTimeServiceImpl {
         dto.setTactTimeList(tactTimeDataList);
         return dto;
     }
-    @ApiMethodDoc(apiCode = "TactTime_monthAvg",name = "设备TactTime月度平均值")
-    public TactTimeMonthAvgRetDTO monthAvg(@ApiParamDoc(desc = "厂别：如array必填") String factory){
-        Date beginDate = DateUtils.getBeforMonthStartDay(0);
-        Date endDate = new Date();
-        List<String> productIdList = Lists.newArrayList("PHOTO","PVD","CVD","WET","DE");
-        List<TactTimeMonthAvgDataDTO> tactTimeMonthAvgDataDTOList = dwrProductTtFidsDAO.queryMonthAvg(factory, productIdList, beginDate, endDate);
-        TactTimeMonthAvgRetDTO tactTimeMonthAvgRetDTO = new TactTimeMonthAvgRetDTO();
-        Map<String,TactTimeMonthAvgDataDTO> avgDataDTOMap = MapUtils.listToMap(tactTimeMonthAvgDataDTOList, "getProductId");
-        List<TactTimeMonthAvgDataDTO> avgDataDTOList = new ArrayList<TactTimeMonthAvgDataDTO>();
-        for (String productId:productIdList){
-            TactTimeMonthAvgDataDTO dto=null;
-            if (!CollectionUtils.isEmpty(avgDataDTOMap)){
-                dto = avgDataDTOMap.get(productId);
+
+     @ApiMethodDoc(apiCode = "Tact_time_Query",name = "特定厂别特定产品类型设备Tact_time")
+     public TactTimeRetDto tactTimeQuery(@ApiParamDoc(desc = "厂别：如array") String factory, @ApiParamDoc(desc = "产品类型：如PHOTO、PVD") String productType){
+     TactTimeRetDto dto=new TactTimeRetDto();
+     List<TactTimeData> tactTimeDataList=tactTimeDAO.tactTimeQuery(factory, productType);
+     dto.setTactTimeList(tactTimeDataList);
+     return dto;
+     }
+     **/
+
+    @ApiMethodDoc(apiCode = "Tact_time_Query",name = "特定厂别特定产品类型设备Tact_time(完成)")
+    public TactTimeProductTimeListRetDTO tactTimeProductTimeList(@ApiParamDoc(desc = "厂别：如array") String factory, @ApiParamDoc(desc = "产品类型：如PHOTO、PVD") String productId){
+        TactTimeProductTimeListRetDTO retDto=new TactTimeProductTimeListRetDTO();
+        try {
+            List<String> productIdList = factoryProductIdListMap.get(factory);
+            if (productIdList==null){
+                retDto.setSuccess(false);
+                retDto.setErrorMsg("factory参数错误,请传入【" + factoryProductIdListMap.keySet() + "】");
+                return retDto;
             }
-            if (dto==null){
-                dto = new TactTimeMonthAvgDataDTO(productId);
+            if (!productIdList.contains(productId)){
+                retDto.setSuccess(false);
+                retDto.setErrorMsg("productId参数错误,请传入【" + productIdList + "】");
+                return retDto;
             }
-            avgDataDTOList.add(dto);
+            Date startTime = DateUtils.getBeforHourStartDay(11);
+            Date endTime = new Date();
+            List<String> hourList = DateUtils.getHourStrList(startTime, endTime);
+            List<TactTimeProductTimeListRetDTO.TactTimeProductDetail> dbQueryList = dwrProductTtFidsDAO.queryTactTimeListByProductIdAndTime(factory, productId, startTime, endTime);
+            Map<String,TactTimeProductTimeListRetDTO.TactTimeProductDetail> dbQueryMap = MapUtils.listToMap(dbQueryList,"getPeriodDate");
+            List<TactTimeProductTimeListRetDTO.TactTimeProductDetail> tactTimeProductDetailList = new ArrayList<TactTimeProductTimeListRetDTO.TactTimeProductDetail>();
+            for (String hour:hourList){
+                TactTimeProductTimeListRetDTO.TactTimeProductDetail detail = null;
+                if (!CollectionUtils.isEmpty(dbQueryMap)){
+                    detail = dbQueryMap.get(hour);
+                }
+                if (detail==null){
+                    detail = new TactTimeProductTimeListRetDTO.TactTimeProductDetail(hour);
+                }
+                tactTimeProductDetailList.add(detail);
+            }
+            retDto.setTactTimeProductDetailList(tactTimeProductDetailList);
+            return retDto;
+        }catch (Exception e){
+            retDto.setSuccess(false);
+            retDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
+            return retDto;
         }
-        tactTimeMonthAvgRetDTO.setTactTimeMonthAvgDataDTOList(avgDataDTOList);
-        return tactTimeMonthAvgRetDTO;
     }
 
-    @ApiMethodDoc(apiCode = "Tact_time_Query",name = "特定厂别特定产品类型设备Tact_time")
-    public TactTimeRetDto tactTimeQuery(@ApiParamDoc(desc = "厂别：如array") String factory, @ApiParamDoc(desc = "产品类型：如PHOTO、PVD") String productType){
-        TactTimeRetDto dto=new TactTimeRetDto();
-        List<TactTimeData> tactTimeDataList=tactTimeDAO.tactTimeQuery(factory, productType);
-        dto.setTactTimeList(tactTimeDataList);
-        return dto;
+    @ApiMethodDoc(apiCode = "TactTime_monthAvg",name = "设备TactTime月度平均值(完成)")
+    public TactTimeMonthAvgRetDTO monthAvg(@ApiParamDoc(desc = "厂别：如array必填") String factory){
+        TactTimeMonthAvgRetDTO retDto = new TactTimeMonthAvgRetDTO();
+        try {
+            List<String> productIdList = factoryProductIdListMap.get(factory);
+            if (CollectionUtils.isEmpty(productIdList)){
+                retDto.setSuccess(false);
+                retDto.setErrorMsg("factory参数错误,请传入【" + factoryProductIdListMap.keySet() + "】");
+                return retDto;
+            }
+            Date beginDate = DateUtils.getBeforMonthStartDay(0);
+            Date endDate = new Date();
+            List<TactTimeMonthAvgDataDTO> tactTimeMonthAvgDataDTOList = dwrProductTtFidsDAO.queryMonthAvg(factory, productIdList, beginDate, endDate);
+            Map<String,TactTimeMonthAvgDataDTO> avgDataDTOMap = MapUtils.listToMap(tactTimeMonthAvgDataDTOList, "getProductId");
+            List<TactTimeMonthAvgDataDTO> avgDataDTOList = new ArrayList<TactTimeMonthAvgDataDTO>();
+            for (String productId:productIdList){
+                TactTimeMonthAvgDataDTO dto=null;
+                if (!CollectionUtils.isEmpty(avgDataDTOMap)){
+                    dto = avgDataDTOMap.get(productId);
+                }
+                if (dto==null){
+                    dto = new TactTimeMonthAvgDataDTO(productId);
+                }
+                avgDataDTOList.add(dto);
+            }
+            retDto.setTactTimeMonthAvgDataDTOList(avgDataDTOList);
+        }catch (Exception e){
+            retDto.setSuccess(false);
+            retDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
+            return retDto;
+        }
+        return retDto;
     }
+
+
 }

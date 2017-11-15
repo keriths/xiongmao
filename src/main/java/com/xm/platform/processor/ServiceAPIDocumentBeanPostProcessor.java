@@ -148,8 +148,9 @@ public class ServiceAPIDocumentBeanPostProcessor implements BeanPostProcessor {
         typeDetail.setTypeFullName(typeFullName);
         typeDetail.setTypeSingleName(typeSingleName);
         typeFieldDetailLinkedHashMap.put(typeFullName,typeDetail);
-        Field[] fields = ((Class) type).getDeclaredFields();
-        if (fields==null || fields.length==0){
+        List<Field> fields = getAllFields(type);
+
+        if (CollectionUtils.isEmpty(fields)){
             return;
         }
         List<FieldDetail> fieldDetailList = new ArrayList<FieldDetail>();
@@ -174,6 +175,26 @@ public class ServiceAPIDocumentBeanPostProcessor implements BeanPostProcessor {
         }
     }
 
+    private List<Field> getAllFields(Type type) {
+        List<Field> fieldList = new ArrayList<Field>();
+        Field[] declaredFields = ((Class) type).getDeclaredFields();
+        if (declaredFields!=null){
+            for (Field f:declaredFields){
+                fieldList.add(f);
+            }
+        }
+        Field[] fields = ((Class) type).getFields();
+        if (fields!=null){
+            for (Field f:fields){
+                if (fieldList.contains(f)){
+                    continue;
+                }
+                fieldList.add(f);
+            }
+        }
+        return fieldList;
+
+    }
 
 
     private ApiMethodResultType getApiMethodResultType(Method method) {

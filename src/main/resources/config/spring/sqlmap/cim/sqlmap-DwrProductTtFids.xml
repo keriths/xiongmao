@@ -19,4 +19,22 @@
           ]]>
         group by PRODUCTID
     </select>
+
+    <select id="queryTactTimeListByProductIdAndTime" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.tactTime.TactTimeProductTimeListRetDTO$TactTimeProductDetail">
+        SELECT
+          TT_TARGET as target,
+          TOTAL_GLS_QTY as total,
+          to_char(PERIODDATE,'HH24')||':00' as periodDate,
+          PRODUCTID
+        FROM
+          DWR_PRODUCT_TT_FIDS
+        WHERE
+          FACTORY=#{factory}
+          and PRODUCTID=#{productId}
+          <![CDATA[
+          and PERIODDATE >= #{beginDate}
+          and PERIODDATE <= #{endDate}
+          ]]>
+        ORDER BY PRODUCTID
+    </select>
 </mapper>

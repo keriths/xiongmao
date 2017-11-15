@@ -26,7 +26,9 @@ public class TactTimeMonthAvgDataDTO implements Serializable{
     }
 
     public void setTarget(BigDecimal target) {
-        this.target = target.setScale(1,BigDecimal.ROUND_HALF_UP);
+        if (target!=null){
+            this.target = target.setScale(1,BigDecimal.ROUND_HALF_UP);
+        }
     }
 
     public BigDecimal getActual() {
@@ -35,7 +37,9 @@ public class TactTimeMonthAvgDataDTO implements Serializable{
     }
 
     public void setActual(BigDecimal actual) {
-        this.actual = actual.setScale(1,BigDecimal.ROUND_HALF_UP);
+        if (actual!=null){
+            this.actual = actual.setScale(1,BigDecimal.ROUND_HALF_UP);
+        }
     }
 
     public String getProductId() {

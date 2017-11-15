@@ -21,6 +21,11 @@ public class DateUtils {
         DateTime curDateTime = new DateTime();
         return curDateTime.plusDays(-beforDayNum).millisOfDay().withMinimumValue().toDate();
     }
+
+    public static Date getBeforHourStartDay(int beforHourNum){
+        DateTime curDateTime = new DateTime();
+        return curDateTime.plusHours(-beforHourNum).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0).toDate();
+    }
     /**
      * 获得前几个月日期当月的最开始的时间 当前时间向前推${beforMonthNum}自然月的当月的最小时间   1号的0点0分0秒
      * @param beforMonthNum
@@ -72,7 +77,8 @@ public class DateUtils {
         }
         List<String> dayStrStrList = new ArrayList<String>();
         SimpleDateFormat format = new SimpleDateFormat("MM/dd");
-        DateTime minDateTime = beginTime.millisOfDay().withMinimumValue();
+//        DateTime minDateTime = beginTime.millisOfDay().withMinimumValue();
+        DateTime minDateTime = new DateTime(begin);
         while (minDateTime.toDate().before(end)){
             dayStrStrList.add(format.format(minDateTime.toDate()));
             minDateTime = minDateTime.plusDays(1).toDateTime();
@@ -85,13 +91,13 @@ public class DateUtils {
         DateTime beginTime = new DateTime(begin);
         DateTime endTime = new DateTime(end);
         begin = beginTime.dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue().toDate();
-        end = endTime.dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue().toDate();
+        end =     endTime.dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue().toDate();
         if (end.before(begin)){
             return null;
         }
         List<String> dayStrStrList = new ArrayList<String>();
         SimpleDateFormat format = new SimpleDateFormat("MM月");
-        DateTime minDateTime = beginTime.millisOfDay().withMinimumValue();
+        DateTime minDateTime = new DateTime(begin);
         while (minDateTime.toDate().before(end)){
             dayStrStrList.add(format.format(minDateTime.toDate()));
             minDateTime = minDateTime.plusMonths(1).toDateTime();
@@ -128,14 +134,35 @@ public class DateUtils {
         return dayStrStrList;
     }
 
+    public static List<String> getHourStrList(Date begin,Date end){
+        DateTime beginTime = new DateTime(begin);
+        DateTime endTime = new DateTime(end);
+        begin = beginTime.minuteOfHour().withMinimumValue().secondOfMinute().withMinimumValue().millisOfSecond().withMinimumValue().toDate();
+        end =     endTime.minuteOfHour().withMinimumValue().secondOfMinute().withMinimumValue().millisOfSecond().withMinimumValue().toDate();
+        if (end.before(begin)){
+            return null;
+        }
+        List<String> dayStrStrList = new ArrayList<String>();
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        DateTime minDateTime = new DateTime(begin);
+        while (minDateTime.toDate().before(end)){
+            dayStrStrList.add(format.format(minDateTime.toDate()));
+            minDateTime = minDateTime.plusHours(1).toDateTime();
+        }
+        dayStrStrList.add(format.format(end));
+        return dayStrStrList;
+    }
+
     public static String getStrDate(Date day,String format){
         return new SimpleDateFormat(format).format(day);
     }
 
     public static void main(String[] args){
         System.out.println(getStrDate(getBeforQuarterStartDay(0), "yyyyMMdd HH:mm:ss"));
-        System.out.println(getQuarterStrList(getBeforQuarterStartDay(10),new Date()));
-        System.out.println(getMonthStrList(getBeforQuarterStartDay(10),new Date()));
+        System.out.println(getHourStrList(getBeforHourStartDay(1), new Date()));
+        System.out.println(getDayStrList(getBeforDayStartDay(1), new Date()));
+        System.out.println(getMonthStrList(getBeforMonthStartDay(1), new Date()));
+        System.out.println(getQuarterStrList(getBeforQuarterStartDay(1),new Date()));
     }
 
 }
