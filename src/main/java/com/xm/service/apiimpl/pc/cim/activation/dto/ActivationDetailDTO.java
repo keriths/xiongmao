@@ -13,7 +13,7 @@ import java.util.List;
 public class ActivationDetailDTO implements Serializable{
     @ApiResultFieldDesc(desc = "EQP类型的状态,如PHOTO,PVD,CVD,WET,DE")
     private String status;
-    @ApiResultFieldDesc(desc = "某个状态EQP类型的状态值")
+    @ApiResultFieldDesc(desc = "EQP状态累计时间")
     private BigDecimal statusNum;
     @ApiResultFieldDesc(desc = "厂别,如Array,Cell,CF,SL-OC")
     private String factory;
@@ -25,18 +25,8 @@ public class ActivationDetailDTO implements Serializable{
     private Integer target;
     @ApiResultFieldDesc(desc = "稼动率小数")
     private BigDecimal activation;
-    @ApiResultFieldDesc(desc = "EQP状态累计时间")
-    private Double statusDuration;
     @ApiResultFieldDesc(desc = "每个状态的Tact Time")
     private Integer tactTime;
-
-    public Double getStatusDuration() {
-        return statusDuration;
-    }
-
-    public void setStatusDuration(Double statusDuration) {
-        this.statusDuration = statusDuration;
-    }
 
     public BigDecimal getStatusNum() {
         return statusNum;

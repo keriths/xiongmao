@@ -16,7 +16,8 @@
         select FACTORY as factory,
                EQP_TYPE as eqpType,
                EQP_STATUS as status,
-               INTERFACE_TIME as datetime
+               INTERFACE_TIME as datetime,
+               STATUS_DURATION as statusNum
         from DWR_EQP_OEE_FIDS
         WHERE EQP_STATUS=#{0,jdbcType=VARCHAR}
 
@@ -43,9 +44,6 @@
         and EQP_STATUS=#{1,jdbcType=VARCHAR}
 
     </select>-->
-
-
-
 
 
 </mapper>

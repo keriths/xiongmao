@@ -8,7 +8,7 @@ import com.xm.platform.annotations.ApiResultFieldDesc;
 public class ActivationStatusDTO {
     @ApiResultFieldDesc(desc = "EQP类型的状态,如PHOTO,PVD,CVD,WET,DE")
     private String status;
-    @ApiResultFieldDesc(desc = "某个状态EQP类型的某个时间的状态值")
+    @ApiResultFieldDesc(desc = "EQP状态累计时间")
     private Integer statusNum;
     @ApiResultFieldDesc(desc = "厂别,如Array,Cell,CF,SL-OC")
     private String factory;
