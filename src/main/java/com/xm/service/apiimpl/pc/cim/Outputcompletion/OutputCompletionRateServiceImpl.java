@@ -33,7 +33,7 @@ public class OutputCompletionRateServiceImpl {
         } else if (dateType.equals("d")) {//按天查询
             beginDate = DateUtils.getBeforDayStartDay(7);
         } else {
-            beginDate = new Date();//.....
+            beginDate = DateUtils.getBeforQuarterStartDay(3);//.....
         }
         Date endDate = new Date();
         Map paramMap=new HashMap();
