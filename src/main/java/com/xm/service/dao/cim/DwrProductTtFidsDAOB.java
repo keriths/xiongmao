@@ -11,6 +11,6 @@ import java.util.List;
 /**
  * Created by fanshuai on 17/11/15.
  */
-public interface DwrProductTtFidsDAO {
+public interface DwrProductTtFidsDAOB {
     List<TactTimeMonthAvgDataDTO> queryMonthAvg(@Param("factory")String factory,@Param("productIdList")List<String> productIdList,@Param("beginDate")Date beginDate,@Param("endDate")Date endDate);
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xm.service.dao.cim.DwrProductTtFidsDAO" >
+<mapper namespace="com.xm.service.dao.cim.DwrProductTtFidsDAOB" >
     <select id="queryMonthAvg" resultType="com.xm.service.apiimpl.pc.cim.tactTime.TactTimeMonthAvgDataDTO" parameterType="map">
         select
             avg(TT_TARGET) as target,

@@ -5,13 +5,10 @@ import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.apidoc.*;
-import javassist.*;
-import javassist.bytecode.CodeAttribute;
-import javassist.bytecode.LocalVariableAttribute;
-import javassist.bytecode.MethodInfo;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
+import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import sun.reflect.generics.reflectiveObjects.ParameterizedTypeImpl;
@@ -31,50 +28,50 @@ import java.util.Map;
  */
 @Component
 public class ServiceAPIDocumentBeanPostProcessor implements BeanPostProcessor {
-    private boolean isSameMethod(Method method,CtMethod ctMethod){
-        if (!method.getName().equals(ctMethod.getName())){
-            return false;
-        }
-        Class[] parameterTypes = method.getParameterTypes();
-        CtClass[] ctParameterTypes = null;
-        try {
-            ctParameterTypes = ctMethod.getParameterTypes();
-        } catch (NotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        if ((parameterTypes==null || parameterTypes.length==0) && (ctParameterTypes==null || ctParameterTypes.length==0)){
-            return true;
-        }
-        if (parameterTypes!=null && ctParameterTypes!=null && parameterTypes.length==ctParameterTypes.length){
-            for (int i = 0;i<parameterTypes.length;i++){
-                Class parameterType = parameterTypes[i];
-                CtClass ctParameterType = ctParameterTypes[i];
-                if (!parameterType.getName().equals(ctParameterType.getName())){
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
-    }
-    private CtMethod getCtMethod(CtClass ctClass,Method method){
-        CtMethod ctMethod = null;
-        try {
-            ctMethod = ctClass.getDeclaredMethod(method.getName());
-        } catch (NotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        if (isSameMethod(method,ctMethod)){
-            return ctMethod;
-        }
-        CtMethod[] ctMethods = ctClass.getMethods();
-        for (CtMethod ctMet : ctMethods){
-            if (isSameMethod(method,ctMet)){
-                return ctMet;
-            }
-        }
-        throw new RuntimeException("not found ctMethod"+method.getName());
-    }
+//    private boolean isSameMethod(Method method,CtMethod ctMethod){
+//        if (!method.getName().equals(ctMethod.getName())){
+//            return false;
+//        }
+//        Class[] parameterTypes = method.getParameterTypes();
+//        CtClass[] ctParameterTypes = null;
+//        try {
+//            ctParameterTypes = ctMethod.getParameterTypes();
+//        } catch (NotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+//        if ((parameterTypes==null || parameterTypes.length==0) && (ctParameterTypes==null || ctParameterTypes.length==0)){
+//            return true;
+//        }
+//        if (parameterTypes!=null && ctParameterTypes!=null && parameterTypes.length==ctParameterTypes.length){
+//            for (int i = 0;i<parameterTypes.length;i++){
+//                Class parameterType = parameterTypes[i];
+//                CtClass ctParameterType = ctParameterTypes[i];
+//                if (!parameterType.getName().equals(ctParameterType.getName())){
+//                    return false;
+//                }
+//            }
+//            return true;
+//        }
+//        return false;
+//    }
+//    private CtMethod getCtMethod(CtClass ctClass,Method method){
+//        CtMethod ctMethod = null;
+//        try {
+//            ctMethod = ctClass.getDeclaredMethod(method.getName());
+//        } catch (NotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+//        if (isSameMethod(method,ctMethod)){
+//            return ctMethod;
+//        }
+//        CtMethod[] ctMethods = ctClass.getMethods();
+//        for (CtMethod ctMet : ctMethods){
+//            if (isSameMethod(method,ctMet)){
+//                return ctMet;
+//            }
+//        }
+//        throw new RuntimeException("not found ctMethod"+method.getName());
+//    }
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         Map<String, Object> apiServiceMap = beanFactory.getBeansWithAnnotation(ApiServiceDoc.class);
         if (CollectionUtils.isEmpty(apiServiceMap)){
@@ -91,7 +88,7 @@ public class ServiceAPIDocumentBeanPostProcessor implements BeanPostProcessor {
                 throw new RuntimeException(apiServiceDesc+" cant more then one");
             }
 
-            CtClass ctClass = getCtClass(serviceClass);
+//            CtClass ctClass = getCtClass(serviceClass);
 
             Method[] methods = serviceClass.getMethods();
             for (Method method : methods){
@@ -108,7 +105,7 @@ public class ServiceAPIDocumentBeanPostProcessor implements BeanPostProcessor {
                 apiMethod.setMethodDesc(apiMethodDoc.name());
 
                 ApiMethodResultType apiMethodResultType = getApiMethodResultType(method);
-                LinkedHashMap<String, ApiParam> paramMap = getStringApiParamLinkedHashMap(ctClass, method);
+                LinkedHashMap<String, ApiParam> paramMap = getStringApiParamLinkedHashMap(method);
                 apiMethod.setParamMap(paramMap);
                 apiMethod.setApiMethodResultType(apiMethodResultType);
 
@@ -245,36 +242,41 @@ public class ServiceAPIDocumentBeanPostProcessor implements BeanPostProcessor {
 
     }
 
-    private CtClass getCtClass(Class serviceClass) {
-        ClassPool pool = ClassPool.getDefault();
-        ClassClassPath classPath = new ClassClassPath(this.getClass());
-        pool.insertClassPath(classPath);
-        CtClass ctClass = null;
-        try {
-            ctClass = pool.getCtClass(serviceClass.getName());
-        } catch (NotFoundException e) {
-            throw new RuntimeException(e);
-        }
-        return ctClass;
-    }
+//    private CtClass getCtClass(Class serviceClass) {
+//        ClassPool pool = ClassPool.getDefault();
+//        ClassClassPath classPath = new ClassClassPath(this.getClass());
+//        pool.insertClassPath(classPath);
+//        CtClass ctClass = null;
+//        try {
+//            ctClass = pool.getCtClass(serviceClass.getName());
+//        } catch (NotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+//        return ctClass;
+//    }
 
-    private LinkedHashMap<String, ApiParam> getStringApiParamLinkedHashMap(CtClass ctClass, Method method) {
+    private LinkedHashMap<String, ApiParam> getStringApiParamLinkedHashMap( Method method) {
         LinkedHashMap<String,ApiParam> paramMap = null;
-        CtMethod ctMethod = getCtMethod(ctClass, method);
+//        CtMethod ctMethod = getCtMethod(ctClass, method);
         Annotation[][] parameterAnnotations = method.getParameterAnnotations();
         Type[] parameterTypes = method.getGenericParameterTypes();
         Class[] parameterClasses = method.getParameterTypes();
-        MethodInfo methodInfo = ctMethod.getMethodInfo();
-        CodeAttribute codeAttribute = methodInfo.getCodeAttribute();
-        LocalVariableAttribute attribute = (LocalVariableAttribute)codeAttribute.getAttribute(LocalVariableAttribute.tag);
-        int pos = Modifier.isStatic(ctMethod.getModifiers()) ? 0 : 1;
+//        MethodInfo methodInfo = ctMethod.getMethodInfo();
+//        CodeAttribute codeAttribute = methodInfo.getCodeAttribute();
+//        LocalVariableAttribute attribute = (LocalVariableAttribute)codeAttribute.getAttribute(LocalVariableAttribute.tag);
+//        int pos = Modifier.isStatic(ctMethod.getModifiers()) ? 0 : 1;
+
+        LocalVariableTableParameterNameDiscoverer u = new LocalVariableTableParameterNameDiscoverer();
+        String[] params = u.getParameterNames(method);
+
         for (int i = 0;i<parameterTypes.length;i++) {
             if (paramMap==null){
                 paramMap = new LinkedHashMap<String, ApiParam>();
             }
             Type parameterType = parameterTypes[i];
             Class parameterClass = parameterClasses[i];
-            String paramtypeName = attribute.variableName(i + pos);
+//            String paramtypeName = attribute.variableName(i + pos);
+            String paramtypeName = params[i];
             ApiParamDoc apiParamDoc = getApiParamDoc(parameterAnnotations[i]);
 
             ApiParam apiParam = new ApiParam();
@@ -320,7 +322,7 @@ public class ServiceAPIDocumentBeanPostProcessor implements BeanPostProcessor {
             throw new RuntimeException(apiServiceDesc+" cant more then one");
         }
 
-        CtClass ctClass = getCtClass(serviceClass);
+//        CtClass ctClass = getCtClass(serviceClass);
 
         Method[] methods = serviceClass.getMethods();
         for (Method method : methods){
@@ -337,7 +339,7 @@ public class ServiceAPIDocumentBeanPostProcessor implements BeanPostProcessor {
             apiMethod.setMethodDesc(apiMethodDoc.name());
 
             ApiMethodResultType apiMethodResultType = getApiMethodResultType(method);
-            LinkedHashMap<String, ApiParam> paramMap = getStringApiParamLinkedHashMap(ctClass, method);
+            LinkedHashMap<String, ApiParam> paramMap = getStringApiParamLinkedHashMap( method);
             apiMethod.setParamMap(paramMap);
             apiMethod.setApiMethodResultType(apiMethodResultType);
 

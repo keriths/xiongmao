@@ -4,8 +4,7 @@ import com.google.common.collect.Lists;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
-import com.xm.service.dao.cim.DwrProductTtFidsDAO;
-import com.xm.service.dao.cim.DwrProductTtFidsPO;
+import com.xm.service.dao.cim.DwrProductTtFidsDAOB;
 import com.xm.service.dao.cim.TactTimeDAO;
 import com.xm.util.DateUtils;
 import com.xm.util.MapUtils;
@@ -29,8 +28,8 @@ public class TactTimeServiceImpl {
     @Resource
     private TactTimeDAO tactTimeDAO;
 
-    @Resource(name = "dwrProductTtFidsDAO")
-    private DwrProductTtFidsDAO dwrProductTtFidsDAO;
+    @Resource(name = "dwrProductTtFidsDAOB")
+    private DwrProductTtFidsDAOB dwrProductTtFidsDAO;
 
     @ApiMethodDoc(apiCode = "Tact_time_onthlyMean",name = "设备Tact_time月度平均值")
     public TactTimeRetDto onthlyMean(@ApiParamDoc(desc = "厂别：如array") String factory, @ApiParamDoc(desc = "产品类型：如PHOTO、PVD") String productType){
