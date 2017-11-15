@@ -22,7 +22,7 @@ public class OutputCompletionData implements Serializable{
     @ApiResultFieldDesc(desc = "达成率小数")
     private Double completionRate;
     @ApiResultFieldDesc(desc = "横坐标时间")
-    private Date date;
+    private String dateTime;
 
 
     public String getFactory() {
@@ -63,11 +63,11 @@ public class OutputCompletionData implements Serializable{
         this.completionRate = completionRate;
     }
 
-    public Date getDate() {
-        return date;
+    public String getDateTime() {
+        return dateTime;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
     }
 }

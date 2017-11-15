@@ -11,6 +11,7 @@
     <select id="tactTimeQuery" resultMap="BaseResultMap" parameterType="java.lang.String">
       select PRODUCTTYPE,TT_TARGET,TOTAL_GLS_QTY,PERIODDATE from DWR_PRODUCT_TT_FIDS
         WHERE FACTORY=#{0,jdbcType=VARCHAR} AND PRODUCTTYPE=#{1,jdbcType=VARCHAR}
+        /*and (PERIODDATE,'yyyy-mm-dd hh24:mi') &gt;=to_date(to_char(sysdate-12/24,'yyyy-mm-dd hh24:mi'))*/
     </select>
 
     <select id="onthlyMean" resultMap="BaseResultMap" parameterType="java.lang.String">

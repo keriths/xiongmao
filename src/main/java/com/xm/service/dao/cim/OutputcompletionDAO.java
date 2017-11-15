@@ -1,8 +1,10 @@
 package com.xm.service.dao.cim;
 
 import com.xm.service.apiimpl.pc.cim.Outputcompletion.OutputCompletionData;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -13,8 +15,6 @@ import java.util.Map;
 public interface OutputcompletionDAO {
     /**
      * 产出达成率
-     * @param product
-     * @param dateType
      * @return
      */
     List<OutputCompletionData> OutputCompletionRate(Map paramMap);

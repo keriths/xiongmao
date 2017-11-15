@@ -9,9 +9,9 @@ import java.io.Serializable;
  */
 public class TactTimeData implements Serializable{
     @ApiResultFieldDesc(desc = "目标值")
-    private Integer target;
+    private Integer target=new Integer(0);
     @ApiResultFieldDesc(desc = "实际值")
-    private Integer actual;
+    private Integer actual=new Integer(0);
     @ApiResultFieldDesc(desc = "横坐标时间")
     private String date;
     @ApiResultFieldDesc(desc = "产品类型")

@@ -6,24 +6,38 @@
         <result column="PLAN_OUTPUT_PNL_QTY" property="plan" jdbcType="DOUBLE"></result>
         <result column="ACTUAL_OUTPUT_PNL_QTY" property="actual" jdbcType="DOUBLE"></result>
         <!--<result column="" property="completionRate" jdbcType=""></result>-->
-        <result column="PERIODDATE" property="date" jdbcType="DATE"></result>
+        <result column="PERIODDATE" property="dateTime" jdbcType="VARCHAR"></result>
     </resultMap>
     
     <select id="OutputCompletionRate" resultMap="BaseResultMap" parameterType="Map">
-        select sum(PLAN_OUTPUT_PNL_QTY),sum(ACTUAL_OUTPUT_PNL_QTY),FACTORY,PERIODDATE from DWS_PRODUCT_OUTPUT_FIDS
-        WHERE
+        select
+        <if test="dateType=='m'.toString()">/*按月*/
+          TO_CHAR(PERIODDATE,'YYYY-MM') as dateTime,
+        </if>
+        <if test="dateType=='w'.toString()">/*按周*/
+          TO_CHAR(PERIODDATE,'YYYY-MM') as dateTime,
+        </if>
+        <if test="dateType=='d'.toString()">/*按天*/
+        TO_CHAR(PERIODDATE,'dd') as dateTime,
+        </if>
+        sum(PLAN_OUTPUT_PNL_QTY) as plan,sum(ACTUAL_OUTPUT_PNL_QTY) as actual,FACTORY from DWS_PRODUCT_OUTPUT_FIDS
+        <![CDATA[
+          WHERE PERIODDATE >= #{beginDate}
+          and PERIODDATE <= #{endDate}
+         ]]>
         <if test="product!=null and product!=''">
-            PRODUCTTYPE=#{product,jdbcType=VARCHAR} and
+            AND PRODUCTTYPE=#{product,jdbcType=VARCHAR}
         </if>
-        <if test="dateType=='d'.toString()">
-            PERIODDATE &gt;=to_date(to_char(sysdate-7,'yyyy/mm/dd'),'yyyy/mm/dd')
-        </if>
-        <if test="dateType=='m'.toString()">
-            PERIODDATE &gt;=to_date(to_char(add_months(sysdate,-12),'yyyy/mm/dd'),'yyyy/mm/dd')
-        </if>
-        <if test="dateType=='w'.toString()">
-            PERIODDATE &gt;=to_date(to_char(add_months(sysdate,-3),'yyyy/mm/dd'),'yyyy/mm/dd')
-        </if>
-        GROUP BY FACTORY,PERIODDATE
+        GROUP BY
+            <if test="dateType=='m'.toString()">/*按月*/
+            TO_CHAR(PERIODDATE,'YYYY-MM'),
+            </if>
+            <if test="dateType=='w'.toString()">
+                TO_CHAR(PERIODDATE,'YYYY-MM'),
+            </if>
+            <if test="dateType=='d'.toString()">
+                TO_CHAR(PERIODDATE,'dd'),
+            </if>
+        FACTORY
     </select>
 </mapper>
