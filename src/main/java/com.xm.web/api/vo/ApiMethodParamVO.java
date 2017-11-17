@@ -1,4 +1,4 @@
-package com.xm.web.test.vo;
+package com.xm.web.api.vo;
 
 /**
  * Created by fanshuai on 17/10/23.

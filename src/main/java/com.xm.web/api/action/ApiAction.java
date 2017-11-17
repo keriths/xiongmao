@@ -1,15 +1,11 @@
-package com.xm.web.api;
+package com.xm.web.api.action;
 
 import com.alibaba.fastjson.JSON;
-import com.xm.service.apiimpl.pc.cim.equipmentstatus.EquipmentRealTimeStatusServiceImpl;
-import com.xm.service.dao.cim.TestCIMDAO;
-import com.xm.service.TestService;
 import com.xm.platform.apidoc.ApiManager;
 import com.xm.platform.apidoc.ApiMethod;
 import com.xm.platform.apidoc.ApiParam;
-import com.xm.web.test.vo.ApiMethodParamVO;
-import com.xm.web.test.vo.ApiMethodVO;
-import com.xm.web.vo.DefaultXMLDTO;
+import com.xm.web.api.vo.ApiMethodParamVO;
+import com.xm.web.api.vo.ApiMethodVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -18,9 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -28,35 +22,19 @@ import java.util.*;
  */
 @Controller
 public class ApiAction {
-    @Resource(name = "testService")
-    private TestService testService;
-    @Resource(name = "testCIMDAO")
-    private TestCIMDAO testCIMDAO;
-    @Resource(name = "EquipmentRealTimeStatusService")
-    private EquipmentRealTimeStatusServiceImpl equipmentRealTimeStatusService;
-    @RequestMapping(value = "/test")
-    @ResponseBody
-    public Object testAction(){
-        Map map = new HashMap();
-        map.put("Integer",new Integer(1));
-        map.put("Bigdecimal",new BigDecimal("1.34"));
-        map.put("Date",new Date());
-        return map;
-    }
 
     @RequestMapping(value = "/")
     @ResponseBody
-    public DefaultXMLDTO testXmlAction(){
-        DefaultXMLDTO vo =  new DefaultXMLDTO();
-        vo.setCode(200);
-        vo.setErrorMsg("成功"+testService.getTestName());
-        return vo;
+    public String testXmlAction(){
+        return "system started <br><a href='/api/doc.html'>接口文档</a>";
     }
+
     @RequestMapping(value = "/manage/serviceNameList")
     @ResponseBody
     public Set<String> getServiceNameList(){
        return ApiManager.serviceNameList();
     }
+
     @RequestMapping(value = "/manage/serviceMethodList")
     @ResponseBody
     public List<ApiMethodVO> getServiceMethodList(String serviceName){

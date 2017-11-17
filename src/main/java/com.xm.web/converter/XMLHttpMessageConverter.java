@@ -3,7 +3,7 @@ package com.xm.web.converter;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.xm.service.dto.XMLDTO;
+//import com.xm.service.dto.XMLDTO;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpInputMessage;
 import org.springframework.http.HttpOutputMessage;
@@ -24,9 +24,9 @@ import java.util.Map;
 public class XMLHttpMessageConverter extends AbstractHttpMessageConverter {
     @Override
     protected boolean supports(Class clazz) {
-        if (XMLDTO.class.isAssignableFrom(clazz)){
-            return true;
-        }
+//        if (XMLDTO.class.isAssignableFrom(clazz)){
+//            return true;
+//        }
         return false;
     }
 
