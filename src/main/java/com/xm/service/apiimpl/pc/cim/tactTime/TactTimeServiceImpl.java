@@ -7,6 +7,7 @@ import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.service.dao.cim.DwrProductTtFidsDAO;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.MapUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -23,6 +24,8 @@ import java.util.Map;
 @Service("TactTimeService")
 @ApiServiceDoc(name = "CIM_TactTime(完成)")
 public class TactTimeServiceImpl {
+    @Autowired
+    private DwrProductTtFidsDAO dwrProductTtFidsDAO;
 
     private static Map<String,List<String>> factoryProductIdListMap = MapUtils.newMap(
             "Array",Lists.newArrayList("PHOTO","PVD","CVD","WET","DE"),
@@ -30,32 +33,6 @@ public class TactTimeServiceImpl {
             "CF",Lists.newArrayList("BM","ITO","PS","RGB","RML"),
             "SL-OC",Lists.newArrayList("MBD","POL","OLB","MLR","Aging")
     );
-
-    @Resource(name = "dwrProductTtFidsDAOB")
-    private DwrProductTtFidsDAO dwrProductTtFidsDAO;
-
-    /**
-    @Resource
-    private TactTimeDAO tactTimeDAO;
-
-
-
-    @ApiMethodDoc(apiCode = "Tact_time_onthlyMean",name = "设备Tact_time月度平均值")
-    public TactTimeRetDto onthlyMean(@ApiParamDoc(desc = "厂别：如array") String factory, @ApiParamDoc(desc = "产品类型：如PHOTO、PVD") String productType){
-        TactTimeRetDto dto=new TactTimeRetDto();
-        List<TactTimeData> tactTimeDataList=tactTimeDAO.onthlyMean(factory,productType);
-        dto.setTactTimeList(tactTimeDataList);
-        return dto;
-    }
-
-     @ApiMethodDoc(apiCode = "Tact_time_Query",name = "特定厂别特定产品类型设备Tact_time")
-     public TactTimeRetDto tactTimeQuery(@ApiParamDoc(desc = "厂别：如array") String factory, @ApiParamDoc(desc = "产品类型：如PHOTO、PVD") String productType){
-     TactTimeRetDto dto=new TactTimeRetDto();
-     List<TactTimeData> tactTimeDataList=tactTimeDAO.tactTimeQuery(factory, productType);
-     dto.setTactTimeList(tactTimeDataList);
-     return dto;
-     }
-     **/
 
     @ApiMethodDoc(apiCode = "Tact_time_Query",name = "特定厂别特定产品类型设备Tact_time(完成)")
     public TactTimeProductTimeListRetDTO tactTimeProductTimeList(@ApiParamDoc(desc = "厂别：如array") String factory, @ApiParamDoc(desc = "产品类型：如PHOTO、PVD") String productId){
@@ -130,6 +107,4 @@ public class TactTimeServiceImpl {
         }
         return retDto;
     }
-
-
 }
