@@ -1,10 +1,10 @@
-package com.xm.service.apiimpl.pc.cim.inputcompletion1;
+package com.xm.service.apiimpl.pc.cim.inputCompletion;
 
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
-import com.xm.service.apiimpl.pc.cim.inputcompletion1.dto.InputCompletionData;
-import com.xm.service.apiimpl.pc.cim.inputcompletion1.dto.InputCompletionRetDTO;
+import com.xm.service.apiimpl.pc.cim.inputCompletion.dto.InputCompletionData;
+import com.xm.service.apiimpl.pc.cim.inputCompletion.dto.InputCompletionRetDTO;
 import com.xm.service.dao.cim.InputCompletionDAO;
 import com.xm.platform.util.DateUtils;
 import org.springframework.stereotype.Service;
