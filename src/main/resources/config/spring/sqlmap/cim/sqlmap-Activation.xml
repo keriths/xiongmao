@@ -12,38 +12,44 @@
     <select id="ActivationStatus" resultMap="ResultMap" parameterType="java.lang.String">
         select FACTORY,EQP_TYPE,EQP_STATUS,INTERFACE_TIME from DWR_EQP_OEE_FIDS WHERE EQP_STATUS=#{0,jdbcType=VARCHAR}
     </select>-->
-    <select id="ActivationStatus" resultType="com.xm.service.apiimpl.pc.cim.activation.dto.ActivationStatusDTO" parameterType="map">
-        select FACTORY as factory,
-               EQP_TYPE as eqpType,
-               EQP_STATUS as status,
-               INTERFACE_TIME as datetime,
-               STATUS_DURATION as statusNum
-        from DWR_EQP_OEE_FIDS
-        WHERE EQP_STATUS=#{0,jdbcType=VARCHAR}
-
+    <select id="queryActivationEQPType" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.activation.dto.ActivationEQPTypeListRetDTO$ActivationTypeDetail">
+        SELECT
+        FACTORY as factory,
+        EQP_TYPE as eqpType,
+        STATUS_DURATION as statusNum
+        FROM
+        DWR_EQP_OEE_FIDS
+        WHERE
+        FACTORY=#{factory}
+        AND EQP_TYPE IN
+        <foreach collection="eqpTypeList" item="eqpType" open="(" separator="," close=")" >
+            #{eqpType}
+        </foreach>
+        <![CDATA[
+          and PERIODDATE >= #{beginDate}
+          and PERIODDATE <= #{endDate}
+          ]]>
+        GROUP BY FACTORY,EQP_TYPE,STATUS_DURATION
     </select>
 
-    <resultMap id="Map" type="com.xm.service.apiimpl.pc.cim.activation.dto.ActivationDetailDTO">
-        <result column="FACTORY" property="factory" jdbcType="VARCHAR"></result>
-        <result column="EQP_TYPE" property="type" jdbcType="VARCHAR"></result>
-        <result column="EQP_STATUS" property="status" jdbcType="VARCHAR"></result>
-        <result column="STATUS_DURATION" property="allTime" jdbcType="DOUBLE"></result>
-        <result column="INTERFACE_TIME" property="time" jdbcType="DATE"></result>
-    </resultMap>
-
-    <select id="ActivationDetail" resultType="Map" parameterType="java.lang.String">
-        select FACTORY,EQP_TYPE,EQP_STATUS,STATUS_DURATION from DWR_EQP_OEE_FIDS WHERE FACTORY=#{0,jdbcType=VARCHAR} and EQP_STATUS=#{1,jdbcType=VARCHAR}
+    <select id="queryActivationStatusNum" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.activation.dto.ActivationEQPTypeListRetDTO$ActivationStatusNumDetail">
+        SELECT
+        FACTORY as factory,
+        EQP_TYPE as eqpType,
+        to_char(PERIODDATE,'HH24')||':00' as periodDate,
+        STATUS_DURATION as statusNum,
+        EQP_ID
+        FROM
+        DWR_EQP_OEE_FIDS
+        WHERE
+        FACTORY=#{factory}
+        and EQP_TYPE=#{eqpType}
+        <![CDATA[
+          and PERIODDATE >= #{beginDate}
+          and PERIODDATE <= #{endDate}
+          ]]>
+        ORDER BY EQP_TYPE
     </select>
-    <!--<select id="ActivationDetail" resultType="com.xm.service.apiimpl.pc.cim.activation.dto.ActivationDetailDTO" parameterType="map">
-        select FACTORY as factory,
-               EQP_TYPE as eqpType,
-               EQP_STATUS as status,
-               STATUS_DURATION as statusDuration,
-        from DWR_EQP_OEE_FIDS
-        WHERE FACTORY=#{0,jdbcType=VARCHAR}
-        and EQP_STATUS=#{1,jdbcType=VARCHAR}
-
-    </select>-->
 
 
 </mapper>

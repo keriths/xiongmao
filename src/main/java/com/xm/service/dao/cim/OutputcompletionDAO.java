@@ -17,5 +17,18 @@ public interface OutputcompletionDAO {
      * 产出达成率
      * @return
      */
-    List<OutputCompletionData> OutputCompletionRate(Map paramMap);
+    List<OutputCompletionData> OutputCompletionRateByDay(@Param("productId")String productId,
+                                                         @Param("dateType")String dateType,
+                                                         @Param("beginDate")Date beginDate,
+                                                         @Param("endDate")Date endDate);
+
+    List<OutputCompletionData> OutputCompletionRateByQuarter(@Param("productId")String productId,
+                                                             @Param("dateType")String dateType,
+                                                             @Param("beginDate")Date beginDate,
+                                                             @Param("endDate")Date endDate);
+
+    List<OutputCompletionData> OutputCompletionRateByMonth(@Param("productId")String productId,
+                                                           @Param("dateType")String dateType,
+                                                           @Param("beginDate")Date beginDate,
+                                                           @Param("endDate")Date endDate);
 }

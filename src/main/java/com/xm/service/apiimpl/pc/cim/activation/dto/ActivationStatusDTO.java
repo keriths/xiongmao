@@ -1,19 +1,20 @@
 package com.xm.service.apiimpl.pc.cim.activation.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.service.dto.BaseRetDTO;
+
+import java.math.BigDecimal;
 
 /**
  * Created by fanshuai on 17/11/12.
  */
-public class ActivationStatusDTO {
+public class ActivationStatusDTO extends BaseRetDTO {
     @ApiResultFieldDesc(desc = "EQP类型的状态,如PHOTO,PVD,CVD,WET,DE")
     private String status;
     @ApiResultFieldDesc(desc = "EQP状态累计时间")
-    private Integer statusNum;
+    private BigDecimal statusNum;
     @ApiResultFieldDesc(desc = "厂别,如Array,Cell,CF,SL-OC")
     private String factory;
-    @ApiResultFieldDesc(desc = "EQP类型,如RUN,TRB,WAIT,MAN,MNT")
-    private String eqpType;
     @ApiResultFieldDesc(desc = "数据写入时间")
     private String dateTime;
 
@@ -23,14 +24,6 @@ public class ActivationStatusDTO {
 
     public void setFactory(String factory) {
         this.factory = factory;
-    }
-
-    public String getEqpType() {
-        return eqpType;
-    }
-
-    public void setEqpType(String eqpType) {
-        this.eqpType = eqpType;
     }
 
     public String getDateTime() {
@@ -49,11 +42,11 @@ public class ActivationStatusDTO {
         this.status = status;
     }
 
-    public Integer getStatusNum() {
+    public BigDecimal getStatusNum() {
         return statusNum;
     }
 
-    public void setStatusNum(Integer statusNum) {
+    public void setStatusNum(BigDecimal statusNum) {
         this.statusNum = statusNum;
     }
 }

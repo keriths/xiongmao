@@ -22,15 +22,11 @@ public class ActivationDetailDTO implements Serializable{
     @ApiResultFieldDesc(desc = "EQP类型在各个状态(如PHOTO,PVD)的状态值显示")
     public List<ActivationStatusDTO> statusDTOList;
     @ApiResultFieldDesc(desc = "目标值")
-    private Integer target;
+    private Integer target=new Integer(0);
     @ApiResultFieldDesc(desc = "稼动率小数")
     private BigDecimal activation;
-    @ApiResultFieldDesc(desc = "每个状态的Tact Time")
-    private Integer tactTime;
-
-    public BigDecimal getStatusNum() {
-        return statusNum;
-    }
+    @ApiResultFieldDesc(desc = "数据写入时间")
+    private String dateTime;
 
     public String getStatus() {
         return status;
@@ -40,51 +36,12 @@ public class ActivationDetailDTO implements Serializable{
         this.status = status;
     }
 
-    private BigDecimal getStatusNum(String run) {
-        //TODO 实现
-
+    public BigDecimal getStatusNum() {
         return statusNum;
     }
 
     public void setStatusNum(BigDecimal statusNum) {
         this.statusNum = statusNum;
-    }
-
-    public BigDecimal getActivation() {
-       // TODO 稼动率实现
-        if (CollectionUtils.isEmpty(statusDTOList)){
-            return new BigDecimal("0");
-        }
-        BigDecimal t = new BigDecimal(getTarget());
-        BigDecimal runStatusNum = getStatusNum("RUN");
-        return  runStatusNum.divide(t).setScale(4,BigDecimal.ROUND_HALF_UP);
-        //return activation;
-    }
-
-    public void setActivation(BigDecimal activation) {
-        this.activation = activation;
-    }
-
-
-
-    public Integer getTarget() {
-        if (target!=null){
-            return target;
-        }
-        if (CollectionUtils.isEmpty(statusDTOList)){
-            target=0;
-            return target;
-        }
-        Integer t = 0;
-        for (ActivationStatusDTO statusDTO:statusDTOList){
-            t+=statusDTO.getStatusNum();
-        }
-        target=t;
-        return target;
-    }
-
-    public void setTarget(Integer target) {
-        this.target = target;
     }
 
     public String getFactory() {
@@ -103,7 +60,6 @@ public class ActivationDetailDTO implements Serializable{
         this.eqpType = eqpType;
     }
 
-
     public List<ActivationStatusDTO> getStatusDTOList() {
         return statusDTOList;
     }
@@ -112,11 +68,27 @@ public class ActivationDetailDTO implements Serializable{
         this.statusDTOList = statusDTOList;
     }
 
-    public Integer getTactTime() {
-        return tactTime;
+    public Integer getTarget() {
+        return target;
     }
 
-    public void setTactTime(Integer tactTime) {
-        this.tactTime = tactTime;
+    public void setTarget(Integer target) {
+        this.target = target;
+    }
+
+    public BigDecimal getActivation() {
+        return activation;
+    }
+
+    public void setActivation(BigDecimal activation) {
+        this.activation = activation;
+    }
+
+    public String getDateTime() {
+        return dateTime;
+    }
+
+    public void setDateTime(String dateTime) {
+        this.dateTime = dateTime;
     }
 }

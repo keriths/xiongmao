@@ -1,13 +1,14 @@
 package com.xm.service.apiimpl.pc.cim.activation.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.service.dto.BaseRetDTO;
 
 import java.util.List;
 
 /**
  * Created by fanshuai on 17/11/12.
  */
-public class ActivationRetDTO {
+public class ActivationRetDTO extends BaseRetDTO {
     @ApiResultFieldDesc(desc = "设备稼动状态值显示如Array,Cell")
     List<ActivationDetailDTO> detailDateList;
 
