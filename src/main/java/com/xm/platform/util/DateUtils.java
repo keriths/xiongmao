@@ -159,10 +159,10 @@ public class DateUtils {
 
     public static void main(String[] args){
         System.out.println(getStrDate(getBeforQuarterStartDay(0), "yyyyMMdd HH:mm:ss"));
-        System.out.println(getHourStrList(getBeforHourStartDay(1), new Date()));
-        System.out.println(getDayStrList(getBeforDayStartDay(1), new Date()));
-        System.out.println(getMonthStrList(getBeforMonthStartDay(1), new Date()));
-        System.out.println(getQuarterStrList(getBeforQuarterStartDay(1),new Date()));
+        System.out.println(getHourStrList(getBeforHourStartDay(4), new Date()));
+        System.out.println(getDayStrList(getBeforDayStartDay(4), new Date()));
+        System.out.println(getMonthStrList(getBeforMonthStartDay(4), new Date()));
+        System.out.println(getQuarterStrList(getBeforQuarterStartDay(4),new Date()));
     }
 
 }

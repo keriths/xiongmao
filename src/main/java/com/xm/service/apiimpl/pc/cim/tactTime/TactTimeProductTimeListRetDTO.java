@@ -3,7 +3,6 @@ package com.xm.service.apiimpl.pc.cim.tactTime;
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.service.dto.BaseRetDTO;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 

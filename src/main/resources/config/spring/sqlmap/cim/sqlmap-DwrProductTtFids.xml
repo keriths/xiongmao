@@ -35,6 +35,5 @@
           and PERIODDATE >= #{beginDate}
           and PERIODDATE <= #{endDate}
           ]]>
-        ORDER BY PRODUCTID
     </select>
 </mapper>
