@@ -13,17 +13,20 @@ import static java.lang.Double.valueOf;
  * Created by luokaiming on 2017/11/13 0013.
  */
 public class OutputCompletionData implements Serializable{
+
     @ApiResultFieldDesc(desc="厂别：如SL、")
     private String factory;
     @ApiResultFieldDesc(desc = "计划值")
-    private Integer plan;
+    private BigDecimal plan;
     @ApiResultFieldDesc(desc = "实际值")
-    private Integer actual;
+    private BigDecimal actual;
     @ApiResultFieldDesc(desc = "达成率小数")
-    private Double completionRate;
+    private BigDecimal completionRate;
     @ApiResultFieldDesc(desc = "横坐标时间")
-    private String dateTime;
+    private String periodDate;
 
+    public OutputCompletionData(){}
+    public OutputCompletionData(String periodDate){this.periodDate=periodDate;}
 
     public String getFactory() {
         return factory;
@@ -33,41 +36,55 @@ public class OutputCompletionData implements Serializable{
         this.factory = factory;
     }
 
-    public Integer getPlan() {
+    public BigDecimal getPlan() {
+        if (plan==null){
+            return new BigDecimal("0");
+        }
         return plan;
     }
 
-    public void setPlan(Integer plan) {
+    public void setPlan(BigDecimal plan) {
         this.plan = plan;
     }
 
-    public Integer getActual() {
+    public BigDecimal getActual() {
+        if (actual==null){
+            return new BigDecimal("0");
+        }
         return actual;
     }
 
-    public void setActual(Integer actual) {
+    public void setActual(BigDecimal actual) {
         this.actual = actual;
     }
 
-    public Double getCompletionRate() {
-        DecimalFormat df = new DecimalFormat("0.0000");//格式化小数
+    public BigDecimal getCompletionRate() {
+        BigDecimal plan=getPlan();
+        BigDecimal actual=getActual();
+        BigDecimal completionRate;
+        if( (actual.compareTo(new BigDecimal(0))==0)){//等于0
+            if((plan.compareTo(new BigDecimal(0))==0)){
+                completionRate=new BigDecimal(0);
+            }else {
+                completionRate=new BigDecimal(1);
+            }
+        }else{
+           // completionRate= plan.divide(actual).setScale(4,BigDecimal.ROUND_HALF_UP);
+            completionRate=plan.divide(actual, 4, BigDecimal.ROUND_HALF_UP);
+        }
 
-        Integer a=this.getPlan();
-        Integer b=this.getActual();
-        double completionRate = new BigDecimal((float)a/b).setScale(4, BigDecimal.ROUND_HALF_UP).doubleValue();
-       // double completionRate=valueOf(df.format(a/b));
         return completionRate;
     }
 
-    public void setCompletionRate(Double completionRate) {
+    public void setCompletionRate(BigDecimal completionRate) {
         this.completionRate = completionRate;
     }
 
-    public String getDateTime() {
-        return dateTime;
+    public String getPeriodDate() {
+        return periodDate;
     }
 
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
+    public void setPeriodDate(String periodDate) {
+        this.periodDate = periodDate;
     }
 }

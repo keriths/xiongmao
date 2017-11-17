@@ -6,19 +6,19 @@
         <result column="PLAN_OUTPUT_PNL_QTY" property="plan" jdbcType="DOUBLE"></result>
         <result column="ACTUAL_OUTPUT_PNL_QTY" property="actual" jdbcType="DOUBLE"></result>
         <!--<result column="" property="completionRate" jdbcType=""></result>-->
-        <result column="PERIODDATE" property="dateTime" jdbcType="VARCHAR"></result>
+        <result column="PERIODDATE" property="periodDate" jdbcType="VARCHAR"></result>
     </resultMap>
     
     <select id="OutputCompletionRate" resultMap="BaseResultMap" parameterType="Map">
         select
         <if test="dateType=='m'.toString()">/*按月*/
-          TO_CHAR(PERIODDATE,'YYYY-MM') as dateTime,
+          TO_CHAR(PERIODDATE,'YYYY-MM') as periodDate,
         </if>
         <if test="dateType=='w'.toString()">/*按周*/
-          TO_CHAR(PERIODDATE,'YYYY-MM') as dateTime,
+          TO_CHAR(PERIODDATE,'YYYY-MM') as periodDate,
         </if>
         <if test="dateType=='d'.toString()">/*按天*/
-        TO_CHAR(PERIODDATE,'dd') as dateTime,
+        TO_CHAR(PERIODDATE,'dd') as periodDate,
         </if>
         sum(PLAN_OUTPUT_PNL_QTY) as plan,sum(ACTUAL_OUTPUT_PNL_QTY) as actual,FACTORY from DWS_PRODUCT_OUTPUT_FIDS
         <![CDATA[
@@ -39,5 +39,35 @@
                 TO_CHAR(PERIODDATE,'dd'),
             </if>
         FACTORY
+    </select>
+
+    <select id="OutputCompletionRateByDay" resultMap="BaseResultMap" parameterType="map">
+        select
+            TO_CHAR(PERIODDATE,'mm/dd') as periodDate,
+        sum(PLAN_OUTPUT_PNL_QTY) as plan,sum(ACTUAL_OUTPUT_PNL_QTY) as actual,FACTORY from DWS_PRODUCT_OUTPUT_FIDS
+        <![CDATA[
+          WHERE PERIODDATE >= #{beginDate}
+          and PERIODDATE <= #{endDate}
+         ]]>
+        <if test="productId!=null and productId!=''">
+            AND PRODUCIDE=#{productId,jdbcType=VARCHAR}
+        </if>
+        GROUP BY
+            TO_CHAR(PERIODDATE,'mm/dd'), FACTORY
+    </select>
+
+    <select id="OutputCompletionRateByMonth" resultMap="BaseResultMap" parameterType="map">
+        select
+        TO_CHAR(PERIODDATE,'mon')  as periodDate,
+        sum(PLAN_OUTPUT_PNL_QTY) as plan,sum(ACTUAL_OUTPUT_PNL_QTY) as actual,FACTORY from DWS_PRODUCT_OUTPUT_FIDS
+        <![CDATA[
+          WHERE PERIODDATE >= #{beginDate}
+          and PERIODDATE <= #{endDate}
+         ]]>
+        <if test="productId!=null and productId!=''">
+            AND PRODUCIDE=#{productId,jdbcType=VARCHAR}
+        </if>
+        GROUP BY
+        TO_CHAR(PERIODDATE,'mon'), FACTORY
     </select>
 </mapper>
