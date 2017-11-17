@@ -4,7 +4,7 @@ import com.google.common.collect.Lists;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
-import com.xm.service.dao.cim.DwrProductTtFidsDAOB;
+import com.xm.service.dao.cim.DwrProductTtFidsDAO;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.MapUtils;
 import org.springframework.stereotype.Service;
@@ -32,7 +32,7 @@ public class TactTimeServiceImpl {
     );
 
     @Resource(name = "dwrProductTtFidsDAOB")
-    private DwrProductTtFidsDAOB dwrProductTtFidsDAO;
+    private DwrProductTtFidsDAO dwrProductTtFidsDAO;
 
     /**
     @Resource

@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by fanshuai on 17/11/15.
  */
-public interface DwrProductTtFidsDAOB {
+public interface DwrProductTtFidsDAO {
     List<TactTimeMonthAvgDataDTO> queryMonthAvg(
             @Param("factory")String factory,
             @Param("productIdList")List<String> productIdList,
