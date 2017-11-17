@@ -76,4 +76,5 @@ public class InputCompletionRateServiceImpl{
             return retDto;
         }
     }
+
 }

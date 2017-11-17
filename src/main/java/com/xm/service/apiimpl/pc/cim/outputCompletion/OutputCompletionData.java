@@ -25,7 +25,6 @@ public class OutputCompletionData implements Serializable{
             this.periodDate=periodDate;
             this.factory=factory;
         }
-        public DataList(String periodDate){this.periodDate=periodDate;}
 
         @ApiResultFieldDesc(desc = "横坐标时间")
         private String periodDate;

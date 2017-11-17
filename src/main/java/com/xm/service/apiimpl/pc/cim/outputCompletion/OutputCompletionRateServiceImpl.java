@@ -84,7 +84,7 @@ public class OutputCompletionRateServiceImpl {
 
         List<OutputCompletionData.DataList> dataList=outputcompletionDAO.OutputCompletionRateByDay(productId,dateType,beginDate,endDate);
 
-        Map<String,OutputCompletionData.DataList> dataMap=MapUtils.listToMap(dataList,"");
+        Map<String,OutputCompletionData.DataList> dataMap=MapUtils.listToMap(dataList,"key");
 
         List<OutputCompletionData> dList=new ArrayList<OutputCompletionData>();
         for (String day:dayList){

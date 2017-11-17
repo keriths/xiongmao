@@ -81,4 +81,5 @@ public class InputCompletionRetDTO extends BaseRetDTO{
             this.dateTime = dateTime;
         }
     }
+
 }
