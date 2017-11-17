@@ -9,6 +9,7 @@ import com.xm.service.dao.cim.OutputcompletionDAO;
 import com.xm.platform.util.DateUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -21,9 +22,11 @@ import java.util.*;
 public class OutputCompletionRateServiceImpl {
     private List<String> factoryList = Lists.newArrayList("SL","OC");
 
-    private static Map<String,List<String>> productIdDateTypeListMap = MapUtils.newMap(
-            "55", Lists.newArrayList("d","q","m")
-    );
+    private String day="day";
+    private String month="month";
+    private String quarter="quarter";
+    private List<String> dateTypeList = Lists.newArrayList(day,month,quarter);
+    private Map<String,String> productIdNameMap = MapUtils.newMap("55","55");
 
     @Resource
     private OutputcompletionDAO outputcompletionDAO;
@@ -33,110 +36,61 @@ public class OutputCompletionRateServiceImpl {
         OutputCompletionRetDTO resultDto=new OutputCompletionRetDTO();
 
         try {
-            List<String> dateTypeList=new ArrayList<String>();
-            if (productId!=null || "".equals(productId)){
-                dateTypeList= productIdDateTypeListMap.get(productId);
-                if (dateTypeList==null){
-                    resultDto.setSuccess(false);
-                    resultDto.setErrorMsg("productId参数错误,请不填写或者请传入【" + productIdDateTypeListMap.keySet() + "】");
-                    return resultDto;
-                }
-                if (!dateTypeList.contains(dateType)){
-                    resultDto.setSuccess(false);
-                    resultDto.setErrorMsg("dateType参数错误,请传入【" + dateTypeList + "】");
-                    return resultDto;
-                }
-            }else{
-                dateTypeList.add("d");
-                dateTypeList.add("q");
-                dateTypeList.add("m");
-                if (!dateTypeList.contains(dateType)){
-                    resultDto.setSuccess(false);
-                    resultDto.setErrorMsg("dateType参数错误,请传入【" + dateTypeList + "】");
-                    return resultDto;
-                }
+            if (!dateTypeList.contains(dateType)){
+                resultDto.setSuccess(false);
+                resultDto.setErrorMsg("dateType参数错误,请传入【" + dateTypeList + "】");
+                return resultDto;
+            }
+            if (!StringUtils.isEmpty(productId) && !productIdNameMap.containsKey(productId)){
+                resultDto.setSuccess(false);
+                resultDto.setErrorMsg("productId参数错误,请传入【" + productIdNameMap.keySet() + "】");
+                return resultDto;
             }
 
-            if (dateType.equals("m")) {//按月查询
-               // resultDto=this.OutputCompletionRateByMonth(productId, dateType);
-
-            } else if (dateType.equals("d")) {//按天查询
-                resultDto=this.OutputCompletionRateByDay(productId, dateType);
-            } else {
-               // resultDto=this.OutputCompletionRateByQuarter(productId, dateType);
+            List<String> dateList = null;
+            Date beginDate = null;
+            Date endDate = new Date();
+            if (dateType.equals(day)){
+                beginDate = DateUtils.getBeforDayStartDay(6);
+                dateList = DateUtils.getDayStrList(beginDate,endDate);
+            }else if (dateType.equals(month)){
+                beginDate = DateUtils.getBeforMonthStartDay(11);
+                dateList = DateUtils.getMonthStrList(beginDate,endDate);
+            }else if (dateType.equals(quarter)){
+                beginDate = DateUtils.getBeforQuarterStartDay(3);
+                dateList = DateUtils.getQuarterStrList(beginDate,endDate);
             }
+
+            List<OutputCompletionData.DataList> dataList=outputcompletionDAO.OutputCompletionRate(productId,dateType,beginDate,endDate);
+
+            Map<String,OutputCompletionData.DataList> dataMap=MapUtils.listToMap(dataList,"key");
+
+            List<OutputCompletionData> dList=new ArrayList<OutputCompletionData>();
+            for (String day:dateList){
+                OutputCompletionData outputCompletionData = new OutputCompletionData();
+                outputCompletionData.setDateTime(day);
+                List<OutputCompletionData.DataList> list=new ArrayList<OutputCompletionData.DataList>();
+                for (String factory: factoryList){
+                    String key = day+" "+factory;
+                    OutputCompletionData.DataList factoryData = dataMap.get(key);
+                    if (factoryData==null){
+                        factoryData=new OutputCompletionData.DataList(day,factory);
+                    }
+                    list.add(factoryData);
+                }
+                outputCompletionData.setDataList(list);
+                dList.add(outputCompletionData);
+            }
+            resultDto.setCompletionDataList(dList);
+            return resultDto;
 
         }catch (Exception e){
             resultDto.setSuccess(false);
             resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return resultDto;
         }
-        return resultDto;
+
     }
 
 
-    public OutputCompletionRetDTO OutputCompletionRateByDay(String productId,String dateType){
-        OutputCompletionRetDTO dto=new OutputCompletionRetDTO();
-        OutputCompletionData outData=new OutputCompletionData();
-        Date beginDate=DateUtils.getBeforDayStartDay(6);
-        Date endDate = new Date();
-        List<String> dayList=DateUtils.getDayStrList(beginDate,endDate);
-
-        List<OutputCompletionData.DataList> dataList=outputcompletionDAO.OutputCompletionRateByDay(productId,dateType,beginDate,endDate);
-
-        Map<String,OutputCompletionData.DataList> dataMap=MapUtils.listToMap(dataList,"key");
-
-        List<OutputCompletionData> dList=new ArrayList<OutputCompletionData>();
-        for (String day:dayList){
-            OutputCompletionData outputCompletionData = new OutputCompletionData();
-            outputCompletionData.setDateTime(day);
-            List<OutputCompletionData.DataList> list=new ArrayList<OutputCompletionData.DataList>();
-            for (String factory: factoryList){
-                String key = day+" "+factory;
-                OutputCompletionData.DataList factoryData = dataMap.get(key);
-                if (factoryData==null){
-                    factoryData=new OutputCompletionData.DataList(day,factory);
-                }
-                list.add(factoryData);
-            }
-            outputCompletionData.setDataList(dataList);
-            dList.add(outputCompletionData);
-        }
-        dto.setCompletionDataList(dList);
-        return  dto;
-    }
-
-    /*private OutputCompletionRetDTO OutputCompletionRateByQuarter(String productId,String dateType){
-        OutputCompletionRetDTO dto=new OutputCompletionRetDTO();
-        Date beginDate;
-        Date endDate = new Date();
-        beginDate = DateUtils.getBeforDayStartDay(6);
-        List<OutputCompletionData> dataList=outputcompletionDAO.OutputCompletionRateByQuarter(productId,dateType,beginDate,endDate);
-        dto.setCompletionDataList(dataList);
-        return  dto;
-    }*/
-
-   /* private OutputCompletionRetDTO OutputCompletionRateByMonth(String productId,String dateType){
-        OutputCompletionRetDTO dto=new OutputCompletionRetDTO();
-        Date beginDate;
-        Date endDate = new Date();
-        beginDate = DateUtils.getBeforMonthStartDay(11);
-        List<OutputCompletionData> dataList=outputcompletionDAO.OutputCompletionRateByMonth(productId,dateType,beginDate,endDate);
-
-        List<String> monthList=DateUtils.getMonthStrList(beginDate,endDate);
-        Map<String,OutputCompletionData> dataMap=MapUtils.listToMap(dataList,"getPeriodDate");
-        List<OutputCompletionData> list=new ArrayList<OutputCompletionData>();
-        for (String month:monthList){
-            OutputCompletionData data=null;
-            if (!CollectionUtils.isEmpty(dataMap)){
-                data=dataMap.get(month);
-            }
-            if(data==null){
-                data=new OutputCompletionData(month);
-            }
-            list.add(data);
-        }
-        dto.setCompletionDataList(list);
-        return  dto;
-    }*/
 }
