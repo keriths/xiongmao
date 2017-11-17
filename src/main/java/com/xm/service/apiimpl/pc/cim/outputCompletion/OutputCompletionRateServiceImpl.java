@@ -19,6 +19,7 @@ import java.util.*;
 @Service("OutputCompletionRateService")
 @ApiServiceDoc(name = "CIM_产出达成率")
 public class OutputCompletionRateServiceImpl {
+    private List<String> factoryList = Lists.newArrayList("SL","OC");
 
     private static Map<String,List<String>> productIdDateTypeListMap = MapUtils.newMap(
             "55", Lists.newArrayList("d","q","m")
@@ -57,12 +58,12 @@ public class OutputCompletionRateServiceImpl {
             }
 
             if (dateType.equals("m")) {//按月查询
-                resultDto=this.OutputCompletionRateByMonth(productId, dateType);
+               // resultDto=this.OutputCompletionRateByMonth(productId, dateType);
 
             } else if (dateType.equals("d")) {//按天查询
                 resultDto=this.OutputCompletionRateByDay(productId, dateType);
             } else {
-                resultDto=this.OutputCompletionRateByQuarter(productId, dateType);
+               // resultDto=this.OutputCompletionRateByQuarter(productId, dateType);
             }
 
         }catch (Exception e){
@@ -76,29 +77,36 @@ public class OutputCompletionRateServiceImpl {
 
     public OutputCompletionRetDTO OutputCompletionRateByDay(String productId,String dateType){
         OutputCompletionRetDTO dto=new OutputCompletionRetDTO();
-        Date beginDate;
+        OutputCompletionData outData=new OutputCompletionData();
+        Date beginDate=DateUtils.getBeforDayStartDay(6);
         Date endDate = new Date();
-        beginDate = DateUtils.getBeforDayStartDay(6);
-        List<OutputCompletionData> dataList=outputcompletionDAO.OutputCompletionRateByDay(productId,dateType,beginDate,endDate);
-
         List<String> dayList=DateUtils.getDayStrList(beginDate,endDate);
-        Map<String,OutputCompletionData> dataMap=MapUtils.listToMap(dataList,"getPeriodDate");
-        List<OutputCompletionData> list=new ArrayList<OutputCompletionData>();
+
+        List<OutputCompletionData.DataList> dataList=outputcompletionDAO.OutputCompletionRateByDay(productId,dateType,beginDate,endDate);
+
+        Map<String,OutputCompletionData.DataList> dataMap=MapUtils.listToMap(dataList,"");
+
+        List<OutputCompletionData> dList=new ArrayList<OutputCompletionData>();
         for (String day:dayList){
-            OutputCompletionData data=null;
-            if (!CollectionUtils.isEmpty(dataMap)){
-                data=dataMap.get(day);
+            OutputCompletionData outputCompletionData = new OutputCompletionData();
+            outputCompletionData.setDateTime(day);
+            List<OutputCompletionData.DataList> list=new ArrayList<OutputCompletionData.DataList>();
+            for (String factory: factoryList){
+                String key = day+" "+factory;
+                OutputCompletionData.DataList factoryData = dataMap.get(key);
+                if (factoryData==null){
+                    factoryData=new OutputCompletionData.DataList(day,factory);
+                }
+                list.add(factoryData);
             }
-            if(data==null){
-                data=new OutputCompletionData(day);
-            }
-            list.add(data);
+            outputCompletionData.setDataList(dataList);
+            dList.add(outputCompletionData);
         }
-        dto.setCompletionDataList(list);
+        dto.setCompletionDataList(dList);
         return  dto;
     }
 
-    private OutputCompletionRetDTO OutputCompletionRateByQuarter(String productId,String dateType){
+    /*private OutputCompletionRetDTO OutputCompletionRateByQuarter(String productId,String dateType){
         OutputCompletionRetDTO dto=new OutputCompletionRetDTO();
         Date beginDate;
         Date endDate = new Date();
@@ -106,9 +114,9 @@ public class OutputCompletionRateServiceImpl {
         List<OutputCompletionData> dataList=outputcompletionDAO.OutputCompletionRateByQuarter(productId,dateType,beginDate,endDate);
         dto.setCompletionDataList(dataList);
         return  dto;
-    }
+    }*/
 
-    private OutputCompletionRetDTO OutputCompletionRateByMonth(String productId,String dateType){
+   /* private OutputCompletionRetDTO OutputCompletionRateByMonth(String productId,String dateType){
         OutputCompletionRetDTO dto=new OutputCompletionRetDTO();
         Date beginDate;
         Date endDate = new Date();
@@ -130,5 +138,5 @@ public class OutputCompletionRateServiceImpl {
         }
         dto.setCompletionDataList(list);
         return  dto;
-    }
+    }*/
 }
