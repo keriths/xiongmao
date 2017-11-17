@@ -1,4 +1,4 @@
-package com.xm.web.test.vo;
+package com.xm.web.api.vo;
 
 import com.xm.platform.apidoc.ApiMethodResultType;
 

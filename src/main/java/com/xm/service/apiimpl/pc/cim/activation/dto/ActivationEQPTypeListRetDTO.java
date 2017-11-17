@@ -6,6 +6,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 
 /**
@@ -171,7 +172,7 @@ public class ActivationEQPTypeListRetDTO extends BaseRetDTO{
             }
             BigDecimal t = getTarget();
             BigDecimal statusNum = getStatusNum();
-            return statusNum.divide(t).setScale(4,BigDecimal.ROUND_HALF_UP);
+            return statusNum.divide(t,4,RoundingMode.HALF_UP);
             //return activation;
         }
 
