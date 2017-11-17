@@ -4,6 +4,9 @@ import com.google.common.collect.Lists;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
+import com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeMonthAvgDataDTO;
+import com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeMonthAvgRetDTO;
+import com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeProductTimeListRetDTO;
 import com.xm.service.dao.cim.DwrProductTtFidsDAO;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.MapUtils;
@@ -11,7 +14,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

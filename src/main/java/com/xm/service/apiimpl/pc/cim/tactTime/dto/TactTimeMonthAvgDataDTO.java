@@ -1,4 +1,4 @@
-package com.xm.service.apiimpl.pc.cim.tactTime;
+package com.xm.service.apiimpl.pc.cim.tactTime.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 

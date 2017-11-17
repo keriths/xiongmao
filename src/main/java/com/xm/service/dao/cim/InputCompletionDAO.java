@@ -1,6 +1,6 @@
 package com.xm.service.dao.cim;
 
-import com.xm.service.apiimpl.pc.cim.Inputcompletion.dto.InputCompletionData;
+import com.xm.service.apiimpl.pc.cim.inputcompletion1.dto.InputCompletionData;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

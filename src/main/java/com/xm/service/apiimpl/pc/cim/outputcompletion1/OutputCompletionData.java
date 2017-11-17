@@ -1,11 +1,9 @@
-package com.xm.service.apiimpl.pc.cim.Outputcompletion;
+package com.xm.service.apiimpl.pc.cim.outputcompletion1;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.util.Date;
 
 import static java.lang.Double.valueOf;
 

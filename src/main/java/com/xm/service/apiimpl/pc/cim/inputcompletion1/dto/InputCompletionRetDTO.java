@@ -1,4 +1,4 @@
-package com.xm.service.apiimpl.pc.cim.Inputcompletion.dto;
+package com.xm.service.apiimpl.pc.cim.inputcompletion1.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 

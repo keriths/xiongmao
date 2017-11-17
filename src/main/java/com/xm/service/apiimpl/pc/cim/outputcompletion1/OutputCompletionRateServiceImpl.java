@@ -1,4 +1,4 @@
-package com.xm.service.apiimpl.pc.cim.Outputcompletion;
+package com.xm.service.apiimpl.pc.cim.outputcompletion1;
 
 import com.google.common.collect.Lists;
 import com.xm.platform.annotations.ApiMethodDoc;

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.cim.InputCompletionDAO" >
-    <resultMap id="ResultMap" type="com.xm.service.apiimpl.pc.cim.Inputcompletion.dto.InputCompletionData">
+    <resultMap id="ResultMap" type="com.xm.service.apiimpl.pc.cim.inputcompletion1.dto.InputCompletionData">
         <result column="FACTORY" property="factory" jdbcType="VARCHAR"></result>
         <result column="PERIODDATE" property="dateTime" jdbcType="VARCHAR"></result>
         <result column="PRODUCTTYPE" property="product" jdbcType="VARCHAR"></result>

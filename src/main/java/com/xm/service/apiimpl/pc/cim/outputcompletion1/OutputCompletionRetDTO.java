@@ -1,10 +1,9 @@
-package com.xm.service.apiimpl.pc.cim.Outputcompletion;
+package com.xm.service.apiimpl.pc.cim.outputcompletion1;
 
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.service.dto.BaseRetDTO;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**

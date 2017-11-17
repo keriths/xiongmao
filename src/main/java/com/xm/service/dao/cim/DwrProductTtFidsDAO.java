@@ -1,11 +1,9 @@
 package com.xm.service.dao.cim;
 
-import com.xm.service.apiimpl.pc.cim.tactTime.TactTimeMonthAvgDataDTO;
-import com.xm.service.apiimpl.pc.cim.tactTime.TactTimeProductTimeListRetDTO;
+import com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeMonthAvgDataDTO;
+import com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeProductTimeListRetDTO;
 import org.apache.ibatis.annotations.Param;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 

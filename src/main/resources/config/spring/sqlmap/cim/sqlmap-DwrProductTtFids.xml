@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.cim.DwrProductTtFidsDAO" >
-    <select id="queryMonthAvg" resultType="com.xm.service.apiimpl.pc.cim.tactTime.TactTimeMonthAvgDataDTO" parameterType="map">
+    <select id="queryMonthAvg" resultType="com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeMonthAvgDataDTO" parameterType="map">
         select
             avg(TT_TARGET) as target,
             avg(TOTAL_GLS_QTY) as actual,
@@ -20,7 +20,7 @@
         group by PRODUCTID
     </select>
 
-    <select id="queryTactTimeListByProductIdAndTime" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.tactTime.TactTimeProductTimeListRetDTO$TactTimeProductDetail">
+    <select id="queryTactTimeListByProductIdAndTime" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeProductTimeListRetDTO$TactTimeProductDetail">
         SELECT
           TT_TARGET as target,
           TOTAL_GLS_QTY as total,
