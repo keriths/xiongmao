@@ -1,8 +1,7 @@
 package com.xm.service.dao.cim;
 
-        import com.xm.service.apiimpl.pc.cim.activation.dto.ActivationDetailDTO;
-        import com.xm.service.apiimpl.pc.cim.activation.dto.ActivationEQPTypeListRetDTO;
-        import com.xm.service.apiimpl.pc.cim.activation.dto.ActivationStatusDTO;
+        import com.xm.service.apiimpl.pc.cim.activation.dto.ActivationDate;
+        import com.xm.service.apiimpl.pc.cim.activation.dto.ActivationStatusDate;
         import org.apache.ibatis.annotations.Param;
         import org.springframework.stereotype.Repository;
 
@@ -15,21 +14,17 @@ package com.xm.service.dao.cim;
 @Repository("activationDAO")
 public interface ActivationDAO {
 
-    /*List<ActivationDetailDTO> ActivationDetail(String factory, String status);
-
-    List<ActivationStatusDTO> ActivationStatus(String status);*/
-
-    List<ActivationEQPTypeListRetDTO.ActivationStatusNumDetail> queryActivationStatusNum(
+    List<ActivationStatusDate.StatusNumberList> queryActivationStatusNum(
             @Param("factory") String factory,
-            @Param("eqpType")String eqpType,
+            @Param("eqpId")String eqpId,
             @Param("beginDate")Date beginDate,
             @Param("endDate")Date endDate
 
     );
 
-    List<ActivationEQPTypeListRetDTO.ActivationTypeDetail> queryActivationEQPType(
+    List<ActivationDate.StatusDateList> queryActivationEQPId(
             @Param("factory")String factory,
-            @Param("eqpTypeList") List<String> eqpTypeList,
+            @Param("eqpIdList") List<String> eqpIdList,
             @Param("beginDate")Date beginDate,
             @Param("endDate")Date endDate
     );

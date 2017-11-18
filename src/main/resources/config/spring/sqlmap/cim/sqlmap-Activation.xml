@@ -12,43 +12,43 @@
     <select id="ActivationStatus" resultMap="ResultMap" parameterType="java.lang.String">
         select FACTORY,EQP_TYPE,EQP_STATUS,INTERFACE_TIME from DWR_EQP_OEE_FIDS WHERE EQP_STATUS=#{0,jdbcType=VARCHAR}
     </select>-->
-    <select id="queryActivationEQPType" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.activation.dto.ActivationEQPTypeListRetDTO$ActivationTypeDetail">
+    <select id="queryActivationEQPId" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.activation.dto.ActivationDate$StatusDateList">
         SELECT
-        FACTORY as factory,
-        EQP_TYPE as eqpType,
+        EQP_ID as eqpId,
+        EQP_STATUS as status,
         STATUS_DURATION as statusNum
         FROM
         DWR_EQP_OEE_FIDS
         WHERE
         FACTORY=#{factory}
         AND EQP_TYPE IN
-        <foreach collection="eqpTypeList" item="eqpType" open="(" separator="," close=")" >
-            #{eqpType}
+        <foreach collection="eqpIdList" item="eqpId" open="(" separator="," close=")" >
+            #{eqpId}
         </foreach>
         <![CDATA[
           and PERIODDATE >= #{beginDate}
           and PERIODDATE <= #{endDate}
           ]]>
-        GROUP BY FACTORY,EQP_TYPE,STATUS_DURATION
+        GROUP BY EQP_ID,EQP_STATUS,STATUS_DURATION
     </select>
 
-    <select id="queryActivationStatusNum" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.activation.dto.ActivationEQPTypeListRetDTO$ActivationStatusNumDetail">
+    <select id="queryActivationStatusNum" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.activation.dto.ActivationStatusDate$StatusNumberList">
         SELECT
         FACTORY as factory,
-        EQP_TYPE as eqpType,
         to_char(PERIODDATE,'HH24')||':00' as periodDate,
+        EQP_STATUS as status,
         STATUS_DURATION as statusNum,
-        EQP_ID
+        EQP_ID as eqpId
         FROM
         DWR_EQP_OEE_FIDS
         WHERE
         FACTORY=#{factory}
-        and EQP_TYPE=#{eqpType}
+        and EQP_ID=#{eqpId}
         <![CDATA[
           and PERIODDATE >= #{beginDate}
           and PERIODDATE <= #{endDate}
           ]]>
-        ORDER BY EQP_TYPE
+        ORDER BY EQP_ID
     </select>
 
 

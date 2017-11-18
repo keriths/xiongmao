@@ -32,7 +32,7 @@ public class OutputCompletionRateServiceImpl {
     private OutputcompletionDAO outputcompletionDAO;
 
     @ApiMethodDoc(apiCode = "CIM_outputCompletionRate" , name = "产出达成率接口")
-    public OutputCompletionRetDTO OutputCompletionRate(@ApiParamDoc(desc = "产品类型：如55") String productId, @ApiParamDoc(desc = "统计时间类型天d周q季度m(必填)")String dateType){
+    public OutputCompletionRetDTO OutputCompletionRate(@ApiParamDoc(desc = "产品类型：如55") String productId, @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
         OutputCompletionRetDTO resultDto=new OutputCompletionRetDTO();
 
         try {
