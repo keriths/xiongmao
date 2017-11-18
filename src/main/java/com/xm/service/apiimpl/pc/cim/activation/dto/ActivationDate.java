@@ -20,6 +20,11 @@ public class ActivationDate implements Serializable{
     @ApiResultFieldDesc(desc = "EQP状态,如RUN,TRB,WAIT,MAN,MNT")
     private String status;
 
+    @ApiResultFieldDesc(desc = "目标值")
+    private BigDecimal total;
+    @ApiResultFieldDesc(desc = "稼动率小数")
+    private BigDecimal activation;
+
     public static class StatusDateList{
 
         public StatusDateList(){
@@ -41,8 +46,6 @@ public class ActivationDate implements Serializable{
         private String eqpId;
         @ApiResultFieldDesc(desc = "EQP状态累计时间")
         private String statusNum;
-        @ApiResultFieldDesc(desc = "状态列表")
-        public List<ActivationDate.StatusDateList> statusDateLists;
         @ApiResultFieldDesc(desc = "稼动率小数")
         private BigDecimal activation;
         @ApiResultFieldDesc(desc = "时间小时")
@@ -89,12 +92,13 @@ public class ActivationDate implements Serializable{
 
         public BigDecimal getActivation() {
             //TODO 稼动率的实现
-            if(CollectionUtils.isEmpty(statusDateLists)){
+            /*if(CollectionUtils.isEmpty(statusDateLists)){
                 return new BigDecimal(0);
             }
             BigDecimal t = getTotal();
             BigDecimal statusNum = new BigDecimal(getStatusNum());
-            return statusNum.divide(t,4, RoundingMode.HALF_UP);
+            return statusNum.divide(t,4, RoundingMode.HALF_UP);*/
+            return activation;
         }
 
         public void setActivation(BigDecimal activation) {
@@ -103,7 +107,7 @@ public class ActivationDate implements Serializable{
 
         public BigDecimal getTotal() {
             //TODO 目标值的实现
-            if (total!=null) {
+           /* if (total!=null) {
                 return total;
             }
             if(CollectionUtils.isEmpty(statusDateLists)){
@@ -115,7 +119,7 @@ public class ActivationDate implements Serializable{
                 BigDecimal num= new BigDecimal(statusDTO.getStatusNum());
                 t = t.add(num);
                 total = t;
-            }
+            }*/
 
             return total;
 
@@ -133,21 +137,46 @@ public class ActivationDate implements Serializable{
             this.total = total;
         }
 
-        public List<StatusDateList> getStatusDateLists() {
-            return statusDateLists;
-        }
 
-        public void setStatusDateLists(List<StatusDateList> statusDateLists) {
-            this.statusDateLists = statusDateLists;
-        }
+    }
 
-        /*public String getDateTime() {
-            return dateTime;
-        }
+    public BigDecimal getTotal() {
+        //TODO 目标值的实现
+        BigDecimal total=new BigDecimal(0);
+        if(!CollectionUtils.isEmpty(statusDateList)) {
+            for (StatusDateList s : statusDateList) {
 
-        public void setDateTime(String dateTime) {
-            this.dateTime = dateTime;
-        }*/
+                total = total.add(new BigDecimal(s.getStatusNum()));
+            }
+        }
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
+
+    public BigDecimal getActivation() {
+        //TODO 稼动率的实现
+        BigDecimal activation=new BigDecimal(0);
+        if(!CollectionUtils.isEmpty(statusDateList)) {
+            for (StatusDateList a : statusDateList) {
+                if(a.getStatus() == "RUN"){
+                    BigDecimal t = getTotal();
+                    if((t.compareTo(new BigDecimal(0))==0)){
+                        activation = new BigDecimal(0);
+                    }else{
+                        BigDecimal statusNum = new BigDecimal(a.getStatusNum());
+                        activation = statusNum.divide(t,4, RoundingMode.HALF_UP);
+                    }
+                }
+            }
+        }
+        return activation;
+    }
+
+    public void setActivation(BigDecimal activation) {
+        this.activation = activation;
     }
 
     public static class StatusNumberList{

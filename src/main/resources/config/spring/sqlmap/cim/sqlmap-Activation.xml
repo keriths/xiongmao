@@ -2,16 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.cim.ActivationDAO" >
 
-    <!--<resultMap id="ResultMap" type="com.xm.service.apiimpl.pc.cim.activation.dto.ActivationStatusDTO">
-        <result column="FACTORY" property="factory" jdbcType="VARCHAR"></result>
-        <result column="EQP_TYPE" property="type" jdbcType="VARCHAR"></result>
-        <result column="EQP_STATUS" property="status" jdbcType="VARCHAR"></result>
-        <result column="INTERFACE_TIME" property="time" jdbcType="DATE"></result>
-    </resultMap>
-
-    <select id="ActivationStatus" resultMap="ResultMap" parameterType="java.lang.String">
-        select FACTORY,EQP_TYPE,EQP_STATUS,INTERFACE_TIME from DWR_EQP_OEE_FIDS WHERE EQP_STATUS=#{0,jdbcType=VARCHAR}
-    </select>-->
     <select id="queryActivationEQPId" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.activation.dto.ActivationDate$StatusDateList">
         SELECT
         EQP_ID as eqpId,

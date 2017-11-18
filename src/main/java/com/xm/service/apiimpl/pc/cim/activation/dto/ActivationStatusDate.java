@@ -15,10 +15,17 @@ public class ActivationStatusDate implements Serializable {
 
     List<StatusNumberList> statusNumberLists;
 
+
+
     @ApiResultFieldDesc(desc = "EQP状态,如RUN,TRB,WAIT,MAN,MNT")
     private String status;
     @ApiResultFieldDesc(desc = "时间小时(横坐标)")
     private String periodDate;
+
+    @ApiResultFieldDesc(desc = "目标值")
+    private BigDecimal total;
+    @ApiResultFieldDesc(desc = "稼动率小数")
+    private BigDecimal activation;
 
     public static class StatusNumberList{
         public StatusNumberList(){}
@@ -39,8 +46,6 @@ public class ActivationStatusDate implements Serializable {
         private String eqpId;
         @ApiResultFieldDesc(desc = "EQP状态累计时间")
         private String statusNum;
-        @ApiResultFieldDesc(desc = "状态列表")
-        public List<ActivationStatusDate.StatusNumberList> statusDateLists;
         @ApiResultFieldDesc(desc = "稼动率小数")
         private BigDecimal activation;
         @ApiResultFieldDesc(desc = "时间小时")
@@ -83,22 +88,17 @@ public class ActivationStatusDate implements Serializable {
             this.statusNum = statusNum;
         }
 
-        public List<StatusNumberList> getStatusDateLists() {
-            return statusDateLists;
-        }
 
-        public void setStatusDateLists(List<StatusNumberList> statusDateLists) {
-            this.statusDateLists = statusDateLists;
-        }
 
         public BigDecimal getActivation() {
             //TODO 稼动率的实现
-            if(CollectionUtils.isEmpty(statusDateLists)){
+            /*if(CollectionUtils.isEmpty(activationStatusDTOList)){
                 return new BigDecimal(0);
             }
             BigDecimal t = getTotal();
             BigDecimal statusNum = new BigDecimal(getStatusNum());
-            return statusNum.divide(t,4, RoundingMode.HALF_UP);
+            return statusNum.divide(t,4, RoundingMode.HALF_UP);*/
+            return activation;
         }
 
         public void setActivation(BigDecimal activation) {
@@ -115,19 +115,6 @@ public class ActivationStatusDate implements Serializable {
 
         public BigDecimal getTotal() {
             //TODO 目标值的实现
-            if (total!=null) {
-                return total;
-            }
-            if(CollectionUtils.isEmpty(statusDateLists)){
-                total = new BigDecimal(0);
-                return  total;
-            }
-            for (ActivationStatusDate.StatusNumberList statusDTO:statusDateLists){
-                BigDecimal t = new BigDecimal(0);
-                BigDecimal num= new BigDecimal(statusDTO.getStatusNum());
-                t = t.add(num);
-                total = t;
-            }
 
             return total;
         }
@@ -159,5 +146,47 @@ public class ActivationStatusDate implements Serializable {
 
     public void setPeriodDate(String periodDate) {
         this.periodDate = periodDate;
+    }
+
+    public BigDecimal getTotal() {
+        //TODO 目标值的实现
+        BigDecimal total=new BigDecimal(0);
+        if(!CollectionUtils.isEmpty(statusNumberLists)) {
+            for (StatusNumberList s : statusNumberLists) {
+
+                total = total.add(new BigDecimal(s.getStatusNum()));
+            }
+        }
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
+
+    public BigDecimal getActivation() {
+        //TODO 稼动率的实现
+        BigDecimal activation=new BigDecimal(0);
+        if(!CollectionUtils.isEmpty(statusNumberLists)) {
+            for (StatusNumberList a : statusNumberLists) {
+                if(a.getStatus() == "RUN"){
+                    BigDecimal t = getTotal();
+                    if((t.compareTo(new BigDecimal(0))==0)){
+                        activation = new BigDecimal(0);
+                    }else{
+                        BigDecimal statusNum = new BigDecimal(a.getStatusNum());
+                        activation = statusNum.divide(t,4, RoundingMode.HALF_UP);
+                        //activation = new BigDecimal("5");
+                        //activation = statusNum;
+                    }
+                }
+            }
+        }
+        return activation;
+
+    }
+
+    public void setActivation(BigDecimal activation) {
+        this.activation = activation;
     }
 }
