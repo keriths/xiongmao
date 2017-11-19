@@ -1,14 +1,15 @@
 package com.xm.service.apiimpl.pc.cim.outputCompletion;
 
-import com.google.common.collect.Lists;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.MapUtils;
+import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCompletionData;
+import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCompletionRetDTO;
+import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.OutputcompletionDAO;
 import com.xm.platform.util.DateUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -20,14 +21,6 @@ import java.util.*;
 @Service("OutputCompletionRateService")
 @ApiServiceDoc(name = "CIM_产出达成率(完成)")
 public class OutputCompletionRateServiceImpl {
-    private List<String> factoryList = Lists.newArrayList("SL", "OC");
-
-    private String day="day";
-    private String month="month";
-    private String quarter="quarter";
-    private List<String> dateTypeList = Lists.newArrayList(day,month,quarter);
-    private Map<String,String> productIdNameMap = MapUtils.newMap("55","55");
-
     @Resource
     private OutputcompletionDAO outputcompletionDAO;
 
@@ -36,27 +29,27 @@ public class OutputCompletionRateServiceImpl {
         OutputCompletionRetDTO resultDto=new OutputCompletionRetDTO();
 
         try {
-            if (!dateTypeList.contains(dateType)){
+            if (!Constant.dateTypeList.contains(dateType)){
                 resultDto.setSuccess(false);
-                resultDto.setErrorMsg("dateType参数错误,请传入【" + dateTypeList + "】");
+                resultDto.setErrorMsg("dateType参数错误,请传入【" + Constant.dateTypeList + "】");
                 return resultDto;
             }
-            if (!StringUtils.isEmpty(productId) && !productIdNameMap.containsKey(productId)){
+            if (!StringUtils.isEmpty(productId) && !Constant.productIdNameMap.containsKey(productId)){
                 resultDto.setSuccess(false);
-                resultDto.setErrorMsg("productId参数错误,请传入【" + productIdNameMap.keySet() + "】");
+                resultDto.setErrorMsg("productId参数错误,请传入【" + Constant.productIdNameMap.keySet() + "】");
                 return resultDto;
             }
 
             List<String> dateList = null;
             Date beginDate = null;
             Date endDate = new Date();
-            if (dateType.equals(day)){
+            if (dateType.equals(Constant.day)){
                 beginDate = DateUtils.getBeforDayStartDay(6);
                 dateList = DateUtils.getDayStrList(beginDate,endDate);
-            }else if (dateType.equals(month)){
+            }else if (dateType.equals(Constant.month)){
                 beginDate = DateUtils.getBeforMonthStartDay(11);
                 dateList = DateUtils.getMonthStrList(beginDate,endDate);
-            }else if (dateType.equals(quarter)){
+            }else if (dateType.equals(Constant.quarter)){
                 beginDate = DateUtils.getBeforQuarterStartDay(3);
                 dateList = DateUtils.getQuarterStrList(beginDate,endDate);
             }
@@ -70,7 +63,7 @@ public class OutputCompletionRateServiceImpl {
                 OutputCompletionData outputCompletionData = new OutputCompletionData();
                 outputCompletionData.setDateTime(day);
                 List<OutputCompletionData.DataList> list=new ArrayList<OutputCompletionData.DataList>();
-                for (String factory: factoryList){
+                for (String factory: Constant.factoryList){
                     String key = day+" "+factory;
                     OutputCompletionData.DataList factoryData = dataMap.get(key);
                     if (factoryData==null){

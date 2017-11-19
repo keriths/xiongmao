@@ -10,6 +10,7 @@ import com.xm.service.apiimpl.pc.cim.activation.dto.ActivationDate;
 import com.xm.service.apiimpl.pc.cim.activation.dto.ActivationEQPIdListRetDTO;
 import com.xm.service.apiimpl.pc.cim.activation.dto.ActivationEQPStatusListRetDTO;
 import com.xm.service.apiimpl.pc.cim.activation.dto.ActivationStatusDate;
+import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.ActivationDAO;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -29,7 +30,7 @@ import java.util.Map;
 @ApiServiceDoc(name = "CIM_稼动率(完成)")
 public class ActivationServiceImpl {
 
-    private List<String> statusList = Lists.newArrayList("RUN", "TRB", "WAIT", "MAN", "MNT");
+
 
     private static Map<String,List<String>> factoryEQPStatusListMap = MapUtils.newMap(
             "Array", Lists.newArrayList("PHOTO","PVD","CVD","WET","DE"),
@@ -68,7 +69,7 @@ public class ActivationServiceImpl {
                 ActivationStatusDate activationStatusDate= new ActivationStatusDate();
                 activationStatusDate.setPeriodDate(hour);
                 List<ActivationStatusDate.StatusNumberList> list = new ArrayList<ActivationStatusDate.StatusNumberList>();
-                for (String status : statusList) {
+                for (String status : Constant.statusList) {
                     String key = status + " " + hour;
                     ActivationStatusDate.StatusNumberList statusNumber = queryMap.get(key);
                     if (statusNumber == null) {
@@ -141,7 +142,7 @@ public class ActivationServiceImpl {
                 ActivationDate activationDate = new ActivationDate();
                 activationDate.setEqpId(eqpId);
                 List<ActivationDate.StatusDateList> dtList = new ArrayList<ActivationDate.StatusDateList>();
-                for (String stType : statusList) {
+                for (String stType : Constant.statusList) {
                     String key = eqpId + " " + stType;
                     ActivationDate.StatusDateList statusNumber = queryMap.get(key);
                     if (statusNumber == null) {

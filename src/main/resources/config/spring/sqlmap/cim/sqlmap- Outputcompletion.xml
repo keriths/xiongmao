@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.cim.OutputcompletionDAO" >
-    <resultMap id="BaseResultMap" type="com.xm.service.apiimpl.pc.cim.outputCompletion.OutputCompletionData$DataList">
+    <resultMap id="BaseResultMap" type="com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCompletionData$DataList">
         <result column="FACTORY" property="factory" jdbcType="VARCHAR"></result>
         <result column="PLAN_OUTPUT_PNL_QTY" property="plan" jdbcType="DOUBLE"></result>
         <result column="ACTUAL_OUTPUT_PNL_QTY" property="actual" jdbcType="DOUBLE"></result>

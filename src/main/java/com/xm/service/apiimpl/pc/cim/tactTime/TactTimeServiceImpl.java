@@ -7,6 +7,7 @@ import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeMonthAvgDataDTO;
 import com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeMonthAvgRetDTO;
 import com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeProductTimeListRetDTO;
+import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DwrProductTtFidsDAO;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.MapUtils;
@@ -29,21 +30,16 @@ public class TactTimeServiceImpl {
     @Autowired
     private DwrProductTtFidsDAO dwrProductTtFidsDAO;
 
-    private static Map<String,List<String>> factoryProductIdListMap = MapUtils.newMap(
-            "Array",Lists.newArrayList("PHOTO","PVD","CVD","WET","DE"),
-            "Cell",Lists.newArrayList("PI","FDV","ODF","HSW","KOL"),
-            "CF",Lists.newArrayList("BM","ITO","PS","RGB","RML"),
-            "SL-OC",Lists.newArrayList("MBD","POL","OLB","MLR","Aging")
-    );
+
 
     @ApiMethodDoc(apiCode = "Tact_time_Query",name = "特定厂别特定产品类型设备Tact_time(完成)")
     public TactTimeProductTimeListRetDTO tactTimeProductTimeList(@ApiParamDoc(desc = "厂别：如array") String factory, @ApiParamDoc(desc = "产品类型：如PHOTO、PVD") String productId){
         TactTimeProductTimeListRetDTO retDto=new TactTimeProductTimeListRetDTO();
         try {
-            List<String> productIdList = factoryProductIdListMap.get(factory);
+            List<String> productIdList = Constant.factoryProductIdListMap.get(factory);
             if (productIdList==null){
                 retDto.setSuccess(false);
-                retDto.setErrorMsg("factory参数错误,请传入【" + factoryProductIdListMap.keySet() + "】");
+                retDto.setErrorMsg("factory参数错误,请传入【" + Constant.factoryProductIdListMap.keySet() + "】");
                 return retDto;
             }
             if (!productIdList.contains(productId)){
@@ -81,10 +77,10 @@ public class TactTimeServiceImpl {
     public TactTimeMonthAvgRetDTO monthAvg(@ApiParamDoc(desc = "厂别：如array必填") String factory){
         TactTimeMonthAvgRetDTO retDto = new TactTimeMonthAvgRetDTO();
         try {
-            List<String> productIdList = factoryProductIdListMap.get(factory);
+            List<String> productIdList = Constant.factoryProductIdListMap.get(factory);
             if (CollectionUtils.isEmpty(productIdList)){
                 retDto.setSuccess(false);
-                retDto.setErrorMsg("factory参数错误,请传入【" + factoryProductIdListMap.keySet() + "】");
+                retDto.setErrorMsg("factory参数错误,请传入【" + Constant.factoryProductIdListMap.keySet() + "】");
                 return retDto;
             }
             Date beginDate = DateUtils.getBeforMonthStartDay(0);

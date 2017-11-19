@@ -1,4 +1,4 @@
-package com.xm.service.apiimpl.pc.cim.outputCompletion;
+package com.xm.service.apiimpl.pc.cim.outputCompletion.dto;
 
 
 import com.xm.platform.annotations.ApiResultFieldDesc;

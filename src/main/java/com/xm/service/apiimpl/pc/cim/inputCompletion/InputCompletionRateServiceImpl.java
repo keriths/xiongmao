@@ -6,13 +6,13 @@ import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.MapUtils;
 import com.xm.service.apiimpl.pc.cim.inputCompletion.dto.InputCompletionRetDTO;
+import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DwsProductInputFidsDAO;
 import com.xm.platform.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import javax.annotation.Resource;
 import java.util.*;
 
 /**
@@ -21,11 +21,7 @@ import java.util.*;
 @Service("InputCompletionRateService")
 @ApiServiceDoc(name = "CIM_投入达成率（完成）")
 public class InputCompletionRateServiceImpl{
-    private String day="day";
-    private String month="month";
-    private String quarter="quarter";
-    private List<String> dateTypeList = Lists.newArrayList(day,month,quarter);
-    private Map<String,String> productIdNameMap = MapUtils.newMap("55","55");
+
 
     @Autowired
     private DwsProductInputFidsDAO inputFidsDAO;
@@ -34,26 +30,26 @@ public class InputCompletionRateServiceImpl{
     public InputCompletionRetDTO inputCompletionRate(@ApiParamDoc(desc = "产品类型：如55,为空时是全部") String product, @ApiParamDoc(desc = "统计时间类型天月季度")String dateType){
         InputCompletionRetDTO retDto = new InputCompletionRetDTO();
         try {
-            if (!dateTypeList.contains(dateType)){
+            if (!Constant.dateTypeList.contains(dateType)){
                 retDto.setSuccess(false);
-                retDto.setErrorMsg("dateType参数错误,请传入【" + dateTypeList + "】");
+                retDto.setErrorMsg("dateType参数错误,请传入【" + Constant.dateTypeList + "】");
                 return retDto;
             }
-            if (!StringUtils.isEmpty(product) && !productIdNameMap.containsKey(product)){
+            if (!StringUtils.isEmpty(product) && !Constant.productIdNameMap.containsKey(product)){
                 retDto.setSuccess(false);
-                retDto.setErrorMsg("dateType参数错误,请传入【" + productIdNameMap.keySet() + "】");
+                retDto.setErrorMsg("dateType参数错误,请传入【" + Constant.productIdNameMap.keySet() + "】");
                 return retDto;
             }
             List<String> dateList = null;
             Date startTime = null;
             Date endTime = new Date();
-            if (dateType.equals(day)){
+            if (dateType.equals(Constant.day)){
                 startTime = DateUtils.getBeforDayStartDay(6);
                 dateList = DateUtils.getDayStrList(startTime,endTime);
-            }else if (dateType.equals(month)){
+            }else if (dateType.equals(Constant.month)){
                 startTime = DateUtils.getBeforMonthStartDay(11);
                 dateList = DateUtils.getMonthStrList(startTime,endTime);
-            }else if (dateType.equals(quarter)){
+            }else if (dateType.equals(Constant.quarter)){
                 startTime = DateUtils.getBeforQuarterStartDay(3);
                 dateList = DateUtils.getQuarterStrList(startTime,endTime);
             }

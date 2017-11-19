@@ -18,7 +18,7 @@ import java.util.List;
  * Created by fanshuai on 17/10/24.
  */
 @Service("EquipmentRealTimeStatusService")
-@ApiServiceDoc(name = "CIM设备实时状态")
+//@ApiServiceDoc(name = "CIM设备实时状态")
 public class EquipmentRealTimeStatusServiceImpl {
     @Resource(name = "ArrayEquipmentRealTimeStatusFourFService")
     private ArrayEquipmentRealTimeStatusFourFServiceImpl arrayEquipmentRealTimeStatusFourFService;
