@@ -137,6 +137,12 @@ public class ActivationServiceImpl {
             Date beginDate = DateUtils.getBeforHourStartDay(0);
             Date endDate = new Date();
             List<ActivationDate.StatusDateList> activationIdList = activationDAO.queryActivationEQPId(factory, eqpIdList, beginDate, endDate);
+            if (CollectionUtils.isEmpty(activationIdList)){
+                //如果这一小时数据还没有出来，取上一小时的数据
+                beginDate = DateUtils.getBeforHourStartDay(1);
+                endDate = DateUtils.getBeforHourEndDay(1);
+                activationIdList = activationDAO.queryActivationEQPId(factory, eqpIdList, beginDate, endDate);
+            }
             Map<String, ActivationDate.StatusDateList> queryMap = MapUtils.listToMap(activationIdList, "key");
             List<ActivationDate> dateList = new ArrayList<ActivationDate>();
             for (String eqpId:eqpIdList) {

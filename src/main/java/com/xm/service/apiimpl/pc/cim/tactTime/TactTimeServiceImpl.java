@@ -87,6 +87,12 @@ public class TactTimeServiceImpl {
             Date beginDate = DateUtils.getBeforMonthStartDay(0);
             Date endDate = new Date();
             List<TactTimeMonthAvgDataDTO> tactTimeMonthAvgDataDTOList = dwrProductTtFidsDAO.queryMonthAvg(factory, productIdList, beginDate, endDate);
+            if (CollectionUtils.isEmpty(tactTimeMonthAvgDataDTOList)){
+                //如果当月数据为空，取上个月的数据,上个月的取不到，不继续取
+                beginDate = DateUtils.getBeforMonthStartDay(1);
+                endDate = DateUtils.getBeforMonthEndDay(1);
+                tactTimeMonthAvgDataDTOList = dwrProductTtFidsDAO.queryMonthAvg(factory, productIdList, beginDate, endDate);
+            }
             Map<String,TactTimeMonthAvgDataDTO> avgDataDTOMap = MapUtils.listToMap(tactTimeMonthAvgDataDTOList, "getProductId");
             List<TactTimeMonthAvgDataDTO> avgDataDTOList = new ArrayList<TactTimeMonthAvgDataDTO>();
             for (String productId:productIdList){

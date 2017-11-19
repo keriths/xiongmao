@@ -26,6 +26,10 @@ public class DateUtils {
         DateTime curDateTime = new DateTime();
         return curDateTime.plusHours(-beforHourNum).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0).toDate();
     }
+    public static Date getBeforHourEndDay(int beforHourNum){
+        DateTime curDateTime = new DateTime();
+        return curDateTime.plusHours(-beforHourNum).withMinuteOfHour(59).withSecondOfMinute(59).withMillisOfSecond(999).toDate();
+    }
     /**
      * 获得前几个月日期当月的最开始的时间 当前时间向前推${beforMonthNum}自然月的当月的最小时间   1号的0点0分0秒
      * @param beforMonthNum
@@ -34,6 +38,10 @@ public class DateUtils {
     public static Date getBeforMonthStartDay(int beforMonthNum){
         DateTime curDateTime = new DateTime();
         return curDateTime.plusMonths(-beforMonthNum).dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue().toDate();
+    }
+    public static Date getBeforMonthEndDay(int beforMonthNum){
+        DateTime curDateTime = new DateTime();
+        return curDateTime.plusMonths(-beforMonthNum).dayOfMonth().withMaximumValue().millisOfDay().withMaximumValue().toDate();
     }
     /**
      *获得前几个季度的开始时间

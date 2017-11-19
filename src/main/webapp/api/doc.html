@@ -136,6 +136,7 @@
                     });
                 }
                 $("#paramsDiv").html(paramsDivHtml);
+                $("#response").val("");
             }
             $("#serviceUl").on("click",".serviceMethodLi",function(){
                 var _serviceMethodLi = $(this);
@@ -180,6 +181,7 @@
                 }
             });
             $("#processTestForm").click(function(){
+                $("#response").val("");
                 $.ajax({
                     url:"/manage/processServiceMethod",
                     data:$('#testForm').serialize(),
