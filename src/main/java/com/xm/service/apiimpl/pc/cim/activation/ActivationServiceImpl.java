@@ -29,7 +29,7 @@ import java.util.Map;
 @ApiServiceDoc(name = "CIM_稼动率")
 public class ActivationServiceImpl {
 
-    private List<String> statusList = Lists.newArrayList("RUN","TRB","WAIT","MAN","MNT");
+    private List<String> statusList = Lists.newArrayList("RUN", "TRB", "WAIT", "MAN", "MNT");
 
     private static Map<String,List<String>> factoryEQPStatusListMap = MapUtils.newMap(
             "Array", Lists.newArrayList("PHOTO","PVD","CVD","WET","DE"),
@@ -53,6 +53,11 @@ public class ActivationServiceImpl {
                 actType.setErrorMsg("factory参数错误,请传入【" + factoryEQPStatusListMap.keySet() + "】");
                 return actType;
             }
+            if (!eqpIdList.contains(eqpId)){
+                actType.setSuccess(false);
+                actType.setErrorMsg("eqpId参数错误,请传入【" + eqpIdList + "】");
+                return actType;
+            }
             Date beginDate = DateUtils.getBeforHourStartDay(11);
             Date endDate = new Date();
             List<String> hourList = DateUtils.getHourStrList(beginDate,endDate);
@@ -63,11 +68,11 @@ public class ActivationServiceImpl {
                 ActivationStatusDate activationStatusDate= new ActivationStatusDate();
                 activationStatusDate.setPeriodDate(hour);
                 List<ActivationStatusDate.StatusNumberList> list = new ArrayList<ActivationStatusDate.StatusNumberList>();
-                for (String stNumber : statusList) {
-                    String key = stNumber + " " + hour;
+                for (String status : statusList) {
+                    String key = status + " " + hour;
                     ActivationStatusDate.StatusNumberList statusNumber = queryMap.get(key);
                     if (statusNumber == null) {
-                        statusNumber = new ActivationStatusDate.StatusNumberList(stNumber,hour);
+                        statusNumber = new ActivationStatusDate.StatusNumberList(status,hour);
                     }
                     list.add(statusNumber);
                 }
@@ -116,7 +121,7 @@ public class ActivationServiceImpl {
 
     }
 
-   @ApiMethodDoc(apiCode = "CIM_ActivationEQPId",name="设备稼动率显示")
+   @ApiMethodDoc(apiCode = "CIM_ActivationEQPId",name="重点设备稼动显示")
     public ActivationEQPIdListRetDTO activationIdList(@ApiParamDoc(desc = "厂别：如Array Cell") String factory){
        ActivationEQPIdListRetDTO actType = new ActivationEQPIdListRetDTO();
         try {

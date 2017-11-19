@@ -6,12 +6,12 @@
         SELECT
         EQP_ID as eqpId,
         EQP_STATUS as status,
-        STATUS_DURATION as statusNum
+        sum(STATUS_DURATION) as statusNum
         FROM
         DWR_EQP_OEE_FIDS
         WHERE
         FACTORY=#{factory}
-        AND EQP_TYPE IN
+        AND EQP_ID IN
         <foreach collection="eqpIdList" item="eqpId" open="(" separator="," close=")" >
             #{eqpId}
         </foreach>
@@ -19,16 +19,17 @@
           and PERIODDATE >= #{beginDate}
           and PERIODDATE <= #{endDate}
           ]]>
-        GROUP BY EQP_ID,EQP_STATUS,STATUS_DURATION
+        GROUP BY EQP_ID,EQP_STATUS
     </select>
 
     <select id="queryActivationStatusNum" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.activation.dto.ActivationStatusDate$StatusNumberList">
         SELECT
         FACTORY as factory,
+        EQP_ID as eqpId,
         to_char(PERIODDATE,'HH24')||':00' as periodDate,
         EQP_STATUS as status,
-        STATUS_DURATION as statusNum,
-        EQP_ID as eqpId
+        sum(STATUS_DURATION) as statusNum
+
         FROM
         DWR_EQP_OEE_FIDS
         WHERE
@@ -38,7 +39,10 @@
           and PERIODDATE >= #{beginDate}
           and PERIODDATE <= #{endDate}
           ]]>
-        ORDER BY EQP_ID
+        GROUP BY FACTORY ,
+        EQP_ID ,
+        to_char(PERIODDATE,'HH24')||':00' ,
+        EQP_STATUS
     </select>
 
 

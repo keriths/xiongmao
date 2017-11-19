@@ -27,6 +27,9 @@ public class ActivationDate implements Serializable{
 
     public static class StatusDateList{
 
+        public String key(){
+            return eqpId+" "+status;
+        }
         public StatusDateList(){
         }
         public StatusDateList(String status,String eqpId){
