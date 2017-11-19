@@ -38,20 +38,19 @@ public class ActivationStatusDate implements Serializable {
             return status + " " + periodDate;
         }
 
+        @ApiResultFieldDesc(desc = "时间小时")
+        private String periodDate;
         @ApiResultFieldDesc(desc = "厂别,如Array,Cell,CF,SL-OC")
         private String factory;
         @ApiResultFieldDesc(desc = "EQP状态,如RUN,TRB,WAIT,MAN,MNT")
-        private String status;
-        @ApiResultFieldDesc(desc = "EQP类型,如PHOTO,PVD,CVD,WET,DE")
         private String eqpId;
         @ApiResultFieldDesc(desc = "EQP状态累计时间")
+        private String status;
+        @ApiResultFieldDesc(desc = "EQP类型,如PHOTO,PVD,CVD,WET,DE")
         private String statusNum;
-        @ApiResultFieldDesc(desc = "稼动率小数")
-        private BigDecimal activation;
-        @ApiResultFieldDesc(desc = "时间小时")
-        private String periodDate;
-        @ApiResultFieldDesc(desc = "目标值")
-        private BigDecimal total;
+
+
+
 
         public String getFactory() {
             return factory;
@@ -88,23 +87,6 @@ public class ActivationStatusDate implements Serializable {
             this.statusNum = statusNum;
         }
 
-
-
-        public BigDecimal getActivation() {
-            //TODO 稼动率的实现
-            /*if(CollectionUtils.isEmpty(activationStatusDTOList)){
-                return new BigDecimal(0);
-            }
-            BigDecimal t = getTotal();
-            BigDecimal statusNum = new BigDecimal(getStatusNum());
-            return statusNum.divide(t,4, RoundingMode.HALF_UP);*/
-            return activation;
-        }
-
-        public void setActivation(BigDecimal activation) {
-            this.activation = activation;
-        }
-
         public String getPeriodDate() {
             return periodDate;
         }
@@ -113,15 +95,7 @@ public class ActivationStatusDate implements Serializable {
             this.periodDate = periodDate;
         }
 
-        public BigDecimal getTotal() {
-            //TODO 目标值的实现
 
-            return total;
-        }
-
-        public void setTotal(BigDecimal total) {
-            this.total = total;
-        }
     }
 
     public String getStatus() {
