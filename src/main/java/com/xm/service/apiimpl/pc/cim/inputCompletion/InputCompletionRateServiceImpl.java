@@ -19,7 +19,7 @@ import java.util.*;
  * Created by fanshuai on 17/10/24.
  */
 @Service("InputCompletionRateService")
-@ApiServiceDoc(name = "CIM_投入达成率")
+@ApiServiceDoc(name = "CIM_投入达成率（完成）")
 public class InputCompletionRateServiceImpl{
     private String day="day";
     private String month="month";
@@ -30,7 +30,7 @@ public class InputCompletionRateServiceImpl{
     @Autowired
     private DwsProductInputFidsDAO inputFidsDAO;
 
-    @ApiMethodDoc(apiCode = "CIM_inputCompletionRate" , name = "投入达成率接口")
+    @ApiMethodDoc(apiCode = "CIM_inputCompletionRate" , name = "投入达成率接口（完成）")
     public InputCompletionRetDTO inputCompletionRate(@ApiParamDoc(desc = "产品类型：如55,为空时是全部") String product, @ApiParamDoc(desc = "统计时间类型天月季度")String dateType){
         InputCompletionRetDTO retDto = new InputCompletionRetDTO();
         try {

@@ -70,6 +70,7 @@ public class TactTimeServiceImpl {
             retDto.setTactTimeProductDetailList(tactTimeProductDetailList);
             return retDto;
         }catch (Exception e){
+            e.printStackTrace();
             retDto.setSuccess(false);
             retDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return retDto;
@@ -103,6 +104,7 @@ public class TactTimeServiceImpl {
             }
             retDto.setTactTimeMonthAvgDataDTOList(avgDataDTOList);
         }catch (Exception e){
+            e.printStackTrace();
             retDto.setSuccess(false);
             retDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return retDto;

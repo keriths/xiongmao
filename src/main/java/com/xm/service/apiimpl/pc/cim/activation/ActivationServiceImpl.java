@@ -26,7 +26,7 @@ import java.util.Map;
  */
 
 @Service("ActivationService")
-@ApiServiceDoc(name = "CIM_稼动率")
+@ApiServiceDoc(name = "CIM_稼动率(完成)")
 public class ActivationServiceImpl {
 
     private List<String> statusList = Lists.newArrayList("RUN", "TRB", "WAIT", "MAN", "MNT");
@@ -42,7 +42,7 @@ public class ActivationServiceImpl {
     private ActivationDAO activationDAO;
 
 
-    @ApiMethodDoc(apiCode = "CIM_ActivationStatusNum",name="EQP类型的状态值显示")
+    @ApiMethodDoc(apiCode = "CIM_ActivationStatusNum",name="EQP类型的状态值显示(完成)")
     public ActivationEQPStatusListRetDTO activationStatusNumList(@ApiParamDoc(desc = "厂别：如Array Cell") String factory, @ApiParamDoc(desc = "EQP类型，如PHOTO PVD") String eqpId){
         ActivationEQPStatusListRetDTO actType = new ActivationEQPStatusListRetDTO();
 
@@ -114,6 +114,7 @@ public class ActivationServiceImpl {
             return actType;*/
 
         }catch (Exception e){
+            e.printStackTrace();
             actType.setSuccess(false);
             actType.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return actType;
@@ -121,7 +122,7 @@ public class ActivationServiceImpl {
 
     }
 
-   @ApiMethodDoc(apiCode = "CIM_ActivationEQPId",name="重点设备稼动显示")
+   @ApiMethodDoc(apiCode = "CIM_ActivationEQPId",name="重点设备稼动显示(完成)")
     public ActivationEQPIdListRetDTO activationIdList(@ApiParamDoc(desc = "厂别：如Array Cell") String factory){
        ActivationEQPIdListRetDTO actType = new ActivationEQPIdListRetDTO();
         try {
@@ -154,6 +155,7 @@ public class ActivationServiceImpl {
             actType.setActivationDateList(dateList);
             return actType;
         }catch (Exception e){
+            e.printStackTrace();
             actType.setSuccess(false);
             actType.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return actType;

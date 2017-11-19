@@ -20,7 +20,7 @@ import java.util.*;
 @Service("OutputCompletionRateService")
 @ApiServiceDoc(name = "CIM_产出达成率(完成)")
 public class OutputCompletionRateServiceImpl {
-    private List<String> factoryList = Lists.newArrayList("SL","OC");
+    private List<String> factoryList = Lists.newArrayList("SL", "OC");
 
     private String day="day";
     private String month="month";
@@ -85,6 +85,7 @@ public class OutputCompletionRateServiceImpl {
             return resultDto;
 
         }catch (Exception e){
+            e.printStackTrace();
             resultDto.setSuccess(false);
             resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return resultDto;
