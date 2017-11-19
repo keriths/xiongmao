@@ -13,7 +13,7 @@
             sum(PLAN_OUTPUT_PNL_QTY) as plan,
             sum(ACTUAL_OUTPUT_PNL_QTY) as actual,FACTORY,
             <if test="dateType=='month'.toString()">/*按月*/
-                TO_CHAR(PERIODDATE,'mon')
+                TO_CHAR(PERIODDATE,'MM')||'月'
             </if>
             <if test="dateType=='quarter'.toString()">/*按季度*/
                 TO_CHAR(PERIODDATE,'q') ||'季度'
@@ -33,7 +33,7 @@
             </if>
         GROUP BY
             <if test="dateType=='month'.toString()">/*按月*/
-            TO_CHAR(PERIODDATE,'mon'),
+            TO_CHAR(PERIODDATE,'MM')||'月',
             </if>
             <if test="dateType=='quarter'.toString()">
                 TO_CHAR(PERIODDATE,'q') ||'季度',
