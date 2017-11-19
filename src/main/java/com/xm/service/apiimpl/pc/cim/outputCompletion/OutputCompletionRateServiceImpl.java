@@ -3,6 +3,7 @@ package com.xm.service.apiimpl.pc.cim.outputCompletion;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
+import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
 import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCompletionData;
 import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCompletionRetDTO;
@@ -25,7 +26,7 @@ public class OutputCompletionRateServiceImpl {
     private OutputcompletionDAO outputcompletionDAO;
 
     @ApiMethodDoc(apiCode = "CIM_outputCompletionRate" , name = "产出达成率接口(完成)")
-    public OutputCompletionRetDTO OutputCompletionRate(@ApiParamDoc(desc = "产品类型：如55不传时是全部，就是汇总的") String productId, @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
+    public OutputCompletionRetDTO outputCompletionRate(@ApiParamDoc(desc = "产品类型：如55不传时是全部，就是汇总的") String productId, @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
         OutputCompletionRetDTO resultDto=new OutputCompletionRetDTO();
 
         try {
@@ -78,7 +79,7 @@ public class OutputCompletionRateServiceImpl {
             return resultDto;
 
         }catch (Exception e){
-            e.printStackTrace();
+            LogUtils.error(this.getClass(),"outputCompletionRate eclipse",e);
             resultDto.setSuccess(false);
             resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return resultDto;

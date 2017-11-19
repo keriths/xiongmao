@@ -5,6 +5,7 @@ import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.apidoc.*;
+import com.xm.platform.util.LogUtils;
 import javassist.*;
 import javassist.bytecode.CodeAttribute;
 import javassist.bytecode.LocalVariableAttribute;
@@ -114,7 +115,7 @@ public class ServiceAPIDocumentBeanFactoryPostProcessor implements BeanFactoryPo
                 ApiManager.addApiMethod(apiMethod);
             }
         }
-        System.out.println("\n\n\n\n\n\n\n"+ApiManager.getApiMethodMap());
+        LogUtils.info(this.getClass(),"\n\n\n\n\n\n\n" + ApiManager.getApiMethodMap());
     }
 
     private String getTypeFullName(Type type){

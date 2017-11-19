@@ -2,7 +2,7 @@ package com.xm.service.dto;
 
 import com.alibaba.fastjson.JSON;
 import com.xm.platform.annotations.ApiResultFieldDesc;
-import com.xm.platform.util.Md5Util;
+import com.xm.platform.util.Md5Utils;
 
 import java.io.Serializable;
 
@@ -38,7 +38,7 @@ public class BaseRetDTO implements Serializable{
         }
         if (sign==null){
             sign="a";
-            sign=Md5Util.encodeString(JSON.toJSONString(this));
+            sign= Md5Utils.encodeString(JSON.toJSONString(this));
         }
         return sign;
     }

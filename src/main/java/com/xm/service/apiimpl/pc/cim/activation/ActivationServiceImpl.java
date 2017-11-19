@@ -5,6 +5,7 @@ import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.DateUtils;
+import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
 import com.xm.service.apiimpl.pc.cim.activation.dto.ActivationDate;
 import com.xm.service.apiimpl.pc.cim.activation.dto.ActivationEQPIdListRetDTO;
@@ -115,7 +116,7 @@ public class ActivationServiceImpl {
             return actType;*/
 
         }catch (Exception e){
-            e.printStackTrace();
+            LogUtils.error(getClass(), e);
             actType.setSuccess(false);
             actType.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return actType;
@@ -156,7 +157,7 @@ public class ActivationServiceImpl {
             actType.setActivationDateList(dateList);
             return actType;
         }catch (Exception e){
-            e.printStackTrace();
+            LogUtils.error(getClass(), e);
             actType.setSuccess(false);
             actType.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return actType;

@@ -6,4 +6,7 @@
 			<!--&lt;!&ndash;<property name="dialectClass" value="com.dianping.zebra.dao.dialect.MySQLDialect"/>&ndash;&gt;-->
 		<!--&lt;!&ndash;</plugin>&ndash;&gt;-->
 	<!--</plugins>-->
+	<settings>
+		<setting name="logImpl" value="LOG4J2"/>
+	</settings>
 </configuration>

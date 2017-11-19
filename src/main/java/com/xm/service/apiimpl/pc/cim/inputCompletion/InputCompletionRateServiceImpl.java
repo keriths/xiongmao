@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
+import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
 import com.xm.service.apiimpl.pc.cim.inputCompletion.dto.InputCompletionRetDTO;
 import com.xm.service.constant.Constant;
@@ -66,7 +67,7 @@ public class InputCompletionRateServiceImpl{
             retDto.setCompletionDataList(completionDataList);
             return retDto;
         }catch (Exception e){
-            e.printStackTrace();
+            LogUtils.error(getClass(), e);
             retDto.setSuccess(false);
             retDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return retDto;

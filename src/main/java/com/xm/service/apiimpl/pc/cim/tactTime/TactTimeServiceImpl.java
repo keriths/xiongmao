@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
+import com.xm.platform.util.LogUtils;
 import com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeMonthAvgDataDTO;
 import com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeMonthAvgRetDTO;
 import com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeProductTimeListRetDTO;
@@ -66,7 +67,7 @@ public class TactTimeServiceImpl {
             retDto.setTactTimeProductDetailList(tactTimeProductDetailList);
             return retDto;
         }catch (Exception e){
-            e.printStackTrace();
+            LogUtils.error(getClass(), e);
             retDto.setSuccess(false);
             retDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return retDto;
@@ -100,7 +101,7 @@ public class TactTimeServiceImpl {
             }
             retDto.setTactTimeMonthAvgDataDTOList(avgDataDTOList);
         }catch (Exception e){
-            e.printStackTrace();
+            LogUtils.error(getClass(), e);
             retDto.setSuccess(false);
             retDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return retDto;

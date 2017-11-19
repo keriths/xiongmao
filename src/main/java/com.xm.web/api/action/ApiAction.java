@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.xm.platform.apidoc.ApiManager;
 import com.xm.platform.apidoc.ApiMethod;
 import com.xm.platform.apidoc.ApiParam;
+import com.xm.platform.util.LogUtils;
 import com.xm.web.api.vo.ApiMethodParamVO;
 import com.xm.web.api.vo.ApiMethodVO;
 import org.springframework.stereotype.Controller;
@@ -38,10 +39,10 @@ public class ApiAction {
     @RequestMapping(value = "/manage/serviceMethodList")
     @ResponseBody
     public List<ApiMethodVO> getServiceMethodList(String serviceName){
-        System.out.println(serviceName);
+        LogUtils.info(this.getClass(), serviceName);
         List<ApiMethod> apiMethodList = ApiManager.getServiceMethodList(serviceName);
         if (CollectionUtils.isEmpty(apiMethodList)){
-            System.out.println("apiMethodList is null");
+            LogUtils.info(this.getClass(), "apiMethodList is null");
             return null;
         }
         List<ApiMethodVO> voList = new ArrayList<ApiMethodVO>(apiMethodList.size());
@@ -65,7 +66,7 @@ public class ApiAction {
             Object obj = apiMethod.getMethod().invoke(apiMethod.getServiceObj(),param);
             return obj;
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtils.error(getClass(), e);
             return e;
         }
     }

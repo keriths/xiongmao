@@ -5,6 +5,7 @@ import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.apidoc.*;
+import com.xm.platform.util.LogUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.beans.factory.config.ConfigurableListableBeanFactory;
@@ -112,7 +113,7 @@ public class ServiceAPIDocumentBeanPostProcessor implements BeanPostProcessor {
                 ApiManager.addApiMethod(apiMethod);
             }
         }
-        System.out.println("\n\n\n\n\n\n\n"+ApiManager.getApiMethodMap());
+        LogUtils.info(this.getClass(), "\n\n\n\n\n\n\n" + ApiManager.getApiMethodMap());
     }
 
     private String getTypeFullName(Type type){
