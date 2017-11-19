@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  */
 
 @Service("ArrayEquipmentRealTimeStatusTowFService")
-@ApiServiceDoc(name="CIM设备实时状态-array-2F")
+//@ApiServiceDoc(name="CIM设备实时状态-array-2F")
 public class ArrayEquipmentRealTimeStatusTowFServiceImpl {
 	@ApiMethodDoc(apiCode = "CIM_EquipmentStatus_Array2F",name = "设备状态显示-2F")
 	public ArrayEquipmentRealTimeStatusTowFResultDTO arrayEquipmentRealTimeStatus(){
