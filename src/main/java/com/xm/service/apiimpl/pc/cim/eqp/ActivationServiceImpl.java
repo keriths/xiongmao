@@ -82,38 +82,6 @@ public class ActivationServiceImpl {
             }
             actType.setActivationStatusDateList(dtList);
             return actType;
-       /* ActivationDate actDate = new ActivationDate();
-        try{
-            List<String> eqpIdList = factoryEQPStatusListMap.get(factory);
-            if (eqpIdList==null) {
-                actType.setSuccess(false);
-                actType.setErrorMsg("factory参数错误,请传入【"+factoryEQPStatusListMap.keySet()+ "】");
-                return actType;
-            }
-            if(!eqpIdList.contains(eqpId)){
-                actType.setSuccess(false);
-                actType.setErrorMsg("eqpId参数错误,请传入【"+eqpIdList+"】");
-                return actType;
-            }
-            Date startTime = DateUtils.getBeforHourStartDay(11);
-            Date endTime = new Date();
-            List<String> hourList = DateUtils.getHourStrList(startTime,endTime);
-            List<ActivationDate.StatusDateList> queryStatusNumList = activationDAO.queryActivationStatusNum(factory,eqpId,startTime,endTime);
-            Map<String,ActivationDate.StatusDateList> queryStatusNumMap = MapUtils.listToMap(queryStatusNumList,"getPeriodDate");
-            List<ActivationDate.StatusDateList> activationStatusNumDetailList = new ArrayList<ActivationDate.StatusDateList>();
-            for(String hour:hourList){
-                ActivationDate.StatusDateList stNumDetail = null;
-                if(!CollectionUtils.isEmpty(queryStatusNumMap)){
-                    stNumDetail = queryStatusNumMap.get(hour);
-                }
-                if(stNumDetail==null){
-                    stNumDetail = new ActivationDate.StatusDateList(hour);
-                }
-                activationStatusNumDetailList.add(stNumDetail);
-            }
-            actDate.setStatusDateListList(activationStatusNumDetailList);
-            return actType;*/
-
         }catch (Exception e){
             LogUtils.error(getClass(), e);
             actType.setSuccess(false);
@@ -169,7 +137,5 @@ public class ActivationServiceImpl {
         }
 
     }
-
-
 
 }
