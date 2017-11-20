@@ -1,4 +1,4 @@
-package com.xm.service.apiimpl.pc.cim.activation.dto;
+package com.xm.service.apiimpl.pc.cim.eqp.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.service.dto.BaseRetDTO;

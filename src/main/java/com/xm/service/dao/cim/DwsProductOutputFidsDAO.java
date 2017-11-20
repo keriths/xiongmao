@@ -11,7 +11,7 @@ import java.util.List;
  * Created by luokaiming on 17/11/11.
  */
 @Repository("outputcompletionDAO")
-public interface OutputcompletionDAO {
+public interface DwsProductOutputFidsDAO {
     /**
      * 产出达成率
      * @return

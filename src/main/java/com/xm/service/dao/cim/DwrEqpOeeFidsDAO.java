@@ -1,7 +1,7 @@
 package com.xm.service.dao.cim;
 
-        import com.xm.service.apiimpl.pc.cim.activation.dto.ActivationDate;
-        import com.xm.service.apiimpl.pc.cim.activation.dto.ActivationStatusDate;
+        import com.xm.service.apiimpl.pc.cim.eqp.dto.ActivationDate;
+        import com.xm.service.apiimpl.pc.cim.eqp.dto.ActivationStatusDate;
         import org.apache.ibatis.annotations.Param;
         import org.springframework.stereotype.Repository;
 
@@ -12,7 +12,7 @@ package com.xm.service.dao.cim;
  * Created by wangshuna on 2017/11/14.
  */
 @Repository("activationDAO")
-public interface ActivationDAO {
+public interface DwrEqpOeeFidsDAO {
 
     List<ActivationStatusDate.StatusNumberList> queryActivationStatusNum(
             @Param("factory") String factory,

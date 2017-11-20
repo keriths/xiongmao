@@ -1,14 +1,9 @@
-package com.xm.service.apiimpl.pc.cim.activation.dto;
+package com.xm.service.apiimpl.pc.cim.eqp.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
-import com.xm.platform.util.MapUtils;
 import com.xm.service.dto.BaseRetDTO;
-import org.springframework.util.CollectionUtils;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by wangshuna on 2017/11/16.

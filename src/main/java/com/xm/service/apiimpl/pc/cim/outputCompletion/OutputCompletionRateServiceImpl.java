@@ -8,7 +8,7 @@ import com.xm.platform.util.MapUtils;
 import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCompletionData;
 import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCompletionRetDTO;
 import com.xm.service.constant.Constant;
-import com.xm.service.dao.cim.OutputcompletionDAO;
+import com.xm.service.dao.cim.DwsProductOutputFidsDAO;
 import com.xm.platform.util.DateUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -23,7 +23,7 @@ import java.util.*;
 @ApiServiceDoc(name = "CIM_产出达成率(完成)")
 public class OutputCompletionRateServiceImpl {
     @Resource
-    private OutputcompletionDAO outputcompletionDAO;
+    private DwsProductOutputFidsDAO outputcompletionDAO;
 
     @ApiMethodDoc(apiCode = "CIM_outputCompletionRate" , name = "产出达成率接口(完成)")
     public OutputCompletionRetDTO outputCompletionRate(@ApiParamDoc(desc = "产品类型：如55不传时是全部，就是汇总的") String productId, @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
