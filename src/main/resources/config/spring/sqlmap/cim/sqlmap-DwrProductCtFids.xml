@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.cim.DwrProductCtFidsDAO" >
+
+    <select id="cycleTimeShow" resultType="com.xm.service.apiimpl.pc.cim.cycletime.dto.CycleTimeData$CycleTimeDetailData" parameterType="Map">
+        select
+            sum(CT_TARGET) as plan,
+            sum(TOTAL_GLS_QTY) as actual,FACTORY,
+            <if test="dateType=='month'.toString()">/*按月*/
+                TO_CHAR(PERIODDATE,'MM')||'月'
+            </if>
+            <if test="dateType=='quarter'.toString()">/*按季度*/
+                TO_CHAR(PERIODDATE,'q') ||'季度'
+            </if>
+            <if test="dateType=='day'.toString()">/*按天*/
+                TO_CHAR(PERIODDATE,'mm/dd')
+            </if>
+          as periodDate
+        from DWR_PRODUCT_CT_FIDS
+        WHERE
+            <![CDATA[
+               PERIODDATE >= #{beginDate}
+              and PERIODDATE <= #{endDate}
+             ]]>
+            <if test="productId!=null and productId!=''">
+                AND PRODUCTID=#{productId,jdbcType=VARCHAR}
+            </if>
+        GROUP BY
+            <if test="dateType=='month'.toString()">/*按月*/
+            TO_CHAR(PERIODDATE,'MM')||'月',
+            </if>
+            <if test="dateType=='quarter'.toString()">
+                TO_CHAR(PERIODDATE,'q') ||'季度',
+            </if>
+            <if test="dateType=='day'.toString()">
+                TO_CHAR(PERIODDATE,'mm/dd'),
+            </if>
+            FACTORY
+    </select>
+
+</mapper>
