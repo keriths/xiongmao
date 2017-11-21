@@ -30,15 +30,6 @@ import java.util.Map;
 @ApiServiceDoc(name = "CIM_稼动率(完成)")
 public class ActivationServiceImpl {
 
-
-
-    private static Map<String,List<String>> factoryEQPStatusListMap = MapUtils.newMap(
-            "Array", Lists.newArrayList("PHOTO","PVD","CVD","WET","DE"),
-            "Cell",Lists.newArrayList("PI","FDV","ODF","HSW","KOL"),
-            "CF",Lists.newArrayList("BM","ITO","PS","RGB","RML"),
-            "SL-OC",Lists.newArrayList("MBD","POL","OLB","MLB","Aging")
-    );
-
     @Resource(name="activationDAO")
     private DwrEqpOeeFidsDAO activationDAO;
 
@@ -48,10 +39,10 @@ public class ActivationServiceImpl {
         ActivationEQPStatusListRetDTO actType = new ActivationEQPStatusListRetDTO();
 
         try {
-            List<String> eqpIdList = factoryEQPStatusListMap.get(factory);
+            List<String> eqpIdList = Constant.factoryEQPStatusListMap.get(factory);
             if (CollectionUtils.isEmpty(eqpIdList)) {
                 actType.setSuccess(false);
-                actType.setErrorMsg("factory参数错误,请传入【" + factoryEQPStatusListMap.keySet() + "】");
+                actType.setErrorMsg("factory参数错误,请传入【" + Constant.factoryEQPStatusListMap.keySet() + "】");
                 return actType;
             }
             if (!eqpIdList.contains(eqpId)){
@@ -95,10 +86,10 @@ public class ActivationServiceImpl {
     public ActivationEQPIdListRetDTO activationIdList(@ApiParamDoc(desc = "厂别：如Array Cell") String factory){
        ActivationEQPIdListRetDTO actType = new ActivationEQPIdListRetDTO();
         try {
-            List<String> eqpIdList = factoryEQPStatusListMap.get(factory);
+            List<String> eqpIdList = Constant.factoryEQPStatusListMap.get(factory);
             if (CollectionUtils.isEmpty(eqpIdList)) {
                 actType.setSuccess(false);
-                actType.setErrorMsg("factory参数错误,请传入【" + factoryEQPStatusListMap.keySet() + "】");
+                actType.setErrorMsg("factory参数错误,请传入【" + Constant.factoryEQPStatusListMap.keySet() + "】");
                 return actType;
             }
             Date beginDate = DateUtils.getBeforHourStartDay(0);

@@ -15,7 +15,10 @@ public class Constant {
     public static final String month="month";
     public static final String quarter="quarter";
     public static final List<String> dateTypeList = Lists.newArrayList(day, month, quarter);
-    public static final Map<String,String> productIdNameMap = MapUtils.newMap("55", "55");
+    public static final Map<String,String> productIdNameMap = MapUtils.newMap(
+            "55", "55",
+            "40","40",
+            "50","50");
     public static final List<String> factoryList = Lists.newArrayList("SL", "OC");
     public static final Map<String,List<String>> factoryProductIdListMap = MapUtils.newMap(
             "Array",Lists.newArrayList("PHOTO","PVD","CVD","WET","DE"),
@@ -23,5 +26,11 @@ public class Constant {
             "CF",Lists.newArrayList("BM","ITO","PS","RGB","RML"),
             "SL-OC",Lists.newArrayList("MBD","POL","OLB","MLR","Aging")
     );
-    public static final  List<String> statusList = Lists.newArrayList("RUN", "TRB", "WAIT", "MAN", "MNT");
+    public static final List<String> statusList = Lists.newArrayList("RUN", "TRB", "WAIT", "MAN", "MNT");
+    public static final Map<String,List<String>> factoryEQPStatusListMap = MapUtils.newMap(
+            "Array", Lists.newArrayList("PHOTO","PVD","CVD","WET","DE"),
+            "Cell",Lists.newArrayList("PI","FDV","ODF","HSW","KOL"),
+            "CF",Lists.newArrayList("BM","ITO","PS","RGB","RML"),
+            "SL-OC",Lists.newArrayList("MBD","POL","OLB","MLB","Aging")
+    );
 }
