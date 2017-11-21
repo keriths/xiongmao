@@ -39,7 +39,7 @@ public class ActivationStatusDate implements Serializable {
         private String periodDate;
         @ApiResultFieldDesc(desc = "厂别,如Array,Cell,CF,SL-OC")
         private String factory;
-        @ApiResultFieldDesc(desc = "EQP类型,如PHOTO,PVD,CVD,WET,DEEQP状态,如RUN,TRB,WAIT,MAN,MNT")
+        @ApiResultFieldDesc(desc = "EQP类型,如PHOTO,PVD,CVD,WET,DE")
         private String eqpId;
         @ApiResultFieldDesc(desc = "EQP状态,如RUN,TRB,WAIT,MAN,MNT")
         private String status;
