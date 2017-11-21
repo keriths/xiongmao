@@ -29,7 +29,7 @@
               and PERIODDATE <= #{endDate}
              ]]>
             <if test="productId!=null and productId!=''">
-                AND PRODUCTTYPE=#{productId,jdbcType=VARCHAR}
+                AND PRODUCTID=#{productId,jdbcType=VARCHAR}
             </if>
         GROUP BY
             <if test="dateType=='month'.toString()">/*按月*/

@@ -75,7 +75,7 @@ public class TactTimeServiceImpl {
     }
 
     @ApiMethodDoc(apiCode = "TactTime_monthAvg",name = "设备TactTime月度平均值(完成)")
-    public TactTimeMonthAvgRetDTO monthAvg(@ApiParamDoc(desc = "厂别：如array必填") String factory){
+    public TactTimeMonthAvgRetDTO monthAvg(@ApiParamDoc(desc = "厂别：如Array必填") String factory){
         TactTimeMonthAvgRetDTO retDto = new TactTimeMonthAvgRetDTO();
         try {
             List<String> productIdList = Constant.factoryProductIdListMap.get(factory);
