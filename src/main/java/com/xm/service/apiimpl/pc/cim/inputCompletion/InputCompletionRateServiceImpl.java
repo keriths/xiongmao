@@ -28,7 +28,7 @@ public class InputCompletionRateServiceImpl{
     private DwsProductInputFidsDAO inputFidsDAO;
 
     @ApiMethodDoc(apiCode = "CIM_inputCompletionRate" , name = "投入达成率接口（完成）")
-    public InputCompletionRetDTO inputCompletionRate(@ApiParamDoc(desc = "产品类型：如55,为空时是全部") String product, @ApiParamDoc(desc = "统计时间类型天月季度")String dateType){
+    public InputCompletionRetDTO inputCompletionRate(@ApiParamDoc(desc = "产品类型：如55,为空时是全部") String product, @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
         InputCompletionRetDTO retDto = new InputCompletionRetDTO();
         try {
             if (!Constant.dateTypeList.contains(dateType)){
