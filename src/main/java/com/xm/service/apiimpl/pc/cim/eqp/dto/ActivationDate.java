@@ -115,8 +115,8 @@ public class ActivationDate implements Serializable{
         BigDecimal activation=new BigDecimal(0);
         if(!CollectionUtils.isEmpty(statusDateList)) {
             for (StatusDateList a : statusDateList) {
-                if(a.getStatus() == "RUN"){
-                    BigDecimal t = getTotal();
+                BigDecimal t = getTotal();
+                if(a.getStatus() == "RUN"||"RUN".equals(a.getStatus())){
                     if((t.compareTo(new BigDecimal(0))==0)){
                         activation = new BigDecimal(0);
                     }else{
