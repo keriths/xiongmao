@@ -17,8 +17,6 @@ public class ActivationDate implements Serializable{
 
     @ApiResultFieldDesc(desc = "EQP类型,如PHOTO,PVD,CVD,WET,DE")
     private String eqpId;
-    @ApiResultFieldDesc(desc = "EQP状态,如RUN,TRB,WAIT,MAN,MNT")
-    private String status;
 
     @ApiResultFieldDesc(desc = "目标值")
     private BigDecimal total;
@@ -115,8 +113,8 @@ public class ActivationDate implements Serializable{
         BigDecimal activation=new BigDecimal(0);
         if(!CollectionUtils.isEmpty(statusDateList)) {
             for (StatusDateList a : statusDateList) {
-                if(a.getStatus() == "RUN"){
-                    BigDecimal t = getTotal();
+                BigDecimal t = getTotal();
+                if(a.getStatus() == "RUN"||"RUN".equals(a.getStatus())){
                     if((t.compareTo(new BigDecimal(0))==0)){
                         activation = new BigDecimal(0);
                     }else{
@@ -153,11 +151,4 @@ public class ActivationDate implements Serializable{
         this.eqpId = eqpId;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
 }

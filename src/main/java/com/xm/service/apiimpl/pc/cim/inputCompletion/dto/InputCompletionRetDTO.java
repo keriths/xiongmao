@@ -43,6 +43,9 @@ public class InputCompletionRetDTO extends BaseRetDTO{
         private String dateTime;
 
         public BigDecimal getPlan() {
+            if (plan==null){
+                return new BigDecimal("0");
+            }
             return plan;
         }
 
@@ -51,6 +54,9 @@ public class InputCompletionRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getActual() {
+            if (actual==null){
+                return new BigDecimal("0");
+            }
             return actual;
         }
 

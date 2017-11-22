@@ -16,9 +16,6 @@ public class ActivationStatusDate implements Serializable {
     List<StatusNumberList> statusNumberLists;
 
 
-
-    @ApiResultFieldDesc(desc = "EQP状态,如RUN,TRB,WAIT,MAN,MNT")
-    private String status;
     @ApiResultFieldDesc(desc = "时间小时(横坐标)")
     private String periodDate;
 
@@ -42,14 +39,12 @@ public class ActivationStatusDate implements Serializable {
         private String periodDate;
         @ApiResultFieldDesc(desc = "厂别,如Array,Cell,CF,SL-OC")
         private String factory;
-        @ApiResultFieldDesc(desc = "EQP状态,如RUN,TRB,WAIT,MAN,MNT")
-        private String eqpId;
-        @ApiResultFieldDesc(desc = "EQP状态累计时间")
-        private String status;
         @ApiResultFieldDesc(desc = "EQP类型,如PHOTO,PVD,CVD,WET,DE")
+        private String eqpId;
+        @ApiResultFieldDesc(desc = "EQP状态,如RUN,TRB,WAIT,MAN,MNT")
+        private String status;
+        @ApiResultFieldDesc(desc = "EQP状态累计时间")
         private String statusNum;
-
-
 
 
         public String getFactory() {
@@ -98,14 +93,6 @@ public class ActivationStatusDate implements Serializable {
 
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public List<StatusNumberList> getStatusNumberLists() {
         return statusNumberLists;
     }
@@ -143,8 +130,8 @@ public class ActivationStatusDate implements Serializable {
         BigDecimal activation=new BigDecimal(0);
         if(!CollectionUtils.isEmpty(statusNumberLists)) {
             for (StatusNumberList a : statusNumberLists) {
-                if(a.getStatus() == "RUN"){
-                    BigDecimal t = getTotal();
+                BigDecimal t = getTotal();
+                if(a.getStatus() == "RUN"||"RUN".equals(a.getStatus())){
                     if((t.compareTo(new BigDecimal(0))==0)){
                         activation = new BigDecimal(0);
                     }else{

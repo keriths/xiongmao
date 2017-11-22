@@ -33,4 +33,8 @@ public class Constant {
             "CF",Lists.newArrayList("BM","ITO","PS","RGB","RML"),
             "SL-OC",Lists.newArrayList("MBD","POL","OLB","MLB","Aging")
     );
+
+    public static final List<String> cycleTimeFactoryList=Lists.newArrayList("Array","Cell","SL-OC");
+    public static final Map<String,String> cycleTimPproductIdNameMap = MapUtils.newMap(
+            "55", "55", "50","50");
 }
