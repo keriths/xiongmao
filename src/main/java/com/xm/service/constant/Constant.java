@@ -22,9 +22,10 @@ public class Constant {
      * 产品id
      */
     public static final Map<String,String> productIdNameMap = MapUtils.newMap(
-            "55", "55",
-            "40","40",
-            "50","50");
+            "55","55寸",
+            "40","40寸",
+            "50","50寸",
+            "60","60寸");
     /**
      * 厂别
      */
@@ -71,5 +72,5 @@ public class Constant {
      */
     public static final List<String> factoryLists = Lists.newArrayList("Array","Cell","CF","SL-OC");
 
-    public static final List<String> stepIdLists = Lists.newArrayList("a","b","c","d","e","f","g");
+    public static final List<String> stepIdLists = Lists.newArrayList("a", "b", "c", "d", "e","f","g");
 }

@@ -1,6 +1,5 @@
 package com.xm.service.apiimpl.pc.cim.goodinprocess;
 
-import com.google.common.collect.Lists;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
@@ -26,12 +25,12 @@ import java.util.Map;
  */
 
 @Service("GoodsInProcessService")
-@ApiServiceDoc(name = "CIM_在制品")
+@ApiServiceDoc(name = "CIM_在制品(完成)")
 public class GoodsInProcessServiceImpl {
     @Resource(name="dwrWipGlsFidsDAO")
     private DwrWipGlsFidsDAO dwrWipGlsFidsDAO;
 
-    @ApiMethodDoc(apiCode = "CIM_goodInProcessFt" , name = "每个厂别的在制品接口")
+    @ApiMethodDoc(apiCode = "CIM_goodInProcessFt" , name = "每个厂别的在制品接口(完成)")
     public GoodInProcessFtRetDTO goodInProcessFtRetDTO(@ApiParamDoc(desc = "厂别,如Array,Cell") String factory){
         GoodInProcessFtRetDTO retDTO = new GoodInProcessFtRetDTO();
         try{
@@ -76,7 +75,7 @@ public class GoodsInProcessServiceImpl {
     }
 
 
-    @ApiMethodDoc(apiCode = "CIM_InProcess",name = "在制品WIP推移数据接口")
+    @ApiMethodDoc(apiCode = "CIM_InProcess",name = "在制品WIP推移数据接口(完成)")
     public GoodInProcessWipRetDTO queryInProcessWip() {
         GoodInProcessWipRetDTO resultDto = new GoodInProcessWipRetDTO();
 

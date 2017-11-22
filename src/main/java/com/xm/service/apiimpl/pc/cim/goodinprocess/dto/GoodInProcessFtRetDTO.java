@@ -34,8 +34,6 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
 
         @ApiResultFieldDesc(desc = "厂别,如Array,Cell")
         private String factory;
-        @ApiResultFieldDesc(desc = "时间小时")
-        private String perioddate;
         @ApiResultFieldDesc(desc = "站点ID")
         private String stepId;
         @ApiResultFieldDesc(desc = "在制品数量")
@@ -51,14 +49,6 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
 
         public void setFactory(String factory) {
             this.factory = factory;
-        }
-
-        public String getPerioddate() {
-            return perioddate;
-        }
-
-        public void setPerioddate(String perioddate) {
-            this.perioddate = perioddate;
         }
 
         public String getStepId() {
