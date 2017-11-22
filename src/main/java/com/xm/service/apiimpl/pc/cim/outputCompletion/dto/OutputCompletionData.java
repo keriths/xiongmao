@@ -13,7 +13,9 @@ import static java.lang.Double.valueOf;
  */
 public class OutputCompletionData implements Serializable{
 
+    @ApiResultFieldDesc(desc = "数据列表")
     private List<DataList> dataList;
+    @ApiResultFieldDesc(desc = "横坐标时间")
     private String dateTime;
 
    /* public OutputCompletionData(){}

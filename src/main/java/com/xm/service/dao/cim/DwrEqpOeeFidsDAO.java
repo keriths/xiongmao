@@ -1,7 +1,7 @@
 package com.xm.service.dao.cim;
 
-        import com.xm.service.apiimpl.pc.cim.eqp.dto.ActivationDate;
-        import com.xm.service.apiimpl.pc.cim.eqp.dto.ActivationStatusDate;
+        import com.xm.service.apiimpl.pc.cim.oee.dto.ActivationDate;
+        import com.xm.service.apiimpl.pc.cim.oee.dto.ActivationStatusDate;
         import org.apache.ibatis.annotations.Param;
         import org.springframework.stereotype.Repository;
 
