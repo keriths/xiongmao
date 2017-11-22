@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.cim.DwrEqpOeeFidsDAO" >
 
-    <select id="queryActivationEQPId" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.eqp.dto.ActivationDate$StatusDateList">
+    <select id="queryActivationEQPId" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.oee.dto.ActivationDate$StatusDateList">
         SELECT
         EQP_ID as eqpId,
         EQP_STATUS as status,
@@ -22,7 +22,7 @@
         GROUP BY EQP_ID,EQP_STATUS
     </select>
 
-    <select id="queryActivationStatusNum" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.eqp.dto.ActivationStatusDate$StatusNumberList">
+    <select id="queryActivationStatusNum" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.oee.dto.ActivationStatusDate$StatusNumberList">
         SELECT
         FACTORY as factory,
         EQP_ID as eqpId,

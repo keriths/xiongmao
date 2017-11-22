@@ -1,4 +1,4 @@
-package com.xm.service.apiimpl.pc.cim.eqp.dto;
+package com.xm.service.apiimpl.pc.cim.oee.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.service.dto.BaseRetDTO;
@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class ActivationEQPStatusListRetDTO extends BaseRetDTO{
 
-    @ApiResultFieldDesc(desc = "EQP类型的状态值列表")
+    @ApiResultFieldDesc(desc = "EQP类型的状态列表")
 
     List<ActivationStatusDate> activationStatusDateList;
 
