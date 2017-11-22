@@ -95,12 +95,11 @@ public class GoodsInProcessServiceImpl {
 
             Map<String, GoodInProcessWipDataDTO.GoodInProcessWipDetailData> dataMap = MapUtils.listToMap(wipDetailDataList, "key");
             List<GoodInProcessWipDataDTO> dataDTOList = new ArrayList<GoodInProcessWipDataDTO>();
-            List<String> factoryList = Lists.newArrayList("Array", "CF", "Cell", "SL-OC");
             for (String setepId : Constant.stepIdLists) {
                 GoodInProcessWipDataDTO dataDto = new GoodInProcessWipDataDTO();
                 dataDto.setSetepId(setepId);
                 List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> detailDataList = new ArrayList<GoodInProcessWipDataDTO.GoodInProcessWipDetailData>();
-                for (String factory : factoryList) {
+                for (String factory : Constant.factoryLists) {
                     String key = setepId + " " + factory;
                     GoodInProcessWipDataDTO.GoodInProcessWipDetailData detailData = dataMap.get(key);
                     if (detailData == null) {
