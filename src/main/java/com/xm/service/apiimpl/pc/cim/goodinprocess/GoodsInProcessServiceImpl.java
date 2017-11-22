@@ -52,13 +52,12 @@ public class GoodsInProcessServiceImpl {
                 endDate = DateUtils.getBeforHourEndDay(1);
                 queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factory,beginDate,endDate);
             }
-            Map<String,GoodInProcessFtRetDTO.GoodInProcessFtDate> queryMap = MapUtils.listToMap(queryFtdate,"key");
+            Map<String,GoodInProcessFtRetDTO.GoodInProcessFtDate> queryMap = MapUtils.listToMap(queryFtdate,"getStepId");
             List<GoodInProcessFtRetDTO.GoodInProcessFtDate> list = new ArrayList<GoodInProcessFtRetDTO.GoodInProcessFtDate>();
             for(String step:Constant.stepIdLists){
                 GoodInProcessFtRetDTO.GoodInProcessFtDate dateList = null;
-                String key = step;
                 if (!CollectionUtils.isEmpty(queryMap)){
-                    dateList = queryMap.get(key);
+                    dateList = queryMap.get(step);
                 }
                 if (dateList == null) {
                     dateList = new GoodInProcessFtRetDTO.GoodInProcessFtDate(step);

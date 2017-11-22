@@ -25,9 +25,6 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
 
     public static class GoodInProcessFtDate implements Serializable {
 
-        public String key(){
-            return stepId;
-        }
         public GoodInProcessFtDate(){
 
         }
@@ -64,12 +61,12 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
             this.perioddate = perioddate;
         }
 
-        public String getSetepId() {
+        public String getStepId() {
             return stepId;
         }
 
-        public void setSetepId(String setepId) {
-            this.stepId = setepId;
+        public void setStepId(String stepId) {
+            this.stepId = stepId;
         }
 
         public BigDecimal getQuantity() {
