@@ -61,4 +61,9 @@ public class Constant {
      */
     public static final Map<String,String> cycleTimPproductIdNameMap = MapUtils.newMap(
             "55", "55", "50","50");
+    /**
+     * goodInProcess站点id名称
+     */
+    public static final Map<String,String> goodInProcessStepIdNameMap = MapUtils.newMap(
+            "a","a","b","b","c","c","d","d","e","e","f","f","g","g");
 }
