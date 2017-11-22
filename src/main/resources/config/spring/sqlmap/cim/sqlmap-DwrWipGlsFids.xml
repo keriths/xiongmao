@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.cim.DwrWipGlsFidsDAO" >
+
+    <select id="queryGoodInProcessFtDate" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodinprocess.dto.GoodInProcessFtRetDTO$GoodInProcessFtDate">
+        SELECT
+        STEPID as stepId,
+        sum(WIP_GLS_QTY) as quantity,
+        sum(STORE_MAX) as storeMax,
+        sum(STORE_MIN) as storeMin
+        FROM
+        DWR_WIP_GLS_FIDS
+        WHERE
+        FACTORY=#{factory}
+        <![CDATA[
+          and PERIODDATE >= #{beginDate}
+          and PERIODDATE <= #{endDate}
+          ]]>
+        GROUP BY STEPID
+    </select>
+
+
+    <select id="queryGoodInProcessWip" resultType="com.xm.service.apiimpl.pc.cim.goodinprocess.dto.GoodInProcessWipDataDTO$GoodInProcessWipDetailData" parameterType="Map">
+        select
+            sum(STORE_MAX) as storeMax,
+            sum(STORE_MIN) as storeMin,
+            sum(WIP_GLS_QTY) as quantity,
+            STEPID as setepId,
+            FACTORY as factory
+        from DWR_WIP_GLS_FIDS
+        WHERE
+            STEPID IN
+            <foreach collection="setepIdList" item="setepId" open="(" separator="," close=")" >
+                #{setepId}
+            </foreach>
+            <![CDATA[
+              and PERIODDATE >= #{beginDate}
+              and PERIODDATE <= #{endDate}
+             ]]>
+        GROUP BY
+          STEPID,FACTORY
+    </select>
+
+</mapper>

@@ -13,7 +13,7 @@ public class CycleTimeData implements Serializable {
 
     @ApiResultFieldDesc(desc = "返回数据详情")
     private List<CycleTimeDetailData> cycleTimeDetailDataList;
-
+    @ApiResultFieldDesc(desc = "横坐标时间")
     private String dateTime;
     @ApiResultFieldDesc(desc = "产品目标值汇总")
     private BigDecimal planSum;

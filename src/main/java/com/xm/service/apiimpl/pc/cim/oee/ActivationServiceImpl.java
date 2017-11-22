@@ -1,16 +1,15 @@
-package com.xm.service.apiimpl.pc.cim.eqp;
+package com.xm.service.apiimpl.pc.cim.oee;
 
-import com.google.common.collect.Lists;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
-import com.xm.service.apiimpl.pc.cim.eqp.dto.ActivationDate;
-import com.xm.service.apiimpl.pc.cim.eqp.dto.ActivationEQPIdListRetDTO;
-import com.xm.service.apiimpl.pc.cim.eqp.dto.ActivationEQPStatusListRetDTO;
-import com.xm.service.apiimpl.pc.cim.eqp.dto.ActivationStatusDate;
+import com.xm.service.apiimpl.pc.cim.oee.dto.ActivationDate;
+import com.xm.service.apiimpl.pc.cim.oee.dto.ActivationEQPIdListRetDTO;
+import com.xm.service.apiimpl.pc.cim.oee.dto.ActivationEQPStatusListRetDTO;
+import com.xm.service.apiimpl.pc.cim.oee.dto.ActivationStatusDate;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DwrEqpOeeFidsDAO;
 import org.springframework.stereotype.Service;

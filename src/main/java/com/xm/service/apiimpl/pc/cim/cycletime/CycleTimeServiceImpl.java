@@ -23,12 +23,12 @@ import java.util.Map;
  * Created by fanshuai on 17/10/24.
  */
 @Service("CycleTimeService")
-@ApiServiceDoc(name = "CIM_Cycle_Time")
+@ApiServiceDoc(name = "CIM_Cycle_Time(完成)")
 public class CycleTimeServiceImpl {
     @Resource
     private DwrProductCtFidsDAO dwrProductCtFidsDAO;
 
-    @ApiMethodDoc(apiCode = "CIM_CycleTime",name = "Cycle Time 显示数据接口")
+    @ApiMethodDoc(apiCode = "CIM_CycleTime",name = "Cycle Time 显示数据接口(完成)")
     public CycleTimeRetDTO cycleTime(@ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType,@ApiParamDoc(desc = "产品如55，50(必填)")String productId){
         CycleTimeRetDTO resultDto=new CycleTimeRetDTO();
 
