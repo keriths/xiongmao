@@ -1,4 +1,4 @@
-package com.xm.service.apiimpl.pc.cim;
+package com.xm.service.apiimpl.pc.cim.goodinprocess;
 
 import com.xm.platform.annotations.ApiServiceDoc;
 import org.springframework.stereotype.Service;
