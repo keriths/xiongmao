@@ -15,5 +15,11 @@ public class GoodInProcessWipRetDTO extends BaseRetDTO {
     @ApiResultFieldDesc(desc = "在制品WIP推移数据集合")
     private List<GoodInProcessWipDataDTO> wipDataDtoList;
 
+    public List<GoodInProcessWipDataDTO> getWipDataDtoList() {
+        return wipDataDtoList;
+    }
 
+    public void setWipDataDtoList(List<GoodInProcessWipDataDTO> wipDataDtoList) {
+        this.wipDataDtoList = wipDataDtoList;
+    }
 }

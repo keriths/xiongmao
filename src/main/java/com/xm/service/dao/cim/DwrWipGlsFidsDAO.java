@@ -24,6 +24,7 @@ public interface DwrWipGlsFidsDAO {
             @Param("endDate")Date endDate
     );
 
-    List<GoodInProcessWipDataDTO> queryGoodInProcessWip(@Param("beginDate")Date beginDate,
-                                                        @Param("endDate")Date endDate);
+    List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> queryGoodInProcessWip(@Param("setepIdList") List<String> setepIdList,
+                                                                                   @Param("beginDate") Date beginDate,
+                                                                                   @Param("endDate") Date endDate);
 }

@@ -16,9 +16,22 @@ public class GoodInProcessWipDataDTO{
 
     @ApiResultFieldDesc(desc = "站点ID")
     private String setepId;
+    @ApiResultFieldDesc(desc = "所有厂别在库量上限汇总")
+    private BigDecimal storeMaxSum;
+    @ApiResultFieldDesc(desc = "所有厂别在库量下限汇总")
+    private BigDecimal storeMinSum;
 
 
-    public static class GoodInProcessWipDetailData implements Serializable {
+    public static class GoodInProcessWipDetailData{
+
+        public GoodInProcessWipDetailData(){};
+        public GoodInProcessWipDetailData(String setepId,String factory){
+            this.setepId=setepId;
+            this.factory=factory;
+        }
+        public String key(){
+            return setepId+" "+factory;
+        }
 
         @ApiResultFieldDesc(desc = "厂别,如Array,Cell")
         private String factory;
@@ -95,5 +108,33 @@ public class GoodInProcessWipDataDTO{
 
     public void setSetepId(String setepId) {
         this.setepId = setepId;
+    }
+
+    public BigDecimal getStoreMaxSum() {
+        BigDecimal storeMaxSum=new BigDecimal(0);
+        List<GoodInProcessWipDetailData> wipDetailDataList=getWipDetailDataList();
+        for (GoodInProcessWipDetailData detailData:wipDetailDataList){
+            BigDecimal storeMax=detailData.getStoreMax();
+            storeMaxSum=storeMaxSum.add(storeMax);
+        }
+        return storeMaxSum;
+    }
+
+    public void setStoreMaxSum(BigDecimal storeMaxSum) {
+        this.storeMaxSum = storeMaxSum;
+    }
+
+    public BigDecimal getStoreMinSum() {
+        BigDecimal storeMinSum=new BigDecimal(0);
+        List<GoodInProcessWipDetailData> wipDetailDataList=getWipDetailDataList();
+        for (GoodInProcessWipDetailData detailData:wipDetailDataList){
+            BigDecimal storeMax=detailData.getStoreMin();
+            storeMinSum=storeMinSum.add(storeMax);
+        }
+        return storeMinSum;
+    }
+
+    public void setStoreMinSum(BigDecimal storeMinSum) {
+        this.storeMinSum = storeMinSum;
     }
 }

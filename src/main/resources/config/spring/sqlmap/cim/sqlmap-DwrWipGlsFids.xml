@@ -19,4 +19,26 @@
         GROUP BY STEPID
     </select>
 
+
+    <select id="queryGoodInProcessWip" resultType="com.xm.service.apiimpl.pc.cim.goodinprocess.dto.GoodInProcessWipDataDTO$GoodInProcessWipDetailData" parameterType="Map">
+        select
+            sum(STORE_MAX) as storeMax,
+            sum(STORE_MIN) as storeMin,
+            sum(WIP_GLS_QTY) as quantity,
+            STEPID as setepId,
+            FACTORY as factory
+        from DWR_WIP_GLS_FIDS
+        WHERE
+            STEPID IN
+            <foreach collection="setepIdList" item="setepId" open="(" separator="," close=")" >
+                #{setepId}
+            </foreach>
+            <![CDATA[
+              and PERIODDATE >= #{beginDate}
+              and PERIODDATE <= #{endDate}
+             ]]>
+        GROUP BY
+          STEPID,FACTORY
+    </select>
+
 </mapper>

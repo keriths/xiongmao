@@ -1,5 +1,6 @@
 package com.xm.service.apiimpl.pc.cim.goodinprocess;
 
+import com.google.common.collect.Lists;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
@@ -7,11 +8,10 @@ import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
 import com.xm.service.apiimpl.pc.cim.goodinprocess.dto.GoodInProcessFtRetDTO;
+import com.xm.service.apiimpl.pc.cim.goodinprocess.dto.GoodInProcessWipDataDTO;
 import com.xm.service.apiimpl.pc.cim.goodinprocess.dto.GoodInProcessWipRetDTO;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DwrWipGlsFidsDAO;
-import org.apache.ibatis.annotations.Param;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -74,8 +74,52 @@ public class GoodsInProcessServiceImpl {
             return retDTO;
         }
 
+    }
 
 
+    @ApiMethodDoc(apiCode = "CIM_InProcess",name = "在制品WIP推移数据接口")
+    public GoodInProcessWipRetDTO queryInProcessWip() {
+        GoodInProcessWipRetDTO resultDto = new GoodInProcessWipRetDTO();
+
+        try {
+           // List<String> setepIdList = Lists.newArrayList("a", "b", "c", "d", "e", "f", "g");
+            Date beginDate = DateUtils.getBeforHourStartDay(0);
+            Date endDate = new Date();
+            List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.stepIdLists, beginDate, endDate);
+            if (CollectionUtils.isEmpty(wipDetailDataList)) {
+                //如果这一小时数据还没有出来，取上一小时的数据
+                beginDate = DateUtils.getBeforHourStartDay(1);
+                endDate = DateUtils.getBeforHourEndDay(1);
+                wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.stepIdLists, beginDate, endDate);
+            }
+
+            Map<String, GoodInProcessWipDataDTO.GoodInProcessWipDetailData> dataMap = MapUtils.listToMap(wipDetailDataList, "key");
+            List<GoodInProcessWipDataDTO> dataDTOList = new ArrayList<GoodInProcessWipDataDTO>();
+            List<String> factoryList = Lists.newArrayList("Array", "CF", "Cell", "SL-OC");
+            for (String setepId : Constant.stepIdLists) {
+                GoodInProcessWipDataDTO dataDto = new GoodInProcessWipDataDTO();
+                dataDto.setSetepId(setepId);
+                List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> detailDataList = new ArrayList<GoodInProcessWipDataDTO.GoodInProcessWipDetailData>();
+                for (String factory : factoryList) {
+                    String key = setepId + " " + factory;
+                    GoodInProcessWipDataDTO.GoodInProcessWipDetailData detailData = dataMap.get(key);
+                    if (detailData == null) {
+                        detailData = new GoodInProcessWipDataDTO.GoodInProcessWipDetailData(setepId, factory);
+                    }
+                    detailDataList.add(detailData);
+                }
+                dataDto.setWipDetailDataList(detailDataList);
+                dataDTOList.add(dataDto);
+            }
+            resultDto.setWipDataDtoList(dataDTOList);
+            return resultDto;
+        } catch (Exception e) {
+            LogUtils.error(this.getClass(),"queryInProcessWip eclipse",e);
+            resultDto.setSuccess(false);
+            resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
+            return resultDto;
+
+        }
     }
 
 }
