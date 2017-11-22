@@ -25,6 +25,9 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
 
     public static class GoodInProcessFtDate implements Serializable {
 
+        public String key(){
+            return stepId;
+        }
         public GoodInProcessFtDate(){
 
         }

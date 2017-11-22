@@ -70,4 +70,6 @@ public class Constant {
      * 厂别
      */
     public static final List<String> factoryLists = Lists.newArrayList("Array","Cell","CF","SL-OC");
+
+    public static final List<String> stepIdLists = Lists.newArrayList("a","b","c","d","e","f","g");
 }

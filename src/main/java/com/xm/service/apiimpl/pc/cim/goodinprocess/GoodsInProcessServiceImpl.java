@@ -7,6 +7,7 @@ import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
 import com.xm.service.apiimpl.pc.cim.goodinprocess.dto.GoodInProcessFtRetDTO;
+import com.xm.service.apiimpl.pc.cim.goodinprocess.dto.GoodInProcessWipRetDTO;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DwrWipGlsFidsDAO;
 import org.apache.ibatis.annotations.Param;
@@ -34,15 +35,15 @@ public class GoodsInProcessServiceImpl {
     public GoodInProcessFtRetDTO goodInProcessFtRetDTO(@ApiParamDoc(desc = "厂别,如Array,Cell") String factory){
         GoodInProcessFtRetDTO retDTO = new GoodInProcessFtRetDTO();
         try{
-            List<String> factoryList = Constant.factoryList;
-            if(CollectionUtils.isEmpty(factoryList)){
+            List<String> factoryList = Constant.factoryLists;
+            if (!factoryList.contains(factory)){
                 retDTO.setSuccess(false);
-                retDTO.setErrorMsg("factory参数错误,请传入【" + Constant.factoryList + "】");
+                retDTO.setErrorMsg("eqpId参数错误,请传入【" + factoryList + "】");
+                return retDTO;
             }
 
             Date beginDate = DateUtils .getBeforHourStartDay(0);
             Date endDate = new Date();
-            List<String> stepIdList = new ArrayList<String>();
             //List<String> stepIdList = Constant.goodInProcessStepIdNameMap.containsKey();
             List<GoodInProcessFtRetDTO.GoodInProcessFtDate> queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factory,beginDate,endDate);
             if (CollectionUtils.isEmpty(queryFtdate)){
@@ -51,15 +52,16 @@ public class GoodsInProcessServiceImpl {
                 endDate = DateUtils.getBeforHourEndDay(1);
                 queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factory,beginDate,endDate);
             }
-            Map<String,GoodInProcessFtRetDTO.GoodInProcessFtDate> queryMap = MapUtils.listToMap(queryFtdate,"getStepId");
+            Map<String,GoodInProcessFtRetDTO.GoodInProcessFtDate> queryMap = MapUtils.listToMap(queryFtdate,"key");
             List<GoodInProcessFtRetDTO.GoodInProcessFtDate> list = new ArrayList<GoodInProcessFtRetDTO.GoodInProcessFtDate>();
-            for(String stepId:stepIdList){
+            for(String step:Constant.stepIdLists){
                 GoodInProcessFtRetDTO.GoodInProcessFtDate dateList = null;
+                String key = step;
                 if (!CollectionUtils.isEmpty(queryMap)){
-                    dateList = queryMap.get(stepId);
+                    dateList = queryMap.get(key);
                 }
                 if (dateList == null) {
-                    dateList = new GoodInProcessFtRetDTO.GoodInProcessFtDate(stepId);
+                    dateList = new GoodInProcessFtRetDTO.GoodInProcessFtDate(key);
                 }
                 list.add(dateList);
             }

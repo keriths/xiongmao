@@ -4,8 +4,6 @@
 
     <select id="queryGoodInProcessFtDate" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodinprocess.dto.GoodInProcessFtRetDTO$GoodInProcessFtDate">
         SELECT
-        FACTORY as factory,
-        to_char(PERIODDATE,'HH24')||':00' as periodDate,
         STEPID as stepId,
         sum(WIP_GLS_QTY) as quantity,
         sum(STORE_MAX) as storeMax,
@@ -18,6 +16,7 @@
           and PERIODDATE >= #{beginDate}
           and PERIODDATE <= #{endDate}
           ]]>
+        GROUP BY STEPID
     </select>
 
 </mapper>
