@@ -66,4 +66,8 @@ public class Constant {
      */
     public static final Map<String,String> goodInProcessStepIdNameMap = MapUtils.newMap(
             "a","a","b","b","c","c","d","d","e","e","f","f","g","g");
+    /**
+     * 厂别
+     */
+    public static final List<String> factoryLists = Lists.newArrayList("Array","Cell","CF","SL-OC");
 }

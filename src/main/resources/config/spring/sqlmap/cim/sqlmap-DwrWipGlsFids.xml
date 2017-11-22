@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.cim.DwrWipGlsFidsDAO" >
+
+    <select id="queryGoodInProcessFtDate" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodinprocess.dto.GoodInProcessFtRetDTO$GoodInProcessFtDate">
+        SELECT
+        FACTORY as factory,
+        to_char(PERIODDATE,'HH24')||':00' as periodDate,
+        STEPID as stepId,
+        sum(WIP_GLS_QTY) as quantity,
+        sum(STORE_MAX) as storeMax,
+        sum(STORE_MIN) as storeMin
+        FROM
+        DWR_WIP_GLS_FIDS
+        WHERE
+        FACTORY=#{factory}
+        <![CDATA[
+          and PERIODDATE >= #{beginDate}
+          and PERIODDATE <= #{endDate}
+          ]]>
+    </select>
+
+</mapper>

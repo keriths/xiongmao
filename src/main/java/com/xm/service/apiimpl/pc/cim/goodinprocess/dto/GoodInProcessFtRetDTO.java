@@ -25,12 +25,19 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
 
     public static class GoodInProcessFtDate implements Serializable {
 
+        public GoodInProcessFtDate(){
+
+        }
+        public GoodInProcessFtDate(String stepId){
+            this.stepId = stepId;
+        }
+
         @ApiResultFieldDesc(desc = "厂别,如Array,Cell")
         private String factory;
         @ApiResultFieldDesc(desc = "时间小时")
         private String perioddate;
         @ApiResultFieldDesc(desc = "站点ID")
-        private String setepId;
+        private String stepId;
         @ApiResultFieldDesc(desc = "在制品数量")
         private BigDecimal quantity;
         @ApiResultFieldDesc(desc = "在库量上限")
@@ -55,11 +62,11 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
         }
 
         public String getSetepId() {
-            return setepId;
+            return stepId;
         }
 
         public void setSetepId(String setepId) {
-            this.setepId = setepId;
+            this.stepId = setepId;
         }
 
         public BigDecimal getQuantity() {
