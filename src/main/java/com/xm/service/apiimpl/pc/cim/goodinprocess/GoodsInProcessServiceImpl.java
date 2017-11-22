@@ -61,7 +61,7 @@ public class GoodsInProcessServiceImpl {
                     dateList = queryMap.get(key);
                 }
                 if (dateList == null) {
-                    dateList = new GoodInProcessFtRetDTO.GoodInProcessFtDate(key);
+                    dateList = new GoodInProcessFtRetDTO.GoodInProcessFtDate(step);
                 }
                 list.add(dateList);
             }
