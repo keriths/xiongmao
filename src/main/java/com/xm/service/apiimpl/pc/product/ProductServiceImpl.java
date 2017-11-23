@@ -1,19 +1,11 @@
-package com.xm.service.apiimpl.pc.util;
+package com.xm.service.apiimpl.pc.product;
 
 import com.xm.platform.annotations.ApiMethodDoc;
-import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
-import com.xm.platform.util.DateUtils;
-import com.xm.platform.util.LogUtils;
-import com.xm.platform.util.MapUtils;
-import com.xm.service.apiimpl.pc.cim.cycletime.dto.CycleTimeData;
-import com.xm.service.apiimpl.pc.cim.cycletime.dto.CycleTimeRetDTO;
-import com.xm.service.apiimpl.pc.util.dto.ProductRetDTO;
+import com.xm.service.apiimpl.pc.product.dto.ProductRetDTO;
 import com.xm.service.constant.Constant;
-import com.xm.service.dao.cim.DwrProductCtFidsDAO;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.*;
 
 /**

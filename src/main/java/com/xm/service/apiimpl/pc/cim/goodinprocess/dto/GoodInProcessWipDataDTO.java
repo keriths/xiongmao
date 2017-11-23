@@ -25,18 +25,18 @@ public class GoodInProcessWipDataDTO{
     public static class GoodInProcessWipDetailData{
 
         public GoodInProcessWipDetailData(){};
-        public GoodInProcessWipDetailData(String setepId,String factory){
-            this.setepId=setepId;
+        public GoodInProcessWipDetailData(String stepId,String factory){
+            this.stepId=stepId;
             this.factory=factory;
         }
         public String key(){
-            return setepId+" "+factory;
+            return stepId+" "+factory;
         }
 
         @ApiResultFieldDesc(desc = "厂别,如Array,Cell")
         private String factory;
         @ApiResultFieldDesc(desc = "站点ID")
-        private String setepId;
+        private String stepId;
         @ApiResultFieldDesc(desc = "在制品数量")
         private BigDecimal quantity;
         @ApiResultFieldDesc(desc = "在库量上限")
@@ -53,11 +53,11 @@ public class GoodInProcessWipDataDTO{
         }
 
         public String getSetepId() {
-            return setepId;
+            return stepId;
         }
 
         public void setSetepId(String setepId) {
-            this.setepId = setepId;
+            this.stepId = setepId;
         }
 
         public BigDecimal getQuantity() {
