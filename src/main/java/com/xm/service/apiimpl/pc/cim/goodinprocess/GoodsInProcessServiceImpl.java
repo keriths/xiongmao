@@ -54,14 +54,14 @@ public class GoodsInProcessServiceImpl {
             Map<String,GoodInProcessFtRetDTO.GoodInProcessFtDate> queryMap = MapUtils.listToMap(queryFtdate,"getStepId");
             List<GoodInProcessFtRetDTO.GoodInProcessFtDate> list = new ArrayList<GoodInProcessFtRetDTO.GoodInProcessFtDate>();
             for(String step:Constant.stepIdLists){
-                GoodInProcessFtRetDTO.GoodInProcessFtDate date = null;
+                GoodInProcessFtRetDTO.GoodInProcessFtDate data = null;
                 if (!CollectionUtils.isEmpty(queryMap)){
-                    date = queryMap.get(step);
+                    data = queryMap.get(step);
                 }
-                if (date == null) {
-                    date = new GoodInProcessFtRetDTO.GoodInProcessFtDate(step);
+                if (data == null) {
+                    data = new GoodInProcessFtRetDTO.GoodInProcessFtDate(step);
                 }
-                list.add(date);
+                list.add(data);
             }
             retDTO.setGoodInProcessFtDateList(list);
             return retDTO;
