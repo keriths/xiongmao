@@ -12,7 +12,7 @@
                 to_char(PERIODDATE,'MM') ||'月'
             </if>
             <if test="dateType=='quarter'.toString()">
-                to_char(PERIODDATE,'q') ||'季度'
+                to_char(PERIODDATE,'yyyy') ||'年' || (PERIODDATE,'q') ||'季度'
             </if>
             as dateTime
         from
@@ -33,7 +33,7 @@
                 to_char(PERIODDATE,'MM') ||'月'
             </if>
             <if test="dateType=='quarter'.toString()">
-                to_char(PERIODDATE,'q') ||'季度'
+                to_char(PERIODDATE,'yyyy') ||'年' || (PERIODDATE,'q') ||'季度'
             </if>
     </select>
 </mapper>

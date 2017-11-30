@@ -10,7 +10,7 @@
                 TO_CHAR(PERIODDATE,'MM')||'月'
             </if>
             <if test="dateType=='quarter'.toString()">/*按季度*/
-                TO_CHAR(PERIODDATE,'q') ||'季度'
+                TO_CHAR(PERIODDATE,'yyyy') ||'年' || (PERIODDATE,'q') ||'季度'
             </if>
             <if test="dateType=='day'.toString()">/*按天*/
                 TO_CHAR(PERIODDATE,'mm/dd')
@@ -30,7 +30,7 @@
             TO_CHAR(PERIODDATE,'MM')||'月',
             </if>
             <if test="dateType=='quarter'.toString()">
-                TO_CHAR(PERIODDATE,'q') ||'季度',
+                TO_CHAR(PERIODDATE,'yyyy') ||'年' || (PERIODDATE,'q') ||'季度',
             </if>
             <if test="dateType=='day'.toString()">
                 TO_CHAR(PERIODDATE,'mm/dd'),

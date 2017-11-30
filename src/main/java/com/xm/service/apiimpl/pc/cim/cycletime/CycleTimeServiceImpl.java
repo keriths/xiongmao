@@ -54,7 +54,7 @@ public class CycleTimeServiceImpl {
                 beginDate = DateUtils.getBeforMonthStartDay(11);
                 dateList = DateUtils.getMonthStrList(beginDate,endDate);
             }else if (dateType.equals(Constant.quarter)){
-                beginDate = DateUtils.getBeforQuarterStartDay(3);
+                beginDate = DateUtils.getBeforQuarterStartDay(11);
                 dateList = DateUtils.getQuarterStrList(beginDate,endDate);
             }
 

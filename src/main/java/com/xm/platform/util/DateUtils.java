@@ -115,7 +115,10 @@ public class DateUtils {
     }
     public static String getQuarterStr(Date day){
         DateTime d = new DateTime(day);
-        return monthToQuarterMap.get(d.monthOfYear().get())+"季度";
+
+        Integer year= d.getYear();
+        String str=year+"年";
+        return str+monthToQuarterMap.get(d.monthOfYear().get())+"季度";
     }
     public static List<String> getQuarterStrList(Date begin,Date end){
         if (end.before(begin)){
@@ -170,7 +173,7 @@ public class DateUtils {
         System.out.println(getHourStrList(getBeforHourStartDay(4), new Date()));
         System.out.println(getDayStrList(getBeforDayStartDay(4), new Date()));
         System.out.println(getMonthStrList(getBeforMonthStartDay(4), new Date()));
-        System.out.println(getQuarterStrList(getBeforQuarterStartDay(4),new Date()));
+        System.out.println(getQuarterStrList(getBeforQuarterStartDay(12),new Date()));
     }
 
 }
