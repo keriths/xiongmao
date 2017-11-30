@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.fmcs.PureWaterEveryDayDataDAO" >
+
+    <select id="pureWaterEveryDayData" resultType="com.xm.service.apiimpl.pc.fmcs.water.dto.WaterEveryDayDate" parameterType="Map">
+        select
+        TotalNum as totalNum,
+        DataDate as dataDate
+        from PureWaterEveryDayData
+        WHERE
+        <![CDATA[
+               DataDate >= #{beginDate}
+              and DataDate <= #{endDate}
+        ]]>
+    </select>
+
+</mapper>

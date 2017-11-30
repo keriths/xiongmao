@@ -1,0 +1,26 @@
+package com.xm.service.dao.fmcs;
+
+import com.xm.service.apiimpl.pc.fmcs.water.dto.WaterEveryDayDate;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
+
+import java.util.Date;
+import java.util.List;
+
+/**
+ * Created by Administrator on 2017/11/30.
+ */
+@Repository("freezeWaterEveryDayDataDAO")
+public interface FreezeWaterEveryDayDataDAO {
+
+    /**
+     *
+     * @param dateType 日期类型
+     * @param beginDate 开始时间
+     * @param endDate 结束时间
+     * @return
+     */
+    List<WaterEveryDayDate> freezeWaterEveryDayData(@Param("dateType")String dateType,
+                                                 @Param("beginDate") Date beginDate,
+                                                 @Param("endDate") Date endDate);
+}
