@@ -15,6 +15,10 @@ public class NatgasStatisticsDataRetDTO extends BaseRetDTO {
     private List<GsaStatisticsData> gsaStatisticsDataList;
 
     public static class GsaStatisticsData implements Serializable{
+        public GsaStatisticsData(){}
+        public GsaStatisticsData(String periodDate){
+            this.periodDate=periodDate;
+        }
         @ApiResultFieldDesc(desc = "气体类型")
         private String gasType;
 

@@ -6,15 +6,14 @@ import java.math.BigDecimal;
 
 /**
  * Created by wangshuna on 2017/11/30.
+ * 市政自来水实时数据
  */
-public class WaterRealTimeDate {
+public class TapWaterRealTimeData {
 
     @ApiResultFieldDesc(desc = "流速")
     private BigDecimal speed;
     @ApiResultFieldDesc(desc = "横坐标时间")
     private String dataDate;
-    @ApiResultFieldDesc(desc = "类型（暂时用不到）")
-    private String waterType;
 
     public BigDecimal getSpeed() {
         return speed;
@@ -32,11 +31,4 @@ public class WaterRealTimeDate {
         this.dataDate = dataDate;
     }
 
-    public String getWaterType() {
-        return waterType;
-    }
-
-    public void setWaterType(String waterType) {
-        this.waterType = waterType;
-    }
 }

@@ -8,16 +8,16 @@ import java.util.List;
 /**
  * Created by wangshuna on 2017/11/30.
  */
-public class WaterRealTimeRetDTO extends BaseRetDTO{
+public class TapWaterRealTimeRetDTO extends BaseRetDTO{
 
     @ApiResultFieldDesc(desc = "返回数据列表")
-    private List<WaterRealTimeDate> waterRealTimeDateList;
+    private List<TapWaterRealTimeData> waterRealTimeDateList;
 
-    public List<WaterRealTimeDate> getWaterRealTimeDateList() {
+    public List<TapWaterRealTimeData> getWaterRealTimeDateList() {
         return waterRealTimeDateList;
     }
 
-    public void setWaterRealTimeDateList(List<WaterRealTimeDate> waterRealTimeDateList) {
+    public void setWaterRealTimeDateList(List<TapWaterRealTimeData> waterRealTimeDateList) {
         this.waterRealTimeDateList = waterRealTimeDateList;
     }
 }

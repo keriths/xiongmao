@@ -2,16 +2,29 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.fmcs.TapWaterEveryDayDataDAO" >
 
-    <select id="tapWaterEveryDayData" resultType="com.xm.service.apiimpl.pc.fmcs.water.dto.WaterEveryDayDate" parameterType="Map">
+    <select id="tapWaterEveryDayData" resultType="com.xm.service.apiimpl.pc.fmcs.water.dto.TapWaterEveryDayData" parameterType="Map">
         select
-        TotalNum as totalNum,
-        DataDate as dataDate
+        sum(TotalNum) as totalNum,
+        <if test="dateType=='month'.toString()">/*按月*/
+            TO_CHAR(DataDate,'MM')||'月'
+        </if>
+        <if test="dateType=='day'.toString()">/*按天*/
+            TO_CHAR(DataDate,'mm/dd')
+        </if>
+        as dataDate
         from TapWaterEveryDayData
         WHERE
         <![CDATA[
                DataDate >= #{beginDate}
               and DataDate <= #{endDate}
         ]]>
+        GROUP BY
+        <if test="dateType=='month'.toString()">/*按月*/
+            TO_CHAR(DataDate,'MM')||'月'
+        </if>
+        <if test="dateType=='day'.toString()">
+            TO_CHAR(DataDate,'mm/dd')
+        </if>
     </select>
 
 </mapper>

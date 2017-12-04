@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.fmcs.TapWaterRealTimeDataDAO" >
 
-    <select id="tapWaterRealTimeData" resultType="com.xm.service.apiimpl.pc.fmcs.water.dto.WaterRealTimeDate" parameterType="Map">
+    <select id="tapWaterRealTimeData" resultType="com.xm.service.apiimpl.pc.fmcs.water.dto.TapWaterRealTimeData" parameterType="Map">
         select
         Speed as speed,
         DataDate as dataDate

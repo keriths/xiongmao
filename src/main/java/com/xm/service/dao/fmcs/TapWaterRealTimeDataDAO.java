@@ -1,10 +1,9 @@
 package com.xm.service.dao.fmcs;
 
-import com.xm.service.apiimpl.pc.fmcs.water.dto.WaterRealTimeDate;
+import com.xm.service.apiimpl.pc.fmcs.water.dto.TapWaterRealTimeData;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import javax.annotation.Resources;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +19,6 @@ public interface TapWaterRealTimeDataDAO {
      * @param endDate 结束时间
      * @return
      */
-    List<WaterRealTimeDate> tapWaterRealTimeData(@Param("beginDate") Date beginDate,
-                                                 @Param("endDate") Date endDate);
+    List<TapWaterRealTimeData> tapWaterRealTimeData(@Param("beginDate") Date beginDate,
+                                                    @Param("endDate") Date endDate);
 }
