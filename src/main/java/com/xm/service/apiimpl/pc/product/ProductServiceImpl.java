@@ -15,19 +15,19 @@ import java.util.*;
 @ApiServiceDoc(name = "产品列表")
 public class ProductServiceImpl {
     @ApiMethodDoc(apiCode = "ProductList",name ="产品列表" )
-    public ProductRetDTO queryProduct(){
-        ProductRetDTO dto=new ProductRetDTO();
-        List<ProductRetDTO.productRetDataDTO> dataDTOList=new ArrayList<ProductRetDTO.productRetDataDTO>();
-        Map<String,String> dataMap=Constant.productIdNameMap;
-        Iterator<Map.Entry<String, String>> it = dataMap.entrySet().iterator();
-        while (it.hasNext()) {
-            ProductRetDTO.productRetDataDTO dataDTO=new ProductRetDTO.productRetDataDTO();
-            Map.Entry<String, String> entry = it.next();
-            dataDTO.setProductId(entry.getKey());
-            dataDTO.setProductName(entry.getValue());
-            dataDTOList.add(dataDTO);
-        }
-        dto.setDataDTOList(dataDTOList);
-        return  dto;
+        public ProductRetDTO queryProduct(){
+            ProductRetDTO dto=new ProductRetDTO();
+            List<ProductRetDTO.productRetDataDTO> dataDTOList=new ArrayList<ProductRetDTO.productRetDataDTO>();
+            Map<String,String> dataMap=Constant.productIdNameMap;
+            Iterator<Map.Entry<String, String>> it = dataMap.entrySet().iterator();
+            while (it.hasNext()) {
+                ProductRetDTO.productRetDataDTO dataDTO=new ProductRetDTO.productRetDataDTO();
+                Map.Entry<String, String> entry = it.next();
+                dataDTO.setProductId(entry.getKey());
+                dataDTO.setProductName(entry.getValue());
+                dataDTOList.add(dataDTO);
+            }
+            dto.setDataDTOList(dataDTOList);
+            return  dto;
     }
 }

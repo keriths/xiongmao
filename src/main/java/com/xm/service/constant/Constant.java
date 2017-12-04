@@ -71,6 +71,16 @@ public class Constant {
      * 厂别
      */
     public static final List<String> factoryLists = Lists.newArrayList("Array","Cell","CF","SL-OC");
-
+    /**
+     * 在制品站点
+     */
     public static final List<String> stepIdLists = Lists.newArrayList("a", "b", "c", "d", "e","f","g");
+    /**
+     *
+     */
+    public static final List<String> gasNamelist = Lists.newArrayList("GN2","PN2","GO2","PO2","PAr","PHe","PH2");
+    /**
+     * 气的统计时间类型天day月month
+     */
+    public static final List<String> gasDateTypeList = Lists.newArrayList(day, month);
 }
