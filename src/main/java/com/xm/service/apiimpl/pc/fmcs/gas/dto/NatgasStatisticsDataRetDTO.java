@@ -12,7 +12,7 @@ import java.util.List;
  */
 public class NatgasStatisticsDataRetDTO extends BaseRetDTO {
     @ApiResultFieldDesc(desc = "气体统计数据列表")
-    private List<GsaStatisticsData> gsaStatisticsDataList;
+    private List<GsaStatisticsData> dataList;
 
     public static class GsaStatisticsData implements Serializable{
         public GsaStatisticsData(){}
@@ -38,6 +38,9 @@ public class NatgasStatisticsDataRetDTO extends BaseRetDTO {
         }
 
         public BigDecimal getTotalNum() {
+            if(totalNum==null){
+                totalNum=new BigDecimal(0);
+            }
             return totalNum;
         }
 
@@ -54,11 +57,11 @@ public class NatgasStatisticsDataRetDTO extends BaseRetDTO {
         }
     }
 
-    public List<GsaStatisticsData> getGsaStatisticsDataList() {
-        return gsaStatisticsDataList;
+    public List<GsaStatisticsData> getDataList() {
+        return dataList;
     }
 
-    public void setGsaStatisticsDataList(List<GsaStatisticsData> gsaStatisticsDataList) {
-        gsaStatisticsDataList = gsaStatisticsDataList;
+    public void setDataList(List<GsaStatisticsData> dataList) {
+        this.dataList = dataList;
     }
 }

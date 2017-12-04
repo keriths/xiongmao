@@ -1,11 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="" >
+<mapper namespace="com.xm.service.dao.fmcs.NatgasEveryDayDataDAO" >
 
     <select id="queryGsaStatisticsData" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.gas.dto.NatgasStatisticsDataRetDTO$GsaStatisticsData">
-
+        select
+            sum(TotalNum) as totalNum,
+            <if test="dateType=='month'.toString()">/*按月*/
+                TO_CHAR(DataDate,'MM')||'月'
+            </if>
+            <if test="dateType=='day'.toString()">/*按天*/
+                TO_CHAR(DataDate,'mm/dd')
+            </if>
+            as periodDate
+        from NatgasEveryDayData
+        WHERE
+            <![CDATA[
+                   DataDate >= #{beginDate}
+                  and DataDate <= #{endDate}
+            ]]>
+            AND GasType=#{gasType,jdbcType=VARCHAR}
+            <if test="place!=null and place!=''">
+                AND Place=#{place,jdbcType=VARCHAR}
+            </if>
+        GROUP BY
+            <if test="dateType=='month'.toString()">/*按月*/
+                TO_CHAR(DataDate,'MM')||'月'
+            </if>
+            <if test="dateType=='day'.toString()">
+                TO_CHAR(DataDate,'mm/dd')
+            </if>
     </select>
-    
-
 
 </mapper>

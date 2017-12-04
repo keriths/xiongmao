@@ -10,6 +10,7 @@ import com.xm.service.apiimpl.pc.fmcs.water.dto.*;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.fmcs.*;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -92,6 +93,11 @@ public class WaterServiceImpl {
     public TapWaterEveryDayRetDTO tapWaterEveryDay(@ApiParamDoc(desc = "统计时间类型天day月month(必填)")String dateType){
         TapWaterEveryDayRetDTO tapEveryDayRet = new TapWaterEveryDayRetDTO();
         try{
+            if (!Constant.gasDateTypeList.contains(dateType)){
+                tapEveryDayRet.setSuccess(false);
+                tapEveryDayRet.setErrorMsg("dateType参数错误,请传入【" + Constant.gasDateTypeList + "】");
+                return tapEveryDayRet;
+            }
             List<String> dateList = null;
             Date beginDate = null;
             Date endDate = new Date();
@@ -130,6 +136,16 @@ public class WaterServiceImpl {
                                                      @ApiParamDoc(desc = "类型如4AARW,4AUPW,不填为统计所有类型汇总")String waterType){
         PureWaterEveryDayRetDTO pureEveryDayRet = new PureWaterEveryDayRetDTO();
         try{
+            if (!Constant.gasDateTypeList.contains(dateType)){
+                pureEveryDayRet.setSuccess(false);
+                pureEveryDayRet.setErrorMsg("dateType参数错误,请传入【" + Constant.gasDateTypeList + "】");
+                return pureEveryDayRet;
+            }
+            if (!StringUtils.isEmpty(waterType) && !Constant.PureTypeList.contains(waterType)){
+                pureEveryDayRet.setSuccess(false);
+                pureEveryDayRet.setErrorMsg("waterType参数错误,请传入【" + Constant.PureTypeList + "】");
+                return pureEveryDayRet;
+            }
             List<String> dateList = null;
             Date beginDate = null;
             Date endDate = new Date();
@@ -168,6 +184,16 @@ public class WaterServiceImpl {
                                                          @ApiParamDoc(desc = "类型如4A低温冷冻水，4A中温冷冻水,不填为统计所有类型汇总")String waterType){
         FreezeWaterEveryDayRetDTO freezeEveryDayRet = new FreezeWaterEveryDayRetDTO();
         try{
+            if (!Constant.gasDateTypeList.contains(dateType)){
+                freezeEveryDayRet.setSuccess(false);
+                freezeEveryDayRet.setErrorMsg("dateType参数错误,请传入【" + Constant.gasDateTypeList + "】");
+                return freezeEveryDayRet;
+            }
+            if (!StringUtils.isEmpty(waterType) && !Constant.FreezeTypeList.contains(waterType)){
+                freezeEveryDayRet.setSuccess(false);
+                freezeEveryDayRet.setErrorMsg("waterType参数错误,请传入【" + Constant.FreezeTypeList + "】");
+                return freezeEveryDayRet;
+            }
             List<String> dateList = null;
             Date beginDate = null;
             Date endDate = new Date();

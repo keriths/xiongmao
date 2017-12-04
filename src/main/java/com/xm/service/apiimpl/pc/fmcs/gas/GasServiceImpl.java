@@ -14,6 +14,7 @@ import com.xm.service.dao.fmcs.NatgasEveryDayDataDAO;
 import com.xm.service.dao.fmcs.NatgasRealTimeDataDAO;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -25,33 +26,76 @@ import java.util.*;
 @ApiServiceDoc(name = "FMCS_气、汽")
 public class GasServiceImpl {
 
+    @Resource(name="natgasRealTimeDataDAO")
     private NatgasRealTimeDataDAO natgasRealTimeDataDAO;
+    @Resource(name="natgasEveryDayDataDAO")
     private NatgasEveryDayDataDAO natgasEveryDayDataDAO;
     @Resource(name="bigGasRealTimeDataDAO")
     private GasRealTimeDataDAO gasRealTimeDataDAO;
     @Resource(name="bigGasEveryDayDataDAO")
     private GasEveryDayDataDAO gasEveryDayDataDAO;
 
-    @ApiMethodDoc(apiCode = "FMCS_gasRealTime",name = "气、汽实时数据接口")
-    public NatgasTimeDataRetDTO gasRealTime(){
+    @ApiMethodDoc(apiCode = "FMCS_gasRealTime",name = "蒸汽天然气实时数据接口")
+    public NatgasTimeDataRetDTO natgasRealTime(@ApiParamDoc(desc = "统计时间类型天day月month(必填)")String dateType,
+                                               @ApiParamDoc(desc = "气体类型如蒸汽，天然汽") String gasType,
+                                               @ApiParamDoc(desc = "地点如4A/4B-工厂、4M食堂") String place){
         NatgasTimeDataRetDTO resultDto=new NatgasTimeDataRetDTO();
         try {
             return resultDto;
         }catch (Exception e){
-            LogUtils.error(this.getClass(),"gasRealTime eclipse",e);
+            LogUtils.error(this.getClass(),"natgasRealTime eclipse",e);
             resultDto.setSuccess(false);
             resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return resultDto;
         }
     }
 
-    @ApiMethodDoc(apiCode = "FMCS_gsaStatistics",name = "气、汽统计数据接口（按天、按月）")
-    public NatgasStatisticsDataRetDTO gsaStatistics() {
+    @ApiMethodDoc(apiCode = "FMCS_gsaStatistics",name = "蒸汽天然气统计数据接口（按天、按月）")
+    public NatgasStatisticsDataRetDTO natgasStatistics(@ApiParamDoc(desc = "统计时间类型天day月month(必填)")String dateType,
+                                                       @ApiParamDoc(desc = "气体类型如蒸汽，天然汽(必填)") String gasType,
+                                                       @ApiParamDoc(desc = "地点如4A/4B-工厂、4M食堂") String place) {
         NatgasStatisticsDataRetDTO resultDto = new NatgasStatisticsDataRetDTO();
         try {
+            if (!Constant.gasDateTypeList.contains(dateType)){
+                resultDto.setSuccess(false);
+                resultDto.setErrorMsg("dateType参数错误,请传入【" + Constant.gasDateTypeList + "】");
+                return resultDto;
+            }
+            if (!Constant.GasTypeList.contains(gasType)){
+                resultDto.setSuccess(false);
+                resultDto.setErrorMsg("gasType参数错误,请传入【" + Constant.GasTypeList + "】");
+                return resultDto;
+            }
+            if (!StringUtils.isEmpty(place) && !Constant.PlaceTypeList.contains(place)){
+                resultDto.setSuccess(false);
+                resultDto.setErrorMsg("place参数错误,请传入【" + Constant.PlaceTypeList + "】");
+                return resultDto;
+            }
+
+            List<String> dateList = null;
+            Date beginDate = null;
+            Date endDate = new Date();
+            if (dateType.equals(Constant.day)){
+                beginDate = DateUtils.getBeforDayStartDay(6);
+                dateList = DateUtils.getDayStrList(beginDate,endDate);
+            }else if (dateType.equals(Constant.month)){
+                beginDate = DateUtils.getBeforMonthStartDay(11);
+                dateList = DateUtils.getMonthStrList(beginDate,endDate);
+            }
+            List<NatgasStatisticsDataRetDTO.GsaStatisticsData>  dataList=natgasEveryDayDataDAO.queryGsaStatisticsData(dateType,gasType,place,beginDate,endDate);
+            Map<String,NatgasStatisticsDataRetDTO.GsaStatisticsData> dataMap= MapUtils.listToMap(dataList,"getPeriodDate");
+            List<NatgasStatisticsDataRetDTO.GsaStatisticsData> gsaStatisticsDataList =new ArrayList<NatgasStatisticsDataRetDTO.GsaStatisticsData>();
+            for (String str:dateList){
+                NatgasStatisticsDataRetDTO.GsaStatisticsData gsaStatisticsData =dataMap.get(str);
+                if(gsaStatisticsData ==null){
+                    gsaStatisticsData =new NatgasStatisticsDataRetDTO.GsaStatisticsData(str);
+                }
+                gsaStatisticsDataList.add(gsaStatisticsData);
+            }
+            resultDto.setDataList(gsaStatisticsDataList);
             return resultDto;
         } catch (Exception e) {
-            LogUtils.error(this.getClass(), "gsaStatistics eclipse", e);
+            LogUtils.error(this.getClass(), "natgasStatistics eclipse", e);
             resultDto.setSuccess(false);
             resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return resultDto;
@@ -106,7 +150,7 @@ public class GasServiceImpl {
             }
             if(!Constant.gasNamelist.contains(gasName)){
                 resultDto.setSuccess(false);
-                resultDto.setErrorMsg("dateType参数错误,请传入【" + Constant.gasNamelist + "】");
+                resultDto.setErrorMsg("gasName参数错误,请传入【" + Constant.gasNamelist + "】");
                 return resultDto;
             }
             List<String> dateList = null;

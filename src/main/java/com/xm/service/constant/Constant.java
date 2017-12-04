@@ -91,7 +91,7 @@ public class Constant {
             "CF",Lists.newArrayList("ITO区","BM区","RGM区"),
             "CELL",Lists.newArrayList("PI区","ODF区","配向区"));
     /**
-     *
+     *温湿度区域设备
      */
     public static final Map<String,List<String>> placeEquipmentListMp = MapUtils.newMap(
             "曝光机区",Lists.newArrayList("曝光机-201","曝光机-301"),
@@ -106,4 +106,25 @@ public class Constant {
             "PI区",Lists.newArrayList("PI-201","PI-301"),
             "ODF区",Lists.newArrayList("ODF-201","ODF-301"),
             "配向区",Lists.newArrayList("配向-201","配向-301"));
+
+
+    /**
+     * 气体地点
+     */
+    public static final List<String> PlaceTypeList = Lists.newArrayList("4A/4B-工厂", "4M食堂");
+    /**
+     * 气体类型
+     */
+    public static final List<String> GasTypeList = Lists.newArrayList("蒸汽", "天然汽");
+    /**
+     * 纯水类型
+     */
+    public static final List<String> PureTypeList = Lists.newArrayList("4AARW", "4AUPW", "4AUFW", "4ADIW", "4BUPW", "4BUFW", "4BDIW");
+    /**
+     * 冷冻水类型
+     */
+    public static final List<String> FreezeTypeList = Lists.newArrayList("4A低温冷冻水", "4B低温冷冻水", "4H低温冷冻水", "4C低温冷冻水",
+                                                                                        "4B中温冷冻水", "4H中温冷冻水","4E中温冷冻水","4D中温冷冻水","4G中温冷冻水","4M中温冷冻水",
+                                                                                        "4A温水","4B温水","4H温水","4E温水","4G温水",
+                                                                                        "4B热水","4C热水","4A热水","4A热水");
 }
