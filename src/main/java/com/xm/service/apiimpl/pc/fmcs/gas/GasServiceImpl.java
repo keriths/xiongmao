@@ -76,7 +76,7 @@ public class GasServiceImpl {
             Date beginDate = null;
             Date endDate = new Date();
             if (dateType.equals(Constant.day)){
-                beginDate = DateUtils.getBeforDayStartDay(6);
+                beginDate = DateUtils.getBeforDayStartDay(12);
                 dateList = DateUtils.getDayStrList(beginDate,endDate);
             }else if (dateType.equals(Constant.month)){
                 beginDate = DateUtils.getBeforMonthStartDay(11);
@@ -157,7 +157,7 @@ public class GasServiceImpl {
             Date beginDate = null;
             Date endDate = new Date();
             if (dateType.equals(Constant.day)){
-                beginDate = DateUtils.getBeforDayStartDay(6);
+                beginDate = DateUtils.getBeforDayStartDay(12);
                 dateList = DateUtils.getDayStrList(beginDate,endDate);
             }else if (dateType.equals(Constant.month)){
                 beginDate = DateUtils.getBeforMonthStartDay(11);
