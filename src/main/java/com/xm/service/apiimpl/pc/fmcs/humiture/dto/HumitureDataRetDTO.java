@@ -15,14 +15,19 @@ public class HumitureDataRetDTO extends BaseRetDTO{
     private List<HumitureData> humitureDataList;
 
     public static class HumitureData implements Serializable {
+        public HumitureData(){}
+        public HumitureData(String periodDate){
+            this.periodDate = periodDate;
+        }
+
         @ApiResultFieldDesc(desc = "工厂如array,cf,cell")
         private String factory;
 
         @ApiResultFieldDesc(desc = "区域如：pvd区、cvd区")
-        private BigDecimal place;
+        private String place;
 
         @ApiResultFieldDesc(desc = "设备如：pvd-201、pvd-301")
-        private BigDecimal equipment;
+        private String equipment;
 
         @ApiResultFieldDesc(desc = "温度")
         private BigDecimal temperature;
@@ -45,23 +50,26 @@ public class HumitureDataRetDTO extends BaseRetDTO{
             this.factory = factory;
         }
 
-        public BigDecimal getPlace() {
+        public String getPlace() {
             return place;
         }
 
-        public void setPlace(BigDecimal place) {
+        public void setPlace(String place) {
             this.place = place;
         }
 
-        public BigDecimal getEquipment() {
+        public String getEquipment() {
             return equipment;
         }
 
-        public void setEquipment(BigDecimal equipment) {
+        public void setEquipment(String equipment) {
             this.equipment = equipment;
         }
 
         public BigDecimal getTemperature() {
+            if (temperature==null){
+                return new BigDecimal("0");
+            }
             return temperature;
         }
 
@@ -70,6 +78,9 @@ public class HumitureDataRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getHumidity() {
+            if (humidity==null){
+                return new BigDecimal("0");
+            }
             return humidity;
         }
 
@@ -78,6 +89,9 @@ public class HumitureDataRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getCleanliness() {
+            if (cleanliness==null){
+                return new BigDecimal("0");
+            }
             return cleanliness;
         }
 
