@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by luokaiming on 2017/11/30 0030.
  */
-public class GasRealTimeDataRetDTO extends BaseRetDTO {
+public class NatgasTimeDataRetDTO extends BaseRetDTO {
     @ApiResultFieldDesc(desc = "气体实时数据列表")
     private List<GasRealTimeData> gasRealTimeDataList;
 

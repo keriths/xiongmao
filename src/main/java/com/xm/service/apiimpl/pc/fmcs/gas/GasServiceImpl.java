@@ -3,8 +3,8 @@ package com.xm.service.apiimpl.pc.fmcs.gas;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.LogUtils;
-import com.xm.service.apiimpl.pc.fmcs.gas.dto.GasRealTimeDataRetDTO;
-import com.xm.service.apiimpl.pc.fmcs.gas.dto.GsaStatisticsDataRetDTO;
+import com.xm.service.apiimpl.pc.fmcs.gas.dto.NatgasTimeDataRetDTO;
+import com.xm.service.apiimpl.pc.fmcs.gas.dto.NatgasStatisticsDataRetDTO;
 import org.springframework.stereotype.Service;
 
 /**
@@ -15,8 +15,8 @@ import org.springframework.stereotype.Service;
 public class GasServiceImpl {
 
     @ApiMethodDoc(apiCode = "FMCS_gasRealTime",name = "FMCS气、汽实时数据接口")
-    public GasRealTimeDataRetDTO gasRealTime(){
-        GasRealTimeDataRetDTO resultDto=new GasRealTimeDataRetDTO();
+    public NatgasTimeDataRetDTO gasRealTime(){
+        NatgasTimeDataRetDTO resultDto=new NatgasTimeDataRetDTO();
         try {
             return resultDto;
         }catch (Exception e){
@@ -28,8 +28,8 @@ public class GasServiceImpl {
     }
 
     @ApiMethodDoc(apiCode = "FMCS_gsaStatistics",name = "FMCS气、汽统计数据接口（按天、按月）")
-    public GsaStatisticsDataRetDTO gsaStatistics() {
-        GsaStatisticsDataRetDTO resultDto = new GsaStatisticsDataRetDTO();
+    public NatgasStatisticsDataRetDTO gsaStatistics() {
+        NatgasStatisticsDataRetDTO resultDto = new NatgasStatisticsDataRetDTO();
         try {
             return resultDto;
         } catch (Exception e) {

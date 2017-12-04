@@ -10,7 +10,7 @@ import java.util.List;
 /**
  * Created by luokaiming on 2017/11/30 0030.
  */
-public class GsaStatisticsDataRetDTO extends BaseRetDTO {
+public class NatgasStatisticsDataRetDTO extends BaseRetDTO {
     @ApiResultFieldDesc(desc = "气体统计数据列表")
     private List<GsaStatisticsData> gsaStatisticsDataList;
 
