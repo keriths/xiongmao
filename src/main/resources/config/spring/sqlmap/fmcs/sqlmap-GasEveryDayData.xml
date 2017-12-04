@@ -20,7 +20,9 @@
             DATADATE >= #{beginDate}
             and DATADATE <= #{endDate}
             ]]>
-
+        <if test="gasName!=null and gasName!=''">
+            AND GASNAME=#{gasName,jdbcType=VARCHAR}
+        </if>
         group by
         <if test="dateType=='day'.toString()">
             to_char(DATADATE,'mm/dd'),

@@ -21,8 +21,8 @@ public class HumitureDataRetDTO extends BaseRetDTO{
         @ApiResultFieldDesc(desc = "区域如：pvd区、cvd区")
         private BigDecimal place;
 
-        @ApiResultFieldDesc(desc = "子区域如：pvd-201、pvd-301")
-        private BigDecimal sonPlace;
+        @ApiResultFieldDesc(desc = "设备如：pvd-201、pvd-301")
+        private BigDecimal equipment;
 
         @ApiResultFieldDesc(desc = "温度")
         private BigDecimal temperature;
@@ -53,12 +53,12 @@ public class HumitureDataRetDTO extends BaseRetDTO{
             this.place = place;
         }
 
-        public BigDecimal getSonPlace() {
-            return sonPlace;
+        public BigDecimal getEquipment() {
+            return equipment;
         }
 
-        public void setSonPlace(BigDecimal sonPlace) {
-            this.sonPlace = sonPlace;
+        public void setEquipment(BigDecimal equipment) {
+            this.equipment = equipment;
         }
 
         public BigDecimal getTemperature() {

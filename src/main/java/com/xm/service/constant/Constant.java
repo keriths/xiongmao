@@ -83,4 +83,27 @@ public class Constant {
      * 气的统计时间类型天day月month
      */
     public static final List<String> gasDateTypeList = Lists.newArrayList(day, month);
+    /**
+     *温湿度厂别和区域
+     */
+    public static final Map<String,List<String>> factoryPlaceListMap = MapUtils.newMap(
+            "ARRAY",Lists.newArrayList("曝光机区","Coater区","PVD区","CVD区","WET区","OVEN区"),
+            "CF",Lists.newArrayList("ITO区","BM区","RGM区"),
+            "CELL",Lists.newArrayList("PI区","ODF区","配向区"));
+    /**
+     *
+     */
+    public static final Map<String,List<String>> placeEquipmentListMp = MapUtils.newMap(
+            "曝光机区",Lists.newArrayList("曝光机-201","曝光机-301"),
+            "Coater区",Lists.newArrayList("COA-201","COA-301"),
+            "PVD区",Lists.newArrayList("PVD-201","PVD-301"),
+            "CVD区",Lists.newArrayList("CVD-201","CVD-301"),
+            "WET区",Lists.newArrayList("WET-201","WET-301"),
+            "OVEN区",Lists.newArrayList("OVEN-201","OVEN-301"),
+            "ITO区",Lists.newArrayList("ITO-201","ITO-301"),
+            "BM区",Lists.newArrayList("BM-201","BM-301"),
+            "RGM区",Lists.newArrayList("RGM-201","RGM-301"),
+            "PI区",Lists.newArrayList("PI-201","PI-301"),
+            "ODF区",Lists.newArrayList("ODF-201","ODF-301"),
+            "配向区",Lists.newArrayList("配向-201","配向-301"));
 }
