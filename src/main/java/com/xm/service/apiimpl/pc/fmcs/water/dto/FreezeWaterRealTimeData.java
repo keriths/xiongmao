@@ -9,13 +9,19 @@ import java.math.BigDecimal;
  * 冷冻水实时数据
  */
 public class FreezeWaterRealTimeData {
+    public FreezeWaterRealTimeData(){}
+    public FreezeWaterRealTimeData(String periodDate){
+        this.periodDate=periodDate;
+    }
 
     @ApiResultFieldDesc(desc = "流速")
     private BigDecimal speed;
-    @ApiResultFieldDesc(desc = "横坐标时间")
+    @ApiResultFieldDesc(desc = "数据时间")
     private String dataDate;
     @ApiResultFieldDesc(desc = "类型（如4A低温冷冻水，4A中温冷冻水）")
     private String waterType;
+    @ApiResultFieldDesc(desc = "横坐标时间")
+    private String periodDate;
 
     public BigDecimal getSpeed() {
         return speed;
@@ -39,5 +45,13 @@ public class FreezeWaterRealTimeData {
 
     public void setWaterType(String waterType) {
         this.waterType = waterType;
+    }
+
+    public String getPeriodDate() {
+        return periodDate;
+    }
+
+    public void setPeriodDate(String periodDate) {
+        this.periodDate = periodDate;
     }
 }

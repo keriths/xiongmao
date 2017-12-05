@@ -20,4 +20,5 @@ public class TapWaterRealTimeRetDTO extends BaseRetDTO{
     public void setWaterRealTimeDateList(List<TapWaterRealTimeData> waterRealTimeDateList) {
         this.waterRealTimeDateList = waterRealTimeDateList;
     }
+
 }

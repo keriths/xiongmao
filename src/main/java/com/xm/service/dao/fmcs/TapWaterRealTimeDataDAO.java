@@ -19,6 +19,6 @@ public interface TapWaterRealTimeDataDAO {
      * @param endDate 结束时间
      * @return
      */
-    List<TapWaterRealTimeData> tapWaterRealTimeData(@Param("beginDate") Date beginDate,
+    List<TapWaterRealTimeData.TapWaterRealTimeDetailData> tapWaterRealTimeData(@Param("beginDate") Date beginDate,
                                                     @Param("endDate") Date endDate);
 }
