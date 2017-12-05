@@ -3,9 +3,33 @@
 <mapper namespace="com.xm.service.dao.fmcs.GasRealTimeDataDAO" >
 
     <select id="queryBigGasRealTimeDate" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.gas.dto.BigGasRealTimeDateRetDTO$BigGasRealTimeDate">
-
+        select
+        GASNAME as gasName,
+        avg(SPEED) as speed,
+        TO_CHAR(DATADATE,'mi')||':00' as periodDate,
+        TO_CHAR(DATADATE,'mi') || ':' || case when To_number(TO_CHAR(DATADATE,'ss'))&lt;15 then '00'
+        when To_number(TO_CHAR(DATADATE,'ss'))&lt;30 then '15'
+        when To_number(TO_CHAR(DATADATE,'ss'))&lt;45 then '30'
+        else
+        '45'
+        end as secondDate
+        from GASREALTIMEDATA
+        WHERE
+        <![CDATA[
+               DATADATE >= #{beginDate}
+              and DATADATE <= #{endDate}
+             ]]>
+        <if test="gasName!=null and gasName!=''">
+            AND GASNAME=#{gasName,jdbcType=VARCHAR}
+        </if>
+        GROUP BY
+        GASNAME,
+        TO_CHAR(DATADATE,'mi') || ':' || case when To_number(TO_CHAR(DATADATE,'ss'))&lt;15 then '00'
+        when To_number(TO_CHAR(DATADATE,'ss'))&lt;30 then '15'
+        when To_number(TO_CHAR(DATADATE,'ss'))&lt;45 then '30'
+        else
+        '45'
+        end
     </select>
-
-
 
 </mapper>

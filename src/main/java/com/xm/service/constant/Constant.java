@@ -93,7 +93,7 @@ public class Constant {
     /**
      *温湿度区域设备
      */
-    public static final Map<String,List<String>> placeEquipmentListMp = MapUtils.newMap(
+    public static final Map<String,List<String>> placeEquipmentListMap = MapUtils.newMap(
             "曝光机区",Lists.newArrayList("曝光机-201","曝光机-301"),
             "Coater区",Lists.newArrayList("COA-201","COA-301"),
             "PVD区",Lists.newArrayList("PVD-201","PVD-301"),

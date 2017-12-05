@@ -30,6 +30,8 @@ public class BigGasRealTimeDateRetDTO extends BaseRetDTO{
         private BigDecimal speed;
         @ApiResultFieldDesc(desc = "横坐标时间")
         private String periodDate;
+        @ApiResultFieldDesc(desc = "数据更新时间")
+        private String secondDate;
 
         public String getGasName() {
             return gasName;
@@ -56,6 +58,14 @@ public class BigGasRealTimeDateRetDTO extends BaseRetDTO{
 
         public void setPeriodDate(String periodDate) {
             this.periodDate = periodDate;
+        }
+
+        public String getSecondDate() {
+            return secondDate;
+        }
+
+        public void setSecondDate(String secondDate) {
+            this.secondDate = secondDate;
         }
     }
 

@@ -111,9 +111,9 @@ public class GasServiceImpl {
                 resultDto.setErrorMsg("dateType参数错误,请传入【" + Constant.gasNamelist + "】");
                 return resultDto;
             }
-            Date beginDate = null;
+            Date beginDate = DateUtils.getBeforMinuteStartDay(5);
             Date endDate = new Date();
-            List<String> dateList = DateUtils.getDayStrList(beginDate,endDate);
+            List<String> dateList = DateUtils.getMinuteStrList(beginDate,endDate);
             List<BigGasRealTimeDateRetDTO.BigGasRealTimeDate> queryList = gasRealTimeDataDAO.queryBigGasRealTimeDate(gasName,beginDate,endDate);
             Map<String,BigGasRealTimeDateRetDTO.BigGasRealTimeDate> queryMap = MapUtils.listToMap(queryList,"getPeriodDate");
             List<BigGasRealTimeDateRetDTO.BigGasRealTimeDate> bigGasRT = new ArrayList<BigGasRealTimeDateRetDTO.BigGasRealTimeDate>();
