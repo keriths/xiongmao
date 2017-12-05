@@ -98,34 +98,34 @@ public class HumitureServiceImpl {
             Map<String,HumiturePlaceDate.HtPeDate> queryMap = MapUtils.listToMap(queryList,"key");
             List<HumiturePlaceDate> htPaDateList = new ArrayList<HumiturePlaceDate>();
             for(String p:placeList){
-                HumiturePlaceDate.HtPeDate ht = new HumiturePlaceDate.HtPeDate();
-                ht.setPlace(p);
                 HumiturePlaceDate hpe = new HumiturePlaceDate();
+                hpe.setPlace(p);
                 List<HumiturePlaceDate.HtPeDate> htDateList = new ArrayList<HumiturePlaceDate.HtPeDate>();
                 //String p = placeList.iterator().toString();
                 List<String> equList = Constant.placeEquipmentListMap.get(p);
                 for(String e:equList){
+                    HumiturePlaceDate.HtPeDate ht = new HumiturePlaceDate.HtPeDate();
                     ht.setEquipment(e);
                     for(String t:dateList){
                         ht.setSecondDate(t);
-                        String key = p+" "+e+" "+t;
+                        String key = e+" "+t;
                         HumiturePlaceDate.HtPeDate htD = null;
                         if(!CollectionUtils.isEmpty(queryMap)){
                             htD = queryMap.get(key);
                         }
                         if(htD == null){
-                            htD = new HumiturePlaceDate.HtPeDate(p,e,t);
+                            htD = new HumiturePlaceDate.HtPeDate(e,t);
                         }
                         htDateList.add(htD);
                     }
                 }
                 hpe.setHtPeDateList(htDateList);
                 htPaDateList.add(hpe);
-                resultDto.setHumiturePlaceDateList(htPaDateList);
             }
+            resultDto.setHumiturePlaceDateList(htPaDateList);
             return resultDto;
         }catch (Exception e){
-            LogUtils.error(this.getClass(),"humitureData eclipse",e);
+            LogUtils.error(this.getClass(),"HtPeDate eclipse",e);
             resultDto.setSuccess(false);
             resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return resultDto;

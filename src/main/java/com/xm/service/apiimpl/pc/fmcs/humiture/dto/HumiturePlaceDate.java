@@ -11,24 +11,21 @@ import java.util.List;
 /**
  * Created by wangshuna on 2017/12/5.
  */
-public class HumiturePlaceDate extends BaseRetDTO{
+public class HumiturePlaceDate{
 
     @ApiResultFieldDesc(desc = "区域设备列表")
     private List<HtPeDate> htPeDateList;
-    @ApiResultFieldDesc(desc = "工厂如array,cf,cell")
-    private String factory;
     @ApiResultFieldDesc(desc = "区域如：pvd区、cvd区")
     private String place;
 
     public static class HtPeDate implements Serializable{
 
         public String key(){
-            return place+" "+equipment+""+secondDate;
+            return equipment+""+secondDate;
         }
 
         public HtPeDate(){}
-        public HtPeDate(String place,String equipment,String secondDate){
-            this.place = place;
+        public HtPeDate(String equipment,String secondDate){
             this.equipment = equipment;
             this.secondDate = secondDate;
         }
@@ -120,14 +117,6 @@ public class HumiturePlaceDate extends BaseRetDTO{
 
     public void setHtPeDateList(List<HtPeDate> htPeDateList) {
         this.htPeDateList = htPeDateList;
-    }
-
-    public String getFactory() {
-        return factory;
-    }
-
-    public void setFactory(String factory) {
-        this.factory = factory;
     }
 
     public String getPlace() {
