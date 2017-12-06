@@ -34,13 +34,9 @@ public interface HumitureDataDAO {
     /**
      *
      * @param factory 厂别
-     * @param beginDate 开始时间
-     * @param endDate 结束时间
      * @return
      */
     List<HumiturePlaceDate.HtPeDate> queryFactoryHumiture(
-            @Param("factory") String factory,
-            @Param("beginDate") Date beginDate,
-            @Param("endDate") Date endDate);
+            @Param("factory") String factory);
 
 }

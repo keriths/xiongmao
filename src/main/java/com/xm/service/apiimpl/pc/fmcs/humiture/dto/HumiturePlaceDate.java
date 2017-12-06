@@ -20,14 +20,13 @@ public class HumiturePlaceDate{
 
     public static class HtPeDate implements Serializable{
 
-        public String key(){
+        /*public String key(){
             return equipment+" "+secondDate;
-        }
+        }*/
 
         public HtPeDate(){}
-        public HtPeDate(String equipment,String secondDate){
+        public HtPeDate(String equipment){
             this.equipment = equipment;
-            this.secondDate = secondDate;
         }
 
         @ApiResultFieldDesc(desc = "工厂如array,cf,cell")

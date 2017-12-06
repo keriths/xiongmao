@@ -13,12 +13,20 @@ public class HumitureDate {
 
     @ApiResultFieldDesc(desc = "返回数据列表")
     private List<HumitureDetailData> humitureDataList;
+    @ApiResultFieldDesc(desc = "横坐标时间")
+    private String periodDate;
 
     public static class HumitureDetailData implements Serializable {
         public HumitureDetailData(){}
-        public HumitureDetailData(String periodDate){
+        public HumitureDetailData(String periodDate,String secondDate){
             this.periodDate = periodDate;
+            this.secondDate = secondDate;
         }
+
+        public String key(){
+            return periodDate+" "+secondDate;
+        }
+
 
         @ApiResultFieldDesc(desc = "工厂如array,cf,cell")
         private String factory;
@@ -125,5 +133,13 @@ public class HumitureDate {
 
     public void setHumitureDataList(List<HumitureDetailData> humitureDataList) {
         this.humitureDataList = humitureDataList;
+    }
+
+    public String getPeriodDate() {
+        return periodDate;
+    }
+
+    public void setPeriodDate(String periodDate) {
+        this.periodDate = periodDate;
     }
 }

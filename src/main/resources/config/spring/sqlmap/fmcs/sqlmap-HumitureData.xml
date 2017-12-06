@@ -9,12 +9,15 @@
         avg(HUMIDITY) as humidity,
         avg(CLEANLINESS) as cleanliness,
         TO_CHAR(DATADATE,'mi')||':00' as periodDate,
-        TO_CHAR(DATADATE,'mi') || ':' || case when To_number(TO_CHAR(DATADATE,'ss'))&lt;15 then '00'
-        when To_number(TO_CHAR(DATADATE,'ss'))&lt;30 then '15'
-        when To_number(TO_CHAR(DATADATE,'ss'))&lt;45 then '30'
+        <![CDATA[
+        TO_CHAR(DATADATE,'mi') || ':' || case when To_number(TO_CHAR(DATADATE,'ss'))<15 then '00'
+        when To_number(TO_CHAR(DATADATE,'ss'))<30 then '15'
+        when To_number(TO_CHAR(DATADATE,'ss'))<45 then '30'
+        ]]>
         else
         '45'
-        end as secondDate
+        end
+        as secondDate
         from HUMITUREDATA
         WHERE
         <![CDATA[
@@ -24,8 +27,23 @@
         <if test="factory!=null and factory!=''">
             AND FACTORY=#{factory,jdbcType=VARCHAR}
         </if>
+        <if test="place!=null and place!=''">
+            AND PLACE=#{place,jdbcType=VARCHAR}
+        </if>
+        <if test="equipment!=null and equipment!=''">
+            AND EQUIPMENT=#{equipment,jdbcType=VARCHAR}
+        </if>
         GROUP BY
-        FACTORY,DATADATE
+        FACTORY,
+        TO_CHAR(DATADATE,'mi')||':00',
+        <![CDATA[
+        TO_CHAR(DATADATE,'mi') || ':' || case when To_number(TO_CHAR(DATADATE,'ss'))<15 then '00'
+        when To_number(TO_CHAR(DATADATE,'ss'))<30 then '15'
+        when To_number(TO_CHAR(DATADATE,'ss'))<45 then '30'
+        ]]>
+        else
+        '45'
+        end
     </select>
 
     <select id="queryFactoryHumiture" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumiturePlaceDate$HtPeDate">
@@ -33,26 +51,24 @@
         FACTORY as factory,
         PLACE as place,
         EQUIPMENT as equipment,
-        avg(TEMPERATURE) as temperature,
-        avg(HUMIDITY) as humidity,
-        avg(CLEANLINESS) as cleanliness,
-        TO_CHAR(DATADATE,'mi') || ':' || case when To_number(TO_CHAR(DATADATE,'ss'))&lt;15 then '00'
-        when To_number(TO_CHAR(DATADATE,'ss'))&lt;30 then '15'
-        when To_number(TO_CHAR(DATADATE,'ss'))&lt;45 then '30'
+        TEMPERATURE as temperature,
+        HUMIDITY as humidity,
+        CLEANLINESS as cleanliness,
+        <![CDATA[
+        TO_CHAR(DATADATE,'mi') || ':' || case when To_number(TO_CHAR(DATADATE,'ss'))<15 then '00'
+        when To_number(TO_CHAR(DATADATE,'ss'))<30 then '15'
+        when To_number(TO_CHAR(DATADATE,'ss'))<45 then '30'
+        ]]>
         else
         '45'
         end as secondDate
         from HUMITUREDATA
         WHERE
-        <![CDATA[
-               DATADATE >= #{beginDate}
-              and DATADATE <= #{endDate}
-             ]]>
         <if test="factory!=null and factory!=''">
-            AND FACTORY=#{factory,jdbcType=VARCHAR}
+            FACTORY=#{factory,jdbcType=VARCHAR}
         </if>
         GROUP BY
-        FACTORY,PLACE,EQUIPMENT,DATADATE
+        FACTORY,PLACE,EQUIPMENT,TEMPERATURE,HUMIDITY,CLEANLINESS,DATADATE
     </select>
 
 </mapper>

@@ -47,7 +47,7 @@ public class HumitureServiceImpl {
                 resultDto.setErrorMsg("place参数错误,请传入【" + Constant.placeEquipmentListMap.keySet() + "】");
                 return resultDto;
             }
-            if(Constant.placeEquipmentListMap.containsKey(place)&&!StringUtils.isEmpty(equipment) && !Constant.placeEquipmentListMap.containsValue(equipment)){
+            if(!StringUtils.isEmpty(equipment) && !equList.contains(equipment)){
                 resultDto.setSuccess(false);
                 resultDto.setErrorMsg("equipment参数错误,请传入【" + equList + "】");
                 return resultDto;
@@ -55,24 +55,33 @@ public class HumitureServiceImpl {
 
             Date beginDate = DateUtils.getBeforMinuteStartDay(5);
             Date endDate = new Date();
-            List<String> dateList = DateUtils.getMinuteStrList(beginDate,endDate);
+            List<String> minuteList = DateUtils.getMinuteStrList(beginDate,endDate);
+            List<String> secondList = DateUtils.getSecondStrList(DateUtils.getBeforMinuteStartDay(0),endDate);
+
             List<HumitureDate.HumitureDetailData> queryList = humitureDataDAO.queryHumiture(factory,place,equipment,beginDate,endDate);
-            Map<String,HumitureDate.HumitureDetailData> queryMap = MapUtils.listToMap(queryList,"getPeriodDate");
+            Map<String,HumitureDate.HumitureDetailData> queryMap = MapUtils.listToMap(queryList,"key");
             List<HumitureDate> htDateList = new ArrayList<HumitureDate>();
-            List<HumitureDate.HumitureDetailData> htDetailList = new ArrayList<HumitureDate.HumitureDetailData>();
-            /*for(String t:dateList){
-                HumitureDataRetDTO.HumitureData ht = new HumitureDataRetDTO.HumitureData();
-                ht.setPeriodDate(t);
-                HumitureDataRetDTO.HumitureData htD = null;
-                if(!CollectionUtils.isEmpty(queryMap)){
-                    htD = queryMap.get(t);
+            for(String min:minuteList){
+                HumitureDate htDate = new HumitureDate();
+                htDate.setPeriodDate(min);
+                String minute=min.substring(0,2);
+                List<HumitureDate.HumitureDetailData> htDetailList = new ArrayList<HumitureDate.HumitureDetailData>();
+                for(String sec:secondList){
+                    String second=sec.substring(3);
+                    String s=minute+":"+second;
+                    String key = min+" "+s;
+                    HumitureDate.HumitureDetailData htDetailDate = queryMap.get(key);
+                    if(htDetailDate == null){
+                        htDetailDate = new HumitureDate.HumitureDetailData(min,sec);
+                        htDetailDate.setSecondDate(s);
+                    }
+                    htDetailDate.setSecondDate(s);
+                    htDetailList.add(htDetailDate);
                 }
-                if(htD == null){
-                    htD = new HumitureDataRetDTO.HumitureData(t);
-                }
-                htDateList.add(htD);
-                resultDto.setHumitureDataList(htDateList);
-            }*/
+                htDate.setHumitureDataList(htDetailList);
+                htDateList.add(htDate);
+            }
+            resultDto.setHumitureDateList(htDateList);
             return resultDto;
         }catch (Exception e){
             LogUtils.error(this.getClass(),"humitureData eclipse",e);
@@ -93,12 +102,18 @@ public class HumitureServiceImpl {
                 resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.factoryPlaceListMap.keySet() + "】");
                 return resultDto;
             }
-            Date beginDate = DateUtils.getBeforMinuteStartDay(0);
+            /*Date beginDate = DateUtils.getBeforMinuteStartDay(0);
             Date endDate = new Date();
             List<String> dateList = DateUtils.getSecondStrList(beginDate,endDate);
-            //List<String> dateList = DateUtils.getMinuteStrList(beginDate,endDate);
-            List<HumiturePlaceDate.HtPeDate> queryList = humitureDataDAO.queryFactoryHumiture(factory,beginDate,endDate);
-            Map<String,HumiturePlaceDate.HtPeDate> queryMap = MapUtils.listToMap(queryList,"key");
+            //List<String> dateList = DateUtils.getMinuteStrList(beginDate,endDate);*/
+            List<HumiturePlaceDate.HtPeDate> queryList = humitureDataDAO.queryFactoryHumiture(factory);
+            /*if (CollectionUtils.isEmpty(queryList)){
+                //如果这一分钟数据还没有出来，取上一分钟的数据
+                beginDate = DateUtils.getBeforMinuteStartDay(1);
+                endDate = DateUtils.getBeforMinuteStartDay(0);
+                queryList = humitureDataDAO.queryFactoryHumiture(factory);
+            }*/
+            Map<String,HumiturePlaceDate.HtPeDate> queryMap = MapUtils.listToMap(queryList,"getEquipment");
             List<HumiturePlaceDate> htPaDateList = new ArrayList<HumiturePlaceDate>();
             for(String p:placeList){
                 HumiturePlaceDate hpe = new HumiturePlaceDate();
@@ -109,18 +124,18 @@ public class HumitureServiceImpl {
                 for(String e:equList){
                     HumiturePlaceDate.HtPeDate ht = new HumiturePlaceDate.HtPeDate();
                     ht.setEquipment(e);
-                    for(String t:dateList){
+                    HumiturePlaceDate.HtPeDate htD = null;
+                    if(!CollectionUtils.isEmpty(queryMap)){
+                        htD = queryMap.get(e);
+                    }
+                    if(htD == null){
+                        htD = new HumiturePlaceDate.HtPeDate(e);
+                    }
+                    htDateList.add(htD);
+                    /*for(String t:dateList){
                         ht.setSecondDate(t);
                         String key = e+" "+t;
-                        HumiturePlaceDate.HtPeDate htD = null;
-                        if(!CollectionUtils.isEmpty(queryMap)){
-                            htD = queryMap.get(key);
-                        }
-                        if(htD == null){
-                            htD = new HumiturePlaceDate.HtPeDate(e,t);
-                        }
-                        htDateList.add(htD);
-                    }
+                    }*/
                 }
                 hpe.setHtPeDateList(htDateList);
                 htPaDateList.add(hpe);
