@@ -1,6 +1,6 @@
 package com.xm.service.dao.fmcs;
 
-import com.xm.service.apiimpl.pc.fmcs.gas.dto.BigGasRealTimeDateRetDTO;
+import com.xm.service.apiimpl.pc.fmcs.gas.dto.BigGasRealTimeDate;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -20,7 +20,7 @@ public interface GasRealTimeDataDAO {
      * @param endDate 结束时间
      * @return
      */
-    List<BigGasRealTimeDateRetDTO.BigGasRealTimeDate> queryBigGasRealTimeDate(@Param("gasName")String gasName,
-                                                                              @Param("beginDate") Date beginDate,
-                                                                              @Param("endDate") Date endDate);
+    List<BigGasRealTimeDate.GasRealTimeDate> queryBigGasRealTimeDate(@Param("gasName")String gasName,
+                                                                     @Param("beginDate") Date beginDate,
+                                                                     @Param("endDate") Date endDate);
 }

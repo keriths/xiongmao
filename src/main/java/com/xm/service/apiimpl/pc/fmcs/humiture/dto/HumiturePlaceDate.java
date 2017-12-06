@@ -21,7 +21,7 @@ public class HumiturePlaceDate{
     public static class HtPeDate implements Serializable{
 
         public String key(){
-            return equipment+""+secondDate;
+            return equipment+" "+secondDate;
         }
 
         public HtPeDate(){}

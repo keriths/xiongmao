@@ -93,7 +93,8 @@ public class HumitureServiceImpl {
             }
             Date beginDate = DateUtils.getBeforMinuteStartDay(0);
             Date endDate = new Date();
-            List<String> dateList = DateUtils.getMinuteStrList(beginDate,endDate);
+            List<String> dateList = DateUtils.getSecondStrList(beginDate,endDate);
+            //List<String> dateList = DateUtils.getMinuteStrList(beginDate,endDate);
             List<HumiturePlaceDate.HtPeDate> queryList = humitureDataDAO.queryFactoryHumiture(factory,beginDate,endDate);
             Map<String,HumiturePlaceDate.HtPeDate> queryMap = MapUtils.listToMap(queryList,"key");
             List<HumiturePlaceDate> htPaDateList = new ArrayList<HumiturePlaceDate>();
