@@ -5,6 +5,7 @@
     <select id="tapWaterRealTimeData" resultType="com.xm.service.apiimpl.pc.fmcs.water.dto.TapWaterRealTimeData$TapWaterRealTimeDetailData" parameterType="Map">
         select
             AVG (Speed) as speed,
+            TO_CHAR(DataDate,'mi')||':00' as periodDate,
         <![CDATA[
             TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<15 then '00'
             when To_number(TO_CHAR(DataDate,'ss'))<30 then '15'
@@ -19,6 +20,7 @@
               and DataDate <= #{endDate}
         ]]>
         GROUP BY
+        TO_CHAR(DataDate,'mi')||':00',
         <![CDATA[
             TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<15 then '00'
             when To_number(TO_CHAR(DataDate,'ss'))<30 then '15'

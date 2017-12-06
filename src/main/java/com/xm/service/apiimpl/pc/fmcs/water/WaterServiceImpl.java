@@ -64,7 +64,7 @@ public class WaterServiceImpl {
                 for (String strSecond : dateSecondList) {
                     String second=strSecond.substring(3);
                     String s=minute+":"+second;
-                    String key = strMinute + " " + strSecond;
+                    String key = strMinute + " " + s;
                     TapWaterRealTimeData.TapWaterRealTimeDetailData tapWaterRealTimeDetailData = dataMap.get(key);
                     if (tapWaterRealTimeDetailData == null) {
                         tapWaterRealTimeDetailData = new TapWaterRealTimeData.TapWaterRealTimeDetailData(strMinute, strSecond);
