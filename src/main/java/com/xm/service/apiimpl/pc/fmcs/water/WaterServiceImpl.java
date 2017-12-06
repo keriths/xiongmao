@@ -59,13 +59,18 @@ public class WaterServiceImpl {
             for (String strMinute : dateMinuteList) {
                 TapWaterRealTimeData data = new TapWaterRealTimeData();
                 data.setPeriodDate(strMinute);
+                String minute=strMinute.substring(0,2);
                 List<TapWaterRealTimeData.TapWaterRealTimeDetailData> detailDataList=new ArrayList<TapWaterRealTimeData.TapWaterRealTimeDetailData>();
                 for (String strSecond : dateSecondList) {
+                    String second=strSecond.substring(3);
+                    String s=minute+":"+second;
                     String key = strMinute + " " + strSecond;
                     TapWaterRealTimeData.TapWaterRealTimeDetailData tapWaterRealTimeDetailData = dataMap.get(key);
                     if (tapWaterRealTimeDetailData == null) {
                         tapWaterRealTimeDetailData = new TapWaterRealTimeData.TapWaterRealTimeDetailData(strMinute, strSecond);
+                        tapWaterRealTimeDetailData.setDataDate(s);
                     }
+                    tapWaterRealTimeDetailData.setDataDate(s);
                     detailDataList.add(tapWaterRealTimeDetailData);
                 }
                 data.setTapWaterRealTimeDetailDataList(detailDataList);
