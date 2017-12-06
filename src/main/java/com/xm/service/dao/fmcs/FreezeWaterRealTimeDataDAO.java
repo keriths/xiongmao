@@ -1,5 +1,6 @@
 package com.xm.service.dao.fmcs;
 
+import com.xm.service.apiimpl.pc.fmcs.water.dto.FreezeWaterRealTimeData;
 import com.xm.service.apiimpl.pc.fmcs.water.dto.TapWaterRealTimeData;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -19,6 +20,7 @@ public interface FreezeWaterRealTimeDataDAO {
      * @param endDate 结束时间
      * @return
      */
-    List<TapWaterRealTimeData> FreezeWaterRealTimeData(@Param("beginDate") Date beginDate,
-                                                       @Param("endDate") Date endDate);
+    List<FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData> freezeWaterRealTimeData(@Param("beginDate") Date beginDate,
+                                                                                        @Param("endDate") Date endDate,
+                                                                                        @Param("waterType")String waterType);
 }

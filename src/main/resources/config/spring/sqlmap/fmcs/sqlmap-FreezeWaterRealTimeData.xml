@@ -2,16 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.fmcs.FreezeWaterRealTimeDataDAO" >
 
-    <select id="freezeWaterRealTimeData" resultType="com.xm.service.apiimpl.pc.fmcs.water.dto.FreezeWaterRealTimeData" parameterType="Map">
+    <select id="freezeWaterRealTimeData" resultType="com.xm.service.apiimpl.pc.fmcs.water.dto.FreezeWaterRealTimeData$FreezeWaterRealTimeDetailData" parameterType="Map">
         select
-        Speed as speed,
-        DataDate as dataDate
+            AVG(Speed) as speed,
+            TO_CHAR(DataDate,'mi')||':00' as periodDate,
+            <![CDATA[
+                    TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<15 then '00'
+                    when To_number(TO_CHAR(DataDate,'ss'))<30 then '15'
+                    when To_number(TO_CHAR(DataDate,'ss'))<45 then '30'
+                ]]>
+            else '45'
+            end as dataDate
         from FreezeWaterRealTimeData
         WHERE
-        <![CDATA[
-               DataDate >= #{beginDate}
-              and DataDate <= #{endDate}
-        ]]>
+            <![CDATA[
+                       DataDate >= #{beginDate}
+                      and DataDate <= #{endDate}
+                ]]>
+            <if test="waterType!=null and waterType!=''">
+                AND TYPE =#{waterType,jdbcType=VARCHAR}
+            </if>
+        GROUP BY
+            TO_CHAR(DataDate,'mi')||':00',
+            <![CDATA[
+                    TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<15 then '00'
+                    when To_number(TO_CHAR(DataDate,'ss'))<30 then '15'
+                    when To_number(TO_CHAR(DataDate,'ss'))<45 then '30'
+                ]]>
+            else '45'
+            end
     </select>
 
 </mapper>

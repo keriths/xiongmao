@@ -91,7 +91,7 @@ public class WaterServiceImpl {
     /**
      * 纯水实时数据
      */
-   /* @ApiMethodDoc(apiCode = "FMCS_PureWaterRealTime",name = "纯水实时数据接口")
+    @ApiMethodDoc(apiCode = "FMCS_PureWaterRealTime",name = "纯水实时数据接口")
     public PureWaterRealTimeRetDTO pureWaterRealTime(@ApiParamDoc(desc = "类型如4AARW,4AUPW,不填为统计所有类型汇总")String waterType){
         PureWaterRealTimeRetDTO pureRealRet = new PureWaterRealTimeRetDTO();
         try{
@@ -100,25 +100,37 @@ public class WaterServiceImpl {
                 pureRealRet.setErrorMsg("waterType参数错误,请传入【" + Constant.PureTypeList + "】");
                 return pureRealRet;
             }
-            List<String> dateList = null;
+            List<String> dateMinuteList = null;
+            List<String> dateSecondList = null;
             Date beginDate = null;
             Date endDate = new Date();
-            if (dateType.equals(Constant.day)){
-                beginDate = DateUtils.getBeforDayStartDay(12);
-                dateList = DateUtils.getDayStrList(beginDate,endDate);
-            }else if (dateType.equals(Constant.month)){
-                beginDate = DateUtils.getBeforMonthStartDay(11);
-                dateList = DateUtils.getMonthStrList(beginDate,endDate);
-            }
-            List<PureWaterRealTimeData>  dataList=pureWaterEveryDayDataDAO.pureWaterEveryDayData(dateType,beginDate,endDate,waterType);
-            Map<String,PureWaterRealTimeData> dataMap= MapUtils.listToMap(dataList,"getPeriodDate");
-            List<PureWaterRealTimeData> pureWaterRealTimeDataList =new ArrayList<PureWaterRealTimeData>();
-            for (String str:dateList){
-                PureWaterRealTimeData pureWaterRealTimeData =dataMap.get(str);
-                if(pureWaterRealTimeData ==null){
-                    pureWaterRealTimeData =new PureWaterRealTimeData(str);
+            beginDate = DateUtils.getBeforMinuteStartDay(5);
+            dateMinuteList = DateUtils.getMinuteStrList(beginDate, endDate);
+            dateSecondList = DateUtils.getSecondStrList(DateUtils.getBeforMinuteStartDay(0), endDate);
+
+            List<PureWaterRealTimeData.PureWaterRealTimeDetailData> dataList = pureWaterRealTimeDataDAO.pureWaterRealTimeData(waterType,beginDate, endDate);
+            Map<String, PureWaterRealTimeData.PureWaterRealTimeDetailData> dataMap = MapUtils.listToMap(dataList, "key");
+            List<PureWaterRealTimeData> pureWaterRealTimeDataList = new ArrayList<PureWaterRealTimeData>();
+            for (String strMinute : dateMinuteList) {
+                PureWaterRealTimeData data = new PureWaterRealTimeData();
+                data.setPeriodDate(strMinute);
+                String minute=strMinute.substring(0,2);
+                List<PureWaterRealTimeData.PureWaterRealTimeDetailData> detailDataList=new ArrayList<PureWaterRealTimeData.PureWaterRealTimeDetailData>();
+                for (String strSecond : dateSecondList) {
+                    String second=strSecond.substring(3);
+                    String s=minute+":"+second;
+                    String key = strMinute + " " + s;
+                    PureWaterRealTimeData.PureWaterRealTimeDetailData pureWaterRealTimeDetailData = dataMap.get(key);
+                    if (pureWaterRealTimeDetailData == null) {
+                        pureWaterRealTimeDetailData = new PureWaterRealTimeData.PureWaterRealTimeDetailData(strMinute, strSecond);
+                        pureWaterRealTimeDetailData.setDataDate(s);
+                    }
+                    pureWaterRealTimeDetailData.setDataDate(s);
+                    detailDataList.add(pureWaterRealTimeDetailData);
                 }
-                pureWaterRealTimeDataList.add(pureWaterRealTimeData);
+                data.setPureWaterRealTimeDetailDataList(detailDataList);
+                pureWaterRealTimeDataList.add(data);
+
             }
             pureRealRet.setPureWaterRealTimeDataList(pureWaterRealTimeDataList);
             return pureRealRet;
@@ -128,46 +140,53 @@ public class WaterServiceImpl {
             pureRealRet.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return pureRealRet;
         }
-    }*/
+    }
 
     /**
      *冷冻水实时数据
      */
-    /* @ApiMethodDoc(apiCode = "FMCS_FreezeWaterRealTime",name = "冷冻水实时数据接口")
-   public FreezeWaterRealTimeRetDTO freezeWaterRealTime(@ApiParamDoc(desc = "类型如4A低温冷冻水，4A中温冷冻水,不填为统计所有类型汇总")String waterType){
+     @ApiMethodDoc(apiCode = "FMCS_FreezeWaterRealTime",name = "冷冻水实时数据接口")
+   public FreezeWaterRealTimeRetDTO freezeWaterRealTime(@ApiParamDoc(desc = "类型如4A低温冷冻水，4B中温冷冻水,不填为统计所有类型汇总")String waterType){
         FreezeWaterRealTimeRetDTO freezeRealRet = new FreezeWaterRealTimeRetDTO();
         try{
-            if (!Constant.gasDateTypeList.contains(dateType)){
-                freezeRealRet.setSuccess(false);
-                freezeRealRet.setErrorMsg("dateType参数错误,请传入【" + Constant.gasDateTypeList + "】");
-                return freezeRealRet;
-            }
             if (!StringUtils.isEmpty(waterType) && !Constant.FreezeTypeList.contains(waterType)){
                 freezeRealRet.setSuccess(false);
                 freezeRealRet.setErrorMsg("waterType参数错误,请传入【" + Constant.FreezeTypeList + "】");
                 return freezeRealRet;
             }
-            List<String> dateList = null;
+            List<String> dateMinuteList = null;
+            List<String> dateSecondList = null;
             Date beginDate = null;
             Date endDate = new Date();
-            if (dateType.equals(Constant.day)){
-                beginDate = DateUtils.getBeforDayStartDay(12);
-                dateList = DateUtils.getDayStrList(beginDate,endDate);
-            }else if (dateType.equals(Constant.month)){
-                beginDate = DateUtils.getBeforMonthStartDay(11);
-                dateList = DateUtils.getMonthStrList(beginDate,endDate);
-            }
-            List<FreezeWaterEveryDayData>  dataList=freezeWaterEveryDayDataDAO.freezeWaterEveryDayData(dateType,beginDate,endDate,waterType);
-            Map<String,FreezeWaterEveryDayData> dataMap= MapUtils.listToMap(dataList,"getPeriodDate");
-            List<FreezeWaterEveryDayData> freezeWaterEveryDayDataList =new ArrayList<FreezeWaterEveryDayData>();
-            for (String str:dateList){
-                FreezeWaterEveryDayData freezeWaterEveryDayData =dataMap.get(str);
-                if(freezeWaterEveryDayData ==null){
-                    freezeWaterEveryDayData =new FreezeWaterEveryDayData(str);
+            beginDate = DateUtils.getBeforMinuteStartDay(5);
+            dateMinuteList = DateUtils.getMinuteStrList(beginDate, endDate);
+            dateSecondList = DateUtils.getSecondStrList(DateUtils.getBeforMinuteStartDay(0), endDate);
+
+            List<FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData> dataList = freezeWaterRealTimeDataDAO.freezeWaterRealTimeData(beginDate, endDate,waterType);
+            Map<String, FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData> dataMap = MapUtils.listToMap(dataList, "key");
+            List<FreezeWaterRealTimeData> freezeWaterRealTimeDataList = new ArrayList<FreezeWaterRealTimeData>();
+            for (String strMinute : dateMinuteList) {
+                FreezeWaterRealTimeData data = new FreezeWaterRealTimeData();
+                data.setPeriodDate(strMinute);
+                String minute=strMinute.substring(0,2);
+                List<FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData> detailDataList=new ArrayList<FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData>();
+                for (String strSecond : dateSecondList) {
+                    String second=strSecond.substring(3);
+                    String s=minute+":"+second;
+                    String key = strMinute + " " + s;
+                    FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData freezeWaterRealTimeDetailData = dataMap.get(key);
+                    if (freezeWaterRealTimeDetailData == null) {
+                        freezeWaterRealTimeDetailData = new FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData(strMinute, strSecond);
+                        freezeWaterRealTimeDetailData.setDataDate(s);
+                    }
+                    freezeWaterRealTimeDetailData.setDataDate(s);
+                    detailDataList.add(freezeWaterRealTimeDetailData);
                 }
-                freezeWaterEveryDayDataList.add(freezeWaterEveryDayData);
+                data.setFreezeWaterRealTimeDetailDataList(detailDataList);
+                freezeWaterRealTimeDataList.add(data);
+
             }
-            freezeRealRet.setFreezeWaterEveryDayDataList(freezeWaterEveryDayDataList);
+            freezeRealRet.setFreezeWaterRealTimeDataList(freezeWaterRealTimeDataList);
             return freezeRealRet;
         }catch (Exception e){
             LogUtils.error(getClass(), e);
@@ -175,7 +194,7 @@ public class WaterServiceImpl {
             freezeRealRet.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return freezeRealRet;
         }
-    }*/
+    }
 
     /**
      * 市政府自来水统计数据
@@ -272,7 +291,7 @@ public class WaterServiceImpl {
      */
     @ApiMethodDoc(apiCode = "FMCS_FreezeWaterEveryDay",name = "冷冻水统计数据接口")
     public FreezeWaterEveryDayRetDTO freezeWaterEveryDay(@ApiParamDoc(desc = "统计时间类型天day月month(必填)")String dateType,
-                                                         @ApiParamDoc(desc = "类型如4A低温冷冻水，4A中温冷冻水,不填为统计所有类型汇总")String waterType){
+                                                         @ApiParamDoc(desc = "类型如4A低温冷冻水，4B中温冷冻水,不填为统计所有类型汇总")String waterType){
         FreezeWaterEveryDayRetDTO freezeEveryDayRet = new FreezeWaterEveryDayRetDTO();
         try{
             if (!Constant.gasDateTypeList.contains(dateType)){
