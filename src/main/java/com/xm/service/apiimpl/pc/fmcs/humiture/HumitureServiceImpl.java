@@ -7,6 +7,7 @@ import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
 import com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumitureDataRetDTO;
+import com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumitureDate;
 import com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumiturePlaceDate;
 import com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumiturePlaceDateRetDTO;
 import com.xm.service.constant.Constant;
@@ -55,10 +56,11 @@ public class HumitureServiceImpl {
             Date beginDate = DateUtils.getBeforMinuteStartDay(5);
             Date endDate = new Date();
             List<String> dateList = DateUtils.getMinuteStrList(beginDate,endDate);
-            List<HumitureDataRetDTO.HumitureData> queryList = humitureDataDAO.queryHumiture(factory,place,equipment,beginDate,endDate);
-            Map<String,HumitureDataRetDTO.HumitureData> queryMap = MapUtils.listToMap(queryList,"getPeriodDate");
-            List<HumitureDataRetDTO.HumitureData> htDateList = new ArrayList<HumitureDataRetDTO.HumitureData>();
-            for(String t:dateList){
+            List<HumitureDate.HumitureDetailData> queryList = humitureDataDAO.queryHumiture(factory,place,equipment,beginDate,endDate);
+            Map<String,HumitureDate.HumitureDetailData> queryMap = MapUtils.listToMap(queryList,"getPeriodDate");
+            List<HumitureDate> htDateList = new ArrayList<HumitureDate>();
+            List<HumitureDate.HumitureDetailData> htDetailList = new ArrayList<HumitureDate.HumitureDetailData>();
+            /*for(String t:dateList){
                 HumitureDataRetDTO.HumitureData ht = new HumitureDataRetDTO.HumitureData();
                 ht.setPeriodDate(t);
                 HumitureDataRetDTO.HumitureData htD = null;
@@ -70,7 +72,7 @@ public class HumitureServiceImpl {
                 }
                 htDateList.add(htD);
                 resultDto.setHumitureDataList(htDateList);
-            }
+            }*/
             return resultDto;
         }catch (Exception e){
             LogUtils.error(this.getClass(),"humitureData eclipse",e);

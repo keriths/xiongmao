@@ -1,6 +1,7 @@
 package com.xm.service.dao.fmcs;
 
 import com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumitureDataRetDTO;
+import com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumitureDate;
 import com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumiturePlaceDate;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -23,7 +24,7 @@ public interface HumitureDataDAO {
      * @param endDate 结束时间
      * @return
      */
-    List<HumitureDataRetDTO.HumitureData> queryHumiture(
+    List<HumitureDate.HumitureDetailData> queryHumiture(
             @Param("factory") String factory,
             @Param("place") String place,
             @Param("equipment") String equipment,
