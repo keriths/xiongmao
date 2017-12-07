@@ -102,24 +102,14 @@ public class HumitureServiceImpl {
                 resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.factoryPlaceListMap.keySet() + "】");
                 return resultDto;
             }
-            /*Date beginDate = DateUtils.getBeforMinuteStartDay(0);
-            Date endDate = new Date();
-            List<String> dateList = DateUtils.getSecondStrList(beginDate,endDate);
-            //List<String> dateList = DateUtils.getMinuteStrList(beginDate,endDate);*/
+
             List<HumiturePlaceDate.HtPeDate> queryList = humitureDataDAO.queryFactoryHumiture(factory);
-            /*if (CollectionUtils.isEmpty(queryList)){
-                //如果这一分钟数据还没有出来，取上一分钟的数据
-                beginDate = DateUtils.getBeforMinuteStartDay(1);
-                endDate = DateUtils.getBeforMinuteStartDay(0);
-                queryList = humitureDataDAO.queryFactoryHumiture(factory);
-            }*/
             Map<String,HumiturePlaceDate.HtPeDate> queryMap = MapUtils.listToMap(queryList,"getEquipment");
             List<HumiturePlaceDate> htPaDateList = new ArrayList<HumiturePlaceDate>();
             for(String p:placeList){
                 HumiturePlaceDate hpe = new HumiturePlaceDate();
                 hpe.setPlace(p);
                 List<HumiturePlaceDate.HtPeDate> htDateList = new ArrayList<HumiturePlaceDate.HtPeDate>();
-                //String p = placeList.iterator().toString();
                 List<String> equList = Constant.placeEquipmentListMap.get(p);
                 for(String e:equList){
                     HumiturePlaceDate.HtPeDate ht = new HumiturePlaceDate.HtPeDate();
@@ -132,10 +122,6 @@ public class HumitureServiceImpl {
                         htD = new HumiturePlaceDate.HtPeDate(e);
                     }
                     htDateList.add(htD);
-                    /*for(String t:dateList){
-                        ht.setSecondDate(t);
-                        String key = e+" "+t;
-                    }*/
                 }
                 hpe.setHtPeDateList(htDateList);
                 htPaDateList.add(hpe);

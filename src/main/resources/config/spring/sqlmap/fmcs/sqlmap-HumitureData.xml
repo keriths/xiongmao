@@ -47,28 +47,25 @@
     </select>
 
     <select id="queryFactoryHumiture" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumiturePlaceDate$HtPeDate">
-        select
+        select a.* from HUMITUREDATA a
+        inner join (
+        select max(DATADATE) as DATADATE,
         FACTORY as factory,
         PLACE as place,
-        EQUIPMENT as equipment,
-        TEMPERATURE as temperature,
-        HUMIDITY as humidity,
-        CLEANLINESS as cleanliness,
-        <![CDATA[
-        TO_CHAR(DATADATE,'mi') || ':' || case when To_number(TO_CHAR(DATADATE,'ss'))<15 then '00'
-        when To_number(TO_CHAR(DATADATE,'ss'))<30 then '15'
-        when To_number(TO_CHAR(DATADATE,'ss'))<45 then '30'
-        ]]>
-        else
-        '45'
-        end as secondDate
-        from HUMITUREDATA
-        WHERE
+        EQUIPMENT as equipment
+        from
+        HUMITUREDATA
+        group by FACTORY,PLACE,EQUIPMENT
+        ) b
+        on a.DATADATE = b.DATADATE
+        and a.FACTORY = b.FACTORY
+        and a.PLACE = b.PLACE
+        and a.EQUIPMENT = b.EQUIPMENT
+        where
         <if test="factory!=null and factory!=''">
-            FACTORY=#{factory,jdbcType=VARCHAR}
+            a.FACTORY=#{factory,jdbcType=VARCHAR}
         </if>
-        GROUP BY
-        FACTORY,PLACE,EQUIPMENT,TEMPERATURE,HUMIDITY,CLEANLINESS,DATADATE
+
     </select>
 
 </mapper>
