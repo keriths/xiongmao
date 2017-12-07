@@ -13,10 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by fanshuai on 17/10/24.
@@ -154,13 +151,13 @@ public class WaterServiceImpl {
                 freezeRealRet.setErrorMsg("waterType参数错误,请传入【" + Constant.FreezeTypeList + "】");
                 return freezeRealRet;
             }
-            List<String> dateMinuteList = null;
+//            List<String> dateMinuteList = null;
             List<String> dateSecondList = null;
             Date beginDate = null;
             Date endDate = new Date();
             beginDate = DateUtils.getBeforMinuteStartDay(5);
-            dateMinuteList = DateUtils.getMinuteStrList(beginDate, endDate);
-            dateSecondList = DateUtils.getSecondStrList(DateUtils.getBeforMinuteStartDay(0), endDate);
+//            dateMinuteList = DateUtils.getMinuteStrList(beginDate, endDate);
+            dateSecondList = DateUtils.getSecondStrList(beginDate, endDate);
 
             /*List<FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData> dataList = freezeWaterRealTimeDataDAO.freezeWaterRealTimeData(beginDate, endDate,waterType);
             Map<String, FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData> dataMap = MapUtils.listToMap(dataList, "key");
@@ -190,31 +187,24 @@ public class WaterServiceImpl {
             return freezeRealRet;*/
             List<FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData> dataList = freezeWaterRealTimeDataDAO.freezeWaterRealTimeData(beginDate, endDate,waterType);
             Map<String, FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData> dataMap = MapUtils.listToMap(dataList, "getDataDate");
-            dateSecondList = DateUtils.getSecondStrList(DateUtils.getBeforMinuteStartDay(5), endDate);
             List<FreezeWaterRealTimeData> freezeWaterRealTimeDataList = new ArrayList<FreezeWaterRealTimeData>();
-            List<FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData> detailDataList=new ArrayList<FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData>();
-            FreezeWaterRealTimeData data = new FreezeWaterRealTimeData();
+            Map<String,FreezeWaterRealTimeData> minuteDataMap = new HashMap<String, FreezeWaterRealTimeData>();
             for (String strSecond:dateSecondList){
+                String minute=strSecond.substring(0,2)+":00";
+                FreezeWaterRealTimeData minuteData = minuteDataMap.get(minute);
+                if (minuteData==null){
+                    minuteData=new FreezeWaterRealTimeData();
+                    minuteData.setPeriodDate(minute);
+                    minuteData.setFreezeWaterRealTimeDetailDataList(new ArrayList<FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData>());
+                    minuteDataMap.put(minute,minuteData);
+                    freezeWaterRealTimeDataList.add(minuteData);
+                }
                 FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData freezeWaterRealTimeDetailData=dataMap.get(strSecond);
                 if (freezeWaterRealTimeDetailData == null) {
                     freezeWaterRealTimeDetailData = new FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData(strSecond);
+                    freezeWaterRealTimeDetailData.setPeriodDate(minute);
                 }
-                String second=strSecond.substring(0,2);
-                String minute=second+":00";
-                freezeWaterRealTimeDetailData.setPeriodDate(minute);
-                freezeWaterRealTimeDetailData.setDataDate(strSecond);
-                if (data.getPeriodDate()!=null) {
-                    if (!data.getPeriodDate().substring(0, 2).equals(second)) {
-                        data = new FreezeWaterRealTimeData();
-                        detailDataList=new ArrayList<FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData>();
-                    }
-                }
-                detailDataList.add(freezeWaterRealTimeDetailData);
-                data.setPeriodDate(minute);
-                if (detailDataList.size()==4){
-                    data.setFreezeWaterRealTimeDetailDataList(detailDataList);
-                    freezeWaterRealTimeDataList.add(data);
-                }
+                minuteData.getFreezeWaterRealTimeDetailDataList().add(freezeWaterRealTimeDetailData);
             }
             freezeRealRet.setFreezeWaterRealTimeDataList(freezeWaterRealTimeDataList);
             return freezeRealRet;
