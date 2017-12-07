@@ -1,8 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="" >
+<mapper namespace="com.xm.service.dao.fmcs.NatgasRealTimeDataDAO" >
 
-    <select id="queryGasRealTimeData" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.gas.dto.NatgasTimeDataRetDTO$GasRealTimeData">
+    <select id="queryGasRealTimeData" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.gas.dto.NatgasRealTimeData$NatgasTimeDetailData">
+
+        select sum(speed) as speed, periodDate , dataDate from (
+        select
+            GasType,Place,
+            AVG(Speed) as speed,
+                TO_CHAR(DataDate,'mi')||':00' as periodDate,
+                <![CDATA[
+                    TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<15 then '00'
+                    when To_number(TO_CHAR(DataDate,'ss'))<30 then '15'
+                    when To_number(TO_CHAR(DataDate,'ss'))<45 then '30'
+                ]]>
+                else '45'
+                end as dataDate
+            from NatgasRealTimeData
+            WHERE
+                <![CDATA[
+                       DataDate >= #{beginDate}
+                      and DataDate <= #{endDate}
+                ]]>
+                AND GasType=#{gasType,jdbcType=VARCHAR}
+                <if test="place!=null and place!=''">
+                    AND Place=#{place,jdbcType=VARCHAR}
+                </if>
+            GROUP BY
+                GasType,Place,
+                TO_CHAR(DataDate,'mi')||':00',
+                <![CDATA[
+                            TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<15 then '00'
+                            when To_number(TO_CHAR(DataDate,'ss'))<30 then '15'
+                            when To_number(TO_CHAR(DataDate,'ss'))<45 then '30'
+                        ]]>
+                else '45'
+                end
+        ) group by GasType,Place, periodDate , dataDate
 
     </select>
 

@@ -36,11 +36,53 @@ public class GasServiceImpl {
     private GasEveryDayDataDAO gasEveryDayDataDAO;
 
     @ApiMethodDoc(apiCode = "FMCS_gasRealTime",name = "蒸汽天然气实时数据接口")
-    public NatgasTimeDataRetDTO natgasRealTime(@ApiParamDoc(desc = "统计时间类型天day月month(必填)")String dateType,
-                                               @ApiParamDoc(desc = "气体类型如蒸汽，天然气") String gasType,
-                                               @ApiParamDoc(desc = "地点如4A/4B-工厂、4M食堂") String place){
-        NatgasTimeDataRetDTO resultDto=new NatgasTimeDataRetDTO();
+    public NatgasRealTimeDataRetDTO natgasRealTime(@ApiParamDoc(desc = "气体类型如蒸汽，天然气") String gasType,
+                                                   @ApiParamDoc(desc = "地点如4A/4B-工厂、4M食堂") String place){
+        NatgasRealTimeDataRetDTO resultDto=new NatgasRealTimeDataRetDTO();
         try {
+            if (!Constant.GasTypeList.contains(gasType)){
+                resultDto.setSuccess(false);
+                resultDto.setErrorMsg("gasType参数错误,请传入【" + Constant.GasTypeList + "】");
+                return resultDto;
+            }
+            if (!StringUtils.isEmpty(place) && !Constant.PlaceTypeList.contains(place)){
+                resultDto.setSuccess(false);
+                resultDto.setErrorMsg("place参数错误,请传入【" + Constant.PlaceTypeList + "】");
+                return resultDto;
+            }
+            List<String> dateMinuteList = null;
+            List<String> dateSecondList = null;
+            Date beginDate = null;
+            Date endDate = new Date();
+            beginDate = DateUtils.getBeforMinuteStartDay(5);
+            dateMinuteList = DateUtils.getMinuteStrList(beginDate, endDate);
+            dateSecondList = DateUtils.getSecondStrList(DateUtils.getBeforMinuteStartDay(0), endDate);
+
+            List<NatgasRealTimeData.NatgasTimeDetailData> dataList = natgasRealTimeDataDAO.queryGasRealTimeData(gasType,place,beginDate, endDate);
+            Map<String, NatgasRealTimeData.NatgasTimeDetailData> dataMap = MapUtils.listToMap(dataList, "key");
+            List<NatgasRealTimeData> natgasRealTimeDataList = new ArrayList<NatgasRealTimeData>();
+            for (String strMinute : dateMinuteList) {
+                NatgasRealTimeData data = new NatgasRealTimeData();
+                data.setPeriodDate(strMinute);
+                String minute=strMinute.substring(0,2);
+                List<NatgasRealTimeData.NatgasTimeDetailData> detailDataList=new ArrayList<NatgasRealTimeData.NatgasTimeDetailData>();
+                for (String strSecond : dateSecondList) {
+                    String second=strSecond.substring(3);
+                    String s=minute+":"+second;
+                    String key = strMinute + " " + s;
+                    NatgasRealTimeData.NatgasTimeDetailData natgasTimeDetailData = dataMap.get(key);
+                    if (natgasTimeDetailData == null) {
+                        natgasTimeDetailData = new NatgasRealTimeData.NatgasTimeDetailData(strMinute, strSecond);
+                        natgasTimeDetailData.setDataDate(s);
+                    }
+                    natgasTimeDetailData.setDataDate(s);
+                    detailDataList.add(natgasTimeDetailData);
+                }
+                data.setGasRealTimeDataList(detailDataList);
+                natgasRealTimeDataList.add(data);
+
+            }
+            resultDto.setNatgasRealTimeDataList(natgasRealTimeDataList);
             return resultDto;
         }catch (Exception e){
             LogUtils.error(this.getClass(),"natgasRealTime eclipse",e);
@@ -214,6 +256,20 @@ public class GasServiceImpl {
         }
         resultDto.setBigGasesList(dataDto);
         return resultDto;
+    }
+
+    @ApiMethodDoc(apiCode ="FMCS_NatgasAddress" ,name = "蒸汽天然气地点列表")
+    public NatgasAddressRetDTO queryNatgasAddress(){
+        NatgasAddressRetDTO resultDto=new NatgasAddressRetDTO();
+        List<String> addressList=Constant.PlaceTypeList;
+        List<NatgasAddressData> dataList=new ArrayList<NatgasAddressData>();
+        for (String address:addressList){
+            NatgasAddressData data=new NatgasAddressData();
+            data.setAddress(address);
+            dataList.add(data);
+        }
+        resultDto.setNatgasAddressDataList(dataList);
+        return  resultDto;
     }
 
 }
