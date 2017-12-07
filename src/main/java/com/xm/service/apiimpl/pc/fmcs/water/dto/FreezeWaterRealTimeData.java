@@ -22,7 +22,8 @@ public class FreezeWaterRealTimeData {
             this.periodDate=periodDate;
             this.dataDate=dataDate;
         }*/
-        public FreezeWaterRealTimeDetailData(String periodDate){
+        public FreezeWaterRealTimeDetailData(String periodDate,String dataDate){
+            this.dataDate=dataDate;
             this.periodDate=periodDate;
         }
         public String key(){

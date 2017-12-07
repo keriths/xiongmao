@@ -201,8 +201,7 @@ public class WaterServiceImpl {
                 }
                 FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData freezeWaterRealTimeDetailData=dataMap.get(strSecond);
                 if (freezeWaterRealTimeDetailData == null) {
-                    freezeWaterRealTimeDetailData = new FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData(strSecond);
-                    freezeWaterRealTimeDetailData.setPeriodDate(minute);
+                    freezeWaterRealTimeDetailData = new FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData(minute,strSecond);
                 }
                 minuteData.getFreezeWaterRealTimeDetailDataList().add(freezeWaterRealTimeDetailData);
             }
