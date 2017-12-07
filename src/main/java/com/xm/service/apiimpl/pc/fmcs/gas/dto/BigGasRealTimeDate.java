@@ -21,14 +21,17 @@ public class BigGasRealTimeDate {
         public GasRealTimeDate(){
 
         }
-        public GasRealTimeDate(String periodDate,String secondDate){
+        public GasRealTimeDate (String secondDate){
+            this.secondDate = secondDate;
+        }
+        /*public GasRealTimeDate(String periodDate,String secondDate){
             this.periodDate = periodDate;
             this.secondDate = secondDate;
         }
 
         public String key(){
             return periodDate+" "+secondDate;
-        }
+        }*/
 
         @ApiResultFieldDesc(desc = "气体名称")
         private String gasName;

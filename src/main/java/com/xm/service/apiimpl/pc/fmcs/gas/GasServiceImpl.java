@@ -155,31 +155,35 @@ public class GasServiceImpl {
             }
             Date beginDate = DateUtils.getBeforMinuteStartDay(5);
             Date endDate = new Date();
-            List<String> minuteList = DateUtils.getMinuteStrList(beginDate,endDate);
-            List<String> secondList = DateUtils.getSecondStrList(DateUtils.getBeforMinuteStartDay(0),endDate);
+            //List<String> minuteList = DateUtils.getMinuteStrList(beginDate,endDate);
+            //List<String> secondList = DateUtils.getSecondStrList(DateUtils.getBeforMinuteStartDay(0),endDate);
+            List<String> secondList = DateUtils.getSecondStrList(beginDate,endDate);
 
             List<BigGasRealTimeDate.GasRealTimeDate> queryList = gasRealTimeDataDAO.queryBigGasRealTimeDate(gasName,beginDate,endDate);
-            Map<String,BigGasRealTimeDate.GasRealTimeDate> queryMap = MapUtils.listToMap(queryList,"key");
+            Map<String,BigGasRealTimeDate.GasRealTimeDate> queryMap = MapUtils.listToMap(queryList,"getSecondDate");
             List<BigGasRealTimeDate> bigGasRT = new ArrayList<BigGasRealTimeDate>();
-            for(String min:minuteList){
-                BigGasRealTimeDate gasRT = new BigGasRealTimeDate();
-                gasRT.setPeriodDate(min);
-                String minute=min.substring(0,2);
-                List<BigGasRealTimeDate.GasRealTimeDate> gasDateList = new ArrayList<BigGasRealTimeDate.GasRealTimeDate>();
-                for(String sec:secondList){
-                    String second=sec.substring(3);
-                    String s=minute+":"+second;
-                    String key = min+" "+s;
-                    BigGasRealTimeDate.GasRealTimeDate gasRTDate = queryMap.get(key);
-                    if(gasRTDate==null){
-                        gasRTDate = new BigGasRealTimeDate.GasRealTimeDate(min,sec);
-                        gasRTDate.setSecondDate(s);
-                    }
-                    gasRTDate.setSecondDate(s);
-                    gasDateList.add(gasRTDate);
+            List<BigGasRealTimeDate.GasRealTimeDate> gasDateList = new ArrayList<BigGasRealTimeDate.GasRealTimeDate>();
+            BigGasRealTimeDate gasRT = new BigGasRealTimeDate();
+            for(String sec:secondList){
+                BigGasRealTimeDate.GasRealTimeDate gasRTDate = queryMap.get(sec);
+                if(gasRTDate==null){
+                    gasRTDate = new BigGasRealTimeDate.GasRealTimeDate(sec);
                 }
-                gasRT.setGasRealTimeDateList(gasDateList);
-                bigGasRT.add(gasRT);
+                String second = sec.substring(0,2);
+                String minute=second + ":00";
+                gasRTDate.setSecondDate(sec);
+                if(gasRT.getPeriodDate()!=null){
+                    if(!gasRT.getPeriodDate().substring(0,2).equals(second)){
+                        gasRT = new BigGasRealTimeDate();
+                        gasDateList = new ArrayList<BigGasRealTimeDate.GasRealTimeDate>();
+                    }
+                }
+                gasRT.setPeriodDate(minute);
+                gasDateList.add(gasRTDate);
+                if(gasDateList.size()==4){
+                    gasRT.setGasRealTimeDateList(gasDateList);
+                    bigGasRT.add(gasRT);
+                }
             }
             resultDto.setBigGasRealTimeDateList(bigGasRT);
             return resultDto;
