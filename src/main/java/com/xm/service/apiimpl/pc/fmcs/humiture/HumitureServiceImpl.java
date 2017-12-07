@@ -112,14 +112,14 @@ public class HumitureServiceImpl {
                 List<HumiturePlaceDate.HtPeDate> htDateList = new ArrayList<HumiturePlaceDate.HtPeDate>();
                 List<String> equList = Constant.placeEquipmentListMap.get(p);
                 for(String e:equList){
-                    HumiturePlaceDate.HtPeDate ht = new HumiturePlaceDate.HtPeDate();
-                    ht.setEquipment(e);
+//                    HumiturePlaceDate.HtPeDate ht = new HumiturePlaceDate.HtPeDate();
+//                    ht.setEquipment(e);
                     HumiturePlaceDate.HtPeDate htD = null;
                     if(!CollectionUtils.isEmpty(queryMap)){
                         htD = queryMap.get(e);
                     }
                     if(htD == null){
-                        htD = new HumiturePlaceDate.HtPeDate(e);
+                        htD = new HumiturePlaceDate.HtPeDate(p,e);
                     }
                     htDateList.add(htD);
                 }

@@ -25,7 +25,8 @@ public class HumiturePlaceDate{
         }*/
 
         public HtPeDate(){}
-        public HtPeDate(String equipment){
+        public HtPeDate(String place,String equipment){
+            this.place=place;
             this.equipment = equipment;
         }
 
