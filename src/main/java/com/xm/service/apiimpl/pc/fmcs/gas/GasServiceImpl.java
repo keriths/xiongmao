@@ -50,7 +50,7 @@ public class GasServiceImpl {
         }
     }
 
-    @ApiMethodDoc(apiCode = "FMCS_gsaStatistics",name = "蒸汽天然气统计数据接口（按天、按月）")
+    @ApiMethodDoc(apiCode = "FMCS_gsaStatistics",name = "蒸汽天然气统计数据接口（按天、按月）（OK）")
     public NatgasStatisticsDataRetDTO natgasStatistics(@ApiParamDoc(desc = "统计时间类型天day月month(必填)")String dateType,
                                                        @ApiParamDoc(desc = "气体类型如蒸汽，天然气(必填)") String gasType,
                                                        @ApiParamDoc(desc = "地点如4A/4B-工厂、4M食堂") String place) {

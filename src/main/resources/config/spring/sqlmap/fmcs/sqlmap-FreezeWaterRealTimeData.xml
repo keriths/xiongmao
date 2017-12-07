@@ -3,7 +3,9 @@
 <mapper namespace="com.xm.service.dao.fmcs.FreezeWaterRealTimeDataDAO" >
 
     <select id="freezeWaterRealTimeData" resultType="com.xm.service.apiimpl.pc.fmcs.water.dto.FreezeWaterRealTimeData$FreezeWaterRealTimeDetailData" parameterType="Map">
+        select sum(speed) as speed, periodDate , dataDate from (
         select
+            TYPE,
             AVG(Speed) as speed,
             TO_CHAR(DataDate,'mi')||':00' as periodDate,
             <![CDATA[
@@ -23,6 +25,7 @@
                 AND TYPE =#{waterType,jdbcType=VARCHAR}
             </if>
         GROUP BY
+            TYPE,
             TO_CHAR(DataDate,'mi')||':00',
             <![CDATA[
                     TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<15 then '00'
@@ -31,6 +34,7 @@
                 ]]>
             else '45'
             end
+        ) group by TYPE, periodDate , dataDate
     </select>
 
 </mapper>
