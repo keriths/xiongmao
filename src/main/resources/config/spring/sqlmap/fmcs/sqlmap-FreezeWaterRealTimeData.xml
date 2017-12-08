@@ -3,37 +3,37 @@
 <mapper namespace="com.xm.service.dao.fmcs.FreezeWaterRealTimeDataDAO" >
 
     <select id="freezeWaterRealTimeData" resultType="com.xm.service.apiimpl.pc.fmcs.water.dto.FreezeWaterRealTimeData$FreezeWaterRealTimeDetailData" parameterType="Map">
-        select sum(speed) as speed, periodDate , dataDate from (
-        select
-            TYPE,
-            AVG(Speed) as speed,
-            TO_CHAR(DataDate,'mi')||':00' as periodDate,
-            <![CDATA[
+        SELECT SUM(speed) as speed, periodDate , dataDate FROM(
+            SELECT
+                TYPE,
+                AVG(Speed) as speed,
+                TO_CHAR(DataDate,'mi')||':00' as periodDate,
+                <![CDATA[
                     TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<15 then '00'
                     when To_number(TO_CHAR(DataDate,'ss'))<30 then '15'
                     when To_number(TO_CHAR(DataDate,'ss'))<45 then '30'
                 ]]>
-            else '45'
-            end as dataDate
-        from FreezeWaterRealTimeData
-        WHERE
-            <![CDATA[
-                       DataDate >= #{beginDate}
-                      and DataDate <= #{endDate}
-                ]]>
-            <if test="waterType!=null and waterType!=''">
-                AND TYPE =#{waterType,jdbcType=VARCHAR}
-            </if>
-        GROUP BY
-            TYPE,
-            TO_CHAR(DataDate,'mi')||':00',
-            <![CDATA[
+                else '45'
+                end as dataDate
+            FROM FreezeWaterRealTimeData
+            WHERE
+                <![CDATA[
+                   DataDate >= #{beginDate}
+                  and DataDate <= #{endDate}
+                    ]]>
+                <if test="waterType!=null and waterType!=''">
+                    AND TYPE =#{waterType,jdbcType=VARCHAR}
+                </if>
+            GROUP BY
+                TYPE,
+                TO_CHAR(DataDate,'mi')||':00',
+                <![CDATA[
                     TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<15 then '00'
                     when To_number(TO_CHAR(DataDate,'ss'))<30 then '15'
                     when To_number(TO_CHAR(DataDate,'ss'))<45 then '30'
                 ]]>
-            else '45'
-            end
+                else '45'
+                end
         ) group by TYPE, periodDate , dataDate
     </select>
 

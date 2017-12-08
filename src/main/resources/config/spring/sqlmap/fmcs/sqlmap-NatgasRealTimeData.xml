@@ -4,10 +4,10 @@
 
     <select id="queryGasRealTimeData" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.gas.dto.NatgasRealTimeData$NatgasTimeDetailData">
 
-        select sum(speed) as speed, periodDate , dataDate from (
-        select
-            GasType,Place,
-            AVG(Speed) as speed,
+        SELECT SUM (speed) as speed, periodDate , dataDate FROM (
+            SELECT
+                GasType,Place,
+                AVG(Speed) as speed,
                 TO_CHAR(DataDate,'mi')||':00' as periodDate,
                 <![CDATA[
                     TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<15 then '00'
@@ -16,11 +16,11 @@
                 ]]>
                 else '45'
                 end as dataDate
-            from NatgasRealTimeData
+            FROM NatgasRealTimeData
             WHERE
                 <![CDATA[
-                       DataDate >= #{beginDate}
-                      and DataDate <= #{endDate}
+                   DataDate >= #{beginDate}
+                  and DataDate <= #{endDate}
                 ]]>
                 AND GasType=#{gasType,jdbcType=VARCHAR}
                 <if test="place!=null and place!=''">
@@ -30,13 +30,13 @@
                 GasType,Place,
                 TO_CHAR(DataDate,'mi')||':00',
                 <![CDATA[
-                            TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<15 then '00'
-                            when To_number(TO_CHAR(DataDate,'ss'))<30 then '15'
-                            when To_number(TO_CHAR(DataDate,'ss'))<45 then '30'
-                        ]]>
+                    TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<15 then '00'
+                    when To_number(TO_CHAR(DataDate,'ss'))<30 then '15'
+                    when To_number(TO_CHAR(DataDate,'ss'))<45 then '30'
+                ]]>
                 else '45'
                 end
-        ) group by GasType,Place, periodDate , dataDate
+        ) GROUP BY GasType,Place, periodDate , dataDate
 
     </select>
 

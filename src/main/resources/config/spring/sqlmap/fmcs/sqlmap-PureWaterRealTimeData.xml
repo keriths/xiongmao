@@ -3,8 +3,8 @@
 <mapper namespace="com.xm.service.dao.fmcs.PureWaterRealTimeDataDAO" >
 
     <select id="pureWaterRealTimeData" resultType="com.xm.service.apiimpl.pc.fmcs.water.dto.PureWaterRealTimeData$PureWaterRealTimeDetailData" parameterType="Map">
-        SELECT sum(speed) as speed,periodDate,dataDate from (
-            select
+        SELECT SUM (speed) as speed,periodDate,dataDate FROM (
+            SELECT
                 TYPE,
                 AVG(Speed) as speed,
                 TO_CHAR(DataDate,'mi')||':00' as periodDate,
@@ -15,11 +15,11 @@
                 ]]>
                     else '45'
                     end as dataDate
-            from PureWaterRealTimeData
+            FROM PureWaterRealTimeData
             WHERE
                 <![CDATA[
-                       DataDate >= #{beginDate}
-                      and DataDate <= #{endDate}
+                   DataDate >= #{beginDate}
+                  and DataDate <= #{endDate}
                 ]]>
                 <if test="waterType!=null and waterType!=''">
                     AND TYPE =#{waterType,jdbcType=VARCHAR}
@@ -34,7 +34,7 @@
                 ]]>
                     else '45'
                     end
-        ) group by TYPE,periodDate,dataDate
+        ) GROUP BY TYPE,periodDate,dataDate
     </select>
 
 </mapper>

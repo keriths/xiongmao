@@ -3,29 +3,29 @@
 <mapper namespace="com.xm.service.dao.fmcs.TapWaterRealTimeDataDAO" >
 
     <select id="tapWaterRealTimeData" resultType="com.xm.service.apiimpl.pc.fmcs.water.dto.TapWaterRealTimeData$TapWaterRealTimeDetailData" parameterType="Map">
-        select
+        SELECT
             AVG (Speed) as speed,
-            TO_CHAR(DataDate,'mi')||':00' as periodDate,
-        <![CDATA[
-            TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<15 then '00'
-            when To_number(TO_CHAR(DataDate,'ss'))<30 then '15'
-            when To_number(TO_CHAR(DataDate,'ss'))<45 then '30'
-        ]]>
+            TO_CHAR(DataDate,'mi')||':00' AS periodDate,
+            <![CDATA[
+                TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<15 then '00'
+                when To_number(TO_CHAR(DataDate,'ss'))<30 then '15'
+                when To_number(TO_CHAR(DataDate,'ss'))<45 then '30'
+            ]]>
             else '45'
             end as dataDate
-        from TapWaterRealTimeData
+        FROM TapWaterRealTimeData
         WHERE
-        <![CDATA[
+          <![CDATA[
                DataDate >= #{beginDate}
               and DataDate <= #{endDate}
-        ]]>
+          ]]>
         GROUP BY
-        TO_CHAR(DataDate,'mi')||':00',
-        <![CDATA[
-            TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<15 then '00'
-            when To_number(TO_CHAR(DataDate,'ss'))<30 then '15'
-            when To_number(TO_CHAR(DataDate,'ss'))<45 then '30'
-        ]]>
+            TO_CHAR(DataDate,'mi')||':00',
+            <![CDATA[
+                TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<15 then '00'
+                when To_number(TO_CHAR(DataDate,'ss'))<30 then '15'
+                when To_number(TO_CHAR(DataDate,'ss'))<45 then '30'
+            ]]>
             else '45'
             end
     </select>

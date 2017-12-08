@@ -3,8 +3,8 @@
 <mapper namespace="com.xm.service.dao.fmcs.FreezeWaterEveryDayDataDAO" >
 
     <select id="freezeWaterEveryDayData" resultType="com.xm.service.apiimpl.pc.fmcs.water.dto.FreezeWaterEveryDayData" parameterType="Map">
-        select
-            sum(TotalNum) as totalNum,
+        SELECT
+            SUM(TotalNum) as totalNum,
             <if test="dateType=='month'.toString()">/*按月*/
                 TO_CHAR(DataDate,'MM')||'月'
             </if>
@@ -12,11 +12,11 @@
                 TO_CHAR(DataDate,'mm/dd')
             </if>
             as dataDate
-        from FreezeWaterEveryDayData
+        FROM FreezeWaterEveryDayData
         WHERE
             <![CDATA[
-                   DataDate >= #{beginDate}
-                  and DataDate <= #{endDate}
+               DataDate >= #{beginDate}
+              and DataDate <= #{endDate}
             ]]>
             <if test="waterType!=null and waterType!=''">
                 AND Type=#{waterType,jdbcType=VARCHAR}
