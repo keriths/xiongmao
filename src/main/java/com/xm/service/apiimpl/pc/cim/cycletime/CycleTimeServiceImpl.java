@@ -38,9 +38,9 @@ public class CycleTimeServiceImpl {
                 resultDto.setErrorMsg("dateType参数错误,请传入【" + Constant.dateTypeList + "】");
                 return resultDto;
             }
-            if (!Constant.cycleTimPproductIdNameMap.containsKey(productId)){
+            if (!Constant.productIdNameMap.containsKey(productId)){
                 resultDto.setSuccess(false);
-                resultDto.setErrorMsg("productId参数错误,请传入【" + Constant.cycleTimPproductIdNameMap.keySet() + "】");
+                resultDto.setErrorMsg("productId参数错误,请传入【" + Constant.productIdNameMap.keySet() + "】");
                 return resultDto;
             }
 
