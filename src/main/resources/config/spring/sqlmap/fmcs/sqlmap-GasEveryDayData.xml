@@ -4,33 +4,33 @@
 
     <select id="queryBigGasStatisticsDate" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.gas.dto.BigGasStatisticsDateRetDTO$BigGasStatisticsDate">
         select
-        sum(TOTALNUM) as totalNum,
-        GASNAME as gasName,
-        <if test="dateType=='day'.toString()">
-            to_char(DATADATE,'mm/dd')
-        </if>
-        <if test="dateType=='month'.toString()">
-            to_char(DATADATE,'MM') ||'月'
-        </if>
-        as periodDate
+            sum(TOTALNUM) as totalNum,
+            GASNAME as gasName,
+            <if test="dateType=='day'.toString()">
+                to_char(DATADATE,'mm/dd')
+            </if>
+            <if test="dateType=='month'.toString()">
+                to_char(DATADATE,'MM') ||'月'
+            </if>
+            as periodDate
         from
-        GASEVERYDAYDATA
+          GASEVERYDAYDATA
         where
-        <![CDATA[
-            DATADATE >= #{beginDate}
-            and DATADATE <= #{endDate}
+            <![CDATA[
+                DATADATE >= #{beginDate}
+                and DATADATE <= #{endDate}
             ]]>
-        <if test="gasName!=null and gasName!=''">
-            AND GASNAME=#{gasName,jdbcType=VARCHAR}
-        </if>
+            <if test="gasName!=null and gasName!=''">
+                AND GASNAME=#{gasName,jdbcType=VARCHAR}
+            </if>
         group by
-        <if test="dateType=='day'.toString()">
-            to_char(DATADATE,'mm/dd'),
-        </if>
-        <if test="dateType=='month'.toString()">
-            to_char(DATADATE,'MM') ||'月',
-        </if>
-        GASNAME
+            <if test="dateType=='day'.toString()">
+                to_char(DATADATE,'mm/dd'),
+            </if>
+            <if test="dateType=='month'.toString()">
+                to_char(DATADATE,'MM') ||'月',
+            </if>
+            GASNAME
     </select>
 
 </mapper>

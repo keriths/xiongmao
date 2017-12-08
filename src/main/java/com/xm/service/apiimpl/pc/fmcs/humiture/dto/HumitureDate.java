@@ -23,11 +23,6 @@ public class HumitureDate {
             this.secondDate = secondDate;
         }
 
-        public String key(){
-            return periodDate+" "+secondDate;
-        }
-
-
         @ApiResultFieldDesc(desc = "工厂如array,cf,cell")
         private String factory;
 

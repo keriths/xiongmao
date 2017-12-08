@@ -156,7 +156,25 @@ public class GasServiceImpl {
             List<BigGasRealTimeDate.GasRealTimeDate> queryList = gasRealTimeDataDAO.queryBigGasRealTimeDate(gasName,beginDate,endDate);
             Map<String,BigGasRealTimeDate.GasRealTimeDate> queryMap = MapUtils.listToMap(queryList,"getSecondDate");
             List<BigGasRealTimeDate> bigGasRT = new ArrayList<BigGasRealTimeDate>();
-            List<BigGasRealTimeDate.GasRealTimeDate> gasDateList = new ArrayList<BigGasRealTimeDate.GasRealTimeDate>();
+            Map<String,BigGasRealTimeDate> minuteDataMap = new HashMap<String, BigGasRealTimeDate>();
+            for (String strSecond:secondList){
+                String minute=strSecond.substring(0,2)+":00";
+                BigGasRealTimeDate minuteData = minuteDataMap.get(minute);
+                if (minuteData==null){
+                    minuteData=new BigGasRealTimeDate();
+                    minuteData.setPeriodDate(minute);
+                    minuteData.setGasRealTimeDateList(new ArrayList<BigGasRealTimeDate.GasRealTimeDate>());
+                    minuteDataMap.put(minute,minuteData);
+                    bigGasRT.add(minuteData);
+                }
+                BigGasRealTimeDate.GasRealTimeDate bigGasDate=queryMap.get(strSecond);
+                if (bigGasDate == null) {
+                    bigGasDate = new BigGasRealTimeDate.GasRealTimeDate(minute,strSecond);
+                }
+                minuteData.getGasRealTimeDateList().add(bigGasDate);
+            }
+            resultDto.setBigGasRealTimeDateList(bigGasRT);
+            /*List<BigGasRealTimeDate.GasRealTimeDate> gasDateList = new ArrayList<BigGasRealTimeDate.GasRealTimeDate>();
             BigGasRealTimeDate gasRT = new BigGasRealTimeDate();
             for(String sec:secondList){
                 BigGasRealTimeDate.GasRealTimeDate gasRTDate = queryMap.get(sec);
@@ -179,7 +197,7 @@ public class GasServiceImpl {
                     bigGasRT.add(gasRT);
                 }
             }
-            resultDto.setBigGasRealTimeDateList(bigGasRT);
+            resultDto.setBigGasRealTimeDateList(bigGasRT);*/
             return resultDto;
         }catch (Exception e){
             LogUtils.error(this.getClass(),"bigGasRealTime eclipse",e);

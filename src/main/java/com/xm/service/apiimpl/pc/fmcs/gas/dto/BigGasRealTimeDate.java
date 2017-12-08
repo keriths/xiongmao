@@ -21,15 +21,12 @@ public class BigGasRealTimeDate {
         public GasRealTimeDate(){
 
         }
-        public GasRealTimeDate (String secondDate){
-            this.secondDate = secondDate;
-        }
-        /*public GasRealTimeDate(String periodDate,String secondDate){
+        public GasRealTimeDate(String periodDate,String secondDate){
             this.periodDate = periodDate;
             this.secondDate = secondDate;
         }
 
-        public String key(){
+        /*public String key(){
             return periodDate+" "+secondDate;
         }*/
 

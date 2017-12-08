@@ -55,31 +55,28 @@ public class HumitureServiceImpl {
 
             Date beginDate = DateUtils.getBeforMinuteStartDay(5);
             Date endDate = new Date();
-            List<String> minuteList = DateUtils.getMinuteStrList(beginDate,endDate);
-            List<String> secondList = DateUtils.getSecondStrList(DateUtils.getBeforMinuteStartDay(0),endDate);
+            //List<String> minuteList = DateUtils.getMinuteStrList(beginDate,endDate);
+            List<String> secondList = DateUtils.getSecondStrList(beginDate,endDate);
 
             List<HumitureDate.HumitureDetailData> queryList = humitureDataDAO.queryHumiture(factory,place,equipment,beginDate,endDate);
-            Map<String,HumitureDate.HumitureDetailData> queryMap = MapUtils.listToMap(queryList,"key");
+            Map<String,HumitureDate.HumitureDetailData> queryMap = MapUtils.listToMap(queryList,"getSecondDate");
             List<HumitureDate> htDateList = new ArrayList<HumitureDate>();
-            for(String min:minuteList){
-                HumitureDate htDate = new HumitureDate();
-                htDate.setPeriodDate(min);
-                String minute=min.substring(0,2);
-                List<HumitureDate.HumitureDetailData> htDetailList = new ArrayList<HumitureDate.HumitureDetailData>();
-                for(String sec:secondList){
-                    String second=sec.substring(3);
-                    String s=minute+":"+second;
-                    String key = min+" "+s;
-                    HumitureDate.HumitureDetailData htDetailDate = queryMap.get(key);
-                    if(htDetailDate == null){
-                        htDetailDate = new HumitureDate.HumitureDetailData(min,sec);
-                        htDetailDate.setSecondDate(s);
-                    }
-                    htDetailDate.setSecondDate(s);
-                    htDetailList.add(htDetailDate);
+            Map<String,HumitureDate> minuteDataMap = new HashMap<String, HumitureDate>();
+            for (String strSecond:secondList){
+                String minute=strSecond.substring(0,2)+":00";
+                HumitureDate minuteData = minuteDataMap.get(minute);
+                if (minuteData==null){
+                    minuteData=new HumitureDate();
+                    minuteData.setPeriodDate(minute);
+                    minuteData.setHumitureDataList(new ArrayList<HumitureDate.HumitureDetailData>());
+                    minuteDataMap.put(minute,minuteData);
+                    htDateList.add(minuteData);
                 }
-                htDate.setHumitureDataList(htDetailList);
-                htDateList.add(htDate);
+                HumitureDate.HumitureDetailData htDetailDate=queryMap.get(strSecond);
+                if (htDetailDate == null) {
+                    htDetailDate = new HumitureDate.HumitureDetailData(minute,strSecond);
+                }
+                minuteData.getHumitureDataList().add(htDetailDate);
             }
             resultDto.setHumitureDateList(htDateList);
             return resultDto;

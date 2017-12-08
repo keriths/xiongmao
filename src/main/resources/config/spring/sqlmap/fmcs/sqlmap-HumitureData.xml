@@ -4,67 +4,76 @@
 
     <select id="queryHumiture" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumitureDate$HumitureDetailData">
         select
-        FACTORY as factory,
-        avg(TEMPERATURE) as temperature,
-        avg(HUMIDITY) as humidity,
-        avg(CLEANLINESS) as cleanliness,
-        TO_CHAR(DATADATE,'mi')||':00' as periodDate,
-        <![CDATA[
-        TO_CHAR(DATADATE,'mi') || ':' || case when To_number(TO_CHAR(DATADATE,'ss'))<15 then '00'
-        when To_number(TO_CHAR(DATADATE,'ss'))<30 then '15'
-        when To_number(TO_CHAR(DATADATE,'ss'))<45 then '30'
-        ]]>
-        else
-        '45'
-        end
-        as secondDate
+            FACTORY as factory,
+            avg(TEMPERATURE) as temperature,
+            avg(HUMIDITY) as humidity,
+            avg(CLEANLINESS) as cleanliness,
+            TO_CHAR(DATADATE,'mi')||':00' as periodDate,
+            <![CDATA[
+                TO_CHAR(DATADATE,'mi') || ':' || case when To_number(TO_CHAR(DATADATE,'ss'))<15 then '00'
+                when To_number(TO_CHAR(DATADATE,'ss'))<30 then '15'
+                when To_number(TO_CHAR(DATADATE,'ss'))<45 then '30'
+            ]]>
+            else
+              '45'
+            end
+            as secondDate
         from HUMITUREDATA
         WHERE
-        <![CDATA[
-               DATADATE >= #{beginDate}
-              and DATADATE <= #{endDate}
+            <![CDATA[
+                   DATADATE >= #{beginDate}
+                  and DATADATE <= #{endDate}
              ]]>
-        <if test="factory!=null and factory!=''">
-            AND FACTORY=#{factory,jdbcType=VARCHAR}
-        </if>
-        <if test="place!=null and place!=''">
-            AND PLACE=#{place,jdbcType=VARCHAR}
-        </if>
-        <if test="equipment!=null and equipment!=''">
-            AND EQUIPMENT=#{equipment,jdbcType=VARCHAR}
-        </if>
+            <if test="factory!=null and factory!=''">
+                AND FACTORY=#{factory,jdbcType=VARCHAR}
+            </if>
+            <if test="place!=null and place!=''">
+                AND PLACE=#{place,jdbcType=VARCHAR}
+            </if>
+            <if test="equipment!=null and equipment!=''">
+                AND EQUIPMENT=#{equipment,jdbcType=VARCHAR}
+            </if>
         GROUP BY
-        FACTORY,
-        TO_CHAR(DATADATE,'mi')||':00',
-        <![CDATA[
-        TO_CHAR(DATADATE,'mi') || ':' || case when To_number(TO_CHAR(DATADATE,'ss'))<15 then '00'
-        when To_number(TO_CHAR(DATADATE,'ss'))<30 then '15'
-        when To_number(TO_CHAR(DATADATE,'ss'))<45 then '30'
-        ]]>
-        else
-        '45'
-        end
+            FACTORY,
+            TO_CHAR(DATADATE,'mi')||':00',
+            <![CDATA[
+                TO_CHAR(DATADATE,'mi') || ':' || case when To_number(TO_CHAR(DATADATE,'ss'))<15 then '00'
+                when To_number(TO_CHAR(DATADATE,'ss'))<30 then '15'
+                when To_number(TO_CHAR(DATADATE,'ss'))<45 then '30'
+            ]]>
+            else
+              '45'
+            end
     </select>
 
     <select id="queryFactoryHumiture" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumiturePlaceDate$HtPeDate">
-        select a.* from HUMITUREDATA a
-        inner join (
-        select max(DATADATE) as DATADATE,
-        FACTORY as factory,
-        PLACE as place,
-        EQUIPMENT as equipment
-        from
-        HUMITUREDATA
-        group by FACTORY,PLACE,EQUIPMENT
-        ) b
-        on a.DATADATE = b.DATADATE
-        and a.FACTORY = b.FACTORY
-        and a.PLACE = b.PLACE
-        and a.EQUIPMENT = b.EQUIPMENT
+        select
+            a.FACTORY,
+            a.PLACE,
+            a.EQUIPMENT,
+            a.TEMPERATURE,
+            a.HUMIDITY,
+            a.CLEANLINESS
+        from HUMITUREDATA a
+            inner join (
+                select
+                    max(DATADATE) as DATADATE,
+                    FACTORY as factory,
+                    PLACE as place,
+                    EQUIPMENT as equipment
+                from
+                    HUMITUREDATA
+                group by
+                    FACTORY,PLACE,EQUIPMENT
+            ) b
+            on a.DATADATE = b.DATADATE
+                and a.FACTORY = b.FACTORY
+                and a.PLACE = b.PLACE
+                and a.EQUIPMENT = b.EQUIPMENT
         where
-        <if test="factory!=null and factory!=''">
-            a.FACTORY=#{factory,jdbcType=VARCHAR}
-        </if>
+            <if test="factory!=null and factory!=''">
+                a.FACTORY=#{factory,jdbcType=VARCHAR}
+            </if>
 
     </select>
 

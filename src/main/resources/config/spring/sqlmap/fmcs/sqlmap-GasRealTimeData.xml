@@ -4,38 +4,38 @@
 
     <select id="queryBigGasRealTimeDate" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.gas.dto.BigGasRealTimeDate$GasRealTimeDate">
         select
-        GASNAME as gasName,
-        avg(SPEED) as speed,
-        TO_CHAR(DATADATE,'mi')||':00' as periodDate,
-        <![CDATA[
-        TO_CHAR(DATADATE,'mi') || ':' || case when To_number(TO_CHAR(DATADATE,'ss'))<15 then '00'
-        when To_number(TO_CHAR(DATADATE,'ss'))<30 then '15'
-        when To_number(TO_CHAR(DATADATE,'ss'))<45 then '30'
-        ]]>
-        else
-        '45'
-        end
-        as secondDate
+            GASNAME as gasName,
+            avg(SPEED) as speed,
+            TO_CHAR(DATADATE,'mi')||':00' as periodDate,
+            <![CDATA[
+                TO_CHAR(DATADATE,'mi') || ':' || case when To_number(TO_CHAR(DATADATE,'ss'))<15 then '00'
+                when To_number(TO_CHAR(DATADATE,'ss'))<30 then '15'
+                when To_number(TO_CHAR(DATADATE,'ss'))<45 then '30'
+            ]]>
+            else
+              '45'
+            end
+            as secondDate
         from GASREALTIMEDATA
         WHERE
-        <![CDATA[
-               DATADATE >= #{beginDate}
-              and DATADATE <= #{endDate}
+            <![CDATA[
+                   DATADATE >= #{beginDate}
+                  and DATADATE <= #{endDate}
              ]]>
-        <if test="gasName!=null and gasName!=''">
-            AND GASNAME=#{gasName,jdbcType=VARCHAR}
-        </if>
+            <if test="gasName!=null and gasName!=''">
+                AND GASNAME=#{gasName,jdbcType=VARCHAR}
+            </if>
         GROUP BY
-        GASNAME,
-        TO_CHAR(DATADATE,'mi')||':00',
-        <![CDATA[
-        TO_CHAR(DATADATE,'mi') || ':' || case when To_number(TO_CHAR(DATADATE,'ss'))<15 then '00'
-        when To_number(TO_CHAR(DATADATE,'ss'))<30 then '15'
-        when To_number(TO_CHAR(DATADATE,'ss'))<45 then '30'
-        ]]>
-        else
-        '45'
-        end
+            GASNAME,
+            TO_CHAR(DATADATE,'mi')||':00',
+            <![CDATA[
+                TO_CHAR(DATADATE,'mi') || ':' || case when To_number(TO_CHAR(DATADATE,'ss'))<15 then '00'
+                when To_number(TO_CHAR(DATADATE,'ss'))<30 then '15'
+                when To_number(TO_CHAR(DATADATE,'ss'))<45 then '30'
+            ]]>
+            else
+              '45'
+            end
     </select>
 
 </mapper>
