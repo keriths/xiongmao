@@ -34,7 +34,7 @@
                 ]]>
                     else '45'
                     end
-        ) GROUP BY TYPE,periodDate,dataDate
+        ) GROUP BY periodDate,dataDate
     </select>
 
 </mapper>
