@@ -36,7 +36,7 @@
                 ]]>
                 else '45'
                 end
-        ) GROUP BY GasType,Place, periodDate , dataDate
+        ) GROUP BY periodDate , dataDate
 
     </select>
 
