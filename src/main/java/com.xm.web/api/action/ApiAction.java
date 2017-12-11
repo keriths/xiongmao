@@ -32,8 +32,10 @@ public class ApiAction {
 
     @RequestMapping(value = "/manage/serviceNameList")
     @ResponseBody
-    public Set<String> getServiceNameList(){
-       return ApiManager.serviceNameList();
+    public Object getServiceNameList(){
+        Object[] os= (ApiManager.serviceNameList().toArray());
+        Arrays.sort(os);
+       return os;
     }
 
     @RequestMapping(value = "/manage/serviceMethodList")
