@@ -25,7 +25,7 @@ import java.util.Map;
  */
 
 @Service("GoodsInProcessService")
-@ApiServiceDoc(name = "CIM_在制品(完成)")
+@ApiServiceDoc(name = "CIM4_在制品(完成)")
 public class GoodsInProcessServiceImpl {
     @Resource(name="dwrWipGlsFidsDAO")
     private DwrWipGlsFidsDAO dwrWipGlsFidsDAO;

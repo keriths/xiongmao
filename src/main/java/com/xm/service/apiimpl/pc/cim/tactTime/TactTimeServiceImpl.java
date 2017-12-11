@@ -26,7 +26,7 @@ import java.util.Map;
  */
 
 @Service("TactTimeService")
-@ApiServiceDoc(name = "CIM_TactTime(完成)")
+@ApiServiceDoc(name = "CIM8_TactTime(完成)")
 public class TactTimeServiceImpl {
     @Autowired
     private DwrProductTtFidsDAO dwrProductTtFidsDAO;

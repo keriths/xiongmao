@@ -20,7 +20,7 @@ import java.util.*;
  * Created by fanshuai on 17/10/24.
  */
 @Service("OutputCompletionRateService")
-@ApiServiceDoc(name = "CIM_产出达成率(完成)")
+@ApiServiceDoc(name = "CIM3_产出达成率(完成)")
 public class OutputCompletionRateServiceImpl {
     @Resource
     private DwsProductOutputFidsDAO outputcompletionDAO;

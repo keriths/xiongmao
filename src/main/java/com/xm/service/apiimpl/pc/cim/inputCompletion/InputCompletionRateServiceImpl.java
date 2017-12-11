@@ -19,7 +19,7 @@ import java.util.*;
  * Created by fanshuai on 17/10/24.
  */
 @Service("InputCompletionRateService")
-@ApiServiceDoc(name = "CIM_投入达成率（完成）")
+@ApiServiceDoc(name = "CIM2_投入达成率（完成）")
 public class InputCompletionRateServiceImpl{
 
 
