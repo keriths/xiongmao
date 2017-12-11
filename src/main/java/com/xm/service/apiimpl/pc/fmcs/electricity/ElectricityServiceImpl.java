@@ -14,7 +14,7 @@ import javax.annotation.Resource;
  * Created by fanshuai on 17/10/24.
  */
 @Service("ElectricityService")
-@ApiServiceDoc(name = "FMCS_电")
+@ApiServiceDoc(name = "FMCS2_电")
 public class ElectricityServiceImpl {
     @Resource(name="elecEveryHourDataDAO")
     private ElecEveryHourDataDAO elecEveryHourDataDAO;

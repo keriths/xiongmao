@@ -23,7 +23,7 @@ import java.util.*;
  * Created by fanshuai on 17/10/24.
  */
 @Service("GasService")
-@ApiServiceDoc(name = "FMCS_气、汽")
+@ApiServiceDoc(name = "FMCS3_气、汽")
 public class GasServiceImpl {
 
     @Resource(name="natgasRealTimeDataDAO")

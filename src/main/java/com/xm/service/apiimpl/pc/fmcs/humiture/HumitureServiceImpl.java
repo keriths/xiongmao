@@ -23,7 +23,7 @@ import java.util.*;
  * Created by fanshuai on 17/10/24.
  */
 @Service("HumitureService")
-@ApiServiceDoc(name = "FMCS_温湿度")
+@ApiServiceDoc(name = "FMCS4_温湿度")
 public class HumitureServiceImpl {
 
     @Resource(name = "humitureDataDAO")

@@ -19,7 +19,7 @@ import java.util.*;
  * Created by fanshuai on 17/10/24.
  */
 @Service("WaterService")
-@ApiServiceDoc(name = "FMCS_水")
+@ApiServiceDoc(name = "FMCS1_水")
 public class WaterServiceImpl {
     @Resource
     private TapWaterEveryDayDataDAO tapWaterEveryDayDataDAO;
