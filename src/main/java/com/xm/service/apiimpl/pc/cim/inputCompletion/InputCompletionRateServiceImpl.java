@@ -50,7 +50,7 @@ public class InputCompletionRateServiceImpl{
                 startTime = DateUtils.getBeforMonthStartDay(11);
                 dateList = DateUtils.getMonthStrList(startTime,endTime);
             }else if (dateType.equals(Constant.quarter)){
-                startTime = DateUtils.getBeforQuarterStartDay(11);
+                startTime = DateUtils.getBeforQuarterStartDay(3);
                 dateList = DateUtils.getQuarterStrList(startTime,endTime);
             }
             List<InputCompletionRetDTO.InputCompletionData> dbValueList = inputFidsDAO.queryInputInfo(product, dateType, startTime, endTime);
