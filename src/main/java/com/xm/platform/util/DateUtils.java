@@ -115,7 +115,10 @@ public class DateUtils {
     }
     public static String getQuarterStr(Date day){
         DateTime d = new DateTime(day);
-        return monthToQuarterMap.get(d.monthOfYear().get())+"季度";
+
+        Integer year= d.getYear();
+        String str=year+"年";
+        return str+monthToQuarterMap.get(d.monthOfYear().get())+"季度";
     }
     public static List<String> getQuarterStrList(Date begin,Date end){
         if (end.before(begin)){
@@ -165,12 +168,70 @@ public class DateUtils {
         return new SimpleDateFormat(format).format(day);
     }
 
+    public static List<String> getSecondStrList(Date begin,Date end){
+        DateTime beginTime = new DateTime(begin);
+        DateTime endTime = new DateTime(end);
+        begin = beginTime.secondOfMinute().withMinimumValue().millisOfSecond().withMinimumValue().toDate();
+        end =     endTime.secondOfMinute().withMinimumValue().millisOfSecond().withMinimumValue().toDate();
+        if (end.before(begin)){
+            return null;
+        }
+        List<String> dayStrStrList = new ArrayList<String>();
+        SimpleDateFormat format = new SimpleDateFormat("mm");
+        DateTime minDateTime = new DateTime(begin);
+        while (minDateTime.toDate().before(end)){
+            dayStrStrList.add(format.format(minDateTime.toDate())+":00");
+            dayStrStrList.add(format.format(minDateTime.toDate())+":15");
+            dayStrStrList.add(format.format(minDateTime.toDate())+":30");
+            dayStrStrList.add(format.format(minDateTime.toDate())+":45");
+            minDateTime = minDateTime.plusMinutes(1).toDateTime();
+        }
+        dayStrStrList.add(format.format(end)+":00");
+        dayStrStrList.add(format.format(end)+":15");
+        dayStrStrList.add(format.format(end)+":30");
+        dayStrStrList.add(format.format(end)+":45");
+        return dayStrStrList;
+    }
+
+    public static List<String> getMinuteStrList(Date begin,Date end){
+        DateTime beginTime = new DateTime(begin);
+        DateTime endTime = new DateTime(end);
+        begin = beginTime.secondOfMinute().withMinimumValue().millisOfSecond().withMinimumValue().toDate();
+        end =     endTime.secondOfMinute().withMinimumValue().millisOfSecond().withMinimumValue().toDate();
+        if (end.before(begin)){
+            return null;
+        }
+        List<String> dayStrStrList = new ArrayList<String>();
+        SimpleDateFormat format = new SimpleDateFormat("mm:00");
+        DateTime minDateTime = new DateTime(begin);
+        while (minDateTime.toDate().before(end)){
+            dayStrStrList.add(format.format(minDateTime.toDate()));
+            minDateTime = minDateTime.plusMinutes(1).toDateTime();
+        }
+        dayStrStrList.add(format.format(end));
+        return dayStrStrList;
+    }
+
+    /**
+     * 获得前几分钟的最开始时间
+     * @param beforMinuteNum
+     * @return
+     */
+    public static Date getBeforMinuteStartDay(int beforMinuteNum){
+        DateTime curDateTime = new DateTime();
+        return curDateTime.plusMinutes(-beforMinuteNum).withSecondOfMinute(0).withMillisOfSecond(0).toDate();
+    }
+
+
+
     public static void main(String[] args){
         System.out.println(getStrDate(getBeforQuarterStartDay(0), "yyyyMMdd HH:mm:ss"));
         System.out.println(getHourStrList(getBeforHourStartDay(4), new Date()));
         System.out.println(getDayStrList(getBeforDayStartDay(4), new Date()));
         System.out.println(getMonthStrList(getBeforMonthStartDay(4), new Date()));
-        System.out.println(getQuarterStrList(getBeforQuarterStartDay(4),new Date()));
+        System.out.println(getQuarterStrList(getBeforQuarterStartDay(12),new Date()));
+        System.out.println(getMinuteStrList(getBeforMinuteStartDay(3),new Date()));
+        System.out.println(getSecondStrList(getBeforMinuteStartDay(3),new Date()));
     }
 
 }

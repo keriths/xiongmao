@@ -25,7 +25,7 @@ import java.util.Map;
  */
 
 @Service("GoodsInProcessService")
-@ApiServiceDoc(name = "CIM_在制品(完成)")
+@ApiServiceDoc(name = "CIM4_在制品(完成)")
 public class GoodsInProcessServiceImpl {
     @Resource(name="dwrWipGlsFidsDAO")
     private DwrWipGlsFidsDAO dwrWipGlsFidsDAO;
@@ -44,24 +44,24 @@ public class GoodsInProcessServiceImpl {
             Date beginDate = DateUtils .getBeforHourStartDay(0);
             Date endDate = new Date();
             //List<String> stepIdList = Constant.goodInProcessStepIdNameMap.containsKey();
-            List<GoodInProcessFtRetDTO.GoodInProcessFtDate> queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factory,beginDate,endDate);
+            List<GoodInProcessFtRetDTO.GoodInProcessFtDate> queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factory,Constant.stepIdLists,beginDate,endDate);
             if (CollectionUtils.isEmpty(queryFtdate)){
                 //如果这一小时数据还没有出来，取上一小时的数据
                 beginDate = DateUtils.getBeforHourStartDay(1);
                 endDate = DateUtils.getBeforHourEndDay(1);
-                queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factory,beginDate,endDate);
+                queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factory,Constant.stepIdLists,beginDate,endDate);
             }
             Map<String,GoodInProcessFtRetDTO.GoodInProcessFtDate> queryMap = MapUtils.listToMap(queryFtdate,"getStepId");
             List<GoodInProcessFtRetDTO.GoodInProcessFtDate> list = new ArrayList<GoodInProcessFtRetDTO.GoodInProcessFtDate>();
             for(String step:Constant.stepIdLists){
-                GoodInProcessFtRetDTO.GoodInProcessFtDate dateList = null;
+                GoodInProcessFtRetDTO.GoodInProcessFtDate data = null;
                 if (!CollectionUtils.isEmpty(queryMap)){
-                    dateList = queryMap.get(step);
+                    data = queryMap.get(step);
                 }
-                if (dateList == null) {
-                    dateList = new GoodInProcessFtRetDTO.GoodInProcessFtDate(step);
+                if (data == null) {
+                    data = new GoodInProcessFtRetDTO.GoodInProcessFtDate(step);
                 }
-                list.add(dateList);
+                list.add(data);
             }
             retDTO.setGoodInProcessFtDateList(list);
             return retDTO;
@@ -80,28 +80,28 @@ public class GoodsInProcessServiceImpl {
         GoodInProcessWipRetDTO resultDto = new GoodInProcessWipRetDTO();
 
         try {
-           // List<String> setepIdList = Lists.newArrayList("a", "b", "c", "d", "e", "f", "g");
+           // List<String> stepIdList = Lists.newArrayList("a", "b", "c", "d", "e", "f", "g");
             Date beginDate = DateUtils.getBeforHourStartDay(0);
             Date endDate = new Date();
-            List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.stepIdLists, beginDate, endDate);
+            List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.factoryLists,Constant.stepIdLists, beginDate, endDate);
             if (CollectionUtils.isEmpty(wipDetailDataList)) {
                 //如果这一小时数据还没有出来，取上一小时的数据
                 beginDate = DateUtils.getBeforHourStartDay(1);
                 endDate = DateUtils.getBeforHourEndDay(1);
-                wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.stepIdLists, beginDate, endDate);
+                wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.factoryLists,Constant.stepIdLists, beginDate, endDate);
             }
 
             Map<String, GoodInProcessWipDataDTO.GoodInProcessWipDetailData> dataMap = MapUtils.listToMap(wipDetailDataList, "key");
             List<GoodInProcessWipDataDTO> dataDTOList = new ArrayList<GoodInProcessWipDataDTO>();
-            for (String setepId : Constant.stepIdLists) {
+            for (String stepId : Constant.stepIdLists) {
                 GoodInProcessWipDataDTO dataDto = new GoodInProcessWipDataDTO();
-                dataDto.setSetepId(setepId);
+                dataDto.setSetepId(stepId);
                 List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> detailDataList = new ArrayList<GoodInProcessWipDataDTO.GoodInProcessWipDetailData>();
                 for (String factory : Constant.factoryLists) {
-                    String key = setepId + " " + factory;
+                    String key = stepId + " " + factory;
                     GoodInProcessWipDataDTO.GoodInProcessWipDetailData detailData = dataMap.get(key);
                     if (detailData == null) {
-                        detailData = new GoodInProcessWipDataDTO.GoodInProcessWipDetailData(setepId, factory);
+                        detailData = new GoodInProcessWipDataDTO.GoodInProcessWipDetailData(stepId, factory);
                     }
                     detailDataList.add(detailData);
                 }

@@ -23,7 +23,7 @@ import java.util.Map;
  * Created by fanshuai on 17/10/24.
  */
 @Service("CycleTimeService")
-@ApiServiceDoc(name = "CIM_Cycle_Time(完成)")
+@ApiServiceDoc(name = "CIM6_Cycle_Time(完成)")
 public class CycleTimeServiceImpl {
     @Resource
     private DwrProductCtFidsDAO dwrProductCtFidsDAO;

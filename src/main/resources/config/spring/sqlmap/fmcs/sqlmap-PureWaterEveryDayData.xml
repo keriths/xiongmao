@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.fmcs.PureWaterEveryDayDataDAO" >
+
+    <select id="pureWaterEveryDayData" resultType="com.xm.service.apiimpl.pc.fmcs.water.dto.PureWaterEveryDayData" parameterType="Map">
+        SELECT
+            SUM(TotalNum) as totalNum,
+            <if test="dateType=='month'.toString()">/*按月*/
+                TO_CHAR(DataDate,'MM')||'月'
+            </if>
+            <if test="dateType=='day'.toString()">/*按天*/
+                TO_CHAR(DataDate,'mm/dd')
+            </if>
+            as dataDate
+        FROM PureWaterEveryDayData
+        WHERE
+            <![CDATA[
+                DataDate >= #{beginDate}
+                and DataDate <= #{endDate}
+            ]]>
+            <if test="waterType!=null and waterType!=''">
+                AND Type=#{waterType,jdbcType=VARCHAR}
+            </if>
+        GROUP BY
+            <if test="dateType=='month'.toString()">/*按月*/
+                TO_CHAR(DataDate,'MM')||'月'
+            </if>
+            <if test="dateType=='day'.toString()">
+                TO_CHAR(DataDate,'mm/dd')
+            </if>
+    </select>
+
+</mapper>

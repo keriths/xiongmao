@@ -1,4 +1,4 @@
-package com.xm.service.apiimpl.pc.util.dto;
+package com.xm.service.apiimpl.pc.product.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 

@@ -26,7 +26,7 @@ import java.util.Map;
  */
 
 @Service("ActivationService")
-@ApiServiceDoc(name = "CIM_稼动率(完成)")
+@ApiServiceDoc(name = "CIM7_稼动率(完成)")
 public class ActivationServiceImpl {
 
     @Resource(name="activationDAO")

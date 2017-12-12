@@ -12,6 +12,11 @@
         DWR_WIP_GLS_FIDS
         WHERE
         FACTORY=#{factory}
+        AND
+        STEPID IN
+        <foreach collection="stepIdList" item="stepId" open="(" separator="," close=")" >
+            #{stepId}
+        </foreach>
         <![CDATA[
           and PERIODDATE >= #{beginDate}
           and PERIODDATE <= #{endDate}
@@ -29,9 +34,14 @@
             FACTORY as factory
         from DWR_WIP_GLS_FIDS
         WHERE
+            FACTORY IN
+            <foreach collection="factoryList" item="factory" open="(" separator="," close=")" >
+                #{factory}
+            </foreach>
+            AND
             STEPID IN
-            <foreach collection="setepIdList" item="setepId" open="(" separator="," close=")" >
-                #{setepId}
+            <foreach collection="stepIdList" item="stepId" open="(" separator="," close=")" >
+                #{stepId}
             </foreach>
             <![CDATA[
               and PERIODDATE >= #{beginDate}
