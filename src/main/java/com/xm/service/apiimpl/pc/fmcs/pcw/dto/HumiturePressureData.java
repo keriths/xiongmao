@@ -12,7 +12,7 @@ public class HumiturePressureData {
 
     @ApiResultFieldDesc(desc = "横坐标时间")
     private String periodDate;
-    @ApiResultFieldDesc(desc = "大宗气体实时数据列表")
+    @ApiResultFieldDesc(desc = "工艺冷却水系统实时数据列表")
     private List<HumiturePressureData.HumiturePressureRealTimeDate> humiturePressureRealTimeDateList;
 
     public static class HumiturePressureRealTimeDate implements Serializable {
