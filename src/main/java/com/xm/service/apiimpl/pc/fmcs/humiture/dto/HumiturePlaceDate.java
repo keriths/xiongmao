@@ -20,10 +20,6 @@ public class HumiturePlaceDate{
 
     public static class HtPeDate implements Serializable{
 
-        /*public String key(){
-            return equipment+" "+secondDate;
-        }*/
-
         public HtPeDate(){}
         public HtPeDate(String place,String equipment){
             this.place=place;
@@ -43,7 +39,7 @@ public class HumiturePlaceDate{
         @ApiResultFieldDesc(desc = "洁净度")
         private BigDecimal cleanliness;
         @ApiResultFieldDesc(desc = "最新更新时间")
-        private String secondDate;
+        private String datadate;
 
         public String getFactory() {
             return factory;
@@ -102,12 +98,12 @@ public class HumiturePlaceDate{
             this.cleanliness = cleanliness;
         }
 
-        public String getSecondDate() {
-            return secondDate;
+        public String getDatadate() {
+            return datadate;
         }
 
-        public void setSecondDate(String secondDate) {
-            this.secondDate = secondDate;
+        public void setDatadate(String datadate) {
+            this.datadate = datadate;
         }
     }
 
