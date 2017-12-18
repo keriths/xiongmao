@@ -135,4 +135,6 @@ public class Constant {
                                                                             "PCW-4A-302","PCW-4A-303",
                                                                             "PCW-4B-101","PCW-4B-201",
                                                                             "PCW-4B-301","PCW-4B-401");
+
+    public static final List<String> wwtbDataCodeList=Lists.newArrayList("PH","F","PO4-P","CODcr","T-N","C1");
 }

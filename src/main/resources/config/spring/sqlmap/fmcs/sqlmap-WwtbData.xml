@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.fmcs.WwtbDataDAO" >
+
+    <select id="queryWwtbDataList" resultType="com.xm.service.apiimpl.pc.fmcs.wwt.dto.WwtbData$WwtbDetailData" parameterType="Map">
+        SELECT
+            AVG(Value) as value,
+            TO_CHAR(DataDate,'mi')||':00' as periodDate,
+            <![CDATA[
+                TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<15 then '00'
+                when To_number(TO_CHAR(DataDate,'ss'))<30 then '15'
+                when To_number(TO_CHAR(DataDate,'ss'))<45 then '30'
+            ]]>
+            else '45'
+            end as dataDate
+        FROM WWTBDATA
+        WHERE
+            <![CDATA[
+               DataDate >= #{beginDate}
+              and DataDate <= #{endDate}
+                ]]>
+            <if test="code!=null and code!=''">
+                AND CODE =#{code,jdbcType=VARCHAR}
+            </if>
+        GROUP BY
+            TO_CHAR(DataDate,'mi')||':00',
+            <![CDATA[
+                TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<15 then '00'
+                when To_number(TO_CHAR(DataDate,'ss'))<30 then '15'
+                when To_number(TO_CHAR(DataDate,'ss'))<45 then '30'
+            ]]>
+            else '45'
+            end
+    </select>
+
+</mapper>
