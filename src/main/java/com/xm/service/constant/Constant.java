@@ -127,4 +127,12 @@ public class Constant {
                                                                                         "4B中温冷冻水", "4H中温冷冻水","4E中温冷冻水","4D中温冷冻水","4G中温冷冻水","4M中温冷冻水",
                                                                                         "4A温水","4B温水","4H温水","4E温水","4G温水",
                                                                                         "4B热水","4C热水","4A热水","4A热水");
+    /**
+     * PCW设备类型
+     */
+    public static final List<String> pcwEquipmentList = Lists.newArrayList("PCW-4A-101","PCW-4A-102",
+                                                                            "PCW-4A-201","PCW-4A-301",
+                                                                            "PCW-4A-302","PCW-4A-303",
+                                                                            "PCW-4B-101","PCW-4B-201",
+                                                                            "PCW-4B-301","PCW-4B-401");
 }
