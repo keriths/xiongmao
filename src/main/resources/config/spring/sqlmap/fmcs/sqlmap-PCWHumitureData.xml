@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.fmcs.PCWHumitureDataDAO" >
+
+    <select id="queryPcwRealTimeDate" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.pcw.dto.HumiturePressureData$HumiturePressureRealTimeDate">
+        select
+        SYSTEM as system,
+        avg(TEMPERATURE) as temperature,
+        avg(PRESSURE) as pressure,
+        TO_CHAR(DATADATE,'mi')||':00' as periodDate,
+        <![CDATA[
+                TO_CHAR(DATADATE,'mi') || ':' || case when To_number(TO_CHAR(DATADATE,'ss'))<15 then '00'
+                when To_number(TO_CHAR(DATADATE,'ss'))<30 then '15'
+                when To_number(TO_CHAR(DATADATE,'ss'))<45 then '30'
+            ]]>
+        else
+        '45'
+        end
+        as secondDate
+        from PCWHUMITUREDATA
+        WHERE
+        <![CDATA[
+                   DATADATE >= #{beginDate}
+                  and DATADATE <= #{endDate}
+             ]]>
+        <if test="system!=null and system!=''">
+            AND SYSTEM=#{system,jdbcType=VARCHAR}
+        </if>
+        GROUP BY
+        SYSTEM,
+        TO_CHAR(DATADATE,'mi')||':00',
+        <![CDATA[
+                TO_CHAR(DATADATE,'mi') || ':' || case when To_number(TO_CHAR(DATADATE,'ss'))<15 then '00'
+                when To_number(TO_CHAR(DATADATE,'ss'))<30 then '15'
+                when To_number(TO_CHAR(DATADATE,'ss'))<45 then '30'
+            ]]>
+        else
+        '45'
+        end
+    </select>
+
+</mapper>
