@@ -137,4 +137,9 @@ public class Constant {
                                                                             "PCW-4B-301","PCW-4B-401");
 
     public static final List<String> wwtbDataCodeList=Lists.newArrayList("PH","F","PO4-P","CODcr","T-N","C1");
+
+    /**
+     * 是否显示模拟数据
+     */
+    public static final boolean showDemoData=true;
 }
