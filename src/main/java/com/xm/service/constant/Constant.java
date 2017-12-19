@@ -10,6 +10,7 @@ import java.util.Map;
  * Created by fanshuai on 17/11/19.
  */
 public class Constant {
+    public static final boolean showDemoData=true;
 
     public static final String day="day";
     public static final String month="month";
