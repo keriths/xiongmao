@@ -1,6 +1,8 @@
 package com.xm.service.apiimpl.pc.cim.oee.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.RandomUtils;
+import com.xm.service.constant.Constant;
 import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
@@ -72,8 +74,22 @@ public class ActivationDate implements Serializable{
         }
 
         public String getStatusNum() {
-            if(statusNum==null){
-                statusNum = "0";
+            if (statusNum==null){
+                if (Constant.showDemoData){
+                    if("RUN".equals(getStatus())){
+                        statusNum = String.valueOf(RandomUtils.randomInt(15,18));
+                    }else if("TRB".equals(getStatus())){
+                        statusNum = String.valueOf(RandomUtils.randomInt(1,2));
+                    }else if("WAIT".equals(getStatus())){
+                        statusNum = String.valueOf(RandomUtils.randomInt(2,4));
+                    }else if("MAN".equals(getStatus())){
+                        statusNum = String.valueOf(RandomUtils.randomInt(2,4));
+                    }else  if("MNT".equals(getStatus())){
+                        statusNum = String.valueOf(RandomUtils.randomInt(1,2));
+                    }
+                }else {
+                    statusNum = "0";
+                }
             }
             return statusNum;
         }
