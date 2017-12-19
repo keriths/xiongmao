@@ -63,7 +63,12 @@ public class InputCompletionRetDTO extends BaseRetDTO{
 
         public BigDecimal getActual() {
             if (actual==null){
-                return new BigDecimal(RandomUtils.randomInt(8000,9000));
+                if (Constant.showDemoData){
+                    return new BigDecimal(RandomUtils.randomInt(8000,9000));
+                }else {
+                    return new BigDecimal("0");
+                }
+
             }
             return actual;
         }

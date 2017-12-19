@@ -1,6 +1,8 @@
 package com.xm.service.apiimpl.pc.cim.goodinprocess.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.RandomUtils;
+import com.xm.service.constant.Constant;
 import com.xm.service.dto.BaseRetDTO;
 
 import java.io.Serializable;
@@ -73,7 +75,12 @@ public class GoodInProcessWipDataDTO{
 
         public BigDecimal getStoreMax() {
             if (storeMax==null){
-                return new BigDecimal("0");
+                if (Constant.showDemoData){
+                    return new BigDecimal(RandomUtils.randomInt(4000,6000));
+                }else {
+                    return new BigDecimal("0");
+                }
+
             }
             return storeMax;
         }
@@ -84,7 +91,12 @@ public class GoodInProcessWipDataDTO{
 
         public BigDecimal getStoreMin() {
             if (storeMin==null){
-                return new BigDecimal("0");
+                if (Constant.showDemoData){
+                    return new BigDecimal(RandomUtils.randomInt(1000,1500));
+                }else {
+                    return new BigDecimal("0");
+                }
+
             }
             return storeMin;
         }
