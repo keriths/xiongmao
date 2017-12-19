@@ -37,14 +37,12 @@ public class WWTServiceImpl {
             List<WwtaData> dataList = wwtaDataDAO.queryWwtaDataList();
             retDTO.setWwtaDataList(dataList);
             return retDTO;
-
         }catch (Exception e) {
             LogUtils.error(getClass(), e);
             retDTO.setSuccess(false);
             retDTO.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return retDTO;
         }
-
     }
 
     @ApiMethodDoc(apiCode = "FMCS_wwtbDataList",name = "实时数据接口")
