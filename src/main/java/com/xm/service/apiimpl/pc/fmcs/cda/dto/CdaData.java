@@ -1,6 +1,8 @@
 package com.xm.service.apiimpl.pc.fmcs.cda.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.ReturnDataUtils;
+import com.xm.service.constant.Constant;
 
 import java.math.BigDecimal;
 
@@ -12,9 +14,13 @@ public class CdaData {
     @ApiResultFieldDesc(desc = "设备名称")
     private String key;
     @ApiResultFieldDesc(desc = "设备状态值")
-    private BigDecimal val;
+    private String val;
     @ApiResultFieldDesc(desc = "设备数据说明")
     private String keyDesc;
+    @ApiResultFieldDesc(desc = "数据类型")
+    private String dataType;
+    @ApiResultFieldDesc(desc = "样例数据")
+    private String demoData;
     @ApiResultFieldDesc(desc = "数据更新时间")
     private String dataDate;
 
@@ -26,14 +32,20 @@ public class CdaData {
         this.key = key;
     }
 
-    public BigDecimal getVal() {
-        if(val == null){
-            return new BigDecimal("0");
+    public String getVal() {
+        if (val==null){
+            if (Constant.showDemoData){
+                if(dataType!=null && demoData!=null){
+                    return ReturnDataUtils.demoData(getDataType(),getDemoData()).toString();
+                }else{
+                    val = "0";
+                }
+            }
         }
         return val;
     }
 
-    public void setVal(BigDecimal val) {
+    public void setVal(String val) {
         this.val = val;
     }
 
@@ -43,6 +55,22 @@ public class CdaData {
 
     public void setKeyDesc(String keyDesc) {
         this.keyDesc = keyDesc;
+    }
+
+    public String getDataType() {
+        return dataType;
+    }
+
+    public void setDataType(String dataType) {
+        this.dataType = dataType;
+    }
+
+    public String getDemoData() {
+        return demoData;
+    }
+
+    public void setDemoData(String demoData) {
+        this.demoData = demoData;
     }
 
     public String getDataDate() {
