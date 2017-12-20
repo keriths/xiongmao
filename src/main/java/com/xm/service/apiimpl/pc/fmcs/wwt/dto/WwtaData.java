@@ -39,10 +39,8 @@ public class WwtaData {
     }
 
     public String getValue() {
-        String dataType=getDataType();
-        String demoData=getDemoData();
         if (value==null){
-            if (dataType!=null && demoData!=null && Constant.showDemoData){
+            if (getDataType()!=null && getDemoData()!=null && Constant.showDemoData){
                 return ReturnDataUtils.demoData(dataType,demoData).toString();
             }else{
                 return "0";
