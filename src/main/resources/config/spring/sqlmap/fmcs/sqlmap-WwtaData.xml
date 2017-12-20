@@ -7,7 +7,9 @@
             KEY AS key,
             VALUE AS value,
             KEYDESC AS keyDesc,
-            DATADATE AS dataDate
+            DATADATE AS dataDate,
+            DATATYPE AS dataType,
+            DEMODATA AS demoData
         FROM WWTADATA
     </select>
 

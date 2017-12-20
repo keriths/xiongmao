@@ -17,7 +17,7 @@ public class ReturnDataUtils {
             //判断样本数据是可选列表还是区间
             if (demoData.contains(",")){//是列表如：0,1,2,3
                 String str[]=demoData.split(",");
-                int i=RandomUtils.randomInt(0,str.length-1);
+                int i=RandomUtils.randomInt(0,str.length);
                 data=new BigDecimal(str[i]);
             }else {//区间
                 //判断是正数区间还是负数区间
@@ -46,11 +46,12 @@ public class ReturnDataUtils {
             float c=min + ((max - min) * random.nextFloat());
             data=new BigDecimal(c).setScale(2,BigDecimal.ROUND_HALF_DOWN);
         }
+        //System.out.println(data);
         return data;
     }
 
     public static void main(String[] args){
-        BigDecimal d=ReturnDataUtils.demoData("int","(-2100)-(-2000)");
+        BigDecimal d=ReturnDataUtils.demoData("int","0,1");
 
     }
 }
