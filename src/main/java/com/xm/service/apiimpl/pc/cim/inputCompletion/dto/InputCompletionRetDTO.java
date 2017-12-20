@@ -1,12 +1,15 @@
 package com.xm.service.apiimpl.pc.cim.inputCompletion.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.RandomUtils;
+import com.xm.service.constant.Constant;
 import com.xm.service.dto.BaseRetDTO;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by fanshuai on 17/11/12.
@@ -44,7 +47,12 @@ public class InputCompletionRetDTO extends BaseRetDTO{
 
         public BigDecimal getPlan() {
             if (plan==null){
-                return new BigDecimal("0");
+                if (Constant.showDemoData){
+                    return new BigDecimal(RandomUtils.randomInt(8000,9000));
+                }else {
+                    return new BigDecimal("0");
+                }
+
             }
             return plan;
         }
@@ -55,7 +63,12 @@ public class InputCompletionRetDTO extends BaseRetDTO{
 
         public BigDecimal getActual() {
             if (actual==null){
-                return new BigDecimal("0");
+                if (Constant.showDemoData){
+                    return new BigDecimal(RandomUtils.randomInt(8000,9000));
+                }else {
+                    return new BigDecimal("0");
+                }
+
             }
             return actual;
         }

@@ -1,6 +1,8 @@
 package com.xm.service.apiimpl.pc.cim.goodinprocess.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.RandomUtils;
+import com.xm.service.constant.Constant;
 import com.xm.service.dto.BaseRetDTO;
 
 import java.io.Serializable;
@@ -61,7 +63,12 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
 
         public BigDecimal getQuantity() {
             if (quantity==null){
-                return new BigDecimal("0");
+                if (Constant.showDemoData){
+                    return new BigDecimal(RandomUtils.randomInt(2000,5000));
+                }else {
+                    return new BigDecimal("0");
+                }
+
             }
             return quantity;
         }
@@ -72,7 +79,12 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
 
         public BigDecimal getStoreMax() {
             if (storeMax==null){
-                return new BigDecimal("0");
+                if (Constant.showDemoData){
+                    return new BigDecimal(RandomUtils.randomInt(8000,10000));
+                }else {
+                    return new BigDecimal("0");
+                }
+
             }
             return storeMax;
         }
@@ -83,7 +95,12 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
 
         public BigDecimal getStoreMin() {
             if (storeMin==null){
-                return new BigDecimal("0");
+                if (Constant.showDemoData){
+                    return new BigDecimal(RandomUtils.randomInt(2500,3500));
+                }else {
+                    return new BigDecimal("0");
+                }
+
             }
             return storeMin;
         }

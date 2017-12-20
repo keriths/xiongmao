@@ -1,6 +1,8 @@
 package com.xm.service.apiimpl.pc.cim.outputCompletion.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.RandomUtils;
+import com.xm.service.constant.Constant;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -61,7 +63,16 @@ public class OutputCompletionData implements Serializable{
 
         public BigDecimal getPlan() {
             if (plan==null){
-                return new BigDecimal("0");
+                if (Constant.showDemoData){
+                    if("SL".equals(getFactory())){
+                        return new BigDecimal(RandomUtils.randomInt(2500,3500));
+                    }else{
+                        return new BigDecimal(RandomUtils.randomInt(5500,6500));
+                    }
+
+                }else {
+                    return new BigDecimal("0");
+                }
             }
             return plan;
         }
@@ -72,7 +83,16 @@ public class OutputCompletionData implements Serializable{
 
         public BigDecimal getActual() {
             if (actual==null){
-                return new BigDecimal("0");
+                if (Constant.showDemoData){
+                    if("SL".equals(getFactory())){
+                        return new BigDecimal(RandomUtils.randomInt(2500,3500));
+                    }else{
+                        return new BigDecimal(RandomUtils.randomInt(5500,6500));
+                    }
+
+                }else {
+                    return new BigDecimal("0");
+                }
             }
             return actual;
         }

@@ -1,6 +1,8 @@
 package com.xm.service.apiimpl.pc.cim.tactTime.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.RandomUtils;
+import com.xm.service.constant.Constant;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -10,9 +12,9 @@ import java.math.BigDecimal;
  */
 public class TactTimeMonthAvgDataDTO implements Serializable{
     @ApiResultFieldDesc(desc = "目标值")
-    private BigDecimal target=new BigDecimal("0");
+    private BigDecimal target;
     @ApiResultFieldDesc(desc = "实际值")
-    private BigDecimal actual=new BigDecimal("0");
+    private BigDecimal actual;
     @ApiResultFieldDesc(desc = "产品ID如PHOTO，PVD,CVD")
     private String productId;
     public TactTimeMonthAvgDataDTO(){}
@@ -22,6 +24,13 @@ public class TactTimeMonthAvgDataDTO implements Serializable{
 
     public BigDecimal getTarget() {
         //为空时给个默认值
+        if (target==null){
+            if (Constant.showDemoData){
+                return new BigDecimal(RandomUtils.randomInt(110,165));
+            }else {
+                return new BigDecimal("0");
+            }
+        }
         return target;
     }
 
@@ -33,6 +42,13 @@ public class TactTimeMonthAvgDataDTO implements Serializable{
 
     public BigDecimal getActual() {
         //为空时给个默认值
+        if (actual==null){
+            if (Constant.showDemoData){
+                return new BigDecimal(RandomUtils.randomInt(110,165));
+            }else {
+                return new BigDecimal("0");
+            }
+        }
         return actual;
     }
 
