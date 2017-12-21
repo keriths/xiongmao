@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by wangshuna on 2017/12/6.
  */
-public class HumitureDate {
+public class HumitureRealTimeDate {
 
     @ApiResultFieldDesc(desc = "返回数据列表")
     private List<HumitureDetailData> humitureDataList;
