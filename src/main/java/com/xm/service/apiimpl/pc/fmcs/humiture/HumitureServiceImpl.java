@@ -12,6 +12,7 @@ import com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumitureRealTimeDate;
 import com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumitureDateRetDTO;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.fmcs.HumitureDataDAO;
+import com.xm.service.dao.fmcs.HumitureRealTimeDataDAO;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -28,21 +29,21 @@ public class HumitureServiceImpl {
 
     @Resource(name = "humitureDataDAO")
     private HumitureDataDAO humitureDataDAO;
+    @Resource(name = "humitureRealTimeDataDAO")
+    private HumitureRealTimeDataDAO humitureRealTimeDataDAO;
 
     @ApiMethodDoc(apiCode = "FMCS_humitureRealTimeData",name = "指定工厂的温湿洁净度实时数据接口")
-    public HumitureRealTimeDataRetDTO humitureRtData(@ApiParamDoc(desc = "厂别,如ARRAY,CELL,CF(必填)") String factory,
-                                                     @ApiParamDoc(desc = "区域,如曝光机区,PVD区,CVD区") String place,
-                                                     @ApiParamDoc(desc = "区域设备,如曝光机-201,PVD-201,PVD-301") String equipment){
+    public HumitureRealTimeDataRetDTO humitureRtData(@ApiParamDoc(desc = "厂别,如ARRAY,CELL,CF(必填)") String factory){
         HumitureRealTimeDataRetDTO resultDto=new HumitureRealTimeDataRetDTO();
         try {
-            List<String> placeList = Constant.factoryPlaceListMap.get(factory);
-            List<String> equList = Constant.placeEquipmentListMap.get(place);
+            //List<String> placeList = Constant.factoryPlaceListMap.get(factory);
+            //List<String> equList = Constant.placeEquipmentListMap.get(place);
             if(!Constant.factoryPlaceListMap.containsKey(factory)){
                 resultDto.setSuccess(false);
                 resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.factoryPlaceListMap.keySet() + "】");
                 return resultDto;
             }
-            if(!StringUtils.isEmpty(place) && !Constant.placeEquipmentListMap.containsKey(place)){
+            /*if(!StringUtils.isEmpty(place) && !Constant.placeEquipmentListMap.containsKey(place)){
                 resultDto.setSuccess(false);
                 resultDto.setErrorMsg("place参数错误,请传入【" + Constant.placeEquipmentListMap.keySet() + "】");
                 return resultDto;
@@ -51,15 +52,15 @@ public class HumitureServiceImpl {
                 resultDto.setSuccess(false);
                 resultDto.setErrorMsg("equipment参数错误,请传入【" + equList + "】");
                 return resultDto;
-            }
+            }*/
 
             Date beginDate = DateUtils.getBeforMinuteStartDay(5);
             Date endDate = new Date();
             //List<String> minuteList = DateUtils.getMinuteStrList(beginDate,endDate);
             List<String> secondList = DateUtils.getSecondStrList(beginDate,endDate);
 
-            List<HumitureRealTimeDate.HumitureDetailData> queryList = humitureDataDAO.queryHumiture(factory,place,equipment,beginDate,endDate);
-            Map<String,HumitureRealTimeDate.HumitureDetailData> queryMap = MapUtils.listToMap(queryList,"getSecondDate");
+            List<HumitureRealTimeDate.HumitureRealTimeDetailData> queryList = humitureRealTimeDataDAO.queryHumiture(factory,beginDate,endDate);
+            Map<String,HumitureRealTimeDate.HumitureRealTimeDetailData> queryMap = MapUtils.listToMap(queryList,"getSecondDate");
             List<HumitureRealTimeDate> htDateList = new ArrayList<HumitureRealTimeDate>();
             Map<String,HumitureRealTimeDate> minuteDataMap = new HashMap<String, HumitureRealTimeDate>();
             for (String strSecond:secondList){
@@ -68,20 +69,20 @@ public class HumitureServiceImpl {
                 if (minuteData==null){
                     minuteData=new HumitureRealTimeDate();
                     minuteData.setPeriodDate(minute);
-                    minuteData.setHumitureDataList(new ArrayList<HumitureRealTimeDate.HumitureDetailData>());
+                    minuteData.setHumitureRealTimeDetailDataList(new ArrayList<HumitureRealTimeDate.HumitureRealTimeDetailData>());
                     minuteDataMap.put(minute,minuteData);
                     htDateList.add(minuteData);
                 }
-                HumitureRealTimeDate.HumitureDetailData htDetailDate=queryMap.get(strSecond);
+                HumitureRealTimeDate.HumitureRealTimeDetailData htDetailDate=queryMap.get(strSecond);
                 if (htDetailDate == null) {
-                    htDetailDate = new HumitureRealTimeDate.HumitureDetailData(minute,strSecond);
+                    htDetailDate = new HumitureRealTimeDate.HumitureRealTimeDetailData(minute,strSecond);
                 }
-                minuteData.getHumitureDataList().add(htDetailDate);
+                minuteData.getHumitureRealTimeDetailDataList().add(htDetailDate);
             }
             resultDto.setHumitureRealTimeDateList(htDateList);
             return resultDto;
         }catch (Exception e){
-            LogUtils.error(this.getClass(),"humitureData eclipse",e);
+            LogUtils.error(getClass(), e);
             resultDto.setSuccess(false);
             resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return resultDto;
@@ -126,7 +127,7 @@ public class HumitureServiceImpl {
             resultDto.setHumitureDateList(htPaDateList);
             return resultDto;
         }catch (Exception e){
-            LogUtils.error(this.getClass(),"HtPeDate eclipse",e);
+            LogUtils.error(getClass(), e);
             resultDto.setSuccess(false);
             resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return resultDto;

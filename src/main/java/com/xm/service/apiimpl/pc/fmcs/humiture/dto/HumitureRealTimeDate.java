@@ -12,13 +12,13 @@ import java.util.List;
 public class HumitureRealTimeDate {
 
     @ApiResultFieldDesc(desc = "返回数据列表")
-    private List<HumitureDetailData> humitureDataList;
+    private List<HumitureRealTimeDetailData> humitureRealTimeDetailDataList;
     @ApiResultFieldDesc(desc = "横坐标时间")
     private String periodDate;
 
-    public static class HumitureDetailData implements Serializable {
-        public HumitureDetailData(){}
-        public HumitureDetailData(String periodDate,String secondDate){
+    public static class HumitureRealTimeDetailData implements Serializable {
+        public HumitureRealTimeDetailData(){}
+        public HumitureRealTimeDetailData(String periodDate,String secondDate){
             this.periodDate = periodDate;
             this.secondDate = secondDate;
         }
@@ -122,12 +122,12 @@ public class HumitureRealTimeDate {
         }
     }
 
-    public List<HumitureDetailData> getHumitureDataList() {
-        return humitureDataList;
+    public List<HumitureRealTimeDetailData> getHumitureRealTimeDetailDataList() {
+        return humitureRealTimeDetailDataList;
     }
 
-    public void setHumitureDataList(List<HumitureDetailData> humitureDataList) {
-        this.humitureDataList = humitureDataList;
+    public void setHumitureRealTimeDetailDataList(List<HumitureRealTimeDetailData> humitureRealTimeDetailDataList) {
+        this.humitureRealTimeDetailDataList = humitureRealTimeDetailDataList;
     }
 
     public String getPeriodDate() {
