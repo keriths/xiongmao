@@ -120,7 +120,7 @@ public class HumitureServiceImpl {
                     }
                     htDateList.add(htD);
                 }
-                hpe.setHtPeDateList(htDateList);
+                hpe.setHumitureDetailDateList(htDateList);
                 htPaDateList.add(hpe);
             }
             resultDto.setHumitureDateList(htPaDateList);

@@ -14,7 +14,7 @@ import java.util.List;
 public class HumitureDate {
 
     @ApiResultFieldDesc(desc = "区域设备列表")
-    private List<HtPeDate> htPeDateList;
+    private List<HtPeDate> humitureDetailDateList;
     @ApiResultFieldDesc(desc = "区域如：pvd区、cvd区")
     private String place;
 
@@ -107,12 +107,12 @@ public class HumitureDate {
         }
     }
 
-    public List<HtPeDate> getHtPeDateList() {
-        return htPeDateList;
+    public List<HtPeDate> getHumitureDetailDateList() {
+        return humitureDetailDateList;
     }
 
-    public void setHtPeDateList(List<HtPeDate> htPeDateList) {
-        this.htPeDateList = htPeDateList;
+    public void setHumitureDetailDateList(List<HtPeDate> humitureDetailDateList) {
+        this.humitureDetailDateList = humitureDetailDateList;
     }
 
     public String getPlace() {
