@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.fmcs.UpwbDataDAO" >
+
+    <select id="queryUpwbDataList" resultType="com.xm.service.apiimpl.pc.fmcs.upw.dto.UpwbData" parameterType="Map">
+        SELECT
+            CODE AS code,
+            STATUS AS status,
+            TEMPERATURE AS temperature,
+            RESISTIVITY AS resistivity,
+            DATADATE AS DataDate
+        FROM UPWBDATA
+    </select>
+
+</mapper>

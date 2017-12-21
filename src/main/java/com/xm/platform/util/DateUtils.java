@@ -181,15 +181,31 @@ public class DateUtils {
         DateTime minDateTime = new DateTime(begin);
         while (minDateTime.toDate().before(end)){
             dayStrStrList.add(format.format(minDateTime.toDate())+":00");
+            dayStrStrList.add(format.format(minDateTime.toDate())+":05");
+            dayStrStrList.add(format.format(minDateTime.toDate())+":10");
             dayStrStrList.add(format.format(minDateTime.toDate())+":15");
+            dayStrStrList.add(format.format(minDateTime.toDate())+":20");
+            dayStrStrList.add(format.format(minDateTime.toDate())+":25");
             dayStrStrList.add(format.format(minDateTime.toDate())+":30");
+            dayStrStrList.add(format.format(minDateTime.toDate())+":35");
+            dayStrStrList.add(format.format(minDateTime.toDate())+":40");
             dayStrStrList.add(format.format(minDateTime.toDate())+":45");
+            dayStrStrList.add(format.format(minDateTime.toDate())+":50");
+            dayStrStrList.add(format.format(minDateTime.toDate())+":55");
             minDateTime = minDateTime.plusMinutes(1).toDateTime();
         }
         dayStrStrList.add(format.format(end)+":00");
+        dayStrStrList.add(format.format(end)+":05");
+        dayStrStrList.add(format.format(end)+":10");
         dayStrStrList.add(format.format(end)+":15");
+        dayStrStrList.add(format.format(end)+":20");
+        dayStrStrList.add(format.format(end)+":25");
         dayStrStrList.add(format.format(end)+":30");
+        dayStrStrList.add(format.format(end)+":35");
+        dayStrStrList.add(format.format(end)+":40");
         dayStrStrList.add(format.format(end)+":45");
+        dayStrStrList.add(format.format(end)+":50");
+        dayStrStrList.add(format.format(end)+":55");
         return dayStrStrList;
     }
 
