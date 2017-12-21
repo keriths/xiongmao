@@ -139,5 +139,10 @@ public class Constant {
 
     public static final List<String> wwtbDataCodeList=Lists.newArrayList("PH","F","PO4-P","CODcr","T-N","C1");
 
+    /**
+     * 温度露点类型
+     */
+    public static final List<String> TemperaturePointList = Lists.newArrayList("温度","露点");
+
 
 }

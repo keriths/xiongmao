@@ -6,10 +6,9 @@ import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
-import com.xm.service.apiimpl.pc.fmcs.pcw.dto.HumiturePressureData;
-import com.xm.service.apiimpl.pc.fmcs.pcw.dto.HumiturePressureDataRetDTO;
-import com.xm.service.apiimpl.pc.fmcs.pcw.dto.PcwTabRetDTO;
+import com.xm.service.apiimpl.pc.fmcs.pcw.dto.*;
 import com.xm.service.constant.Constant;
+import com.xm.service.dao.fmcs.PCWDataDAO;
 import com.xm.service.dao.fmcs.PCWHumitureDataDAO;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +24,23 @@ public class PCWServiceImpl {
 
     @Resource(name="pcwHumitureDataDAO")
     private PCWHumitureDataDAO pcwHumitureDataDAO;
+    @Resource(name="pcwDataDAO")
+    private PCWDataDAO pcwDataDAO;
+
+    @ApiMethodDoc(apiCode = "FMCS_PCWData",name = "工艺冷却水系统设备接口")
+    public PcwEquipmentDataRetDTO pcwEquipmentData(){
+        PcwEquipmentDataRetDTO resultDto = new PcwEquipmentDataRetDTO();
+        try {
+            List<PcwEquipmentData> queryList = pcwDataDAO.queryPCWData();
+            resultDto.setPcwEquipmentDataList(queryList);
+            return resultDto;
+        }catch (Exception e){
+            LogUtils.error(this.getClass(),"PCWData eclipse",e);
+            resultDto.setSuccess(false);
+            resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
+            return resultDto;
+        }
+    }
 
     @ApiMethodDoc(apiCode = "FMCS_PCWRealTime",name = "工艺冷却水系统实时数据接口")
     public HumiturePressureDataRetDTO humiturePressureDataRetDTO(@ApiParamDoc(desc = "系统名称,如“PCW-4A-101,PCW-4A-102”") String system){
