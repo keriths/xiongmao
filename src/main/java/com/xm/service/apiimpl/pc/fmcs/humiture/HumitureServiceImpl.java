@@ -6,10 +6,10 @@ import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
+import com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumitureDate;
 import com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumitureRealTimeDataRetDTO;
 import com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumitureRealTimeDate;
-import com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumiturePlaceDate;
-import com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumiturePlaceDateRetDTO;
+import com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumitureDateRetDTO;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.fmcs.HumitureDataDAO;
 import org.springframework.stereotype.Service;
@@ -89,8 +89,8 @@ public class HumitureServiceImpl {
     }
 
     @ApiMethodDoc(apiCode = "FMCS_factoryHumitureRealTimeData",name = "工厂所有区域设备最新温湿洁净度数据接口")
-    public HumiturePlaceDateRetDTO factoryHumitureRtData(@ApiParamDoc(desc = "厂别,如ARRAY,CELL,CF") String factory){
-        HumiturePlaceDateRetDTO resultDto = new HumiturePlaceDateRetDTO();
+    public HumitureDateRetDTO factoryHumitureRtData(@ApiParamDoc(desc = "厂别,如ARRAY,CELL,CF") String factory){
+        HumitureDateRetDTO resultDto = new HumitureDateRetDTO();
         try {
             List<String> placeList = Constant.factoryPlaceListMap.get(factory);
             //List<String> equList = Constant.placeEquipmentListMp.get(place);
@@ -100,30 +100,30 @@ public class HumitureServiceImpl {
                 return resultDto;
             }
 
-            List<HumiturePlaceDate.HtPeDate> queryList = humitureDataDAO.queryFactoryHumiture(factory);
-            Map<String,HumiturePlaceDate.HtPeDate> queryMap = MapUtils.listToMap(queryList,"getEquipment");
-            List<HumiturePlaceDate> htPaDateList = new ArrayList<HumiturePlaceDate>();
+            List<HumitureDate.HtPeDate> queryList = humitureDataDAO.queryFactoryHumiture(factory);
+            Map<String,HumitureDate.HtPeDate> queryMap = MapUtils.listToMap(queryList,"getEquipment");
+            List<HumitureDate> htPaDateList = new ArrayList<HumitureDate>();
             for(String p:placeList){
-                HumiturePlaceDate hpe = new HumiturePlaceDate();
+                HumitureDate hpe = new HumitureDate();
                 hpe.setPlace(p);
-                List<HumiturePlaceDate.HtPeDate> htDateList = new ArrayList<HumiturePlaceDate.HtPeDate>();
+                List<HumitureDate.HtPeDate> htDateList = new ArrayList<HumitureDate.HtPeDate>();
                 List<String> equList = Constant.placeEquipmentListMap.get(p);
                 for(String e:equList){
-//                    HumiturePlaceDate.HtPeDate ht = new HumiturePlaceDate.HtPeDate();
+//                    HumitureDate.HtPeDate ht = new HumitureDate.HtPeDate();
 //                    ht.setEquipment(e);
-                    HumiturePlaceDate.HtPeDate htD = null;
+                    HumitureDate.HtPeDate htD = null;
                     if(!CollectionUtils.isEmpty(queryMap)){
                         htD = queryMap.get(e);
                     }
                     if(htD == null){
-                        htD = new HumiturePlaceDate.HtPeDate(p,e);
+                        htD = new HumitureDate.HtPeDate(p,e);
                     }
                     htDateList.add(htD);
                 }
                 hpe.setHtPeDateList(htDateList);
                 htPaDateList.add(hpe);
             }
-            resultDto.setHumiturePlaceDateList(htPaDateList);
+            resultDto.setHumitureDateList(htPaDateList);
             return resultDto;
         }catch (Exception e){
             LogUtils.error(this.getClass(),"HtPeDate eclipse",e);

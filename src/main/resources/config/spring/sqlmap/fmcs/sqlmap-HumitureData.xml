@@ -60,7 +60,7 @@
             end
     </select>
 
-    <select id="queryFactoryHumiture" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumiturePlaceDate$HtPeDate">
+    <select id="queryFactoryHumiture" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumitureDate$HtPeDate">
         select
             a.FACTORY,
             a.PLACE,

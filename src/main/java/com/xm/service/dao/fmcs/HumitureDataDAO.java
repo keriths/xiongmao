@@ -1,7 +1,7 @@
 package com.xm.service.dao.fmcs;
 
 import com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumitureRealTimeDate;
-import com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumiturePlaceDate;
+import com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumitureDate;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -35,7 +35,7 @@ public interface HumitureDataDAO {
      * @param factory 厂别
      * @return
      */
-    List<HumiturePlaceDate.HtPeDate> queryFactoryHumiture(
+    List<HumitureDate.HtPeDate> queryFactoryHumiture(
             @Param("factory") String factory);
 
 }

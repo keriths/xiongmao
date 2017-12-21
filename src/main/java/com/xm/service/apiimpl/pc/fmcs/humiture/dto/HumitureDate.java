@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by wangshuna on 2017/12/5.
  */
-public class HumiturePlaceDate{
+public class HumitureDate {
 
     @ApiResultFieldDesc(desc = "区域设备列表")
     private List<HtPeDate> htPeDateList;
