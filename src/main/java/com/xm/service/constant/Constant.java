@@ -148,5 +148,19 @@ public class Constant {
             "4A",Lists.newArrayList("4A-L2-MAU-N-01","4A-L2-MAU-N-02","4A-M2-MAU-N-01"),
             "4B",Lists.newArrayList("4B-M2-MAU-N-01","4B-M2-MAU-N-02","4B-M2-MAU-N-03"));
 
+    /**
+     * 电的统计时间类型小时hour天day月month
+     */
+    public static final List<String> electricityDateTypeList = Lists.newArrayList(hour,day, month);
+    /**
+     * 电的区域
+     */
+    public static final List<String> electricityPlaceList = Lists.newArrayList("4A-ARRAY","4B-CF/CELL/SL","4C-动力站"
+                                                                                            ,"4D-废水站","4E-纯水站","4M-食堂","4R-研发中心");
+    /**
+     * 电的区域类型
+     */
+    public static final List<String> electricityPlaceTypeList = Lists.newArrayList("4A","4B","其他");
+
 
 }
