@@ -116,7 +116,7 @@ public class Constant {
     /**
      * 气体类型
      */
-    public static final List<String> GasTypeList = Lists.newArrayList("蒸汽", "天然气");
+    public static final List<String> GasTypeList = Lists.newArrayList("蒸汽", "天然气","4A/4B-工厂天然气","4M食堂天然气");
     /**
      * 纯水类型
      */

@@ -16,7 +16,6 @@ public interface NatgasEveryDayDataDAO {
     //查询气统计数据
     List<NatgasStatisticsDataRetDTO.GsaStatisticsData> queryGsaStatisticsData(@Param("dateType")String dateType,
                                                                               @Param("gasType")String gasType,
-                                                                              @Param("place")String place,
                                                                               @Param("beginDate") Date beginDate,
                                                                               @Param("endDate") Date endDate);
 

@@ -6,7 +6,7 @@
 
         SELECT SUM (speed) as speed, periodDate , dataDate FROM (
             SELECT
-                GasType,Place,
+                GasType,
                 AVG(Speed) as speed,
                 TO_CHAR(DataDate,'mi')||':00' as periodDate,
                 <![CDATA[
@@ -31,11 +31,8 @@
                   and DataDate <= #{endDate}
                 ]]>
                 AND GasType=#{gasType,jdbcType=VARCHAR}
-                <if test="place!=null and place!=''">
-                    AND Place=#{place,jdbcType=VARCHAR}
-                </if>
             GROUP BY
-                GasType,Place,
+                GasType,
                 TO_CHAR(DataDate,'mi')||':00',
                 <![CDATA[
                     TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<05 then '00'

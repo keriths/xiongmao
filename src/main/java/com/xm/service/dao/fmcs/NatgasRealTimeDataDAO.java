@@ -16,7 +16,6 @@ public interface NatgasRealTimeDataDAO {
 
     //查询气实时数据
     List<NatgasRealTimeData.NatgasTimeDetailData> queryGasRealTimeData(@Param("gasType")String gasType,
-                                                                       @Param("place")String place,
                                                                        @Param("beginDate") Date beginDate,
                                                                        @Param("endDate") Date endDate);
 
