@@ -5,7 +5,6 @@
     <select id="queryRCUSystemData" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.rcu.dto.RcuSystemData">
         select
         SYSTEMNAME as systemName,
-        STATUS as status,
         avg(TEMPERATURE) as temperature
         from RCUSYSTEMDATA
         WHERE
@@ -13,7 +12,7 @@
             SYSTEMTYPE=#{systemType,jdbcType=VARCHAR}
         </if>
         GROUP BY
-        SYSTEMNAME,STATUS
+        SYSTEMNAME
     </select>
 
 </mapper>
