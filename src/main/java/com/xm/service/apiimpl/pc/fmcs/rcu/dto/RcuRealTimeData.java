@@ -1,45 +1,42 @@
-package com.xm.service.apiimpl.pc.fmcs.mau.dto;
+package com.xm.service.apiimpl.pc.fmcs.rcu.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.ReturnDataUtils;
 import com.xm.service.constant.Constant;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
- * Created by wangshuna on 2017/12/21.
+ * Created by wangshuna on 2017/12/22.
  */
-public class MauSystemData {
+public class RcuRealTimeData {
+    @ApiResultFieldDesc(desc = "横坐标时间")
+    private String periodDate;
+    @ApiResultFieldDesc(desc = "热回收空调系统数据列表")
+    private List<RcuRealTimeData.RcuRealTimeDetailData> rcuRealTimeDetailDataList;
 
-        public MauSystemData(){
+    public static class RcuRealTimeDetailData implements Serializable {
+
+        public RcuRealTimeDetailData(){
 
         }
-        public MauSystemData(String systemName){
-            this.systemName = systemName;
+        public RcuRealTimeDetailData(String periodDate,String secondDate){
+            this.periodDate = periodDate;
+            this.secondDate = secondDate;
         }
 
-        @ApiResultFieldDesc(desc = "系统名称")
-        private String systemType;
         @ApiResultFieldDesc(desc = "系统编码")
         private String systemName;
         @ApiResultFieldDesc(desc = "系统状体")
         private String status;
         @ApiResultFieldDesc(desc = "温度")
         private BigDecimal temperature;
-        @ApiResultFieldDesc(desc = "露点")
-        private BigDecimal dewPoint;
         @ApiResultFieldDesc(desc = "横坐标时间")
         private String periodDate;
         @ApiResultFieldDesc(desc = "数据更新时间")
         private String secondDate;
-
-        public String getSystemType() {
-            return systemType;
-        }
-
-        public void setSystemType(String systemType) {
-            this.systemType = systemType;
-        }
 
         public String getSystemName() {
             return systemName;
@@ -73,19 +70,6 @@ public class MauSystemData {
             this.temperature = temperature;
         }
 
-        public BigDecimal getDewPoint() {
-            if (temperature==null){
-                if (Constant.showDemoData){
-                    return ReturnDataUtils.demoData("float","12.00-12.20");
-                }
-            }
-            return dewPoint;
-        }
-
-        public void setDewPoint(BigDecimal dewPoint) {
-            this.dewPoint = dewPoint;
-        }
-
         public String getPeriodDate() {
             return periodDate;
         }
@@ -101,4 +85,21 @@ public class MauSystemData {
         public void setSecondDate(String secondDate) {
             this.secondDate = secondDate;
         }
+    }
+
+    public String getPeriodDate() {
+        return periodDate;
+    }
+
+    public void setPeriodDate(String periodDate) {
+        this.periodDate = periodDate;
+    }
+
+    public List<RcuRealTimeDetailData> getRcuRealTimeDetailDataList() {
+        return rcuRealTimeDetailDataList;
+    }
+
+    public void setRcuRealTimeDetailDataList(List<RcuRealTimeDetailData> rcuRealTimeDetailDataList) {
+        this.rcuRealTimeDetailDataList = rcuRealTimeDetailDataList;
+    }
 }

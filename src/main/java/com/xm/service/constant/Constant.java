@@ -141,12 +141,20 @@ public class Constant {
     public static final List<String> wwtbDataCodeList=Lists.newArrayList("PH","F","PO4-P","CODcr","T-N","C1");
 
     /**
-     * 温度露点类型
+     * MAU系统类型
      */
     public static final Map<String,List<String>> mauSystemListMap = MapUtils.newMap(
             "MAU",Lists.newArrayList("MAU"),
-            "4A",Lists.newArrayList("4A-L2-MAU-N-01","4A-L2-MAU-N-02","4A-M2-MAU-N-01"),
-            "4B",Lists.newArrayList("4B-M2-MAU-N-01","4B-M2-MAU-N-02","4B-M2-MAU-N-03"));
+            "4A",Lists.newArrayList("4A-L2-MAU-N-01","4A-L2-MAU-N-02","4A-M2-MAU-N-01","4A-M2-MAU-N-02","4A-M2-MAU-N-03"),
+            "4B",Lists.newArrayList("4B-M2-MAU-N-01","4B-M2-MAU-N-02","4B-M2-MAU-N-03","4B-M2-MAU-N-04","4B-M2-MAU-N-05"));
+
+    /**
+     * RCU系统类型
+     */
+    public static final Map<String,List<String>> rcuSystemListMap = MapUtils.newMap(
+            "RCU",Lists.newArrayList("RCU"),
+            "4A",Lists.newArrayList("4A-L1-PHT-RCU-01","4A-L1-PHT-RCU-02","4A-L1-PHT-RCU-03","4A-L1-PHT-RCU-04","4A-L1-PHT-RCU-05"),
+            "4B",Lists.newArrayList("4B-1-RCU-PHT-01","4B-1-RCU-PHT-02","4B-1-RCU-PHT-03","4B-1-RCU-PHT-04","4B-1-RCU-PHT-05"));
 
     /**
      * 电的统计时间类型小时hour天day月month

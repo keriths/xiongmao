@@ -2,22 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.fmcs.MAUSystemDataDAO" >
 
-    <select id="queryMAUSystemData" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.mau.dto.MauSystemData$MauSystemDetailData">
+    <select id="queryMAUSystemData" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.mau.dto.MauSystemData">
         select
-            SYSTEMNAME,
+            SYSTEMNAME as systemName,
+            STATUS as status,
             avg(TEMPERATURE) as temperature,
             avg(DEWPOINT) as dewPoint
         from MAUSYSTEMDATA
         WHERE
-            <![CDATA[
-                   DATADATE >= #{beginDate}
-                  and DATADATE <= #{endDate}
-             ]]>
             <if test="systemType!=null and systemType!=''">
-                AND SYSTEMTYPE=#{systemType,jdbcType=VARCHAR}
+                SYSTEMTYPE=#{systemType,jdbcType=VARCHAR}
             </if>
         GROUP BY
-            SYSTEMNAME
+            SYSTEMNAME,STATUS
     </select>
 
 </mapper>

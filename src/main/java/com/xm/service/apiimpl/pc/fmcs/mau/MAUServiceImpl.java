@@ -29,34 +29,30 @@ public class MAUServiceImpl {
     private MAURealTimeDataDAO mauRealTimeDataDAO;
 
     @ApiMethodDoc(apiCode = "FMCS_MAUSystem",name = "新风空调系统接口")
-    public MauSystemDataRetDTO mauSystemData(@ApiParamDoc(desc = "厂别,如ARRAY,CELL,CF") String systemType){
+    public MauSystemDataRetDTO mauSystemData(@ApiParamDoc(desc = "厂别,如MAU,4A,4B") String systemType){
         MauSystemDataRetDTO resultDto = new MauSystemDataRetDTO();
         try {
             List<String> nameList = Constant.mauSystemListMap.get(systemType);
-            //List<String> equList = Constant.placeEquipmentListMp.get(place);
             if(!Constant.mauSystemListMap.containsKey(systemType)){
                 resultDto.setSuccess(false);
-                resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.factoryPlaceListMap.keySet() + "】");
+                resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.mauSystemListMap.keySet() + "】");
                 return resultDto;
             }
 
-            List<MauSystemData.MauSystemDetailData> queryList = mauSystemDataDAO.queryMAUSystemData(systemType);
-            Map<String,MauSystemData.MauSystemDetailData> queryMap = MapUtils.listToMap(queryList,"getSystemName");
+            List<MauSystemData> queryList = mauSystemDataDAO.queryMAUSystemData(systemType);
+            Map<String,MauSystemData> queryMap = MapUtils.listToMap(queryList,"getSystemName");
             List<MauSystemData> systemDateList = new ArrayList<MauSystemData>();
-            MauSystemData mauData = new MauSystemData();
             for(String name:nameList){
-                List<MauSystemData.MauSystemDetailData> systemDetailDateList = new ArrayList<MauSystemData.MauSystemDetailData>();
-                MauSystemData.MauSystemDetailData mauDetailData = null;
-                if(!CollectionUtils.isEmpty(queryMap)){
-                    mauDetailData = queryMap.get(name);
-                }
+                //MauSystemData mauData = new MauSystemData();
+                MauSystemData mauData = queryMap.get(name);
+                /*if(!CollectionUtils.isEmpty(queryMap)){
+                    mauData = queryMap.get(name);
+                }*/
                 if(mauData == null){
-                    mauDetailData = new MauSystemData.MauSystemDetailData(name);
+                    mauData = new MauSystemData(name);
                 }
-                systemDetailDateList.add(mauDetailData);
-                mauData.setMauSystemDetailDataList(systemDetailDateList);
+                systemDateList.add(mauData);
             }
-            systemDateList.add(mauData);
             resultDto.setMauSystemDataList(systemDateList);
             return resultDto;
         }catch (Exception e){
@@ -100,7 +96,7 @@ public class MAUServiceImpl {
             resultDto.setMauRealTimeDataList(mauRealTimeList);
             return resultDto;
         }catch (Exception e){
-            LogUtils.error(this.getClass(),"pcwRealTime eclipse",e);
+            LogUtils.error(getClass(), e);
             resultDto.setSuccess(false);
             resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return resultDto;

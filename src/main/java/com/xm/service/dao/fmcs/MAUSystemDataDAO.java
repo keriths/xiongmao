@@ -11,5 +11,5 @@ import java.util.List;
  */
 @Repository("mauSystemDataDAO")
 public interface MAUSystemDataDAO {
-    List<MauSystemData.MauSystemDetailData> queryMAUSystemData(@Param("") String systemType);
+    List<MauSystemData> queryMAUSystemData(@Param("systemType") String systemType);
 }

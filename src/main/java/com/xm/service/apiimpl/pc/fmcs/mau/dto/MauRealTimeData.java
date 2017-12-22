@@ -1,6 +1,9 @@
 package com.xm.service.apiimpl.pc.fmcs.mau.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.RandomUtils;
+import com.xm.platform.util.ReturnDataUtils;
+import com.xm.service.constant.Constant;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -12,7 +15,7 @@ import java.util.List;
 public class MauRealTimeData {
     @ApiResultFieldDesc(desc = "横坐标时间")
     private String periodDate;
-    @ApiResultFieldDesc(desc = "工艺冷却水系统实时数据列表")
+    @ApiResultFieldDesc(desc = "新风空调系统数据列表")
     private List<MauRealTimeData.MauRealTimeDetailData> mauRealTimeDetailDataList;
 
     public static class MauRealTimeDetailData implements Serializable {
@@ -27,7 +30,7 @@ public class MauRealTimeData {
 
         @ApiResultFieldDesc(desc = "系统编码")
         private String systemName;
-        @ApiResultFieldDesc(desc = "系统状体")
+        @ApiResultFieldDesc(desc = "系统状态")
         private String status;
         @ApiResultFieldDesc(desc = "温度")
         private BigDecimal temperature;
@@ -47,6 +50,9 @@ public class MauRealTimeData {
         }
 
         public String getStatus() {
+            if (status==null){
+                return "1";
+            }
             return status;
         }
 
@@ -56,7 +62,9 @@ public class MauRealTimeData {
 
         public BigDecimal getTemperature() {
             if (temperature==null){
-                return new BigDecimal("0");
+                if (Constant.showDemoData){
+                        return ReturnDataUtils.demoData("float","23.00-24.00");
+                }
             }
             return temperature;
         }
@@ -67,7 +75,9 @@ public class MauRealTimeData {
 
         public BigDecimal getDewPoint() {
             if (dewPoint==null){
-                return new BigDecimal("0");
+                if (Constant.showDemoData){
+                    return ReturnDataUtils.demoData("float","12.00-12.20");
+                }
             }
             return dewPoint;
         }
