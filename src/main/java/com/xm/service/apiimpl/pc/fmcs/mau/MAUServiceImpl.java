@@ -6,14 +6,12 @@ import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
-import com.xm.service.apiimpl.pc.fmcs.mau.dto.MauEquipmentData;
-import com.xm.service.apiimpl.pc.fmcs.mau.dto.MauEquipmentDataRetDTO;
-import com.xm.service.apiimpl.pc.fmcs.mau.dto.MauRealTimeData;
-import com.xm.service.apiimpl.pc.fmcs.mau.dto.MauRealTimeDataRetDTO;
+import com.xm.service.apiimpl.pc.fmcs.mau.dto.*;
 import com.xm.service.constant.Constant;
-import com.xm.service.dao.fmcs.MAUADataDAO;
-import com.xm.service.dao.fmcs.MAUBDataDAO;
+import com.xm.service.dao.fmcs.MAUSystemDataDAO;
+import com.xm.service.dao.fmcs.MAURealTimeDataDAO;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -25,41 +23,61 @@ import java.util.*;
 @ApiServiceDoc(name = "FMCS_新风空调系统(MAU)")
 public class MAUServiceImpl {
 
-    @Resource(name="mauEquipmentDataDAO")
-    private MAUADataDAO mauADataDAO;
+    @Resource(name="mauSystemDataDAO")
+    private MAUSystemDataDAO mauSystemDataDAO;
     @Resource(name="mauRealTimeDataDAO")
-    private MAUBDataDAO mauBDataDAO;
+    private MAURealTimeDataDAO mauRealTimeDataDAO;
 
-    @ApiMethodDoc(apiCode = "FMCS_MAUEquipment",name = "新风空调系统设备接口")
-    public MauEquipmentDataRetDTO mauEuipmentData(){
-        MauEquipmentDataRetDTO resultDto = new MauEquipmentDataRetDTO();
+    @ApiMethodDoc(apiCode = "FMCS_MAUSystem",name = "新风空调系统接口")
+    public MauSystemDataRetDTO mauSystemData(@ApiParamDoc(desc = "厂别,如ARRAY,CELL,CF") String systemType){
+        MauSystemDataRetDTO resultDto = new MauSystemDataRetDTO();
         try {
-            List<MauEquipmentData> queryList = mauADataDAO.queryMAUEquipmentData();
-            resultDto.setMauEquipmentDataList(queryList);
+            List<String> nameList = Constant.mauSystemListMap.get(systemType);
+            //List<String> equList = Constant.placeEquipmentListMp.get(place);
+            if(!Constant.mauSystemListMap.containsKey(systemType)){
+                resultDto.setSuccess(false);
+                resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.factoryPlaceListMap.keySet() + "】");
+                return resultDto;
+            }
+
+            List<MauSystemData.MauSystemDetailData> queryList = mauSystemDataDAO.queryMAUSystemData(systemType);
+            Map<String,MauSystemData.MauSystemDetailData> queryMap = MapUtils.listToMap(queryList,"getSystemName");
+            List<MauSystemData> systemDateList = new ArrayList<MauSystemData>();
+            MauSystemData mauData = new MauSystemData();
+            for(String name:nameList){
+                List<MauSystemData.MauSystemDetailData> systemDetailDateList = new ArrayList<MauSystemData.MauSystemDetailData>();
+                MauSystemData.MauSystemDetailData mauDetailData = null;
+                if(!CollectionUtils.isEmpty(queryMap)){
+                    mauDetailData = queryMap.get(name);
+                }
+                if(mauData == null){
+                    mauDetailData = new MauSystemData.MauSystemDetailData(name);
+                }
+                systemDetailDateList.add(mauDetailData);
+                mauData.setMauSystemDetailDataList(systemDetailDateList);
+            }
+            systemDateList.add(mauData);
+            resultDto.setMauSystemDataList(systemDateList);
             return resultDto;
         }catch (Exception e){
-            LogUtils.error(this.getClass(),"CDADate eclipse",e);
+            LogUtils.error(getClass(), e);
             resultDto.setSuccess(false);
             resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return resultDto;
         }
     }
 
+
     @ApiMethodDoc(apiCode = "FMCS_MAURealTime",name = "新风空调系统实时数据接口")
-    public MauRealTimeDataRetDTO mauRealTimeData(@ApiParamDoc(desc = "实时数据名称如“温度,露点”") String name){
+    public MauRealTimeDataRetDTO mauRealTimeData(){
         MauRealTimeDataRetDTO resultDto = new MauRealTimeDataRetDTO();
         try{
-            if(!Constant.TemperaturePointList.contains(name)) {
-                resultDto.setSuccess(false);
-                resultDto.setErrorMsg("dateType参数错误,请传入【" + Constant.gasNamelist + "】");
-                return resultDto;
-            }
             List<String> secondList = null;
             Date beginDate = null;
             beginDate = DateUtils.getBeforMinuteStartDay(5);
             Date endDate = new Date();
             secondList = DateUtils.getSecondStrList(beginDate,endDate);
-            List<MauRealTimeData.MauRealTimeDetailData> queryList = mauBDataDAO.queryMAURealTimeData(name,beginDate,endDate);
+            List<MauRealTimeData.MauRealTimeDetailData> queryList = mauRealTimeDataDAO.queryMAURealTimeData(beginDate,endDate);
             Map<String,MauRealTimeData.MauRealTimeDetailData> queryMap = MapUtils.listToMap(queryList,"getSecondDate");
             List<MauRealTimeData> mauRealTimeList = new ArrayList<MauRealTimeData>();
             Map<String,MauRealTimeData> minuteDataMap = new HashMap<String, MauRealTimeData>();

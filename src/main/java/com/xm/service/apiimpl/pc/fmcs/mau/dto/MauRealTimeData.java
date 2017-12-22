@@ -25,29 +25,55 @@ public class MauRealTimeData {
             this.secondDate = secondDate;
         }
 
-        @ApiResultFieldDesc(desc = "温度/露点")
-        private String name;
-        @ApiResultFieldDesc(desc = "温度值/露点值")
-        private BigDecimal value;
+        @ApiResultFieldDesc(desc = "系统编码")
+        private String systemName;
+        @ApiResultFieldDesc(desc = "系统状体")
+        private String status;
+        @ApiResultFieldDesc(desc = "温度")
+        private BigDecimal temperature;
+        @ApiResultFieldDesc(desc = "露点")
+        private BigDecimal dewPoint;
         @ApiResultFieldDesc(desc = "横坐标时间")
         private String periodDate;
         @ApiResultFieldDesc(desc = "数据更新时间")
         private String secondDate;
 
-        public String getName() {
-            return name;
+        public String getSystemName() {
+            return systemName;
         }
 
-        public void setName(String name) {
-            this.name = name;
+        public void setSystemName(String systemName) {
+            this.systemName = systemName;
         }
 
-        public BigDecimal getValue() {
-            return value;
+        public String getStatus() {
+            return status;
         }
 
-        public void setValue(BigDecimal value) {
-            this.value = value;
+        public void setStatus(String status) {
+            this.status = status;
+        }
+
+        public BigDecimal getTemperature() {
+            if (temperature==null){
+                return new BigDecimal("0");
+            }
+            return temperature;
+        }
+
+        public void setTemperature(BigDecimal temperature) {
+            this.temperature = temperature;
+        }
+
+        public BigDecimal getDewPoint() {
+            if (dewPoint==null){
+                return new BigDecimal("0");
+            }
+            return dewPoint;
+        }
+
+        public void setDewPoint(BigDecimal dewPoint) {
+            this.dewPoint = dewPoint;
         }
 
         public String getPeriodDate() {

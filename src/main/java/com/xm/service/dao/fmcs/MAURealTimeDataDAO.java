@@ -11,16 +11,13 @@ import java.util.List;
  * Created by wangshuna on 2017/12/21.
  */
 @Repository("mauRealTimeDataDAO")
-public interface MAUBDataDAO {
+public interface MAURealTimeDataDAO {
 
     /**
-     *
-     * @param name 温度/露点
      * @param beginDate 开始时间
      * @param endDate 结束时间
      * @return
      */
-    List<MauRealTimeData.MauRealTimeDetailData> queryMAURealTimeData(@Param("name")String name,
-                                                                     @Param("beginDate") Date beginDate,
+    List<MauRealTimeData.MauRealTimeDetailData> queryMAURealTimeData(@Param("beginDate") Date beginDate,
                                                                      @Param("endDate") Date endDate);
 }

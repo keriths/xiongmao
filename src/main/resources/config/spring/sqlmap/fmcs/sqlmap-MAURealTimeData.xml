@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xm.service.dao.fmcs.MAUBDataDAO" >
+<mapper namespace="com.xm.service.dao.fmcs.MAURealTimeDataDAO" >
 
     <select id="queryMAURealTimeData" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.mau.dto.MauRealTimeData$MauRealTimeDetailData">
         select
-            NAME as name,
-            avg(VALUE) as value,
+            avg(TEMPERATURE) as temperature,
+            avg(DEWPOINT) as dewPoint,
             TO_CHAR(DATADATE,'mi')||':00' as periodDate,
             <![CDATA[
                 TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<05 then '00'
@@ -22,17 +22,13 @@
             ]]>
             else '55'
             end as secondDate
-        from MAUBDATA
+        from MAUREALTIMEDATA
         WHERE
             <![CDATA[
-                       DATADATE >= #{beginDate}
-                      and DATADATE <= #{endDate}
-                 ]]>
-            <if test="name!=null and name!=''">
-                AND NAME=#{name,jdbcType=VARCHAR}
-            </if>
+                   DATADATE >= #{beginDate}
+                  and DATADATE <= #{endDate}
+             ]]>
         GROUP BY
-            NAME,
             TO_CHAR(DATADATE,'mi')||':00',
             <![CDATA[
                 TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<05 then '00'

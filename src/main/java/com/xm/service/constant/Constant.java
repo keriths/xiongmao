@@ -12,6 +12,7 @@ import java.util.Map;
 public class Constant {
     public static final boolean showDemoData=true;
 
+    public static final String hour="hour";
     public static final String day="day";
     public static final String month="month";
     public static final String quarter="quarter";
@@ -142,7 +143,10 @@ public class Constant {
     /**
      * 温度露点类型
      */
-    public static final List<String> TemperaturePointList = Lists.newArrayList("温度","露点");
+    public static final Map<String,List<String>> mauSystemListMap = MapUtils.newMap(
+            "MAU",Lists.newArrayList("MAU"),
+            "4A",Lists.newArrayList("4A-L2-MAU-N-01","4A-L2-MAU-N-02","4A-M2-MAU-N-01"),
+            "4B",Lists.newArrayList("4B-M2-MAU-N-01","4B-M2-MAU-N-02","4B-M2-MAU-N-03"));
 
 
 }
