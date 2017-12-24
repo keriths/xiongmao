@@ -26,7 +26,7 @@ public class CDAServiceImpl {
     @Resource(name="cdaDataDAO")
     private CDADataDAO cdaDataDAO;
 
-    @ApiMethodDoc(apiCode = "FMCS_cdaData",name = "空压系统数据接口")
+    @ApiMethodDoc(apiCode = "FMCS_CDAData",name = "空压系统数据接口")
     public CdaDataRetDTO cdaDataDataRetDto(){
         CdaDataRetDTO resultDto = new CdaDataRetDTO();
         try {
@@ -34,7 +34,7 @@ public class CDAServiceImpl {
             resultDto.setCdaDataList(queryList);
             return resultDto;
         }catch (Exception e){
-            LogUtils.error(this.getClass(),"HtPeDate eclipse",e);
+            LogUtils.error(this.getClass(),"CDADate eclipse",e);
             resultDto.setSuccess(false);
             resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return resultDto;

@@ -19,9 +19,6 @@
               and DataDate <= #{endDate}
             ]]>
             AND GasType=#{gasType,jdbcType=VARCHAR}
-            <if test="place!=null and place!=''">
-                AND Place=#{place,jdbcType=VARCHAR}
-            </if>
         GROUP BY
             <if test="dateType=='month'.toString()">/*按月*/
                 TO_CHAR(DataDate,'MM')||'月'

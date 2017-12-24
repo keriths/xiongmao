@@ -3,14 +3,13 @@ package com.xm.service.apiimpl.pc.fmcs.humiture.dto;
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.service.dto.BaseRetDTO;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * Created by luokaiming on 2017/11/30 0030.
+ * Created by wangshuna on 2017/12/5.
  */
-public class HumitureDataRetDTO extends BaseRetDTO{
+public class HumitureDateRetDTO extends BaseRetDTO{
+
     @ApiResultFieldDesc(desc = "返回数据列表")
     List<HumitureDate> humitureDateList;
 

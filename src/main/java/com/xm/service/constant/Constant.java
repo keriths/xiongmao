@@ -12,6 +12,7 @@ import java.util.Map;
 public class Constant {
     public static final boolean showDemoData=true;
 
+    public static final String hour="hour";
     public static final String day="day";
     public static final String month="month";
     public static final String quarter="quarter";
@@ -116,7 +117,7 @@ public class Constant {
     /**
      * 气体类型
      */
-    public static final List<String> GasTypeList = Lists.newArrayList("蒸汽", "天然气");
+    public static final List<String> GasTypeList = Lists.newArrayList("蒸汽", "天然气","4A/4B-工厂天然气","4M食堂天然气");
     /**
      * 纯水类型
      */
@@ -138,6 +139,36 @@ public class Constant {
                                                                             "PCW-4B-301","PCW-4B-401");
 
     public static final List<String> wwtbDataCodeList=Lists.newArrayList("PH","F","PO4-P","CODcr","T-N","C1");
+
+    /**
+     * MAU系统类型
+     */
+    public static final Map<String,List<String>> mauSystemListMap = MapUtils.newMap(
+            "MAU",Lists.newArrayList("MAU"),
+            "4A",Lists.newArrayList("4A-L2-MAU-N-01","4A-L2-MAU-N-02","4A-M2-MAU-N-01","4A-M2-MAU-N-02","4A-M2-MAU-N-03"),
+            "4B",Lists.newArrayList("4B-M2-MAU-N-01","4B-M2-MAU-N-02","4B-M2-MAU-N-03","4B-M2-MAU-N-04","4B-M2-MAU-N-05"));
+
+    /**
+     * RCU系统类型
+     */
+    public static final Map<String,List<String>> rcuSystemListMap = MapUtils.newMap(
+            "RCU",Lists.newArrayList("RCU"),
+            "4A",Lists.newArrayList("4A-L1-PHT-RCU-01","4A-L1-PHT-RCU-02","4A-L1-PHT-RCU-03","4A-L1-PHT-RCU-04","4A-L1-PHT-RCU-05"),
+            "4B",Lists.newArrayList("4B-1-RCU-PHT-01","4B-1-RCU-PHT-02","4B-1-RCU-PHT-03","4B-1-RCU-PHT-04","4B-1-RCU-PHT-05"));
+
+    /**
+     * 电的统计时间类型小时hour天day月month
+     */
+    public static final List<String> electricityDateTypeList = Lists.newArrayList(hour,day, month);
+    /**
+     * 电的区域
+     */
+    public static final List<String> electricityPlaceList = Lists.newArrayList("4A-ARRAY","4B-CF/CELL/SL","4C-动力站"
+                                                                                            ,"4D-废水站","4E-纯水站","4M-食堂","4R-研发中心");
+    /**
+     * 电的区域类型
+     */
+    public static final List<String> electricityPlaceTypeList = Lists.newArrayList("4A","4B","其他");
 
 
 }

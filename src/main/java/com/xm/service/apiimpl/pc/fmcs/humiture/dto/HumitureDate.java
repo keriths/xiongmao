@@ -1,52 +1,45 @@
 package com.xm.service.apiimpl.pc.fmcs.humiture.dto;
 
+import com.google.common.collect.Lists;
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.service.dto.BaseRetDTO;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * Created by wangshuna on 2017/12/6.
+ * Created by wangshuna on 2017/12/5.
  */
 public class HumitureDate {
 
-    @ApiResultFieldDesc(desc = "返回数据列表")
-    private List<HumitureDetailData> humitureDataList;
-    @ApiResultFieldDesc(desc = "横坐标时间")
-    private String periodDate;
+    @ApiResultFieldDesc(desc = "区域设备列表")
+    private List<HtPeDate> humitureDetailDateList;
+    @ApiResultFieldDesc(desc = "区域如：pvd区、cvd区")
+    private String place;
 
-    public static class HumitureDetailData implements Serializable {
-        public HumitureDetailData(){}
-        public HumitureDetailData(String periodDate,String secondDate){
-            this.periodDate = periodDate;
-            this.secondDate = secondDate;
+    public static class HtPeDate implements Serializable{
+
+        public HtPeDate(){}
+        public HtPeDate(String place,String equipment){
+            this.place=place;
+            this.equipment = equipment;
         }
 
         @ApiResultFieldDesc(desc = "工厂如array,cf,cell")
         private String factory;
-
         @ApiResultFieldDesc(desc = "区域如：pvd区、cvd区")
         private String place;
-
         @ApiResultFieldDesc(desc = "设备如：pvd-201、pvd-301")
         private String equipment;
-
         @ApiResultFieldDesc(desc = "温度")
         private BigDecimal temperature;
-
         @ApiResultFieldDesc(desc = "湿度")
         private BigDecimal humidity;
-
         @ApiResultFieldDesc(desc = "洁净度")
         private BigDecimal cleanliness;
-
-        @ApiResultFieldDesc(desc = "横坐标时间")
-        private String periodDate;
-
         @ApiResultFieldDesc(desc = "最新更新时间")
-        private String secondDate;
-
+        private String datadate;
 
         public String getFactory() {
             return factory;
@@ -105,36 +98,28 @@ public class HumitureDate {
             this.cleanliness = cleanliness;
         }
 
-        public String getPeriodDate() {
-            return periodDate;
+        public String getDatadate() {
+            return datadate;
         }
 
-        public void setPeriodDate(String periodDate) {
-            this.periodDate = periodDate;
-        }
-
-        public String getSecondDate() {
-            return secondDate;
-        }
-
-        public void setSecondDate(String secondDate) {
-            this.secondDate = secondDate;
+        public void setDatadate(String datadate) {
+            this.datadate = datadate;
         }
     }
 
-    public List<HumitureDetailData> getHumitureDataList() {
-        return humitureDataList;
+    public List<HtPeDate> getHumitureDetailDateList() {
+        return humitureDetailDateList;
     }
 
-    public void setHumitureDataList(List<HumitureDetailData> humitureDataList) {
-        this.humitureDataList = humitureDataList;
+    public void setHumitureDetailDateList(List<HtPeDate> humitureDetailDateList) {
+        this.humitureDetailDateList = humitureDetailDateList;
     }
 
-    public String getPeriodDate() {
-        return periodDate;
+    public String getPlace() {
+        return place;
     }
 
-    public void setPeriodDate(String periodDate) {
-        this.periodDate = periodDate;
+    public void setPlace(String place) {
+        this.place = place;
     }
 }

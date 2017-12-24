@@ -3,50 +3,83 @@ package com.xm.service.apiimpl.pc.fmcs.electricity.dto;
 import com.xm.platform.annotations.ApiResultFieldDesc;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
- * Created by wanghsuna on 2017/11/30.
+ * Created by luokaiming on 2017/12/22.
  */
 public class ElectricityDate {
 
-    @ApiResultFieldDesc(desc = "地点类型，如(4A,4B)")
-    private String placeType;
-    @ApiResultFieldDesc(desc = "地点,如(4A-ARRAY,4E-纯水站)")
-    private String place;
-    @ApiResultFieldDesc(desc = "当前时间使用总量")
-    private BigDecimal totalNum;
-    @ApiResultFieldDesc(desc = "横坐标之间")
-    private String DataDate;
+    @ApiResultFieldDesc(desc = "返回数据详情列表")
+    private List<ElectricityDetailDate> electricityDetailDateList;
 
-    public String getPlaceType() {
-        return placeType;
+    @ApiResultFieldDesc(desc = "横坐标时间")
+    private String dataDate;
+
+    public static class ElectricityDetailDate{
+
+        public ElectricityDetailDate(){}
+        public ElectricityDetailDate(String placeType,String dataDate){
+            this.placeType=placeType;
+            this.dataDate=dataDate;
+        }
+        public String key(){
+            return dataDate+" "+placeType;
+        }
+
+        @ApiResultFieldDesc(desc = "区域类型，如(4A,4B)")
+        private String placeType;
+        /*@ApiResultFieldDesc(desc = "地点,如(4A-ARRAY,4E-纯水站)")
+        private String place;*/
+        @ApiResultFieldDesc(desc = "当前时间使用总量")
+        private BigDecimal totalNum;
+        @ApiResultFieldDesc(desc = "数据时间")
+        private String dataDate;
+
+
+        public String getPlaceType() {
+            return placeType;
+        }
+
+        public void setPlaceType(String placeType) {
+            this.placeType = placeType;
+        }
+
+        public BigDecimal getTotalNum() {
+            if (totalNum==null){
+                return new BigDecimal(0);
+            }
+            return totalNum;
+        }
+
+        public void setTotalNum(BigDecimal totalNum) {
+            this.totalNum = totalNum;
+        }
+
+        public String getDataDate() {
+            return dataDate;
+        }
+
+        public void setDataDate(String dataDate) {
+            this.dataDate = dataDate;
+        }
+
     }
 
-    public void setPlaceType(String placeType) {
-        this.placeType = placeType;
+
+    public List<ElectricityDetailDate> getElectricityDetailDateList() {
+        return electricityDetailDateList;
     }
 
-    public String getPlace() {
-        return place;
-    }
-
-    public void setPlace(String place) {
-        this.place = place;
-    }
-
-    public BigDecimal getTotalNum() {
-        return totalNum;
-    }
-
-    public void setTotalNum(BigDecimal totalNum) {
-        this.totalNum = totalNum;
+    public void setElectricityDetailDateList(List<ElectricityDetailDate> electricityDetailDateList) {
+        this.electricityDetailDateList = electricityDetailDateList;
     }
 
     public String getDataDate() {
-        return DataDate;
+        return dataDate;
     }
 
     public void setDataDate(String dataDate) {
-        DataDate = dataDate;
+        this.dataDate = dataDate;
     }
 }

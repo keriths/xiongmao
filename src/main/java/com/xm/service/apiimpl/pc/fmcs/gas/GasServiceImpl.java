@@ -36,18 +36,12 @@ public class GasServiceImpl {
     private GasEveryDayDataDAO gasEveryDayDataDAO;
 
     @ApiMethodDoc(apiCode = "FMCS_gasRealTime",name = "蒸汽天然气实时数据接口")
-    public NatgasRealTimeDataRetDTO natgasRealTime(@ApiParamDoc(desc = "气体类型如蒸汽，天然气") String gasType,
-                                                   @ApiParamDoc(desc = "地点如4A/4B-工厂、4M食堂") String place){
+    public NatgasRealTimeDataRetDTO natgasRealTime(@ApiParamDoc(desc = "气体类型如蒸汽,天然气,4A/4B-工厂天然气,4M食堂天然气") String gasType){
         NatgasRealTimeDataRetDTO resultDto=new NatgasRealTimeDataRetDTO();
         try {
             if (!Constant.GasTypeList.contains(gasType)){
                 resultDto.setSuccess(false);
                 resultDto.setErrorMsg("gasType参数错误,请传入【" + Constant.GasTypeList + "】");
-                return resultDto;
-            }
-            if (!StringUtils.isEmpty(place) && !Constant.PlaceTypeList.contains(place)){
-                resultDto.setSuccess(false);
-                resultDto.setErrorMsg("place参数错误,请传入【" + Constant.PlaceTypeList + "】");
                 return resultDto;
             }
             List<String> dateSecondList = null;
@@ -56,7 +50,7 @@ public class GasServiceImpl {
             beginDate = DateUtils.getBeforMinuteStartDay(5);
             dateSecondList = DateUtils.getSecondStrList(beginDate, endDate);
 
-            List<NatgasRealTimeData.NatgasTimeDetailData> dataList = natgasRealTimeDataDAO.queryGasRealTimeData(gasType,place,beginDate, endDate);
+            List<NatgasRealTimeData.NatgasTimeDetailData> dataList = natgasRealTimeDataDAO.queryGasRealTimeData(gasType,beginDate, endDate);
             Map<String, NatgasRealTimeData.NatgasTimeDetailData> dataMap = MapUtils.listToMap(dataList, "getDataDate");
             List<NatgasRealTimeData> natgasRealTimeDataList = new ArrayList<NatgasRealTimeData>();
             Map<String,NatgasRealTimeData> minuteDataMap = new HashMap<String, NatgasRealTimeData>();
@@ -88,8 +82,7 @@ public class GasServiceImpl {
 
     @ApiMethodDoc(apiCode = "FMCS_gsaStatistics",name = "蒸汽天然气统计数据接口（按天、按月）（OK）")
     public NatgasStatisticsDataRetDTO natgasStatistics(@ApiParamDoc(desc = "统计时间类型天day月month(必填)")String dateType,
-                                                       @ApiParamDoc(desc = "气体类型如蒸汽，天然气(必填)") String gasType,
-                                                       @ApiParamDoc(desc = "地点如4A/4B-工厂、4M食堂") String place) {
+                                                       @ApiParamDoc(desc = "气体类型如蒸汽，天然气，4A/4B-工厂天然气，4M食堂天然气(必填)") String gasType) {
         NatgasStatisticsDataRetDTO resultDto = new NatgasStatisticsDataRetDTO();
         try {
             if (!Constant.gasDateTypeList.contains(dateType)){
@@ -100,11 +93,6 @@ public class GasServiceImpl {
             if (!Constant.GasTypeList.contains(gasType)){
                 resultDto.setSuccess(false);
                 resultDto.setErrorMsg("gasType参数错误,请传入【" + Constant.GasTypeList + "】");
-                return resultDto;
-            }
-            if (!StringUtils.isEmpty(place) && !Constant.PlaceTypeList.contains(place)){
-                resultDto.setSuccess(false);
-                resultDto.setErrorMsg("place参数错误,请传入【" + Constant.PlaceTypeList + "】");
                 return resultDto;
             }
 
@@ -118,7 +106,7 @@ public class GasServiceImpl {
                 beginDate = DateUtils.getBeforMonthStartDay(11);
                 dateList = DateUtils.getMonthStrList(beginDate,endDate);
             }
-            List<NatgasStatisticsDataRetDTO.GsaStatisticsData>  dataList=natgasEveryDayDataDAO.queryGsaStatisticsData(dateType,gasType,place,beginDate,endDate);
+            List<NatgasStatisticsDataRetDTO.GsaStatisticsData>  dataList=natgasEveryDayDataDAO.queryGsaStatisticsData(dateType,gasType,beginDate,endDate);
             Map<String,NatgasStatisticsDataRetDTO.GsaStatisticsData> dataMap= MapUtils.listToMap(dataList,"getPeriodDate");
             List<NatgasStatisticsDataRetDTO.GsaStatisticsData> gsaStatisticsDataList =new ArrayList<NatgasStatisticsDataRetDTO.GsaStatisticsData>();
             for (String str:dateList){

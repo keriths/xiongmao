@@ -16,9 +16,11 @@ public class ReturnDataUtils {
         if ("int".equals(dataType)){
             //判断样本数据是可选列表还是区间
             if (demoData.contains(",")){//是列表如：0,1,2,3
-                String str[]=demoData.split(",");
+                /*String str[]=demoData.split(",");
                 int i=RandomUtils.randomInt(0,str.length);
-                data=new BigDecimal(str[i]);
+                data=new BigDecimal(str[i]);*/
+
+                data=new BigDecimal(1);//设备状态类型数据默认状态为正常 1
             }else {//区间
                 //判断是正数区间还是负数区间
                 if (demoData.contains("(")){//负数区间如：(-2100)-(-2000)

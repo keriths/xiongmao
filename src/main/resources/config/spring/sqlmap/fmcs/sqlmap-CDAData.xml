@@ -20,7 +20,7 @@
             from
                 CDADATA
             group by
-                KEY,KEYDESC,DATATYPE,DEMODATA
+                KEY,DATATYPE,DEMODATA
             ) b
             on a.DATADATE = b.DATADATE
             and a.KEY = b.KEY
