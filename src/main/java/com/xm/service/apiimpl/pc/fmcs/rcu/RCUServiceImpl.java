@@ -77,7 +77,7 @@ public class RCUServiceImpl {
             Date endDate = new Date();
             secondList = DateUtils.getSecondStrList(beginDate,endDate);
             List<String> systemNameList = Lists.newArrayList("RCU");
-            List<RcuRealTimeData.RcuRealTimeDetailData> queryList = rcuRealTimeDataDAO.queryRCURealTimeData(beginDate,endDate);
+            List<RcuRealTimeData.RcuRealTimeDetailData> queryList = rcuRealTimeDataDAO.queryRCURealTimeData(systemNameList,beginDate,endDate);
             Map<String,RcuRealTimeData.RcuRealTimeDetailData> queryMap = MapUtils.listToMap(queryList,"getSecondDate");
             List<RcuRealTimeData> rcuRealTimeList = new ArrayList<RcuRealTimeData>();
             Map<String,RcuRealTimeData> minuteDataMap = new HashMap<String, RcuRealTimeData>();
