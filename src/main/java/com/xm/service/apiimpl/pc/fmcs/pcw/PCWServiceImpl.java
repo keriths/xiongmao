@@ -19,7 +19,7 @@ import java.util.*;
  * Created by fanshuai on 17/10/24.
  */
 @Service("PCWService")
-@ApiServiceDoc(name = "FMCS_工艺冷却水系统(PCW)(完成)")
+@ApiServiceDoc(name = "FMCS05_工艺冷却水系统(PCW)(完成)")
 public class PCWServiceImpl {
 
     @Resource(name="pcwHumitureDataDAO")

@@ -24,7 +24,7 @@ import java.util.*;
  * Created by fanshuai on 17/10/24.
  */
 @Service("RCUService")
-@ApiServiceDoc(name = "FMCS_热回收空调系统(RCU)(完成)")
+@ApiServiceDoc(name = "FMCS08_热回收空调系统(RCU)(完成)")
 public class RCUServiceImpl {
 
     @Resource(name="rcuRealTimeDataDAO")

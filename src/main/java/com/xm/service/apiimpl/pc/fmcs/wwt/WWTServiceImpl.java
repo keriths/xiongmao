@@ -23,7 +23,7 @@ import java.util.*;
  * Created by fanshuai on 17/10/24.
  */
 @Service("WWTService")
-@ApiServiceDoc(name = "FMCS_废水处理系统(WWT)")
+@ApiServiceDoc(name = "FMCS11_废水处理系统(WWT)")
 public class WWTServiceImpl {
     @Resource
     private WwtaDataDAO wwtaDataDAO;

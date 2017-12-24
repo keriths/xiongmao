@@ -21,7 +21,7 @@ import java.util.*;
  * Created by fanshuai on 17/10/24.
  */
 @Service("MAUService")
-@ApiServiceDoc(name = "FMCS_新风空调系统(MAU)(完成)")
+@ApiServiceDoc(name = "FMCS07_新风空调系统(MAU)(完成)")
 public class MAUServiceImpl {
 
     @Resource(name="mauSystemDataDAO")

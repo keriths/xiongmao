@@ -18,7 +18,7 @@ import java.util.List;
  * Created by fanshuai on 17/10/24.
  */
 @Service("UPWService")
-@ApiServiceDoc(name = "FMCS_纯水制造系统(UPW)")
+@ApiServiceDoc(name = "FMCS10_纯水制造系统(UPW)")
 public class UPWServiceImpl {
     @Resource
     private UpwaDataDAO upwaDataDAO;
