@@ -1,6 +1,8 @@
 package com.xm.service.apiimpl.pc.fmcs.water.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.RandomUtils;
+import com.xm.service.constant.Constant;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -38,7 +40,11 @@ public class PureWaterRealTimeData {
 
         public BigDecimal getSpeed() {
             if (speed==null){
-                speed=new BigDecimal(0);
+                if (Constant.showDemoData){
+                    speed = (RandomUtils.randomFloat(0.6f,1.2f));
+                }else {
+                    speed=new BigDecimal(0);
+                }
             }
             return speed;
         }

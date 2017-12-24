@@ -1,5 +1,6 @@
 package com.xm.platform.util;
 
+import java.math.BigDecimal;
 import java.util.Random;
 
 /**
@@ -19,6 +20,23 @@ public class RandomUtils {
             randomInt = -randomInt;
         }
         return min+randomInt;
+    }
+    public static BigDecimal randomIntBigDecimal(int min,int max){
+        return new BigDecimal(String.valueOf(randomInt(min,max)));
+    }
+    public static BigDecimal randomFloat(float min,float max){
+        return randomFloat(min,max,2);
+    }
+
+    public static BigDecimal randomFloat(float min,float max,int scale){
+        Random r = new Random();
+        if (min==max){
+            return new BigDecimal(min).setScale(scale,BigDecimal.ROUND_HALF_UP);
+        }
+        if (min>max){
+            new BigDecimal(max).setScale(scale,BigDecimal.ROUND_HALF_UP);
+        }
+        return new BigDecimal(min+(max-min)*r.nextFloat()).setScale(scale,BigDecimal.ROUND_HALF_UP);
     }
 
     public static void main(String[] args){
