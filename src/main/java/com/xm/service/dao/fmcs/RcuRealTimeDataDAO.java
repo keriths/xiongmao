@@ -18,7 +18,7 @@ public interface RcuRealTimeDataDAO {
      * @param endDate 结束时间
      * @return
      */
-    List<RcuRealTimeData.RcuRealTimeDetailData> queryRCURealTimeData(@Param("beginDate") Date beginDate,
+    List<RcuRealTimeData.RcuRealTimeDetailData> queryRCURealTimeData(@Param("systemNameList")List<String> systemNameList,@Param("beginDate") Date beginDate,
                                                                      @Param("endDate") Date endDate);
 
 }

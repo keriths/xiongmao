@@ -18,6 +18,6 @@ public interface MAURealTimeDataDAO {
      * @param endDate 结束时间
      * @return
      */
-    List<MauRealTimeData.MauRealTimeDetailData> queryMAURealTimeData(@Param("beginDate") Date beginDate,
+    List<MauRealTimeData.MauRealTimeDetailData> queryMAURealTimeData(@Param("systemNameList")List<String> systemNameList ,@Param("beginDate") Date beginDate,
                                                                      @Param("endDate") Date endDate);
 }

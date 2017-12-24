@@ -1,5 +1,6 @@
 package com.xm.service.apiimpl.pc.fmcs.mau;
 
+import com.google.common.collect.Lists;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
@@ -20,7 +21,7 @@ import java.util.*;
  * Created by fanshuai on 17/10/24.
  */
 @Service("MAUService")
-@ApiServiceDoc(name = "FMCS_新风空调系统(MAU)")
+@ApiServiceDoc(name = "FMCS_新风空调系统(MAU)(完成)")
 public class MAUServiceImpl {
 
     @Resource(name="mauSystemDataDAO")
@@ -29,7 +30,7 @@ public class MAUServiceImpl {
     private MAURealTimeDataDAO mauRealTimeDataDAO;
 
     @ApiMethodDoc(apiCode = "FMCS_MAUSystem",name = "新风空调系统接口")
-    public MauSystemDataRetDTO mauSystemData(@ApiParamDoc(desc = "厂别,如MAU,4A,4B") String systemType){
+    public MauSystemDataRetDTO mauSystemData(@ApiParamDoc(desc = "厂别,如MAU,4A,4B,MAU是图上的数据，4A 4a所有数据 4B 4B所有数据") String systemType){
         MauSystemDataRetDTO resultDto = new MauSystemDataRetDTO();
         try {
             List<String> nameList = Constant.mauSystemListMap.get(systemType);
@@ -73,7 +74,8 @@ public class MAUServiceImpl {
             beginDate = DateUtils.getBeforMinuteStartDay(5);
             Date endDate = new Date();
             secondList = DateUtils.getSecondStrList(beginDate,endDate);
-            List<MauRealTimeData.MauRealTimeDetailData> queryList = mauRealTimeDataDAO.queryMAURealTimeData(beginDate,endDate);
+            List<String> systemNameList = Lists.newArrayList("MAU");
+            List<MauRealTimeData.MauRealTimeDetailData> queryList = mauRealTimeDataDAO.queryMAURealTimeData(systemNameList,beginDate,endDate);
             Map<String,MauRealTimeData.MauRealTimeDetailData> queryMap = MapUtils.listToMap(queryList,"getSecondDate");
             List<MauRealTimeData> mauRealTimeList = new ArrayList<MauRealTimeData>();
             Map<String,MauRealTimeData> minuteDataMap = new HashMap<String, MauRealTimeData>();

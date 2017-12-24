@@ -1,5 +1,6 @@
 package com.xm.service.apiimpl.pc.fmcs.rcu;
 
+import com.google.common.collect.Lists;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
@@ -23,7 +24,7 @@ import java.util.*;
  * Created by fanshuai on 17/10/24.
  */
 @Service("RCUService")
-@ApiServiceDoc(name = "FMCS_热回收空调系统(RCU)")
+@ApiServiceDoc(name = "FMCS_热回收空调系统(RCU)(完成)")
 public class RCUServiceImpl {
 
     @Resource(name="rcuRealTimeDataDAO")
@@ -75,6 +76,7 @@ public class RCUServiceImpl {
             beginDate = DateUtils.getBeforMinuteStartDay(5);
             Date endDate = new Date();
             secondList = DateUtils.getSecondStrList(beginDate,endDate);
+            List<String> systemNameList = Lists.newArrayList("RCU");
             List<RcuRealTimeData.RcuRealTimeDetailData> queryList = rcuRealTimeDataDAO.queryRCURealTimeData(beginDate,endDate);
             Map<String,RcuRealTimeData.RcuRealTimeDetailData> queryMap = MapUtils.listToMap(queryList,"getSecondDate");
             List<RcuRealTimeData> rcuRealTimeList = new ArrayList<RcuRealTimeData>();

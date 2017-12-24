@@ -28,6 +28,10 @@
                    DATADATE >= #{beginDate}
                   and DATADATE <= #{endDate}
              ]]>
+             and SYSTEMNAME in
+             <foreach collection="systemNameList" item="systemName" open="(" separator="," close=")" >
+                #{systemName}
+             </foreach>
         GROUP BY
             TO_CHAR(DATADATE,'mi')||':00',
             <![CDATA[

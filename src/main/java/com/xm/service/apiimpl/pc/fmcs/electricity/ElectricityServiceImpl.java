@@ -24,7 +24,7 @@ import java.util.Map;
  * Created by fanshuai on 17/10/24.
  */
 @Service("ElectricityService")
-@ApiServiceDoc(name = "FMCS2_电")
+@ApiServiceDoc(name = "FMCS2_电(完成)")
 public class ElectricityServiceImpl {
     @Resource(name="elecEveryHourDataDAO")
     private ElecEveryHourDataDAO elecEveryHourDataDAO;
