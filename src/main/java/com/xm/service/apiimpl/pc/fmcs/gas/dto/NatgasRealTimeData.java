@@ -1,6 +1,8 @@
 package com.xm.service.apiimpl.pc.fmcs.gas.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.RandomUtils;
+import com.xm.service.constant.Constant;
 import com.xm.service.dto.BaseRetDTO;
 
 import java.io.Serializable;
@@ -50,7 +52,11 @@ public class NatgasRealTimeData {
 
         public BigDecimal getSpeed() {
             if (speed==null){
-                speed=new BigDecimal(0);
+                if (Constant.showDemoData){
+                    speed = (RandomUtils.randomFloat(18f,27f));
+                }else {
+                    speed=new BigDecimal(0);
+                }
             }
             return speed;
         }

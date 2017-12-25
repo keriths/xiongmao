@@ -1,6 +1,8 @@
 package com.xm.service.apiimpl.pc.fmcs.gas.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.RandomUtils;
+import com.xm.service.constant.Constant;
 import com.xm.service.dto.BaseRetDTO;
 
 import java.io.Serializable;
@@ -39,7 +41,11 @@ public class NatgasStatisticsDataRetDTO extends BaseRetDTO {
 
         public BigDecimal getTotalNum() {
             if(totalNum==null){
-                totalNum=new BigDecimal(0);
+                if (Constant.showDemoData){
+                    totalNum = RandomUtils.randomIntBigDecimal(1000, 3000);
+                }else {
+                    totalNum=new BigDecimal(0);
+                }
             }
             return totalNum;
         }

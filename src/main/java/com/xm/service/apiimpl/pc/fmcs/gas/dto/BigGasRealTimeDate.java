@@ -1,6 +1,8 @@
 package com.xm.service.apiimpl.pc.fmcs.gas.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.RandomUtils;
+import com.xm.service.constant.Constant;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -49,7 +51,22 @@ public class BigGasRealTimeDate {
 
         public BigDecimal getSpeed() {
             if (speed==null){
-                return new BigDecimal("0");
+                if (Constant.showDemoData){
+                    if("GN2".equals(getGasName())){
+                        speed = (RandomUtils.randomIntBigDecimal(30000,50000));
+                    }else if ("PHe".equals(getGasName())){
+                        speed = (RandomUtils.randomFloat(0.1f,0.25f));
+                    }else if ("PN2".equals(getGasName()) || "PO2".equals(getGasName())){
+                        speed = (RandomUtils.randomIntBigDecimal(10,20));
+                    }else if ("PAr".equals(getGasName()) || "PH2".equals(getGasName())){
+                        speed = (RandomUtils.randomFloat(2f,10f));
+                    }else {
+                        speed = (RandomUtils.randomIntBigDecimal(80,160));
+                    }
+
+                }else {
+                    speed=new BigDecimal(0);
+                }
             }
             return speed;
         }

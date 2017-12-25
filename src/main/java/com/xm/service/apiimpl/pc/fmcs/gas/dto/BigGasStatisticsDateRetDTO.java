@@ -1,6 +1,8 @@
 package com.xm.service.apiimpl.pc.fmcs.gas.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.RandomUtils;
+import com.xm.service.constant.Constant;
 import com.xm.service.dto.BaseRetDTO;
 
 import java.io.Serializable;
@@ -38,7 +40,22 @@ public class BigGasStatisticsDateRetDTO extends BaseRetDTO{
 
         public BigDecimal getTotalNum() {
             if (totalNum==null){
-                return new BigDecimal("0");
+                if (Constant.showDemoData){
+                    if("GN2".equals(getGasName())){
+                        totalNum = (RandomUtils.randomFloat(80f,100f));
+                    }else if ("PHe".equals(getGasName())){
+                        totalNum = (RandomUtils.randomFloat(1.5f,2.5f));
+                    }else if ("PN2".equals(getGasName()) || "PO2".equals(getGasName())){
+                        totalNum = (RandomUtils.randomIntBigDecimal(300,500));
+                    }else if ("PAr".equals(getGasName()) || "PH2".equals(getGasName())){
+                        totalNum = (RandomUtils.randomIntBigDecimal(150,250));
+                    }else{
+                        totalNum = (RandomUtils.randomIntBigDecimal(3000,5000));
+                    }
+
+                }else {
+                    totalNum=new BigDecimal(0);
+                }
             }
             return totalNum;
         }

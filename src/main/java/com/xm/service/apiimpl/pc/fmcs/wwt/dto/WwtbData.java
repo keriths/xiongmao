@@ -42,6 +42,7 @@ public class WwtbData {
 
         public BigDecimal getValue() {
             if(value==null){
+
                 value=new BigDecimal(0);
             }
             return value;

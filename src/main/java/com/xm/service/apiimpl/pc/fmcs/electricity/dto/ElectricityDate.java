@@ -1,6 +1,8 @@
 package com.xm.service.apiimpl.pc.fmcs.electricity.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.RandomUtils;
+import com.xm.service.constant.Constant;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -47,7 +49,11 @@ public class ElectricityDate {
 
         public BigDecimal getTotalNum() {
             if (totalNum==null){
-                return new BigDecimal(0);
+                if (Constant.showDemoData){
+                    totalNum = RandomUtils.randomIntBigDecimal(1800, 2100);
+                }else {
+                    totalNum=new BigDecimal(0);
+                }
             }
             return totalNum;
         }
