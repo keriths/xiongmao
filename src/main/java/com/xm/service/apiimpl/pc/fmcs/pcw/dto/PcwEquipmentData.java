@@ -4,6 +4,7 @@ import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.ReturnDataUtils;
 import com.xm.service.constant.Constant;
 
+
 /**
  * Created by wangshuna on 2017/12/21.
  */
@@ -16,9 +17,9 @@ public class PcwEquipmentData {
     @ApiResultFieldDesc(desc = "设备数据说明")
     private String keyDesc;
     @ApiResultFieldDesc(desc = "数据类型")
-    private String dataType;
+    private transient String dataType;
     @ApiResultFieldDesc(desc = "样例数据")
-    private String demoData;
+    private transient String demoData;
     @ApiResultFieldDesc(desc = "数据更新时间")
     private String dataDate;
 

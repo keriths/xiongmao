@@ -1,6 +1,8 @@
 package com.xm.service.apiimpl.pc.fmcs.humiture.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.RandomUtils;
+import com.xm.service.constant.Constant;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -74,7 +76,11 @@ public class HumitureRealTimeDate {
 
         public BigDecimal getTemperature() {
             if (temperature==null){
-                return new BigDecimal("0");
+                if (Constant.showDemoData){
+                    temperature = RandomUtils.randomFloat(22.90f,23.20f);
+                }else {
+                    temperature=new BigDecimal(0);
+                }
             }
             return temperature;
         }
@@ -85,7 +91,11 @@ public class HumitureRealTimeDate {
 
         public BigDecimal getHumidity() {
             if (humidity==null){
-                return new BigDecimal("0");
+                if (Constant.showDemoData){
+                    humidity = RandomUtils.randomFloat(40.00f,55.00f);
+                }else {
+                    humidity=new BigDecimal(0);
+                }
             }
             return humidity;
         }
@@ -96,7 +106,11 @@ public class HumitureRealTimeDate {
 
         public BigDecimal getCleanliness() {
             if (cleanliness==null){
-                return new BigDecimal("0");
+                if (Constant.showDemoData){
+                    cleanliness = RandomUtils.randomFloat(15.00f,30.00f);
+                }else {
+                    cleanliness=new BigDecimal(0);
+                }
             }
             return cleanliness;
         }

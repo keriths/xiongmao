@@ -1,6 +1,7 @@
 package com.xm.service.apiimpl.pc.fmcs.mau.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.RandomUtils;
 import com.xm.platform.util.ReturnDataUtils;
 import com.xm.service.constant.Constant;
 
@@ -63,7 +64,9 @@ public class MauSystemData {
         public BigDecimal getTemperature() {
             if (temperature==null){
                 if (Constant.showDemoData){
-                    return ReturnDataUtils.demoData("float","23.00-24.00");
+                    temperature = RandomUtils.randomFloat(22.00f,23.50f);
+                }else {
+                    temperature=new BigDecimal(0);
                 }
             }
             return temperature;
@@ -74,9 +77,11 @@ public class MauSystemData {
         }
 
         public BigDecimal getDewPoint() {
-            if (temperature==null){
+            if (dewPoint==null){
                 if (Constant.showDemoData){
-                    return ReturnDataUtils.demoData("float","12.00-12.20");
+                    dewPoint = RandomUtils.randomFloat(11.00f,12.50f);
+                }else {
+                    dewPoint=new BigDecimal(0);
                 }
             }
             return dewPoint;

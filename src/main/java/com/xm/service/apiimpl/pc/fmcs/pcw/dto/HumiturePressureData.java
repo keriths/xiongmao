@@ -1,6 +1,9 @@
 package com.xm.service.apiimpl.pc.fmcs.pcw.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.RandomUtils;
+import com.xm.service.constant.Constant;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
@@ -46,7 +49,11 @@ public class HumiturePressureData {
 
         public BigDecimal getTemperature() {
             if (temperature==null){
-                return new BigDecimal("0");
+                if (Constant.showDemoData){
+                    temperature = RandomUtils.randomFloat(15.00f,16.10f);
+                }else {
+                    temperature=new BigDecimal(0);
+                }
             }
             return temperature;
         }
@@ -57,7 +64,11 @@ public class HumiturePressureData {
 
         public BigDecimal getPressure() {
             if (pressure==null){
-                return new BigDecimal("0");
+                if (Constant.showDemoData){
+                    pressure = RandomUtils.randomFloat(6.00f,6.50f);
+                }else {
+                    pressure=new BigDecimal(0);
+                }
             }
             return pressure;
         }
