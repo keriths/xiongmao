@@ -74,8 +74,8 @@ public class MAUServiceImpl {
             beginDate = DateUtils.getBeforMinuteStartDay(5);
             Date endDate = new Date();
             secondList = DateUtils.getSecondStrList(beginDate,endDate);
-            List<String> systemNameList = Lists.newArrayList("MAU");
-            List<MauRealTimeData.MauRealTimeDetailData> queryList = mauRealTimeDataDAO.queryMAURealTimeData(systemNameList,beginDate,endDate);
+            List<String> systemTypeList = Lists.newArrayList("MAU");
+            List<MauRealTimeData.MauRealTimeDetailData> queryList = mauRealTimeDataDAO.queryMAURealTimeData(systemTypeList,beginDate,endDate);
             Map<String,MauRealTimeData.MauRealTimeDetailData> queryMap = MapUtils.listToMap(queryList,"getSecondDate");
             List<MauRealTimeData> mauRealTimeList = new ArrayList<MauRealTimeData>();
             Map<String,MauRealTimeData> minuteDataMap = new HashMap<String, MauRealTimeData>();

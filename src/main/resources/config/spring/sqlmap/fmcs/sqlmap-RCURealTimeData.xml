@@ -27,9 +27,9 @@
                    DATADATE >= #{beginDate}
                   and DATADATE <= #{endDate}
              ]]>
-             and SYSTEMNAME IN
-             <foreach collection="systemNameList" item="systemName" open="(" separator="," close=")">
-                 #{systemName}
+             and SYSTEMTYPE IN
+             <foreach collection="systemTypeList" item="systemType" open="(" separator="," close=")">
+                 #{systemType}
              </foreach>
         GROUP BY
         TO_CHAR(DATADATE,'mi')||':00',
