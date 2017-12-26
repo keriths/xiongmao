@@ -36,7 +36,7 @@ public class MAUServiceImpl {
             List<String> nameList = Constant.mauSystemListMap.get(systemType);
             if(!Constant.mauSystemListMap.containsKey(systemType)){
                 resultDto.setSuccess(false);
-                resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.mauSystemListMap.keySet() + "】");
+                resultDto.setErrorMsg("systemType参数错误,请传入【" + Constant.mauSystemListMap.keySet() + "】");
                 return resultDto;
             }
 

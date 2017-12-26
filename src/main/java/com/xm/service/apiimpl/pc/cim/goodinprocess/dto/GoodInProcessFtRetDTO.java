@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
- * Created by Administrator on 2017/11/22.
+ * Created by wangshuna on 2017/11/22.
  */
 public class GoodInProcessFtRetDTO extends BaseRetDTO {
 

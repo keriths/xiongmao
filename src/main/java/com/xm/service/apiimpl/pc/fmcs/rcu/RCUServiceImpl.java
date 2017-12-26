@@ -39,7 +39,7 @@ public class RCUServiceImpl {
             List<String> nameList = Constant.rcuSystemListMap.get(systemType);
             if(!Constant.rcuSystemListMap.containsKey(systemType)){
                 resultDto.setSuccess(false);
-                resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.rcuSystemListMap.keySet() + "】");
+                resultDto.setErrorMsg("systemType参数错误,请传入【" + Constant.rcuSystemListMap.keySet() + "】");
                 return resultDto;
             }
 
