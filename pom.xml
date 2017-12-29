@@ -125,7 +125,11 @@
             <artifactId>slf4j-api</artifactId>
             <version>1.7.10</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.tibco</groupId>
+            <artifactId>tibrvnative</artifactId>
+            <version>0.0.1</version>
+        </dependency>
         <!--<dependency>-->
             <!--<groupId>net.sf.json-lib</groupId>-->
             <!--<artifactId>json-lib</artifactId>-->
