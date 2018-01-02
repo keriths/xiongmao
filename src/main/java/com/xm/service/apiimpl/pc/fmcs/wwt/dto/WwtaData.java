@@ -26,9 +26,9 @@ public class WwtaData {
     private String dataDate;
 
     @ApiResultFieldDesc(desc = "样列数据类型")
-    private String dataType;
+    private transient String dataType;
     @ApiResultFieldDesc(desc = "样列数据范围")
-    private String demoData;
+    private transient String demoData;
 
     public String getKey() {
         return key;
