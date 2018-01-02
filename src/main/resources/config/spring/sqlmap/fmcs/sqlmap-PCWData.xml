@@ -4,28 +4,12 @@
 
     <select id="queryPCWData" resultType="com.xm.service.apiimpl.pc.fmcs.pcw.dto.PcwEquipmentData" parameterType="Map">
         select
-        a.KEY,
-        a.VAL,
-        a.KEYDESC,
-        a.DATATYPE,
-        a.DEMODATA,
-        a.DATADATE
-        from PCWDATA a
-        inner join (
-        select
-        max(DATADATE) as DATADATE,
-        KEY as key,
-        DATATYPE as dataType,
-        DEMODATA as demoData
-        from
-        PCWDATA
-        group by
-        KEY,DATATYPE,DEMODATA
-        ) b
-        on a.DATADATE = b.DATADATE
-        and a.KEY = b.KEY
-        and a.DATATYPE = b.DATATYPE
-        and a.DEMODATA = b.DEMODATA
+            KEY as key,
+            VAL as val,
+            DATATYPE as dataType,
+            DEMODATA as demoData,
+            DATADATE as dataDate
+        from PCWDATA
     </select>
 
 </mapper>

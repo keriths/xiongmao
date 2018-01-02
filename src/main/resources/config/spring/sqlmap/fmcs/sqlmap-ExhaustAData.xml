@@ -4,22 +4,20 @@
 
     <select id="queryExhaustAData" resultType="com.xm.service.apiimpl.pc.fmcs.exhaust.dto.ExhaustAData" parameterType="Map">
         select
-            max(DATADATE) as DATADATE,
-            NAME as name,
-            HZ as hz,
-            STATUS as status,
-            TEMPERATUREONE as temperatureOne,
-            TEMPERATURETWO as temperatureTwo,
-            ELECTRICITY as electricity,
-            FREQUENCYFEEDBACK as frequencyFeedback,
-            FREQUENCYHAND as frequencyHand
+        NAME as name,
+        HZ as hz,
+        STATUS as status,
+        TEMPERATUREONE as temperatureOne,
+        TEMPERATURETWO as temperatureTwo,
+        ELECTRICITY as electricity,
+        FREQUENCYFEEDBACK as frequencyFeedback,
+        FREQUENCYHAND as frequencyHand,
+        DATADATE as dataDate
         from EXHAUSTADATA
         WHERE
-            <if test="name!=null and name!=''">
-                NAME=#{name,jdbcType=VARCHAR}
-            </if>
-        GROUP BY
-            NAME,HZ,STATUS,TEMPERATUREONE,TEMPERATURETWO,ELECTRICITY,FREQUENCYFEEDBACK,FREQUENCYHAND
+        <if test="name!=null and name!=''">
+            NAME=#{name,jdbcType=VARCHAR}
+        </if>
     </select>
 
 </mapper>
