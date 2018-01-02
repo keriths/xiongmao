@@ -24,6 +24,12 @@ public class UpwbData {
     @ApiResultFieldDesc(desc = "电阻率")
     private BigDecimal resistivity;
 
+    @ApiResultFieldDesc(desc = "颗粒")
+    private BigDecimal particle;
+
+    @ApiResultFieldDesc(desc = "TOC")
+    private BigDecimal toc;
+
     @ApiResultFieldDesc(desc = "数据时间")
     private String DataDate;
 
@@ -65,5 +71,21 @@ public class UpwbData {
 
     public void setDataDate(String dataDate) {
         DataDate = dataDate;
+    }
+
+    public BigDecimal getParticle() {
+        return particle;
+    }
+
+    public void setParticle(BigDecimal particle) {
+        this.particle = particle;
+    }
+
+    public BigDecimal getToc() {
+        return toc;
+    }
+
+    public void setToc(BigDecimal toc) {
+        this.toc = toc;
     }
 }
