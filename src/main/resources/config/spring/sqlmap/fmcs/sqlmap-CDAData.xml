@@ -4,28 +4,13 @@
 
     <select id="queryCdaData" resultType="com.xm.service.apiimpl.pc.fmcs.cda.dto.CdaData" parameterType="Map">
         select
-            a.KEY,
-            a.VAL,
-            a.KEYDESC,
-            a.DATATYPE,
-            a.DEMODATA,
-            a.DATADATE
-        from CDADATA a
-            inner join (
-            select
-                max(DATADATE) as DATADATE,
-                KEY as key,
-                DATATYPE as dataType,
-                DEMODATA as demoData
-            from
-                CDADATA
-            group by
-                KEY,DATATYPE,DEMODATA
-            ) b
-            on a.DATADATE = b.DATADATE
-            and a.KEY = b.KEY
-            and a.DATATYPE = b.DATATYPE
-            and a.DEMODATA = b.DEMODATA
+            KEY as key,
+            VAL as val,
+            KEYDESC as keyDesc,
+            DATADATE as dataDate,
+            DATATYPE as dataType,
+            DEMODATA as demoData
+        from CDADATA
     </select>
 
 </mapper>
