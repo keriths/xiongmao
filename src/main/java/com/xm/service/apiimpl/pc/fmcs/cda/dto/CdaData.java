@@ -18,9 +18,9 @@ public class CdaData {
     @ApiResultFieldDesc(desc = "设备数据说明")
     private String keyDesc;
     @ApiResultFieldDesc(desc = "数据类型")
-    private String dataType;
+    private transient String dataType;
     @ApiResultFieldDesc(desc = "样例数据")
-    private String demoData;
+    private transient String demoData;
     @ApiResultFieldDesc(desc = "数据更新时间")
     private String dataDate;
 
