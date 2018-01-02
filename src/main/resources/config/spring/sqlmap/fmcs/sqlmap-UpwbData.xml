@@ -8,7 +8,9 @@
             STATUS AS status,
             TEMPERATURE AS temperature,
             RESISTIVITY AS resistivity,
-            DATADATE AS DataDate
+            DATADATE AS DataDate,
+            PARTICLE AS particle,
+            TOC AS toc
         FROM UPWBDATA
     </select>
 
