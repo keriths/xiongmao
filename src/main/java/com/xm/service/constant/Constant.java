@@ -171,4 +171,9 @@ public class Constant {
     public static final List<String> electricityPlaceTypeList = Lists.newArrayList("4A","4B","其他");
 
 
+    /**
+     * 排气系统类型
+     */
+    public static final List<String> ExhaustTypeList = Lists.newArrayList("F-101A", "F-101B","F-101C");
+
 }

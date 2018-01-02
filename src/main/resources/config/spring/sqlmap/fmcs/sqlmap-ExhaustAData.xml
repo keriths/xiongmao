@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.fmcs.ExhaustADataDAO" >
+
+    <select id="queryExhaustAData" resultType="com.xm.service.apiimpl.pc.fmcs.exhaust.dto.ExhaustAData" parameterType="Map">
+        select
+            max(DATADATE) as DATADATE,
+            NAME as name,
+            HZ as hz,
+            STATUS as status,
+            TEMPERATUREONE as temperatureOne,
+            TEMPERATURETWO as temperatureTwo,
+            ELECTRICITY as electricity,
+            FREQUENCYFEEDBACK as frequencyFeedback,
+            FREQUENCYHAND as frequencyHand
+        from EXHAUSTADATA
+        WHERE
+            <if test="name!=null and name!=''">
+                NAME=#{name,jdbcType=VARCHAR}
+            </if>
+        GROUP BY
+            NAME,HZ,STATUS,TEMPERATUREONE,TEMPERATURETWO,ELECTRICITY,FREQUENCYFEEDBACK,FREQUENCYHAND
+    </select>
+
+</mapper>
