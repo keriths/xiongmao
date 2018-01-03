@@ -21,9 +21,10 @@ public class ElectricityDate {
     public static class ElectricityDetailDate{
 
         public ElectricityDetailDate(){}
-        public ElectricityDetailDate(String placeType,String dataDate){
-            this.placeType=placeType;
+        public ElectricityDetailDate(String dataDate,String placeType){
+
             this.dataDate=dataDate;
+            this.placeType=placeType;
         }
         public String key(){
             return dataDate+" "+placeType;
