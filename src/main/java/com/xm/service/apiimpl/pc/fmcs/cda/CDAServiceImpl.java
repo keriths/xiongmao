@@ -34,7 +34,7 @@ public class CDAServiceImpl {
             resultDto.setCdaDataList(queryList);
             return resultDto;
         }catch (Exception e){
-            LogUtils.error(this.getClass(),"CDADate eclipse",e);
+            LogUtils.error(getClass(), e);
             resultDto.setSuccess(false);
             resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return resultDto;

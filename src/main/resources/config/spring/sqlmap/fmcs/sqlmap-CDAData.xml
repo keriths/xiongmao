@@ -7,9 +7,9 @@
             KEY as key,
             VAL as val,
             KEYDESC as keyDesc,
-            DATADATE as dataDate,
             DATATYPE as dataType,
-            DEMODATA as demoData
+            DEMODATA as demoData,
+            DATADATE as dataDate
         from CDADATA
     </select>
 

@@ -276,4 +276,29 @@ public class GasServiceImpl {
         return  resultDto;
     }
 
+    @ApiMethodDoc(apiCode = "FMCS_bigGasData",name ="大宗气体三个数据汇总数据接口，实时，天，月" )
+    public BigGasDataDTO bigGasData(@ApiParamDoc(desc = "大宗气名称,如“GN2,PN2,GO2，PO2，PAr,PHe,PH2”") String gasName){
+        BigGasDataDTO resultDto = new BigGasDataDTO();
+        try {
+            if(!Constant.gasNamelist.contains(gasName)){
+                resultDto.setSuccess(false);
+                resultDto.setErrorMsg("gasName参数错误,请传入【" + Constant.gasNamelist + "】");
+                return resultDto;
+            }
+            BigGasRealTimeDateRetDTO bigGasRealTimeDateRetDTO = bigGasRealTime(gasName);
+            BigGasStatisticsDateRetDTO day = bigGasStatistics(gasName,Constant.day);
+            BigGasStatisticsDateRetDTO month = bigGasStatistics(gasName,Constant.month);
+
+            resultDto.setBigGasDayStatisticsDateList(day.getBigGasStatisticsDateList());
+            resultDto.setBigGasMonthStatisticsDateList(month.getBigGasStatisticsDateList());
+            resultDto.setBigGasRealTimeDateList(bigGasRealTimeDateRetDTO.getBigGasRealTimeDateList());
+            return resultDto;
+        }catch (Exception e){
+            LogUtils.error(this.getClass(),"bigGasStatistics eclipse",e);
+            resultDto.setSuccess(false);
+            resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
+            return resultDto;
+        }
+    }
+
 }
