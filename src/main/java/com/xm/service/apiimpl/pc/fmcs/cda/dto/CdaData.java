@@ -4,7 +4,6 @@ import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.ReturnDataUtils;
 import com.xm.service.constant.Constant;
 
-import java.math.BigDecimal;
 
 /**
  * Created by wangshuna on 2017/12/18.

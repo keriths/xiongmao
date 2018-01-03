@@ -45,14 +45,14 @@ public class EquipmentStatusServiceImpl {
             resultDto.setEquipmentStatusDataList(queryList);
             return resultDto;
         }catch (Exception e){
-            LogUtils.error(this.getClass(),"CDADate eclipse",e);
+            LogUtils.error(getClass(), e);
             resultDto.setSuccess(false);
             resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return resultDto;
         }
     }
 
-    @ApiMethodDoc(apiCode = "FMCS_ThroughputData",name = "过货量推移数据接口")
+    @ApiMethodDoc(apiCode = "CIM_ThroughputData",name = "过货量推移数据接口")
     public EquipmentThroughputDataRetDTO equipmentThroughput(@ApiParamDoc(desc = "厂别名称如Array,Cell,CF,SL-OC")String factory){
         EquipmentThroughputDataRetDTO resultDto = new EquipmentThroughputDataRetDTO();
         try{
