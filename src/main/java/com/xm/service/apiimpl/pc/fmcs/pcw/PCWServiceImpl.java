@@ -35,7 +35,7 @@ public class PCWServiceImpl {
             resultDto.setPcwEquipmentDataList(queryList);
             return resultDto;
         }catch (Exception e){
-            LogUtils.error(this.getClass(),"PCWData eclipse",e);
+            LogUtils.error(getClass(), e);
             resultDto.setSuccess(false);
             resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return resultDto;
