@@ -4,33 +4,13 @@
 
     <select id="queryStatusData" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentStatusData">
         select
-            a.KEY,
-            a.VAL,
-            a.KEYDESC,
-            a.DATATYPE,
-            a.DEMODATA,
-            a.DATADATE
-        from DWR_EQUIPMENT_STATUS_FIDS a
-            inner join (
-                select
-                    FACTORY as factory,
-                    max(DATADATE) as DATADATE,
-                    KEY as key,
-                    DATATYPE as dataType,
-                    DEMODATA as demoData
-                from
-                    DWR_EQUIPMENT_STATUS_FIDS
-                WHERE
-                    <if test="factory!=null and factory!=''">
-                        FACTORY=#{factory,jdbcType=VARCHAR}
-                    </if>
-                group by
-                    FACTORY,KEY,DATATYPE,DEMODATA
-        ) b
-            on a.FACTORY = b.FACTORY
-            and a.DATADATE = b.DATADATE
-            and a.KEY = b.KEY
-            and a.DATATYPE = b.DATATYPE
-            and a.DEMODATA = b.DEMODATA
+            FACTORY as factory,
+            KEY as key,
+            VAL as val,
+            KEYDESC as keyDesc,
+            DATATYPE as dataType,
+            DEMODATA as demoData,
+            DATADATE as dataDate
+        from DWR_EQUIPMENT_STATUS_FIDS
     </select>
 </mapper>
