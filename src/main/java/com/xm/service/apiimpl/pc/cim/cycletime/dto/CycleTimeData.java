@@ -55,16 +55,12 @@ public class CycleTimeData implements Serializable {
         public BigDecimal getPlan() {
             if (plan==null){
                 if (Constant.showDemoData){
-                    BigDecimal arrayPlan = RandomUtils.randomFloat(5.9f,6.1f,2);
-                    BigDecimal cellPlan = RandomUtils.randomFloat(1.8f,2.1f,2);
                     if("Array".equals(getFactory())){
-                        return arrayPlan;
+                        return new BigDecimal("6");
                     }else if("Cell".equals(getFactory())){
-                        return cellPlan;
+                        return new BigDecimal("2");
                     }else{
-                        BigDecimal p1 = new BigDecimal("12");
-                        BigDecimal p2 = p1.subtract(arrayPlan);
-                        return p2.subtract(cellPlan);
+                        return new BigDecimal("2");
                     }
                     //return new BigDecimal("10");
                 }else {

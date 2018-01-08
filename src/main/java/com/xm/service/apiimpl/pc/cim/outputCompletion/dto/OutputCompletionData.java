@@ -65,9 +65,11 @@ public class OutputCompletionData implements Serializable{
             if (plan==null){
                 if (Constant.showDemoData){
                     if("SL".equals(getFactory())){
-                        return new BigDecimal(RandomUtils.randomInt(2500,3500));
+                        plan = new BigDecimal(RandomUtils.randomInt(2500,3500));
+                        return plan;
                     }else{
-                        return new BigDecimal(RandomUtils.randomInt(5500,6500));
+                        plan = new BigDecimal(RandomUtils.randomInt(5500,6500));
+                        return plan;
                     }
 
                 }else {
@@ -85,9 +87,11 @@ public class OutputCompletionData implements Serializable{
             if (actual==null){
                 if (Constant.showDemoData){
                     if("SL".equals(getFactory())){
-                        return new BigDecimal(RandomUtils.randomInt(2500,3500));
+                        actual = new BigDecimal(RandomUtils.randomInt(2500,3500));
+                        return actual;
                     }else{
-                        return new BigDecimal(RandomUtils.randomInt(5500,6500));
+                        actual = new BigDecimal(RandomUtils.randomInt(5500,6500));
+                        return actual;
                     }
 
                 }else {
