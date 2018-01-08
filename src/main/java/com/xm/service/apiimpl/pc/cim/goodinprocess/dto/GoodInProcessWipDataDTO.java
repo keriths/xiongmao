@@ -64,7 +64,12 @@ public class GoodInProcessWipDataDTO{
 
         public BigDecimal getQuantity() {
             if (quantity==null){
-                return new BigDecimal("0");
+                if (Constant.showDemoData){
+                    return new BigDecimal(RandomUtils.randomInt(getStoreMin().intValue(), getStoreMax().intValue()));
+                }else {
+                    return new BigDecimal("0");
+                }
+                //return new BigDecimal("0");
             }
             return quantity;
         }
