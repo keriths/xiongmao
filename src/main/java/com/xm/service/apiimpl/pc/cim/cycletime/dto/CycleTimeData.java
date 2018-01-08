@@ -55,7 +55,18 @@ public class CycleTimeData implements Serializable {
         public BigDecimal getPlan() {
             if (plan==null){
                 if (Constant.showDemoData){
-                    return new BigDecimal("10");
+                    BigDecimal arrayPlan = RandomUtils.randomFloat(5.9f,6.1f,2);
+                    BigDecimal cellPlan = RandomUtils.randomFloat(1.8f,2.1f,2);
+                    if("Array".equals(getFactory())){
+                        return arrayPlan;
+                    }else if("Cell".equals(getFactory())){
+                        return cellPlan;
+                    }else{
+                        BigDecimal p1 = new BigDecimal("12");
+                        BigDecimal p2 = p1.subtract(arrayPlan);
+                        return p2.subtract(cellPlan);
+                    }
+                    //return new BigDecimal("10");
                 }else {
                     return new BigDecimal("0");
                 }
@@ -71,7 +82,14 @@ public class CycleTimeData implements Serializable {
         public BigDecimal getActual() {
             if (actual==null){
                 if (Constant.showDemoData){
-                    return new BigDecimal(RandomUtils.randomInt(2,10));
+                    if("Array".equals(getFactory())){
+                        return RandomUtils.randomFloat(5.9f,6.5f,2);
+                    }else if("Cell".equals(getFactory())){
+                        return RandomUtils.randomFloat(1.8f,3.0f,2);
+                    }else{
+                        return RandomUtils.randomFloat(1.9f,2.5f,2);
+                    }
+                    //return new BigDecimal(RandomUtils.randomInt(2,10));
                 }else {
                     return new BigDecimal("0");
                 }

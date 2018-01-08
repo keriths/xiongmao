@@ -80,7 +80,7 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
         public BigDecimal getStoreMax() {
             if (storeMax==null){
                 if (Constant.showDemoData){
-                    return new BigDecimal(RandomUtils.randomInt(8000,10000));
+                    return new BigDecimal(RandomUtils.randomInt(4500,5000));
                 }else {
                     return new BigDecimal("0");
                 }
@@ -96,7 +96,7 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
         public BigDecimal getStoreMin() {
             if (storeMin==null){
                 if (Constant.showDemoData){
-                    return new BigDecimal(RandomUtils.randomInt(2500,3500));
+                    return new BigDecimal(RandomUtils.randomInt(500,2000));
                 }else {
                     return new BigDecimal("0");
                 }

@@ -48,7 +48,7 @@ public class InputCompletionRetDTO extends BaseRetDTO{
         public BigDecimal getPlan() {
             if (plan==null){
                 if (Constant.showDemoData){
-                    return new BigDecimal(RandomUtils.randomInt(8000,9000));
+                    return new BigDecimal(RandomUtils.randomInt(4500,5200));
                 }else {
                     return new BigDecimal("0");
                 }
@@ -64,7 +64,7 @@ public class InputCompletionRetDTO extends BaseRetDTO{
         public BigDecimal getActual() {
             if (actual==null){
                 if (Constant.showDemoData){
-                    return new BigDecimal(RandomUtils.randomInt(8000,9000));
+                    return new BigDecimal(RandomUtils.randomInt(4500,5200));
                 }else {
                     return new BigDecimal("0");
                 }
