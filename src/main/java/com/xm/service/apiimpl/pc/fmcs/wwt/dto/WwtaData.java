@@ -25,6 +25,9 @@ public class WwtaData {
     @ApiResultFieldDesc(desc = "数据时间")
     private String dataDate;
 
+    @ApiResultFieldDesc(desc = "单位")
+    private String unit;
+
     @ApiResultFieldDesc(desc = "样列数据类型")
     private transient String dataType;
     @ApiResultFieldDesc(desc = "样列数据范围")
@@ -84,5 +87,13 @@ public class WwtaData {
 
     public void setDemoData(String demoData) {
         this.demoData = demoData;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 }

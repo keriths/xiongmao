@@ -9,7 +9,8 @@
             KEYDESC as keyDesc,
             DATADATE as dataDate,
             DATATYPE as dataType,
-            DEMODATA as demoData
+            DEMODATA as demoData,
+            UNIT as unit
         from EXHAUSTBDATA
     </select>
 

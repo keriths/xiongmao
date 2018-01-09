@@ -136,7 +136,7 @@ public class ActivationDate implements Serializable{
                         activation = new BigDecimal(0);
                     }else{
                         BigDecimal statusNum = new BigDecimal(a.getStatusNum());
-                        activation = statusNum.divide(t,4, RoundingMode.HALF_UP);
+                        activation = (statusNum.divide(t,4, BigDecimal.ROUND_HALF_UP)).multiply(new BigDecimal(100)).setScale(2,BigDecimal.ROUND_HALF_UP);
                     }
                 }
             }
