@@ -84,7 +84,7 @@ public class InputCompletionRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getCompletionRate() {
-            if (getPlan()==null || getPlan().doubleValue()<=0){
+            if(getPlan()==null || getPlan().doubleValue()<=0){
                 return new BigDecimal("1");
             }
             if (getActual()==null){
