@@ -7,10 +7,7 @@ import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
-import com.xm.service.apiimpl.pc.fmcs.rcu.dto.RcuRealTimeData;
-import com.xm.service.apiimpl.pc.fmcs.rcu.dto.RcuRealTimeDataRetDTO;
-import com.xm.service.apiimpl.pc.fmcs.rcu.dto.RcuSystemData;
-import com.xm.service.apiimpl.pc.fmcs.rcu.dto.RcuSystemDataRetDTO;
+import com.xm.service.apiimpl.pc.fmcs.rcu.dto.*;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.fmcs.RcuRealTimeDataDAO;
 import com.xm.service.dao.fmcs.RcuSystemDataDAO;
@@ -104,6 +101,32 @@ public class RCUServiceImpl {
             resultDto.setSuccess(false);
             resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return resultDto;
+        }
+    }
+
+    @ApiMethodDoc(apiCode = "FMCS_RCUData",name = "热回收空调系统所有接口数据返回汇总")
+    public RcuDataRetDTO mauData(@ApiParamDoc(desc = "厂别,如RCU,4A,4B") String systemType){
+        RcuDataRetDTO retDTO=new RcuDataRetDTO();
+        try {
+            if(!Constant.rcuSystemListMap.containsKey(systemType)){
+                retDTO.setSuccess(false);
+                retDTO.setErrorMsg("systemType参数错误,请传入【" + Constant.rcuSystemListMap.keySet() + "】");
+                return retDTO;
+            }
+
+            RcuRealTimeDataRetDTO rcuRealTimeDataRetDTO=rcuRealTimeData();
+            RcuSystemDataRetDTO rcuSystemDataRetDTO=rcuSystemData(systemType);
+
+            retDTO.setRcuRealTimeDataList(rcuRealTimeDataRetDTO.getRcuRealTimeDataList());
+            retDTO.setRcuSystemDataList(rcuSystemDataRetDTO.getRcuSystemDataList());
+
+            return retDTO;
+
+        }catch (Exception e){
+            LogUtils.error(getClass(), e);
+            retDTO.setSuccess(false);
+            retDTO.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
+            return retDTO;
         }
     }
 }

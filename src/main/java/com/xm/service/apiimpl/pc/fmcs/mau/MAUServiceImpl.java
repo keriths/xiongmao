@@ -104,4 +104,31 @@ public class MAUServiceImpl {
             return resultDto;
         }
     }
+
+    @ApiMethodDoc(apiCode = "FMCS_MAUData",name = "新风空调系统所有接口数据返回汇总")
+    public MauDataRetDTO mauData(@ApiParamDoc(desc = "厂别,如MAU,4A,4B,MAU是图上的数据，4A 4a所有数据 4B 4B所有数据") String systemType){
+        MauDataRetDTO retDTO=new MauDataRetDTO();
+        try {
+            if(!Constant.mauSystemListMap.containsKey(systemType)){
+                retDTO.setSuccess(false);
+                retDTO.setErrorMsg("systemType参数错误,请传入【" + Constant.mauSystemListMap.keySet() + "】");
+                return retDTO;
+            }
+
+            MauRealTimeDataRetDTO mauRealTimeDataRetDTO=mauRealTimeData();
+            MauSystemDataRetDTO mauSystemDataRetDTO=mauSystemData(systemType);
+
+            retDTO.setMauRealTimeDataList(mauRealTimeDataRetDTO.getMauRealTimeDataList());
+            retDTO.setMauSystemDataList(mauSystemDataRetDTO.getMauSystemDataList());
+
+            return retDTO;
+
+        }catch (Exception e){
+            LogUtils.error(getClass(), e);
+            retDTO.setSuccess(false);
+            retDTO.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
+            return retDTO;
+        }
+    }
+
 }
