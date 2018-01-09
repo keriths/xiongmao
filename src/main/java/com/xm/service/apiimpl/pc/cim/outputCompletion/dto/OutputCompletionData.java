@@ -117,7 +117,7 @@ public class OutputCompletionData implements Serializable{
                 }
             }else{
                 // completionRate= plan.divide(actual).setScale(4,BigDecimal.ROUND_HALF_UP);
-                completionRate=(actual.divide(plan, 4, BigDecimal.ROUND_HALF_UP)).multiply(new BigDecimal(100));
+                completionRate=(actual.divide(plan, 4, BigDecimal.ROUND_HALF_UP)).multiply(new BigDecimal(100)).setScale(2,BigDecimal.ROUND_HALF_UP);
             }
 
             return completionRate;

@@ -90,14 +90,8 @@ public class InputCompletionRetDTO extends BaseRetDTO{
             if (getActual()==null){
                 return new BigDecimal("0");
             }
-            return actual.divide(plan,4,RoundingMode.HALF_UP);
-            /*if (plan==null || plan.doubleValue()<=0){
-                return new BigDecimal("1");
-            }
-            if (actual==null){
-                return new BigDecimal("0");
-            }
-            return actual.divide(plan,4,RoundingMode.HALF_UP);*/
+            return (actual.divide(plan,4,BigDecimal.ROUND_HALF_UP)).multiply(new BigDecimal(100)).setScale(2,BigDecimal.ROUND_HALF_UP);
+
         }
 
 
