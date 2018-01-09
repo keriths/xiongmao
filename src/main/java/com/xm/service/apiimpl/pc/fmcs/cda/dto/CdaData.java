@@ -22,6 +22,8 @@ public class CdaData {
     private transient String demoData;
     @ApiResultFieldDesc(desc = "数据更新时间")
     private String dataDate;
+    @ApiResultFieldDesc(desc = "单位")
+    private String unit;
 
     public String getKey() {
         return key;
@@ -78,5 +80,13 @@ public class CdaData {
 
     public void setDataDate(String dataDate) {
         this.dataDate = dataDate;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
     }
 }

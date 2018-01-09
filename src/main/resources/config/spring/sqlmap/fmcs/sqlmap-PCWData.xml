@@ -9,7 +9,8 @@
             KEYDESC as keyDesc,
             DATATYPE as dataType,
             DEMODATA as demoData,
-            DATADATE as dataDate
+            DATADATE as dataDate,
+            UNIT as unit
         from PCWDATA
     </select>
 
