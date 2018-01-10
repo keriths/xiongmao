@@ -45,20 +45,11 @@ public class InputCompletionRetDTO extends BaseRetDTO{
         @ApiResultFieldDesc(desc = "横坐标时间")
         private String dateTime;
 
-        @ApiResultFieldDesc(desc = "产品ID")
-        private transient String productId;
-
         public BigDecimal getPlan() {
             if (plan==null){
                 if (Constant.showDemoData){
-                    if(getProductId()==null){
-                        plan = new BigDecimal(RandomUtils.randomInt(9500,11000));
-                        return plan;
-                    }else{
-                        plan = new BigDecimal(RandomUtils.randomInt(4800,5500));
-                        return plan;
-                    }
-
+                    plan = new BigDecimal(RandomUtils.randomInt(9500,11000));
+                    return plan;
                 }else {
                     return new BigDecimal("0");
                 }
@@ -74,14 +65,8 @@ public class InputCompletionRetDTO extends BaseRetDTO{
         public BigDecimal getActual() {
             if (actual==null){
                 if (Constant.showDemoData){
-                    if(getProductId()==null){
-                        actual = new BigDecimal(RandomUtils.randomInt(8500,10300));
-                        return actual;
-                    }else{
-                        actual = new BigDecimal(RandomUtils.randomInt(4500,5100));
-                        return actual;
-                    }
-
+                    actual = new BigDecimal(RandomUtils.randomInt(8500,10300));
+                    return actual;
                 }else {
                     return new BigDecimal("0");
                 }
@@ -109,13 +94,6 @@ public class InputCompletionRetDTO extends BaseRetDTO{
 
         }
 
-        public String getProductId() {
-            return productId;
-        }
-
-        public void setProductId(String productId) {
-            this.productId = productId;
-        }
 
         public String getDateTime() {
             return dateTime;

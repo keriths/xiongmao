@@ -3,7 +3,6 @@
 <mapper namespace="com.xm.service.dao.cim.DwsProductInputFidsDAO" >
     <select id="queryInputInfo" resultType="com.xm.service.apiimpl.pc.cim.inputCompletion.dto.InputCompletionRetDTO$InputCompletionData" parameterType="map">
         select
-            PRODUCTID as productId,
             sum(PLAN_INPUT_GLS_QTY) as plan,
             sum(ACTUAL_INPUT_GLS_QTY) as actual,
             <if test="dateType=='day'.toString()">
@@ -27,7 +26,6 @@
                 and PRODUCTID = #{productId}
             </if>
         group by
-            PRODUCTID,
             <if test="dateType=='day'.toString()">
                 to_char(PERIODDATE,'MM/DD')
             </if>
