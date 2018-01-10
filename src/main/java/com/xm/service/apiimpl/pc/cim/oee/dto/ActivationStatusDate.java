@@ -78,15 +78,15 @@ public class ActivationStatusDate implements Serializable {
             if (statusNum==null){
                 if (Constant.showDemoData){
                     if("RUN".equals(getStatus())){
-                        statusNum = String.valueOf(RandomUtils.randomInt(15,18));
+                        statusNum = String.valueOf(RandomUtils.randomFloat(18f, 20f, 1));
                     }else if("TRB".equals(getStatus())){
-                        statusNum = String.valueOf(RandomUtils.randomInt(1,2));
+                        statusNum = String.valueOf(RandomUtils.randomFloat(1f, 2.5f, 1));
                     }else if("WAIT".equals(getStatus())){
-                        statusNum = String.valueOf(RandomUtils.randomInt(2,4));
+                        statusNum = String.valueOf(RandomUtils.randomFloat(1f, 2.3f, 1));
                     }else if("MAN".equals(getStatus())){
-                        statusNum = String.valueOf(RandomUtils.randomInt(2,4));
+                        statusNum = String.valueOf(RandomUtils.randomFloat(0.6f, 2.3f, 1));
                     }else  if("MNT".equals(getStatus())){
-                        statusNum = String.valueOf(RandomUtils.randomInt(1,2));
+                        statusNum = String.valueOf(RandomUtils.randomFloat(0.2f, 1.7f, 1));
                     }
                 }else {
                     statusNum = "0";
@@ -131,7 +131,6 @@ public class ActivationStatusDate implements Serializable {
         BigDecimal total=new BigDecimal(0);
         if(!CollectionUtils.isEmpty(statusNumberLists)) {
             for (StatusNumberList s : statusNumberLists) {
-
                 total = total.add(new BigDecimal(s.getStatusNum()));
             }
         }
@@ -144,21 +143,18 @@ public class ActivationStatusDate implements Serializable {
 
     public BigDecimal getActivation() {
         //TODO 稼动率的实现
-        BigDecimal activation=new BigDecimal(0);
+        BigDecimal activation=new BigDecimal(100);
+        BigDecimal all=getTotal();
+        BigDecimal activationNum=new BigDecimal("0");
         if(!CollectionUtils.isEmpty(statusNumberLists)) {
             for (StatusNumberList a : statusNumberLists) {
-                BigDecimal t = getTotal();
                 if("RUN".equals(a.getStatus())){
-                    if((t.compareTo(new BigDecimal(0))==0)){
-                        activation = new BigDecimal(0);
-                    }else{
-                        BigDecimal statusNum = new BigDecimal(a.getStatusNum());
-                        activation = statusNum.divide(t,4, RoundingMode.HALF_UP);
-                        //oee = new BigDecimal("5");
-                        //oee = statusNum;
-                    }
+                    activationNum = activationNum.add(new BigDecimal(a.getStatusNum()));
+                }else if ("WAIT".equals(a.getStatus())){
+                    activationNum = activationNum.add(new BigDecimal(a.getStatusNum()));
                 }
             }
+            activation = activationNum.multiply(new BigDecimal("100")).divide(all,1, RoundingMode.HALF_UP);
         }
         return activation;
 

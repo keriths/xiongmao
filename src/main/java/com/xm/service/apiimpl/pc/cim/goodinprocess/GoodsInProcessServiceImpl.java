@@ -59,7 +59,7 @@ public class GoodsInProcessServiceImpl {
                     data = queryMap.get(step);
                 }
                 if (data == null) {
-                    data = new GoodInProcessFtRetDTO.GoodInProcessFtDate(step);
+                    data = new GoodInProcessFtRetDTO.GoodInProcessFtDate(factory,step);
                 }
                 list.add(data);
             }

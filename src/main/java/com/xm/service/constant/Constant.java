@@ -76,7 +76,7 @@ public class Constant {
     /**
      * 在制品站点
      */
-    public static final List<String> stepIdLists = Lists.newArrayList("a", "b", "c", "d", "e","f","g");
+    public static final List<String> stepIdLists = Lists.newArrayList("站点1", "站点2", "站点3", "站点4", "站点5","站点6","站点7");
     /**
      *
      */

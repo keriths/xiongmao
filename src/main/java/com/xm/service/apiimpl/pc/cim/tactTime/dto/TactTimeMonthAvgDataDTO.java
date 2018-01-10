@@ -26,7 +26,7 @@ public class TactTimeMonthAvgDataDTO implements Serializable{
         //为空时给个默认值
         if (target==null){
             if (Constant.showDemoData){
-                return new BigDecimal(RandomUtils.randomInt(110,165));
+                return new BigDecimal(RandomUtils.randomInt(120,130));
             }else {
                 return new BigDecimal("0");
             }
@@ -44,7 +44,7 @@ public class TactTimeMonthAvgDataDTO implements Serializable{
         //为空时给个默认值
         if (actual==null){
             if (Constant.showDemoData){
-                return new BigDecimal(RandomUtils.randomInt(110,165));
+                return new BigDecimal(RandomUtils.randomInt(120,140));
             }else {
                 return new BigDecimal("0");
             }

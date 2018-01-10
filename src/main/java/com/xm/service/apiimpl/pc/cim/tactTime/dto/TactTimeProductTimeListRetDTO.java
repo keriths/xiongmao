@@ -44,7 +44,7 @@ public class TactTimeProductTimeListRetDTO extends BaseRetDTO{
         public BigDecimal getTarget() {
             if (target==null){
                 if (Constant.showDemoData){
-                    return new BigDecimal(RandomUtils.randomInt(100,160));
+                    return new BigDecimal(RandomUtils.randomInt(130,130));
                 }else {
                     return new BigDecimal("0");
                 }
@@ -59,7 +59,7 @@ public class TactTimeProductTimeListRetDTO extends BaseRetDTO{
         public BigDecimal getTotal() {
             if (total==null){
                 if (Constant.showDemoData){
-                    return new BigDecimal(RandomUtils.randomInt(100,160));
+                    return new BigDecimal(RandomUtils.randomInt(120,140));
                 }else {
                     return new BigDecimal("0");
                 }
