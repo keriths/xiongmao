@@ -40,7 +40,7 @@ public class FreezeWaterRealTimeData {
         public BigDecimal getSpeed() {
             if (speed==null){
                 if (Constant.showDemoData){
-                    speed = RandomUtils.randomFloat(0.6f,1.2f);
+                    speed = RandomUtils.speed(1f, dataDate, 1);
                 }else {
                     speed=new BigDecimal(0);
                 }

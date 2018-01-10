@@ -157,7 +157,7 @@ public class GasServiceImpl {
                 }
                 BigGasRealTimeDate.GasRealTimeDate bigGasDate=queryMap.get(strSecond);
                 if (bigGasDate == null) {
-                    bigGasDate = new BigGasRealTimeDate.GasRealTimeDate(minute,strSecond);
+                    bigGasDate = new BigGasRealTimeDate.GasRealTimeDate(minute,strSecond,gasName);
                 }
                 minuteData.getGasRealTimeDateList().add(bigGasDate);
             }

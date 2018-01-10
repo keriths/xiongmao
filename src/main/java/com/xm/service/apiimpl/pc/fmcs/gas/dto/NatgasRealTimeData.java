@@ -53,7 +53,7 @@ public class NatgasRealTimeData {
         public BigDecimal getSpeed() {
             if (speed==null){
                 if (Constant.showDemoData){
-                    speed = (RandomUtils.randomFloat(18f,27f));
+                    speed = RandomUtils.speed(24f,dataDate,1,0.02f);
                 }else {
                     speed=new BigDecimal(0);
                 }
