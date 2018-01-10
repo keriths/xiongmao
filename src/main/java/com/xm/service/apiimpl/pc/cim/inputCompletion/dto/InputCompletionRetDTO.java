@@ -33,6 +33,17 @@ public class InputCompletionRetDTO extends BaseRetDTO{
         public InputCompletionData(String dateTime){
             this.dateTime=dateTime;
         }
+        public InputCompletionData(String dateTime,int planMin,int planMax,int actualMin,int actualMax){
+            this.dateTime=dateTime;
+            this.planMin = planMin;
+            this.planMax = planMax;
+            this.actualMin = actualMin;
+            this.actualMax = actualMax;
+        }
+        private int planMin=9500;
+        private int planMax=11000;
+        private int actualMin=8500;
+        private int actualMax=10000;
         @ApiResultFieldDesc(desc = "计划")
         private BigDecimal plan;
 
@@ -48,7 +59,7 @@ public class InputCompletionRetDTO extends BaseRetDTO{
         public BigDecimal getPlan() {
             if (plan==null){
                 if (Constant.showDemoData){
-                    plan = new BigDecimal(RandomUtils.randomInt(9500,11000));
+                    plan = new BigDecimal(RandomUtils.randomInt(planMin,planMax));
                     return plan;
                 }else {
                     return new BigDecimal("0");
@@ -65,7 +76,7 @@ public class InputCompletionRetDTO extends BaseRetDTO{
         public BigDecimal getActual() {
             if (actual==null){
                 if (Constant.showDemoData){
-                    actual = new BigDecimal(RandomUtils.randomInt(8500,10300));
+                    actual = new BigDecimal(RandomUtils.randomInt(actualMin,actualMax));
                     return actual;
                 }else {
                     return new BigDecimal("0");

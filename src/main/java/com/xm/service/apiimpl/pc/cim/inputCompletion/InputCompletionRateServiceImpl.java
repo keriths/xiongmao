@@ -43,13 +43,50 @@ public class InputCompletionRateServiceImpl{
             List<String> dateList = null;
             Date startTime = null;
             Date endTime = new Date();
+             int planMin=9500;
+             int planMax=11000;
+             int actualMin=8500;
+             int actualMax=10000;
             if (dateType.equals(Constant.day)){
+                if (productId==null){
+                    planMin=9500;
+                    planMax=11000;
+                    actualMin=9000;
+                    actualMax=9800;
+                }else {
+                    planMin=3000;
+                    planMax=3100;
+                    actualMin=2900;
+                    actualMax=3000;
+                }
                 startTime = DateUtils.getBeforDayStartDay(6);
                 dateList = DateUtils.getDayStrList(startTime,endTime);
             }else if (dateType.equals(Constant.month)){
+                if (productId==null){
+                    planMin=110000;
+                    planMax=125000;
+                    actualMin=100000;
+                    actualMax=110000;
+                }else {
+                    planMin=45000;
+                    planMax=47000;
+                    actualMin=44000;
+                    actualMax=45000;
+                }
                 startTime = DateUtils.getBeforMonthStartDay(11);
                 dateList = DateUtils.getMonthStrList(startTime,endTime);
             }else if (dateType.equals(Constant.quarter)){
+                if (productId==null){
+                    planMin=500000;
+                    planMax=550000;
+                    actualMin=450000;
+                    actualMax=500000;
+                }else {
+                    planMin=250000;
+                    planMax=280000;
+                    actualMin=240000;
+                    actualMax=250000;
+                }
                 startTime = DateUtils.getBeforQuarterStartDay(3);
                 dateList = DateUtils.getQuarterStrList(startTime,endTime);
             }
@@ -59,7 +96,7 @@ public class InputCompletionRateServiceImpl{
             for (String dateStr:dateList){
                 InputCompletionRetDTO.InputCompletionData inputValue = dbValueMap.get(dateStr);
                 if (inputValue==null){
-                    inputValue=new InputCompletionRetDTO.InputCompletionData(dateStr);
+                    inputValue=new InputCompletionRetDTO.InputCompletionData(dateStr,planMin,planMax,actualMin,actualMax);
                 }
                 completionDataList.add(inputValue);
             }
