@@ -59,6 +59,39 @@ public class WWTServiceImpl {
             Date beginDate = null;
             Date endDate = new Date();
             beginDate = DateUtils.getBeforMinuteStartDay(5);
+            int min=6;
+            int max=8;
+            String dataType ="integer";
+            if ("PH".equals(code)){
+                min=6;
+                max=8;
+                dataType="float";
+            }else if ("F".equals(code)){
+                min=4;
+                max=6;
+                dataType="float";
+            }else if ("PO4-P".equals(code)){
+                min=0;
+                max=1;
+                dataType="float";
+            }else if ("CODcr".equals(code)){
+                min=60;
+                max=80;
+                dataType="integer";
+            }else if ("T-N".equals(code)){
+                min=10;
+                max=20;
+                dataType="integer";
+            }else if ("C1".equals(code)){
+                min=50;
+                max=80;
+                dataType="integer";
+            }else if ("Cu".equals(code)){
+                min=1;
+                max=2;
+                dataType="float";
+            }
+
             dateSecondList = DateUtils.getSecondStrList(beginDate, endDate);
 
             List<WwtbData.WwtbDetailData> dataList = wwtbDataDAO.queryWwtbDataList(code,beginDate,endDate);
@@ -77,7 +110,8 @@ public class WWTServiceImpl {
                 }
                 WwtbData.WwtbDetailData wwtbDetailData=dataMap.get(strSecond);
                 if (wwtbDetailData == null) {
-                    wwtbDetailData = new WwtbData.WwtbDetailData(minute,strSecond);
+                    //wwtbDetailData = new WwtbData.WwtbDetailData(minute,strSecond);
+                    wwtbDetailData = new WwtbData.WwtbDetailData(minute,strSecond,min,max,dataType);
                 }
                 minuteData.getWwtbDetailDataList().add(wwtbDetailData);
             }

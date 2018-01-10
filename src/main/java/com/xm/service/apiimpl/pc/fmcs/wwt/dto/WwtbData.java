@@ -1,6 +1,9 @@
 package com.xm.service.apiimpl.pc.fmcs.wwt.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.RandomUtils;
+import com.xm.platform.util.ReturnDataUtils;
+import com.xm.service.constant.Constant;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -22,6 +25,17 @@ public class WwtbData {
             this.dataDate=dataDate;
             this.periodDate=periodDate;
         }
+        public WwtbDetailData(String periodDate,String dataDate,int min,int max,String dataType){
+            this.dataDate=dataDate;
+            this.periodDate=periodDate;
+            this.min=min;
+            this.max=max;
+            this.dataType=dataType;
+        }
+
+        private int min=6;
+        private int max=8;
+        private String dataType="integer";
 
         @ApiResultFieldDesc(desc = "编号 如：PH,F,PO4-P")
         private String code;
@@ -42,8 +56,15 @@ public class WwtbData {
 
         public BigDecimal getValue() {
             if(value==null){
-
-                value=new BigDecimal(0);
+                if (Constant.showDemoData){
+                    if ("integer".equals(dataType)){
+                        value = new BigDecimal(RandomUtils.randomInt(min,max));
+                    }else {
+                        float fmin=(float) min;
+                        float fmax=(float) max;
+                        value = RandomUtils.randomFloat(fmin,fmax,1);
+                    }
+                }
             }
             return value;
         }
