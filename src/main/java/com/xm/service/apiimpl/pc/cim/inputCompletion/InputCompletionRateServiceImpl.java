@@ -27,7 +27,7 @@ public class InputCompletionRateServiceImpl{
     private DwsProductInputFidsDAO inputFidsDAO;
 
     @ApiMethodDoc(apiCode = "CIM_inputCompletionRate" , name = "投入达成率接口（完成）")
-    public InputCompletionRetDTO inputCompletionRate(@ApiParamDoc(desc = "产品类型：如55,为空时是全部") String product, @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
+    public InputCompletionRetDTO inputCompletionRate(@ApiParamDoc(desc = "产品类型：如55,为空时是全部") String productId, @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
         InputCompletionRetDTO retDto = new InputCompletionRetDTO();
         try {
             if (!Constant.dateTypeList.contains(dateType)){
@@ -35,7 +35,7 @@ public class InputCompletionRateServiceImpl{
                 retDto.setErrorMsg("dateType参数错误,请传入【" + Constant.dateTypeList + "】");
                 return retDto;
             }
-            if (!StringUtils.isEmpty(product) && !Constant.productIdNameMap.containsKey(product)){
+            if (!StringUtils.isEmpty(productId) && !Constant.productIdNameMap.containsKey(productId)){
                 retDto.setSuccess(false);
                 retDto.setErrorMsg("dateType参数错误,请传入【" + Constant.productIdNameMap.keySet() + "】");
                 return retDto;
@@ -53,7 +53,7 @@ public class InputCompletionRateServiceImpl{
                 startTime = DateUtils.getBeforQuarterStartDay(3);
                 dateList = DateUtils.getQuarterStrList(startTime,endTime);
             }
-            List<InputCompletionRetDTO.InputCompletionData> dbValueList = inputFidsDAO.queryInputInfo(product, dateType, startTime, endTime);
+            List<InputCompletionRetDTO.InputCompletionData> dbValueList = inputFidsDAO.queryInputInfo(productId, dateType, startTime, endTime);
             Map<String,InputCompletionRetDTO.InputCompletionData> dbValueMap = MapUtils.listToMap(dbValueList,"getDateTime");
             List<InputCompletionRetDTO.InputCompletionData> completionDataList = new ArrayList<InputCompletionRetDTO.InputCompletionData>();
             for (String dateStr:dateList){
