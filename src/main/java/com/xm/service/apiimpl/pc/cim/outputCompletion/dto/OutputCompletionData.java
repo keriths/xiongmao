@@ -29,6 +29,19 @@ public class OutputCompletionData implements Serializable{
             this.periodDate=periodDate;
             this.factory=factory;
         }
+        public DataList( String periodDate,String factory,int planMin,int planMax,int actualMin,int actualMax){
+            this.periodDate=periodDate;
+            this.factory=factory;
+            this.planMin = planMin;
+            this.planMax = planMax;
+            this.actualMin = actualMin;
+            this.actualMax = actualMax;
+        }
+
+        private int planMin=6000;
+        private int planMax=8000;
+        private int actualMin=5500;
+        private int actualMax=7500;
 
         @ApiResultFieldDesc(desc = "横坐标时间")
         private String periodDate;
@@ -65,10 +78,10 @@ public class OutputCompletionData implements Serializable{
             if (plan==null){
                 if (Constant.showDemoData){
                     if("SL".equals(getFactory())){
-                        plan = new BigDecimal(RandomUtils.randomInt(2900,3200));
+                        plan = new BigDecimal(RandomUtils.randomInt(planMin,planMax));
                         return plan;
                     }else{
-                        plan = new BigDecimal(RandomUtils.randomInt(5800,6200));
+                        plan = new BigDecimal(RandomUtils.randomInt(planMin,planMax));
                         return plan;
                     }
 
@@ -87,10 +100,10 @@ public class OutputCompletionData implements Serializable{
             if (actual==null){
                 if (Constant.showDemoData){
                     if("SL".equals(getFactory())){
-                        actual = new BigDecimal(RandomUtils.randomInt(2700,3000));
+                        actual = new BigDecimal(RandomUtils.randomInt(actualMin,actualMax));
                         return actual;
                     }else{
-                        actual = new BigDecimal(RandomUtils.randomInt(5700,6000));
+                        actual = new BigDecimal(RandomUtils.randomInt(actualMin,actualMax));
                         return actual;
                     }
 

@@ -44,16 +44,54 @@ public class OutputCompletionRateServiceImpl {
             List<String> dateList = null;
             Date beginDate = null;
             Date endDate = new Date();
+            int planMin=6000;
+            int planMax=8000;
+            int actualMin=5500;
+            int actualMax=7500;
             if (dateType.equals(Constant.day)){
+                if (productId==null){
+                    planMin=7000;
+                    planMax=8000;
+                    actualMin=5500;
+                    actualMax=7500;
+                }else {
+                    planMin=3000;
+                    planMax=4000;
+                    actualMin=2900;
+                    actualMax=3200;
+                }
                 beginDate = DateUtils.getBeforDayStartDay(6);
                 dateList = DateUtils.getDayStrList(beginDate,endDate);
             }else if (dateType.equals(Constant.month)){
+                if (productId==null){
+                    planMin=110000;
+                    planMax=125000;
+                    actualMin=100000;
+                    actualMax=110000;
+                }else {
+                    planMin=45000;
+                    planMax=47000;
+                    actualMin=44000;
+                    actualMax=45000;
+                }
                 beginDate = DateUtils.getBeforMonthStartDay(11);
                 dateList = DateUtils.getMonthStrList(beginDate,endDate);
             }else if (dateType.equals(Constant.quarter)){
+                if (productId==null){
+                    planMin=450000;
+                    planMax=480000;
+                    actualMin=470000;
+                    actualMax=490000;
+                }else {
+                    planMin=230000;
+                    planMax=245000;
+                    actualMin=240000;
+                    actualMax=250000;
+                }
                 beginDate = DateUtils.getBeforQuarterStartDay(3);
                 dateList = DateUtils.getQuarterStrList(beginDate,endDate);
             }
+
 
             List<OutputCompletionData.DataList> dataList=outputcompletionDAO.OutputCompletionRate(productId,dateType,beginDate,endDate);
 
@@ -68,7 +106,7 @@ public class OutputCompletionRateServiceImpl {
                     String key = day+" "+factory;
                     OutputCompletionData.DataList factoryData = dataMap.get(key);
                     if (factoryData==null){
-                        factoryData=new OutputCompletionData.DataList(day,factory);
+                        factoryData=new OutputCompletionData.DataList(day,factory,planMin,planMax,actualMin,actualMax);
                     }
                     list.add(factoryData);
                 }
