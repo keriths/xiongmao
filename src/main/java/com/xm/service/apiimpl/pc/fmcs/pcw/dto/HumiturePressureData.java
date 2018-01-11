@@ -50,7 +50,8 @@ public class HumiturePressureData {
         public BigDecimal getTemperature() {
             if (temperature==null){
                 if (Constant.showDemoData){
-                    temperature = RandomUtils.randomFloat(15.00f,16.10f);
+                    temperature=RandomUtils.speed(15f,secondDate,1,0.01f);
+                    //temperature = RandomUtils.randomFloat(15.00f,16.10f);
                 }else {
                     temperature=new BigDecimal(0);
                 }
@@ -65,7 +66,8 @@ public class HumiturePressureData {
         public BigDecimal getPressure() {
             if (pressure==null){
                 if (Constant.showDemoData){
-                    pressure = RandomUtils.randomFloat(6.00f,6.50f);
+                    pressure=RandomUtils.speed(6f,secondDate,1,0.01f);
+                    //pressure = RandomUtils.randomFloat(6.00f,6.50f);
                 }else {
                     pressure=new BigDecimal(0);
                 }
