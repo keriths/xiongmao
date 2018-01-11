@@ -38,7 +38,7 @@ public class TapWaterRealTimeData {
         public BigDecimal getSpeed() {
             if(speed==null){
                 if (Constant.showDemoData){
-                    speed = RandomUtils.speed(1f,dataDate,1);
+                    speed = RandomUtils.speed(1f,dataDate,3);
                 }else {
                     speed=new BigDecimal(0);
                 }

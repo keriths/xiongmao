@@ -58,12 +58,12 @@ public class WwtbData {
             if(value==null){
                 if (Constant.showDemoData){
                     if ("integer".equals(dataType)){
-                        value= RandomUtils.speed(midint, dataDate, 0,0.01f);
+                        value= RandomUtils.speed(midint, dataDate, 2,0.02f);
                         //value = new BigDecimal(RandomUtils.randomInt(min,max));
                     }else {
                         /*float fmin=(float) min;
                         float fmax=(float) max;*/
-                        value= RandomUtils.speed(midfloat, dataDate, 1,0.05f);
+                        value= RandomUtils.speed(midfloat, dataDate, 3,0.05f);
                         //value = RandomUtils.randomFloat(fmin,fmax,1);
                     }
                 }
