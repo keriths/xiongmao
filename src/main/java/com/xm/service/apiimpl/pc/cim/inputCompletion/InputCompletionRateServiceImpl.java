@@ -54,10 +54,10 @@ public class InputCompletionRateServiceImpl{
                     actualMin=9000;
                     actualMax=9800;
                 }else {
-                    planMin=5000;
-                    planMax=5200;
-                    actualMin=4900;
-                    actualMax=5100;
+                    planMin=4200;
+                    planMax=4500;
+                    actualMin=4100;
+                    actualMax=4400;
                 }
                 startTime = DateUtils.getBeforDayStartDay(6);
                 dateList = DateUtils.getDayStrList(startTime,endTime);
