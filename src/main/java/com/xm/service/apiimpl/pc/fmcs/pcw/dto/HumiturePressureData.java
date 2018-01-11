@@ -66,7 +66,7 @@ public class HumiturePressureData {
         public BigDecimal getPressure() {
             if (pressure==null){
                 if (Constant.showDemoData){
-                    pressure=RandomUtils.speed(6f,secondDate,1,0.01f);
+                    pressure=RandomUtils.speed(6f,secondDate,2,0.01f);
                     //pressure = RandomUtils.randomFloat(6.00f,6.50f);
                 }else {
                     pressure=new BigDecimal(0);

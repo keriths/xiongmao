@@ -61,16 +61,16 @@ public class BigGasRealTimeDate {
                     if("GN2".equals(getGasName())){
                         speed = RandomUtils.speed(36000f,secondDate,0,0.02f);
                     }else if ("PHe".equals(getGasName())){
-                        speed =RandomUtils.speed(0.15f, secondDate, 2, 0.03f);//RandomUtils.randomFloat(0.1f,0.25f));
+                        speed =RandomUtils.speed(0.1f, secondDate, 3, 0.03f);//RandomUtils.randomFloat(0.1f,0.25f));
                     }else if ("PN2".equals(getGasName()) || "PO2".equals(getGasName())){
 //                        speed = (RandomUtils.randomIntBigDecimal(10,20));
-                        speed =RandomUtils.speed (15f,secondDate,0,0.02f);
+                        speed =RandomUtils.speed (14f,secondDate,1,0.02f);
                     }else if ("PAr".equals(getGasName()) || "PH2".equals(getGasName())){
 //                        speed = (RandomUtils.randomFloat(2f,10f));
-                        speed =RandomUtils.speed (7f,secondDate,1,0.02f);
+                        speed =RandomUtils.speed (7f,secondDate,2,0.02f);
                     }else {
 //                        speed = (RandomUtils.randomIntBigDecimal(80,160));
-                        speed = RandomUtils.speed (150f,secondDate,0,0.02f);
+                        speed = RandomUtils.speed (150f,secondDate,1,0.02f);
                     }
 
                 }else {

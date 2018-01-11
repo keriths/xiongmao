@@ -93,7 +93,7 @@ public class HumitureRealTimeDate {
         public BigDecimal getHumidity() {
             if (humidity==null){
                 if (Constant.showDemoData){
-                    humidity=RandomUtils.speed(50f, secondDate, 0,0.01f);
+                    humidity=RandomUtils.speed(50f, secondDate, 1,0.01f);
                     //humidity = RandomUtils.randomFloat(40.00f,55.00f);
                 }else {
                     humidity=new BigDecimal(0);
@@ -109,7 +109,7 @@ public class HumitureRealTimeDate {
         public BigDecimal getCleanliness() {
             if (cleanliness==null){
                 if (Constant.showDemoData){
-                    cleanliness= RandomUtils.speed(25f, secondDate, 0,0.01f);
+                    cleanliness= RandomUtils.speed(25f, secondDate, 1,0.01f);
                     //cleanliness = RandomUtils.randomFloat(30.00f,60.00f);
                 }else {
                     cleanliness=new BigDecimal(0);
