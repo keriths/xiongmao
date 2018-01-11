@@ -132,11 +132,12 @@ public class ActivationDate implements Serializable{
         BigDecimal activationNum=new BigDecimal("0");
         if(!CollectionUtils.isEmpty(statusDateList)) {
             for (StatusDateList a : statusDateList) {
-                if("RUN".equals(a.getStatus())){
+                activationNum = activationNum.add(new BigDecimal(a.getStatusNum()));
+                /*if("RUN".equals(a.getStatus())){
                     activationNum = activationNum.add(new BigDecimal(a.getStatusNum()));
                 }else if ("WAIT".equals(a.getStatus())){
                     activationNum = activationNum.add(new BigDecimal(a.getStatusNum()));
-                }
+                }*/
             }
             activation = activationNum.multiply(new BigDecimal("100")).divide(all,1, RoundingMode.HALF_UP);
         }

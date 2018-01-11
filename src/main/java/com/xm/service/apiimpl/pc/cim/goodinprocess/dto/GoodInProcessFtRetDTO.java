@@ -70,7 +70,7 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
                 if (Constant.showDemoData){
                     if ("CF".equals(factory)){
                         return new BigDecimal(RandomUtils.randomInt(1400,1600));
-                    }else if ("CF".equals(factory)){
+                    }else if ("Cell".equals(factory)){
                         return new BigDecimal(RandomUtils.randomInt(2300,2500));
                     }
                     return new BigDecimal(RandomUtils.randomInt(2700,2900));
@@ -91,7 +91,7 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
                 if (Constant.showDemoData){
                     if ("CF".equals(factory)){
                         return new BigDecimal(RandomUtils.randomInt(1700,1800));
-                    }else if ("CF".equals(factory)){
+                    }else if ("Cell".equals(factory)){
                         return new BigDecimal(RandomUtils.randomInt(2600,2700));
                     }
                     return new BigDecimal(RandomUtils.randomInt(3000,3100));
@@ -112,7 +112,7 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
                 if (Constant.showDemoData){
                     if ("CF".equals(factory)){
                         return new BigDecimal(RandomUtils.randomInt(1300,1500));
-                    }else if ("CF".equals(factory)){
+                    }else if ("Cell".equals(factory)){
                         return new BigDecimal(RandomUtils.randomInt(2200,2400));
                     }
                     return new BigDecimal(RandomUtils.randomInt(2600,2800));

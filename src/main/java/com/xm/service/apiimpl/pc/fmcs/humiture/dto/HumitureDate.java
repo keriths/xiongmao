@@ -70,7 +70,7 @@ public class HumitureDate {
         public BigDecimal getTemperature() {
             if (temperature==null){
                 if (Constant.showDemoData){
-                    temperature = RandomUtils.randomFloat(22.90f,23.20f);
+                    temperature = RandomUtils.randomFloat(20.00f,27.20f);
                 }else {
                     temperature=new BigDecimal(0);
                 }
@@ -100,7 +100,7 @@ public class HumitureDate {
         public BigDecimal getCleanliness() {
             if (cleanliness==null){
                 if (Constant.showDemoData){
-                    cleanliness = RandomUtils.randomFloat(15.00f,30.00f);
+                    cleanliness = RandomUtils.randomFloat(30.00f,60.00f);
                 }else {
                     cleanliness=new BigDecimal(0);
                 }

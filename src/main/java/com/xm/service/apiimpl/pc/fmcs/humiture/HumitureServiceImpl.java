@@ -89,7 +89,7 @@ public class HumitureServiceImpl {
         }
     }
 
-    @ApiMethodDoc(apiCode = "FMCS_factoryHumitureRealTimeData",name = "工厂所有区域设备最新温湿洁净度数据接口")
+    @ApiMethodDoc(apiCode = "FMCS_factoryHumitureData",name = "工厂所有区域设备最新温湿洁净度数据接口")
     public HumitureDateRetDTO factoryHumitureRtData(@ApiParamDoc(desc = "厂别,如ARRAY,CELL,CF") String factory){
         HumitureDateRetDTO resultDto = new HumitureDateRetDTO();
         try {
