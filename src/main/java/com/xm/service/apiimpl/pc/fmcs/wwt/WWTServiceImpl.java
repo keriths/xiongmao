@@ -14,6 +14,7 @@ import com.xm.service.apiimpl.pc.fmcs.wwt.dto.WwtbDataRetDTO;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.fmcs.WwtaDataDAO;
 import com.xm.service.dao.fmcs.WwtbDataDAO;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -104,6 +105,14 @@ public class WWTServiceImpl {
                 WwtbData.WwtbDetailData wwtbDetailData=dataMap.get(strSecond);
                 if (wwtbDetailData == null) {
                     //wwtbDetailData = new WwtbData.WwtbDetailData(minute,strSecond);
+                    DateTime d = new DateTime();
+                    int curMinuteNum = d.getMinuteOfHour();
+                    int curSecondNum = d.getSecondOfMinute();
+                    int dataMinuteNum = Integer.parseInt(strSecond.substring(0,2));
+                    int dataSecondNum = Integer.parseInt(strSecond.substring(3,5));
+                    if (curMinuteNum == dataMinuteNum && dataSecondNum>curSecondNum){
+                        continue;
+                    }
                     wwtbDetailData = new WwtbData.WwtbDetailData(minute,strSecond,midint,midfloat,dataType);
                 }
                 minuteData.getWwtbDetailDataList().add(wwtbDetailData);

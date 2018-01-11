@@ -11,6 +11,7 @@ import com.xm.service.apiimpl.pc.fmcs.rcu.dto.*;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.fmcs.RcuRealTimeDataDAO;
 import com.xm.service.dao.fmcs.RcuSystemDataDAO;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -90,6 +91,14 @@ public class RCUServiceImpl {
                 }
                 RcuRealTimeData.RcuRealTimeDetailData rcuData = queryMap.get(strSecond);
                 if (rcuData == null) {
+                    DateTime d = new DateTime();
+                    int curMinuteNum = d.getMinuteOfHour();
+                    int curSecondNum = d.getSecondOfMinute();
+                    int dataMinuteNum = Integer.parseInt(strSecond.substring(0,2));
+                    int dataSecondNum = Integer.parseInt(strSecond.substring(3,5));
+                    if (curMinuteNum == dataMinuteNum && dataSecondNum>curSecondNum){
+                        continue;
+                    }
                     rcuData = new RcuRealTimeData.RcuRealTimeDetailData(minute,strSecond);
                 }
                 minuteData.getRcuRealTimeDetailDataList().add(rcuData);

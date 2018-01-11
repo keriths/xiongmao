@@ -10,6 +10,7 @@ import com.xm.service.apiimpl.pc.fmcs.pcw.dto.*;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.fmcs.PCWDataDAO;
 import com.xm.service.dao.fmcs.PCWHumitureDataDAO;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -73,6 +74,14 @@ public class PCWServiceImpl {
                 }
                 HumiturePressureData.HumiturePressureRealTimeDate pcwData = queryMap.get(strSecond);
                 if (pcwData == null) {
+                    DateTime d = new DateTime();
+                    int curMinuteNum = d.getMinuteOfHour();
+                    int curSecondNum = d.getSecondOfMinute();
+                    int dataMinuteNum = Integer.parseInt(strSecond.substring(0,2));
+                    int dataSecondNum = Integer.parseInt(strSecond.substring(3,5));
+                    if (curMinuteNum == dataMinuteNum && dataSecondNum>curSecondNum){
+                        continue;
+                    }
                     pcwData = new HumiturePressureData.HumiturePressureRealTimeDate(minute,strSecond);
                 }
                 minuteData.getHumiturePressureRealTimeDateList().add(pcwData);

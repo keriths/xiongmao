@@ -9,6 +9,7 @@ import com.xm.platform.util.MapUtils;
 import com.xm.service.apiimpl.pc.fmcs.water.dto.*;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.fmcs.*;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -64,6 +65,14 @@ public class WaterServiceImpl {
                 }
                 TapWaterRealTimeData.TapWaterRealTimeDetailData tapWaterRealTimeDetailData=dataMap.get(strSecond);
                 if (tapWaterRealTimeDetailData == null) {
+                    DateTime d = new DateTime();
+                    int curMinuteNum = d.getMinuteOfHour();
+                    int curSecondNum = d.getSecondOfMinute();
+                    int dataMinuteNum = Integer.parseInt(strSecond.substring(0,2));
+                    int dataSecondNum = Integer.parseInt(strSecond.substring(3,5));
+                    if (curMinuteNum == dataMinuteNum && dataSecondNum>curSecondNum){
+                        continue;
+                    }
                     tapWaterRealTimeDetailData = new TapWaterRealTimeData.TapWaterRealTimeDetailData(minute,strSecond);
                 }
                 minuteData.getTapWaterRealTimeDetailDataList().add(tapWaterRealTimeDetailData);
@@ -113,6 +122,14 @@ public class WaterServiceImpl {
                 }
                 PureWaterRealTimeData.PureWaterRealTimeDetailData pureWaterRealTimeDetailData=dataMap.get(strSecond);
                 if (pureWaterRealTimeDetailData == null) {
+                    DateTime d = new DateTime();
+                    int curMinuteNum = d.getMinuteOfHour();
+                    int curSecondNum = d.getSecondOfMinute();
+                    int dataMinuteNum = Integer.parseInt(strSecond.substring(0,2));
+                    int dataSecondNum = Integer.parseInt(strSecond.substring(3,5));
+                    if (curMinuteNum == dataMinuteNum && dataSecondNum>curSecondNum){
+                        continue;
+                    }
                     pureWaterRealTimeDetailData = new PureWaterRealTimeData.PureWaterRealTimeDetailData(minute,strSecond);
                 }
                 minuteData.getPureWaterRealTimeDetailDataList().add(pureWaterRealTimeDetailData);
@@ -161,6 +178,14 @@ public class WaterServiceImpl {
                 }
                 FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData freezeWaterRealTimeDetailData=dataMap.get(strSecond);
                 if (freezeWaterRealTimeDetailData == null) {
+                    DateTime d = new DateTime();
+                    int curMinuteNum = d.getMinuteOfHour();
+                    int curSecondNum = d.getSecondOfMinute();
+                    int dataMinuteNum = Integer.parseInt(strSecond.substring(0,2));
+                    int dataSecondNum = Integer.parseInt(strSecond.substring(3,5));
+                    if (curMinuteNum == dataMinuteNum && dataSecondNum>curSecondNum){
+                        continue;
+                    }
                     freezeWaterRealTimeDetailData = new FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData(minute,strSecond);
                 }
                 minuteData.getFreezeWaterRealTimeDetailDataList().add(freezeWaterRealTimeDetailData);

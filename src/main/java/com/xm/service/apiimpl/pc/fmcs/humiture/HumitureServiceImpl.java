@@ -13,6 +13,7 @@ import com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumitureDateRetDTO;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.fmcs.HumitureDataDAO;
 import com.xm.service.dao.fmcs.HumitureRealTimeDataDAO;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
@@ -75,6 +76,14 @@ public class HumitureServiceImpl {
                 }
                 HumitureRealTimeDate.HumitureRealTimeDetailData htDetailDate=queryMap.get(strSecond);
                 if (htDetailDate == null) {
+                    DateTime d = new DateTime();
+                    int curMinuteNum = d.getMinuteOfHour();
+                    int curSecondNum = d.getSecondOfMinute();
+                    int dataMinuteNum = Integer.parseInt(strSecond.substring(0,2));
+                    int dataSecondNum = Integer.parseInt(strSecond.substring(3,5));
+                    if (curMinuteNum == dataMinuteNum && dataSecondNum>curSecondNum){
+                        continue;
+                    }
                     htDetailDate = new HumitureRealTimeDate.HumitureRealTimeDetailData(minute,strSecond);
                 }
                 minuteData.getHumitureRealTimeDetailDataList().add(htDetailDate);
