@@ -63,7 +63,8 @@ public class MauRealTimeData {
         public BigDecimal getTemperature() {
             if (temperature==null){
                 if (Constant.showDemoData){
-                    temperature = RandomUtils.randomFloat(17.00f,18.50f);
+                    temperature=RandomUtils.speed(17.5f, secondDate, 2,0.01f);
+                    //temperature = RandomUtils.randomFloat(17.00f,18.50f);
                 }else {
                     temperature=new BigDecimal(0);
                 }
@@ -78,7 +79,8 @@ public class MauRealTimeData {
         public BigDecimal getDewPoint() {
             if (dewPoint==null){
                 if (Constant.showDemoData){
-                    dewPoint = RandomUtils.randomFloat(11.00f,12.50f);
+                    dewPoint = RandomUtils.speed(12f, secondDate, 2,0.01f);
+                    //dewPoint = RandomUtils.randomFloat(11.00f,12.50f);
                 }else {
                     dewPoint=new BigDecimal(0);
                 }

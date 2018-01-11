@@ -25,16 +25,16 @@ public class WwtbData {
             this.dataDate=dataDate;
             this.periodDate=periodDate;
         }
-        public WwtbDetailData(String periodDate,String dataDate,int min,int max,String dataType){
+        public WwtbDetailData(String periodDate,String dataDate,int midint,float midfloat,String dataType){
             this.dataDate=dataDate;
             this.periodDate=periodDate;
-            this.min=min;
-            this.max=max;
+            this.midint=midint;
+            this.midfloat=midfloat;
             this.dataType=dataType;
         }
 
-        private int min=6;
-        private int max=8;
+        private int midint=20;
+        private float midfloat=7f;
         private String dataType="integer";
 
         @ApiResultFieldDesc(desc = "编号 如：PH,F,PO4-P")
@@ -58,11 +58,13 @@ public class WwtbData {
             if(value==null){
                 if (Constant.showDemoData){
                     if ("integer".equals(dataType)){
-                        value = new BigDecimal(RandomUtils.randomInt(min,max));
+                        value= RandomUtils.speed(midint, dataDate, 0,0.01f);
+                        //value = new BigDecimal(RandomUtils.randomInt(min,max));
                     }else {
-                        float fmin=(float) min;
-                        float fmax=(float) max;
-                        value = RandomUtils.randomFloat(fmin,fmax,1);
+                        /*float fmin=(float) min;
+                        float fmax=(float) max;*/
+                        value= RandomUtils.speed(midfloat, dataDate, 1,0.05f);
+                        //value = RandomUtils.randomFloat(fmin,fmax,1);
                     }
                 }
             }

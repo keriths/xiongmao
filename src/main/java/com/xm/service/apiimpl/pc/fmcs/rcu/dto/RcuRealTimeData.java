@@ -1,6 +1,7 @@
 package com.xm.service.apiimpl.pc.fmcs.rcu.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.RandomUtils;
 import com.xm.platform.util.ReturnDataUtils;
 import com.xm.service.constant.Constant;
 
@@ -60,7 +61,10 @@ public class RcuRealTimeData {
         public BigDecimal getTemperature() {
             if (temperature==null){
                 if (Constant.showDemoData){
-                    return ReturnDataUtils.demoData("float","23.00-24.00");
+                    temperature= RandomUtils.speed(22f, secondDate, 2,0.01f);
+                    //temperature= ReturnDataUtils.demoData("float","23.00-24.00");
+                }else {
+                    temperature=new BigDecimal(0);
                 }
             }
             return temperature;
