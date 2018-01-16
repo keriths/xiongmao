@@ -97,4 +97,28 @@
           class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
         <property name="order" value="1" />
     </bean>
+
+    <!--定时器配置-->
+    <bean id="abc" class="com.xm.service.util.TimerTask"></bean>
+    <bean id="timer"
+          class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+        <property name="targetObject" ref="abc" />
+        <property name="targetMethod" value="test" />
+        <property name="concurrent" value="false" /><!-- 作业不并发调度 -->
+    </bean>
+    <!--配置触发器-->
+    <bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerFactoryBean">
+        <property name="jobDetail" ref="timer" />
+        <property name="startDelay" value="0" /><!-- 调度工厂实例化后，经过0秒开始执行调度 -->
+        <property name="repeatInterval" value="5000" /> <!-- 每5秒调度一次 -->
+    </bean>
+    <!--配置调度工厂-->
+    <bean id="schedulerFactoryBean" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+        <property name="triggers">
+            <list>
+                <ref bean="simpleTrigger" />
+            </list>
+        </property>
+    </bean>
+
 </beans>
