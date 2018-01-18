@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.cim.DwsProductLineYieldFidsDAO" >
+
+    <select id="queryProductLineData" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductLineData$ProductLineDetailData" parameterType="Map">
+        select
+        sum(OUTPUT_GLS_QTY) as outputGls,
+        sum(SCRAP_GLS_QTY) as scrapGls,
+        sum(INPUT_PNL_QTY) as inputPnl,
+        sum(OUTPUT_PNL_QTY) as outputPnl,
+        FACTORY as factory ,
+        <if test="dateType=='month'.toString()">/*按月*/
+            TO_CHAR(PERIODDATE,'MM')||'月'
+        </if>
+        <if test="dateType=='quarter'.toString()">/*按季度*/
+            TO_CHAR(PERIODDATE,'yyyy') ||'年' || TO_CHAR(PERIODDATE,'q') ||'季度'
+        </if>
+        <if test="dateType=='day'.toString()">/*按天*/
+            TO_CHAR(PERIODDATE,'mm/dd')
+        </if>
+        as periodDate
+        from DWS_PRODUCT_LINE_YIELD_FIDS
+        WHERE
+        <![CDATA[
+            PERIODDATE >= #{beginDate}
+            and PERIODDATE <= #{endDate}
+        ]]>
+        <if test="factory!=null and productId!=''">
+            AND FACTORY=#{factory,jdbcType=VARCHAR}
+        </if>
+        <if test="productId!=null and productId!=''">
+            AND PRODUCTID=#{productId,jdbcType=VARCHAR}
+        </if>
+        GROUP BY
+        <if test="dateType=='month'.toString()">/*按月*/
+            TO_CHAR(PERIODDATE,'MM')||'月',
+        </if>
+        <if test="dateType=='quarter'.toString()">
+            TO_CHAR(PERIODDATE,'yyyy') ||'年' || TO_CHAR(PERIODDATE,'q') ||'季度',
+        </if>
+        <if test="dateType=='day'.toString()">
+            TO_CHAR(PERIODDATE,'mm/dd'),
+        </if>
+        FACTORY
+    </select>
+
+</mapper>
