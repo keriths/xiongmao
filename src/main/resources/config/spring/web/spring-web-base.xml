@@ -19,8 +19,6 @@
 
     <context:component-scan base-package="com.xm.web"/>
 
-    <task:annotation-driven /><!--定时器开关-->
-
     <mvc:annotation-driven/>
     <mvc:default-servlet-handler/>
     <!-- 避免IE执行AJAX时,返回JSON出现下载文件 -->

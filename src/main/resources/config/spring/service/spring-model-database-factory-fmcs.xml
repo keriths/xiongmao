@@ -9,7 +9,10 @@
     http://www.springframework.org/schema/context/spring-context-3.0.xsd
     http://www.springframework.org/schema/mvc
     http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
-    <bean id="cimDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+
+
+
+    <bean id="fmcsDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName"><value>oracle.jdbc.OracleDriver</value></property>
         <!--<property name="url"><value>jdbc:oracle:thin:@192.168.1.123:1521:xe</value></property>
         <property name="username"><value>abc</value></property>
@@ -25,25 +28,20 @@
         <property name="removeAbandonedTimeout"><value>180</value></property>
         <property name="validationQuery"><value>SELECT 1 from dual</value></property>
     </bean>
-
-
-    <bean id="cimSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="configLocation" value="classpath:config/spring/sqlmap/cim/mybatis-config.xml"></property>
-        <property name="mapperLocations" value="classpath:config/spring/sqlmap/cim/sqlmap-*.xml"></property>
-        <property name="dataSource" ref="cimDataSource" />
+    <bean id="fmcsSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="configLocation" value="classpath:config/spring/sqlmap/fmcs/mybatis-config.xml"></property>
+        <property name="mapperLocations" value="classpath:config/spring/sqlmap/fmcs/sqlmap-*.xml"></property>
+        <property name="dataSource" ref="fmcsDataSource" />
     </bean>
-    <bean id="cimSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
-        <constructor-arg index="0" ref="cimSqlSessionFactory" />
-    </bean>
-    <bean id="cimMapperConfig" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.xm.service.dao.cim" />
-        <property name="sqlSessionFactoryBeanName" value="cimSqlSessionFactory" />
-        <property name="sqlSessionTemplateBeanName" value="cimSqlSessionTemplate" />
+
+    <bean id="fmcsSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="fmcsSqlSessionFactory" />
     </bean>
 
 
-    <!--<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
-        <!--<property name="dataSource" ref="dataSource" />-->
-    <!--</bean>-->
-
+    <bean id="fmcsMapperConfig" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.xm.service.dao.fmcs" />
+        <property name="sqlSessionFactoryBeanName" value="fmcsSqlSessionFactory" />
+        <property name="sqlSessionTemplateBeanName" value="fmcsSqlSessionTemplate" />
+    </bean>
 </beans>
