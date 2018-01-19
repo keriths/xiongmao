@@ -10,6 +10,8 @@ import java.io.File;
  * Created by luokaiming on 2018/1/17 0017.
  */
 public class JsoupDemo {
+
+
     public static void main (String[] args) throws Exception{
         Document document=Jsoup.parse(new File("src/main/webapp/a.xml"),"UTF-8");
         for(Element el:document.select("book")){

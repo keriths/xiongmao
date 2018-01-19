@@ -13,4 +13,32 @@
             DATADATE as dataDate
         from DWR_EQUIPMENT_STATUS_FIDS
     </select>
+
+    <!--根据key查询-->
+    <select id="queryStatusByKey" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentStatusData">
+        select
+            FACTORY as factory,
+            KEY as key,
+            VAL as val,
+            KEYDESC as keyDesc,
+            DATATYPE as dataType,
+            DEMODATA as demoData,
+            DATADATE as dataDate
+        from DWR_EQUIPMENT_STATUS_FIDS
+        WHERE
+          KEY=#{key}
+    </select>
+
+    <update id="updateStatusData" parameterType="com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentStatusData">
+        UPDATE DWR_EQUIPMENT_STATUS_FIDS
+        SET DWR_EQUIPMENT_STATUS_FIDS.FACTORY=#{factory},
+             DWR_EQUIPMENT_STATUS_FIDS.KEY=#{key},
+             DWR_EQUIPMENT_STATUS_FIDS.VAL=#{val}
+        WHERE
+          DWR_EQUIPMENT_STATUS_FIDS.KEY=#{key}
+    </update>
+
+    <insert id="insertStatusData" parameterType="com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentStatusData">
+        INSERT INTO DWR_EQUIPMENT_STATUS_FIDS(FACTORY,KEY,VAL) VALUE (#{factory},#{key},#{val})
+    </insert>
 </mapper>

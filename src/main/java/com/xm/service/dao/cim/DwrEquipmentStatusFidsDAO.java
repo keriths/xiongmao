@@ -12,4 +12,10 @@ import java.util.List;
 @Repository("dwrEquipmentStatusFidsDAO")
 public interface DwrEquipmentStatusFidsDAO {
     List<EquipmentStatusData> queryStatusData(@Param("factory") String factory);
+
+    int updateStatusData(EquipmentStatusData equipmentStatusData);
+
+    int insertStatusData(EquipmentStatusData equipmentStatusData);
+
+    EquipmentStatusData queryStatusByKey(@Param("key") String key);
 }

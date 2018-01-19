@@ -13,9 +13,14 @@ import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.service.dao.cim.DwrEquipmentThroughputFidsDAO;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -83,5 +88,35 @@ public class EquipmentStatusServiceImpl {
             resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return resultDto;
         }
+    }
+
+
+    public void EquipmentStatusUpdate(){
+        try {
+            EquipmentStatusData equipmentStatusData=new EquipmentStatusData();
+            Document document= Jsoup.parse(new File(""),"UTF-8");
+            for(Element el:document.select("Beader")){
+                String factory=el.select("ORGNAME").text();
+                equipmentStatusData.setFactory(factory);
+
+            }
+            for(Element el:document.select("Body")){
+                String key=el.select("EQPTID").text();
+                String val=el.select("EQPTSTATE").text();
+                equipmentStatusData.setKey(key.toUpperCase());
+                equipmentStatusData.setVal(val);
+
+                EquipmentStatusData e=dwrEquipmentStatusFidsDAO.queryStatusByKey(key.toUpperCase());
+                if (e==null){
+                    dwrEquipmentStatusFidsDAO.insertStatusData(equipmentStatusData);
+                }else{
+                    dwrEquipmentStatusFidsDAO.updateStatusData(equipmentStatusData);
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 }
