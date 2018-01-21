@@ -91,32 +91,66 @@ public class EquipmentStatusServiceImpl {
     }
 
 
-    public void EquipmentStatusUpdate(){
+    @ApiMethodDoc(apiCode = "CIM_SyncEqptState",name = "同步设备实时状态")
+    public void equipmentStatusUpdate(String msgContext){
         try {
             EquipmentStatusData equipmentStatusData=new EquipmentStatusData();
-            Document document= Jsoup.parse(new File(""),"UTF-8");
-            for(Element el:document.select("Beader")){
-                String factory=el.select("ORGNAME").text();
-                equipmentStatusData.setFactory(factory);
-
+            Document document= Jsoup.parse(msgContext);
+            String factoryName = document.getElementsByTag("ORGNAME").text();
+            String eqptId = document.getElementsByTag("EQPTID").text();
+            String eqptState = document.getElementsByTag("EQPTSTATE").text();
+            EquipmentStatusData eqptData=dwrEquipmentStatusFidsDAO.queryStatusByKey(eqptId.toUpperCase());
+            if (eqptData==null){
+                eqptData = new EquipmentStatusData();
+                eqptData.setFactory(factoryName);
+                eqptData.setKey(eqptId);
+                eqptData.setVal(eqptState);
+                dwrEquipmentStatusFidsDAO.insertStatusData(eqptData);
+            }else {
+                eqptData.setVal(eqptState);
+                dwrEquipmentStatusFidsDAO.updateStatusData(eqptData);
             }
-            for(Element el:document.select("Body")){
-                String key=el.select("EQPTID").text();
-                String val=el.select("EQPTSTATE").text();
-                equipmentStatusData.setKey(key.toUpperCase());
-                equipmentStatusData.setVal(val);
-
-                EquipmentStatusData e=dwrEquipmentStatusFidsDAO.queryStatusByKey(key.toUpperCase());
-                if (e==null){
-                    dwrEquipmentStatusFidsDAO.insertStatusData(equipmentStatusData);
-                }else{
-                    dwrEquipmentStatusFidsDAO.updateStatusData(equipmentStatusData);
-                }
-            }
+//            for(Element el:document.select("Beader")){
+//                String factory=el.select("ORGNAME").text();
+//                equipmentStatusData.setFactory(factory);
+//
+//            }
+//            for(Element el:document.select("Body")){
+//                String key=el.select("EQPTID").text();
+//                String val=el.select("EQPTSTATE").text();
+//                equipmentStatusData.setKey(key.toUpperCase());
+//                equipmentStatusData.setVal(val);
+//
+//                EquipmentStatusData e=dwrEquipmentStatusFidsDAO.queryStatusByKey(key.toUpperCase());
+//                if (e==null){
+//                    dwrEquipmentStatusFidsDAO.insertStatusData(equipmentStatusData);
+//                }else{
+//                    dwrEquipmentStatusFidsDAO.updateStatusData(equipmentStatusData);
+//                }
+//            }
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+    }
+
+    public static void main(String[] args){
+        String msg = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>\n" +
+                "<Request>\n" +
+                "  <Header>\n" +
+                "    <MESSAGENAME>EQStateReport</MESSAGENAME>\n" +
+                "    <TRANSACTIONID>3d60e55a-b836-4032-8982-07e343b031c7</TRANSACTIONID>\n" +
+                "    <ORGRRN>20</ORGRRN>\n" +
+                "    <ORGNAME>SL</ORGNAME>\n" +
+                "    <USERNAME>eis</USERNAME>\n" +
+                "  </Header>\n" +
+                "  <Body>\n" +
+                "    <EQPTID>BMR304NM</EQPTID>\n" +
+                "    <EQPTSTATE>MAN</EQPTSTATE>\n" +
+                "    <EQPTTYPE>EQ</EQPTTYPE>\n" +
+                "  </Body>\n" +
+                "</Request>";
+        new EquipmentStatusServiceImpl().equipmentStatusUpdate(msg);
     }
 }

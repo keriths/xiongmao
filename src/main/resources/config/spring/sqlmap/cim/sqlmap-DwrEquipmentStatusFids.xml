@@ -33,12 +33,13 @@
         UPDATE DWR_EQUIPMENT_STATUS_FIDS
         SET DWR_EQUIPMENT_STATUS_FIDS.FACTORY=#{factory},
              DWR_EQUIPMENT_STATUS_FIDS.KEY=#{key},
-             DWR_EQUIPMENT_STATUS_FIDS.VAL=#{val}
+             DWR_EQUIPMENT_STATUS_FIDS.VAL=#{val},
+             DATADATE=sysdate
         WHERE
           DWR_EQUIPMENT_STATUS_FIDS.KEY=#{key}
     </update>
 
     <insert id="insertStatusData" parameterType="com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentStatusData">
-        INSERT INTO DWR_EQUIPMENT_STATUS_FIDS(FACTORY,KEY,VAL) VALUE (#{factory},#{key},#{val})
+        INSERT INTO DWR_EQUIPMENT_STATUS_FIDS(FACTORY,KEY,VAL,DATADATE) VALUES (#{factory},#{key},#{val},sysdate)
     </insert>
 </mapper>

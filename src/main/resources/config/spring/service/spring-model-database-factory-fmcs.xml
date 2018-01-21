@@ -12,13 +12,13 @@
 
 
 
-    <bean id="fmcsDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <bean id="factoryFmcsDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName"><value>oracle.jdbc.OracleDriver</value></property>
         <!--<property name="url"><value>jdbc:oracle:thin:@192.168.1.123:1521:xe</value></property>
         <property name="username"><value>abc</value></property>
         <property name="password"><value>abc123</value></property>-->
         <property name="url"><value>jdbc:oracle:thin:@kerith.vicp.io:1521:orcl</value></property>
-        <property name="username"><value>xiongmaodbuser</value></property>
+        <property name="username"><value>factoryFmcsUser</value></property>
         <property name="password"><value>password</value></property>
         <property name="maxActive"><value>10</value></property>
         <property name="maxWait"><value>10000</value></property>
@@ -28,20 +28,20 @@
         <property name="removeAbandonedTimeout"><value>180</value></property>
         <property name="validationQuery"><value>SELECT 1 from dual</value></property>
     </bean>
-    <bean id="fmcsSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-        <property name="configLocation" value="classpath:config/spring/sqlmap/fmcs/mybatis-config.xml"></property>
-        <property name="mapperLocations" value="classpath:config/spring/sqlmap/fmcs/sqlmap-*.xml"></property>
-        <property name="dataSource" ref="fmcsDataSource" />
+    <bean id="factoryFmcsSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="configLocation" value="classpath:config/spring/sqlmap/factory/fmcs/mybatis-config.xml"></property>
+        <property name="mapperLocations" value="classpath:config/spring/sqlmap/factory/fmcs/sqlmap-*.xml"></property>
+        <property name="dataSource" ref="factoryFmcsDataSource" />
     </bean>
 
-    <bean id="fmcsSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
-        <constructor-arg index="0" ref="fmcsSqlSessionFactory" />
+    <bean id="factoryFmcsSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="factoryFmcsSqlSessionFactory" />
     </bean>
 
 
-    <bean id="fmcsMapperConfig" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.xm.service.dao.fmcs" />
-        <property name="sqlSessionFactoryBeanName" value="fmcsSqlSessionFactory" />
-        <property name="sqlSessionTemplateBeanName" value="fmcsSqlSessionTemplate" />
+    <bean id="factoryFmcsMapperConfig" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.xm.service.dao.factory.fmcs" />
+        <property name="sqlSessionFactoryBeanName" value="factoryFmcsSqlSessionFactory" />
+        <property name="sqlSessionTemplateBeanName" value="factoryFmcsMapperConfig" />
     </bean>
 </beans>
