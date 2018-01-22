@@ -1,6 +1,7 @@
 package com.xm.service.dao.fmcs;
 
 import com.xm.service.apiimpl.pc.fmcs.pcw.dto.PcwEquipmentData;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,5 +12,11 @@ import java.util.List;
 @Repository("pcwDataDAO")
 public interface PCWDataDAO {
     List<PcwEquipmentData> queryPCWData();
+
+    int updateStatusData(PcwEquipmentData equipmentStatusData);
+
+    int insertStatusData(PcwEquipmentData equipmentStatusData);
+
+    PcwEquipmentData queryStatusByKey(@Param("key") String key);
 }
 

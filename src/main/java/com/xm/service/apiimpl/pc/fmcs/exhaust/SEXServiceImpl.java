@@ -9,6 +9,7 @@ import com.xm.service.apiimpl.pc.fmcs.exhaust.dto.ExhaustADataRetDTO;
 import com.xm.service.apiimpl.pc.fmcs.exhaust.dto.ExhaustBData;
 import com.xm.service.apiimpl.pc.fmcs.exhaust.dto.ExhaustBDataRetDTO;
 import com.xm.service.constant.Constant;
+import com.xm.service.dao.factory.fmcs.FactoryExhaustBDataDAO;
 import com.xm.service.dao.fmcs.ExhaustADataDAO;
 import com.xm.service.dao.fmcs.ExhaustBDataDAO;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,8 @@ public class SEXServiceImpl {
     private ExhaustADataDAO exhaustADataDAO;
     @Resource(name="exhaustBDataDAO")
     private ExhaustBDataDAO exhaustBDataDAO;
+    @Resource(name = "factoryExhaustBDataDAO")
+    private FactoryExhaustBDataDAO factoryExhaustBDataDAO;
 
     @ApiMethodDoc(apiCode = "FMCS_ExhaustAData",name = "4A-VOC-S数据接口")
     public ExhaustADataRetDTO exhaustADataRetDTO(@ApiParamDoc(desc = "系统名称,如“F-101A,F-101B,F-101C”") String name){
@@ -60,6 +63,30 @@ public class SEXServiceImpl {
             resultDto.setSuccess(false);
             resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return resultDto;
+        }
+    }
+
+
+    @ApiMethodDoc(apiCode = "FMCS_SyncExhaustBData",name = "同步设备实时状态")
+    public void syncExhaustBData(){
+        try {
+            List<ExhaustBData> queryList = factoryExhaustBDataDAO.queryExhaustBData();
+            for(ExhaustBData exhaustBData:queryList){
+                ExhaustBData data=exhaustBDataDAO.queryStatusByKey(exhaustBData.getKey());
+                if(data==null){
+                    data.setKey(exhaustBData.getKey());
+                    data.setVal(exhaustBData.getVal());
+                    data.setDataDate(exhaustBData.getDataDate());
+                    exhaustBDataDAO.insertStatusData(data);
+                }else {
+                    data.setVal(exhaustBData.getVal());
+                    data.setDataDate(exhaustBData.getDataDate());
+                    exhaustBDataDAO.updateStatusData(data);
+                }
+            }
+
+        }catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

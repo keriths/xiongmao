@@ -19,4 +19,11 @@ public interface WwtaDataDAO {
      * @return
      */
     List<WwtaData> queryWwtaDataList();
+
+    int updateStatusData(WwtaData wwtaData);
+
+    int insertStatusData(WwtaData wwtaData);
+
+    WwtaData queryStatusByKey(@Param("key") String key);
+
 }
