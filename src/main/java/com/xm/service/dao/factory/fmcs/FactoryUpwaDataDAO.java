@@ -1,7 +1,6 @@
-package com.xm.service.dao.fmcs;
+package com.xm.service.dao.factory.fmcs;
 
 import com.xm.service.apiimpl.pc.fmcs.upw.dto.UpwaData;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -9,18 +8,12 @@ import java.util.List;
 /**
  * Created by luokaiming on 2017/12/21.
  */
-@Repository("upwaDataDAO")
-public interface UpwaDataDAO {
+@Repository("factoryUpwaDataDAO")
+public interface FactoryUpwaDataDAO {
 
     /**
      *设备状态列表查询
      * @return
      */
     List<UpwaData> queryUpwaDataList();
-
-    int updateStatusData(UpwaData upwaData);
-
-    int insertStatusData(UpwaData upwaData);
-
-    UpwaData queryStatusByKey(@Param("key") String key);
 }

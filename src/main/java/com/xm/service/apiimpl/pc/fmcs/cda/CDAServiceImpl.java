@@ -7,6 +7,7 @@ import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
 import com.xm.service.apiimpl.pc.fmcs.cda.dto.CdaData;
 import com.xm.service.apiimpl.pc.fmcs.cda.dto.CdaDataRetDTO;
+import com.xm.service.dao.factory.fmcs.FactoryCDADataDAO;
 import com.xm.service.dao.fmcs.CDADataDAO;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -25,6 +26,8 @@ public class CDAServiceImpl {
 
     @Resource(name="cdaDataDAO")
     private CDADataDAO cdaDataDAO;
+    @Resource(name = "factoryCdaDataDAO")
+    private FactoryCDADataDAO factoryCdaDataDAO;
 
     @ApiMethodDoc(apiCode = "FMCS_CDAData",name = "空压系统数据接口")
     public CdaDataRetDTO cdaDataDataRetDto(){
@@ -40,4 +43,29 @@ public class CDAServiceImpl {
             return resultDto;
         }
     }
+
+
+    @ApiMethodDoc(apiCode = "FMCS_SyncCdaData",name = "同步设备实时状态")
+    public void syncCdaData(){
+        try {
+            List<CdaData> queryList = factoryCdaDataDAO.queryCdaData();
+            for(CdaData cdaData:queryList){
+                CdaData data=cdaDataDAO.queryStatusByKey(cdaData.getKey());
+                if(data==null){
+                    data.setKey(cdaData.getKey());
+                    data.setVal(cdaData.getVal());
+                    data.setDataDate(cdaData.getDataDate());
+                    cdaDataDAO.insertStatusData(data);
+                }else {
+                    data.setVal(cdaData.getVal());
+                    data.setDataDate(cdaData.getDataDate());
+                    cdaDataDAO.updateStatusData(data);
+                }
+            }
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

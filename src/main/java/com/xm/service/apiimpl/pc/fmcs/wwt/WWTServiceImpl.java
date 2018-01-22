@@ -12,6 +12,7 @@ import com.xm.service.apiimpl.pc.fmcs.wwt.dto.WwtaDataRetDTO;
 import com.xm.service.apiimpl.pc.fmcs.wwt.dto.WwtbData;
 import com.xm.service.apiimpl.pc.fmcs.wwt.dto.WwtbDataRetDTO;
 import com.xm.service.constant.Constant;
+import com.xm.service.dao.factory.fmcs.FactoryWwtaDataDAO;
 import com.xm.service.dao.fmcs.WwtaDataDAO;
 import com.xm.service.dao.fmcs.WwtbDataDAO;
 import org.joda.time.DateTime;
@@ -30,6 +31,8 @@ public class WWTServiceImpl {
     private WwtaDataDAO wwtaDataDAO;
     @Resource
     private WwtbDataDAO wwtbDataDAO;
+    @Resource
+    private FactoryWwtaDataDAO factoryWwtaDataDAO;
 
     @ApiMethodDoc(apiCode = "FMCS_wwtaDataList",name = "设备状态接口")
     public WwtaDataRetDTO wwtaDataList(){
@@ -127,6 +130,30 @@ public class WWTServiceImpl {
             return retDTO;
         }
 
+    }
+
+
+    @ApiMethodDoc(apiCode = "FMCS_SyncWwtaData",name = "同步设备实时状态")
+    public void syncWwtaData(){
+        try {
+            List<WwtaData> queryList = factoryWwtaDataDAO.queryWwtaDataList();
+            for(WwtaData wwtaData:queryList){
+                WwtaData data=wwtaDataDAO.queryStatusByKey(wwtaData.getKey());
+                if(data==null){
+                    data.setKey(wwtaData.getKey());
+                    data.setValue(wwtaData.getValue());
+                    data.setDataDate(wwtaData.getDataDate());
+                    wwtaDataDAO.insertStatusData(data);
+                }else {
+                    data.setValue(wwtaData.getValue());
+                    data.setDataDate(wwtaData.getDataDate());
+                    wwtaDataDAO.updateStatusData(data);
+                }
+            }
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

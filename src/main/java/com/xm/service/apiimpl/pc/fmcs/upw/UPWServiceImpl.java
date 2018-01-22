@@ -7,6 +7,7 @@ import com.xm.service.apiimpl.pc.fmcs.upw.dto.UpwaData;
 import com.xm.service.apiimpl.pc.fmcs.upw.dto.UpwaDataRetDTO;
 import com.xm.service.apiimpl.pc.fmcs.upw.dto.UpwbData;
 import com.xm.service.apiimpl.pc.fmcs.upw.dto.UpwbDataRetDTO;
+import com.xm.service.dao.factory.fmcs.FactoryUpwaDataDAO;
 import com.xm.service.dao.fmcs.UpwaDataDAO;
 import com.xm.service.dao.fmcs.UpwbDataDAO;
 import org.springframework.stereotype.Service;
@@ -24,6 +25,8 @@ public class UPWServiceImpl {
     private UpwaDataDAO upwaDataDAO;
     @Resource
     private UpwbDataDAO upwbDataDAO;
+    @Resource
+    private FactoryUpwaDataDAO factoryUpwaDataDAO;
 
     @ApiMethodDoc(apiCode = "FMCS_upwaDataList",name = "设备状态接口")
     public UpwaDataRetDTO upwaDataList(){
@@ -52,6 +55,29 @@ public class UPWServiceImpl {
             retDTO.setSuccess(false);
             retDTO.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return retDTO;
+        }
+    }
+
+    @ApiMethodDoc(apiCode = "FMCS_SyncUpwaData",name = "同步设备实时状态")
+    public void syncUpwaData(){
+        try {
+            List<UpwaData> queryList = factoryUpwaDataDAO.queryUpwaDataList();
+            for(UpwaData upwaData:queryList){
+                UpwaData data=upwaDataDAO.queryStatusByKey(upwaData.getKey());
+                if(data==null){
+                    data.setKey(upwaData.getKey());
+                    data.setValue(upwaData.getValue());
+                    data.setDataDate(upwaData.getDataDate());
+                    upwaDataDAO.insertStatusData(data);
+                }else {
+                    data.setValue(upwaData.getValue());
+                    data.setDataDate(upwaData.getDataDate());
+                    upwaDataDAO.updateStatusData(data);
+                }
+            }
+
+        }catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

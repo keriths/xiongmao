@@ -6,11 +6,7 @@
         select
             KEY as key,
             VAL as val,
-            KEYDESC as keyDesc,
-            DATATYPE as dataType,
-            DEMODATA as demoData,
-            DATADATE as dataDate,
-            UNIT as unit
+            DATADATE as dataDate
         from PCWDATA
     </select>
 

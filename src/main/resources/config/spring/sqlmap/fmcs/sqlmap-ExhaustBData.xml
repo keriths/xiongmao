@@ -14,4 +14,32 @@
         from EXHAUSTBDATA
     </select>
 
+
+    <!--根据key查询-->
+    <select id="queryStatusByKey" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.exhaust.dto.ExhaustBData">
+        select
+        KEY as key,
+        VAL as val,
+        KEYDESC as keyDesc,
+        DATATYPE as dataType,
+        DEMODATA as demoData,
+        DATADATE as dataDate
+        from EXHAUSTBDATA
+        WHERE
+        KEY=#{key}
+    </select>
+
+    <update id="updateStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.exhaust.dto.ExhaustBData">
+        UPDATE EXHAUSTBDATA
+        SET KEY=#{key},
+            VAL=#{val},
+            DATADATE=#{dataDate}
+        WHERE
+            KEY=#{key}
+    </update>
+
+    <insert id="insertStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.exhaust.dto.ExhaustBData">
+        INSERT INTO EXHAUSTBDATA(KEY,VAL,DATADATE) VALUES (#{key},#{val},#{dataDate})
+    </insert>
+
 </mapper>

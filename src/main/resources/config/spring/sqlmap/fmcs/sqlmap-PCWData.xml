@@ -32,13 +32,13 @@
         UPDATE PCWDATA
             SET PCWDATA.KEY=#{key},
             PCWDATA.VAL=#{val},
-            DATADATE=sysdate
+            DATADATE=#{dataDate}
         WHERE
           PCWDATA.KEY=#{key}
     </update>
 
     <insert id="insertStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.pcw.dto.PcwEquipmentData">
-        INSERT INTO PCWDATA(KEY,VAL,DATADATE) VALUES (#{key},#{val},sysdate)
+        INSERT INTO PCWDATA(KEY,VAL,DATADATE) VALUES (#{key},#{val},#{dataDate})
     </insert>
 
 </mapper>

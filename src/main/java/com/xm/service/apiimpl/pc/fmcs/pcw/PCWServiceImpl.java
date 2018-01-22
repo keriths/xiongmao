@@ -124,9 +124,11 @@ public class PCWServiceImpl {
                 if(data==null){
                     data.setKey(equipmentData.getKey());
                     data.setVal(equipmentData.getVal());
+                    data.setDataDate(equipmentData.getDataDate());
                     pcwDataDAO.insertStatusData(data);
                 }else {
                     data.setVal(equipmentData.getVal());
+                    data.setDataDate(equipmentData.getDataDate());
                     pcwDataDAO.updateStatusData(data);
                 }
             }
