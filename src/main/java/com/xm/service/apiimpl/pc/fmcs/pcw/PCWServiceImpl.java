@@ -8,6 +8,7 @@ import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
 import com.xm.service.apiimpl.pc.fmcs.pcw.dto.*;
 import com.xm.service.constant.Constant;
+import com.xm.service.dao.factory.fmcs.FactoryPCWDataDAO;
 import com.xm.service.dao.fmcs.PCWDataDAO;
 import com.xm.service.dao.fmcs.PCWHumitureDataDAO;
 import org.joda.time.DateTime;
@@ -27,6 +28,8 @@ public class PCWServiceImpl {
     private PCWHumitureDataDAO pcwHumitureDataDAO;
     @Resource(name="pcwDataDAO")
     private PCWDataDAO pcwDataDAO;
+    @Resource(name = "factoryPCWDataDAO")
+    private FactoryPCWDataDAO factoryPCWDataDAO;
 
     @ApiMethodDoc(apiCode = "FMCS_PCWData",name = "工艺冷却水系统设备接口")
     public PcwEquipmentDataRetDTO pcwEquipmentData(){
@@ -110,5 +113,26 @@ public class PCWServiceImpl {
         }
         resultDto.setPcwSystemList(dataDto);
         return resultDto;
+    }
+
+    @ApiMethodDoc(apiCode = "FMCS_SyncPcwEquipmentData",name = "同步设备实时状态")
+    public void syncPcwEquipmentData(){
+        try {
+            List<PcwEquipmentData> queryList = factoryPCWDataDAO.queryPCWData();
+            for(PcwEquipmentData equipmentData:queryList){
+                PcwEquipmentData data=pcwDataDAO.queryStatusByKey(equipmentData.getKey());
+                if(data==null){
+                    data.setKey(equipmentData.getKey());
+                    data.setVal(equipmentData.getVal());
+                    pcwDataDAO.insertStatusData(data);
+                }else {
+                    data.setVal(equipmentData.getVal());
+                    pcwDataDAO.updateStatusData(data);
+                }
+            }
+
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
