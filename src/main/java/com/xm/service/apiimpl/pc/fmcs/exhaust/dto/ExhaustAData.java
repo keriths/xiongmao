@@ -12,20 +12,28 @@ import java.math.BigDecimal;
 public class ExhaustAData {
     @ApiResultFieldDesc(desc = "系统名称")
     private String name;
+
     @ApiResultFieldDesc(desc = "变频选择(0值1就绪2自动3变频)")
     private String hz;
+
     @ApiResultFieldDesc(desc = "状态(0自动1启动2停止3复位)")
     private String status;
+
     @ApiResultFieldDesc(desc = "轴承温度1")
     private BigDecimal temperatureOne;
+
     @ApiResultFieldDesc(desc = "轴承温度2")
     private BigDecimal temperatureTwo;
+
     @ApiResultFieldDesc(desc = "风机电流")
     private BigDecimal electricity;
+
     @ApiResultFieldDesc(desc = "频率反馈")
     private BigDecimal frequencyFeedback;
+
     @ApiResultFieldDesc(desc = "手动频率给定")
     private BigDecimal frequencyHand;
+
     @ApiResultFieldDesc(desc = "数据更新时间")
     private String dataDate;
 
