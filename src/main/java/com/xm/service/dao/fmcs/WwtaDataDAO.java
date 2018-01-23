@@ -1,5 +1,6 @@
 package com.xm.service.dao.fmcs;
 
+import com.xm.service.apiimpl.pc.fmcs.wwt.dto.SyncWwtaData;
 import com.xm.service.apiimpl.pc.fmcs.wwt.dto.WwtaData;
 import com.xm.service.apiimpl.pc.fmcs.wwt.dto.WwtbData;
 import org.apache.ibatis.annotations.Param;
@@ -20,10 +21,10 @@ public interface WwtaDataDAO {
      */
     List<WwtaData> queryWwtaDataList();
 
-    int updateStatusData(WwtaData wwtaData);
+    int updateStatusData(SyncWwtaData wwtaData);
 
-    int insertStatusData(WwtaData wwtaData);
+    int insertStatusData(SyncWwtaData wwtaData);
 
-    WwtaData queryStatusByKey(@Param("key") String key);
+    SyncWwtaData queryStatusByKey(@Param("key") String key);
 
 }

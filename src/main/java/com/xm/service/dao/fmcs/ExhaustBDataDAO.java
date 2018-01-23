@@ -1,6 +1,7 @@
 package com.xm.service.dao.fmcs;
 
 import com.xm.service.apiimpl.pc.fmcs.exhaust.dto.ExhaustBData;
+import com.xm.service.apiimpl.pc.fmcs.exhaust.dto.SyncExhaustBData;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -13,9 +14,9 @@ import java.util.List;
 public interface ExhaustBDataDAO {
     List<ExhaustBData> queryExhaustBData();
 
-    int updateStatusData(ExhaustBData exhaustBData);
+    int updateStatusData(SyncExhaustBData exhaustBData);
 
-    int insertStatusData(ExhaustBData exhaustBData);
+    int insertStatusData(SyncExhaustBData exhaustBData);
 
-    ExhaustBData queryStatusByKey(@Param("key") String key);
+    SyncExhaustBData queryStatusByKey(@Param("key") String key);
 }

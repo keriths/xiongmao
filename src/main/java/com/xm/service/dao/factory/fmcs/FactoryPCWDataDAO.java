@@ -1,6 +1,6 @@
 package com.xm.service.dao.factory.fmcs;
 
-import com.xm.service.apiimpl.pc.fmcs.pcw.dto.PcwEquipmentData;
+import com.xm.service.apiimpl.pc.fmcs.pcw.dto.SyncPcwEquipmentData;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -10,6 +10,6 @@ import java.util.List;
  */
 @Repository("factoryPCWDataDAO")
 public interface FactoryPCWDataDAO {
-    List<PcwEquipmentData> queryPCWData();
+    List<SyncPcwEquipmentData> queryPCWData();
 }
 

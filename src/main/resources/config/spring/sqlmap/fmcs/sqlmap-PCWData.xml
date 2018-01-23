@@ -15,7 +15,7 @@
     </select>
 
     <!--根据key查询-->
-    <select id="queryStatusByKey" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.pcw.dto.PcwEquipmentData">
+    <select id="queryStatusByKey" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.pcw.dto.SyncPcwEquipmentData">
         select
             KEY as key,
             VAL as val,
@@ -28,7 +28,7 @@
             KEY=#{key}
     </select>
 
-    <update id="updateStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.pcw.dto.PcwEquipmentData">
+    <update id="updateStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.pcw.dto.SyncPcwEquipmentData">
         UPDATE PCWDATA
             SET PCWDATA.KEY=#{key},
             PCWDATA.VAL=#{val},
@@ -37,7 +37,7 @@
           PCWDATA.KEY=#{key}
     </update>
 
-    <insert id="insertStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.pcw.dto.PcwEquipmentData">
+    <insert id="insertStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.pcw.dto.SyncPcwEquipmentData">
         INSERT INTO PCWDATA(KEY,VAL,DATADATE) VALUES (#{key},#{val},#{dataDate})
     </insert>
 

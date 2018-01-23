@@ -4,10 +4,7 @@ import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.LogUtils;
-import com.xm.service.apiimpl.pc.fmcs.exhaust.dto.ExhaustAData;
-import com.xm.service.apiimpl.pc.fmcs.exhaust.dto.ExhaustADataRetDTO;
-import com.xm.service.apiimpl.pc.fmcs.exhaust.dto.ExhaustBData;
-import com.xm.service.apiimpl.pc.fmcs.exhaust.dto.ExhaustBDataRetDTO;
+import com.xm.service.apiimpl.pc.fmcs.exhaust.dto.*;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.factory.fmcs.FactoryExhaustBDataDAO;
 import com.xm.service.dao.fmcs.ExhaustADataDAO;
@@ -70,18 +67,13 @@ public class SEXServiceImpl {
     @ApiMethodDoc(apiCode = "FMCS_SyncExhaustBData",name = "同步设备实时状态")
     public void syncExhaustBData(){
         try {
-            List<ExhaustBData> queryList = factoryExhaustBDataDAO.queryExhaustBData();
-            for(ExhaustBData exhaustBData:queryList){
-                ExhaustBData data=exhaustBDataDAO.queryStatusByKey(exhaustBData.getKey());
+            List<SyncExhaustBData> queryList = factoryExhaustBDataDAO.queryExhaustBData();
+            for(SyncExhaustBData exhaustBData:queryList){
+                SyncExhaustBData data=exhaustBDataDAO.queryStatusByKey(exhaustBData.getKey());
                 if(data==null){
-                    data.setKey(exhaustBData.getKey());
-                    data.setVal(exhaustBData.getVal());
-                    data.setDataDate(exhaustBData.getDataDate());
-                    exhaustBDataDAO.insertStatusData(data);
+                    exhaustBDataDAO.insertStatusData(exhaustBData);
                 }else {
-                    data.setVal(exhaustBData.getVal());
-                    data.setDataDate(exhaustBData.getDataDate());
-                    exhaustBDataDAO.updateStatusData(data);
+                    exhaustBDataDAO.updateStatusData(exhaustBData);
                 }
             }
 

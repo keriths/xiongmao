@@ -7,6 +7,7 @@ import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
 import com.xm.service.apiimpl.pc.fmcs.cda.dto.CdaData;
 import com.xm.service.apiimpl.pc.fmcs.cda.dto.CdaDataRetDTO;
+import com.xm.service.apiimpl.pc.fmcs.cda.dto.SyncCdaData;
 import com.xm.service.dao.factory.fmcs.FactoryCDADataDAO;
 import com.xm.service.dao.fmcs.CDADataDAO;
 import org.springframework.stereotype.Service;
@@ -48,18 +49,13 @@ public class CDAServiceImpl {
     @ApiMethodDoc(apiCode = "FMCS_SyncCdaData",name = "同步设备实时状态")
     public void syncCdaData(){
         try {
-            List<CdaData> queryList = factoryCdaDataDAO.queryCdaData();
-            for(CdaData cdaData:queryList){
-                CdaData data=cdaDataDAO.queryStatusByKey(cdaData.getKey());
+            List<SyncCdaData> queryList = factoryCdaDataDAO.queryCdaData();
+            for(SyncCdaData cdaData:queryList){
+                SyncCdaData data=cdaDataDAO.queryStatusByKey(cdaData.getKey());
                 if(data==null){
-                    data.setKey(cdaData.getKey());
-                    data.setVal(cdaData.getVal());
-                    data.setDataDate(cdaData.getDataDate());
-                    cdaDataDAO.insertStatusData(data);
+                    cdaDataDAO.insertStatusData(cdaData);
                 }else {
-                    data.setVal(cdaData.getVal());
-                    data.setDataDate(cdaData.getDataDate());
-                    cdaDataDAO.updateStatusData(data);
+                    cdaDataDAO.updateStatusData(cdaData);
                 }
             }
 

@@ -16,7 +16,7 @@
 
 
     <!--根据key查询-->
-    <select id="queryStatusByKey" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.exhaust.dto.ExhaustBData">
+    <select id="queryStatusByKey" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.exhaust.dto.SyncExhaustBData">
         select
         KEY as key,
         VAL as val,
@@ -29,7 +29,7 @@
         KEY=#{key}
     </select>
 
-    <update id="updateStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.exhaust.dto.ExhaustBData">
+    <update id="updateStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.exhaust.dto.SyncExhaustBData">
         UPDATE EXHAUSTBDATA
         SET KEY=#{key},
             VAL=#{val},
@@ -38,7 +38,7 @@
             KEY=#{key}
     </update>
 
-    <insert id="insertStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.exhaust.dto.ExhaustBData">
+    <insert id="insertStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.exhaust.dto.SyncExhaustBData">
         INSERT INTO EXHAUSTBDATA(KEY,VAL,DATADATE) VALUES (#{key},#{val},#{dataDate})
     </insert>
 

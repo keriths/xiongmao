@@ -16,30 +16,27 @@
 
 
     <!--根据key查询-->
-    <select id="queryStatusByKey" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.upw.dto.UpwaData">
+    <select id="queryStatusByKey" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.upw.dto.SyncUpwaData">
         select
             KEY as key,
-            VAL as value,
-            KEYDESC as keyDesc,
-            DATATYPE as dataType,
-            DEMODATA as demoData,
+            VALUE as value,
             DATADATE as dataDate
         from UPWADATA
         WHERE
             KEY=#{key}
     </select>
 
-    <update id="updateStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.upw.dto.UpwaData">
+    <update id="updateStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.upw.dto.SyncUpwaData">
         UPDATE UPWADATA
         SET KEY=#{key},
-            VAL=#{value},
+            VALUE=#{value},
             DATADATE=#{dataDate}
         WHERE
             KEY=#{key}
     </update>
 
-    <insert id="insertStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.upw.dto.UpwaData">
-        INSERT INTO UPWADATA(KEY,VAL,DATADATE) VALUES (#{key},#{value},#{dataDate})
+    <insert id="insertStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.upw.dto.SyncUpwaData">
+        INSERT INTO UPWADATA(KEY,VALUE,DATADATE) VALUES (#{key},#{value},#{dataDate})
     </insert>
 
 </mapper>

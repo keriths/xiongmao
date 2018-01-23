@@ -3,10 +3,7 @@ package com.xm.service.apiimpl.pc.fmcs.upw;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.LogUtils;
-import com.xm.service.apiimpl.pc.fmcs.upw.dto.UpwaData;
-import com.xm.service.apiimpl.pc.fmcs.upw.dto.UpwaDataRetDTO;
-import com.xm.service.apiimpl.pc.fmcs.upw.dto.UpwbData;
-import com.xm.service.apiimpl.pc.fmcs.upw.dto.UpwbDataRetDTO;
+import com.xm.service.apiimpl.pc.fmcs.upw.dto.*;
 import com.xm.service.dao.factory.fmcs.FactoryUpwaDataDAO;
 import com.xm.service.dao.fmcs.UpwaDataDAO;
 import com.xm.service.dao.fmcs.UpwbDataDAO;
@@ -61,18 +58,13 @@ public class UPWServiceImpl {
     @ApiMethodDoc(apiCode = "FMCS_SyncUpwaData",name = "同步设备实时状态")
     public void syncUpwaData(){
         try {
-            List<UpwaData> queryList = factoryUpwaDataDAO.queryUpwaDataList();
-            for(UpwaData upwaData:queryList){
-                UpwaData data=upwaDataDAO.queryStatusByKey(upwaData.getKey());
+            List<SyncUpwaData> queryList = factoryUpwaDataDAO.queryUpwaDataList();
+            for(SyncUpwaData upwaData:queryList){
+                SyncUpwaData data=upwaDataDAO.queryStatusByKey(upwaData.getKey());
                 if(data==null){
-                    data.setKey(upwaData.getKey());
-                    data.setValue(upwaData.getValue());
-                    data.setDataDate(upwaData.getDataDate());
-                    upwaDataDAO.insertStatusData(data);
+                    upwaDataDAO.insertStatusData(upwaData);
                 }else {
-                    data.setValue(upwaData.getValue());
-                    data.setDataDate(upwaData.getDataDate());
-                    upwaDataDAO.updateStatusData(data);
+                    upwaDataDAO.updateStatusData(upwaData);
                 }
             }
 

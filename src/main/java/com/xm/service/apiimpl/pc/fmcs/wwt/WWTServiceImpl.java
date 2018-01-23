@@ -7,10 +7,7 @@ import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
 import com.xm.service.apiimpl.pc.fmcs.water.dto.TapWaterRealTimeData;
-import com.xm.service.apiimpl.pc.fmcs.wwt.dto.WwtaData;
-import com.xm.service.apiimpl.pc.fmcs.wwt.dto.WwtaDataRetDTO;
-import com.xm.service.apiimpl.pc.fmcs.wwt.dto.WwtbData;
-import com.xm.service.apiimpl.pc.fmcs.wwt.dto.WwtbDataRetDTO;
+import com.xm.service.apiimpl.pc.fmcs.wwt.dto.*;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.factory.fmcs.FactoryWwtaDataDAO;
 import com.xm.service.dao.fmcs.WwtaDataDAO;
@@ -136,18 +133,13 @@ public class WWTServiceImpl {
     @ApiMethodDoc(apiCode = "FMCS_SyncWwtaData",name = "同步设备实时状态")
     public void syncWwtaData(){
         try {
-            List<WwtaData> queryList = factoryWwtaDataDAO.queryWwtaDataList();
-            for(WwtaData wwtaData:queryList){
-                WwtaData data=wwtaDataDAO.queryStatusByKey(wwtaData.getKey());
+            List<SyncWwtaData> queryList = factoryWwtaDataDAO.queryWwtaDataList();
+            for(SyncWwtaData wwtaData:queryList){
+                SyncWwtaData data=wwtaDataDAO.queryStatusByKey(wwtaData.getKey());
                 if(data==null){
-                    data.setKey(wwtaData.getKey());
-                    data.setValue(wwtaData.getValue());
-                    data.setDataDate(wwtaData.getDataDate());
-                    wwtaDataDAO.insertStatusData(data);
+                    wwtaDataDAO.insertStatusData(wwtaData);
                 }else {
-                    data.setValue(wwtaData.getValue());
-                    data.setDataDate(wwtaData.getDataDate());
-                    wwtaDataDAO.updateStatusData(data);
+                    wwtaDataDAO.updateStatusData(wwtaData);
                 }
             }
 

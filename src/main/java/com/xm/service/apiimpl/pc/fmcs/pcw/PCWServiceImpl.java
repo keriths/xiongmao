@@ -15,6 +15,7 @@ import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -118,18 +119,14 @@ public class PCWServiceImpl {
     @ApiMethodDoc(apiCode = "FMCS_SyncPcwEquipmentData",name = "同步设备实时状态")
     public void syncPcwEquipmentData(){
         try {
-            List<PcwEquipmentData> queryList = factoryPCWDataDAO.queryPCWData();
-            for(PcwEquipmentData equipmentData:queryList){
-                PcwEquipmentData data=pcwDataDAO.queryStatusByKey(equipmentData.getKey());
+            List<SyncPcwEquipmentData> queryList = factoryPCWDataDAO.queryPCWData();
+            for(SyncPcwEquipmentData equipmentData:queryList){
+                SyncPcwEquipmentData data=pcwDataDAO.queryStatusByKey(equipmentData.getKey());
                 if(data==null){
-                    data.setKey(equipmentData.getKey());
-                    data.setVal(equipmentData.getVal());
-                    data.setDataDate(equipmentData.getDataDate());
-                    pcwDataDAO.insertStatusData(data);
+
+                    pcwDataDAO.insertStatusData(equipmentData);
                 }else {
-                    data.setVal(equipmentData.getVal());
-                    data.setDataDate(equipmentData.getDataDate());
-                    pcwDataDAO.updateStatusData(data);
+                    pcwDataDAO.updateStatusData(equipmentData);
                 }
             }
 

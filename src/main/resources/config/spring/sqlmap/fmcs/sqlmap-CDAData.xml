@@ -15,7 +15,7 @@
     </select>
 
     <!--根据key查询-->
-    <select id="queryStatusByKey" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.cda.dto.CdaData">
+    <select id="queryStatusByKey" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.cda.dto.SyncCdaData">
         select
             KEY as key,
             VAL as val,
@@ -28,16 +28,16 @@
             KEY=#{key}
     </select>
 
-    <update id="updateStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.cda.dto.CdaData">
+    <update id="updateStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.cda.dto.SyncCdaData">
         UPDATE CDADATA
         SET KEY=#{key},
             VAL=#{val},
             DATADATE=#{dataDate}
         WHERE
-          PCWDATA.KEY=#{key}
+          KEY=#{key}
     </update>
 
-    <insert id="insertStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.cda.dto.CdaData">
+    <insert id="insertStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.cda.dto.SyncCdaData">
         INSERT INTO CDADATA(KEY,VAL,DATADATE) VALUES (#{key},#{val},#{dataDate})
     </insert>
 

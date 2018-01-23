@@ -1,7 +1,6 @@
 package com.xm.service.dao.factory.fmcs;
 
-import com.xm.service.apiimpl.pc.fmcs.cda.dto.CdaData;
-import org.apache.ibatis.annotations.Param;
+import com.xm.service.apiimpl.pc.fmcs.cda.dto.SyncCdaData;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,6 +10,6 @@ import java.util.List;
  */
 @Repository("factoryCdaDataDAO")
 public interface FactoryCDADataDAO {
-    List<CdaData> queryCdaData();
+    List<SyncCdaData> queryCdaData();
 
 }

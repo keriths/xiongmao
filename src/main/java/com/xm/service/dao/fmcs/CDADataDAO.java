@@ -1,6 +1,7 @@
 package com.xm.service.dao.fmcs;
 
 import com.xm.service.apiimpl.pc.fmcs.cda.dto.CdaData;
+import com.xm.service.apiimpl.pc.fmcs.cda.dto.SyncCdaData;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import java.util.List;
@@ -12,9 +13,9 @@ import java.util.List;
 public interface CDADataDAO {
     List<CdaData> queryCdaData();
 
-    int updateStatusData(CdaData cdaData);
+    int updateStatusData(SyncCdaData cdaData);
 
-    int insertStatusData(CdaData cdaData);
+    int insertStatusData(SyncCdaData cdaData);
 
-    CdaData queryStatusByKey(@Param("key") String key);
+    SyncCdaData queryStatusByKey(@Param("key") String key);
 }

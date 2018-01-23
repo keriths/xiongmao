@@ -1,5 +1,6 @@
 package com.xm.service.dao.fmcs;
 
+import com.xm.service.apiimpl.pc.fmcs.upw.dto.SyncUpwaData;
 import com.xm.service.apiimpl.pc.fmcs.upw.dto.UpwaData;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -18,9 +19,9 @@ public interface UpwaDataDAO {
      */
     List<UpwaData> queryUpwaDataList();
 
-    int updateStatusData(UpwaData upwaData);
+    int updateStatusData(SyncUpwaData upwaData);
 
-    int insertStatusData(UpwaData upwaData);
+    int insertStatusData(SyncUpwaData upwaData);
 
-    UpwaData queryStatusByKey(@Param("key") String key);
+    SyncUpwaData queryStatusByKey(@Param("key") String key);
 }

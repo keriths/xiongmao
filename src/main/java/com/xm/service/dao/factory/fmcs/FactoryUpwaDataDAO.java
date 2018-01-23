@@ -1,6 +1,6 @@
 package com.xm.service.dao.factory.fmcs;
 
-import com.xm.service.apiimpl.pc.fmcs.upw.dto.UpwaData;
+import com.xm.service.apiimpl.pc.fmcs.upw.dto.SyncUpwaData;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,5 +15,5 @@ public interface FactoryUpwaDataDAO {
      *设备状态列表查询
      * @return
      */
-    List<UpwaData> queryUpwaDataList();
+    List<SyncUpwaData> queryUpwaDataList();
 }

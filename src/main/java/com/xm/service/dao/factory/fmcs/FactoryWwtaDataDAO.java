@@ -1,6 +1,6 @@
 package com.xm.service.dao.factory.fmcs;
 
-import com.xm.service.apiimpl.pc.fmcs.wwt.dto.WwtaData;
+import com.xm.service.apiimpl.pc.fmcs.wwt.dto.SyncWwtaData;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public interface FactoryWwtaDataDAO {
      *设备状态列表查询
      * @return
      */
-    List<WwtaData> queryWwtaDataList();
+    List<SyncWwtaData> queryWwtaDataList();
 
 
 }
