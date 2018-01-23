@@ -42,6 +42,6 @@
     <bean id="factoryFmcsMapperConfig" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.xm.service.dao.factory.fmcs" />
         <property name="sqlSessionFactoryBeanName" value="factoryFmcsSqlSessionFactory" />
-        <property name="sqlSessionTemplateBeanName" value="factoryFmcsMapperConfig" />
+        <property name="sqlSessionTemplateBeanName" value="factoryFmcsSqlSessionTemplate" />
     </bean>
 </beans>
