@@ -65,7 +65,10 @@ public class ApiAction {
         ApiMethod apiMethod = ApiManager.getApiMethod(apiCode);
         Object[] param = getParamObjects(apiMethod);
         try {
+            long t1 = System.currentTimeMillis();
             Object obj = apiMethod.getMethod().invoke(apiMethod.getServiceObj(),param);
+            long t2 = System.currentTimeMillis();
+            MonitorUtils.doMonitor(apiCode,t2-t1);
             return obj;
         } catch (Exception e) {
             LogUtils.error(getClass(), e);
@@ -133,6 +136,11 @@ public class ApiAction {
             paramList.add(paramVO);
         }
         return paramList;
+    }
+    @RequestMapping(value = "/manage/monitor")
+    @ResponseBody
+    public Object monitor(String apiCode){
+        return MonitorUtils.getFunctionUseTimeMaps();
     }
 
 }
