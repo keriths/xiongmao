@@ -33,13 +33,14 @@
         UPDATE EXHAUSTBDATA
         SET KEY=#{key},
             VAL=#{val},
-            DATADATE=#{dataDate}
+            DATADATE=#{dataDate},
+            UPDATEDATE=sysdate
         WHERE
             KEY=#{key}
     </update>
 
     <insert id="insertStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.exhaust.dto.SyncExhaustBData">
-        INSERT INTO EXHAUSTBDATA(KEY,VAL,DATADATE) VALUES (#{key},#{val},#{dataDate})
+        INSERT INTO EXHAUSTBDATA(KEY,VAL,DATADATE,UPDATEDATE) VALUES (#{key},#{val},#{dataDate},sysdate)
     </insert>
 
 </mapper>

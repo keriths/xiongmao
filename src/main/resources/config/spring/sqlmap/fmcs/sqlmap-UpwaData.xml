@@ -30,13 +30,14 @@
         UPDATE UPWADATA
         SET KEY=#{key},
             VALUE=#{value},
-            DATADATE=#{dataDate}
+            DATADATE=#{dataDate},
+            UPDATEDATE=sysdate
         WHERE
             KEY=#{key}
     </update>
 
     <insert id="insertStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.upw.dto.SyncUpwaData">
-        INSERT INTO UPWADATA(KEY,VALUE,DATADATE) VALUES (#{key},#{value},#{dataDate})
+        INSERT INTO UPWADATA(KEY,VALUE,DATADATE,UPDATEDATE) VALUES (#{key},#{value},#{dataDate},sysdate)
     </insert>
 
 </mapper>

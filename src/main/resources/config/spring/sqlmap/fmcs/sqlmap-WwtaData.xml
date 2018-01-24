@@ -30,13 +30,14 @@
         UPDATE WWTADATA
         SET KEY=#{key},
             VALUE=#{value},
-            DATADATE=#{dataDate}
+            DATADATE=#{dataDate},
+            UPDATEDATE=sysdate
         WHERE
             KEY=#{key}
     </update>
 
     <insert id="insertStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.wwt.dto.SyncWwtaData">
-        INSERT INTO WWTADATA(KEY,VALUE,DATADATE) VALUES (#{key},#{value},#{dataDate})
+        INSERT INTO WWTADATA(KEY,VALUE,DATADATE,UPDATEDATE) VALUES (#{key},#{value},#{dataDate},sysdate)
     </insert>
 
 </mapper>
