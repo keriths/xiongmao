@@ -47,13 +47,17 @@ public class ReturnDataUtils {
             float max=Float.parseFloat(str[1]);
             float c=min + ((max - min) * random.nextFloat());
             data=new BigDecimal(c).setScale(2,BigDecimal.ROUND_HALF_DOWN);
+        }else if("string".equals(dataType)){
+            //String str[]={"MAN","WAT","RUN","TRB","MNT"};
+            int i=RandomUtils.randomInt(0,5);
+            data=new BigDecimal(i);
         }
         //System.out.println(data);
         return data;
     }
 
     public static void main(String[] args){
-        BigDecimal d=ReturnDataUtils.demoData("int","0,1");
+        BigDecimal d=ReturnDataUtils.demoData("string","MAN,WAT,RUN,TRB,MNT ");
 
     }
 }
