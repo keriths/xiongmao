@@ -46,20 +46,19 @@ public class EquipmentStatusData {
             if (Constant.showDemoData){
                 if(dataType!=null && demoData!=null){
                     val =  ReturnDataUtils.demoData(getDataType(),getDemoData()).toString();
-                    if("int".equals(getDataType())){
-                        if(!"AMHS连接状态".equals(getKey())){
-                            if("0".equals(val)){
-                                val = "MAN";
-                            }else if("1".equals(val)){
-                                val ="WAT";
-                            } else if("2".equals(val)){
-                                val ="RUN";
-                            }else if("3".equals(val)){
-                                val ="TRB";
-                            }else if("4".equals(val)){
-                                val ="MNT";
-                            }
+                    if("string".equals(getDataType())){
+                        if("0".equals(val)){
+                            val = "MAN";
+                        }else if("1".equals(val)){
+                            val ="WAT";
+                        } else if("2".equals(val)){
+                            val ="RUN";
+                        }else if("3".equals(val)){
+                            val ="TRB";
+                        }else if("4".equals(val)){
+                            val ="MNT";
                         }
+
                     }
                 }else{
                     val = "0";

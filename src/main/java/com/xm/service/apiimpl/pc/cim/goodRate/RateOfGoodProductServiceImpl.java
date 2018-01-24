@@ -204,7 +204,7 @@ public class RateOfGoodProductServiceImpl {
                 List<ProductOcData.ProductOcDetailData> ProductDetailDataList = new ArrayList<ProductOcData.ProductOcDetailData>();
                 ProductOcData.ProductOcDetailData productOcDetailData = dataMap.get(day);
                 if(productOcDetailData ==null){
-                    productOcDetailData =new ProductOcData.ProductOcDetailData(day,factory);
+                    productOcDetailData =new ProductOcData.ProductOcDetailData(factory,day);
                 }
                 ProductDetailDataList.add(productOcDetailData);
                 productOcData.setProductOcDetailDataList(ProductDetailDataList);

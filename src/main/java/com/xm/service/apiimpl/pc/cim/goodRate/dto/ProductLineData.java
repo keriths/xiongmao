@@ -64,8 +64,6 @@ public class ProductLineData implements Serializable{
         private String productId;
         @ApiResultFieldDesc(desc = "横坐标时间")
         private String periodDate;
-        @ApiResultFieldDesc(desc = "良品率")
-        private BigDecimal inLine;
 
         public String getFactory() {
             return factory;
@@ -157,35 +155,7 @@ public class ProductLineData implements Serializable{
         public void setPeriodDate(String periodDate) {
             this.periodDate = periodDate;
         }
-        public BigDecimal getInLine() {
-            /*if(factory!=null){
-                BigDecimal outputPnl=getOutputPnl();
-                BigDecimal inputPnl=getInputPnl();
-                BigDecimal outputGls=getOutputGls();
-                BigDecimal scrapGls=getScrapGls();
-                if("SL-OC".equals(factory)){
-                    if(outputPnl.compareTo(new BigDecimal(0))==0){
-                        inLine=new BigDecimal(0);
-                    }else{
-                        inLine = outputPnl.multiply(new BigDecimal("100")).divide(inputPnl,1, RoundingMode.HALF_UP);
-                    }
-                }else{
-                    if(outputGls.compareTo(new BigDecimal(0))==0 && scrapGls.compareTo(new BigDecimal(0))==0){
-                        inLine=new BigDecimal(0);
-                    }else{
-                        BigDecimal total = outputGls.add(scrapGls);
-                        inLine = outputGls.multiply(new BigDecimal("100")).divide(total,1, RoundingMode.HALF_UP);
-                    }
-                }
-            }else{
-                inLine = new BigDecimal(0);
-            }*/
-            return inLine;
-        }
 
-        public void setInLine(BigDecimal inLine) {
-            this.inLine = inLine;
-        }
     }
 
     public List<ProductLineDetailData> getProductLineDetailDataList() {
