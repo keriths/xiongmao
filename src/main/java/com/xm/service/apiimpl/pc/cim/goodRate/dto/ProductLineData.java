@@ -1,6 +1,9 @@
 package com.xm.service.apiimpl.pc.cim.goodRate.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.RandomUtils;
+import com.xm.service.constant.Constant;
+import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -14,6 +17,8 @@ public class ProductLineData implements Serializable{
 
     @ApiResultFieldDesc(desc = "返回数据详情")
     private List<ProductLineData.ProductLineDetailData> productLineDetailDataList;
+    @ApiResultFieldDesc(desc = "良品率")
+    private BigDecimal inLine;
 
     public static class ProductLineDetailData{
 
@@ -22,6 +27,28 @@ public class ProductLineData implements Serializable{
         public ProductLineDetailData(String periodDate){
             this.periodDate=periodDate;
         }
+        public ProductLineDetailData( String periodDate,String factory,int outputGlsMin,int outputGlsMax,int scrapGlsMin,int scrapGlsMax,
+                                        int inputPnlMin,int inputPnlMax,int outputPnlMin,int outputPnlMax){
+            this.periodDate=periodDate;
+            this.factory=factory;
+            this.outputGlsMin = outputGlsMin;
+            this.outputGlsMax = outputGlsMax;
+            this.scrapGlsMin = scrapGlsMin;
+            this.scrapGlsMax = scrapGlsMax;
+            this.inputPnlMin = inputPnlMin;
+            this.inputPnlMax = inputPnlMax;
+            this.outputPnlMin = outputPnlMin;
+            this.outputPnlMax = outputPnlMax;
+        }
+
+        private int outputGlsMin=6000;
+        private int outputGlsMax=8000;
+        private int scrapGlsMin=5500;
+        private int scrapGlsMax=7500;
+        private int inputPnlMin=6000;
+        private int inputPnlMax=8000;
+        private int outputPnlMin=5500;
+        private int outputPnlMax=7500;
 
         @ApiResultFieldDesc(desc = "厂别如Array,Cell")
         private String factory;
@@ -37,7 +64,7 @@ public class ProductLineData implements Serializable{
         private String productId;
         @ApiResultFieldDesc(desc = "横坐标时间")
         private String periodDate;
-        @ApiResultFieldDesc(desc = "良率")
+        @ApiResultFieldDesc(desc = "良品率")
         private BigDecimal inLine;
 
         public String getFactory() {
@@ -50,7 +77,15 @@ public class ProductLineData implements Serializable{
 
         public BigDecimal getOutputGls() {
             if(outputGls==null){
-                return new BigDecimal(0);
+                if (Constant.showDemoData){
+                    if (Constant.showDemoData){
+                        outputGls = new BigDecimal(RandomUtils.randomInt(outputGlsMin,outputGlsMax));
+                        return outputGls;
+                    }else{
+                        return new BigDecimal(0);
+                    }
+                }
+
             }
             return outputGls;
         }
@@ -61,7 +96,12 @@ public class ProductLineData implements Serializable{
 
         public BigDecimal getScrapGls() {
             if(scrapGls==null){
-                return new BigDecimal(0);
+                if (Constant.showDemoData){
+                    scrapGls = new BigDecimal(RandomUtils.randomInt(scrapGlsMin,scrapGlsMax));
+                    return scrapGls;
+                }else{
+                    return new BigDecimal(0);
+                }
             }
             return scrapGls;
         }
@@ -72,7 +112,12 @@ public class ProductLineData implements Serializable{
 
         public BigDecimal getInputPnl() {
             if(inputPnl==null){
-                return new BigDecimal(0);
+                if (Constant.showDemoData){
+                    inputPnl = new BigDecimal(RandomUtils.randomInt(inputPnlMin,inputPnlMax));
+                    return inputPnl;
+                }else{
+                    return new BigDecimal(0);
+                }
             }
             return inputPnl;
         }
@@ -83,7 +128,12 @@ public class ProductLineData implements Serializable{
 
         public BigDecimal getOutputPnl() {
             if(outputPnl==null){
-                return new BigDecimal(0);
+                if (Constant.showDemoData){
+                    outputPnl = new BigDecimal(RandomUtils.randomInt(outputPnlMin,outputPnlMax));
+                    return outputPnl;
+                }else{
+                    return new BigDecimal(0);
+                }
             }
             return outputPnl;
         }
@@ -108,11 +158,27 @@ public class ProductLineData implements Serializable{
             this.periodDate = periodDate;
         }
         public BigDecimal getInLine() {
-            /*if("SL-OC".equals(getFactory())){
-                inLine = outputPnl.multiply(new BigDecimal("100")).divide(inputPnl,1, RoundingMode.HALF_UP);
+            /*if(factory!=null){
+                BigDecimal outputPnl=getOutputPnl();
+                BigDecimal inputPnl=getInputPnl();
+                BigDecimal outputGls=getOutputGls();
+                BigDecimal scrapGls=getScrapGls();
+                if("SL-OC".equals(factory)){
+                    if(outputPnl.compareTo(new BigDecimal(0))==0){
+                        inLine=new BigDecimal(0);
+                    }else{
+                        inLine = outputPnl.multiply(new BigDecimal("100")).divide(inputPnl,1, RoundingMode.HALF_UP);
+                    }
+                }else{
+                    if(outputGls.compareTo(new BigDecimal(0))==0 && scrapGls.compareTo(new BigDecimal(0))==0){
+                        inLine=new BigDecimal(0);
+                    }else{
+                        BigDecimal total = outputGls.add(scrapGls);
+                        inLine = outputGls.multiply(new BigDecimal("100")).divide(total,1, RoundingMode.HALF_UP);
+                    }
+                }
             }else{
-                BigDecimal total = getOutputGls().add(getScrapGls());
-                inLine = getOutputGls().multiply(new BigDecimal("100")).divide(total,1, RoundingMode.HALF_UP);
+                inLine = new BigDecimal(0);
             }*/
             return inLine;
         }
@@ -130,4 +196,38 @@ public class ProductLineData implements Serializable{
         this.productLineDetailDataList = productLineDetailDataList;
     }
 
+    public BigDecimal getInLine() {
+        if(!CollectionUtils.isEmpty(productLineDetailDataList)) {
+            for (ProductLineDetailData a : productLineDetailDataList) {
+                if(a.factory!=null){
+                    BigDecimal outputPnl= a.getOutputPnl();
+                    BigDecimal inputPnl= a.getInputPnl();
+                    BigDecimal outputGls= a.getOutputGls();
+                    BigDecimal scrapGls= a.getScrapGls();
+                    if("SL-OC".equals(a.factory)){
+                        if(outputPnl.compareTo(new BigDecimal(0))==0){
+                            inLine=new BigDecimal(0);
+                        }else{
+                            inLine = outputPnl.multiply(new BigDecimal("100")).divide(inputPnl,1, RoundingMode.HALF_UP);
+                        }
+                    }else{
+                        if(outputGls.compareTo(new BigDecimal(0))==0 && scrapGls.compareTo(new BigDecimal(0))==0){
+                            inLine=new BigDecimal(0);
+                        }else{
+                            BigDecimal total = outputGls.add(scrapGls);
+                            inLine = outputGls.multiply(new BigDecimal("100")).divide(total,1, RoundingMode.HALF_UP);
+                        }
+                    }
+                }else{
+                    inLine = new BigDecimal(0);
+                }
+            }
+
+        }
+        return inLine;
+    }
+
+    public void setInLine(BigDecimal inLine) {
+        this.inLine = inLine;
+    }
 }
