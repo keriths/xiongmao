@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by luokaiming on 2017/12/18.
@@ -24,4 +25,11 @@ public interface WwtbDataDAO {
     List<WwtbData.WwtbDetailData> queryWwtbDataList(@Param("code") String code,
                                         @Param("beginDate") Date beginDate,
                                         @Param("endDate") Date endDate);
+
+
+    Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
+
+    void addData(Map<String, Object> mapData);
+
+    void updateData(Map<String, Object> mapData);
 }

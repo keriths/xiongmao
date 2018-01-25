@@ -30,4 +30,26 @@
             </if>
     </select>
 
+
+
+    <select id="loadByPrimaryKey" parameterType="map" resultType="map">
+        SELECT * from FREEZEWATEREVERYDAYDATA
+        where
+        TYPE = #{TYPE} and
+        DATADATE = #{DATADATE}
+    </select>
+    <insert id="addData" parameterType="map">
+        INSERT INTO  FREEZEWATEREVERYDAYDATA
+        (TOTALNUM, TYPE,  DATADATE,   CREATEDATE) VALUES
+        (#{TOTALNUM},#{TYPE},#{DATADATE},sysdate)
+    </insert>
+    <update id="updateData" parameterType="map">
+        UPDATE FREEZEWATEREVERYDAYDATA SET
+        TOTALNUM = #{TOTALNUM} ,
+        CREATEDATE = sysdate
+        WHERE
+        TYPE = #{TYPE} and
+        DATADATE = #{DATADATE}
+    </update>
+
 </mapper>

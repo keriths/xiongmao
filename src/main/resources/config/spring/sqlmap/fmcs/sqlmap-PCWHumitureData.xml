@@ -52,4 +52,25 @@
             end
     </select>
 
+
+    <select id="loadByPrimaryKey" parameterType="map" resultType="map">
+        SELECT * from PCWHUMITUREDATA
+        where SYSTEM = #{SYSTEM} and
+        DATADATE = #{DATADATE}
+    </select>
+    <insert id="addData" parameterType="map">
+        INSERT INTO  PCWHUMITUREDATA
+        (SYSTEM,   TEMPERATURE,   PRESSURE,   DATADATE,   CREATEDATE) VALUES
+        (#{SYSTEM},#{TEMPERATURE},#{PRESSURE},#{DATADATE},sysdate)
+    </insert>
+    <update id="updateData" parameterType="map">
+        UPDATE PCWHUMITUREDATA SET
+            TEMPERATURE = #{TEMPERATURE} ,
+            PRESSURE = #{PRESSURE},
+            CREATEDATE = sysdate
+        WHERE
+            SYSTEM = #{SYSTEM} and
+            DATADATE = #{DATADATE}
+    </update>
+
 </mapper>

@@ -52,4 +52,26 @@
             end
     </select>
 
+
+    <select id="loadByPrimaryKey" parameterType="map" resultType="map">
+        SELECT * from GASREALTIMEDATA
+        where GASTYPE = #{GASTYPE} and
+        GASNAME = #{GASNAME} and
+        DATADATE = #{DATADATE}
+    </select>
+    <insert id="addData" parameterType="map">
+        INSERT INTO  GASREALTIMEDATA
+        (GASTYPE,   GASNAME,   DATADATE,   SPEED,   CREATEDATE) VALUES
+        (#{GASTYPE},#{GASNAME},#{DATADATE},#{SPEED},sysdate)
+    </insert>
+    <update id="updateData" parameterType="map">
+        UPDATE GASREALTIMEDATA SET
+        SPEED = #{SPEED} ,
+        CREATEDATE = sysdate
+        WHERE
+        GASTYPE = #{GASTYPE} and
+        GASNAME = #{GASNAME} and
+        DATADATE = #{DATADATE}
+    </update>
+
 </mapper>

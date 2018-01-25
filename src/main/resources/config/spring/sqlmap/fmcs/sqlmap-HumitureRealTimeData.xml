@@ -54,4 +54,26 @@
             end
     </select>
 
+
+    <select id="loadByPrimaryKey" parameterType="map" resultType="map">
+        SELECT * from HUMITUREREALTIMEDATA
+        where FACTORY = #{FACTORY} and
+        DATADATE = #{DATADATE}
+    </select>
+    <insert id="addData" parameterType="map">
+        INSERT INTO  HUMITUREREALTIMEDATA
+        (FACTORY,   TEMPERATURE,   HUMIDITY,   CLEANLINESS,   DATADATE  ,CREATEDATE) VALUES
+        (#{FACTORY},#{TEMPERATURE},#{HUMIDITY},#{CLEANLINESS},#{DATADATE},sysdate)
+    </insert>
+    <update id="updateData" parameterType="map">
+        UPDATE HUMITUREREALTIMEDATA SET
+            TEMPERATURE = #{TEMPERATURE} ,
+            HUMIDITY = #{HUMIDITY},
+            CLEANLINESS = #{CLEANLINESS},
+            CREATEDATE = sysdate
+        WHERE
+            FACTORY = #{FACTORY} and
+            DATADATE = #{DATADATE}
+    </update>
+
 </mapper>

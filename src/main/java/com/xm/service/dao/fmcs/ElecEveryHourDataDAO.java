@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by wangshuna on 2017/11/30.
@@ -40,4 +41,12 @@ public interface ElecEveryHourDataDAO {
                                                @Param("endDate") Date endDate
 
     );
+
+
+
+    Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
+
+    void addData(Map<String, Object> mapData);
+
+    void updateData(Map<String, Object> mapData);
 }

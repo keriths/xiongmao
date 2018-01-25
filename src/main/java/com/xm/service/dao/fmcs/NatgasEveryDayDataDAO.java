@@ -6,11 +6,12 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by luokaiming on 2017/11/30.
  */
-@Repository
+@Repository("natgasEveryDayDataDAO")
 public interface NatgasEveryDayDataDAO {
 
     //查询气统计数据
@@ -18,5 +19,12 @@ public interface NatgasEveryDayDataDAO {
                                                                               @Param("gasType")String gasType,
                                                                               @Param("beginDate") Date beginDate,
                                                                               @Param("endDate") Date endDate);
+
+
+    Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
+
+    void addData(Map<String, Object> mapData);
+
+    void updateData(Map<String, Object> mapData);
 
 }

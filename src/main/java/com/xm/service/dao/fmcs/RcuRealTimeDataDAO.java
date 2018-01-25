@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by wangshuna on 2017/12/22.
@@ -20,5 +21,12 @@ public interface RcuRealTimeDataDAO {
      */
     List<RcuRealTimeData.RcuRealTimeDetailData> queryRCURealTimeData(@Param("systemTypeList")List<String> systemTypeList,@Param("beginDate") Date beginDate,
                                                                      @Param("endDate") Date endDate);
+
+
+    Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
+
+    void addData(Map<String, Object> mapData);
+
+    void updateData(Map<String, Object> mapData);
 
 }

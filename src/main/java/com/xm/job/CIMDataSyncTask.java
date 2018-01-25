@@ -173,7 +173,7 @@ public class CIMDataSyncTask {
      * 根据主键查询数据是否存在，已经存在更新
      * 不存在新增加
      */
-    @Scheduled(fixedRate = 1000*5)
+    //@Scheduled(fixedRate = 1000*5)
     public void ProductOcGoodRateDataSync(){
         int offset = 0;
         int limit = 1000;

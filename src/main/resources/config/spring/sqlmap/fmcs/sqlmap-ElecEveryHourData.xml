@@ -73,4 +73,27 @@
             </if>
     </select>
 
+
+
+    <select id="loadByPrimaryKey" parameterType="map" resultType="map">
+        SELECT * from ELECEVERYHOURDATA
+        where PLACETYPE = #{PLACETYPE} and
+        PLACE = #{PLACE} and
+        DATADATE = #{DATADATE}
+    </select>
+    <insert id="addData" parameterType="map">
+        INSERT INTO  ELECEVERYHOURDATA
+        (PLACETYPE,   PLACE,   TOTALNUM,   DATADATE,   CREATEDATE) VALUES
+        (#{PLACETYPE},#{PLACE},#{TOTALNUM},#{DATADATE},sysdate)
+    </insert>
+    <update id="updateData" parameterType="map">
+        UPDATE ELECEVERYHOURDATA SET
+            TOTALNUM = #{TOTALNUM} ,
+            CREATEDATE = sysdate
+        WHERE
+            PLACETYPE = #{PLACETYPE} and
+            PLACE = #{PLACE} and
+            DATADATE = #{DATADATE}
+    </update>
+
 </mapper>

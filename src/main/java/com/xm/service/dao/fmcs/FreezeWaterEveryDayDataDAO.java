@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/11/30.
@@ -24,4 +25,11 @@ public interface FreezeWaterEveryDayDataDAO {
                                                           @Param("beginDate") Date beginDate,
                                                           @Param("endDate") Date endDate,
                                                           @Param("waterType")String waterType);
+
+
+    Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
+
+    void addData(Map<String, Object> mapData);
+
+    void updateData(Map<String, Object> mapData);
 }

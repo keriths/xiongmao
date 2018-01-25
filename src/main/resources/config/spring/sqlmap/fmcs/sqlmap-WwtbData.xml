@@ -49,4 +49,24 @@
             end
     </select>
 
+
+    <select id="loadByPrimaryKey" parameterType="map" resultType="map">
+        SELECT * from WWTBDATA
+        where CODE = #{CODE} and
+        DATADATE = #{DATADATE}
+    </select>
+    <insert id="addData" parameterType="map">
+        INSERT INTO  WWTBDATA
+        (CODE,   VALUE,   DATADATE,   CREATEDAT) VALUES
+        (#{CODE},#{VALUE},#{DATADATE},sysdate)
+    </insert>
+    <update id="updateData" parameterType="map">
+        UPDATE WWTBDATA SET
+            VALUE = #{VALUE} ,
+            CREATEDAT = sysdate
+        WHERE
+            CODE = #{CODE} and
+            DATADATE = #{DATADATE}
+    </update>
+
 </mapper>

@@ -46,4 +46,24 @@
             end
     </select>
 
+
+
+    <select id="loadByPrimaryKey" parameterType="map" resultType="map">
+        SELECT * from TAPWATERREALTIMEDATA
+        where
+          DATADATE = #{DATADATE}
+    </select>
+    <insert id="addData" parameterType="map">
+        INSERT INTO  TAPWATERREALTIMEDATA
+        (SPEED,   DATADATE,   CREATEDATE) VALUES
+        (#{SPEED},#{DATADATE},sysdate)
+    </insert>
+    <update id="updateData" parameterType="map">
+        UPDATE TAPWATERREALTIMEDATA SET
+            SPEED = #{SPEED} ,
+            CREATEDATE = sysdate
+        WHERE
+            DATADATE = #{DATADATE}
+    </update>
+
 </mapper>

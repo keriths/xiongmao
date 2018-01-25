@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by wangshsuna on 2017/11/30.
@@ -22,4 +23,10 @@ public interface PureWaterRealTimeDataDAO {
     List<PureWaterRealTimeData.PureWaterRealTimeDetailData> pureWaterRealTimeData(@Param("waterType") String waterType,
                                                       @Param("beginDate") Date beginDate,
                                                       @Param("endDate") Date endDate);
+
+    Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
+
+    void addData(Map<String, Object> mapData);
+
+    void updateData(Map<String, Object> mapData);
 }

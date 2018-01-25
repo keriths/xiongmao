@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by luokaiming on 2017/11/30.
@@ -20,5 +21,12 @@ public interface HumitureDataDAO {
      */
     List<HumitureDate.HtPeDate> queryFactoryHumiture(
             @Param("factory") String factory);
+
+
+    Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
+
+    void addData(Map<String, Object> mapData);
+
+    void updateData(Map<String, Object> mapData);
 
 }

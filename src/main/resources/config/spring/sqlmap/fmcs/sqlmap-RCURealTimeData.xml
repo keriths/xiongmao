@@ -50,4 +50,27 @@
         end
     </select>
 
+
+    <select id="loadByPrimaryKey" parameterType="map" resultType="map">
+        SELECT * from RCUREALTIMEDATA
+        where SYSTEMTYPE = #{SYSTEMTYPE} and
+        SYSTEMNAME = #{SYSTEMNAME} and
+        DATADATE = #{DATADATE}
+    </select>
+    <insert id="addData" parameterType="map">
+        INSERT INTO  RCUREALTIMEDATA
+        (SYSTEMTYPE,   SYSTEMNAME,   STATUS,   TEMPERATURE,   DATADATE,   CREATEDATE) VALUES
+        (#{SYSTEMTYPE},#{SYSTEMNAME},#{STATUS},#{TEMPERATURE},#{DATADATE},sysdate)
+    </insert>
+    <update id="updateData" parameterType="map">
+        UPDATE RCUREALTIMEDATA SET
+            STATUS = #{STATUS} ,
+            TEMPERATURE = #{TEMPERATURE},
+            CREATEDATE = sysdate
+        WHERE
+            SYSTEMTYPE = #{SYSTEMTYPE} and
+            SYSTEMNAME = #{SYSTEMNAME} and
+            DATADATE = #{DATADATE}
+    </update>
+
 </mapper>

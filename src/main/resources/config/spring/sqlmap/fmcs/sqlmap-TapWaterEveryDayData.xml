@@ -27,4 +27,24 @@
             </if>
     </select>
 
+
+
+    <select id="loadByPrimaryKey" parameterType="map" resultType="map">
+        SELECT * from TAPWATEREVERYDAYDATA
+        where
+        DATADATE = #{DATADATE}
+    </select>
+    <insert id="addData" parameterType="map">
+        INSERT INTO  TAPWATEREVERYDAYDATA
+        (TOTALNUM,   DATADATE,   CREATEDATE) VALUES
+        (#{TOTALNUM},#{DATADATE},sysdate)
+    </insert>
+    <update id="updateData" parameterType="map">
+        UPDATE TAPWATEREVERYDAYDATA SET
+        TOTALNUM = #{TOTALNUM} ,
+        CREATEDATE = sysdate
+        WHERE
+        DATADATE = #{DATADATE}
+    </update>
+
 </mapper>

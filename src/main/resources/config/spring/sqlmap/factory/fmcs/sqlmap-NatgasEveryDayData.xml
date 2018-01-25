@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.factory.fmcs.FactoryNatgasEveryDayDataDAO" >
+
+    <select id="querySyncData" parameterType="map" resultType="map">
+        <![CDATA[
+
+            select * from (
+              select n.*,rownum as rn
+              from NatgasEveryDayData n
+              where PERIODDATE < sysdate+1 and
+                PERIODDATE > sysdate -3 and
+                rownum <= #{offset}+#{limit}
+            ) a where a.rn > #{offset}
+
+        ]]>
+    </select>
+
+</mapper>

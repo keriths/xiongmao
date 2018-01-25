@@ -53,4 +53,25 @@
         ) GROUP BY periodDate,dataDate
     </select>
 
+
+    <select id="loadByPrimaryKey" parameterType="map" resultType="map">
+        SELECT * from PUREWATERREALTIMEDATA
+        where
+            TYPE = #{TYPE} and
+            DATADATE = #{DATADATE}
+    </select>
+    <insert id="addData" parameterType="map">
+        INSERT INTO  PUREWATERREALTIMEDATA
+        (SPEED, TYPE,  DATADATE,   CREATEDATE) VALUES
+        (#{SPEED},#{TYPE},#{DATADATE},sysdate)
+    </insert>
+    <update id="updateData" parameterType="map">
+        UPDATE PUREWATERREALTIMEDATA SET
+            SPEED = #{SPEED} ,
+            CREATEDATE = sysdate
+        WHERE
+            TYPE = #{TYPE} and
+            DATADATE = #{DATADATE}
+    </update>
+
 </mapper>
