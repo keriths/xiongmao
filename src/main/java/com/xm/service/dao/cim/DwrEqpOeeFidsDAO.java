@@ -7,6 +7,7 @@ package com.xm.service.dao.cim;
 
         import java.util.Date;
         import java.util.List;
+        import java.util.Map;
 
 /**
  * Created by wangshuna on 2017/11/14.
@@ -29,5 +30,9 @@ public interface DwrEqpOeeFidsDAO {
             @Param("endDate")Date endDate
     );
 
+    Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
 
+    void addData(Map<String, Object> mapData);
+
+    void updateData(Map<String, Object> mapData);
 }

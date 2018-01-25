@@ -44,4 +44,28 @@
             FACTORY
     </select>
 
+    <select id="loadByPrimaryKey" parameterType="map" resultType="map">
+        SELECT * from DWS_PRODUCT_OUTPUT_FIDS
+        where FACTORY = #{FACTORY} and
+        PERIODDATE = #{PERIODDATE} and
+        PRODUCTTYPE = #{PRODUCTTYPE} and
+        PRODUCTID = #{PRODUCTID}
+    </select>
+    <insert id="addData" parameterType="map">
+        INSERT INTO  DWS_PRODUCT_OUTPUT_FIDS
+        (FACTORY,   PERIODDATE,   PRODUCTTYPE,   PRODUCTID,   PLAN_OUTPUT_PNL_QTY,   ACTUAL_OUTPUT_PNL_QTY,   INTERFACE_TIME) VALUES
+        (#{FACTORY},#{PERIODDATE},#{PRODUCTTYPE},#{PRODUCTID},#{PLAN_OUTPUT_PNL_QTY},#{ACTUAL_OUTPUT_PNL_QTY},sysdate)
+    </insert>
+    <update id="updateData" parameterType="map">
+        UPDATE DWS_PRODUCT_OUTPUT_FIDS SET
+        PLAN_OUTPUT_PNL_QTY = #{PLAN_OUTPUT_PNL_QTY} ,
+        ACTUAL_OUTPUT_PNL_QTY = #{ACTUAL_OUTPUT_PNL_QTY},
+        INTERFACE_TIME = sysdate
+        WHERE
+        FACTORY = #{FACTORY} and
+        PERIODDATE = #{PERIODDATE} and
+        PRODUCTTYPE = #{PRODUCTTYPE} and
+        PRODUCTID = #{PRODUCTID}
+    </update>
+
 </mapper>

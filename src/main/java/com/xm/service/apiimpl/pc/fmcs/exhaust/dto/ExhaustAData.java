@@ -46,6 +46,9 @@ public class ExhaustAData {
     }
 
     public String getHz() {
+        if(hz==null){
+            return "1";
+        }
         return hz;
     }
 

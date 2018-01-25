@@ -45,5 +45,29 @@
         EQP_STATUS
     </select>
 
+    <select id="loadByPrimaryKey" parameterType="map" resultType="map">
+        SELECT * from DWR_EQP_OEE_FIDS
+        where FACTORY = #{FACTORY} and
+        PERIODDATE = #{PERIODDATE} and
+        EQP_TYPE = #{EQP_TYPE} and
+        EQP_ID = #{EQP_ID} and
+        EQP_STATUS = #{EQP_STATUS}
+    </select>
+    <insert id="addData" parameterType="map">
+        INSERT INTO  DWR_EQP_OEE_FIDS
+        (FACTORY,   PERIODDATE,   EQP_TYPE,   EQP_ID,   EQP_STATUS,   STATUS_DURATION,   INTERFACE_TIME) VALUES
+        (#{FACTORY},#{PERIODDATE},#{EQP_TYPE},#{EQP_ID},#{EQP_STATUS},#{STATUS_DURATION},sysdate)
+    </insert>
+    <update id="updateData" parameterType="map">
+        UPDATE DWR_EQP_OEE_FIDS SET
+        STATUS_DURATION = #{STATUS_DURATION} ,
+        INTERFACE_TIME = sysdate
+        WHERE
+        FACTORY = #{FACTORY} and
+        PERIODDATE = #{PERIODDATE} and
+        EQP_TYPE = #{EQP_TYPE} and
+        EQP_ID = #{EQP_ID} and
+        EQP_STATUS = #{EQP_STATUS}
+    </update>
 
 </mapper>

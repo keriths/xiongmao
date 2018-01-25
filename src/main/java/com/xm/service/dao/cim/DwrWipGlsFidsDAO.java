@@ -10,9 +10,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
- * Created by Administrator on 2017/11/22.
+ * Created by wangshuna on 2017/11/22.
  */
 @Repository("dwrWipGlsFidsDAO")
 public interface DwrWipGlsFidsDAO {
@@ -29,4 +30,9 @@ public interface DwrWipGlsFidsDAO {
                                                                                    @Param("stepIdList") List<String> stepIdList,
                                                                                    @Param("beginDate") Date beginDate,
                                                                                    @Param("endDate") Date endDate);
+    Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
+
+    void addData(Map<String, Object> mapData);
+
+    void updateData(Map<String, Object> mapData);
 }

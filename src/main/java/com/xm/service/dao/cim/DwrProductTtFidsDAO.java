@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by fanshuai on 17/11/15.
@@ -24,4 +25,10 @@ public interface DwrProductTtFidsDAO {
             @Param("beginDate")Date beginDate,
             @Param("endDate")Date endDate
     );
+
+    Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
+
+    void addData(Map<String, Object> mapData);
+
+    void updateData(Map<String, Object> mapData);
 }
