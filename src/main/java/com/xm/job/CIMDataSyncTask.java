@@ -127,10 +127,10 @@ public class CIMDataSyncTask {
             for (Map<String,Object> mapData : mapDataList){
                 Map<String,Object> data = dwrWipGlsFidsDAO.loadByPrimaryKey(mapData);
                 if (data==null){
-                    //添加
+                    //添加  添加时把在库容量上限下限读出来一起同步
                     dwrWipGlsFidsDAO.addData(mapData);
                 }else {
-                    //更新
+                    //更新  把data中的数据，仅仅对数据更新一下，然后更新
                     dwrWipGlsFidsDAO.updateData(mapData);
                 }
             }
