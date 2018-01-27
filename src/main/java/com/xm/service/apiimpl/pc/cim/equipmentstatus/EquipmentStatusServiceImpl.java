@@ -30,7 +30,7 @@ import java.util.Map;
  * Created by fanshuai on 17/10/24.
  */
 @Service("EquipmentRealTimeStatusService")
-@ApiServiceDoc(name = "CIM1_设备实时状态（****不可用数据还没确认好****）")
+@ApiServiceDoc(name = "CIM1_设备实时状态（设备比例公式还没提供，目前数据随便用了一个公式,还需要和消息对接联调）")
 public class EquipmentStatusServiceImpl {
     @Resource(name = "dwrEquipmentStatusFidsDAO")
     public DwrEquipmentStatusFidsDAO dwrEquipmentStatusFidsDAO;
@@ -57,7 +57,7 @@ public class EquipmentStatusServiceImpl {
         }
     }
 
-    @ApiMethodDoc(apiCode = "CIM_ThroughputData",name = "过货量推移数据接口")
+    @ApiMethodDoc(apiCode = "CIM_ThroughputData",name = "过货量推移数据接口(OK 几个数值的公式还要替换)")
     public EquipmentThroughputDataRetDTO equipmentThroughput(@ApiParamDoc(desc = "厂别名称如Array,Cell,CF,SL-OC")String factory){
         EquipmentThroughputDataRetDTO resultDto = new EquipmentThroughputDataRetDTO();
         try{
@@ -91,7 +91,7 @@ public class EquipmentStatusServiceImpl {
     }
 
 
-    @ApiMethodDoc(apiCode = "CIM_SyncEqptState",name = "同步设备实时状态")
+    @ApiMethodDoc(apiCode = "CIM_SyncEqptState",name = "设备实时状态数据同步(同步数据使用，前端不用)")
     public void equipmentStatusUpdate(String msgContext){
         try {
             EquipmentStatusData equipmentStatusData=new EquipmentStatusData();
