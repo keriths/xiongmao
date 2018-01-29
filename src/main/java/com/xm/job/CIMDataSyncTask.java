@@ -17,18 +17,25 @@ import java.util.Map;
  */
 @Component
 public class CIMDataSyncTask {
+    //---------------投入达成率------------
     @Autowired
     private FactoryDwsProductInputFidsDAO factoryDwsProductInputFidsDAO;
     @Autowired
     private DwsProductInputFidsDAO dwsProductInputFidsDAO;
+
+    //---------------产出达成率------------
     @Resource
     private FactoryDwsProductOutputFidsDAO factoryDwsProductOutputFidsDAO;
     @Resource
     private DwsProductOutputFidsDAO outputcompletionDAO;
+
+    //---------------在制品------------
     @Resource
     private FactoryDwrWipGlsFidsDAO factoryDwrWipGlsFidsDAO;
     @Resource
     private DwrWipGlsFidsDAO dwrWipGlsFidsDAO;
+
+    //---------------良品率------------
     @Resource
     private FactoryDwsProductLineYieldFidsDAO factoryDwsProductLineYieldFidsDAO;
     @Resource
@@ -37,14 +44,20 @@ public class CIMDataSyncTask {
     private FactoryDwsProductOcYieldFidsDAO factoryDwsProductOcYieldFidsDAO;
     @Resource
     private DwsProductOcYieldFidsDAO dwsProductOcYieldFidsDAO;
+
+    //---------------CycleTime------------
     @Resource
     private FactoryDwrProductCtFidsDAO factoryDwrProductCtFidsDAO;
     @Resource
     private DwrProductCtFidsDAO dwrProductCtFidsDAO;
+
+    //---------------稼动率------------
     @Resource
     private FactoryDwrEqpOeeFidsDAO factoryDwrEqpOeeFidsDAO;
     @Resource
     private DwrEqpOeeFidsDAO dwrEqpOeeFidsDAO;
+
+    //---------------TactTime------------
     @Resource
     private FactoryDwrProductTtFidsDAO factoryDwrProductTtFidsDAO;
     @Autowired
@@ -81,10 +94,8 @@ public class CIMDataSyncTask {
     }
 
     /**
-     * 产出达成率数据同步，数据按天同步，同步任务每小时跑一次，每次把前三天的数据检查一遍
-     * 首先把工厂数据库前三天的数据查询出来
-     * 根据主键查询数据是否存在，已经存在更新
-     * 不存在新增加
+     * 产出达成率数据同步
+     * 已测通
      */
     //@Scheduled(fixedRate = 1000*5)
     public void OutputCompletionDataSync(){
@@ -110,10 +121,8 @@ public class CIMDataSyncTask {
     }
 
     /**
-     * 在制品数据同步，数据按天同步，同步任务每小时跑一次，每次把前三天的数据检查一遍
-     * 首先把工厂数据库前三天的数据查询出来
-     * 根据主键查询数据是否存在，已经存在更新
-     * 不存在新增加
+     * 在制品数据同步
+     * 已测通
      */
     //@Scheduled(fixedRate = 1000*5)
     public void GoodInProcessDataSync(){
@@ -139,10 +148,8 @@ public class CIMDataSyncTask {
     }
 
     /**
-     * 良品率数据同步，数据按天同步，同步任务每小时跑一次，每次把前三天的数据检查一遍
-     * 首先把工厂数据库前三天的数据查询出来
-     * 根据主键查询数据是否存在，已经存在更新
-     * 不存在新增加
+     * 良品率数据同步
+     * 已测通
      */
     //@Scheduled(fixedRate = 1000*5)
     public void ProductLineGoodRateDataSync(){
@@ -168,10 +175,8 @@ public class CIMDataSyncTask {
     }
 
     /**
-     * 单个良品率数据同步，数据按天同步，同步任务每小时跑一次，每次把前三天的数据检查一遍
-     * 首先把工厂数据库前三天的数据查询出来
-     * 根据主键查询数据是否存在，已经存在更新
-     * 不存在新增加
+     * 单个良品率数据同步
+     * 已测通
      */
     //@Scheduled(fixedRate = 1000*5)
     public void ProductOcGoodRateDataSync(){
@@ -197,10 +202,8 @@ public class CIMDataSyncTask {
     }
 
     /**
-     * CycleTime数据同步，数据按天同步，同步任务每小时跑一次，每次把前三天的数据检查一遍
-     * 首先把工厂数据库前三天的数据查询出来
-     * 根据主键查询数据是否存在，已经存在更新
-     * 不存在新增加
+     * CycleTime数据同步
+     * 已测通
      */
     //@Scheduled(fixedRate = 1000*5)
     public void CycleTimeDataSync(){
@@ -226,10 +229,8 @@ public class CIMDataSyncTask {
     }
 
     /**
-     * 稼动率数据同步，数据按天同步，同步任务每小时跑一次，每次把前三天的数据检查一遍
-     * 首先把工厂数据库前三天的数据查询出来
-     * 根据主键查询数据是否存在，已经存在更新
-     * 不存在新增加
+     * 稼动率数据同步
+     * 已测通
      */
     //@Scheduled(fixedRate = 1000*5)
     public void OeeDataSync(){
@@ -255,10 +256,8 @@ public class CIMDataSyncTask {
     }
 
     /**
-     * TactTime数据同步，数据按天同步，同步任务每小时跑一次，每次把前三天的数据检查一遍
-     * 首先把工厂数据库前三天的数据查询出来
-     * 根据主键查询数据是否存在，已经存在更新
-     * 不存在新增加
+     * TactTime数据同步
+     * 已测通
      */
     //@Scheduled(fixedRate = 1000*5)
     public void TactTimeDataSync(){
