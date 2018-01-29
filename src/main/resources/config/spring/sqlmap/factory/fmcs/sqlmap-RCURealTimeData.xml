@@ -8,8 +8,8 @@
         select * from (
           select r.*,rownum as rn
           from RCUREALTIMEDATA r
-          where PERIODDATE < sysdate+1 and
-            PERIODDATE > sysdate -3 and
+          where DATADATE < sysdate+1 and
+            DATADATE > sysdate -3 and
             rownum <= #{offset}+#{limit}
         ) a where a.rn > #{offset}
 

@@ -127,10 +127,10 @@ public class FMCSDataSyncTask {
 
     /**
      * 市政自来水实时数据同步
+     * 已测通
      */
   // @Scheduled(fixedRate = 1000*5)
     public void TapWaterRealTimeDataSync(){
-       System.out.println("abc");
         int offset = 0;
         int limit = 1000;
         while (true){
@@ -155,10 +155,10 @@ public class FMCSDataSyncTask {
 
     /**
      * 市政自来水统计数据同步
+     * 已测通
      */
-   // @Scheduled(fixedRate = 1000*5)
+    //@Scheduled(fixedRate = 1000*5)
     public void TapWaterEveryDayDataSync(){
-        System.out.println("abc");
         int offset = 0;
         int limit = 1000;
         while (true){
@@ -183,10 +183,10 @@ public class FMCSDataSyncTask {
 
     /**
      * 纯水实时数据同步
+     * 已测通
      */
     //@Scheduled(fixedRate = 1000*5)
     public void PureWaterRealTimeDataSync(){
-        System.out.println("abc");
         int offset = 0;
         int limit = 1000;
         while (true){
@@ -211,10 +211,10 @@ public class FMCSDataSyncTask {
 
     /**
      * 纯水统计数据同步
+     * 已测通
      */
     //@Scheduled(fixedRate = 1000*5)
     public void PureWaterEveryDayDataSync(){
-        System.out.println("abc");
         int offset = 0;
         int limit = 1000;
         while (true){
@@ -239,10 +239,10 @@ public class FMCSDataSyncTask {
 
     /**
      * 冷冻水实时数据同步
+     * 已测通
      */
     //@Scheduled(fixedRate = 1000*5)
     public void FreezeWaterRealTimeDataSync(){
-        System.out.println("abc");
         int offset = 0;
         int limit = 1000;
         while (true){
@@ -267,10 +267,10 @@ public class FMCSDataSyncTask {
 
     /**
      * 冷冻水统计数据同步
+     *已测通
      */
     //@Scheduled(fixedRate = 1000*5)
     public void FreezeWaterEveryDayDataSync(){
-        System.out.println("abc");
         int offset = 0;
         int limit = 1000;
         while (true){
@@ -295,10 +295,10 @@ public class FMCSDataSyncTask {
 
     /**
      * 电数据同步
+     * 已测通
      */
-    // @Scheduled(fixedRate = 1000*5)
+    //@Scheduled(fixedRate = 1000*5)
     public void ElecEveryHourDataSync(){
-        System.out.println("abc");
         int offset = 0;
         int limit = 1000;
         while (true){
@@ -323,10 +323,10 @@ public class FMCSDataSyncTask {
 
     /**
      * 天然气蒸汽实时数据同步
+     * 已测通
      */
-    // @Scheduled(fixedRate = 1000*5)
+    //@Scheduled(fixedRate = 1000*5)
     public void NatgasRealTimeDataSync(){
-        System.out.println("abc");
         int offset = 0;
         int limit = 1000;
         while (true){
@@ -350,10 +350,10 @@ public class FMCSDataSyncTask {
 
     /**
      * 天然气蒸汽统计数据同步
+     * 已测通
      */
-    // @Scheduled(fixedRate = 1000*5)
+    //@Scheduled(fixedRate = 1000*5)
     public void NatgasEveryDayDataSync(){
-        System.out.println("abc");
         int offset = 0;
         int limit = 1000;
         while (true){
@@ -377,10 +377,10 @@ public class FMCSDataSyncTask {
 
     /**
      * 大宗气实时数据同步
+     * 已测通
      */
-    // @Scheduled(fixedRate = 1000*5)
+    //@Scheduled(fixedRate = 1000*5)
     public void GasRealTimeDataSync(){
-        System.out.println("abc");
         int offset = 0;
         int limit = 1000;
         while (true){
@@ -404,10 +404,10 @@ public class FMCSDataSyncTask {
 
     /**
      * 大宗气统计数据同步
+     * 已测通
      */
-    // @Scheduled(fixedRate = 1000*5)
+    //@Scheduled(fixedRate = 1000*5)
     public void GasEveryDayDataSync(){
-        System.out.println("abc");
         int offset = 0;
         int limit = 1000;
         while (true){
@@ -432,10 +432,10 @@ public class FMCSDataSyncTask {
 
     /**
      * 某个厂所有区设备温湿度数据同步
+     * 已测通
      */
-    // @Scheduled(fixedRate = 1000*5)
+    @Scheduled(fixedRate = 1000*5)
     public void HumitureDataSync(){
-        System.out.println("abc");
         int offset = 0;
         int limit = 1000;
         while (true){
@@ -459,10 +459,10 @@ public class FMCSDataSyncTask {
 
     /**
      * 工厂实时温湿度数据同步
+     * 已测通
      */
-    // @Scheduled(fixedRate = 1000*5)
+    @Scheduled(fixedRate = 1000*5)
     public void HumitureRealTimeDataSync(){
-        System.out.println("abc");
         int offset = 0;
         int limit = 1000;
         while (true){
@@ -487,10 +487,10 @@ public class FMCSDataSyncTask {
 
     /**
      * PCW设备温度、压力数据同步
+     * 已测通
      */
-    // @Scheduled(fixedRate = 1000*5)
+    //@Scheduled(fixedRate = 1000*5)
     public void PcwHumitureDataSync(){
-        System.out.println("abc");
         int offset = 0;
         int limit = 1000;
         while (true){
@@ -514,10 +514,10 @@ public class FMCSDataSyncTask {
 
     /**
      * MAU系统数据同步
+     * 已测通
      */
-    // @Scheduled(fixedRate = 1000*5)
+    //@Scheduled(fixedRate = 1000*5)
     public void MauSystemDataSync(){
-        System.out.println("abc");
         int offset = 0;
         int limit = 1000;
         while (true){
@@ -541,10 +541,10 @@ public class FMCSDataSyncTask {
 
     /**
      * MAU实时温度露点数据同步
+     * 已测通
      */
-    // @Scheduled(fixedRate = 1000*5)
+    //@Scheduled(fixedRate = 1000*5)
     public void MauRealTimeDataSync(){
-        System.out.println("abc");
         int offset = 0;
         int limit = 1000;
         while (true){
@@ -568,10 +568,10 @@ public class FMCSDataSyncTask {
 
     /**
      * RCU系统数据同步
+     * 已测通
      */
-    // @Scheduled(fixedRate = 1000*5)
+    //@Scheduled(fixedRate = 1000*5)
     public void RcuSystemDataSync(){
-        System.out.println("abc");
         int offset = 0;
         int limit = 1000;
         while (true){
@@ -595,10 +595,10 @@ public class FMCSDataSyncTask {
 
     /**
      * RCU实时温度露点数据同步
+     * 已测通
      */
-    // @Scheduled(fixedRate = 1000*5)
+    //@Scheduled(fixedRate = 1000*5)
     public void RcuRealTimeDataSync(){
-        System.out.println("abc");
         int offset = 0;
         int limit = 1000;
         while (true){
@@ -623,10 +623,10 @@ public class FMCSDataSyncTask {
 
     /**
      * UPW状态温度电阻率等数据同步
+     * 已测通
      */
-    // @Scheduled(fixedRate = 1000*5)
+    //@Scheduled(fixedRate = 1000*5)
     public void UpwBDataSync(){
-        System.out.println("abc");
         int offset = 0;
         int limit = 1000;
         while (true){
@@ -650,10 +650,10 @@ public class FMCSDataSyncTask {
 
     /**
      * WWT实时数据同步
+     * 已测通
      */
-    // @Scheduled(fixedRate = 1000*5)
+    //@Scheduled(fixedRate = 1000*5)
     public void WwtBDataSync(){
-        System.out.println("abc");
         int offset = 0;
         int limit = 1000;
         while (true){

@@ -57,13 +57,13 @@
     </select>
     <insert id="addData" parameterType="map">
         INSERT INTO  WWTBDATA
-        (CODE,   VALUE,   DATADATE,   CREATEDAT) VALUES
+        (CODE,   VALUE,   DATADATE,   CREATEDATE) VALUES
         (#{CODE},#{VALUE},#{DATADATE},sysdate)
     </insert>
     <update id="updateData" parameterType="map">
         UPDATE WWTBDATA SET
             VALUE = #{VALUE} ,
-            CREATEDAT = sysdate
+            CREATEDATE = sysdate
         WHERE
             CODE = #{CODE} and
             DATADATE = #{DATADATE}

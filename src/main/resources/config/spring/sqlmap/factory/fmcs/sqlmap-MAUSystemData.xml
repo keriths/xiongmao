@@ -6,10 +6,10 @@
         <![CDATA[
 
         select * from (
-          select s.*,rownum as rn
-          from SYSTEMNAME s
-          where PERIODDATE < sysdate+1 and
-            PERIODDATE > sysdate -3 and
+          select m.*,rownum as rn
+          from MAUSYSTEMDATA m
+          where DATADATE < sysdate+1 and
+            DATADATE > sysdate -3 and
             rownum <= #{offset}+#{limit}
         ) a where a.rn > #{offset}
 

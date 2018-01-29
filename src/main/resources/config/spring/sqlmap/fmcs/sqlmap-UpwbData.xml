@@ -21,8 +21,8 @@
     </select>
     <insert id="addData" parameterType="map">
         INSERT INTO  UPWBDATA
-        (CODE,   STATUS,   TEMPERATURE,   RESISTIVITY,   DATADATE,   PARTICLE,   INTERTOCFACE_TIME,  UPDATEDATE) VALUES
-        (#{CODE},#{STATUS},#{TEMPERATURE},#{RESISTIVITY},#{DATADATE},#{PARTICLE},,#{INTERTOCFACE_TIME},sysdate)
+        (CODE,   STATUS,   TEMPERATURE,   RESISTIVITY,   DATADATE,   PARTICLE,   TOC,  UPDATEDATE) VALUES
+        (#{CODE},#{STATUS},#{TEMPERATURE},#{RESISTIVITY},#{DATADATE},#{PARTICLE},#{TOC},sysdate)
     </insert>
     <update id="updateData" parameterType="map">
         UPDATE UPWBDATA SET
