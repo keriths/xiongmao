@@ -24,31 +24,10 @@ public class ProductLineData implements Serializable{
 
         public ProductLineDetailData(){}
 
-        public ProductLineDetailData(String periodDate){
-            this.periodDate=periodDate;
-        }
-        public ProductLineDetailData( String periodDate,String factory,int outputGlsMin,int outputGlsMax,int scrapGlsMin,int scrapGlsMax,
-                                        int inputPnlMin,int inputPnlMax,int outputPnlMin,int outputPnlMax){
+        public ProductLineDetailData(String periodDate,String factory){
             this.periodDate=periodDate;
             this.factory=factory;
-            this.outputGlsMin = outputGlsMin;
-            this.outputGlsMax = outputGlsMax;
-            this.scrapGlsMin = scrapGlsMin;
-            this.scrapGlsMax = scrapGlsMax;
-            this.inputPnlMin = inputPnlMin;
-            this.inputPnlMax = inputPnlMax;
-            this.outputPnlMin = outputPnlMin;
-            this.outputPnlMax = outputPnlMax;
         }
-
-        private int outputGlsMin=6000;
-        private int outputGlsMax=8000;
-        private int scrapGlsMin=5500;
-        private int scrapGlsMax=7500;
-        private int inputPnlMin=6000;
-        private int inputPnlMax=8000;
-        private int outputPnlMin=5500;
-        private int outputPnlMax=7500;
 
         @ApiResultFieldDesc(desc = "厂别如Array,Cell")
         private String factory;
@@ -77,7 +56,7 @@ public class ProductLineData implements Serializable{
             if(outputGls==null){
                 if (Constant.showDemoData){
                     if (Constant.showDemoData){
-                        outputGls = new BigDecimal(RandomUtils.randomInt(outputGlsMin,outputGlsMax));
+                        outputGls = new BigDecimal(RandomUtils.randomInt(5000,5200));
                         return outputGls;
                     }else{
                         return new BigDecimal(0);
@@ -95,7 +74,7 @@ public class ProductLineData implements Serializable{
         public BigDecimal getScrapGls() {
             if(scrapGls==null){
                 if (Constant.showDemoData){
-                    scrapGls = new BigDecimal(RandomUtils.randomInt(scrapGlsMin,scrapGlsMax));
+                    scrapGls = new BigDecimal(RandomUtils.randomInt(100,200));
                     return scrapGls;
                 }else{
                     return new BigDecimal(0);
@@ -111,7 +90,7 @@ public class ProductLineData implements Serializable{
         public BigDecimal getInputPnl() {
             if(inputPnl==null){
                 if (Constant.showDemoData){
-                    inputPnl = new BigDecimal(RandomUtils.randomInt(inputPnlMin,inputPnlMax));
+                    inputPnl = new BigDecimal(RandomUtils.randomInt(5000,5200));
                     return inputPnl;
                 }else{
                     return new BigDecimal(0);
@@ -127,7 +106,7 @@ public class ProductLineData implements Serializable{
         public BigDecimal getOutputPnl() {
             if(outputPnl==null){
                 if (Constant.showDemoData){
-                    outputPnl = new BigDecimal(RandomUtils.randomInt(outputPnlMin,outputPnlMax));
+                    outputPnl = new BigDecimal(RandomUtils.randomInt(4800,5000));
                     return outputPnl;
                 }else{
                     return new BigDecimal(0);

@@ -59,78 +59,13 @@ public class RateOfGoodProductServiceImpl {
             List<String> dateList = null;
             Date beginDate = null;
             Date endDate = new Date();
-            int outputGlsMin=6000;
-            int outputGlsMax=8000;
-            int scrapGlsMin=5500;
-            int scrapGlsMax=7500;
-            int inputPnlMin=6000;
-            int inputPnlMax=8000;
-            int outputPnlMin=5500;
-            int outputPnlMax=7500;
             if (dateType.equals(Constant.day)){
-                if (productId==null){
-                    outputGlsMin=6000;
-                    outputGlsMax=6200;
-                    scrapGlsMin=5500;
-                    scrapGlsMax=5700;
-                    inputPnlMin=6000;
-                    inputPnlMax=6200;
-                    outputPnlMin=5500;
-                    outputPnlMax=5700;
-                }else {
-                    outputGlsMin=6000;
-                    outputGlsMax=6200;
-                    scrapGlsMin=5500;
-                    scrapGlsMax=5700;
-                    inputPnlMin=6000;
-                    inputPnlMax=6200;
-                    outputPnlMin=5500;
-                    outputPnlMax=5700;
-                }
                 beginDate = DateUtils.getBeforDayStartDay(6);
                 dateList = DateUtils.getDayStrList(beginDate,endDate);
             }else if (dateType.equals(Constant.month)){
-                if (productId==null){
-                    outputGlsMin=6000;
-                    outputGlsMax=6200;
-                    scrapGlsMin=5500;
-                    scrapGlsMax=5700;
-                    inputPnlMin=6000;
-                    inputPnlMax=6200;
-                    outputPnlMin=5500;
-                    outputPnlMax=5700;
-                }else {
-                    outputGlsMin=6000;
-                    outputGlsMax=6200;
-                    scrapGlsMin=5500;
-                    scrapGlsMax=5700;
-                    inputPnlMin=6000;
-                    inputPnlMax=6200;
-                    outputPnlMin=5500;
-                    outputPnlMax=5700;
-                }
                 beginDate = DateUtils.getBeforMonthStartDay(11);
                 dateList = DateUtils.getMonthStrList(beginDate,endDate);
             }else if (dateType.equals(Constant.quarter)){
-                if (productId==null){
-                    outputGlsMin=6000;
-                    outputGlsMax=6200;
-                    scrapGlsMin=5500;
-                    scrapGlsMax=5700;
-                    inputPnlMin=6000;
-                    inputPnlMax=6200;
-                    outputPnlMin=5500;
-                    outputPnlMax=5700;
-                }else {
-                    outputGlsMin=6000;
-                    outputGlsMax=6200;
-                    scrapGlsMin=5500;
-                    scrapGlsMax=5700;
-                    inputPnlMin=6000;
-                    inputPnlMax=6200;
-                    outputPnlMin=5500;
-                    outputPnlMax=5700;
-                }
                 beginDate = DateUtils.getBeforQuarterStartDay(3);
                 dateList = DateUtils.getQuarterStrList(beginDate,endDate);
             }
@@ -143,7 +78,7 @@ public class RateOfGoodProductServiceImpl {
                 List<ProductLineData.ProductLineDetailData> ProductDetailDataList = new ArrayList<ProductLineData.ProductLineDetailData>();
                 ProductLineData.ProductLineDetailData productLineDetailData =dataMap.get(day);
                 if(productLineDetailData ==null){
-                    productLineDetailData =new ProductLineData.ProductLineDetailData(day,factory,outputGlsMin,outputGlsMax,scrapGlsMin,scrapGlsMax,inputPnlMin,inputPnlMax,outputPnlMin,outputPnlMax);
+                    productLineDetailData =new ProductLineData.ProductLineDetailData(day,factory);
                 }
                 ProductDetailDataList.add(productLineDetailData);
                 productLineData.setProductLineDetailDataList(ProductDetailDataList);

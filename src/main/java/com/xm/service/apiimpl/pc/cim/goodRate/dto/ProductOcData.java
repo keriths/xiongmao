@@ -72,7 +72,7 @@ public class ProductOcData {
             if(polInput==null){
                 if (Constant.showDemoData){
                     if (Constant.showDemoData){
-                        polInput = new BigDecimal(RandomUtils.randomInt(2000,2700));
+                        polInput = new BigDecimal(RandomUtils.randomInt(5000,5200));
                         return polInput;
                     }else{
                         return new BigDecimal(0);
@@ -91,7 +91,7 @@ public class ProductOcData {
             if(polOutputA==null){
                 if (Constant.showDemoData){
                     if (Constant.showDemoData){
-                        polOutputA = new BigDecimal(RandomUtils.randomInt(300,320));
+                        polOutputA = new BigDecimal(RandomUtils.randomInt(2000,2100));
                         return polOutputA;
                     }else{
                         return new BigDecimal(0);
@@ -110,7 +110,7 @@ public class ProductOcData {
             if(polOutputFA==null){
                 if (Constant.showDemoData){
                     if (Constant.showDemoData){
-                        polOutputFA = new BigDecimal(RandomUtils.randomInt(200,300));
+                        polOutputFA = new BigDecimal(RandomUtils.randomInt(2000,2100));
                         return polOutputFA;
                     }else{
                         return new BigDecimal(0);
@@ -129,7 +129,7 @@ public class ProductOcData {
             if(mbiRjOutputA==null){
                 if (Constant.showDemoData){
                     if (Constant.showDemoData){
-                        mbiRjOutputA = new BigDecimal(RandomUtils.randomInt(250,300));
+                        mbiRjOutputA = new BigDecimal(RandomUtils.randomInt(200,210));
                         return mbiRjOutputA;
                     }else{
                         return new BigDecimal(0);
@@ -148,7 +148,7 @@ public class ProductOcData {
             if(mbiRjOutputFA==null){
                 if (Constant.showDemoData){
                     if (Constant.showDemoData){
-                        mbiRjOutputFA = new BigDecimal(RandomUtils.randomInt(200,320));
+                        mbiRjOutputFA = new BigDecimal(RandomUtils.randomInt(200,210));
                         return mbiRjOutputFA;
                     }else{
                         return new BigDecimal(0);
@@ -167,7 +167,7 @@ public class ProductOcData {
             if(polRwOutputA==null){
                 if (Constant.showDemoData){
                     if (Constant.showDemoData){
-                        polRwOutputA = new BigDecimal(RandomUtils.randomInt(220,300));
+                        polRwOutputA = new BigDecimal(RandomUtils.randomInt(100,120));
                         return polRwOutputA;
                     }else{
                         return new BigDecimal(0);
@@ -186,7 +186,7 @@ public class ProductOcData {
             if(polRwOutputFA==null){
                 if (Constant.showDemoData){
                     if (Constant.showDemoData){
-                        polRwOutputFA = new BigDecimal(RandomUtils.randomInt(210,250));
+                        polRwOutputFA = new BigDecimal(RandomUtils.randomInt(150,180));
                         return polRwOutputFA;
                     }else{
                         return new BigDecimal(0);
@@ -205,7 +205,7 @@ public class ProductOcData {
             if(iobInput==null){
                 if (Constant.showDemoData){
                     if (Constant.showDemoData){
-                        iobInput = new BigDecimal(RandomUtils.randomInt(2100,2300));
+                        iobInput = new BigDecimal(RandomUtils.randomInt(5000,5200));
                         return iobInput;
                     }else{
                         return new BigDecimal(0);
@@ -224,7 +224,7 @@ public class ProductOcData {
             if(iobEiOutputA==null){
                 if (Constant.showDemoData){
                     if (Constant.showDemoData){
-                        iobEiOutputA = new BigDecimal(RandomUtils.randomInt(200,270));
+                        iobEiOutputA = new BigDecimal(RandomUtils.randomInt(2000,2100));
                         return iobEiOutputA;
                     }else{
                         return new BigDecimal(0);
@@ -243,7 +243,7 @@ public class ProductOcData {
             if(iobEiOutputFA==null){
                 if (Constant.showDemoData){
                     if (Constant.showDemoData){
-                        iobEiOutputFA = new BigDecimal(RandomUtils.randomInt(210,270));
+                        iobEiOutputFA = new BigDecimal(RandomUtils.randomInt(2000,2100));
                         return iobEiOutputFA;
                     }else{
                         return new BigDecimal(0);
@@ -262,7 +262,7 @@ public class ProductOcData {
             if(iobEiOutputBRwA==null){
                 if (Constant.showDemoData){
                     if (Constant.showDemoData){
-                        iobEiOutputBRwA = new BigDecimal(RandomUtils.randomInt(200,330));
+                        iobEiOutputBRwA = new BigDecimal(RandomUtils.randomInt(200,210));
                         return iobEiOutputBRwA;
                     }else{
                         return new BigDecimal(0);
@@ -281,7 +281,7 @@ public class ProductOcData {
             if(iobEiOutputBRwFA==null){
                 if (Constant.showDemoData){
                     if (Constant.showDemoData){
-                        iobEiOutputBRwFA = new BigDecimal(RandomUtils.randomInt(250,320));
+                        iobEiOutputBRwFA = new BigDecimal(RandomUtils.randomInt(200,210));
                         return iobEiOutputBRwFA;
                     }else{
                         return new BigDecimal(0);
@@ -300,7 +300,7 @@ public class ProductOcData {
             if(iobEiOutputDRwA==null){
                 if (Constant.showDemoData){
                     if (Constant.showDemoData){
-                        iobEiOutputDRwA = new BigDecimal(RandomUtils.randomInt(240,300));
+                        iobEiOutputDRwA = new BigDecimal(RandomUtils.randomInt(100,120));
                         return iobEiOutputDRwA;
                     }else{
                         return new BigDecimal(0);
@@ -319,7 +319,7 @@ public class ProductOcData {
             if(iobEiOutputDRwFA==null){
                 if (Constant.showDemoData){
                     if (Constant.showDemoData){
-                        iobEiOutputDRwFA = new BigDecimal(RandomUtils.randomInt(270,300));
+                        iobEiOutputDRwFA = new BigDecimal(RandomUtils.randomInt(150,180));
                         return iobEiOutputDRwFA;
                     }else{
                         return new BigDecimal(0);
