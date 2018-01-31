@@ -56,7 +56,7 @@ public class ProductLineData implements Serializable{
             if(outputGls==null){
                 if (Constant.showDemoData){
                     if (Constant.showDemoData){
-                        outputGls = new BigDecimal(RandomUtils.randomInt(5000,5200));
+                        outputGls = new BigDecimal(RandomUtils.randomInt(10000,10010));
                         return outputGls;
                     }else{
                         return new BigDecimal(0);
@@ -74,7 +74,7 @@ public class ProductLineData implements Serializable{
         public BigDecimal getScrapGls() {
             if(scrapGls==null){
                 if (Constant.showDemoData){
-                    scrapGls = new BigDecimal(RandomUtils.randomInt(100,200));
+                    scrapGls = new BigDecimal(RandomUtils.randomInt(10,20));
                     return scrapGls;
                 }else{
                     return new BigDecimal(0);
@@ -90,7 +90,7 @@ public class ProductLineData implements Serializable{
         public BigDecimal getInputPnl() {
             if(inputPnl==null){
                 if (Constant.showDemoData){
-                    inputPnl = new BigDecimal(RandomUtils.randomInt(5000,5200));
+                    inputPnl = new BigDecimal(RandomUtils.randomInt(8020,8024));
                     return inputPnl;
                 }else{
                     return new BigDecimal(0);
@@ -106,7 +106,7 @@ public class ProductLineData implements Serializable{
         public BigDecimal getOutputPnl() {
             if(outputPnl==null){
                 if (Constant.showDemoData){
-                    outputPnl = new BigDecimal(RandomUtils.randomInt(4800,5000));
+                    outputPnl = new BigDecimal(RandomUtils.randomInt(8000,8020));
                     return outputPnl;
                 }else{
                     return new BigDecimal(0);
@@ -154,17 +154,17 @@ public class ProductLineData implements Serializable{
                     BigDecimal outputGls= a.getOutputGls();
                     BigDecimal scrapGls= a.getScrapGls();
                     if("SL-OC".equals(a.factory)){
-                        if(outputPnl.compareTo(new BigDecimal(0))==0){
+                        if(outputPnl.compareTo(new BigDecimal(0))==0){//等于0
                             inLine=new BigDecimal(0);
                         }else{
-                            inLine = outputPnl.multiply(new BigDecimal("100")).divide(inputPnl,1, RoundingMode.HALF_UP);
+                            inLine = outputPnl.multiply(new BigDecimal("100")).divide(inputPnl,2, RoundingMode.HALF_UP);
                         }
                     }else{
                         if(outputGls.compareTo(new BigDecimal(0))==0 && scrapGls.compareTo(new BigDecimal(0))==0){
                             inLine=new BigDecimal(0);
                         }else{
                             BigDecimal total = outputGls.add(scrapGls);
-                            inLine = outputGls.multiply(new BigDecimal("100")).divide(total,1, RoundingMode.HALF_UP);
+                            inLine = outputGls.multiply(new BigDecimal("100")).divide(total,2, RoundingMode.HALF_UP);
                         }
                     }
                 }else{
