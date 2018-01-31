@@ -37,7 +37,7 @@ public class ElectricityServiceImpl {
         try{
             if (!Constant.electricityPlaceList.contains(place)){
                 resultDto.setSuccess(false);
-                resultDto.setErrorMsg("gasType参数错误,请传入【" + Constant.electricityPlaceList + "】");
+                resultDto.setErrorMsg("place参数错误,请传入【" + Constant.electricityPlaceList + "】");
                 return resultDto;
             }
             if (!Constant.electricityDateTypeList.contains(dateType)){

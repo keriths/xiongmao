@@ -141,7 +141,7 @@ public class GasServiceImpl {
         try{
             if(!Constant.gasNamelist.contains(gasName)){
                 resultDto.setSuccess(false);
-                resultDto.setErrorMsg("dateType参数错误,请传入【" + Constant.gasNamelist + "】");
+                resultDto.setErrorMsg("gasName参数错误,请传入【" + Constant.gasNamelist + "】");
                 return resultDto;
             }
             Date beginDate = DateUtils.getBeforMinuteStartDay(5);

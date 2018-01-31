@@ -53,7 +53,7 @@ public class PCWServiceImpl {
         try{
             if(!Constant.pcwEquipmentList.contains(system)) {
                 resultDto.setSuccess(false);
-                resultDto.setErrorMsg("dateType参数错误,请传入【" + Constant.pcwEquipmentList + "】");
+                resultDto.setErrorMsg("system参数错误,请传入【" + Constant.pcwEquipmentList + "】");
                 return resultDto;
             }
             //Date beginDate = DateUtils.getBeforMinuteStartDay(5);

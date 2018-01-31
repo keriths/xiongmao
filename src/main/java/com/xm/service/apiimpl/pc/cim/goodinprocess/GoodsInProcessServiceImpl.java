@@ -37,7 +37,7 @@ public class GoodsInProcessServiceImpl {
             List<String> factoryList = Constant.factoryLists;
             if (!factoryList.contains(factory)){
                 retDTO.setSuccess(false);
-                retDTO.setErrorMsg("eqpId参数错误,请传入【" + factoryList + "】");
+                retDTO.setErrorMsg("factory参数错误,请传入【" + factoryList + "】");
                 return retDTO;
             }
 

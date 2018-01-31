@@ -34,7 +34,7 @@ public class SEXServiceImpl {
         try {
             if(!Constant.ExhaustTypeList.contains(name)) {
                 resultDto.setSuccess(false);
-                resultDto.setErrorMsg("ExhaustType参数错误,请传入【" + Constant.ExhaustTypeList + "】");
+                resultDto.setErrorMsg("name参数错误,请传入【" + Constant.ExhaustTypeList + "】");
                 return resultDto;
             }
             List<ExhaustAData> queryList = exhaustADataDAO.queryExhaustAData(name);

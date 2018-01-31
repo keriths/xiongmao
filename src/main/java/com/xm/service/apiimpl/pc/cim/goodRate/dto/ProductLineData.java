@@ -35,9 +35,9 @@ public class ProductLineData implements Serializable{
         private BigDecimal outputGls;
         @ApiResultFieldDesc(desc = "GLS报废数量")
         private BigDecimal scrapGls;
-        @ApiResultFieldDesc(desc = "PNL产出数量")
+        @ApiResultFieldDesc(desc = "PNL投入数量")
         private BigDecimal inputPnl;
-        @ApiResultFieldDesc(desc = "PNL报废数量")
+        @ApiResultFieldDesc(desc = "PNL产出数量")
         private BigDecimal outputPnl;
         @ApiResultFieldDesc(desc = "产品id")
         private String productId;
