@@ -35,4 +35,5 @@ public interface DwrWipGlsFidsDAO {
     void addData(Map<String, Object> mapData);
 
     void updateData(Map<String, Object> mapData);
+
 }

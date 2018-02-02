@@ -20,22 +20,4 @@
         STEPID = #{stepid}
     </update>
 
-    <select id="loadByPrimaryKey" parameterType="map" resultType="map">
-        SELECT * from STORE
-        where FACTORY = #{FACTORY} and
-        STEPID = #{STEPID}
-    </select>
-    <insert id="addData" parameterType="map">
-        INSERT INTO  STORE
-        (FACTORY,   STORE_MIN,   STORE_MAX,   STEPID) VALUES
-        (#{FACTORY},#{STORE_MIN},#{STORE_MAX},#{STEPID})
-    </insert>
-    <update id="updateData" parameterType="map">
-        UPDATE STORE SET
-        STORE_MIN = #{STORE_MIN} ,
-        STORE_MAX = #{STORE_MAX}
-        WHERE
-        FACTORY = #{FACTORY} and
-        STEPID = #{STEPID}
-    </update>
 </mapper>

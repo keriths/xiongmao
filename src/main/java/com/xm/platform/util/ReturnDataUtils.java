@@ -56,6 +56,11 @@ public class ReturnDataUtils {
         return data;
     }
 
+    public static BigDecimal targetData(String factory,String productId,String periodDate){
+
+        return new BigDecimal("99.8");
+    }
+
     public static void main(String[] args){
         BigDecimal d=ReturnDataUtils.demoData("string","MAN,WAT,RUN,TRB,MNT ");
 

@@ -46,7 +46,7 @@
                 </tr>
                 <tr>
                     <td colspan="2">
-                        <button class="btn btn-info" type="submit" class="btn btn-default" style="margin-left: 300px;">保存</button>
+                        <button class="btn btn-info" type="submit" class="btn btn-default" style="margin-left: 150px;">保存</button>
                     </td>
                 </tr>
             </table>

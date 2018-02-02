@@ -64,13 +64,6 @@ public class CIMDataSyncTask {
     @Autowired
     private DwrProductTtFidsDAO dwrProductTtFidsDAO;
 
-    //---------------在库量上下限------------
-    @Resource
-    private FactoryStoreDAO factoryStoreDAO;
-    @Autowired
-    private StoreDAO storeDAO;
-
-
     /**
      * 投入达成率数据同步，数据按天同步，同步任务每小时跑一次，每次把前三天的数据检查一遍
      * 首先把工厂数据库前三天的数据查询出来
@@ -289,30 +282,4 @@ public class CIMDataSyncTask {
         }
     }
 
-    /**
-     * 在库量上下限数据同步
-     * 已测通
-     */
-    //@Scheduled(fixedRate = 1000*5)
-    public void StoreDataSync(){
-        int offset = 0;
-        int limit = 1000;
-        while (true){
-            List<Map<String,Object>> mapDataList = factoryStoreDAO.querySyncData(offset,limit);
-            if (CollectionUtils.isEmpty(mapDataList)){
-                return;
-            }
-            for (Map<String,Object> mapData : mapDataList){
-                Map<String,Object> data = storeDAO.loadByPrimaryKey(mapData);
-                if (data==null){
-                    //添加
-                    storeDAO.addData(mapData);
-                }else {
-                    //更新
-                    storeDAO.updateData(mapData);
-                }
-            }
-            offset = offset+limit;
-        }
-    }
 }
