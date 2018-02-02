@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
     <#--<link href="/bootstrap3.3.5/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/font-awesome.min.css" rel="stylesheet">
@@ -21,8 +21,8 @@
                 <tr>
                     <td>${store.factory}</td>
                     <td>${store.stepid}</td>
-                    <td>${store.storeMin}</td>
                     <td>${store.storeMax}</td>
+                    <td>${store.storeMin}</td>
                     <td>
                         <a href="/toEdit?factory=${store.factory}&stepid=${store.stepid}&storeMin=${store.storeMin}&storeMax=${store.storeMax}">编辑</a>
                     </td>
