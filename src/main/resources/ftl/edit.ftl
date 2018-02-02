@@ -8,44 +8,36 @@
 </head>
 <body >
 <div class="container" style="width:100%;">
-    <div style="margin-bottom:10px;">
-        <form id="Export" class="form-inline" action="/partnerList" method="POST">
-            <div class="form-group">
-                <label class="control-label">工厂:</label>
-                <input class="form-control" size="20" name="partnerName" value="${factory}" type="text"  style="width: 120px;" id="partnerName">
-            </div>
-            <div class="form-group">
-                <label class="control-label">在库量上限:</label>
-                <input class="form-control" size="20" name="contactLinkman" value="${storeMax}" type="text"  style="width: 120px;" id="contactLinkman">
-            </div>
-            <div class="form-group">
-                <label class="control-label">在库量下限:</label>
-                <input class="form-control" size="20" name="contactLinkman" value="${storeMin}" type="text"  style="width: 120px;" id="contactLinkman">
-            </div>
-            <button class="btn btn-info" type="submit" class="btn btn-default">查询</button>
-            <button type="submit" class="btn btn-danger"><a href="javascript:updateProject('/updateOrAdd')" style="color:black;text-decoration:none">添加</a></button>
-        </form>
-    </div>
     <div>
-        <table border="1">
-            <tr>
-                <th>工厂</th>
-                <th>在库量上限</th>
-                <th>在库量下限</th>
-                <th>操作</th>
-            </tr>
-            <#list storeDTOList as store>
+        <form id="storeFrom" class="form-horizontal form-inline" action="/updatestore" method="post">
+            <table class="table table-condensed table-striped ">
                 <tr>
-                    <td>${store.factory}</td>
-                    <td>${store.storeMin}</td>
-                    <td>${store.storeMax}</td>
+                    <td><label>工厂</label></td>
                     <td>
-                        <a href="#">删除</a>
-                        <a href="#">编辑</a>
+                        <div class="input-group" style="width: 196px;">
+                            <input type="text" name="factory"  required="true" class="form-control" value="${factory}" >
+                        </div>
                     </td>
                 </tr>
-            </#list>
-        </table>
+                <tr>
+                    <td><label>在库量上限</label></td>
+                    <td>
+                        <div class="input-group" style="width: 196px;">
+                            <input type="text" name="storeMax" class="form-control" value="${storeMax}" >
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label>在库量下限</label></td>
+                    <td>
+                        <div class="input-group" style="width: 196px;">
+                            <input type="text" name="storeMin" class="form-control" value="${storeMin}" >
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <button class="btn btn-info" type="submit" class="btn btn-default" style="margin-left: 300px;">保存</button>
+        </form>
     </div>
 
 <div/>

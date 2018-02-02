@@ -4,7 +4,6 @@ import com.xm.service.apiimpl.pc.login.LoginService;
 import com.xm.service.apiimpl.pc.login.dto.StoreDTO;
 import com.xm.service.apiimpl.pc.login.dto.UserDTO;
 import com.xm.service.dao.login.StoreDAO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,6 +12,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,12 +63,31 @@ public class LoginAction {
     }
 
 
-    @RequestMapping(value = "/toEdit")
-    public ModelAndView toEdit(){
+    @RequestMapping(value = "/toQuery")
+    public ModelAndView toQuery(){
 
         List<StoreDTO> storeDTOList=storeDAO.queryStore();
-        ModelAndView modelAndView=new ModelAndView("edit");
+        ModelAndView modelAndView=new ModelAndView("query");
         modelAndView.addObject("storeDTOList",storeDTOList);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/toEdit")
+    public ModelAndView toEdit(String factory, BigDecimal storeMin,BigDecimal storeMax){
+
+        ModelAndView modelAndView=new ModelAndView("edit");
+        modelAndView.addObject("factory",factory);
+        modelAndView.addObject("storeMin",storeMin);
+        modelAndView.addObject("storeMax",storeMax);
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/updatestore")
+    public ModelAndView updatestore(StoreDTO store){
+
+        storeDAO.updataStore(store);
+
+        ModelAndView modelAndView=new ModelAndView("edit");
         return modelAndView;
     }
 

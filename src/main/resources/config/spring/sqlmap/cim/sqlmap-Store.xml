@@ -10,4 +10,12 @@
           STORE
     </select>
 
+    <update id="updataStore"  parameterType="map">
+        UPDATE STORE SET
+        STORE_MIN = #{storeMin},
+        STORE_MAX = #{storeMax}
+        WHERE
+        FACTORY = #{factory}
+    </update>
+
 </mapper>

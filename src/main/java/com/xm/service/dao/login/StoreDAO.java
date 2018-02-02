@@ -10,4 +10,6 @@ import java.util.List;
 @Repository("storeDAO")
 public interface StoreDAO {
     List<StoreDTO> queryStore();
+
+    Integer updataStore(StoreDTO storeDTO);
 }
