@@ -6,10 +6,17 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Map;
 
 @Repository("storeDAO")
 public interface StoreDAO {
     List<StoreDTO> queryStore();
 
     Integer updataStore(StoreDTO storeDTO);
+
+    Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
+
+    void addData(Map<String, Object> mapData);
+
+    void updateData(Map<String, Object> mapData);
 }

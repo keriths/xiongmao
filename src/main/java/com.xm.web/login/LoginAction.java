@@ -94,6 +94,9 @@ public class LoginAction {
 
     private String getCookieValue(HttpServletRequest req, String cookieName) {
         Cookie[] cookies = req.getCookies();
+        if(cookies==null){
+            return null;
+        }
         for (Cookie c:cookies){
             if (c.getName().equals(cookieName)){
                 return c.getValue();

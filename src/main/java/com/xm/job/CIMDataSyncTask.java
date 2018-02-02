@@ -2,6 +2,7 @@ package com.xm.job;
 
 import com.xm.service.dao.cim.*;
 import com.xm.service.dao.factory.cim.*;
+import com.xm.service.dao.login.StoreDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -62,6 +63,12 @@ public class CIMDataSyncTask {
     private FactoryDwrProductTtFidsDAO factoryDwrProductTtFidsDAO;
     @Autowired
     private DwrProductTtFidsDAO dwrProductTtFidsDAO;
+
+    //---------------在库量上下限------------
+    @Resource
+    private FactoryStoreDAO factoryStoreDAO;
+    @Autowired
+    private StoreDAO storeDAO;
 
 
     /**
@@ -276,6 +283,33 @@ public class CIMDataSyncTask {
                 }else {
                     //更新
                     dwrProductTtFidsDAO.updateData(mapData);
+                }
+            }
+            offset = offset+limit;
+        }
+    }
+
+    /**
+     * 在库量上下限数据同步
+     * 已测通
+     */
+    //@Scheduled(fixedRate = 1000*5)
+    public void StoreDataSync(){
+        int offset = 0;
+        int limit = 1000;
+        while (true){
+            List<Map<String,Object>> mapDataList = factoryStoreDAO.querySyncData(offset,limit);
+            if (CollectionUtils.isEmpty(mapDataList)){
+                return;
+            }
+            for (Map<String,Object> mapData : mapDataList){
+                Map<String,Object> data = storeDAO.loadByPrimaryKey(mapData);
+                if (data==null){
+                    //添加
+                    storeDAO.addData(mapData);
+                }else {
+                    //更新
+                    storeDAO.updateData(mapData);
                 }
             }
             offset = offset+limit;
