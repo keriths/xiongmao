@@ -5,7 +5,8 @@
         SELECT
           FACTORY as factory,
           STORE_MIN as storeMin,
-          STORE_MAX as storeMax
+          STORE_MAX as storeMax,
+          STEPID as stepid
         FROM
           STORE
     </select>
@@ -15,7 +16,8 @@
         STORE_MIN = #{storeMin},
         STORE_MAX = #{storeMax}
         WHERE
-        FACTORY = #{factory}
+        FACTORY = #{factory} AND
+        STEPID = #{stepid}
     </update>
 
 </mapper>

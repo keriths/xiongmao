@@ -8,6 +8,7 @@ public class StoreDTO implements Serializable{
     private String factory;
     private BigDecimal storeMin;
     private BigDecimal storeMax;
+    private String stepid;
 
     public String getFactory() {
         return factory;
@@ -31,5 +32,13 @@ public class StoreDTO implements Serializable{
 
     public void setStoreMax(BigDecimal storeMax) {
         this.storeMax = storeMax;
+    }
+
+    public String getStepid() {
+        return stepid;
+    }
+
+    public void setStepid(String stepid) {
+        this.stepid = stepid;
     }
 }

@@ -12,6 +12,7 @@
         <table border="1">
             <tr>
                 <th>工厂</th>
+                <th>站点</th>
                 <th>在库量上限</th>
                 <th>在库量下限</th>
                 <th>操作</th>
@@ -19,10 +20,11 @@
             <#list storeDTOList as store>
                 <tr>
                     <td>${store.factory}</td>
+                    <td>${store.stepid}</td>
                     <td>${store.storeMin}</td>
                     <td>${store.storeMax}</td>
                     <td>
-                        <a href="/toEdit?factory=${store.factory}&storeMin=${store.storeMin}&storeMax=${store.storeMax}">编辑</a>
+                        <a href="/toEdit?factory=${store.factory}&stepid=${store.stepid}&storeMin=${store.storeMin}&storeMax=${store.storeMax}">编辑</a>
                     </td>
                 </tr>
             </#list>

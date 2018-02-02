@@ -20,6 +20,14 @@
                     </td>
                 </tr>
                 <tr>
+                    <td><label>站点</label></td>
+                    <td>
+                        <div class="input-group" style="width: 196px;">
+                            <input type="text" name="stepid"  required="true" class="form-control" value="${stepid}" >
+                        </div>
+                    </td>
+                </tr>
+                <tr>
                     <td><label>在库量上限</label></td>
                     <td>
                         <div class="input-group" style="width: 196px;">

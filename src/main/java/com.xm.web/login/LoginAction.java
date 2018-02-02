@@ -73,10 +73,11 @@ public class LoginAction {
     }
 
     @RequestMapping(value = "/toEdit")
-    public ModelAndView toEdit(String factory, BigDecimal storeMin,BigDecimal storeMax){
+    public ModelAndView toEdit(String factory,String stepid, BigDecimal storeMin,BigDecimal storeMax){
 
         ModelAndView modelAndView=new ModelAndView("edit");
         modelAndView.addObject("factory",factory);
+        modelAndView.addObject("stepid",stepid);
         modelAndView.addObject("storeMin",storeMin);
         modelAndView.addObject("storeMax",storeMax);
         return modelAndView;
