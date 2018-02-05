@@ -20,4 +20,16 @@
         STEPID = #{stepid}
     </update>
 
+    <select id="querySyncData" parameterType="map" resultType="map">
+        <![CDATA[
+
+        select * from (
+          select t.*,rownum as rn
+          from STORE t
+          where
+            rownum <= #{offset}+#{limit}
+        ) a where a.rn > #{offset}
+
+        ]]>
+    </select>
 </mapper>

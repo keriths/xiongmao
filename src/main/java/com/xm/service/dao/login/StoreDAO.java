@@ -13,5 +13,7 @@ public interface StoreDAO {
     List<StoreDTO> queryStore();
 
     Integer updataStore(StoreDTO storeDTO);
+
+    List<Map<String,Object>> querySyncData(@Param("offset")int offset, @Param("limit")int limit);
     
 }

@@ -36,6 +36,9 @@ public class CIMDataSyncTask {
     @Resource
     private DwrWipGlsFidsDAO dwrWipGlsFidsDAO;
 
+    @Resource
+    private StoreDAO storeDAO;
+
     //---------------良品率------------
     @Resource
     private FactoryDwsProductLineYieldFidsDAO factoryDwsProductLineYieldFidsDAO;
@@ -124,7 +127,7 @@ public class CIMDataSyncTask {
      * 在制品数据同步
      * 已测通
      */
-    //@Scheduled(fixedRate = 1000*5)
+    @Scheduled(fixedRate = 1000*5)
     public void GoodInProcessDataSync(){
         int offset = 0;
         int limit = 1000;
@@ -142,6 +145,27 @@ public class CIMDataSyncTask {
                     //更新  把data中的数据，仅仅对数据更新一下，然后更新
                     dwrWipGlsFidsDAO.updateData(mapData);
                 }
+            }
+            offset = offset+limit;
+        }
+    }
+
+    /**
+     * 在制品的在库量数据同步
+     * 已测通
+     */
+    @Scheduled(fixedRate = 1000*5)
+    public void StoreDataSync(){
+        int offset = 0;
+        int limit = 1000;
+        while (true){
+            List<Map<String,Object>> mapDataList = storeDAO.querySyncData(offset,limit);
+            if (CollectionUtils.isEmpty(mapDataList)){
+                return;
+            }
+            for (Map<String,Object> mapData : mapDataList){
+                //更新
+                dwrWipGlsFidsDAO.updateStoreData(mapData);
             }
             offset = offset+limit;
         }
