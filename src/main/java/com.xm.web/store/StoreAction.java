@@ -21,10 +21,10 @@ public class StoreAction {
     public ModelAndView toQuery(){
         UserDTO userDTO = LoginBO.getLoginedUser();
         if (userDTO==null){
-            return new ModelAndView("loginIndex");
+            return new ModelAndView("login/loginIndex");
         }
         List<StoreDTO> storeDTOList=storeDAO.queryStore();
-        ModelAndView modelAndView=new ModelAndView("query");
+        ModelAndView modelAndView=new ModelAndView("store/query");
         modelAndView.addObject("storeDTOList",storeDTOList);
         return modelAndView;
     }
@@ -33,9 +33,9 @@ public class StoreAction {
     public ModelAndView toEdit(String factory,String stepid, BigDecimal storeMin,BigDecimal storeMax){
         UserDTO userDTO = LoginBO.getLoginedUser();
         if (userDTO==null){
-            return new ModelAndView("loginIndex");
+            return new ModelAndView("login/loginIndex");
         }
-        ModelAndView modelAndView=new ModelAndView("edit");
+        ModelAndView modelAndView=new ModelAndView("store/edit");
         modelAndView.addObject("factory",factory);
         modelAndView.addObject("stepid",stepid);
         modelAndView.addObject("storeMin",storeMin);
@@ -47,11 +47,11 @@ public class StoreAction {
     public ModelAndView updatestore(StoreDTO store){
         UserDTO userDTO = LoginBO.getLoginedUser();
         if (userDTO==null){
-            return new ModelAndView("loginIndex");
+            return new ModelAndView("login/loginIndex");
         }
         storeDAO.updataStore(store);
 
-        ModelAndView modelAndView=new ModelAndView("edit");
+        ModelAndView modelAndView=new ModelAndView("store/edit");
         return modelAndView;
     }
 

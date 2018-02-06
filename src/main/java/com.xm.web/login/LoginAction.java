@@ -34,9 +34,9 @@ public class LoginAction {
 //        }
         UserDTO userDTO = LoginBO.getLoginedUser();
         if (userDTO==null){
-            return new ModelAndView("loginIndex");
+            return new ModelAndView("login/loginIndex");
         }else {
-            ModelAndView modelAndView=new ModelAndView("loginSuccess");
+            ModelAndView modelAndView=new ModelAndView("login/loginSuccess");
             modelAndView.addObject("realName",userDTO.getRealName());
             return modelAndView;
         }
@@ -49,17 +49,17 @@ public class LoginAction {
         if (token==null){
             Map model = new HashMap();
             model.put("errorMsg","登录失败,用户名或密码错误");
-            return new ModelAndView("loginIndex",model);
+            return new ModelAndView("login/loginIndex",model);
         }
         UserDTO userDTO = loginService.getLoginUserByToken(token);
         if (userDTO==null){
             Map model = new HashMap();
             model.put("errorMsg","登录失败,用户名或密码错误");
-            return new ModelAndView("loginIndex",model);
+            return new ModelAndView("login/loginIndex",model);
         }
         res.addCookie(new Cookie("token",token));
 
-        ModelAndView modelAndView=new ModelAndView("loginSuccess");
+        ModelAndView modelAndView=new ModelAndView("login/loginSuccess");
         modelAndView.addObject("realName",userDTO.getRealName());
         return modelAndView;
     }

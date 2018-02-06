@@ -10,7 +10,7 @@ import java.util.Map;
 
 @Repository("productDAO")
 public interface ProductDAO {
-    List<StoreDTO> queryProduct();
+    List<ProductRetDTO.productRetDataDTO> queryProduct();
 
     //Integer addProduct(ProductRetDTO.productRetDataDTO product);
 
