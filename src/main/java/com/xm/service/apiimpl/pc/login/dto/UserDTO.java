@@ -1,6 +1,7 @@
 package com.xm.service.apiimpl.pc.login.dto;
 
 import java.io.Serializable;
+
 import java.util.Date;
 
 public class UserDTO implements Serializable{
@@ -26,6 +27,7 @@ public class UserDTO implements Serializable{
     public void setRealName(String realName) {
         this.realName = realName;
     }
+
 
     public String getName() {
         return name;

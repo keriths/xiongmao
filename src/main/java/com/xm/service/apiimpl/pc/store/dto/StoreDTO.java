@@ -1,4 +1,4 @@
-package com.xm.service.apiimpl.pc.login.dto;
+package com.xm.service.apiimpl.pc.store.dto;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

@@ -1,6 +1,7 @@
 package com.xm.service.dao.login;
 
 import com.xm.service.apiimpl.pc.login.dto.UserDTO;
+
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Repository;
  * loginTime 登录时间
  * realName  真实姓名
  */
+
 @Repository("userBaseInfoDAO")
 public interface UserBaseInfoDAO {
     /**
@@ -21,6 +23,7 @@ public interface UserBaseInfoDAO {
      * @param password
      * @return
      */
+
     UserDTO queryUserDTO(@Param("name")String name, @Param("password")String password);
 
     /**
@@ -28,6 +31,7 @@ public interface UserBaseInfoDAO {
      * @param token
      * @return
      */
+
     UserDTO queryUserDTOByToken(@Param("token")String token);
 
     /**
@@ -35,5 +39,6 @@ public interface UserBaseInfoDAO {
      * @param userId
      * @param token
      */
+
     int updateLoginToken(@Param("userId")Integer userId, @Param("token")String token);
 }
