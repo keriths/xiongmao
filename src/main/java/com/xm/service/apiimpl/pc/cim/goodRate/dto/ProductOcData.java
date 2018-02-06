@@ -2,6 +2,7 @@ package com.xm.service.apiimpl.pc.cim.goodRate.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.RandomUtils;
+import com.xm.platform.util.ReturnDataUtils;
 import com.xm.service.constant.Constant;
 import org.springframework.util.CollectionUtils;
 
@@ -17,6 +18,8 @@ public class ProductOcData {
     private List<ProductOcDetailData> productOcDetailDataList;
     @ApiResultFieldDesc(desc = "单个产品良品率")
     private BigDecimal inLine;
+    @ApiResultFieldDesc(desc = "目标良品率")
+    private BigDecimal targetInLine;
 
     public static class ProductOcDetailData{
 
@@ -57,6 +60,8 @@ public class ProductOcData {
         private BigDecimal iobEiOutputDRwA;
         @ApiResultFieldDesc(desc = "IOB E检 D Grade修补后FA Grade数量")
         private BigDecimal iobEiOutputDRwFA;
+        @ApiResultFieldDesc(desc = "产品id")
+        private String productId;
         @ApiResultFieldDesc(desc = "横坐标时间")
         private String periodDate;
 
@@ -334,6 +339,14 @@ public class ProductOcData {
             this.iobEiOutputDRwFA = iobEiOutputDRwFA;
         }
 
+        public String getProductId() {
+            return productId;
+        }
+
+        public void setProductId(String productId) {
+            this.productId = productId;
+        }
+
         public String getPeriodDate() {
             return periodDate;
         }
@@ -384,5 +397,24 @@ public class ProductOcData {
 
     public void setInLine(BigDecimal inLine) {
         this.inLine = inLine;
+    }
+
+    public BigDecimal getTargetInLine() {
+        if(targetInLine==null){
+            if (Constant.showDemoData){
+                if(!CollectionUtils.isEmpty(productOcDetailDataList)) {
+                    for (ProductOcDetailData a : productOcDetailDataList) {
+                        targetInLine = ReturnDataUtils.targetData(a.getFactory(),a.getProductId(),a.getPeriodDate());
+                    }
+                }
+            }else{
+                return new BigDecimal(0);
+            }
+        }
+        return targetInLine;
+    }
+
+    public void setTargetInLine(BigDecimal targetInLine) {
+        this.targetInLine = targetInLine;
     }
 }

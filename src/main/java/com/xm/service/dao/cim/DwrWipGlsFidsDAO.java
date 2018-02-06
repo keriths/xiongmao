@@ -35,4 +35,15 @@ public interface DwrWipGlsFidsDAO {
     void addData(Map<String, Object> mapData);
 
     void updateData(Map<String, Object> mapData);
+
+    /**
+     * 在库量
+     * @param mapData
+     * @return
+     */
+    /*Map<String,Object> loadStoreByPrimaryKey(Map<String, Object> mapData);
+
+    void addStoreData(Map<String, Object> mapData);*/
+    void updateStoreData(Map<String, Object> mapData);
+
 }

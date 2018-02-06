@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.login.StoreDAO" >
+    <select id="queryStore" resultType="com.xm.service.apiimpl.pc.store.dto.StoreDTO" parameterType="map">
+        SELECT
+          FACTORY as factory,
+          STORE_MIN as storeMin,
+          STORE_MAX as storeMax,
+          STEPID as stepid
+        FROM
+          STORE
+    </select>
+
+    <update id="updataStore"  parameterType="map">
+        UPDATE STORE SET
+        STORE_MIN = #{storeMin},
+        STORE_MAX = #{storeMax}
+        WHERE
+        FACTORY = #{factory} AND
+        STEPID = #{stepid}
+    </update>
+
+    <select id="querySyncData" parameterType="map" resultType="map">
+        <![CDATA[
+
+        select * from (
+          select t.*,rownum as rn
+          from STORE t
+          where
+            rownum <= #{offset}+#{limit}
+        ) a where a.rn > #{offset}
+
+        ]]>
+    </select>
+</mapper>

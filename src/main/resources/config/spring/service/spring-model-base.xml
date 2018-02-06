@@ -16,6 +16,7 @@
     <task:annotation-driven /><!--定时器开关-->
     <import resource="spring-model-database-cim.xml"/>
     <import resource="spring-model-database-fmcs.xml"/>
+    <import resource="spring-model-database-user.xml"/>
     <import resource="spring-model-database-factory-cim.xml"/>
     <import resource="spring-model-database-factory-fmcs.xml"/>
     <bean id="ServiceAPIDocumentBeanPostProcessor" class="com.xm.platform.processor.ServiceAPIDocumentBeanPostProcessor"></bean>

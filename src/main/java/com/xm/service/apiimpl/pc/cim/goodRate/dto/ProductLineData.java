@@ -2,6 +2,7 @@ package com.xm.service.apiimpl.pc.cim.goodRate.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.RandomUtils;
+import com.xm.platform.util.ReturnDataUtils;
 import com.xm.service.constant.Constant;
 import org.springframework.util.CollectionUtils;
 
@@ -19,6 +20,8 @@ public class ProductLineData implements Serializable{
     private List<ProductLineData.ProductLineDetailData> productLineDetailDataList;
     @ApiResultFieldDesc(desc = "良品率")
     private BigDecimal inLine;
+    @ApiResultFieldDesc(desc = "目标良品率")
+    private BigDecimal targetInLine;
 
     public static class ProductLineDetailData{
 
@@ -178,5 +181,24 @@ public class ProductLineData implements Serializable{
 
     public void setInLine(BigDecimal inLine) {
         this.inLine = inLine;
+    }
+
+    public BigDecimal getTargetInLine() {
+        if(targetInLine==null){
+            if (Constant.showDemoData){
+                if(!CollectionUtils.isEmpty(productLineDetailDataList)) {
+                    for (ProductLineDetailData a : productLineDetailDataList) {
+                        targetInLine = ReturnDataUtils.targetData(a.getFactory(),a.getProductId(),a.getPeriodDate());
+                    }
+                }
+            }else{
+                return new BigDecimal(0);
+            }
+        }
+        return targetInLine;
+    }
+
+    public void setTargetInLine(BigDecimal targetInLine) {
+        this.targetInLine = targetInLine;
     }
 }

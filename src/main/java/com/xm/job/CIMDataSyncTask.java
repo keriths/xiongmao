@@ -2,11 +2,11 @@ package com.xm.job;
 
 import com.xm.service.dao.cim.*;
 import com.xm.service.dao.factory.cim.*;
+import com.xm.service.dao.login.StoreDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import sun.dc.pr.PRError;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -35,6 +35,9 @@ public class CIMDataSyncTask {
     @Resource
     private DwrWipGlsFidsDAO dwrWipGlsFidsDAO;
 
+    @Resource
+    private StoreDAO storeDAO;
+
     //---------------良品率------------
     @Resource
     private FactoryDwsProductLineYieldFidsDAO factoryDwsProductLineYieldFidsDAO;
@@ -62,7 +65,6 @@ public class CIMDataSyncTask {
     private FactoryDwrProductTtFidsDAO factoryDwrProductTtFidsDAO;
     @Autowired
     private DwrProductTtFidsDAO dwrProductTtFidsDAO;
-
 
     /**
      * 投入达成率数据同步，数据按天同步，同步任务每小时跑一次，每次把前三天的数据检查一遍
@@ -124,7 +126,7 @@ public class CIMDataSyncTask {
      * 在制品数据同步
      * 已测通
      */
-    //@Scheduled(fixedRate = 1000*5)
+    @Scheduled(fixedRate = 1000*5)
     public void GoodInProcessDataSync(){
         int offset = 0;
         int limit = 1000;
@@ -142,6 +144,27 @@ public class CIMDataSyncTask {
                     //更新  把data中的数据，仅仅对数据更新一下，然后更新
                     dwrWipGlsFidsDAO.updateData(mapData);
                 }
+            }
+            offset = offset+limit;
+        }
+    }
+
+    /**
+     * 在制品的在库量数据同步
+     * 已测通
+     */
+    @Scheduled(fixedRate = 1000*5)
+    public void StoreDataSync(){
+        int offset = 0;
+        int limit = 1000;
+        while (true){
+            List<Map<String,Object>> mapDataList = storeDAO.querySyncData(offset,limit);
+            if (CollectionUtils.isEmpty(mapDataList)){
+                return;
+            }
+            for (Map<String,Object> mapData : mapDataList){
+                //更新
+                dwrWipGlsFidsDAO.updateStoreData(mapData);
             }
             offset = offset+limit;
         }
@@ -281,4 +304,5 @@ public class CIMDataSyncTask {
             offset = offset+limit;
         }
     }
+
 }
