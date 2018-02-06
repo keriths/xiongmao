@@ -17,7 +17,8 @@
         <a href="#oneMenuId_001" class="nav-header menu-first " data-toggle="collapse">在制品</a>
         <ul id="oneMenuId_001" class="nav nav-list  menu-second in collapse " >
             <li><a href="javascript:void(0)" class="menuItem" menuName="设备管理" menuId="1001" menuUrl="/inprocess/eqpId">设备管理</a></li>
-            <li><a href="javascript:void(0)" class="menuItem" menuName="添加主合同" menuId="2001" menuUrl="/inprocess/eqpId">在库容量设置</a></li>
+            <li><a href="javascript:void(0)" class="menuItem" menuName="在库容量设置" menuId="1002" menuUrl="/inprocess/eqpId">在库容量设置</a></li>
+            <li><a href="javascript:void(0)" class="menuItem" menuName="产品管理" menuId="1003" menuUrl="/inprocess/eqpId">产品管理</a></li>
         </ul>
     </div>
 </div>
