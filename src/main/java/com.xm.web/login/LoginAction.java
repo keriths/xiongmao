@@ -37,9 +37,7 @@ public class LoginAction {
         if (userDTO==null){
             return new ModelAndView("loginIndex");
         }else {
-            ModelAndView modelAndView=new ModelAndView("loginSuccess");
-            modelAndView.addObject("realName",userDTO.getRealName());
-            return modelAndView;
+            return new ModelAndView("redirect:/welcome");
         }
     }
 
@@ -60,7 +58,16 @@ public class LoginAction {
         }
         res.addCookie(new Cookie("token",token));
 
-        ModelAndView modelAndView=new ModelAndView("loginSuccess");
+        return new ModelAndView("redirect:/welcome");
+    }
+
+    @RequestMapping(value = "/welcome")
+    public ModelAndView index(String name, String password, HttpServletRequest req, HttpServletResponse res){
+        UserDTO userDTO = LoginBO.getLoginedUser();
+        if (userDTO==null){
+            return new ModelAndView("redirect:/login");
+        }
+        ModelAndView modelAndView=new ModelAndView("mainFrame/index");
         modelAndView.addObject("realName",userDTO.getRealName());
         return modelAndView;
     }
