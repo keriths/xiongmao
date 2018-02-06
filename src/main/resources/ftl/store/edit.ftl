@@ -3,7 +3,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <link rel="stylesheet" type="text/css" href="bootstrap-3.3.7/dist/css/bootstrap.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script type="text/javascript" src="bootstrap-3.3.7/dist/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="bootstrap-table/bootstrap-table.js"></script>
     <script type="text/javascript" src="bootstrap-table/bootstrap-table-zh-CN.min.js"></script>

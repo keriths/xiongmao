@@ -9,6 +9,7 @@ import com.xm.service.dao.util.ResultVo;
 import com.xm.web.bo.LoginBO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -31,7 +32,7 @@ public class ProductAction {
     }
 
     @RequestMapping(value = "/productList")
-    public RequestPageVo<ProductRetDTO.productRetDataDTO> productList(){
+    public @ResponseBody RequestPageVo<ProductRetDTO.productRetDataDTO> productList(){
         RequestPageVo<ProductRetDTO.productRetDataDTO> resultVo=new RequestPageVo<ProductRetDTO.productRetDataDTO>();
         try {
             List<ProductRetDTO.productRetDataDTO> productList=productDAO.queryProduct();
@@ -43,14 +44,19 @@ public class ProductAction {
     }
 
     @RequestMapping(value = "/deleteProduct")
-    public ResultVo deleteProduct(ProductRetDTO.productRetDataDTO productRetDataDTO){
+    public @ResponseBody ResultVo deleteProduct(ProductRetDTO.productRetDataDTO productRetDataDTO){
         ResultVo resultVo=new ResultVo();
         try {
-            productDAO.deleteProduct(productRetDataDTO);
-            resultVo.setSuccess(true);
-            resultVo.setErrorMessage("删除成功");
+            int count=productDAO.deleteProduct(productRetDataDTO);
+            if(count>0){
+                resultVo.setSuccess(true);
+                resultVo.setErrorMessage("删除成功");
+            }else{
+                resultVo.setSuccess(false);
+                resultVo.setErrorMessage("删除失败");
+            }
         }catch (Exception e){
-            resultVo.setSuccess(true);
+            resultVo.setSuccess(false);
             resultVo.setErrorMessage("删除失败");
 
         }
