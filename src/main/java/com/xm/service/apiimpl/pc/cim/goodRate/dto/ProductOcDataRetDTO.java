@@ -9,14 +9,14 @@ import java.util.List;
  * Created by wagnshuna on 2018/1/24.
  */
 public class ProductOcDataRetDTO extends BaseRetDTO{
-    @ApiResultFieldDesc(desc = "返回数据列表")
-    List<ProductOcData> productOcDataList;
+    @ApiResultFieldDesc(desc = "返回数据详情")
+    private List<ProductOcData.ProductOcDetailData> productOcDetailDataList;
 
-    public List<ProductOcData> getProductOcDataList() {
-        return productOcDataList;
+    public List<ProductOcData.ProductOcDetailData> getProductOcDetailDataList() {
+        return productOcDetailDataList;
     }
 
-    public void setProductOcDataList(List<ProductOcData> productOcDataList) {
-        this.productOcDataList = productOcDataList;
+    public void setProductOcDetailDataList(List<ProductOcData.ProductOcDetailData> productOcDetailDataList) {
+        this.productOcDetailDataList = productOcDetailDataList;
     }
 }

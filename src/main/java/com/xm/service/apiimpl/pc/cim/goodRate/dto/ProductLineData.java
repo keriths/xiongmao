@@ -16,12 +16,9 @@ import java.util.List;
  */
 public class ProductLineData implements Serializable{
 
-    @ApiResultFieldDesc(desc = "返回数据详情")
-    private List<ProductLineData.ProductLineDetailData> productLineDetailDataList;
-    @ApiResultFieldDesc(desc = "良品率")
-    private BigDecimal inLine;
-    @ApiResultFieldDesc(desc = "目标良品率")
-    private BigDecimal targetInLine;
+//    @ApiResultFieldDesc(desc = "返回数据详情")
+//    private List<ProductLineData.ProductLineDetailData> productLineDetailDataList;
+
 
     public static class ProductLineDetailData{
 
@@ -31,7 +28,10 @@ public class ProductLineData implements Serializable{
             this.periodDate=periodDate;
             this.factory=factory;
         }
-
+        @ApiResultFieldDesc(desc = "良品率")
+        private BigDecimal inLine;
+        @ApiResultFieldDesc(desc = "目标良品率")
+        private BigDecimal targetInLine;
         @ApiResultFieldDesc(desc = "厂别如Array,Cell")
         private String factory;
         @ApiResultFieldDesc(desc = "GLS产出数量")
@@ -138,67 +138,51 @@ public class ProductLineData implements Serializable{
             this.periodDate = periodDate;
         }
 
-    }
 
-    public List<ProductLineDetailData> getProductLineDetailDataList() {
-        return productLineDetailDataList;
-    }
+        public BigDecimal getInLine() {
 
-    public void setProductLineDetailDataList(List<ProductLineDetailData> productLineDetailDataList) {
-        this.productLineDetailDataList = productLineDetailDataList;
-    }
-
-    public BigDecimal getInLine() {
-        if(!CollectionUtils.isEmpty(productLineDetailDataList)) {
-            for (ProductLineDetailData a : productLineDetailDataList) {
-                if(a.factory!=null){
-                    BigDecimal outputPnl= a.getOutputPnl();
-                    BigDecimal inputPnl= a.getInputPnl();
-                    BigDecimal outputGls= a.getOutputGls();
-                    BigDecimal scrapGls= a.getScrapGls();
-                    if("SL-OC".equals(a.factory)){
-                        if(outputPnl.compareTo(new BigDecimal(0))==0){//等于0
-                            inLine=new BigDecimal(0);
+            if(factory!=null){
+                BigDecimal outputPnl= getOutputPnl();
+                BigDecimal inputPnl= getInputPnl();
+                BigDecimal outputGls= getOutputGls();
+                BigDecimal scrapGls= getScrapGls();
+                if("SL-OC".equals(factory)){
+                    if(outputPnl.compareTo(new BigDecimal(0))==0){//等于0
+                        inLine=new BigDecimal(0);
                         }else{
-                            inLine = outputPnl.multiply(new BigDecimal("100")).divide(inputPnl,2, RoundingMode.HALF_UP);
+                        inLine = outputPnl.multiply(new BigDecimal("100")).divide(inputPnl,2, RoundingMode.HALF_UP);
                         }
-                    }else{
-                        if(outputGls.compareTo(new BigDecimal(0))==0 && scrapGls.compareTo(new BigDecimal(0))==0){
-                            inLine=new BigDecimal(0);
-                        }else{
-                            BigDecimal total = outputGls.add(scrapGls);
-                            inLine = outputGls.multiply(new BigDecimal("100")).divide(total,2, RoundingMode.HALF_UP);
-                        }
-                    }
                 }else{
-                    inLine = new BigDecimal(0);
-                }
-            }
-
-        }
-        return inLine;
-    }
-
-    public void setInLine(BigDecimal inLine) {
-        this.inLine = inLine;
-    }
-
-    public BigDecimal getTargetInLine() {
-        if(targetInLine==null){
-            if (Constant.showDemoData){
-                if(!CollectionUtils.isEmpty(productLineDetailDataList)) {
-                    for (ProductLineDetailData a : productLineDetailDataList) {
-                        targetInLine = ReturnDataUtils.targetData(a.getFactory(),a.getProductId(),a.getPeriodDate());
+                    if(outputGls.compareTo(new BigDecimal(0))==0 && scrapGls.compareTo(new BigDecimal(0))==0){
+                        inLine=new BigDecimal(0);
+                    }else{
+                        BigDecimal total = outputGls.add(scrapGls);
+                        inLine = outputGls.multiply(new BigDecimal("100")).divide(total,2, RoundingMode.HALF_UP);
                     }
                 }
             }else{
-                return new BigDecimal(0);
+                inLine = new BigDecimal(0);
             }
+            return inLine;
         }
-        return targetInLine;
-    }
 
-    public void setTargetInLine(BigDecimal targetInLine) {
-        this.targetInLine = targetInLine;
+        public BigDecimal getTargetInLine() {
+            if(targetInLine==null){
+                if (Constant.showDemoData){
+                    targetInLine = ReturnDataUtils.targetData(getFactory(),getProductId(),getPeriodDate());
+                }else{
+                    return new BigDecimal(0);
+                }
+            }
+            return targetInLine;
+        }
     }
+//
+//    public List<ProductLineDetailData> getProductLineDetailDataList() {
+//        return productLineDetailDataList;
+//    }
+//
+//    public void setProductLineDetailDataList(List<ProductLineDetailData> productLineDetailDataList) {
+//        this.productLineDetailDataList = productLineDetailDataList;
+//    }
 }

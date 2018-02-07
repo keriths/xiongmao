@@ -14,12 +14,8 @@ import java.util.List;
  * Created by wangshuna on 2018/1/24.
  */
 public class ProductOcData {
-    @ApiResultFieldDesc(desc = "返回数据详情")
-    private List<ProductOcDetailData> productOcDetailDataList;
-    @ApiResultFieldDesc(desc = "单个产品良品率")
-    private BigDecimal inLine;
-    @ApiResultFieldDesc(desc = "目标良品率")
-    private BigDecimal targetInLine;
+
+
 
     public static class ProductOcDetailData{
 
@@ -30,6 +26,10 @@ public class ProductOcData {
             this.periodDate = periodDate;
         }
 
+        @ApiResultFieldDesc(desc = "单个产品良品率")
+        private BigDecimal inLine;
+        @ApiResultFieldDesc(desc = "目标良品率")
+        private BigDecimal targetInLine;
         @ApiResultFieldDesc(desc = "厂别如Array,Cell")
         private String factory;
         @ApiResultFieldDesc(desc = "POL的Input数量")
@@ -354,67 +354,63 @@ public class ProductOcData {
         public void setPeriodDate(String periodDate) {
             this.periodDate = periodDate;
         }
-    }
 
-    public List<ProductOcDetailData> getProductOcDetailDataList() {
-        return productOcDetailDataList;
-    }
+        public BigDecimal getTargetInLine() {
+            if(targetInLine==null){
+                if (Constant.showDemoData){
 
-    public void setProductOcDetailDataList(List<ProductOcDetailData> productOcDetailDataList) {
-        this.productOcDetailDataList = productOcDetailDataList;
-    }
+                    targetInLine = ReturnDataUtils.targetData(getFactory(),getProductId(),getPeriodDate());
 
-    public BigDecimal getInLine() {
-        BigDecimal inLine=new BigDecimal(100);
-        BigDecimal polInLine=new BigDecimal("0");//POL良率
-        BigDecimal crimpInLine=new BigDecimal("0");//压接良率
-        if(!CollectionUtils.isEmpty(productOcDetailDataList)) {
-            for (ProductOcDetailData a : productOcDetailDataList) {
-                BigDecimal polInput = a.getPolInput();
-                BigDecimal polOutputA = a.getPolOutputA();
-                BigDecimal polOutputFA = a.getPolOutputFA();
-                BigDecimal mbiRjOutputA = a.getMbiRjOutputA();
-                BigDecimal mbiRjOutputFA = a.getMbiRjOutputFA();
-                BigDecimal polRwOutputA = a.getPolRwOutputA();
-                BigDecimal polRwOutputFA = a.getPolRwOutputFA();
-                BigDecimal iobInput = a.getIobInput();
-                BigDecimal iobEiOutputA = a.getIobEiOutputA();
-                BigDecimal iobEiOutputFA = a.getIobEiOutputFA();
-                BigDecimal iobEiOutputBRwA = a.getIobEiOutputBRwA();
-                BigDecimal iobEiOutputBRwFA = a.getIobEiOutputBRwFA();
-                BigDecimal iobEiOutputDRwA = a.getIobEiOutputDRwA();
-                BigDecimal iobEiOutputDRwFA = a.getIobEiOutputDRwFA();
-
-                polInLine = (polOutputA.add(polOutputFA).add(mbiRjOutputA).add(mbiRjOutputFA).add(polRwOutputA).add(polRwOutputFA)).divide(polInput,4, RoundingMode.HALF_UP);
-                crimpInLine = (iobEiOutputA.add(iobEiOutputFA).add(iobEiOutputBRwA).add(iobEiOutputBRwFA).add(iobEiOutputDRwA).add(iobEiOutputDRwFA)).divide(iobInput,4, RoundingMode.HALF_UP);
-
-                //inLine = (polOutputA.add(polOutputFA).add(mbiRjOutputA).add(mbiRjOutputFA).add(polRwOutputA).add(polRwOutputFA)).divide(polInput).multiply((iobEiOutputA.add(iobEiOutputFA).add(iobEiOutputBRwA).add(iobEiOutputBRwFA).add(iobEiOutputDRwA).add(iobEiOutputDRwFA)).divide(iobInput)).multiply(new BigDecimal("100")).setScale(2,BigDecimal.ROUND_HALF_UP);
-            }
-            inLine = polInLine.multiply(crimpInLine).multiply(new BigDecimal("100")).setScale(2,BigDecimal.ROUND_HALF_UP);
-        }
-        return inLine;
-    }
-
-    public void setInLine(BigDecimal inLine) {
-        this.inLine = inLine;
-    }
-
-    public BigDecimal getTargetInLine() {
-        if(targetInLine==null){
-            if (Constant.showDemoData){
-                if(!CollectionUtils.isEmpty(productOcDetailDataList)) {
-                    for (ProductOcDetailData a : productOcDetailDataList) {
-                        targetInLine = ReturnDataUtils.targetData(a.getFactory(),a.getProductId(),a.getPeriodDate());
-                    }
+                }else{
+                    return new BigDecimal(0);
                 }
-            }else{
-                return new BigDecimal(0);
             }
+            return targetInLine;
         }
-        return targetInLine;
+
+        public BigDecimal getInLine() {
+            BigDecimal inLine=new BigDecimal(100);
+            BigDecimal polInLine=new BigDecimal("0");//POL良率
+            BigDecimal crimpInLine=new BigDecimal("0");//压接良率
+//            if(!CollectionUtils.isEmpty(productOcDetailDataList)) {
+//                for (ProductOcDetailData a : productOcDetailDataList) {
+                    BigDecimal polInput = getPolInput();
+                    BigDecimal polOutputA = getPolOutputA();
+                    BigDecimal polOutputFA = getPolOutputFA();
+                    BigDecimal mbiRjOutputA = getMbiRjOutputA();
+                    BigDecimal mbiRjOutputFA = getMbiRjOutputFA();
+                    BigDecimal polRwOutputA = getPolRwOutputA();
+                    BigDecimal polRwOutputFA = getPolRwOutputFA();
+                    BigDecimal iobInput = getIobInput();
+                    BigDecimal iobEiOutputA = getIobEiOutputA();
+                    BigDecimal iobEiOutputFA = getIobEiOutputFA();
+                    BigDecimal iobEiOutputBRwA = getIobEiOutputBRwA();
+                    BigDecimal iobEiOutputBRwFA = getIobEiOutputBRwFA();
+                    BigDecimal iobEiOutputDRwA = getIobEiOutputDRwA();
+                    BigDecimal iobEiOutputDRwFA = getIobEiOutputDRwFA();
+
+                    polInLine = (polOutputA.add(polOutputFA).add(mbiRjOutputA).add(mbiRjOutputFA).add(polRwOutputA).add(polRwOutputFA)).divide(polInput,4, RoundingMode.HALF_UP);
+                    crimpInLine = (iobEiOutputA.add(iobEiOutputFA).add(iobEiOutputBRwA).add(iobEiOutputBRwFA).add(iobEiOutputDRwA).add(iobEiOutputDRwFA)).divide(iobInput,4, RoundingMode.HALF_UP);
+
+                    //inLine = (polOutputA.add(polOutputFA).add(mbiRjOutputA).add(mbiRjOutputFA).add(polRwOutputA).add(polRwOutputFA)).divide(polInput).multiply((iobEiOutputA.add(iobEiOutputFA).add(iobEiOutputBRwA).add(iobEiOutputBRwFA).add(iobEiOutputDRwA).add(iobEiOutputDRwFA)).divide(iobInput)).multiply(new BigDecimal("100")).setScale(2,BigDecimal.ROUND_HALF_UP);
+//                }
+                inLine = polInLine.multiply(crimpInLine).multiply(new BigDecimal("100")).setScale(2,BigDecimal.ROUND_HALF_UP);
+//            }
+            return inLine;
+        }
     }
 
-    public void setTargetInLine(BigDecimal targetInLine) {
-        this.targetInLine = targetInLine;
-    }
+
+
+
+
+//    public void setInLine(BigDecimal inLine) {
+//        this.inLine = inLine;
+//    }
+//
+//
+//
+//    public void setTargetInLine(BigDecimal targetInLine) {
+//        this.targetInLine = targetInLine;
+//    }
 }

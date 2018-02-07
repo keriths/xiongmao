@@ -73,18 +73,19 @@ public class RateOfGoodProductServiceImpl {
             List<ProductLineData.ProductLineDetailData> detailDataList=dwsProductLineYieldFidsDAO.queryProductLineData(factory,productId,dateType,beginDate,endDate);
             Map<String,ProductLineData.ProductLineDetailData> dataMap= MapUtils.listToMap(detailDataList,"getPeriodDate");
             List<ProductLineData> dataList=new ArrayList<ProductLineData>();
+            List<ProductLineData.ProductLineDetailData> ProductDetailDataList = new ArrayList<ProductLineData.ProductLineDetailData>();
             for (String day:dateList){
-                ProductLineData productLineData = new ProductLineData();
-                List<ProductLineData.ProductLineDetailData> ProductDetailDataList = new ArrayList<ProductLineData.ProductLineDetailData>();
+//                ProductLineData productLineData = new ProductLineData();
+
                 ProductLineData.ProductLineDetailData productLineDetailData =dataMap.get(day);
                 if(productLineDetailData ==null){
                     productLineDetailData =new ProductLineData.ProductLineDetailData(day,factory);
                 }
                 ProductDetailDataList.add(productLineDetailData);
-                productLineData.setProductLineDetailDataList(ProductDetailDataList);
-                dataList.add(productLineData);
+//                productLineData.setProductLineDetailDataList(ProductDetailDataList);
+//                dataList.add(productLineData);
             }
-            resultDto.setProductLineDataList(dataList);
+            resultDto.setProductLineDetailDataList(ProductDetailDataList);
             return resultDto;
         }catch (Exception e){
             LogUtils.error(getClass(), e);
@@ -134,18 +135,18 @@ public class RateOfGoodProductServiceImpl {
             List<ProductOcData.ProductOcDetailData> detailDataList = dwsProductOcYieldFidsDAO.queryProductOcData(factory,productId,dateType,beginDate,endDate);
             Map<String,ProductOcData.ProductOcDetailData> dataMap= MapUtils.listToMap(detailDataList,"getPeriodDate");
             List<ProductOcData> dataList=new ArrayList<ProductOcData>();
+            List<ProductOcData.ProductOcDetailData> ProductDetailDataList = new ArrayList<ProductOcData.ProductOcDetailData>();
             for (String day:dateList){
-                ProductOcData productOcData = new ProductOcData();
-                List<ProductOcData.ProductOcDetailData> ProductDetailDataList = new ArrayList<ProductOcData.ProductOcDetailData>();
+//                ProductOcData productOcData = new ProductOcData();
                 ProductOcData.ProductOcDetailData productOcDetailData = dataMap.get(day);
                 if(productOcDetailData ==null){
                     productOcDetailData =new ProductOcData.ProductOcDetailData(factory,day);
                 }
                 ProductDetailDataList.add(productOcDetailData);
-                productOcData.setProductOcDetailDataList(ProductDetailDataList);
-                dataList.add(productOcData);
+//                productOcData.setProductOcDetailDataList(ProductDetailDataList);
+//                dataList.add(productOcData);
             }
-            resultDto.setProductOcDataList(dataList);
+            resultDto.setProductOcDetailDataList(ProductDetailDataList);
             return resultDto;
         }catch (Exception e){
             LogUtils.error(getClass(), e);

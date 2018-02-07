@@ -9,14 +9,14 @@ import java.util.List;
  * Created by wangshuna on 2018/1/18.
  */
 public class ProductLineDataRetDTO extends BaseRetDTO{
-    @ApiResultFieldDesc(desc = "返回数据列表")
-    List<ProductLineData> productLineDataList;
+    @ApiResultFieldDesc(desc = "返回数据详情")
+    private List<ProductLineData.ProductLineDetailData> productLineDetailDataList;
 
-    public List<ProductLineData> getProductLineDataList() {
-        return productLineDataList;
+    public List<ProductLineData.ProductLineDetailData> getProductLineDetailDataList() {
+        return productLineDetailDataList;
     }
 
-    public void setProductLineDataList(List<ProductLineData> productLineDataList) {
-        this.productLineDataList = productLineDataList;
+    public void setProductLineDetailDataList(List<ProductLineData.ProductLineDetailData> productLineDetailDataList) {
+        this.productLineDetailDataList = productLineDetailDataList;
     }
 }
