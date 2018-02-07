@@ -18,11 +18,15 @@
         <ul id="oneMenuId_001" class="nav nav-list  menu-second in collapse " >
             <li><a href="javascript:void(0)" class="menuItem" menuName="设备管理" menuId="1001" menuUrl="/inprocess/eqpId">设备管理</a></li>
             <li><a href="javascript:void(0)" class="menuItem" menuName="在库容量设置" menuId="1002" menuUrl="/toQuery">在库容量设置</a></li>
-            <li><a href="javascript:void(0)" class="menuItem" menuName="产品管理" menuId="1003" menuUrl="/toQueryProduct">产品管理</a></li>
+
         </ul>
         <a href="#oneMenuId_002" class="nav-header menu-first " data-toggle="collapse">文档</a>
         <ul id="oneMenuId_002" class="nav nav-list  menu-second in collapse " >
             <li><a href="javascript:void(0)" class="menuItem" menuName="接口文档" menuId="2001" menuUrl="/api/doc.html">接口文档</a></li>
+        </ul>
+        <a href="#oneMenuId_003" class="nav-header menu-first " data-toggle="collapse">产品管理</a>
+        <ul id="oneMenuId_003" class="nav nav-list  menu-second in collapse " >
+            <li><a href="javascript:void(0)" class="menuItem" menuName="产品管理" menuId="3001" menuUrl="/toQueryProduct">产品管理</a></li>
         </ul>
     </div>
 </div>
