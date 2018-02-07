@@ -24,11 +24,11 @@ import java.util.*;
 @Controller
 public class ApiAction {
 
-    @RequestMapping(value = "/")
-    @ResponseBody
-    public String testXmlAction(){
-        return "system started <br><a href='/api/doc.html'>接口文档</a>";
-    }
+//    @RequestMapping(value = "/")
+//    @ResponseBody
+//    public String testXmlAction(){
+//        return "system started <br><a href='/api/doc.html'>接口文档</a>";
+//    }
 
     @RequestMapping(value = "/manage/serviceNameList")
     @ResponseBody
