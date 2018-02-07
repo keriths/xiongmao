@@ -67,7 +67,7 @@ public class LoginAction {
     }
 
     @RequestMapping(value = "/welcome")
-    public ModelAndView index(){
+    public ModelAndView welcome(){
         UserDTO userDTO = LoginBO.getLoginedUser();
         if (userDTO==null){
             return new ModelAndView("redirect:/login");
@@ -75,6 +75,11 @@ public class LoginAction {
         ModelAndView modelAndView=new ModelAndView("mainFrame/index");
         modelAndView.addObject("realName",userDTO.getRealName());
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/")
+    public ModelAndView index(){
+        return new ModelAndView("redirect:/welcome");
     }
 
 }
