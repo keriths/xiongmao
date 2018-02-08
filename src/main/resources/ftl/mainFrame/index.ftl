@@ -16,7 +16,7 @@
     <div class="sidebar-menu" id="menuBox">
         <a href="#oneMenuId_001" class="nav-header menu-first " data-toggle="collapse">在制品</a>
         <ul id="oneMenuId_001" class="nav nav-list  menu-second in collapse " >
-            <li><a href="javascript:void(0)" class="menuItem" menuName="设备管理" menuId="1001" menuUrl="/inprocess/eqpId">设备管理</a></li>
+            <li><a href="javascript:void(0)" class="menuItem" menuName="设备管理" menuId="1001" menuUrl="/toQueryStep">设备管理</a></li>
             <li><a href="javascript:void(0)" class="menuItem" menuName="在库容量设置" menuId="1002" menuUrl="/toQuery">在库容量设置</a></li>
 
         </ul>
@@ -27,6 +27,11 @@
         <a href="#oneMenuId_003" class="nav-header menu-first " data-toggle="collapse">产品管理</a>
         <ul id="oneMenuId_003" class="nav nav-list  menu-second in collapse " >
             <li><a href="javascript:void(0)" class="menuItem" menuName="产品管理" menuId="3001" menuUrl="/toQueryProduct">产品管理</a></li>
+        </ul>
+        <a href="#oneMenuId_004" class="nav-header menu-first " data-toggle="collapse">良品率</a>
+        <ul id="oneMenuId_004" class="nav nav-list  menu-second in collapse " >
+            <li><a href="javascript:void(0)" class="menuItem" menuName="目标良品率设置" menuId="4001" menuUrl="/toQueryStep">设备管理</a></li>
+            <li><a href="javascript:void(0)" class="menuItem" menuName="单个目标良品率设置" menuId="4002" menuUrl="/toQueryStep">设备管理</a></li>
         </ul>
     </div>
 </div>
