@@ -16,8 +16,10 @@ public class GoodInProcessWipDataDTO{
     @ApiResultFieldDesc(desc = "返回数据详情列表")
     private List<GoodInProcessWipDetailData> wipDetailDataList;
 
-    @ApiResultFieldDesc(desc = "站点ID")
-    private String setepId;
+    /*@ApiResultFieldDesc(desc = "站点ID")
+    private String setepId;*/
+    @ApiResultFieldDesc(desc = "横坐标时间")
+    private String dataDate;
     @ApiResultFieldDesc(desc = "所有厂别在库量上限汇总")
     private BigDecimal storeMaxSum;
     @ApiResultFieldDesc(desc = "所有厂别在库量下限汇总")
@@ -27,18 +29,24 @@ public class GoodInProcessWipDataDTO{
     public static class GoodInProcessWipDetailData{
 
         public GoodInProcessWipDetailData(){};
-        public GoodInProcessWipDetailData(String stepId,String factory){
+        /*public GoodInProcessWipDetailData(String stepId,String factory){
             this.stepId=stepId;
+            this.factory=factory;
+        }*/
+        public GoodInProcessWipDetailData(String dataDate,String factory){
+            this.dataDate=dataDate;
             this.factory=factory;
         }
         public String key(){
-            return stepId+" "+factory;
+            return dataDate+" "+factory;
         }
 
         @ApiResultFieldDesc(desc = "厂别,如Array,Cell")
         private String factory;
-        @ApiResultFieldDesc(desc = "站点ID")
-        private String stepId;
+        /*@ApiResultFieldDesc(desc = "站点ID")
+        private String stepId;*/
+        @ApiResultFieldDesc(desc = "横坐标时间")
+        private String dataDate;
         @ApiResultFieldDesc(desc = "在制品数量")
         private BigDecimal quantity;
         @ApiResultFieldDesc(desc = "在库量上限")
@@ -54,12 +62,12 @@ public class GoodInProcessWipDataDTO{
             this.factory = factory;
         }
 
-        public String getSetepId() {
-            return stepId;
+        public String getDataDate() {
+            return dataDate;
         }
 
-        public void setSetepId(String setepId) {
-            this.stepId = setepId;
+        public void setDataDate(String dataDate) {
+            this.dataDate = dataDate;
         }
 
         public BigDecimal getQuantity() {
@@ -134,12 +142,12 @@ public class GoodInProcessWipDataDTO{
         this.wipDetailDataList = wipDetailDataList;
     }
 
-    public String getSetepId() {
-        return setepId;
+    public String getDataDate() {
+        return dataDate;
     }
 
-    public void setSetepId(String setepId) {
-        this.setepId = setepId;
+    public void setDataDate(String dataDate) {
+        this.dataDate = dataDate;
     }
 
     public BigDecimal getStoreMaxSum() {

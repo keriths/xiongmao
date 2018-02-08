@@ -30,25 +30,28 @@
             sum(STORE_MAX) as storeMax,
             sum(STORE_MIN) as storeMin,
             sum(WIP_GLS_QTY) as quantity,
-            STEPID as setepId,
-            FACTORY as factory
+            /*STEPID as setepId,*/
+            FACTORY as factory,
+            TO_CHAR(PERIODDATE,'HH24')||':00' as dataDate
         from DWR_WIP_GLS_FIDS
         WHERE
             FACTORY IN
             <foreach collection="factoryList" item="factory" open="(" separator="," close=")" >
                 #{factory}
             </foreach>
-            AND
+            <!--AND
             STEPID IN
             <foreach collection="stepIdList" item="stepId" open="(" separator="," close=")" >
                 #{stepId}
-            </foreach>
+            </foreach>-->
             <![CDATA[
               and PERIODDATE >= #{beginDate}
               and PERIODDATE <= #{endDate}
              ]]>
         GROUP BY
-          STEPID,FACTORY
+          /*STEPID,*/
+          FACTORY,
+          TO_CHAR(PERIODDATE,'HH24')||':00'
     </select>
 
     <!--<select id="loadByPrimaryKey" parameterType="map" resultType="map">

@@ -27,7 +27,6 @@ public interface DwrWipGlsFidsDAO {
     );
 
     List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> queryGoodInProcessWip(@Param("factoryList") List<String> factoryList,
-                                                                                   @Param("stepIdList") List<String> stepIdList,
                                                                                    @Param("beginDate") Date beginDate,
                                                                                    @Param("endDate") Date endDate);
     Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
