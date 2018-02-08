@@ -20,12 +20,12 @@
         STEPID=#{stepId}
     </select>
 
-    <!--<update id="updateStep"  parameterType="map">
+    <update id="updateStep"  parameterType="map">
         UPDATE STEP SET
-        STEPID = #{stepId}
+            STEPID = #{stepId}
         WHERE
-        FACTORY = #{factory}
-    </update>-->
+            FACTORY = #{factory}
+    </update>
 
     <insert id="addStep" parameterType="map">
         INSERT INTO  STEP

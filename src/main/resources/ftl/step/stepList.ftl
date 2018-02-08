@@ -34,7 +34,7 @@
                 <h4 class="modal-title" >添加设备</h4>
             </div>
             <div class="modal-body">
-                <form id="editForm"  class="form-horizontal">
+                <form id="addForm"  class="form-horizontal">
                     <div class="form-group">
                         <label class="control-label col-sm-3">工厂：</label>
                         <div class="col-sm-8">
@@ -57,7 +57,7 @@
     </div>
 </div>
 
-<#--
+
 <div class="modal fade" id="editStepModel" tabindex="-1" role="dialog" aria-labelledby="userModelLabel" aria-hidden="true" data-backdrop="false">
     <div class="modal-dialog" >
         <div class="modal-content">
@@ -89,7 +89,7 @@
             </div>
         </div>
     </div>
-</div>-->
+</div>
 
 <script type="text/javascript">
     $("#table_proInfo").bootstrapTable({
@@ -110,10 +110,12 @@
             width: '400px',
             formatter: function(value, row, index){
                 return '<button class="btn btn-xs btn-danger" id="deleteData" title="删除"><i class="glyphicon glyphicon-trash"></i></button>'
-                        +'&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-xs btn-danger" id="addData" title="添加"><i class="glyphicon glyphicon-plus"></i></button>';
+                        +'&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-xs btn-danger" id="addData" title="添加"><i class="glyphicon glyphicon-plus"></i></button>'
+                        +'&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-xs btn-danger" id="editData" title="编辑"><i class="glyphicon glyphicon-pencil"></i></button>';
 
             },
             events: {
+                'click #editData':editData,
                 'click #deleteData':deleteData,
                 'click #addData':addData,
             }
@@ -144,13 +146,13 @@
 
     //提交用户信息
     $("#stepModel").on('click','#userModelBtn',function(){
-        $("#editForm").submit();
+        $("#addForm").submit();
     });
 
     //添加
     function addData(e, v, row) {
         //$("#editForm").resetForm();
-        $("#editForm")[0].reset();
+        $("#addForm")[0].reset();
         $("#stepModel").modal("show");
 
     }
@@ -170,7 +172,7 @@
         $.ajax({
             type: "POST",   //提交的方法
             url:"/addStep", //提交的地址
-            data:$('#editForm').serialize(),// 序列化表单值
+            data:$('#addForm').serialize(),// 序列化表单值
             async: false,
             dataType:"json",
             success: function (data) {
@@ -186,25 +188,25 @@
     });
 
 
-    /*//编辑
+    //编辑
     function editData(e, v, row) {
         $("#editForm")[0].reset();
         $("#editStepModel .modal-title").empty().html("编辑设备");
         $("#editForm input[name=factory]").val(row.factory);
-        $("#editForm input[name=stepid]").val(row.stepid);
-        $("#editStoreModel").modal("show");
+        $("#editForm input[name=stepId]").val(row.stepId);
+        $("#editStepModel").modal("show");
     }
 
     //确定编辑
     $("#editModelBtn").click(function () {
-        /!*if($("#factory").val()=="") {
+        /*if($("#editFactory").val()=="") {
             alert("工厂不能为空!");
-            $("#factory").focus();
+            $("#editFactory").focus();
             return false;
-        }*!/
-        if($("#stepId").val()=="") {
+        }*/
+        if($("#editStepId").val()=="") {
             alert("站点ID不能为空!");
-            $("#stepId").focus();
+            $("#editStepId").focus();
             return false;
         }
 
@@ -226,7 +228,6 @@
         });
     });
 
-*/
     function deleteData(e, v, row) {
         if(row.dictItemList!=""){
             if(confirm("确定删除吗？")){

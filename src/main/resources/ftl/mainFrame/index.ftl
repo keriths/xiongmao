@@ -28,11 +28,11 @@
         <ul id="oneMenuId_003" class="nav nav-list  menu-second in collapse " >
             <li><a href="javascript:void(0)" class="menuItem" menuName="产品管理" menuId="3001" menuUrl="/toQueryProduct">产品管理</a></li>
         </ul>
-        <a href="#oneMenuId_004" class="nav-header menu-first " data-toggle="collapse">良品率</a>
+        <#--<a href="#oneMenuId_004" class="nav-header menu-first " data-toggle="collapse">良品率</a>
         <ul id="oneMenuId_004" class="nav nav-list  menu-second in collapse " >
-            <li><a href="javascript:void(0)" class="menuItem" menuName="目标良品率设置" menuId="4001" menuUrl="/toQueryStep">设备管理</a></li>
-            <li><a href="javascript:void(0)" class="menuItem" menuName="单个目标良品率设置" menuId="4002" menuUrl="/toQueryStep">设备管理</a></li>
-        </ul>
+            <li><a href="javascript:void(0)" class="menuItem" menuName="目标良品率设置" menuId="4001" menuUrl="/toQueryStep">目标良品率设置</a></li>
+            <li><a href="javascript:void(0)" class="menuItem" menuName="单个目标良品率设置" menuId="4002" menuUrl="/toQueryStep">单个目标良品率设置</a></li>
+        </ul>-->
     </div>
 </div>
 <div id="mainPanle" region="center" class="right">

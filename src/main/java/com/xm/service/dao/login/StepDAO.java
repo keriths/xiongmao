@@ -12,7 +12,7 @@ import java.util.List;
 public interface StepDAO {
     List<StepRetDTO.StepRetDataDTO> queryStep();
 
-    //Integer updataStep(StepRetDTO.StepRetDataDTO step);
+    Integer updateStep(StepRetDTO.StepRetDataDTO step);
 
     Integer addStep(StepRetDTO.StepRetDataDTO step);
 

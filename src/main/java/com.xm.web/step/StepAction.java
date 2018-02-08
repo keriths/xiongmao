@@ -66,23 +66,23 @@ public class StepAction {
         return resultVo;
     }
 
-    /*@RequestMapping(value = "/toEditStepId")
-    public ModelAndView toEditStepId(String factory,String stepId){
+    /*@RequestMapping(value = "/toEditStep")
+    public ModelAndView toEditStep(String factory,String stepId){
         UserDTO userDTO = LoginBO.getLoginedUser();
         if (userDTO==null){
             return new ModelAndView("login/loginIndex");
         }
-        ModelAndView modelAndView=new ModelAndView("store/edit");
+        ModelAndView modelAndView=new ModelAndView("step/editStep");
         modelAndView.addObject("factory",factory);
-        modelAndView.addObject("stepid",stepId);
+        modelAndView.addObject("stepId",stepId);
         return modelAndView;
     }*/
 
-    /*@RequestMapping(value = "/updateStep")
+    @RequestMapping(value = "/updateStep")
     public @ResponseBody ResultVo updateStep(StepRetDTO.StepRetDataDTO stepRetDataDTO){
         ResultVo resultVo=new ResultVo();
         try {
-            int count=stepDAO.updataStep(stepRetDataDTO);
+            int count=stepDAO.updateStep(stepRetDataDTO);
             if(count>0){
                 resultVo.setSuccess(true);
                 resultVo.setErrorMessage("编辑成功");
@@ -97,7 +97,7 @@ public class StepAction {
 
         }
         return resultVo;
-    }*/
+    }
 
     @RequestMapping(value = "/addStep")
     public @ResponseBody ResultVo addStep(StepRetDTO.StepRetDataDTO stepRetDataDTO){
