@@ -14,10 +14,10 @@
             FREQUENCYHAND as frequencyHand,
             DATADATE as dataDate
         from EXHAUSTADATA
-            <!--WHERE
-                <if test="name!=null and name!=''">
-                    NAME=#{name,jdbcType=VARCHAR}
-                </if>-->
+        WHERE
+            <if test="name!=null and name!=''">
+                NAME=#{name,jdbcType=VARCHAR}
+            </if>
     </select>
 
 </mapper>
