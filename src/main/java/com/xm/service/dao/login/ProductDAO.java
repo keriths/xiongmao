@@ -12,9 +12,10 @@ import java.util.Map;
 public interface ProductDAO {
     List<ProductRetDTO.productRetDataDTO> queryProduct();
 
-    //Integer addProduct(ProductRetDTO.productRetDataDTO product);
+    Integer addProduct(ProductRetDTO.productRetDataDTO product);
 
     Integer deleteProduct(ProductRetDTO.productRetDataDTO product);
 
+    ProductRetDTO.productRetDataDTO queryProductById(ProductRetDTO.productRetDataDTO product);
 
 }

@@ -64,6 +64,33 @@ public class ProductAction {
 
     }
 
+    @RequestMapping(value = "/addProduct")
+    public @ResponseBody ResultVo addProduct(ProductRetDTO.productRetDataDTO productRetDataDTO){
+        ResultVo resultVo=new ResultVo();
+        try {
+            ProductRetDTO.productRetDataDTO product=productDAO.queryProductById(productRetDataDTO);
+            if(product!=null){
+                resultVo.setSuccess(false);
+                resultVo.setErrorMessage("添加失败,该产品已存在");
+                return resultVo;
+            }
+            int count=productDAO.addProduct(productRetDataDTO);
+            if(count>0){
+                resultVo.setSuccess(true);
+                resultVo.setErrorMessage("添加成功");
+            }else{
+                resultVo.setSuccess(false);
+                resultVo.setErrorMessage("添加失败");
+            }
+        }catch (Exception e){
+            resultVo.setSuccess(false);
+            resultVo.setErrorMessage("添加失败");
+
+        }
+        return resultVo;
+
+    }
+
 
 
 }

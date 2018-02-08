@@ -9,7 +9,18 @@
           PRODUCT
     </select>
 
-    <delete id="deleteProduct">
+    <select id="queryProductById" resultType="com.xm.service.apiimpl.pc.product.dto.ProductRetDTO$productRetDataDTO" parameterType="map">
+        SELECT
+          ID as productId,
+          NAME as productName
+        FROM
+          PRODUCT
+        WHERE
+          ID=#{productId} AND
+          NAME=#{productName}
+    </select>
+
+    <delete id="deleteProduct" parameterType="map">
         DELETE
         FROM
           PRODUCT
@@ -17,5 +28,11 @@
           ID=#{productId} AND
           NAME=#{productName}
     </delete>
+
+    <insert id="addProduct" parameterType="map">
+        INSERT INTO  PRODUCT
+        (ID,   NAME) VALUES
+        (#{productId},#{productName})
+    </insert>
 
 </mapper>

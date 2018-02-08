@@ -1,11 +1,14 @@
 package com.xm.web.store;
 
+import com.xm.service.apiimpl.pc.product.dto.ProductRetDTO;
 import com.xm.service.apiimpl.pc.store.dto.StoreDTO;
 import com.xm.service.apiimpl.pc.login.dto.UserDTO;
 import com.xm.service.dao.login.StoreDAO;
+import com.xm.service.dao.util.RequestPageVo;
 import com.xm.web.bo.LoginBO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -23,10 +26,21 @@ public class StoreAction {
         if (userDTO==null){
             return new ModelAndView("login/loginIndex");
         }
-        List<StoreDTO> storeDTOList=storeDAO.queryStore();
         ModelAndView modelAndView=new ModelAndView("store/query");
-        modelAndView.addObject("storeDTOList",storeDTOList);
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/storeList")
+    public @ResponseBody
+    RequestPageVo<StoreDTO> productList(){
+        RequestPageVo<StoreDTO> resultVo=new RequestPageVo<StoreDTO>();
+        try {
+            List<StoreDTO> storetList=storeDAO.queryStore();
+            resultVo.setRows(storetList);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return resultVo;
     }
 
     @RequestMapping(value = "/toEdit")
