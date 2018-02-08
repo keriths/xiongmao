@@ -11,14 +11,29 @@
           STORE
     </select>
 
-    <update id="updataStore"  parameterType="map">
+    <update id="updateStore"  parameterType="map">
         UPDATE STORE SET
-        STORE_MIN = #{storeMin},
-        STORE_MAX = #{storeMax}
+            STORE_MIN = #{storeMin},
+            STORE_MAX = #{storeMax}
         WHERE
-        FACTORY = #{factory} AND
-        STEPID = #{stepid}
+            FACTORY = #{factory} AND
+            STEPID = #{stepid}
     </update>
+
+    <insert id="addStore" parameterType="map">
+        INSERT INTO  STORE
+        (FACTORY,STEPID,STORE_MIN,STORE_MAX) VALUES
+        (#{factory},#{stepid},#{storeMin},#{storeMax})
+    </insert>
+
+    <delete id="deleteStore" parameterType="map">
+        DELETE
+        FROM
+          STORE
+        WHERE
+            FACTORY = #{factory} AND
+            STEPID = #{stepid}
+    </delete>
 
     <select id="querySyncData" parameterType="map" resultType="map">
         <![CDATA[

@@ -114,7 +114,7 @@
 
     //添加
     function addData(e, v, row) {
-        //$("#editForm").resetForm();
+        $("#editForm")[0].reset();
         $("#productModel").modal("show");
 
     }
@@ -140,7 +140,7 @@
             success: function (data) {
                 if(data.success){
                     alert(data.errorMessage);
-                    $("#table_proInfo").modal("hide");
+                    $("#productModel").modal("hide");
                     $("#table_proInfo").bootstrapTable('refresh');
                 }else {
                     alert(data.errorMessage);

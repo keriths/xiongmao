@@ -11,7 +11,11 @@ import java.util.Map;
 public interface StoreDAO {
     List<StoreDTO> queryStore();
 
-    Integer updataStore(StoreDTO storeDTO);
+    Integer updateStore(StoreDTO storeDTO);
+
+    Integer addStore(StoreDTO storeDTO);
+
+    Integer deleteStore(StoreDTO storeDTO);
 
     List<Map<String,Object>> querySyncData(@Param("offset")int offset, @Param("limit")int limit);
     

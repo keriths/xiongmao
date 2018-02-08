@@ -5,6 +5,7 @@ import com.xm.service.apiimpl.pc.store.dto.StoreDTO;
 import com.xm.service.apiimpl.pc.login.dto.UserDTO;
 import com.xm.service.dao.login.StoreDAO;
 import com.xm.service.dao.util.RequestPageVo;
+import com.xm.service.dao.util.ResultVo;
 import com.xm.web.bo.LoginBO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +27,7 @@ public class StoreAction {
         if (userDTO==null){
             return new ModelAndView("login/loginIndex");
         }
-        ModelAndView modelAndView=new ModelAndView("store/query");
+        ModelAndView modelAndView=new ModelAndView("store/storeList");
         return modelAndView;
     }
 
@@ -57,16 +58,67 @@ public class StoreAction {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/updatestore")
-    public ModelAndView updatestore(StoreDTO store){
-        UserDTO userDTO = LoginBO.getLoginedUser();
-        if (userDTO==null){
-            return new ModelAndView("login/loginIndex");
-        }
-        storeDAO.updataStore(store);
+    @RequestMapping(value = "/updateStore")
+    public @ResponseBody ResultVo updatestore(StoreDTO store){
+        ResultVo resultVo=new ResultVo();
+        try {
+            int count=storeDAO.updateStore(store);
+            if(count>0){
+                resultVo.setSuccess(true);
+                resultVo.setErrorMessage("编辑成功");
+            }else{
+                resultVo.setSuccess(false);
+                resultVo.setErrorMessage("编辑失败");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            resultVo.setSuccess(false);
+            resultVo.setErrorMessage("编辑失败");
 
-        ModelAndView modelAndView=new ModelAndView("store/edit");
-        return modelAndView;
+        }
+        return resultVo;
+    }
+
+    @RequestMapping(value = "/addStore")
+    public @ResponseBody ResultVo addStore(StoreDTO store){
+        ResultVo resultVo=new ResultVo();
+        try {
+            int count=storeDAO.addStore(store);
+            if(count>0){
+                resultVo.setSuccess(true);
+                resultVo.setErrorMessage("添加成功");
+            }else{
+                resultVo.setSuccess(false);
+                resultVo.setErrorMessage("添加失败");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            resultVo.setSuccess(false);
+            resultVo.setErrorMessage("添加失败");
+
+        }
+        return resultVo;
+    }
+
+    @RequestMapping(value = "/deleteStore")
+    public @ResponseBody ResultVo deleteStore(StoreDTO store){
+        ResultVo resultVo=new ResultVo();
+        try {
+            int count=storeDAO.deleteStore(store);
+            if(count>0){
+                resultVo.setSuccess(true);
+                resultVo.setErrorMessage("删除成功");
+            }else{
+                resultVo.setSuccess(false);
+                resultVo.setErrorMessage("删除失败");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            resultVo.setSuccess(false);
+            resultVo.setErrorMessage("删除失败");
+
+        }
+        return resultVo;
     }
 
 
