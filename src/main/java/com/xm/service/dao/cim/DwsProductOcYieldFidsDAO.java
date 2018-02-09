@@ -24,4 +24,14 @@ public interface DwsProductOcYieldFidsDAO {
     void addData(Map<String, Object> mapData);
 
     void updateData(Map<String, Object> mapData);
+
+    /**
+     * 单个目标良品率
+     * @param mapData
+     */
+    /*Map<String,Object> loadTargetByPrimaryKey(Map<String, Object> mapData);
+
+    void addTargetData(Map<String, Object> mapData);*/
+
+    void updateTargetData(Map<String, Object> mapData);
 }

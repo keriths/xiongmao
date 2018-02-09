@@ -69,4 +69,14 @@
         PRODUCTTYPE = #{PRODUCTTYPE} and
         PRODUCTID = #{PRODUCTID}
     </update>
+
+    <update id="updateTargetData" parameterType="map">
+        UPDATE DWS_PRODUCT_LINE_YIELD_FIDS SET
+        (DWS_PRODUCT_LINE_YIELD_FIDS.TARGETINLINE)=
+        (select TARGETINLINE
+        from TARGET
+        where
+        TARGET.FACTORY=DWS_PRODUCT_LINE_YIELD_FIDS.FACTORY and
+        TARGET.PRODUCTID=DWS_PRODUCT_LINE_YIELD_FIDS.PRODUCTID)
+    </update>
 </mapper>

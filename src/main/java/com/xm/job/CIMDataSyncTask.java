@@ -3,6 +3,8 @@ package com.xm.job;
 import com.xm.service.dao.cim.*;
 import com.xm.service.dao.factory.cim.*;
 import com.xm.service.dao.login.StoreDAO;
+import com.xm.service.dao.login.TargetDAO;
+import com.xm.service.dao.login.TargetocDAO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -47,6 +49,11 @@ public class CIMDataSyncTask {
     private FactoryDwsProductOcYieldFidsDAO factoryDwsProductOcYieldFidsDAO;
     @Resource
     private DwsProductOcYieldFidsDAO dwsProductOcYieldFidsDAO;
+
+    @Resource
+    private TargetDAO targetDAO;
+    @Resource
+    private TargetocDAO targetocDAO;
 
     //---------------CycleTime------------
     @Resource
@@ -126,7 +133,7 @@ public class CIMDataSyncTask {
      * 在制品数据同步
      * 已测通
      */
-    @Scheduled(fixedRate = 1000*5)
+    //@Scheduled(fixedRate = 1000*5)
     public void GoodInProcessDataSync(){
         int offset = 0;
         int limit = 1000;
@@ -153,7 +160,7 @@ public class CIMDataSyncTask {
      * 在制品的在库量数据同步
      * 已测通
      */
-    @Scheduled(fixedRate = 1000*5)
+    //@Scheduled(fixedRate = 1000*5)
     public void StoreDataSync(){
         int offset = 0;
         int limit = 1000;
@@ -198,6 +205,27 @@ public class CIMDataSyncTask {
     }
 
     /**
+     * 目标良品率数据同步
+     *已测通
+     */
+    //@Scheduled(fixedRate = 1000*5)
+    public void TargetInLineDataSync(){
+        int offset = 0;
+        int limit = 1000;
+        while (true){
+            List<Map<String,Object>> mapDataList = targetDAO.querySyncData(offset,limit);
+            if (CollectionUtils.isEmpty(mapDataList)){
+                return;
+            }
+            for (Map<String,Object> mapData : mapDataList){
+                //更新
+                dwsProductLineYieldFidsDAO.updateTargetData(mapData);
+            }
+            offset = offset+limit;
+        }
+    }
+
+    /**
      * 单个良品率数据同步
      * 已测通
      */
@@ -219,6 +247,27 @@ public class CIMDataSyncTask {
                     //更新
                     dwsProductOcYieldFidsDAO.updateData(mapData);
                 }
+            }
+            offset = offset+limit;
+        }
+    }
+
+    /**
+     * 单个目标良品率数据同步
+     *已测通
+     */
+    //@Scheduled(fixedRate = 1000*5)
+    public void TargetOcInLineDataSync(){
+        int offset = 0;
+        int limit = 1000;
+        while (true){
+            List<Map<String,Object>> mapDataList = targetocDAO.querySyncData(offset,limit);
+            if (CollectionUtils.isEmpty(mapDataList)){
+                return;
+            }
+            for (Map<String,Object> mapData : mapDataList){
+                //更新
+                dwsProductOcYieldFidsDAO.updateTargetData(mapData);
             }
             offset = offset+limit;
         }

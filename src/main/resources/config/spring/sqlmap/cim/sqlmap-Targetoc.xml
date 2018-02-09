@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.login.TargetocDAO" >
+    <select id="queryTargetOCInline" resultType="com.xm.service.apiimpl.pc.targetOC.dto.TargetocDTO" parameterType="map">
+        SELECT
+        FACTORY as factory,
+        PRODUCTID as productId,
+        TARGETINLINE as targetInline
+        FROM
+        TARGETOC
+    </select>
+
+    <update id="updateTargetOCInline"  parameterType="map">
+        UPDATE TARGETOC SET
+        TARGETINLINE = #{targetInline}
+        WHERE
+        FACTORY = #{factory} AND
+        PRODUCTID = #{productId}
+    </update>
+
+    <insert id="addTargetOCInline" parameterType="map">
+        INSERT INTO  TARGETOC
+        (FACTORY,PRODUCTID,TARGETINLINE) VALUES
+        (#{factory},#{productId},#{targetInline})
+    </insert>
+
+    <delete id="deleteTargetOCInline" parameterType="map">
+        DELETE
+        FROM
+        TARGETOC
+        WHERE
+        FACTORY = #{factory} AND
+        PRODUCTID = #{productId}
+    </delete>
+
+    <select id="querySyncData" parameterType="map" resultType="map">
+        <![CDATA[
+
+        select * from (
+          select t.*,rownum as rn
+          from TARGETOC t
+          where
+            rownum <= #{offset}+#{limit}
+        ) a where a.rn > #{offset}
+
+        ]]>
+    </select>
+</mapper>
