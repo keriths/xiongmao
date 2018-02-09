@@ -2,6 +2,7 @@ package com.xm.service.apiimpl.pc.fmcs.exhaust.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.RandomUtils;
+import com.xm.platform.util.ReturnDataUtils;
 import com.xm.service.constant.Constant;
 
 import java.math.BigDecimal;
@@ -13,11 +14,14 @@ public class ExhaustAData {
     @ApiResultFieldDesc(desc = "系统名称")
     private String name;
 
-    @ApiResultFieldDesc(desc = "变频选择(0值1就绪2自动3变频)")
+    @ApiResultFieldDesc(desc = "变频选择(0就绪1自动2变频)")
     private String hz;
 
     @ApiResultFieldDesc(desc = "状态(0自动1启动2停止3复位)")
     private String status;
+
+    @ApiResultFieldDesc(desc = "风机状态(0运行1停止)")
+    private String fanStatus;
 
     @ApiResultFieldDesc(desc = "轴承温度1")
     private BigDecimal temperatureOne;
@@ -47,7 +51,9 @@ public class ExhaustAData {
 
     public String getHz() {
         if(hz==null){
-            return "1";
+            if (Constant.showDemoData){
+                return ReturnDataUtils.demoData("int","0,1,2").toString();
+            }
         }
         return hz;
     }
@@ -58,13 +64,28 @@ public class ExhaustAData {
 
     public String getStatus() {
         if(status==null){
-            return "1";
+            if (Constant.showDemoData){
+                return ReturnDataUtils.demoData("int","0,1,2,3").toString();
+            }
         }
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getFanStatus() {
+        if(fanStatus==null){
+            if (Constant.showDemoData){
+                return ReturnDataUtils.demoData("int","0,1").toString();
+            }
+        }
+        return fanStatus;
+    }
+
+    public void setFanStatus(String fanStatus) {
+        this.fanStatus = fanStatus;
     }
 
     public BigDecimal getTemperatureOne() {

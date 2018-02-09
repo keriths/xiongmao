@@ -7,6 +7,7 @@
             NAME as name,
             HZ as hz,
             STATUS as status,
+            FANSTATUS as fanStatus,
             TEMPERATUREONE as temperatureOne,
             TEMPERATURETWO as temperatureTwo,
             ELECTRICITY as electricity,
