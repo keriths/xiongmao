@@ -44,6 +44,7 @@
 
     <select id="queryStepId" resultType="com.xm.service.apiimpl.pc.step.dto.StepRetDTO$StepRetDataDTO" parameterType="map">
         SELECT
+            FACTORY as factory,
             STEPID as stepId
         FROM
           STEP
