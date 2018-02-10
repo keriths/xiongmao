@@ -44,15 +44,12 @@ public class GoodsInProcessServiceImpl {
                 retDTO.setErrorMsg("factory参数错误,请传入【" + factoryList + "】");
                 return retDTO;
             }
-
             StepRetDTO stepRetDTO = new StepRetDTO();
-            //StepRetDTO.StepRetDataDTO stepRetDataDTO = new StepRetDTO.StepRetDataDTO();
             List<StepRetDTO.StepRetDataDTO> queryStepDataList = stepDAO.queryStepId(factory);
             stepRetDTO.setDataDTOList(queryStepDataList);
             List<String> stepIdLists = stepRetDTO.getStepList();
             Date beginDate = DateUtils .getBeforHourStartDay(0);
             Date endDate = new Date();
-            //List<String> stepIdList = Constant.goodInProcessStepIdNameMap.containsKey();
             List<GoodInProcessFtRetDTO.GoodInProcessFtDate> queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factory,stepIdLists,beginDate,endDate);
             if (CollectionUtils.isEmpty(queryFtdate)){
                 //如果这一小时数据还没有出来，取上一小时的数据
@@ -72,9 +69,6 @@ public class GoodsInProcessServiceImpl {
                 }
                 list.add(data);
             }
-
-
-
             /*Date beginDate = DateUtils .getBeforHourStartDay(0);
             Date endDate = new Date();
             //List<String> stepIdList = Constant.goodInProcessStepIdNameMap.containsKey();
