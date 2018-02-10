@@ -9,8 +9,10 @@ import com.xm.platform.util.MapUtils;
 import com.xm.service.apiimpl.pc.cim.goodinprocess.dto.GoodInProcessFtRetDTO;
 import com.xm.service.apiimpl.pc.cim.goodinprocess.dto.GoodInProcessWipDataDTO;
 import com.xm.service.apiimpl.pc.cim.goodinprocess.dto.GoodInProcessWipRetDTO;
+import com.xm.service.apiimpl.pc.step.dto.StepRetDTO;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DwrWipGlsFidsDAO;
+import com.xm.service.dao.login.StepDAO;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -29,6 +31,8 @@ import java.util.Map;
 public class GoodsInProcessServiceImpl {
     @Resource(name="dwrWipGlsFidsDAO")
     private DwrWipGlsFidsDAO dwrWipGlsFidsDAO;
+    @Resource(name="stepDAO")
+    private StepDAO stepDAO;
 
     @ApiMethodDoc(apiCode = "CIM_goodInProcessFt" , name = "每个厂别的在制品接口(完成)")
     public GoodInProcessFtRetDTO goodInProcessFtRetDTO(@ApiParamDoc(desc = "厂别,如Array,Cell") String factory){
@@ -41,7 +45,37 @@ public class GoodsInProcessServiceImpl {
                 return retDTO;
             }
 
+            StepRetDTO stepRetDTO = new StepRetDTO();
+            //StepRetDTO.StepRetDataDTO stepRetDataDTO = new StepRetDTO.StepRetDataDTO();
+            List<StepRetDTO.StepRetDataDTO> queryStepDataList = stepDAO.queryStepId(factory);
+            stepRetDTO.setDataDTOList(queryStepDataList);
+            List<String> stepIdLists = stepRetDTO.getStepList();
             Date beginDate = DateUtils .getBeforHourStartDay(0);
+            Date endDate = new Date();
+            //List<String> stepIdList = Constant.goodInProcessStepIdNameMap.containsKey();
+            List<GoodInProcessFtRetDTO.GoodInProcessFtDate> queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factory,stepIdLists,beginDate,endDate);
+            if (CollectionUtils.isEmpty(queryFtdate)){
+                //如果这一小时数据还没有出来，取上一小时的数据
+                beginDate = DateUtils.getBeforHourStartDay(1);
+                endDate = DateUtils.getBeforHourEndDay(1);
+                queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factory,stepIdLists,beginDate,endDate);
+            }
+            Map<String,GoodInProcessFtRetDTO.GoodInProcessFtDate> queryMap = MapUtils.listToMap(queryFtdate,"getStepId");
+            List<GoodInProcessFtRetDTO.GoodInProcessFtDate> list = new ArrayList<GoodInProcessFtRetDTO.GoodInProcessFtDate>();
+            for(String step:stepIdLists){
+                GoodInProcessFtRetDTO.GoodInProcessFtDate data = null;
+                if (!CollectionUtils.isEmpty(queryMap)){
+                    data = queryMap.get(step);
+                }
+                if (data == null) {
+                    data = new GoodInProcessFtRetDTO.GoodInProcessFtDate(factory,step);
+                }
+                list.add(data);
+            }
+
+
+
+            /*Date beginDate = DateUtils .getBeforHourStartDay(0);
             Date endDate = new Date();
             //List<String> stepIdList = Constant.goodInProcessStepIdNameMap.containsKey();
             List<GoodInProcessFtRetDTO.GoodInProcessFtDate> queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factory,Constant.stepIdLists,beginDate,endDate);
@@ -62,7 +96,7 @@ public class GoodsInProcessServiceImpl {
                     data = new GoodInProcessFtRetDTO.GoodInProcessFtDate(factory,step);
                 }
                 list.add(data);
-            }
+            }*/
             retDTO.setGoodInProcessFtDateList(list);
             return retDTO;
         }catch (Exception e){

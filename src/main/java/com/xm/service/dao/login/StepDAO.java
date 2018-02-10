@@ -1,6 +1,7 @@
 package com.xm.service.dao.login;
 
 import com.xm.service.apiimpl.pc.step.dto.StepRetDTO;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,4 +20,6 @@ public interface StepDAO {
     Integer deleteStep(StepRetDTO.StepRetDataDTO step);
 
     StepRetDTO.StepRetDataDTO queryStepByFactory(StepRetDTO.StepRetDataDTO step);
+
+    List<StepRetDTO.StepRetDataDTO> queryStepId(@Param("factory")String factory);
 }

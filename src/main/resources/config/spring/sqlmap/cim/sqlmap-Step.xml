@@ -3,21 +3,21 @@
 <mapper namespace="com.xm.service.dao.login.StepDAO" >
     <select id="queryStep" resultType="com.xm.service.apiimpl.pc.step.dto.StepRetDTO$StepRetDataDTO" parameterType="map">
         SELECT
-        FACTORY as factory,
-        STEPID as stepId
+            FACTORY as factory,
+            STEPID as stepId
         FROM
-        STEP
+            STEP
     </select>
 
     <select id="queryStepByFactory" resultType="com.xm.service.apiimpl.pc.step.dto.StepRetDTO$StepRetDataDTO" parameterType="map">
         SELECT
-        FACTORY as factory,
-        STEPID as stepId
+            FACTORY as factory,
+            STEPID as stepId
         FROM
-        STEP
+          STEP
         WHERE
-        FACTORY=#{factory} AND
-        STEPID=#{stepId}
+            FACTORY=#{factory} AND
+            STEPID=#{stepId}
     </select>
 
     <update id="updateStep"  parameterType="map">
@@ -36,10 +36,19 @@
     <delete id="deleteStep">
         DELETE
         FROM
-        STEP
+          STEP
         WHERE
-        FACTORY=#{factory} AND
-        STEPID=#{stepId}
+            FACTORY=#{factory} AND
+            STEPID=#{stepId}
     </delete>
+
+    <select id="queryStepId" resultType="com.xm.service.apiimpl.pc.step.dto.StepRetDTO$StepRetDataDTO" parameterType="map">
+        SELECT
+            STEPID as stepId
+        FROM
+          STEP
+        WHERE
+            FACTORY=#{factory}
+    </select>
 
 </mapper>
