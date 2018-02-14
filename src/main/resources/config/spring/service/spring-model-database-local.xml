@@ -9,15 +9,18 @@
     http://www.springframework.org/schema/context/spring-context-3.0.xsd
     http://www.springframework.org/schema/mvc
     http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
-    <bean id="cimDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+    <bean id="localDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName"><value>oracle.jdbc.OracleDriver</value></property>
         <!--<property name="url"><value>jdbc:oracle:thin:@192.168.1.123:1521:xe</value></property>
         <property name="username"><value>abc</value></property>
         <property name="password"><value>abc123</value></property>-->
         <!--<property name="url"><value>jdbc:oracle:thin:@kerith.vicp.io:1521:orcl</value></property>-->
-        <property name="url"><value>jdbc:oracle:thin:@xm.ora.kerith.cn:1521:orcl</value></property>
-        <property name="username"><value>xiongmaodbuser</value></property>
-        <property name="password"><value>password</value></property>
+        <!--<property name="url"><value>jdbc:oracle:thin:@xm.ora.kerith.cn:1521:orcl</value></property>-->
+        <!--<property name="username"><value>xiongmaodbuser</value></property>-->
+        <!--<property name="password"><value>password</value></property>-->
+        <property name="url"><value>${local.database.url}</value></property>
+        <property name="username"><value>${local.database.username}</value></property>
+        <property name="password"><value>${local.database.password}</value></property>
         <property name="maxActive"><value>10</value></property>
         <property name="maxWait"><value>10000</value></property>
         <property name="maxIdle"><value>3</value></property>
@@ -31,13 +34,36 @@
     <bean id="cimSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="configLocation" value="classpath:config/spring/sqlmap/cim/mybatis-config.xml"></property>
         <property name="mapperLocations" value="classpath:config/spring/sqlmap/cim/sqlmap-*.xml"></property>
-        <property name="dataSource" ref="cimDataSource" />
+        <property name="dataSource" ref="localDataSource" />
     </bean>
     <bean id="cimSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
         <constructor-arg index="0" ref="cimSqlSessionFactory" />
     </bean>
+
+    <bean id="fmcsSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="configLocation" value="classpath:config/spring/sqlmap/fmcs/mybatis-config.xml"></property>
+        <property name="mapperLocations" value="classpath:config/spring/sqlmap/fmcs/sqlmap-*.xml"></property>
+        <property name="dataSource" ref="localDataSource" />
+    </bean>
+
+    <bean id="fmcsSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="fmcsSqlSessionFactory" />
+    </bean>
+
+
+    <bean id="fmcsMapperConfig" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.xm.service.dao.fmcs" />
+        <property name="sqlSessionFactoryBeanName" value="fmcsSqlSessionFactory" />
+        <property name="sqlSessionTemplateBeanName" value="fmcsSqlSessionTemplate" />
+    </bean>
+
     <bean id="cimMapperConfig" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.xm.service.dao.cim" />
+        <property name="sqlSessionFactoryBeanName" value="cimSqlSessionFactory" />
+        <property name="sqlSessionTemplateBeanName" value="cimSqlSessionTemplate" />
+    </bean>
+    <bean id="userMapperConfig" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.xm.service.dao.login" />
         <property name="sqlSessionFactoryBeanName" value="cimSqlSessionFactory" />
         <property name="sqlSessionTemplateBeanName" value="cimSqlSessionTemplate" />
     </bean>

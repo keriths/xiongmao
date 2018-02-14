@@ -115,80 +115,80 @@ public class Tibrvlisten implements TibrvMsgCallback
             }
         }
     }
-    public Tibrvlisten(String args[])
-    {
-        // parse arguments for possible optional
-        // parameters. These must precede the subject
-        // and message strings
-        int i = get_InitParams(args);
-
-        // we must have at least one subject
-        if (i >= args.length)
-            usage();
-
-        // open Tibrv in native implementation
-        try
-        {
-            Tibrv.open(Tibrv.IMPL_NATIVE);
-        }
-        catch (TibrvException e)
-        {
-            System.err.println("Failed to open Tibrv in native implementation:");
-            e.printStackTrace();
-            System.exit(0);
-        }
-
-        // Create RVD transport
-        TibrvTransport transport = null;
-        try
-        {
-            transport = new TibrvRvdTransport(service,network,daemon,null);
-        }
-        catch (TibrvException e)
-        {
-            System.err.println("Failed to create TibrvRvdTransport:");
-            e.printStackTrace();
-            System.exit(0);
-        }
-
-        // Create listeners for specified subjects
-        while (i < args.length)
-        {
-            // create listener using default queue
-            try
-            {
-                new TibrvListener(Tibrv.defaultQueue(),
-                        this,transport,args[i],null);
-                System.err.println("Listening on: "+args[i]);
-            }
-            catch (TibrvException e)
-            {
-                System.err.println("Failed to create listener:");
-                e.printStackTrace();
-                System.exit(0);
-            }
-            i++;
-        }
-
-        // dispatch Tibrv events
-        while(true)
-        {
-            try
-            {
-                Tibrv.defaultQueue().dispatch();
-            }
-            catch(TibrvException e)
-            {
-                System.err.println("Exception dispatching default queue:");
-                e.printStackTrace();
-                System.exit(0);
-            }
-            catch(InterruptedException ie)
-            {
-                System.exit(0);
-            }
-        }
-    }
+//    public Tibrvlisten(String args[])
+//    {
+//        // parse arguments for possible optional
+//        // parameters. These must precede the subject
+//        // and message strings
+//        int i = get_InitParams(args);
+//
+//        // we must have at least one subject
+//        if (i >= args.length)
+//            usage();
+//
+//        // open Tibrv in native implementation
+//        try
+//        {
+//            Tibrv.open(Tibrv.IMPL_NATIVE);
+//        }
+//        catch (TibrvException e)
+//        {
+//            System.err.println("Failed to open Tibrv in native implementation:");
+//            e.printStackTrace();
+//            System.exit(0);
+//        }
+//
+//        // Create RVD transport
+//        TibrvTransport transport = null;
+//        try
+//        {
+//            transport = new TibrvRvdTransport(service,network,daemon,null);
+//        }
+//        catch (TibrvException e)
+//        {
+//            System.err.println("Failed to create TibrvRvdTransport:");
+//            e.printStackTrace();
+//            System.exit(0);
+//        }
+//
+//        // Create listeners for specified subjects
+//        while (i < args.length)
+//        {
+//            // create listener using default queue
+//            try
+//            {
+//                new TibrvListener(Tibrv.defaultQueue(),
+//                        this,transport,args[i],null);
+//                System.err.println("Listening on: "+args[i]);
+//            }
+//            catch (TibrvException e)
+//            {
+//                System.err.println("Failed to create listener:");
+//                e.printStackTrace();
+//                System.exit(0);
+//            }
+//            i++;
+//        }
+//
+//        // dispatch Tibrv events
+//        while(true)
+//        {
+//            try
+//            {
+//                Tibrv.defaultQueue().dispatch();
+//            }
+//            catch(TibrvException e)
+//            {
+//                System.err.println("Exception dispatching default queue:");
+//                e.printStackTrace();
+//                System.exit(0);
+//            }
+//            catch(InterruptedException ie)
+//            {
+//                System.exit(0);
+//            }
+//        }
+//    }
 
     public void onMsg(TibrvListener listener, TibrvMsg msg)
     {

@@ -1,7 +1,7 @@
 package com.xm.web.targetoc;
 
 import com.xm.service.apiimpl.pc.login.dto.UserDTO;
-import com.xm.service.apiimpl.pc.targetOC.dto.TargetocDTO;
+import com.xm.service.apiimpl.pc.target.dto.TargetDTO;
 import com.xm.service.dao.login.TargetocDAO;
 import com.xm.service.dao.util.RequestPageVo;
 import com.xm.service.dao.util.ResultVo;
@@ -36,10 +36,10 @@ public class TargetocAction {
 
     @RequestMapping(value = "/targetocList")
     public @ResponseBody
-    RequestPageVo<TargetocDTO> targetocList(){
-        RequestPageVo<TargetocDTO> resultVo=new RequestPageVo<TargetocDTO>();
+    RequestPageVo<TargetDTO> targetocList(){
+        RequestPageVo<TargetDTO> resultVo=new RequestPageVo<TargetDTO>();
         try {
-            List<TargetocDTO> targetocList=targetocDAO.queryTargetOCInline();
+            List<TargetDTO> targetocList=targetocDAO.queryTargetOCInline();
             resultVo.setRows(targetocList);
         }catch (Exception e){
             e.printStackTrace();
@@ -48,7 +48,7 @@ public class TargetocAction {
     }
 
     @RequestMapping(value = "/updateTargetoc")
-    public @ResponseBody ResultVo updateTargetoc(TargetocDTO targetoc){
+    public @ResponseBody ResultVo updateTargetoc(TargetDTO targetoc){
         ResultVo resultVo=new ResultVo();
         try {
             int count=targetocDAO.updateTargetOCInline(targetoc);
@@ -69,7 +69,7 @@ public class TargetocAction {
     }
 
     @RequestMapping(value = "/addTargetoc")
-    public @ResponseBody ResultVo addTargetoc(TargetocDTO targetoc){
+    public @ResponseBody ResultVo addTargetoc(TargetDTO targetoc){
         ResultVo resultVo=new ResultVo();
         try {
             int count=targetocDAO.addTargetOCInline(targetoc);
@@ -90,7 +90,7 @@ public class TargetocAction {
     }
 
     @RequestMapping(value = "/deleteTargetoc")
-    public @ResponseBody ResultVo deleteStoreoc(TargetocDTO targetoc){
+    public @ResponseBody ResultVo deleteStoreoc(TargetDTO targetoc){
         ResultVo resultVo=new ResultVo();
         try {
             int count=targetocDAO.deleteTargetOCInline(targetoc);

@@ -17,9 +17,9 @@
         <!--<property name="url"><value>jdbc:oracle:thin:@192.168.1.123:1521:xe</value></property>
         <property name="username"><value>abc</value></property>
         <property name="password"><value>abc123</value></property>-->
-        <property name="url"><value>jdbc:oracle:thin:@xm.ora.kerith.cn:1521:orcl</value></property>
-        <property name="username"><value>factoryFmcsUser</value></property>
-        <property name="password"><value>password</value></property>
+        <property name="url"><value>${factory.fmcs.database.url}</value></property>
+        <property name="username"><value>${factory.fmcs.database.username}</value></property>
+        <property name="password"><value>${factory.fmcs.database.password}</value></property>
         <property name="maxActive"><value>10</value></property>
         <property name="maxWait"><value>10000</value></property>
         <property name="maxIdle"><value>3</value></property>

@@ -1,6 +1,6 @@
 package com.xm.service.dao.login;
 
-import com.xm.service.apiimpl.pc.targetOC.dto.TargetocDTO;
+import com.xm.service.apiimpl.pc.target.dto.TargetDTO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -13,13 +13,13 @@ import java.util.Map;
 @Repository("targetocDAO")
 public interface TargetocDAO {
 
-    List<TargetocDTO> queryTargetOCInline();
+    List<TargetDTO> queryTargetOCInline();
 
-    Integer updateTargetOCInline(TargetocDTO targetoc);
+    Integer updateTargetOCInline(TargetDTO targetoc);
 
-    Integer addTargetOCInline(TargetocDTO targetoc);
+    Integer addTargetOCInline(TargetDTO targetoc);
 
-    Integer deleteTargetOCInline(TargetocDTO targetoc);
+    Integer deleteTargetOCInline(TargetDTO targetoc);
 
     List<Map<String,Object>> querySyncData(@Param("offset")int offset, @Param("limit")int limit);
 }
