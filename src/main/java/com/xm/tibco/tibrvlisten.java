@@ -46,7 +46,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class tibrvlisten implements TibrvMsgCallback
+public class Tibrvlisten implements TibrvMsgCallback
 {
 
     String service = null;
@@ -54,7 +54,7 @@ public class tibrvlisten implements TibrvMsgCallback
     String daemon  = null;
     List<String> subjects ;
 
-    public tibrvlisten(String service,String network,String daemon,List<String> subjects){
+    public Tibrvlisten(String service, String network, String daemon, List<String> subjects){
         this.service=service;
         this.network=network;
         this.daemon=daemon;
@@ -115,7 +115,7 @@ public class tibrvlisten implements TibrvMsgCallback
             }
         }
     }
-    public tibrvlisten(String args[])
+    public Tibrvlisten(String args[])
     {
         // parse arguments for possible optional
         // parameters. These must precede the subject
@@ -246,7 +246,7 @@ public class tibrvlisten implements TibrvMsgCallback
         subjects.add("mysubject");
         //.\tibrvsend.exe -service 7580 -network 127.0.0.1  mysubject HelloWorld
 
-        new tibrvlisten(service,network,daemon,subjects);
+        new Tibrvlisten(service,network,daemon,subjects);
     }
 
 }
