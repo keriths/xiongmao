@@ -1,4 +1,4 @@
-package com;/*
+package com.xm.job;/*
  * Copyright (c) 1998-$Date: 2013-12-19 15:26:51 -0800 (Thu, 19 Dec 2013) $ TIBCO Software Inc.
  * All rights reserved.
  * TIB/Rendezvous is protected under US Patent No. 5,187,787.
@@ -49,10 +49,10 @@ import java.util.List;
 public class Tibrvlisten implements TibrvMsgCallback
 {
 
-    String service = null;
-    String network = null;
-    String daemon  = null;
-    List<String> subjects ;
+    private String service = null;
+    private String network = null;
+    private String daemon  = null;
+    private  List<String> subjects ;
 
     public Tibrvlisten(String service, String network, String daemon, List<String> subjects){
         this.service=service;
@@ -249,4 +249,35 @@ public class Tibrvlisten implements TibrvMsgCallback
         new Tibrvlisten(service,network,daemon,subjects);
     }
 
+    public String getService() {
+        return service;
+    }
+
+    public void setService(String service) {
+        this.service = service;
+    }
+
+    public String getNetwork() {
+        return network;
+    }
+
+    public void setNetwork(String network) {
+        this.network = network;
+    }
+
+    public String getDaemon() {
+        return daemon;
+    }
+
+    public void setDaemon(String daemon) {
+        this.daemon = daemon;
+    }
+
+    public List<String> getSubjects() {
+        return subjects;
+    }
+
+    public void setSubjects(List<String> subjects) {
+        this.subjects = subjects;
+    }
 }
