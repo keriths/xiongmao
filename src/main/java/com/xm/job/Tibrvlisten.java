@@ -1,5 +1,6 @@
 package com.xm.job;
 import com.tibco.tibrv.*;
+import com.xm.platform.util.LogUtils;
 import com.xm.service.apiimpl.pc.cim.equipmentstatus.EquipmentStatusServiceImpl;
 
 import java.util.ArrayList;
@@ -18,6 +19,7 @@ public class Tibrvlisten implements TibrvMsgCallback
 
     }
     public void init(){
+        LogUtils.error(Tibrvlisten.class,"Tibrvlisten init .......");
         final TibrvMsgCallback callback = this;
         new Thread(){
             @Override
@@ -28,8 +30,7 @@ public class Tibrvlisten implements TibrvMsgCallback
                 }
                 catch (TibrvException e)
                 {
-                    System.err.println("Failed to open Tibrv in native implementation:");
-                    e.printStackTrace();
+                    LogUtils.error(Tibrvlisten.class, "Tibrvlisten init .......Failed to open Tibrv in native implementation:", e);
                     System.exit(0);
                 }
                 TibrvTransport transport = null;
@@ -39,8 +40,7 @@ public class Tibrvlisten implements TibrvMsgCallback
                 }
                 catch (TibrvException e)
                 {
-                    System.err.println("Failed to create TibrvRvdTransport:");
-                    e.printStackTrace();
+                    LogUtils.error(Tibrvlisten.class,"Tibrvlisten init .......Failed to create TibrvRvdTransport::",e);
                     System.exit(0);
                 }
                 if (subjects!=null){
@@ -48,16 +48,16 @@ public class Tibrvlisten implements TibrvMsgCallback
                         try
                         {
                             new TibrvListener(Tibrv.defaultQueue(), callback,transport,subject,null);
-                            System.err.println("Listening on: "+subject);
+                            LogUtils.info(Tibrvlisten.class,"Listening on: "+subject);
                         }
                         catch (TibrvException e)
                         {
-                            System.err.println("Failed to create listener:");
-                            e.printStackTrace();
+                            LogUtils.error(Tibrvlisten.class, "Tibrvlisten init .......Failed to create listener:", e);
                             System.exit(0);
                         }
                     }
                 }
+                LogUtils.info(Tibrvlisten.class,"Tibrvlisten init ....... successed");
                 // dispatch Tibrv events
                 while(true)
                 {
@@ -67,12 +67,12 @@ public class Tibrvlisten implements TibrvMsgCallback
                     }
                     catch(TibrvException e)
                     {
-                        System.err.println("Exception dispatching default queue:");
-                        e.printStackTrace();
+                        LogUtils.error(Tibrvlisten.class,"Tibrvlisten init .......Exception dispatching default queue:",e);
                         System.exit(0);
                     }
                     catch(InterruptedException ie)
                     {
+                        LogUtils.error(Tibrvlisten.class,"Tibrvlisten init .......Exception InterruptedException:",ie);
                         System.exit(0);
                     }
                 }
@@ -83,6 +83,7 @@ public class Tibrvlisten implements TibrvMsgCallback
     public void onMsg(TibrvListener listener, TibrvMsg msg)
     {
         String msgData = msg.toString();
+        LogUtils.info(Tibrvlisten.class,"received msg :"+msgData);
         equipmentStatusService.equipmentStatusUpdate(msgData);
 
         System.out.println((new Date()).toString()+
