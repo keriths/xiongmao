@@ -37,7 +37,6 @@ public class RateOfGoodProductServiceImpl {
 
     @ApiMethodDoc(apiCode = "CIM_ProductLineYield",name = "良品率显示接口")
     public ProductLineDataRetDTO productLineDataRetDTO(@ApiParamDoc(desc = "厂别Array,Cell,CF,SL-OC(必填)")String factory,
-                                                       @ApiParamDoc(desc = "产品类型：如55,为空时是全部")String productId,
                                                        @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
         ProductLineDataRetDTO resultDto=new ProductLineDataRetDTO();
         try {
@@ -51,11 +50,11 @@ public class RateOfGoodProductServiceImpl {
                 resultDto.setErrorMsg("dateType参数错误,请传入【" + Constant.dateTypeList + "】");
                 return resultDto;
             }
-            if (!StringUtils.isEmpty(productId) && !Constant.productIdNameMap.containsKey(productId)){
-                resultDto.setSuccess(false);
-                resultDto.setErrorMsg("productId参数错误,请传入【" + Constant.productIdNameMap.keySet() + "】");
-                return resultDto;
-            }
+//            if (!StringUtils.isEmpty(productId) && !Constant.productIdNameMap.containsKey(productId)){
+//                resultDto.setSuccess(false);
+//                resultDto.setErrorMsg("productId参数错误,请传入【" + Constant.productIdNameMap.keySet() + "】");
+//                return resultDto;
+//            }
             List<String> dateList = null;
             Date beginDate = null;
             Date endDate = new Date();
@@ -70,7 +69,7 @@ public class RateOfGoodProductServiceImpl {
                 dateList = DateUtils.getQuarterStrList(beginDate,endDate);
             }
 
-            List<ProductLineData.ProductLineDetailData> detailDataList=dwsProductLineYieldFidsDAO.queryProductLineData(factory,productId,dateType,beginDate,endDate);
+            List<ProductLineData.ProductLineDetailData> detailDataList=dwsProductLineYieldFidsDAO.queryProductLineData(factory,dateType,beginDate,endDate);
             Map<String,ProductLineData.ProductLineDetailData> dataMap= MapUtils.listToMap(detailDataList,"getPeriodDate");
             List<ProductLineData> dataList=new ArrayList<ProductLineData>();
             List<ProductLineData.ProductLineDetailData> ProductDetailDataList = new ArrayList<ProductLineData.ProductLineDetailData>();
@@ -132,7 +131,7 @@ public class RateOfGoodProductServiceImpl {
                 dateList = DateUtils.getQuarterStrList(beginDate,endDate);
             }
 
-            List<ProductOcData.ProductOcDetailData> detailDataList = dwsProductOcYieldFidsDAO.queryProductOcData(factory,productId,dateType,beginDate,endDate);
+            List<ProductOcData.ProductOcDetailData> detailDataList = dwsProductOcYieldFidsDAO.queryProductOcData(productId,dateType,beginDate,endDate);
             Map<String,ProductOcData.ProductOcDetailData> dataMap= MapUtils.listToMap(detailDataList,"getPeriodDate");
             List<ProductOcData> dataList=new ArrayList<ProductOcData>();
             List<ProductOcData.ProductOcDetailData> ProductDetailDataList = new ArrayList<ProductOcData.ProductOcDetailData>();
@@ -140,7 +139,7 @@ public class RateOfGoodProductServiceImpl {
 //                ProductOcData productOcData = new ProductOcData();
                 ProductOcData.ProductOcDetailData productOcDetailData = dataMap.get(day);
                 if(productOcDetailData ==null){
-                    productOcDetailData =new ProductOcData.ProductOcDetailData(factory,day);
+                    productOcDetailData =new ProductOcData.ProductOcDetailData(productId,day);
                 }
                 ProductDetailDataList.add(productOcDetailData);
 //                productOcData.setProductOcDetailDataList(ProductDetailDataList);

@@ -15,7 +15,6 @@ import java.util.Map;
 public interface DwsProductLineYieldFidsDAO {
 
     List<ProductLineData.ProductLineDetailData> queryProductLineData(@Param("factory") String factory,
-                                                                     @Param("productId") String productId,
                                                                      @Param("dateType")String dateType,
                                                                      @Param("beginDate") Date beginDate,
                                                                      @Param("endDate") Date endDate);

@@ -21,8 +21,8 @@ public class ProductOcData {
 
         public ProductOcDetailData(){}
 
-        public ProductOcDetailData(String factory,String periodDate){
-            this.factory = factory;
+        public ProductOcDetailData(String productId,String periodDate){
+            this.productId = productId;
             this.periodDate = periodDate;
         }
 
@@ -30,8 +30,8 @@ public class ProductOcData {
         private BigDecimal inLine;
         @ApiResultFieldDesc(desc = "目标良品率")
         private BigDecimal targetInLine;
-        @ApiResultFieldDesc(desc = "厂别如Array,Cell")
-        private String factory;
+//        @ApiResultFieldDesc(desc = "厂别如Array,Cell")
+//        private String factory;
         @ApiResultFieldDesc(desc = "POL的Input数量")
         private BigDecimal polInput;
         @ApiResultFieldDesc(desc = "POL output A Grade数量")
@@ -65,13 +65,13 @@ public class ProductOcData {
         @ApiResultFieldDesc(desc = "横坐标时间")
         private String periodDate;
 
-        public String getFactory() {
-            return factory;
-        }
-
-        public void setFactory(String factory) {
-            this.factory = factory;
-        }
+//        public String getFactory() {
+//            return factory;
+//        }
+//
+//        public void setFactory(String factory) {
+//            this.factory = factory;
+//        }
 
         public BigDecimal getPolInput() {
             if(polInput==null){
@@ -358,11 +358,9 @@ public class ProductOcData {
         public BigDecimal getTargetInLine() {
             if(targetInLine==null){
                 if (Constant.showDemoData){
-
-                    targetInLine = ReturnDataUtils.targetData(getFactory(),getProductId(),getPeriodDate());
-
+                    targetInLine = ReturnDataUtils.targetData("",getProductId(),getPeriodDate());
                 }else{
-                    return new BigDecimal(0);
+                    return new BigDecimal("99.8");
                 }
             }
             return targetInLine;
