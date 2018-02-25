@@ -97,16 +97,11 @@ public class RateOfGoodProductServiceImpl {
 
 
     @ApiMethodDoc(apiCode = "CIM_ProductOcYield",name = "单个产品良品率显示接口")
-    public ProductOcDataRetDTO productOcDataRetDTO(@ApiParamDoc(desc = "厂别Array,Cell,CF,SL-OC(必填)")String factory,
+    public ProductOcDataRetDTO productOcDataRetDTO(
                                                      @ApiParamDoc(desc = "产品类型：如55,为空时是全部")String productId,
                                                      @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
         ProductOcDataRetDTO resultDto=new ProductOcDataRetDTO();
         try {
-            if(!Constant.factoryLists.contains(factory)){
-                resultDto.setSuccess(false);
-                resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.factoryLists + "】");
-                return resultDto;
-            }
             if (!Constant.dateTypeList.contains(dateType)){
                 resultDto.setSuccess(false);
                 resultDto.setErrorMsg("dateType参数错误,请传入【" + Constant.dateTypeList + "】");
