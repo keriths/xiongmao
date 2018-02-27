@@ -22,12 +22,12 @@
             </div>
             <div class="modal-body">
                 <form id="addForm"  class="form-horizontal">
-                    <div class="form-group">
+                    <#--<div class="form-group">
                         <label class="control-label col-sm-3">工厂：</label>
                         <div class="col-sm-8">
                             <input type="text"  id="addFactory" name="factory" class="form-control">
                         </div>
-                    </div>
+                    </div>-->
                     <div class="form-group">
                         <label class="control-label col-sm-3" >产品ID：</label>
                         <div class="col-sm-8">
@@ -62,12 +62,12 @@
             </div>
             <div class="modal-body">
                 <form id="editForm"  class="form-horizontal">
-                    <div class="form-group">
+                    <#--<div class="form-group">
                         <label class="control-label col-sm-3">工厂：</label>
                         <div class="col-sm-8">
                             <input type="text" readonly id="editFactory" name="factory" class="form-control">
                         </div>
-                    </div>
+                    </div>-->
                     <div class="form-group">
                         <label class="control-label col-sm-3" >产品ID：</label>
                         <div class="col-sm-8">
@@ -93,7 +93,7 @@
 <table id="table_proInfo" style="border: 1px solid #000000;width: 85%;margin-left: 20px;margin-top: 10px;">
     <thead style="background-color: #B0E0E6" >
     <tr >
-        <th>工厂</th>
+        <#--<th>工厂</th>-->
         <th>产品ID</th>
         <th>目标良品率</th>
         <th>操作</th>
@@ -113,10 +113,12 @@
         striped: true, //是否显示行间隔色
         cache: false, //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
         sidePagination: "server", //分页方式：client客户端分页，server服务端分页（*）
-        columns:[{
+        columns:[
+        /*{
             field: 'factory',
             align: 'center'
-        },{
+        },*/
+        {
             field: 'productId',
             align: 'center',
         },{
@@ -148,11 +150,11 @@
     }
     //确定添加
     $("#addModelBtn").click(function () {
-        if($("#addFactory").val()=="") {
+        /*if($("#addFactory").val()=="") {
             alert("工厂不能为空!");
             $("#addFactory").focus();
             return false;
-        }
+        }*/
         if($("#addProductId").val()=="") {
             alert("产品ID不能为空!");
             $("#addProductId").focus();
@@ -186,7 +188,7 @@
     function editData(e, v, row) {
         $("#editForm")[0].reset();
         $("#editTargetocModel.modal-title").empty().html("编辑单个目标良品率");
-        $("#editForm input[name=factory]").val(row.factory);
+        /*$("#editForm input[name=factory]").val(row.factory);*/
         $("#editForm input[name=productId]").val(row.productId);
         $("#editForm input[name=targetInline]").val(row.targetInline);
         $("#editTargetocModel").modal("show");
@@ -227,7 +229,7 @@
                     type: "POST",
                     dataType:"json",
                     data: {
-                        "factory": row.factory,
+                        /*"factory": row.factory,*/
                         "productId":row.productId
                     },
                     success: function (data) {

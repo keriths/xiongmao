@@ -1,5 +1,6 @@
 package com.xm.service.dao.cim;
 
+import com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentDataDto;
 import com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentStatusData;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -20,5 +21,5 @@ public interface DwrEquipmentStatusFidsDAO {
 
     EquipmentStatusData queryStatusByKey(@Param("key") String key);
 
-    //List<EquipmentStatusData> queryStatus(@Param("factory") String factory);
+    List<EquipmentDataDto.EquipmentData> queryStatus(@Param("factory") String factory);
 }

@@ -43,20 +43,16 @@
         INSERT INTO DWR_EQUIPMENT_STATUS_FIDS(FACTORY,KEY,VAL,DATADATE) VALUES (#{factory},#{key},#{val},sysdate)
     </insert>
 
-    <!--<select id="queryStatus" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentStatusData">
+    <select id="queryStatus" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentDataDto$EquipmentData">
         select
-            FACTORY as factory,
-            VAL as val,
-            count as count
-        from(
-            select
-              FACTORY as factory,
-              VAL as val,
-              count(*) as count
-            from
-              NNN
-            group by
-              FACTORY,VAL
-        )WHERE FACTORY=#{factory}
-    </select>-->
+          FACTORY as factory,
+          VAL as val,
+          count(*) as count
+        from
+          NNN
+        WHERE
+          FACTORY=#{factory}
+        group by
+          FACTORY,VAL
+    </select>
 </mapper>

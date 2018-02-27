@@ -3,7 +3,6 @@
 <mapper namespace="com.xm.service.dao.login.TargetocDAO" >
     <select id="queryTargetOCInline" resultType="com.xm.service.apiimpl.pc.target.dto.TargetDTO" parameterType="map">
         SELECT
-        FACTORY as factory,
         PRODUCTID as productId,
         TARGETINLINE as targetInline
         FROM
@@ -14,14 +13,13 @@
         UPDATE TARGETOC SET
         TARGETINLINE = #{targetInline}
         WHERE
-        FACTORY = #{factory} AND
         PRODUCTID = #{productId}
     </update>
 
     <insert id="addTargetOCInline" parameterType="map">
         INSERT INTO  TARGETOC
-        (FACTORY,PRODUCTID,TARGETINLINE) VALUES
-        (#{factory},#{productId},#{targetInline})
+        (PRODUCTID,TARGETINLINE) VALUES
+        (#{productId},#{targetInline})
     </insert>
 
     <delete id="deleteTargetOCInline" parameterType="map">
@@ -29,7 +27,6 @@
         FROM
         TARGETOC
         WHERE
-        FACTORY = #{factory} AND
         PRODUCTID = #{productId}
     </delete>
 

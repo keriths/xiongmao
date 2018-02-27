@@ -3,10 +3,8 @@ package com.xm.service.apiimpl.pc.cim.equipmentstatus;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
-import com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentStatusData;
-import com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentStatusDataRetDTO;
-import com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentThroughputData;
-import com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentThroughputDataRetDTO;
+import com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.*;
+import com.xm.service.apiimpl.pc.cim.oee.dto.ActivationStatusDate;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DwrEquipmentStatusFidsDAO;
 import com.xm.platform.annotations.ApiMethodDoc;
@@ -17,6 +15,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.io.File;
@@ -49,6 +48,28 @@ public class EquipmentStatusServiceImpl {
             }
             List<EquipmentStatusData> queryList = dwrEquipmentStatusFidsDAO.queryStatusData(factory);
             resultDto.setEquipmentStatusDataList(queryList);
+            return resultDto;
+        }catch (Exception e){
+            LogUtils.error(getClass(), e);
+            resultDto.setSuccess(false);
+            resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
+            return resultDto;
+        }
+    }
+
+    @ApiMethodDoc(apiCode = "CIM_EquipmentData",name = "设备汇总")
+    public EquipmentDataRetDTO equipmentData(){
+        EquipmentDataRetDTO resultDto = new EquipmentDataRetDTO();
+
+        try {
+            List<EquipmentDataDto> dataList = new ArrayList<EquipmentDataDto>();
+            for(String factory:Constant.factoryLists){
+                List<EquipmentDataDto.EquipmentData> queryList = dwrEquipmentStatusFidsDAO.queryStatus(factory);
+                EquipmentDataDto equipmentDataDto = new EquipmentDataDto();
+                equipmentDataDto.setEquipmentDataList(queryList);
+                dataList.add(equipmentDataDto);
+                resultDto.setEquipmentDataList(dataList);
+            }
             return resultDto;
         }catch (Exception e){
             LogUtils.error(getClass(), e);
