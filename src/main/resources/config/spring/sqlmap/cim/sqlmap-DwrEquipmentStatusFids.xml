@@ -49,9 +49,12 @@
           VAL as val,
           count(*) as count
         from
-          NNN
+          DWR_EQUIPMENT_STATUS_FIDS
         WHERE
-          FACTORY=#{factory}
+          FACTORY in
+          <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+              #{factory}
+          </foreach>
         group by
           FACTORY,VAL
     </select>

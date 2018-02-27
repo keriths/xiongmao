@@ -4,7 +4,6 @@ import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
 import com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.*;
-import com.xm.service.apiimpl.pc.cim.oee.dto.ActivationStatusDate;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DwrEquipmentStatusFidsDAO;
 import com.xm.platform.annotations.ApiMethodDoc;
@@ -13,18 +12,10 @@ import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.service.dao.cim.DwrEquipmentThroughputFidsDAO;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.io.File;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by fanshuai on 17/10/24.
@@ -57,19 +48,41 @@ public class EquipmentStatusServiceImpl {
         }
     }
 
-    @ApiMethodDoc(apiCode = "CIM_EquipmentData",name = "设备汇总")
-    public EquipmentDataRetDTO equipmentData(){
-        EquipmentDataRetDTO resultDto = new EquipmentDataRetDTO();
 
+    @ApiMethodDoc(apiCode = "CIM_EquipmentData",name = "设备汇总")
+    public EquipmentCollectDataDTO equipmentData(){
+        EquipmentCollectDataDTO resultDto = new EquipmentCollectDataDTO();
         try {
-            List<EquipmentDataDto> dataList = new ArrayList<EquipmentDataDto>();
-            for(String factory:Constant.factoryLists){
-                List<EquipmentDataDto.EquipmentData> queryList = dwrEquipmentStatusFidsDAO.queryStatus(factory);
-                EquipmentDataDto equipmentDataDto = new EquipmentDataDto();
-                equipmentDataDto.setEquipmentDataList(queryList);
-                dataList.add(equipmentDataDto);
-                resultDto.setEquipmentDataList(dataList);
+            List<EquipmentDataDto.EquipmentData> queryList = dwrEquipmentStatusFidsDAO.queryStatus(Constant.factoryLists);
+            Map<String,EquipmentCollectDataDTO.FactoryEquiStatusNumCollectDTO> factoryStatusNumMap = new HashMap<String, EquipmentCollectDataDTO.FactoryEquiStatusNumCollectDTO>();
+            for (EquipmentDataDto.EquipmentData equipmentData : queryList){
+                EquipmentCollectDataDTO.FactoryEquiStatusNumCollectDTO factoryEquiStatusNumCollectDTO = factoryStatusNumMap.get(equipmentData.getFactory());
+                if (factoryEquiStatusNumCollectDTO ==null){
+                    factoryEquiStatusNumCollectDTO = new EquipmentCollectDataDTO.FactoryEquiStatusNumCollectDTO();
+                    factoryStatusNumMap.put(equipmentData.getFactory(), factoryEquiStatusNumCollectDTO);
+                }
+                factoryEquiStatusNumCollectDTO.totalNum = factoryEquiStatusNumCollectDTO.totalNum+1;
+                if ("MAN".equals(equipmentData.getVal())){
+                    factoryEquiStatusNumCollectDTO.pmNum = factoryEquiStatusNumCollectDTO.pmNum+1;
+                }
+                if ("WAT".equals(equipmentData.getVal())){
+                    factoryEquiStatusNumCollectDTO.oeeNum = factoryEquiStatusNumCollectDTO.oeeNum+1;
+                }
+                if ("RUN".equals(equipmentData.getVal())){
+                    factoryEquiStatusNumCollectDTO.oeeNum = factoryEquiStatusNumCollectDTO.oeeNum+1;
+                }
+                if ("TRB".equals(equipmentData.getVal())){
+                    factoryEquiStatusNumCollectDTO.failNum = factoryEquiStatusNumCollectDTO.failNum+1;
+                }
+                if ("MNT".equals(equipmentData.getVal())){
+
+                }
             }
+            List<EquipmentCollectDataDTO.FactoryEquiStatusNumCollectDTO> factoryEquiStatusNumCollectDTOList = new ArrayList<EquipmentCollectDataDTO.FactoryEquiStatusNumCollectDTO>();
+            for (String factory :Constant.factoryLists){
+                factoryEquiStatusNumCollectDTOList.add(factoryStatusNumMap.get(factory));
+            }
+            resultDto.setFactoryStatusNumList(factoryEquiStatusNumCollectDTOList);
             return resultDto;
         }catch (Exception e){
             LogUtils.error(getClass(), e);

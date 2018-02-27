@@ -21,5 +21,5 @@ public interface DwrEquipmentStatusFidsDAO {
 
     EquipmentStatusData queryStatusByKey(@Param("key") String key);
 
-    List<EquipmentDataDto.EquipmentData> queryStatus(@Param("factory") String factory);
+    List<EquipmentDataDto.EquipmentData> queryStatus(@Param("factoryList") List<String>  factoryLists);
 }
