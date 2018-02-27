@@ -19,14 +19,14 @@ public class EquipmentStatusDataRetDTO extends BaseRetDTO{
     List<EquipmentStatusData> equipmentStatusDataList;
     @ApiResultFieldDesc(desc = "设备总数")
     BigDecimal eqptTotalNum;
-    @ApiResultFieldDesc(desc = "PM设备")
+    @ApiResultFieldDesc(desc = "PM设备数")
     BigDecimal pmNum;
-    @ApiResultFieldDesc(desc = "可稼动设备")
+    @ApiResultFieldDesc(desc = "可稼动设备数")
     BigDecimal oeeNum;
-    @ApiResultFieldDesc(desc = "故障中的设备")
+    @ApiResultFieldDesc(desc = "故障中的设备数")
     BigDecimal failNum;
-    @ApiResultFieldDesc(desc = "AMHS连接状态 1 0")
-    Integer amhs;
+    /*@ApiResultFieldDesc(desc = "AMHS连接状态 1 0")
+    Integer amhs;*/
 
     public List<EquipmentStatusData> getEquipmentStatusDataList() {
         return equipmentStatusDataList;
@@ -54,13 +54,9 @@ public class EquipmentStatusDataRetDTO extends BaseRetDTO{
     public BigDecimal getPmNum() {
         pmNum = new BigDecimal(0);
         for (EquipmentStatusData data:equipmentStatusDataList){
-            BigDecimal total=getEqptTotalNum();
-            BigDecimal counts = new BigDecimal(0);
             if("MAN".equals(data.getVal())){
-                counts = counts.add(new BigDecimal(1));
+                pmNum = pmNum.add(new BigDecimal(1));
             }
-            BigDecimal pmNum1 = counts.multiply(new BigDecimal("100")).divide(total,2, RoundingMode.HALF_UP);
-            pmNum = pmNum.add(pmNum1);
         }
         return pmNum;
     }
@@ -68,13 +64,9 @@ public class EquipmentStatusDataRetDTO extends BaseRetDTO{
     public BigDecimal getOeeNum() {
         oeeNum = new BigDecimal(0);
         for (EquipmentStatusData data:equipmentStatusDataList){
-            BigDecimal total = getEqptTotalNum();
-            BigDecimal counts = new BigDecimal(0);
             if("WAT".equals(data.getVal())||"RUN".equals(data.getVal())){
-                counts = counts.add(new BigDecimal(1));
+                oeeNum = oeeNum.add(new BigDecimal(1));
             }
-            BigDecimal oeeNum1 = counts.multiply(new BigDecimal("100")).divide(total,2, RoundingMode.HALF_UP);
-            oeeNum = oeeNum.add(oeeNum1);
         }
         return oeeNum;
     }
@@ -82,13 +74,10 @@ public class EquipmentStatusDataRetDTO extends BaseRetDTO{
     public BigDecimal getFailNum() {
         failNum = new BigDecimal(0);
         for (EquipmentStatusData data:equipmentStatusDataList){
-            BigDecimal total = getEqptTotalNum();
-            BigDecimal counts = new BigDecimal(0);
             if("TRB".equals(data.getVal())){
-                counts = counts.add(new BigDecimal(1));
+                failNum = failNum.add(new BigDecimal(1));
             }
-            BigDecimal failNum1 = counts.multiply(new BigDecimal("100")).divide(total,2, RoundingMode.HALF_UP);
-            failNum = failNum.add(failNum1);
+            //BigDecimal failNum1 = counts.multiply(new BigDecimal("100")).divide(total,2, RoundingMode.HALF_UP);
         }
         return failNum;
     }

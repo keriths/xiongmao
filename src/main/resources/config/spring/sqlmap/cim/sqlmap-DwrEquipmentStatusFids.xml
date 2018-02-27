@@ -10,7 +10,7 @@
             DATATYPE as dataType,
             DEMODATA as demoData,
             DATADATE as dataDate
-        from NNN
+        from DWR_EQUIPMENT_STATUS_FIDS
         where FACTORY=#{factory}
     </select>
 
