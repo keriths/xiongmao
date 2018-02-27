@@ -4,6 +4,7 @@ import com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentStatusData;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -18,4 +19,6 @@ public interface DwrEquipmentStatusFidsDAO {
     int insertStatusData(EquipmentStatusData equipmentStatusData);
 
     EquipmentStatusData queryStatusByKey(@Param("key") String key);
+
+    //List<EquipmentStatusData> queryStatus(@Param("factory") String factory);
 }

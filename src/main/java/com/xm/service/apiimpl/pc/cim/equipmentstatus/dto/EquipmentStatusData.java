@@ -3,8 +3,11 @@ package com.xm.service.apiimpl.pc.cim.equipmentstatus.dto;
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.ReturnDataUtils;
 import com.xm.service.constant.Constant;
+import com.xm.service.dao.cim.DwrEquipmentStatusFidsDAO;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 /**
  * Created by wangshuna on 2017/12/26.
@@ -103,4 +106,5 @@ public class EquipmentStatusData {
     public void setDataDate(String dataDate) {
         this.dataDate = dataDate;
     }
+
 }

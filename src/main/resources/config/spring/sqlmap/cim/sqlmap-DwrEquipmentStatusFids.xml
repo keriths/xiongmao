@@ -4,14 +4,14 @@
 
     <select id="queryStatusData" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentStatusData">
         select
-            FACTORY as factory,
             KEY as key,
             VAL as val,
             KEYDESC as keyDesc,
             DATATYPE as dataType,
             DEMODATA as demoData,
             DATADATE as dataDate
-        from DWR_EQUIPMENT_STATUS_FIDS
+        from NNN
+        where FACTORY=#{factory}
     </select>
 
     <!--根据key查询-->
@@ -42,4 +42,21 @@
     <insert id="insertStatusData" parameterType="com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentStatusData">
         INSERT INTO DWR_EQUIPMENT_STATUS_FIDS(FACTORY,KEY,VAL,DATADATE) VALUES (#{factory},#{key},#{val},sysdate)
     </insert>
+
+    <!--<select id="queryStatus" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentStatusData">
+        select
+            FACTORY as factory,
+            VAL as val,
+            count as count
+        from(
+            select
+              FACTORY as factory,
+              VAL as val,
+              count(*) as count
+            from
+              NNN
+            group by
+              FACTORY,VAL
+        )WHERE FACTORY=#{factory}
+    </select>-->
 </mapper>
