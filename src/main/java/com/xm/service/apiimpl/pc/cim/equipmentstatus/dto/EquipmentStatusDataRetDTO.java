@@ -34,79 +34,48 @@ public class EquipmentStatusDataRetDTO extends BaseRetDTO{
 
     public void setEquipmentStatusDataList(List<EquipmentStatusData> equipmentStatusDataList) {
         this.equipmentStatusDataList = equipmentStatusDataList;
+        mathNum();
     }
 
-    /*public Integer getEqptTotalNum() {
-        if (CollectionUtils.isEmpty(equipmentStatusDataList)){
-            return 0;
-        }
-        return equipmentStatusDataList.size();
-    }*/
-
     public BigDecimal getEqptTotalNum() {
-        eqptTotalNum = new BigDecimal(0);
-        for (EquipmentStatusData data:equipmentStatusDataList){
-            eqptTotalNum=eqptTotalNum.add(new BigDecimal(1));
-        }
         return eqptTotalNum;
     }
 
+
     public BigDecimal getPmNum() {
-        pmNum = new BigDecimal(0);
-        for (EquipmentStatusData data:equipmentStatusDataList){
-            if("MAN".equals(data.getVal())){
-                pmNum = pmNum.add(new BigDecimal(1));
-            }
-        }
         return pmNum;
     }
 
+
     public BigDecimal getOeeNum() {
-        oeeNum = new BigDecimal(0);
-        for (EquipmentStatusData data:equipmentStatusDataList){
-            if("WAT".equals(data.getVal())||"RUN".equals(data.getVal())){
-                oeeNum = oeeNum.add(new BigDecimal(1));
-            }
-        }
         return oeeNum;
     }
 
+
     public BigDecimal getFailNum() {
-        failNum = new BigDecimal(0);
-        for (EquipmentStatusData data:equipmentStatusDataList){
-            if("TRB".equals(data.getVal())){
-                failNum = failNum.add(new BigDecimal(1));
-            }
-            //BigDecimal failNum1 = counts.multiply(new BigDecimal("100")).divide(total,2, RoundingMode.HALF_UP);
-        }
         return failNum;
     }
 
-    /*public void mathNum(){
+
+    public void mathNum(){
+        eqptTotalNum=new BigDecimal("0");
+        pmNum=new BigDecimal("0");
+        oeeNum=new BigDecimal("0");
+        failNum=new BigDecimal("0");
         if (CollectionUtils.isEmpty(equipmentStatusDataList)){
-            eqptTotalNum=0;
-            pmNum=0;
-            oeeNum=0;
-            failNum=0;
-            amhs=0;
+           return;
         }
-        pmNum=0;
-        oeeNum=0;
-        failNum=0;
-        amhs=1;
-        eqptTotalNum=equipmentStatusDataList.size();
+        eqptTotalNum=new BigDecimal(equipmentStatusDataList.size());
         for (EquipmentStatusData data:equipmentStatusDataList){
             if ("TRB".equals(data.getVal())){
-                failNum++;
+                failNum = failNum.add(BigDecimal.ONE);
             }
-            if ("RUN".equals(data.getVal())||
-                    "MAN".equals(data.getVal())||
-                    "WAT".equals(data.getVal())){
-                oeeNum++;
+            if ("RUN".equals(data.getVal())|| "WAT".equals(data.getVal())){
+                oeeNum=oeeNum.add(BigDecimal.ONE);
             }
-            if ("MNT".equals(data.getVal())){
-                pmNum++;
+            if ("MAN".equals(data.getVal())){
+                pmNum=pmNum.add(BigDecimal.ONE);
             }
         }
-    }*/
+    }
 }
