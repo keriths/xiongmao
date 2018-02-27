@@ -59,6 +59,7 @@ public class EquipmentStatusServiceImpl {
                 EquipmentCollectDataDTO.FactoryEquiStatusNumCollectDTO factoryEquiStatusNumCollectDTO = factoryStatusNumMap.get(equipmentData.getFactory());
                 if (factoryEquiStatusNumCollectDTO ==null){
                     factoryEquiStatusNumCollectDTO = new EquipmentCollectDataDTO.FactoryEquiStatusNumCollectDTO();
+                    factoryEquiStatusNumCollectDTO.factory = equipmentData.getFactory();
                     factoryStatusNumMap.put(equipmentData.getFactory(), factoryEquiStatusNumCollectDTO);
                 }
                 factoryEquiStatusNumCollectDTO.totalNum = factoryEquiStatusNumCollectDTO.totalNum+1;

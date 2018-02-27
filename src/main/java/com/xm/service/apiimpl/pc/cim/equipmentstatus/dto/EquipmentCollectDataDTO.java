@@ -48,5 +48,6 @@ public class EquipmentCollectDataDTO extends BaseRetDTO {
         public Integer getFailNum() {
             return failNum;
         }
+
     }
 }
