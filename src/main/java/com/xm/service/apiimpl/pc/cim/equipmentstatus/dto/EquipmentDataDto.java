@@ -21,7 +21,7 @@ public class EquipmentDataDto {
         @ApiResultFieldDesc(desc = "设备状态值(MAN手动操作,WAT等待;RUN生产中,TRB故障,MNT维护保养)")
         private String val;
         @ApiResultFieldDesc(desc = "某个工厂某个状态的数量")
-        private String count;
+        private Integer count;
 
         public String getFactory() {
             return factory;
@@ -39,11 +39,11 @@ public class EquipmentDataDto {
             this.val = val;
         }
 
-        public String getCount() {
+        public Integer getCount() {
             return count;
         }
 
-        public void setCount(String count) {
+        public void setCount(Integer count) {
             this.count = count;
         }
     }
