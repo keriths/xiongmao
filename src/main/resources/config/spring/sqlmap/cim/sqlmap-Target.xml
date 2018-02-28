@@ -4,7 +4,6 @@
     <select id="queryTargetInline" resultType="com.xm.service.apiimpl.pc.target.dto.TargetDTO" parameterType="map">
         SELECT
         FACTORY as factory,
-        PRODUCTID as productId,
         TARGETINLINE as targetInline
         FROM
         TARGET
@@ -14,14 +13,13 @@
         UPDATE TARGET SET
         TARGETINLINE = #{targetInline}
         WHERE
-        FACTORY = #{factory} AND
-        PRODUCTID = #{productId}
+        FACTORY = #{factory}
     </update>
 
     <insert id="addTargetInline" parameterType="map">
         INSERT INTO  TARGET
-        (FACTORY,PRODUCTID,TARGETINLINE) VALUES
-        (#{factory},#{productId},#{targetInline})
+        (FACTORY,TARGETINLINE) VALUES
+        (#{factory},#{targetInline})
     </insert>
 
     <delete id="deleteTargetInline" parameterType="map">
@@ -29,8 +27,7 @@
         FROM
         TARGET
         WHERE
-        FACTORY = #{factory} AND
-        PRODUCTID = #{productId}
+        FACTORY = #{factory}
     </delete>
 
     <select id="querySyncData" parameterType="map" resultType="map">

@@ -186,4 +186,13 @@ public class Constant {
      */
     public static final List<String> ExhaustTypeList = Lists.newArrayList("F-101A", "F-101B","F-101C");
 
+    /**
+     * 产出数横坐标产品
+     */
+    public static final Map<String,String> outProductIdNameMap = MapUtils.newMap(
+            "50","50",
+            "55","55",
+            "60","60",
+            "65","65");
+
 }

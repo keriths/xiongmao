@@ -5,6 +5,7 @@ import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
+import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCollectDataRetDTO;
 import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCompletionData;
 import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCompletionRetDTO;
 import com.xm.service.constant.Constant;
@@ -125,5 +126,27 @@ public class OutputCompletionRateServiceImpl {
 
     }
 
-
+    @ApiMethodDoc(apiCode = "CIM_outputCollectData" , name = "产出数统计")
+    public OutputCollectDataRetDTO outCollectRetDTO(){
+        OutputCollectDataRetDTO resultDto = new OutputCollectDataRetDTO();
+        try {
+            List<String> productIdList=new ArrayList<String>();
+            Map<String,String> dataMap=Constant.outProductIdNameMap;
+            Iterator<Map.Entry<String, String>> it = dataMap.entrySet().iterator();
+            while (it.hasNext()) {
+                Map.Entry<String, String> entry = it.next();
+                productIdList.add(entry.getKey());
+            }
+            List<OutputCollectDataRetDTO.CollectDataList> dayDataList = outputcompletionDAO.outputDayData(productIdList);
+            List<OutputCollectDataRetDTO.CollectDataList> monthDataList = outputcompletionDAO.outputMonthData(productIdList);
+            resultDto.setCollectDayDataRetDTOList(dayDataList);
+            resultDto.setCollectMonthDataRetDTOList(monthDataList);
+            return resultDto;
+        }catch (Exception e){
+            LogUtils.error(this.getClass(),"outputCompletionRate eclipse",e);
+            resultDto.setSuccess(false);
+            resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
+            return resultDto;
+        }
+    }
 }

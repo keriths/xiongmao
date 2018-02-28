@@ -28,12 +28,12 @@
                             <input type="text"  id="addFactory" name="factory" class="form-control">
                         </div>
                     </div>
-                    <div class="form-group">
+                    <#--<div class="form-group">
                         <label class="control-label col-sm-3" >产品ID：</label>
                         <div class="col-sm-8">
                             <input type="text"  id="addProductId" name="productId" class="form-control">
                         </div>
-                    </div>
+                    </div>-->
                     <div class="form-group">
                         <label class="control-label col-sm-3" >目标良品率：</label>
                         <div class="col-sm-8">
@@ -68,12 +68,12 @@
                             <input type="text" readonly id="editFactory" name="factory" class="form-control">
                         </div>
                     </div>
-                    <div class="form-group">
+                    <#--<div class="form-group">
                         <label class="control-label col-sm-3" >产品ID：</label>
                         <div class="col-sm-8">
                             <input type="text" readonly id="editProductId" name="productId" class="form-control">
                         </div>
-                    </div>
+                    </div>-->
                     <div class="form-group">
                         <label class="control-label col-sm-3" >目标良品率：</label>
                         <div class="col-sm-8">
@@ -94,7 +94,7 @@
     <thead style="background-color: #B0E0E6" >
     <tr >
         <th>工厂</th>
-        <th>产品ID</th>
+        <#--<th>产品ID</th>-->
         <th>目标良品率</th>
         <th>操作</th>
     </tr>
@@ -116,10 +116,12 @@
         columns:[{
             field: 'factory',
             align: 'center'
-        },{
+        },
+        /*{
             field: 'productId',
             align: 'center',
-        },{
+        },*/
+        {
             field: 'targetInline',
             align: 'center',
         },{
@@ -153,11 +155,11 @@
             $("#addFactory").focus();
             return false;
         }
-        if($("#addProductId").val()=="") {
+        /*if($("#addProductId").val()=="") {
             alert("产品ID不能为空!");
             $("#addProductId").focus();
             return false;
-        }
+        }*/
         if($("#addTargetInline").val()=="") {
             alert("目标良品率不能为空!");
             $("#addTargetInline").focus();
@@ -187,7 +189,7 @@
         $("#editForm")[0].reset();
         $("#editTargetModel.modal-title").empty().html("编辑目标良品率");
         $("#editForm input[name=factory]").val(row.factory);
-        $("#editForm input[name=productId]").val(row.productId);
+        /*$("#editForm input[name=productId]").val(row.productId);*/
         $("#editForm input[name=targetInline]").val(row.targetInline);
         $("#editTargetModel").modal("show");
 
@@ -228,7 +230,7 @@
                     dataType:"json",
                     data: {
                         "factory": row.factory,
-                        "productId":row.productId
+                        /*"productId":row.productId*/
                     },
                     success: function (data) {
                         if(data.success){

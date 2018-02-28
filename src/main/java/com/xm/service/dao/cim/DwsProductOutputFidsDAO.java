@@ -1,5 +1,6 @@
 package com.xm.service.dao.cim;
 
+import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCollectDataRetDTO;
 import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCompletionData;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
@@ -28,5 +29,16 @@ public interface DwsProductOutputFidsDAO {
 
     void updateData(Map<String, Object> mapData);
 
+    /*List<OutputCollectDataRetDTO.CollectDataList> OutputCollectData(
+                                                                @Param("dateType")String dateType,
+                                                                @Param("productIdList") List<String> productIdList,
+                                                                @Param("beginDate")Date beginDate,
+                                                                @Param("endDate")Date endDate);*/
+
+    List<OutputCollectDataRetDTO.CollectDataList> outputDayData(
+            @Param("productIdList") List<String> productIdList);
+
+    List<OutputCollectDataRetDTO.CollectDataList> outputMonthData(
+            @Param("productIdList") List<String> productIdList);
 
 }

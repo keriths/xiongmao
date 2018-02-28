@@ -95,7 +95,6 @@
         (select TARGETINLINE
         from TARGETOC
         where
-        TARGETOC.FACTORY=DWS_PRODUCT_OC_YIELD_FIDS.FACTORY and
         TARGETOC.PRODUCTID=DWS_PRODUCT_OC_YIELD_FIDS.PRODUCTID)
     </update>
 </mapper>
