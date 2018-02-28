@@ -26,7 +26,8 @@
             DATADATE as dataDate
         from DWR_EQUIPMENT_STATUS_FIDS
         WHERE
-          KEY=#{key}
+          KEY=#{key} AND
+          FACTORY=#{factory}
     </select>
 
     <update id="updateStatusData" parameterType="com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentStatusData">
@@ -36,6 +37,7 @@
              DWR_EQUIPMENT_STATUS_FIDS.VAL=#{val},
              DATADATE=sysdate
         WHERE
+          DWR_EQUIPMENT_STATUS_FIDS.FACTORY=#{factory} AND
           DWR_EQUIPMENT_STATUS_FIDS.KEY=#{key}
     </update>
 
