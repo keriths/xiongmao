@@ -1,5 +1,6 @@
 package com.xm.job;
 
+import com.xm.service.apiimpl.pc.fmcs.exhaust.dto.SyncExhaustAData;
 import com.xm.service.dao.cim.DwsProductInputFidsDAO;
 import com.xm.service.dao.factory.cim.FactoryDwsProductInputFidsDAO;
 import com.xm.service.dao.factory.fmcs.*;
@@ -121,6 +122,13 @@ public class FMCSDataSyncTask {
     private FactoryWwtbDataDAO factoryWwtbDataDAO;
     @Resource
     private WwtbDataDAO wwtbDataDAO;
+
+
+    //---------------排气------------
+    @Resource
+    private ExhaustADataDAO exhaustADataDAO;
+    @Resource
+    private FactoryExhaustADataDAO factoryExhaustADataDAO;
 
 
 
@@ -672,6 +680,29 @@ public class FMCSDataSyncTask {
                 }
             }
             offset = offset+limit;
+        }
+    }
+
+
+    /**
+     * 排气实时数据同步
+     * 已测通
+     */
+    //@Scheduled(fixedRate = 1000*5)
+    public void ExhaustADataSync(){
+        try {
+            List<SyncExhaustAData> queryList = factoryExhaustADataDAO.querySyncData();
+            for(SyncExhaustAData exhaustAData:queryList){
+                SyncExhaustAData data=exhaustADataDAO.loadByPrimaryName(exhaustAData.getName());
+                if(data==null){
+                    exhaustADataDAO.addData(exhaustAData);
+                }else {
+                    exhaustADataDAO.updateData(exhaustAData);
+                }
+            }
+
+        }catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
