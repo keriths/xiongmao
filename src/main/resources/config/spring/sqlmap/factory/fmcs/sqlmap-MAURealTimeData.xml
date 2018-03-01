@@ -8,8 +8,8 @@
         select * from (
           select m.*,rownum as rn
           from MAUREALTIMEDATA m
-          where DATADATE < sysdate+1 and
-            DATADATE > sysdate -3 and
+          where DATADATE < sysdate+1/24 and
+            DATADATE > sysdate -3/24 and
             rownum <= #{offset}+#{limit}
         ) a where a.rn > #{offset}
 
