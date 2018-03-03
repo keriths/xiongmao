@@ -8,8 +8,9 @@
           select t.*,rownum as rn
           from DWS_PRODUCT_INPUT_FIDS t
           where PERIODDATE < sysdate+1 and
-            PERIODDATE > sysdate -3 and
+            PERIODDATE > sysdate -30 and
             rownum <= #{offset}+#{limit}
+            order by  t.PERIODDATE desc,t.factory,t.PRODUCTID
         ) a where a.rn > #{offset}
 
         ]]>

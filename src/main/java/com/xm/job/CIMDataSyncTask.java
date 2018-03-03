@@ -1,5 +1,7 @@
 package com.xm.job;
 
+import com.alibaba.fastjson.JSON;
+import com.xm.platform.util.LogUtils;
 import com.xm.service.dao.cim.*;
 import com.xm.service.dao.factory.cim.*;
 import com.xm.service.dao.login.StoreDAO;
@@ -79,53 +81,72 @@ public class CIMDataSyncTask {
      * 根据主键查询数据是否存在，已经存在更新
      * 不存在新增加
      */
-    //@Scheduled(fixedRate = 1000*5)
+    @Scheduled(fixedRate = 1000*60*60)
     public void InputCompletionDataSync(){
+        long t1 = System.currentTimeMillis();
         int offset = 0;
         int limit = 1000;
         while (true){
             List<Map<String,Object>> mapDataList = factoryDwsProductInputFidsDAO.querySyncData(offset,limit);
             if (CollectionUtils.isEmpty(mapDataList)){
-                return;
+                break;
             }
             for (Map<String,Object> mapData : mapDataList){
-                Map<String,Object> data = dwsProductInputFidsDAO.loadByPrimaryKey(mapData);
-                if (data==null){
-                    //添加
-                    dwsProductInputFidsDAO.addData(mapData);
-                }else {
-                    //更新
-                    dwsProductInputFidsDAO.updateData(mapData);
+                try {
+                    Map<String,Object> data = dwsProductInputFidsDAO.loadByPrimaryKey(mapData);
+                    if (data==null){
+                        //添加
+                        dwsProductInputFidsDAO.addData(mapData);
+                    }else {
+                        //更新
+                        dwsProductInputFidsDAO.updateData(mapData);
+                    }
+                }catch (Exception e){
+                    LogUtils.error(this.getClass(),"同步投入达成率单条处理失败原数据["+ JSON.toJSONString(mapData)+"]",e);
                 }
             }
-            offset = offset+limit;
+            offset = offset+mapDataList.size();
         }
+        long t2 = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"同步投入达成率[DWS_PRODUCT_INPUT_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
     }
 
     /**
      * 产出达成率数据同步
      * 已测通
      */
-    //@Scheduled(fixedRate = 1000*5)
+    @Scheduled(fixedRate = 1000*60*60)
     public void OutputCompletionDataSync(){
         int offset = 0;
         int limit = 1000;
-        while (true){
-            List<Map<String,Object>> mapDataList = factoryDwsProductOutputFidsDAO.querySyncData(offset,limit);
-            if (CollectionUtils.isEmpty(mapDataList)){
-                return;
-            }
-            for (Map<String,Object> mapData : mapDataList){
-                Map<String,Object> data = outputcompletionDAO.loadByPrimaryKey(mapData);
-                if (data==null){
-                    //添加
-                    outputcompletionDAO.addData(mapData);
-                }else {
-                    //更新
-                    outputcompletionDAO.updateData(mapData);
+        long t1 = System.currentTimeMillis();
+        try {
+            while (true){
+                List<Map<String,Object>> mapDataList = factoryDwsProductOutputFidsDAO.querySyncData(offset,limit);
+                if (CollectionUtils.isEmpty(mapDataList)){
+                    break;
                 }
+                for (Map<String,Object> mapData : mapDataList){
+                    try {
+                        Map<String,Object> data = outputcompletionDAO.loadByPrimaryKey(mapData);
+                        if (data==null){
+                            //添加
+                            outputcompletionDAO.addData(mapData);
+                        }else {
+                            //更新
+                            outputcompletionDAO.updateData(mapData);
+                        }
+                    }catch (Exception e){
+                        LogUtils.error(this.getClass(),"同步产出达成率单条处理失败原数据["+ JSON.toJSONString(mapData)+"]",e);
+                    }
+                }
+                offset = offset+mapDataList.size();
             }
-            offset = offset+limit;
+            long t2 = System.currentTimeMillis();
+            LogUtils.info(this.getClass(),"同步产出达成率[DWS_PRODUCT_OUTPUT_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
+        }catch (Exception e){
+            long t2 = System.currentTimeMillis();
+            LogUtils.info(this.getClass(),"同步产出达成率[DWS_PRODUCT_OUTPUT_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
         }
     }
 
