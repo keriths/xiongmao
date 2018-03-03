@@ -27,6 +27,8 @@ public class EquipmentStatusData {
     private transient String demoData;
     @ApiResultFieldDesc(desc = "数据更新时间")
     private String dataDate;
+    @ApiResultFieldDesc(desc = "数据类型")
+    private String eqptType;
 
     public String getFactory() {
         return factory;
@@ -107,4 +109,11 @@ public class EquipmentStatusData {
         this.dataDate = dataDate;
     }
 
+    public String getEqptType() {
+        return eqptType;
+    }
+
+    public void setEqptType(String eqptType) {
+        this.eqptType = eqptType;
+    }
 }

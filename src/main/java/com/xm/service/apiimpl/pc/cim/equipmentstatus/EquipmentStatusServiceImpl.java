@@ -135,15 +135,18 @@ public class EquipmentStatusServiceImpl {
             String factoryName = document.getElementsByTag("ORGNAME").text();
             String eqptId = document.getElementsByTag("EQPTID").text();
             String eqptState = document.getElementsByTag("EQPTSTATE").text();
-            EquipmentStatusData eqptData=dwrEquipmentStatusFidsDAO.queryStatusByKey(eqptId.toUpperCase());
+            String eqptType = document.getElementsByTag("EQPTTYPE").text();
+            EquipmentStatusData eqptData=dwrEquipmentStatusFidsDAO.queryStatusByKey(factoryName,eqptId.toUpperCase());
             if (eqptData==null){
                 eqptData = new EquipmentStatusData();
                 eqptData.setFactory(factoryName);
                 eqptData.setKey(eqptId);
                 eqptData.setVal(eqptState);
+                eqptData.setEqptType(eqptType);
                 dwrEquipmentStatusFidsDAO.insertStatusData(eqptData);
             }else {
                 eqptData.setVal(eqptState);
+                eqptData.setEqptType(eqptType);
                 dwrEquipmentStatusFidsDAO.updateStatusData(eqptData);
             }
 //            for(Element el:document.select("Beader")){

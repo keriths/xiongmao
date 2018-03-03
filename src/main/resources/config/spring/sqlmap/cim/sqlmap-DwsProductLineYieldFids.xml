@@ -25,9 +25,7 @@
             PERIODDATE >= #{beginDate}
             and PERIODDATE <= #{endDate}
         ]]>
-        <if test="factory!=null and productId!=''">
-            AND FACTORY=#{factory,jdbcType=VARCHAR}
-        </if>
+        AND FACTORY=#{factory,jdbcType=VARCHAR}
         GROUP BY
         <if test="dateType=='month'.toString()">/*按月*/
             TO_CHAR(PERIODDATE,'MM')||'月',

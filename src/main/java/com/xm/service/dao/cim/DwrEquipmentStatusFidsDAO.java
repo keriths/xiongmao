@@ -19,7 +19,7 @@ public interface DwrEquipmentStatusFidsDAO {
 
     int insertStatusData(EquipmentStatusData equipmentStatusData);
 
-    EquipmentStatusData queryStatusByKey(@Param("key") String key);
+    EquipmentStatusData queryStatusByKey(@Param("factory")String factory,@Param("key") String key);
 
     List<EquipmentDataDto.EquipmentData> queryStatus(@Param("factoryList") List<String>  factoryLists);
 }
