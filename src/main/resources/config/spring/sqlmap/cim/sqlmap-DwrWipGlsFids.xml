@@ -60,6 +60,12 @@
         where
         FACTORY = #{FACTORY} and
         PRODUCTID = #{PRODUCTID} and
+        <if test="PRODUCTTYPE != null">
+            PRODUCTTYPE = #{PRODUCTTYPE} and
+        </if>
+        <if test="PRODUCTTYPE == null">
+            PRODUCTTYPE is null and
+        </if>
         <if test="STEPID != null">
             STEPID = #{STEPID} and
         </if>
@@ -99,6 +105,12 @@
         </if>
         <if test="STEPID == null">
             STEPID is null and
+        </if>
+        <if test="PRODUCTTYPE != null">
+            PRODUCTTYPE = #{PRODUCTTYPE} and
+        </if>
+        <if test="PRODUCTTYPE == null">
+            PRODUCTTYPE is null and
         </if>
         PRODUCTID = #{PRODUCTID}
     </update>
