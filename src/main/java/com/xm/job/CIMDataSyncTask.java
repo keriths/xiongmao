@@ -88,7 +88,6 @@ public class CIMDataSyncTask {
         int offset = 0;
         int limit = 1000;
         try {
-
             while (true){
                 List<Map<String,Object>> mapDataList;
                 try {
@@ -117,7 +116,11 @@ public class CIMDataSyncTask {
                             dwsProductInputFidsDAO.addData(mapData);
                         }else {
                             //更新
-                            dwsProductInputFidsDAO.updateData(mapData);
+                            if (notEquals(data.get("PLAN_INPUT_GLS_QTY"),mapData.get("PLAN_INPUT_GLS_QTY"))||
+                                    notEquals(data.get("ACTUAL_INPUT_GLS_QTY"),mapData.get("ACTUAL_INPUT_GLS_QTY"))
+                                    ){
+                                dwsProductInputFidsDAO.updateData(mapData);
+                            }
                         }
                     }catch (Exception e){
                         LogUtils.error(this.getClass(),"********************同步投入达成率[DWS_PRODUCT_INPUT_FIDS]数据单条处理失败原数据["+ JSON.toJSONString(mapData)+"]",e);
@@ -130,6 +133,13 @@ public class CIMDataSyncTask {
         }catch (Exception e){
             long t2 = System.currentTimeMillis();
             LogUtils.error(this.getClass(), "****************************************同步投入达成率[DWS_PRODUCT_INPUT_FIDS]数据出现异常，用时" + ((t2 - t1) / 1000) + "秒一共同步[" + offset + "]条数据",e);
+        }
+    }
+    public boolean notEquals(Object o1,Object o2){
+        if (o1==null){
+            return o2!=null;
+        }else {
+            return !o1.equals(o2);
         }
     }
 
@@ -170,7 +180,10 @@ public class CIMDataSyncTask {
                             outputcompletionDAO.addData(mapData);
                         }else {
                             //更新
-                            outputcompletionDAO.updateData(mapData);
+                            if (notEquals(data.get("PLAN_OUTPUT_PNL_QTY"),mapData.get("PLAN_OUTPUT_PNL_QTY"))||
+                                    notEquals(data.get("ACTUAL_OUTPUT_PNL_QTY"),mapData.get("ACTUAL_OUTPUT_PNL_QTY"))){
+                                outputcompletionDAO.updateData(mapData);
+                            }
                         }
                     }catch (Exception e){
                         LogUtils.error(this.getClass(),"********************同步产出达成率[DWS_PRODUCT_OUTPUT_FIDS]数据单条处理失败原数据["+ JSON.toJSONString(mapData)+"]",e);
