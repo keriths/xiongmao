@@ -18,7 +18,7 @@
         <property name="username"><value>${factory.cim.database.username}</value></property>
         <property name="password"><value>${factory.cim.database.password}</value></property>
         <property name="maxActive"><value>10</value></property>
-        <property name="maxWait"><value>10000</value></property>
+        <property name="maxWait"><value>100000</value></property>
         <property name="maxIdle"><value>3</value></property>
         <property name="initialSize"><value>10</value></property>
         <property name="removeAbandoned"><value>true</value></property>

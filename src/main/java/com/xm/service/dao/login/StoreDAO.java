@@ -7,6 +7,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 在库量
+ */
 @Repository("storeDAO")
 public interface StoreDAO {
     List<StoreDTO> queryStore();

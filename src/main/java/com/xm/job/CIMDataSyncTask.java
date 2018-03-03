@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
+import sun.rmi.runtime.Log;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -86,29 +87,42 @@ public class CIMDataSyncTask {
         long t1 = System.currentTimeMillis();
         int offset = 0;
         int limit = 1000;
-        while (true){
-            List<Map<String,Object>> mapDataList = factoryDwsProductInputFidsDAO.querySyncData(offset,limit);
-            if (CollectionUtils.isEmpty(mapDataList)){
-                break;
-            }
-            for (Map<String,Object> mapData : mapDataList){
+        try {
+
+            while (true){
+                List<Map<String,Object>> mapDataList;
                 try {
-                    Map<String,Object> data = dwsProductInputFidsDAO.loadByPrimaryKey(mapData);
-                    if (data==null){
-                        //添加
-                        dwsProductInputFidsDAO.addData(mapData);
-                    }else {
-                        //更新
-                        dwsProductInputFidsDAO.updateData(mapData);
-                    }
+                    mapDataList = factoryDwsProductInputFidsDAO.querySyncData(offset,limit);
                 }catch (Exception e){
-                    LogUtils.error(this.getClass(),"同步投入达成率单条处理失败原数据["+ JSON.toJSONString(mapData)+"]",e);
+                    Thread.sleep(1000l);
+                    continue;
                 }
+
+                if (CollectionUtils.isEmpty(mapDataList)){
+                    break;
+                }
+                for (Map<String,Object> mapData : mapDataList){
+                    try {
+                        Map<String,Object> data = dwsProductInputFidsDAO.loadByPrimaryKey(mapData);
+                        if (data==null){
+                            //添加
+                            dwsProductInputFidsDAO.addData(mapData);
+                        }else {
+                            //更新
+                            dwsProductInputFidsDAO.updateData(mapData);
+                        }
+                    }catch (Exception e){
+                        LogUtils.error(this.getClass(),"********************同步投入达成率[DWS_PRODUCT_INPUT_FIDS]数据单条处理失败原数据["+ JSON.toJSONString(mapData)+"]",e);
+                    }
+                }
+                offset = offset+mapDataList.size();
             }
-            offset = offset+mapDataList.size();
+            long t2 = System.currentTimeMillis();
+            LogUtils.info(this.getClass(),"同步投入达成率[DWS_PRODUCT_INPUT_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
+        }catch (Exception e){
+            long t2 = System.currentTimeMillis();
+            LogUtils.error(this.getClass(), "****************************************同步投入达成率[DWS_PRODUCT_INPUT_FIDS]数据出现异常，用时" + ((t2 - t1) / 1000) + "秒一共同步[" + offset + "]条数据",e);
         }
-        long t2 = System.currentTimeMillis();
-        LogUtils.info(this.getClass(),"同步投入达成率[DWS_PRODUCT_INPUT_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
     }
 
     /**
@@ -122,7 +136,13 @@ public class CIMDataSyncTask {
         long t1 = System.currentTimeMillis();
         try {
             while (true){
-                List<Map<String,Object>> mapDataList = factoryDwsProductOutputFidsDAO.querySyncData(offset,limit);
+                List<Map<String,Object>> mapDataList;
+                try {
+                    mapDataList = factoryDwsProductOutputFidsDAO.querySyncData(offset, limit);
+                }catch (Exception e){
+                    Thread.sleep(1000l);
+                    continue;
+                }
                 if (CollectionUtils.isEmpty(mapDataList)){
                     break;
                 }
@@ -137,7 +157,7 @@ public class CIMDataSyncTask {
                             outputcompletionDAO.updateData(mapData);
                         }
                     }catch (Exception e){
-                        LogUtils.error(this.getClass(),"同步产出达成率单条处理失败原数据["+ JSON.toJSONString(mapData)+"]",e);
+                        LogUtils.error(this.getClass(),"********************同步产出达成率[DWS_PRODUCT_OUTPUT_FIDS]数据单条处理失败原数据["+ JSON.toJSONString(mapData)+"]",e);
                     }
                 }
                 offset = offset+mapDataList.size();
@@ -146,7 +166,7 @@ public class CIMDataSyncTask {
             LogUtils.info(this.getClass(),"同步产出达成率[DWS_PRODUCT_OUTPUT_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
         }catch (Exception e){
             long t2 = System.currentTimeMillis();
-            LogUtils.info(this.getClass(),"同步产出达成率[DWS_PRODUCT_OUTPUT_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
+            LogUtils.error(this.getClass(), "****************************************同步产出达成率[DWS_PRODUCT_OUTPUT_FIDS]数据出现异常，用时" + ((t2 - t1) / 1000) + "秒一共同步[" + offset + "]条数据", e);
         }
     }
 
@@ -154,26 +174,52 @@ public class CIMDataSyncTask {
      * 在制品数据同步
      * 已测通
      */
-    //@Scheduled(fixedRate = 1000*5)
+    @Scheduled(fixedRate = 1000*60*60)
     public void GoodInProcessDataSync(){
         int offset = 0;
         int limit = 1000;
-        while (true){
-            List<Map<String,Object>> mapDataList = factoryDwrWipGlsFidsDAO.querySyncData(offset,limit);
-            if (CollectionUtils.isEmpty(mapDataList)){
-                return;
-            }
-            for (Map<String,Object> mapData : mapDataList){
-                Map<String,Object> data = dwrWipGlsFidsDAO.loadByPrimaryKey(mapData);
-                if (data==null){
-                    //添加  添加时把在库容量上限下限读出来一起同步
-                    dwrWipGlsFidsDAO.addData(mapData);
-                }else {
-                    //更新  把data中的数据，仅仅对数据更新一下，然后更新
-                    dwrWipGlsFidsDAO.updateData(mapData);
+        long t1 = System.currentTimeMillis();
+        try {
+            while (true){
+                List<Map<String,Object>> mapDataList;
+                try {
+                    long t11 = System.currentTimeMillis();
+                    mapDataList = factoryDwrWipGlsFidsDAO.querySyncData(offset,limit);
+                    long t22 = System.currentTimeMillis();
+                    LogUtils.info(this.getClass(), "factoryDwrWipGlsFidsDAO.querySyncData 用时" + (t22 - t11) + "毫秒参数offset" + offset + " limit" + limit);
+                }catch (Exception e){
+                    LogUtils.error(this.getClass(),"factoryDwrWipGlsFidsDAO.querySyncData exception",e);
+                    Thread.sleep(1000l);
+                    continue;
                 }
+
+                if (CollectionUtils.isEmpty(mapDataList)){
+                    break;
+                }
+                for (Map<String,Object> mapData : mapDataList){
+                    try {
+                        Map<String,Object> data = dwrWipGlsFidsDAO.loadByPrimaryKey(mapData);
+                        if (data==null){
+                            //添加  添加时把在库容量上限下限读出来一起同步
+                            dwrWipGlsFidsDAO.addData(mapData);
+                        }else {
+                            if (!data.get("WIP_GLS_QTY").equals(mapData.get("WIP_GLS_QTY"))){
+                                dwrWipGlsFidsDAO.updateData(mapData);
+                            }
+                            //更新  把data中的数据，仅仅对数据更新一下，然后更新
+//                            dwrWipGlsFidsDAO.updateData(mapData);
+                        }
+                    }catch (Exception e){
+                        LogUtils.error(this.getClass(),"********************同步在制品[DWR_WIP_GLS_FIDS]数据单条处理失败原数据["+ JSON.toJSONString(mapData)+"]",e);
+                    }
+                }
+                offset = offset+limit;
             }
-            offset = offset+limit;
+            long t2 = System.currentTimeMillis();
+            LogUtils.info(this.getClass(),"同步在制品[DWR_WIP_GLS_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
+        }catch (Exception e){
+            long t2 = System.currentTimeMillis();
+            LogUtils.error(this.getClass(), "****************************************同步在制品[DWR_WIP_GLS_FIDS]数据出现异常,用时" + ((t2 - t1) / 1000) + "秒一共同步[" + offset + "]条数据",e);
         }
     }
 
@@ -202,7 +248,7 @@ public class CIMDataSyncTask {
      * 良品率数据同步
      * 已测通
      */
-    //@Scheduled(fixedRate = 1000*5)
+    @Scheduled(fixedRate = 1000*60*60)
     public void ProductLineGoodRateDataSync(){
         int offset = 0;
         int limit = 1000;

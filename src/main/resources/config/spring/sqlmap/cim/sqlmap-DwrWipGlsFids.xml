@@ -54,45 +54,38 @@
           TO_CHAR(PERIODDATE,'HH24')||':00'
     </select>
 
-    <!--<select id="loadByPrimaryKey" parameterType="map" resultType="map">
-        SELECT * from DWR_WIP_GLS_FIDS
-        where FACTORY = #{FACTORY} and
-        PERIODDATE = #{PERIODDATE} and
-        PRODUCTTYPE = #{PRODUCTTYPE} and
-        PRODUCTID = #{PRODUCTID} and
-        STEPID = #{STEPID}
-    </select>
-    <insert id="addData" parameterType="map">
-        INSERT INTO  DWR_WIP_GLS_FIDS
-        (FACTORY,   PERIODDATE,   PRODUCTTYPE,   PRODUCTID,   STEPID,   WIP_GLS_QTY,   STORE_MAX,   STORE_MIN,   INTERFACE_TIME) VALUES
-        (#{FACTORY},#{PERIODDATE},#{PRODUCTTYPE},#{PRODUCTID},#{STEPID},#{WIP_GLS_QTY},#{STORE_MAX},#{STORE_MIN},sysdate)
-    </insert>
-    <update id="updateData" parameterType="map">
-        UPDATE DWR_WIP_GLS_FIDS SET
-        WIP_GLS_QTY = #{WIP_GLS_QTY} ,
-        STORE_MAX = #{STORE_MAX} ,
-        STORE_MIN = #{STORE_MIN},
-        INTERFACE_TIME = sysdate
-        WHERE
-        FACTORY = #{FACTORY} and
-        PERIODDATE = #{PERIODDATE} and
-        PRODUCTTYPE = #{PRODUCTTYPE} and
-        PRODUCTID = #{PRODUCTID} and
-        STEPID = #{STEPID}
-    </update>-->
 
     <select id="loadByPrimaryKey" parameterType="map" resultType="map">
         SELECT * from DWR_WIP_GLS_FIDS
-        where FACTORY = #{FACTORY} and
-        PERIODDATE = #{PERIODDATE} and
-        PRODUCTTYPE = #{PRODUCTTYPE} and
+        where
+        FACTORY = #{FACTORY} and
         PRODUCTID = #{PRODUCTID} and
-        STEPID = #{STEPID}
+        <if test="STEPID != null">
+            STEPID = #{STEPID} and
+        </if>
+        <if test="STEPID == null">
+            STEPID is null and
+        </if>
+        PERIODDATE = #{PERIODDATE}
     </select>
     <insert id="addData" parameterType="map">
         INSERT INTO  DWR_WIP_GLS_FIDS
         (FACTORY,   PERIODDATE,   PRODUCTTYPE,   PRODUCTID,   STEPID,   WIP_GLS_QTY,   INTERFACE_TIME) VALUES
-        (#{FACTORY},#{PERIODDATE},#{PRODUCTTYPE},#{PRODUCTID},#{STEPID},#{WIP_GLS_QTY},sysdate)
+        (#{FACTORY},#{PERIODDATE},
+        <if test="PRODUCTTYPE != null">
+            #{PRODUCTTYPE}
+        </if>
+        <if test="PRODUCTTYPE == null">
+            null
+        </if>
+        ,#{PRODUCTID},
+        <if test="STEPID != null">
+            #{STEPID}
+        </if>
+        <if test="STEPID == null">
+            null
+        </if>
+        ,#{WIP_GLS_QTY},sysdate)
     </insert>
     <update id="updateData" parameterType="map">
         UPDATE DWR_WIP_GLS_FIDS SET
@@ -101,19 +94,23 @@
         WHERE
         FACTORY = #{FACTORY} and
         PERIODDATE = #{PERIODDATE} and
-        PRODUCTTYPE = #{PRODUCTTYPE} and
-        PRODUCTID = #{PRODUCTID} and
-        STEPID = #{STEPID}
+        <if test="STEPID != null">
+            STEPID = #{STEPID} and
+        </if>
+        <if test="STEPID == null">
+            STEPID is null and
+        </if>
+        PRODUCTID = #{PRODUCTID}
     </update>
 
     <update id="updateStoreData" parameterType="map">
-        UPDATE DWR_WIP_GLS_FIDS SET
-        (DWR_WIP_GLS_FIDS.STORE_MAX,
-        DWR_WIP_GLS_FIDS.STORE_MIN)=
-        (select STORE_MAX,STORE_MIN
-        from STORE
-        where
-        STORE.FACTORY=DWR_WIP_GLS_FIDS.FACTORY and
-        STORE.STEPID=DWR_WIP_GLS_FIDS.STEPID)
+--         UPDATE DWR_WIP_GLS_FIDS SET
+--         (DWR_WIP_GLS_FIDS.STORE_MAX,
+--         DWR_WIP_GLS_FIDS.STORE_MIN)=
+--         (select STORE_MAX,STORE_MIN
+--         from STORE
+--         where
+--         STORE.FACTORY=DWR_WIP_GLS_FIDS.FACTORY and
+--         STORE.STEPID=DWR_WIP_GLS_FIDS.STEPID)
     </update>
 </mapper>
