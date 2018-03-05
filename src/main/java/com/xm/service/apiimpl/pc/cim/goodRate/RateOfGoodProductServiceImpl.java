@@ -28,14 +28,14 @@ import java.util.Map;
  */
 
 @Service("RateOfGoodProductService")
-@ApiServiceDoc(name = "CIM5_良品率（****不可用数据还没确认好****）")
+@ApiServiceDoc(name = "CIM5_良品率")
 public class RateOfGoodProductServiceImpl {
     @Resource(name = "dwsProductLineYieldFidsDAO")
     private DwsProductLineYieldFidsDAO dwsProductLineYieldFidsDAO;
     @Resource(name = "dwsProductOcYieldFidsDAO")
     private DwsProductOcYieldFidsDAO dwsProductOcYieldFidsDAO;
 
-    @ApiMethodDoc(apiCode = "CIM_ProductLineYield",name = "良品率显示接口")
+    @ApiMethodDoc(apiCode = "CIM_ProductLineYield",name = "指定工厂良品率显示接口")
     public ProductLineDataRetDTO productLineDataRetDTO(@ApiParamDoc(desc = "厂别Array,Cell,CF,SL-OC(必填)")String factory,
                                                        @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
         ProductLineDataRetDTO resultDto=new ProductLineDataRetDTO();
@@ -96,7 +96,7 @@ public class RateOfGoodProductServiceImpl {
     }
 
 
-    @ApiMethodDoc(apiCode = "CIM_ProductOcYield",name = "单个产品良品率显示接口")
+    @ApiMethodDoc(apiCode = "CIM_ProductOcYield",name = "指定产品良品率显示接口")
     public ProductOcDataRetDTO productOcDataRetDTO(
                                                      @ApiParamDoc(desc = "产品类型：如55,为空时是全部")String productId,
                                                      @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){

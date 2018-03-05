@@ -236,7 +236,9 @@ public class CIMDataSyncTask {
                             //添加  添加时把在库容量上限下限读出来一起同步
                             dwrWipGlsFidsDAO.addData(mapData);
                         }else {
-                            if (!data.get("WIP_GLS_QTY").equals(mapData.get("WIP_GLS_QTY"))){
+                            if (
+                                    notEquals(data.get("WIP_GLS_QTY"),mapData.get("WIP_GLS_QTY"))
+                                    ){
                                 dwrWipGlsFidsDAO.updateData(mapData);
                             }
                             //更新  把data中的数据，仅仅对数据更新一下，然后更新
@@ -312,10 +314,10 @@ public class CIMDataSyncTask {
                         //添加
                         dwsProductLineYieldFidsDAO.addData(mapData);
                     }else {
-                        if (!data.get("OUTPUT_GLS_QTY").equals(mapData.equals("OUTPUT_GLS_QTY"))||
-                                !data.get("SCRAP_GLS_QTY").equals(mapData.equals("SCRAP_GLS_QTY"))||
-                                !data.get("INPUT_PNL_QTY").equals(mapData.equals("INPUT_PNL_QTY"))||
-                                !data.get("OUTPUT_PNL_QTY").equals(mapData.equals("OUTPUT_PNL_QTY"))){
+                        if (notEquals(data.get("OUTPUT_GLS_QTY"),mapData.get("OUTPUT_GLS_QTY"))||
+                                notEquals(data.get("SCRAP_GLS_QTY"),mapData.get("SCRAP_GLS_QTY"))||
+                                notEquals(data.get("INPUT_PNL_QTY"),mapData.get("INPUT_PNL_QTY"))||
+                                notEquals(data.get("OUTPUT_PNL_QTY"),mapData.get("OUTPUT_PNL_QTY"))){
                             dwsProductLineYieldFidsDAO.updateData(mapData);
                         }
                         //更新
@@ -388,20 +390,20 @@ public class CIMDataSyncTask {
                         dwsProductOcYieldFidsDAO.addData(mapData);
                     }else {
                         //更新
-                        if (!data.get("POL_INPUT").equals(mapData.equals("POL_INPUT"))||
-                                !data.get("POL_OUTPUT_A").equals(mapData.equals("POL_OUTPUT_A"))||
-                                !data.get("POL_OUTPUT_FA").equals(mapData.equals("POL_OUTPUT_FA"))||
-                                !data.get("MBI_RJ_OUTPUT_A").equals(mapData.equals("MBI_RJ_OUTPUT_A"))||
-                                !data.get("MBI_RJ_OUTPUT_FA").equals(mapData.equals("MBI_RJ_OUTPUT_FA"))||
-                                !data.get("POL_RW_OUTPUT_A").equals(mapData.equals("POL_RW_OUTPUT_A"))||
-                                !data.get("POL_RW_OUTPUT_FA").equals(mapData.equals("POL_RW_OUTPUT_FA"))||
-                                !data.get("IOB_INPUT").equals(mapData.equals("IOB_INPUT"))||
-                                !data.get("IOB_EI_OUTPUT_A").equals(mapData.equals("IOB_EI_OUTPUT_A"))||
-                                !data.get("IOB_EI_OUTPUT_FA").equals(mapData.equals("IOB_EI_OUTPUT_FA"))||
-                                !data.get("IOB_EI_OUTPUT_B_RW_A").equals(mapData.equals("IOB_EI_OUTPUT_B_RW_A"))||
-                                !data.get("IOB_EI_OUTPUT_B_RW_FA").equals(mapData.equals("IOB_EI_OUTPUT_B_RW_FA"))||
-                                !data.get("IOB_EI_OUTPUT_D_RW_A").equals(mapData.equals("IOB_EI_OUTPUT_D_RW_A"))||
-                                !data.get("IOB_EI_OUTPUT_D_RW_FA").equals(mapData.equals("IOB_EI_OUTPUT_D_RW_FA"))
+                        if (notEquals(data.get("POL_INPUT"),mapData.get("POL_INPUT"))||
+                                notEquals(data.get("POL_OUTPUT_A"),mapData.get("POL_OUTPUT_A"))||
+                                notEquals(data.get("POL_OUTPUT_FA"),mapData.get("POL_OUTPUT_FA"))||
+                                notEquals(data.get("MBI_RJ_OUTPUT_A"),mapData.get("MBI_RJ_OUTPUT_A"))||
+                                notEquals(data.get("MBI_RJ_OUTPUT_FA"),mapData.get("MBI_RJ_OUTPUT_FA"))||
+                                notEquals(data.get("POL_RW_OUTPUT_A"),mapData.get("POL_RW_OUTPUT_A"))||
+                                notEquals(data.get("POL_RW_OUTPUT_FA"),mapData.get("POL_RW_OUTPUT_FA"))||
+                                notEquals(data.get("IOB_INPUT"),mapData.get("IOB_INPUT"))||
+                                notEquals(data.get("IOB_EI_OUTPUT_A"),mapData.get("IOB_EI_OUTPUT_A"))||
+                                notEquals(data.get("IOB_EI_OUTPUT_FA"),mapData.get("IOB_EI_OUTPUT_FA"))||
+                                notEquals(data.get("IOB_EI_OUTPUT_B_RW_A"),mapData.get("IOB_EI_OUTPUT_B_RW_A"))||
+                                notEquals(data.get("IOB_EI_OUTPUT_B_RW_FA"),mapData.get("IOB_EI_OUTPUT_B_RW_FA"))||
+                                notEquals(data.get("IOB_EI_OUTPUT_D_RW_A"),mapData.get("IOB_EI_OUTPUT_D_RW_A"))||
+                                notEquals(data.get("IOB_EI_OUTPUT_D_RW_FA"),mapData.get("IOB_EI_OUTPUT_D_RW_FA"))
                                 ){
                             dwsProductOcYieldFidsDAO.updateData(mapData);
                         }
@@ -442,81 +444,159 @@ public class CIMDataSyncTask {
      * CycleTime数据同步
      * 已测通
      */
-    //@Scheduled(fixedRate = 1000*5)
+    @Scheduled(fixedRate = 1000*60*60)
     public void CycleTimeDataSync(){
         int offset = 0;
         int limit = 1000;
+        long t1 = System.currentTimeMillis();
         while (true){
-            List<Map<String,Object>> mapDataList = factoryDwrProductCtFidsDAO.querySyncData(offset,limit);
+            List<Map<String,Object>> mapDataList;
+            try {
+                long t11 = System.currentTimeMillis();
+                mapDataList = factoryDwrProductCtFidsDAO.querySyncData(offset,limit);
+                long t22 = System.currentTimeMillis();
+                LogUtils.info(this.getClass(),"CycleTime factoryDwrProductCtFidsDAO.querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
+            }catch (Exception e){
+                LogUtils.error(this.getClass(),"CycleTime factoryDwrProductCtFidsDAO.querySyncData exception",e);
+                try {
+                    Thread.sleep(1000l);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+                continue;
+            }
             if (CollectionUtils.isEmpty(mapDataList)){
-                return;
+                break;
             }
             for (Map<String,Object> mapData : mapDataList){
-                Map<String,Object> data = dwrProductCtFidsDAO.loadByPrimaryKey(mapData);
-                if (data==null){
-                    //添加
-                    dwrProductCtFidsDAO.addData(mapData);
-                }else {
-                    //更新
-                    dwrProductCtFidsDAO.updateData(mapData);
+                try {
+                    Map<String,Object> data = dwrProductCtFidsDAO.loadByPrimaryKey(mapData);
+                    if (data==null){
+                        //添加
+                        dwrProductCtFidsDAO.addData(mapData);
+                    }else {
+                        //更新
+                        if (notEquals(data.get("CT_TARGET"),mapData.get("CT_TARGET"))||
+                                notEquals(data.get("TOTAL_CT"),mapData.get("TOTAL_CT"))||
+                                notEquals(data.get("TOTAL_GLS_QTY"),mapData.get("TOTAL_GLS_QTY"))
+                                ){
+                            dwrProductCtFidsDAO.updateData(mapData);
+                        }
+                    }
+                }catch (Exception e){
+                    LogUtils.error(this.getClass(),"********************同步CycleTime[DWR_PRODUCT_CT_FIDS]数据单条处理失败原数据["+ JSON.toJSONString(mapData)+"]",e);
                 }
             }
             offset = offset+limit;
         }
+        long t2 = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"同步CycleTime[DWR_PRODUCT_CT_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
     }
 
     /**
      * 稼动率数据同步
      * 已测通
      */
-    //@Scheduled(fixedRate = 1000*5)
+    @Scheduled(fixedRate = 1000*60*60)
     public void OeeDataSync(){
         int offset = 0;
         int limit = 1000;
+        long t1 = System.currentTimeMillis();
         while (true){
-            List<Map<String,Object>> mapDataList = factoryDwrEqpOeeFidsDAO.querySyncData(offset,limit);
+            List<Map<String,Object>> mapDataList;
+            try {
+                long t11 = System.currentTimeMillis();
+                mapDataList = factoryDwrEqpOeeFidsDAO.querySyncData(offset,limit);
+                long t22 = System.currentTimeMillis();
+                LogUtils.info(this.getClass(),"稼动率 factoryDwrEqpOeeFidsDAO.querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
+            }catch (Exception e){
+                LogUtils.error(this.getClass(),"稼动率 factoryDwrEqpOeeFidsDAO.querySyncData exception",e);
+                try {
+                    Thread.sleep(1000l);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+                continue;
+            }
             if (CollectionUtils.isEmpty(mapDataList)){
-                return;
+                break;
             }
             for (Map<String,Object> mapData : mapDataList){
-                Map<String,Object> data = dwrEqpOeeFidsDAO.loadByPrimaryKey(mapData);
-                if (data==null){
-                    //添加
-                    dwrEqpOeeFidsDAO.addData(mapData);
-                }else {
-                    //更新
-                    dwrEqpOeeFidsDAO.updateData(mapData);
+                try {
+                    Map<String,Object> data = dwrEqpOeeFidsDAO.loadByPrimaryKey(mapData);
+                    if (data==null){
+                        //添加
+                        dwrEqpOeeFidsDAO.addData(mapData);
+                    }else {
+                        //更新
+                        if (notEquals(data.get("STATUS_DURATION"),mapData.get("STATUS_DURATION"))
+                                ){
+                            dwrEqpOeeFidsDAO.updateData(mapData);
+                        }
+
+                    }
+                }catch (Exception e){
+                    LogUtils.error(this.getClass(),"********************同步稼动率[DWR_EQP_OEE_FIDS]数据单条处理失败原数据["+ JSON.toJSONString(mapData)+"]",e);
                 }
             }
             offset = offset+limit;
         }
+        long t2 = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"同步稼动率[DWR_EQP_OEE_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
     }
 
     /**
      * TactTime数据同步
      * 已测通
      */
-    //@Scheduled(fixedRate = 1000*5)
+    @Scheduled(fixedRate = 1000*60*60)
     public void TactTimeDataSync(){
         int offset = 0;
         int limit = 1000;
+        long t1 = System.currentTimeMillis();
         while (true){
-            List<Map<String,Object>> mapDataList = factoryDwrProductTtFidsDAO.querySyncData(offset,limit);
+            List<Map<String,Object>> mapDataList;
+            try {
+                long t11 = System.currentTimeMillis();
+                mapDataList = factoryDwrProductTtFidsDAO.querySyncData(offset,limit);
+                long t22 = System.currentTimeMillis();
+                LogUtils.info(this.getClass(),"TactTime factoryDwrProductTtFidsDAO.querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
+            }catch (Exception e){
+                LogUtils.error(this.getClass(),"TactTime factoryDwrProductTtFidsDAO.querySyncData exception",e);
+                try {
+                    Thread.sleep(1000l);
+                } catch (InterruptedException e1) {
+                    e1.printStackTrace();
+                }
+                continue;
+            }
+
             if (CollectionUtils.isEmpty(mapDataList)){
-                return;
+                break;
             }
             for (Map<String,Object> mapData : mapDataList){
-                Map<String,Object> data = dwrProductTtFidsDAO.loadByPrimaryKey(mapData);
-                if (data==null){
-                    //添加
-                    dwrProductTtFidsDAO.addData(mapData);
-                }else {
-                    //更新
-                    dwrProductTtFidsDAO.updateData(mapData);
+                try {
+                    Map<String,Object> data = dwrProductTtFidsDAO.loadByPrimaryKey(mapData);
+                    if (data==null){
+                        //添加
+                        dwrProductTtFidsDAO.addData(mapData);
+                    }else {
+                        //更新
+                        if (notEquals(data.get("TT_TARGET"),mapData.get("TT_TARGET"))||
+                                notEquals(data.get("TOTAL_TT"),mapData.get("TOTAL_TT"))||
+                                notEquals(data.get("TOTAL_GLS_QTY"),mapData.get("TOTAL_GLS_QTY"))
+                                ){
+                            dwrProductTtFidsDAO.updateData(mapData);
+                        }
+                    }
+                }catch (Exception e){
+                    LogUtils.error(this.getClass(),"********************同步TactTime[DWR_PRODUCT_TT_FIDS]数据单条处理失败原数据["+ JSON.toJSONString(mapData)+"]",e);
                 }
             }
             offset = offset+limit;
         }
+        long t2 = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"同步TactTime[DWR_PRODUCT_TT_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
     }
 
 }

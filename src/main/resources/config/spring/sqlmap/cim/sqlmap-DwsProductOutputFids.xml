@@ -28,6 +28,7 @@
                PERIODDATE >= #{beginDate}
               and PERIODDATE <= #{endDate}
              ]]>
+        and FACTORY in ('SL','OC')
             <if test="productId!=null and productId!=''">
                 AND PRODUCTID=#{productId,jdbcType=VARCHAR}
             </if>
