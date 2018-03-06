@@ -140,4 +140,29 @@ public class MAUServiceImpl {
         }
     }
 
+    /*@ApiMethodDoc(apiCode = "FMCS_MAUCollection",name = "新风空调系统统计")
+    public MauSystemCollectionDataRetDTO mauData(){
+        MauSystemCollectionDataRetDTO resultDto = new MauSystemCollectionDataRetDTO();
+        try {
+
+            List<MauSystemCollectionDataRetDTO.MauSystemCollectionData> queryList = mauSystemDataDAO.queryMAUData(Constant.systemTypeList);
+            Map<String,MauSystemCollectionDataRetDTO.MauSystemCollectionData> queryMap = MapUtils.listToMap(queryList,"getSystemType");
+            List<MauSystemCollectionDataRetDTO.MauSystemCollectionData> systemDateList = new ArrayList<MauSystemCollectionDataRetDTO.MauSystemCollectionData>();
+            for(String type:Constant.systemTypeList){
+                MauSystemCollectionDataRetDTO.MauSystemCollectionData rcuData = queryMap.get(type);
+                if(rcuData == null){
+                    rcuData = new MauSystemCollectionDataRetDTO.MauSystemCollectionData(type);
+                }
+                systemDateList.add(rcuData);
+            }
+            resultDto.setMauSystemCollectionDataList(systemDateList);
+            return resultDto;
+        }catch (Exception e){
+            LogUtils.error(getClass(), e);
+            resultDto.setSuccess(false);
+            resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
+            return resultDto;
+        }
+    }*/
+
 }

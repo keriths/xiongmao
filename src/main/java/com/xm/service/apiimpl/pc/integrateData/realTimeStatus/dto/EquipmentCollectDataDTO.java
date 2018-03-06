@@ -1,4 +1,4 @@
-package com.xm.service.apiimpl.pc.cim.equipmentstatus.dto;
+package com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.service.dto.BaseRetDTO;

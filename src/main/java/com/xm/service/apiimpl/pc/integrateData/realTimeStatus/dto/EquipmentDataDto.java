@@ -1,13 +1,8 @@
-package com.xm.service.apiimpl.pc.cim.equipmentstatus.dto;
+package com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
-import com.xm.platform.util.ReturnDataUtils;
-import com.xm.service.constant.Constant;
-import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * Created by wangshuna on 2018/2/27.

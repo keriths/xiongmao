@@ -7,7 +7,7 @@
             FACTORY as factory,
             TO_CHAR(PERIODDATE,'HH24')||':00' as dataDate,
             sum(ACTUAL_OUTPUT_PNL_QTY) as amount
-        from DWS_PRODUCT_OUTPUT_FIDS
+        from DWS_PRODUCT_OUTPUT_FIDS_H
         WHERE
             <![CDATA[
                PERIODDATE >= #{beginDate}

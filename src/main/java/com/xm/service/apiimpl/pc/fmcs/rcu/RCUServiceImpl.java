@@ -138,4 +138,29 @@ public class RCUServiceImpl {
             return retDTO;
         }
     }
+
+    /*@ApiMethodDoc(apiCode = "FMCS_RCUCollection",name = "热回收空调系统统计")
+    public RcuSystemCollectionDataRetDTO rcuData(){
+        RcuSystemCollectionDataRetDTO resultDto = new RcuSystemCollectionDataRetDTO();
+        try {
+
+            List<RcuSystemCollectionDataRetDTO.RcuSystemCollectionData> queryList = rcuSystemDataDAO.queryRCUData(Constant.systemTypeList);
+            Map<String,RcuSystemCollectionDataRetDTO.RcuSystemCollectionData> queryMap = MapUtils.listToMap(queryList,"getSystemType");
+            List<RcuSystemCollectionDataRetDTO.RcuSystemCollectionData> systemDateList = new ArrayList<RcuSystemCollectionDataRetDTO.RcuSystemCollectionData>();
+            for(String type:Constant.systemTypeList){
+                RcuSystemCollectionDataRetDTO.RcuSystemCollectionData rcuData = queryMap.get(type);
+                if(rcuData == null){
+                    rcuData = new RcuSystemCollectionDataRetDTO.RcuSystemCollectionData(type);
+                }
+                systemDateList.add(rcuData);
+            }
+            resultDto.setRcuSystemCollectionDataList(systemDateList);
+            return resultDto;
+        }catch (Exception e){
+            LogUtils.error(getClass(), e);
+            resultDto.setSuccess(false);
+            resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
+            return resultDto;
+        }
+    }*/
 }

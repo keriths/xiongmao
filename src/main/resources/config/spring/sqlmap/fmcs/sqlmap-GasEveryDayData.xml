@@ -54,4 +54,36 @@
         DATADATE = #{DATADATE}
     </update>
 
+    <select id="collectDayData" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.humidity.dto.GasCollectDataDTO$GasCollectData">
+        SELECT
+        GASNAME as gasName,
+        sum(TOTALNUM) as totalNum,
+        TO_CHAR(DATADATE,'mm/dd') as dataDate
+        FROM
+        GASEVERYDAYDATA
+        WHERE
+        TO_CHAR(DATADATE,'mm/dd')=TO_CHAR(sysdate,'dd') AND
+        GASNAME IN
+        <foreach collection="gasNameList" item="gasName" open="(" separator="," close=")" >
+            #{gasName}
+        </foreach>
+        GROUP BY GASNAME,TO_CHAR(DATADATE,'mm/dd')
+    </select>
+
+    <select id="collectMonthData" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.humidity.dto.GasCollectDataDTO$GasCollectData">
+        SELECT
+        GASNAME as gasName,
+        sum(TOTALNUM) as totalNum,
+        TO_CHAR(DATADATE,'MM')||'月' as dataDate
+        FROM
+        GASEVERYDAYDATA
+        WHERE
+        TO_CHAR(DATADATE,'mm')=TO_CHAR(sysdate,'mm') AND
+        GASNAME IN
+        <foreach collection="gasNameList" item="gasName" open="(" separator="," close=")" >
+            #{gasName}
+        </foreach>
+        GROUP BY GASNAME,TO_CHAR(DATADATE,'MM')||'月'
+    </select>
+
 </mapper>

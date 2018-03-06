@@ -2,6 +2,7 @@ package com.xm.service.dao.fmcs;
 
 import com.xm.service.apiimpl.pc.fmcs.water.dto.PureWaterEveryDayData;
 import com.xm.service.apiimpl.pc.fmcs.water.dto.TapWaterEveryDayData;
+import com.xm.service.apiimpl.pc.integrateData.humidity.dto.WaterElectricityCollectDataDTO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -33,4 +34,7 @@ public interface PureWaterEveryDayDataDAO {
     void addData(Map<String, Object> mapData);
 
     void updateData(Map<String, Object> mapData);
+
+    List<WaterElectricityCollectDataDTO.WaterElectricityCollectData> collectDayData();
+    List<WaterElectricityCollectDataDTO.WaterElectricityCollectData> collectMonthData();
 }

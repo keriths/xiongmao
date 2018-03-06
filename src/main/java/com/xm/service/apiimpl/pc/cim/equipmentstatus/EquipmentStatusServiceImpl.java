@@ -49,7 +49,7 @@ public class EquipmentStatusServiceImpl {
     }
 
 
-    @ApiMethodDoc(apiCode = "CIM_EquipmentData",name = "设备汇总")
+    /*@ApiMethodDoc(apiCode = "CIM_EquipmentData",name = "设备汇总")
     public EquipmentCollectDataDTO equipmentData(){
         EquipmentCollectDataDTO resultDto = new EquipmentCollectDataDTO();
         try {
@@ -91,7 +91,7 @@ public class EquipmentStatusServiceImpl {
             resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return resultDto;
         }
-    }
+    }*/
 
     @ApiMethodDoc(apiCode = "CIM_ThroughputData",name = "过货量推移数据接口(OK 几个数值的公式还要替换)")
     public EquipmentThroughputDataRetDTO equipmentThroughput(@ApiParamDoc(desc = "厂别名称如Array,Cell,CF,SL-OC")String factory){

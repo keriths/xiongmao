@@ -95,14 +95,21 @@ public class InputCompletionRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getCompletionRate() {
-            if(getPlan()==null || getPlan().doubleValue()<=0){
-                return new BigDecimal("1");
-            }
-            if (getActual()==null){
+            BigDecimal actual = getActual();
+            BigDecimal plan = getPlan();
+            /*if(plan==null || plan.doubleValue()<=0){
                 return new BigDecimal("0");
+            }*/
+            /*if (actual==null){
+                return new BigDecimal("0");
+            }*/
+            if(plan.compareTo(new BigDecimal(0))==0){
+                completionRate=new BigDecimal(0);
+            }else{
+                completionRate = (actual.divide(plan,4,BigDecimal.ROUND_HALF_UP)).multiply(new BigDecimal(100)).setScale(2,BigDecimal.ROUND_HALF_UP);
             }
-            return (actual.divide(plan,4,BigDecimal.ROUND_HALF_UP)).multiply(new BigDecimal(100)).setScale(2,BigDecimal.ROUND_HALF_UP);
-
+            //return (actual.divide(plan,4,BigDecimal.ROUND_HALF_UP)).multiply(new BigDecimal(100)).setScale(2,BigDecimal.ROUND_HALF_UP);
+            return completionRate;
         }
 
 

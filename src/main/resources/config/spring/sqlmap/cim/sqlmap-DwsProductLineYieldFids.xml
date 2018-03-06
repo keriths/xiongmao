@@ -91,4 +91,42 @@
         where
         TARGET.FACTORY=DWS_PRODUCT_LINE_YIELD_FIDS.FACTORY
     </update>
+
+    <select id="productLineCollectDayData" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto.ProductLineCollectDataRetDTO$ProductLineCollectData">
+        SELECT
+        FACTORY as factory,
+        sum(OUTPUT_GLS_QTY) as outputGls,
+        sum(SCRAP_GLS_QTY) as scrapGls,
+        sum(INPUT_PNL_QTY) as inputPnl,
+        sum(OUTPUT_PNL_QTY) as outputPnl,
+        TO_CHAR(PERIODDATE,'mm/dd') as periodDate
+        FROM
+        DWS_PRODUCT_LINE_YIELD_FIDS
+        WHERE
+        TO_CHAR(PERIODDATE,'mm/dd')=TO_CHAR(sysdate,'dd') AND
+        FACTORY IN
+        <foreach collection="factoryList" item="factory" open="(" separator="," close=")" >
+            #{factory}
+        </foreach>
+        GROUP BY FACTORY,TO_CHAR(PERIODDATE,'mm/dd')
+    </select>
+
+    <select id="productLineCollectMonthData" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto.ProductLineCollectDataRetDTO$ProductLineCollectData">
+        SELECT
+        FACTORY as factory,
+        sum(OUTPUT_GLS_QTY) as outputGls,
+        sum(SCRAP_GLS_QTY) as scrapGls,
+        sum(INPUT_PNL_QTY) as inputPnl,
+        sum(OUTPUT_PNL_QTY) as outputPnl,
+        TO_CHAR(PERIODDATE,'MM')||'月' as periodDate
+        FROM
+        DWS_PRODUCT_LINE_YIELD_FIDS
+        WHERE
+        TO_CHAR(PERIODDATE,'mm')=TO_CHAR(sysdate,'mm') AND
+        FACTORY IN
+        <foreach collection="factoryList" item="factory" open="(" separator="," close=")" >
+            #{factory}
+        </foreach>
+        GROUP BY FACTORY,TO_CHAR(PERIODDATE,'MM')||'月'
+    </select>
 </mapper>

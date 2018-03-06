@@ -78,9 +78,13 @@ public class Constant {
      */
     public static final List<String> stepIdLists = Lists.newArrayList("站点1", "站点2", "站点3", "站点4", "站点5","站点6","站点7");
     /**
-     *
+     *大宗气气体类型
      */
     public static final List<String> gasNamelist = Lists.newArrayList("GN2","PN2","GO2","PO2","PAr","PHe","PH2");
+    /**
+     *大宗气气体类型
+     */
+    public static final List<String> gasTypelist = Lists.newArrayList("蒸汽", "天然气");
     /**
      * 气的统计时间类型天day月month
      */
@@ -165,6 +169,11 @@ public class Constant {
             "4B",Lists.newArrayList("4B-1-RCU-PHT-01","4B-1-RCU-PHT-02","4B-1-RCU-PHT-03","4B-1-RCU-PHT-04","4B-1-RCU-PHT-05","4B-1-RCU-PHT-06","4B-1-RCU-PHT-08",
                             "4B-1-RCU-PHT-10","4B-1-RCU-PHT-12","4B-1-RCU-PHT-13","4B-1-RCU-UV2A-01","4B-1-RCU-UV2A-02","4B-1-RCU-UV2A-03","4B-3-RCU-PHT-01","4B-3-RCU-PHT-02",
                             "4B-3-RCU-PHT-03","4B-3-RCU-PHT-04","4B-3-RCU-PHT-05","4B-3-RCU-PHT-06","4B-3-RCU-PHT-07","4B-3-RCU-UV2A-01","4B-3-RCU-UV2A-02","4B-3-RCU-UV2A-03"));
+
+    /**
+     * 电的统计时间类型小时hour天day月month
+     */
+    public static final List<String> systemTypeList = Lists.newArrayList("4A","4B");
 
     /**
      * 电的统计时间类型小时hour天day月month

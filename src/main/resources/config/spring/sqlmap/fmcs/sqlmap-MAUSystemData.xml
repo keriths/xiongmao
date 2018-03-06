@@ -5,6 +5,7 @@
     <select id="queryMAUSystemData" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.mau.dto.MauSystemData">
         select
             SYSTEMNAME as systemName,
+            STATUS as status,
             avg(TEMPERATURE) as temperature,
             avg(DEWPOINT) as dewPoint
         from MAUSYSTEMDATA
@@ -13,7 +14,7 @@
                 SYSTEMTYPE=#{systemType,jdbcType=VARCHAR}
             </if>
         GROUP BY
-            SYSTEMNAME
+            SYSTEMNAME,STATUS
     </select>
 
 
@@ -39,5 +40,20 @@
             SYSTEMNAME = #{SYSTEMNAME} and
             DATADATE = #{DATADATE}
     </update>
+
+    <select id="queryMAUData" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.system.dto.MauRcuCollectDataDTO$MauRcuCollectData">
+        select
+        SYSTEMTYPE as systemType,
+        avg(TEMPERATURE) as temperature,
+        avg(DEWPOINT) as dewPoint
+        from MAUSYSTEMDATA
+        WHERE
+        SYSTEMTYPE IN
+        <foreach collection="systemTypeList" item="systemType" open="(" separator="," close=")" >
+            #{systemType}
+        </foreach>
+        GROUP BY
+        SYSTEMTYPE
+    </select>
 
 </mapper>

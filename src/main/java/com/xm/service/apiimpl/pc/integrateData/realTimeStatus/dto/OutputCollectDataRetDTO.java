@@ -1,11 +1,8 @@
-package com.xm.service.apiimpl.pc.cim.outputCompletion.dto;
+package com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
-import com.xm.platform.util.RandomUtils;
-import com.xm.service.constant.Constant;
 import com.xm.service.dto.BaseRetDTO;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -13,8 +10,6 @@ import java.util.List;
  * Created by wangshuna on 2018/2/28.
  */
 public class OutputCollectDataRetDTO extends BaseRetDTO {
-    @ApiResultFieldDesc(desc = "数据列表")
-    private List<CollectDataList> dataList;
     @ApiResultFieldDesc(desc="昨日产能数据返回")
     private List<CollectDataList> collectDayDataRetDTOList;
 
@@ -61,14 +56,6 @@ public class OutputCollectDataRetDTO extends BaseRetDTO {
         public void setPeriodDate(String periodDate) {
             this.periodDate = periodDate;
         }
-    }
-
-    public List<CollectDataList> getDataList() {
-        return dataList;
-    }
-
-    public void setDataList(List<CollectDataList> dataList) {
-        this.dataList = dataList;
     }
 
     public List<CollectDataList> getCollectDayDataRetDTOList() {

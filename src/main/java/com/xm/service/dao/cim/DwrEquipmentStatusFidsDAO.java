@@ -1,11 +1,10 @@
 package com.xm.service.dao.cim;
 
-import com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentDataDto;
+import com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto.EquipmentDataDto;
 import com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentStatusData;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 /**

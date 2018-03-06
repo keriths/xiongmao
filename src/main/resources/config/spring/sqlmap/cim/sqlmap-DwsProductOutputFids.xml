@@ -86,7 +86,7 @@
         PRODUCTID = #{PRODUCTID}
     </update>
 
-    <select id="outputDayData" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCollectDataRetDTO$CollectDataList">
+    <select id="outputDayData" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto.OutputCollectDataRetDTO$CollectDataList">
         SELECT
         PRODUCTID as productId,
         sum(ACTUAL_OUTPUT_PNL_QTY) as outputNum,
@@ -94,7 +94,7 @@
         FROM
         DWS_PRODUCT_OUTPUT_FIDS
         WHERE
-        TO_CHAR(PERIODDATE,'dd')=TO_CHAR(sysdate-1,'dd') AND
+        TO_CHAR(PERIODDATE,'mm/dd')=TO_CHAR(sysdate-1,'dd') AND
         PRODUCTID IN
         <foreach collection="productIdList" item="productId" open="(" separator="," close=")" >
             #{productId}
@@ -102,7 +102,7 @@
         GROUP BY PRODUCTID,TO_CHAR(PERIODDATE,'mm/dd')
     </select>
 
-    <select id="outputMonthData" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCollectDataRetDTO$CollectDataList">
+    <select id="outputMonthData" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto.OutputCollectDataRetDTO$CollectDataList">
         SELECT
         PRODUCTID as productId,
         sum(ACTUAL_OUTPUT_PNL_QTY) as outputNum,
@@ -110,7 +110,7 @@
         FROM
         DWS_PRODUCT_OUTPUT_FIDS
         WHERE
-        TO_CHAR(PERIODDATE,'mm')=TO_CHAR(sysdate-1,'mm') AND
+        TO_CHAR(PERIODDATE,'mm')=TO_CHAR(sysdate,'mm') AND
         PRODUCTID IN
         <foreach collection="productIdList" item="productId" open="(" separator="," close=")" >
             #{productId}

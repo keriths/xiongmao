@@ -1,6 +1,5 @@
 package com.xm.service.apiimpl.pc.cim.tactTime;
 
-import com.google.common.collect.Lists;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;

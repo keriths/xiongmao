@@ -5,14 +5,12 @@ import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
-import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCollectDataRetDTO;
 import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCompletionData;
 import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCompletionRetDTO;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DwsProductOutputFidsDAO;
 import com.xm.platform.util.DateUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -126,7 +124,7 @@ public class OutputCompletionRateServiceImpl {
 
     }
 
-    @ApiMethodDoc(apiCode = "CIM_outputCollectData" , name = "产出数统计")
+    /*@ApiMethodDoc(apiCode = "CIM_outputCollectData" , name = "产出数统计")
     public OutputCollectDataRetDTO outCollectRetDTO(){
         OutputCollectDataRetDTO resultDto = new OutputCollectDataRetDTO();
         try {
@@ -148,5 +146,5 @@ public class OutputCompletionRateServiceImpl {
             resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return resultDto;
         }
-    }
+    }*/
 }

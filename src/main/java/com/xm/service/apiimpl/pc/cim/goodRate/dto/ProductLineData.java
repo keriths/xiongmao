@@ -147,7 +147,7 @@ public class ProductLineData implements Serializable{
                 BigDecimal outputGls= getOutputGls();
                 BigDecimal scrapGls= getScrapGls();
                 if("SL-OC".equals(factory)){
-                    if(outputPnl.compareTo(new BigDecimal(0))==0){//等于0
+                    if(inputPnl.compareTo(new BigDecimal(0))==0){//等于0
                         inLine=new BigDecimal(0);
                     }else{
                         inLine = outputPnl.multiply(new BigDecimal("100")).divide(inputPnl,2, RoundingMode.HALF_UP);

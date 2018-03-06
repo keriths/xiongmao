@@ -1,6 +1,6 @@
 package com.xm.service.dao.cim;
 
-import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCollectDataRetDTO;
+import com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto.OutputCollectDataRetDTO;
 import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCompletionData;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

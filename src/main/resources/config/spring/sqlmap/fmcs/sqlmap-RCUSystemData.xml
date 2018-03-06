@@ -5,6 +5,7 @@
     <select id="queryRCUSystemData" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.rcu.dto.RcuSystemData">
         select
         SYSTEMNAME as systemName,
+        STATUS as status,
         avg(TEMPERATURE) as temperature
         from RCUSYSTEMDATA
         WHERE
@@ -12,7 +13,7 @@
             SYSTEMTYPE=#{systemType,jdbcType=VARCHAR}
         </if>
         GROUP BY
-        SYSTEMNAME
+        SYSTEMNAME,STATUS
     </select>
 
 
@@ -37,5 +38,19 @@
             SYSTEMNAME = #{SYSTEMNAME} and
             DATADATE = #{DATADATE}
     </update>
+
+    <select id="queryRCUData" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.system.dto.MauRcuCollectDataDTO$MauRcuCollectData">
+        select
+        SYSTEMTYPE as systemType,
+        avg(TEMPERATURE) as temperature
+        from RCUSYSTEMDATA
+        WHERE
+        SYSTEMTYPE IN
+        <foreach collection="systemTypeList" item="systemType" open="(" separator="," close=")" >
+            #{systemType}
+        </foreach>
+        GROUP BY
+        SYSTEMTYPE
+    </select>
 
 </mapper>
