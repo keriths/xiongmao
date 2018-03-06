@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.util.*;
 
 /**
@@ -23,8 +24,8 @@ import java.util.*;
 public class InputCompletionRateServiceImpl{
 
 
-    @Autowired
-    private DwsProductInputFidsDAO inputFidsDAO;
+    @Resource
+    private DwsProductInputFidsDAO dwsProductInputFidsDAO;
 
     @ApiMethodDoc(apiCode = "CIM_inputCompletionRate" , name = "投入达成率接口（完成）")
     public InputCompletionRetDTO inputCompletionRate(@ApiParamDoc(desc = "产品类型：如55,为空时是全部") String productId, @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
@@ -90,7 +91,7 @@ public class InputCompletionRateServiceImpl{
                 startTime = DateUtils.getBeforQuarterStartDay(3);
                 dateList = DateUtils.getQuarterStrList(startTime,endTime);
             }
-            List<InputCompletionRetDTO.InputCompletionData> dbValueList = inputFidsDAO.queryInputInfo(productId, dateType, startTime, endTime);
+            List<InputCompletionRetDTO.InputCompletionData> dbValueList = dwsProductInputFidsDAO.queryInputInfo(productId, dateType, startTime, endTime);
             Map<String,InputCompletionRetDTO.InputCompletionData> dbValueMap = MapUtils.listToMap(dbValueList,"getDateTime");
             List<InputCompletionRetDTO.InputCompletionData> completionDataList = new ArrayList<InputCompletionRetDTO.InputCompletionData>();
             for (String dateStr:dateList){

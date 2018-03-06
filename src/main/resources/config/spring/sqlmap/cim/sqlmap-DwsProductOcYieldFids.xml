@@ -55,26 +55,13 @@
         SELECT * from DWS_PRODUCT_OC_YIELD_FIDS
         where FACTORY = #{FACTORY} and
         PERIODDATE = #{PERIODDATE} and
-        <if test="PRODUCTTYPE == null">
-            PRODUCTTYPE is null and
-        </if>
-        <if test="PRODUCTTYPE != null">
-            PRODUCTTYPE = #{PRODUCTTYPE} and
-        </if>
         PRODUCTID = #{PRODUCTID}
     </select>
     <insert id="addData" parameterType="map">
         INSERT INTO  DWS_PRODUCT_OC_YIELD_FIDS
-        (FACTORY,   PERIODDATE,   PRODUCTTYPE,   PRODUCTID,   POL_INPUT,   POL_OUTPUT_A,   POL_OUTPUT_FA,   MBI_RJ_OUTPUT_A,   MBI_RJ_OUTPUT_FA,   POL_RW_OUTPUT_A,   POL_RW_OUTPUT_FA,
+        (FACTORY,   PERIODDATE,   PRODUCTID,   POL_INPUT,   POL_OUTPUT_A,   POL_OUTPUT_FA,   MBI_RJ_OUTPUT_A,   MBI_RJ_OUTPUT_FA,   POL_RW_OUTPUT_A,   POL_RW_OUTPUT_FA,
                     IOB_INPUT,IOB_EI_OUTPUT_A,   IOB_EI_OUTPUT_FA,   IOB_EI_OUTPUT_B_RW_A,   IOB_EI_OUTPUT_B_RW_FA,   IOB_EI_OUTPUT_D_RW_A,   IOB_EI_OUTPUT_D_RW_FA,   INTERFACE_TIME) VALUES
-        (#{FACTORY},#{PERIODDATE},
-        <if test="PRODUCTTYPE == null">
-            null
-        </if>
-        <if test="PRODUCTTYPE != null">
-            #{PRODUCTTYPE}
-        </if>
-        ,#{PRODUCTID},#{POL_INPUT},#{POL_OUTPUT_A},#{POL_OUTPUT_FA},#{MBI_RJ_OUTPUT_A},#{MBI_RJ_OUTPUT_FA},#{POL_RW_OUTPUT_A},#{POL_RW_OUTPUT_FA},
+        (#{FACTORY},#{PERIODDATE},#{PRODUCTID},#{POL_INPUT},#{POL_OUTPUT_A},#{POL_OUTPUT_FA},#{MBI_RJ_OUTPUT_A},#{MBI_RJ_OUTPUT_FA},#{POL_RW_OUTPUT_A},#{POL_RW_OUTPUT_FA},
                     #{IOB_INPUT},#{IOB_EI_OUTPUT_A},#{IOB_EI_OUTPUT_FA},#{IOB_EI_OUTPUT_B_RW_A},#{IOB_EI_OUTPUT_B_RW_FA},#{IOB_EI_OUTPUT_D_RW_A},#{IOB_EI_OUTPUT_D_RW_FA},sysdate)
     </insert>
     <update id="updateData" parameterType="map">
@@ -97,12 +84,6 @@
         WHERE
         FACTORY = #{FACTORY} and
         PERIODDATE = #{PERIODDATE} and
-        <if test="PRODUCTTYPE == null">
-            PRODUCTTYPE is null and
-        </if>
-        <if test="PRODUCTTYPE != null">
-            PRODUCTTYPE = #{PRODUCTTYPE} and
-        </if>
         PRODUCTID = #{PRODUCTID}
     </update>
 

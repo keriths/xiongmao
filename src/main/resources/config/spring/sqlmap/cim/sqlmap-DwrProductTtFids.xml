@@ -41,25 +41,12 @@
         SELECT * from DWR_PRODUCT_TT_FIDS
         where FACTORY = #{FACTORY} and
         PERIODDATE = #{PERIODDATE} and
-        <if test="PRODUCTTYPE != null">
-            PRODUCTTYPE = #{PRODUCTTYPE} and
-        </if>
-        <if test="PRODUCTTYPE == null">
-            PRODUCTTYPE is null and
-        </if>
         PRODUCTID = #{PRODUCTID}
     </select>
     <insert id="addData" parameterType="map">
         INSERT INTO  DWR_PRODUCT_TT_FIDS
-        (FACTORY,   PERIODDATE,   PRODUCTTYPE,   PRODUCTID,   TT_TARGET,   TOTAL_TT,   TOTAL_GLS_QTY,   INTERFACE_TIME) VALUES
-        (#{FACTORY},#{PERIODDATE},
-        <if test="PRODUCTTYPE != null">
-            #{PRODUCTTYPE}
-        </if>
-        <if test="PRODUCTTYPE == null">
-            NULL
-        </if>
-        ,#{PRODUCTID},#{TT_TARGET},#{TOTAL_TT},#{TOTAL_GLS_QTY},sysdate)
+        (FACTORY,   PERIODDATE,   PRODUCTID,   TT_TARGET,   TOTAL_TT,   TOTAL_GLS_QTY,   INTERFACE_TIME) VALUES
+        (#{FACTORY},#{PERIODDATE},#{PRODUCTID},#{TT_TARGET},#{TOTAL_TT},#{TOTAL_GLS_QTY},sysdate)
     </insert>
     <update id="updateData" parameterType="map">
         UPDATE DWR_PRODUCT_TT_FIDS SET
@@ -70,12 +57,6 @@
         WHERE
         FACTORY = #{FACTORY} and
         PERIODDATE = #{PERIODDATE} and
-        <if test="PRODUCTTYPE != null">
-            PRODUCTTYPE = #{PRODUCTTYPE} and
-        </if>
-        <if test="PRODUCTTYPE == null">
-            PRODUCTTYPE is null and
-        </if>
         PRODUCTID = #{PRODUCTID}
     </update>
 </mapper>
