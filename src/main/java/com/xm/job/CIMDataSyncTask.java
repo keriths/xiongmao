@@ -23,9 +23,9 @@ import java.util.Map;
 @Component
 public class CIMDataSyncTask {
     //---------------投入达成率------------
-    @Autowired
+    @Resource
     private FactoryDwsProductInputFidsDAO factoryDwsProductInputFidsDAO;
-    @Autowired
+    @Resource
     private DwsProductInputFidsDAO dwsProductInputFidsDAO;
 
     //---------------产出达成率------------
@@ -73,7 +73,7 @@ public class CIMDataSyncTask {
     //---------------TactTime------------
     @Resource
     private FactoryDwrProductTtFidsDAO factoryDwrProductTtFidsDAO;
-    @Autowired
+    @Resource
     private DwrProductTtFidsDAO dwrProductTtFidsDAO;
 
     /**

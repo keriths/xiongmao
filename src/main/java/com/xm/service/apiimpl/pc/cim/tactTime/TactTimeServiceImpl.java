@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,7 +29,7 @@ import java.util.Map;
 @Service("TactTimeService")
 @ApiServiceDoc(name = "CIM8_TactTime(完成)")
 public class TactTimeServiceImpl {
-    @Autowired
+    @Resource
     private DwrProductTtFidsDAO dwrProductTtFidsDAO;
 
 

@@ -60,12 +60,6 @@
         where
         FACTORY = #{FACTORY} and
         PRODUCTID = #{PRODUCTID} and
-        <if test="PRODUCTTYPE != null">
-            PRODUCTTYPE = #{PRODUCTTYPE} and
-        </if>
-        <if test="PRODUCTTYPE == null">
-            PRODUCTTYPE is null and
-        </if>
         <if test="STEPID != null">
             STEPID = #{STEPID} and
         </if>
@@ -76,15 +70,8 @@
     </select>
     <insert id="addData" parameterType="map">
         INSERT INTO  DWR_WIP_GLS_FIDS
-        (FACTORY,   PERIODDATE,   PRODUCTTYPE,   PRODUCTID,   STEPID,   WIP_GLS_QTY,   INTERFACE_TIME) VALUES
-        (#{FACTORY},#{PERIODDATE},
-        <if test="PRODUCTTYPE != null">
-            #{PRODUCTTYPE}
-        </if>
-        <if test="PRODUCTTYPE == null">
-            null
-        </if>
-        ,#{PRODUCTID},
+        (FACTORY,   PERIODDATE,   PRODUCTID,   STEPID,   WIP_GLS_QTY,   INTERFACE_TIME) VALUES
+        (#{FACTORY},#{PERIODDATE},#{PRODUCTID},
         <if test="STEPID != null">
             #{STEPID}
         </if>
@@ -105,12 +92,6 @@
         </if>
         <if test="STEPID == null">
             STEPID is null and
-        </if>
-        <if test="PRODUCTTYPE != null">
-            PRODUCTTYPE = #{PRODUCTTYPE} and
-        </if>
-        <if test="PRODUCTTYPE == null">
-            PRODUCTTYPE is null and
         </if>
         PRODUCTID = #{PRODUCTID}
     </update>
