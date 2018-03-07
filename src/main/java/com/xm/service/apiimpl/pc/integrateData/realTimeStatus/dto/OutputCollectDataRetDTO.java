@@ -39,9 +39,6 @@ public class OutputCollectDataRetDTO extends BaseRetDTO {
                     outputNum = new BigDecimal(RandomUtils.randomInt(100,200));
                 }
             }*/
-            if (outputNum==null){
-                outputNum = new BigDecimal(0);
-            }
             return outputNum;
         }
 

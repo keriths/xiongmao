@@ -69,4 +69,27 @@
             DATADATE = #{DATADATE}
     </update>
 
+    <select id="queryWwtData" resultType="com.xm.service.apiimpl.pc.integrateData.system.dto.WwtDataDTO$WwtData" parameterType="Map">
+        select
+            a.CODE,
+            a.VALUE
+        from WWTBDATA a
+            inner join (
+                select
+                    max(DATADATE) as DATADATE,
+                    CODE as code
+                from
+                    WWTBDATA
+                group by
+                    CODE
+                ) b
+            on a.DATADATE = b.DATADATE
+            and a.CODE = b.CODE
+        where
+        a.CODE IN
+        <foreach collection="codeList" item="code" open="(" separator="," close=")" >
+            #{code}
+        </foreach>
+    </select>
+
 </mapper>

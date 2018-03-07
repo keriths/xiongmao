@@ -76,4 +76,28 @@
             DATADATE = #{DATADATE}
     </update>
 
+    <select id="queryData" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.humidity.dto.HumitureDataDTO$HumitureData">
+        select
+            a.FACTORY,
+            a.TEMPERATURE,
+            a.HUMIDITY,
+            a.CLEANLINESS
+        from HUMITUREREALTIMEDATA a
+            inner join (
+                select
+                    max(DATADATE) as DATADATE,
+                    FACTORY as factory
+                from
+                    HUMITUREREALTIMEDATA
+                group by
+                    FACTORY
+                    ) b
+            on a.DATADATE = b.DATADATE
+            and a.FACTORY = b.FACTORY
+        where
+            a.FACTORY IN
+            <foreach collection="factoryList" item="factory" open="(" separator="," close=")" >
+                #{factory}
+            </foreach>
+    </select>
 </mapper>

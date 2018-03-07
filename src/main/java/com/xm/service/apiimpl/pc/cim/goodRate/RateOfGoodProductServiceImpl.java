@@ -36,7 +36,7 @@ public class RateOfGoodProductServiceImpl {
     private DwsProductOcYieldFidsDAO dwsProductOcYieldFidsDAO;
 
     @ApiMethodDoc(apiCode = "CIM_ProductLineYield",name = "指定工厂良品率显示接口")
-    public ProductLineDataRetDTO productLineDataRetDTO(@ApiParamDoc(desc = "厂别Array,Cell,CF,SL-OC(必填)")String factory,
+    public ProductLineDataRetDTO productLineDataRetDTO(@ApiParamDoc(desc = "厂别ARRAY,CELL,CF,SL-OC(必填)")String factory,
                                                        @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
         ProductLineDataRetDTO resultDto=new ProductLineDataRetDTO();
         try {

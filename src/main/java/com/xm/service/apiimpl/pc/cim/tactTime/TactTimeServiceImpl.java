@@ -34,7 +34,7 @@ public class TactTimeServiceImpl {
 
 
     @ApiMethodDoc(apiCode = "Tact_time_Query",name = "特定厂别特定产品类型设备Tact_time(完成)")
-    public TactTimeProductTimeListRetDTO tactTimeProductTimeList(@ApiParamDoc(desc = "厂别：如Array") String factory, @ApiParamDoc(desc = "产品类型：如PHOTO、PVD") String productId){
+    public TactTimeProductTimeListRetDTO tactTimeProductTimeList(@ApiParamDoc(desc = "厂别：如ARRAY") String factory, @ApiParamDoc(desc = "产品类型：如PHOTO、PVD") String productId){
         TactTimeProductTimeListRetDTO retDto=new TactTimeProductTimeListRetDTO();
         try {
             List<String> productIdList = Constant.factoryProductIdListMap.get(factory);
@@ -75,7 +75,7 @@ public class TactTimeServiceImpl {
     }
 
     @ApiMethodDoc(apiCode = "TactTime_monthAvg",name = "设备TactTime月度平均值(完成)")
-    public TactTimeMonthAvgRetDTO monthAvg(@ApiParamDoc(desc = "厂别：如Array必填") String factory){
+    public TactTimeMonthAvgRetDTO monthAvg(@ApiParamDoc(desc = "厂别：如ARRAY必填") String factory){
         TactTimeMonthAvgRetDTO retDto = new TactTimeMonthAvgRetDTO();
         try {
             List<String> productIdList = Constant.factoryProductIdListMap.get(factory);

@@ -74,17 +74,6 @@ public class ProductLineCollectDataRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getOutputGls() {
-            if(outputGls==null){
-                if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        outputGls = new BigDecimal(RandomUtils.randomInt(10000,10010));
-                        return outputGls;
-                    }else{
-                        return new BigDecimal(0);
-                    }
-                }
-
-            }
             return outputGls;
         }
 
@@ -93,14 +82,6 @@ public class ProductLineCollectDataRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getScrapGls() {
-            if(scrapGls==null){
-                if (Constant.showDemoData){
-                    scrapGls = new BigDecimal(RandomUtils.randomInt(10,20));
-                    return scrapGls;
-                }else{
-                    return new BigDecimal(0);
-                }
-            }
             return scrapGls;
         }
 
@@ -109,14 +90,6 @@ public class ProductLineCollectDataRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getInputPnl() {
-            if(inputPnl==null){
-                if (Constant.showDemoData){
-                    inputPnl = new BigDecimal(RandomUtils.randomInt(8020,8024));
-                    return inputPnl;
-                }else{
-                    return new BigDecimal(0);
-                }
-            }
             return inputPnl;
         }
 
@@ -125,14 +98,6 @@ public class ProductLineCollectDataRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getOutputPnl() {
-            if(outputPnl==null){
-                if (Constant.showDemoData){
-                    outputPnl = new BigDecimal(RandomUtils.randomInt(8000,8020));
-                    return outputPnl;
-                }else{
-                    return new BigDecimal(0);
-                }
-            }
             return outputPnl;
         }
 

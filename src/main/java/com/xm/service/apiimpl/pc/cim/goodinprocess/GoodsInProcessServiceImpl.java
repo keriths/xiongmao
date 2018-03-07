@@ -35,7 +35,7 @@ public class GoodsInProcessServiceImpl {
     private StepDAO stepDAO;
 
     @ApiMethodDoc(apiCode = "CIM_goodInProcessFt" , name = "每个厂别的在制品接口(完成)")
-    public GoodInProcessFtRetDTO goodInProcessFtRetDTO(@ApiParamDoc(desc = "厂别,如Array,Cell,CF,SL-OC") String factory){
+    public GoodInProcessFtRetDTO goodInProcessFtRetDTO(@ApiParamDoc(desc = "厂别,如ARRAY,CELL,CF,SL-OC") String factory){
         GoodInProcessFtRetDTO retDTO = new GoodInProcessFtRetDTO();
         try{
             List<String> factoryList = Constant.factoryLists;

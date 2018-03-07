@@ -4,12 +4,14 @@ import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.LogUtils;
 import com.xm.service.apiimpl.pc.integrateData.humidity.dto.GasCollectDataDTO;
+import com.xm.service.apiimpl.pc.integrateData.humidity.dto.HumitureDataDTO;
 import com.xm.service.apiimpl.pc.integrateData.humidity.dto.WaterElectricityCollectDataDTO;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.fmcs.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,17 +22,19 @@ import java.util.List;
 public class HumidityServiceImpl {
 
     @Resource(name = "tapWaterEveryDayDataDAO")
-    public TapWaterEveryDayDataDAO tapWaterEveryDayDataDAO;
+    private TapWaterEveryDayDataDAO tapWaterEveryDayDataDAO;
     @Resource(name = "pureWaterEveryDayDataDAO")
-    public PureWaterEveryDayDataDAO pureWaterEveryDayDataDAO;
+    private PureWaterEveryDayDataDAO pureWaterEveryDayDataDAO;
     @Resource(name = "freezeWaterEveryDayDataDAO")
-    public FreezeWaterEveryDayDataDAO freezeWaterEveryDayDataDAO;
+    private FreezeWaterEveryDayDataDAO freezeWaterEveryDayDataDAO;
     @Resource(name = "elecEveryHourDataDAO")
-    public ElecEveryHourDataDAO elecEveryHourDataDAO;
+    private ElecEveryHourDataDAO elecEveryHourDataDAO;
     @Resource(name = "bigGasEveryDayDataDAO")
-    public GasEveryDayDataDAO bigGasEveryDayDataDAO;
+    private GasEveryDayDataDAO bigGasEveryDayDataDAO;
     @Resource(name = "natgasEveryDayDataDAO")
-    public NatgasEveryDayDataDAO natgasEveryDayDataDAO;
+    private NatgasEveryDayDataDAO natgasEveryDayDataDAO;
+    @Resource(name = "humitureRealTimeDataDAO")
+    private HumitureRealTimeDataDAO humitureRealTimeDataDAO;
 
     @ApiMethodDoc(apiCode = "WaterElectricityCollectData" , name = "水电综合数据")
     public WaterElectricityCollectDataDTO waterElectricityCollectDataDTO(){
@@ -82,6 +86,22 @@ public class HumidityServiceImpl {
             return resultDto;
         }catch (Exception e){
             LogUtils.error(this.getClass(),"lineCollectRetDTO eclipse",e);
+            resultDto.setSuccess(false);
+            resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
+            return resultDto;
+        }
+    }
+
+    @ApiMethodDoc(apiCode = "HumitureData" , name = "温湿度数据")
+    public HumitureDataDTO humitureDataDTO(){
+        HumitureDataDTO resultDto = new HumitureDataDTO();
+        try {
+            List<String> factoryList = Constant.factoryLists;
+            List<HumitureDataDTO.HumitureData> humitureDataList = humitureRealTimeDataDAO.queryData(factoryList);
+            resultDto.setHumitureDataList(humitureDataList);
+            return resultDto;
+        }catch (Exception e){
+            LogUtils.error(this.getClass(),"humitureDataDTO eclipse",e);
             resultDto.setSuccess(false);
             resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return resultDto;

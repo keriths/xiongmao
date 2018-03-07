@@ -29,7 +29,7 @@ public class EquipmentStatusServiceImpl {
     public DwrEquipmentThroughputFidsDAO dwrEquipmentThroughputFidsDAO;
 
     @ApiMethodDoc(apiCode = "CIM_EquipmentStatus",name = "设备状态接口")
-    public EquipmentStatusDataRetDTO equipmentStatus(@ApiParamDoc(desc = "厂别名称如Array,Cell,CF,SL-OC")String factory){
+    public EquipmentStatusDataRetDTO equipmentStatus(@ApiParamDoc(desc = "厂别名称如ARRAY,CELL,CF,SL-OC")String factory){
         EquipmentStatusDataRetDTO resultDto = new EquipmentStatusDataRetDTO();
         try {
             if (!Constant.factoryLists.contains(factory)){
@@ -48,53 +48,8 @@ public class EquipmentStatusServiceImpl {
         }
     }
 
-
-    /*@ApiMethodDoc(apiCode = "CIM_EquipmentData",name = "设备汇总")
-    public EquipmentCollectDataDTO equipmentData(){
-        EquipmentCollectDataDTO resultDto = new EquipmentCollectDataDTO();
-        try {
-            List<EquipmentDataDto.EquipmentData> queryList = dwrEquipmentStatusFidsDAO.queryStatus(Constant.factoryLists);
-            Map<String,EquipmentCollectDataDTO.FactoryEquiStatusNumCollectDTO> factoryStatusNumMap = new HashMap<String, EquipmentCollectDataDTO.FactoryEquiStatusNumCollectDTO>();
-            for (EquipmentDataDto.EquipmentData equipmentData : queryList){
-                EquipmentCollectDataDTO.FactoryEquiStatusNumCollectDTO factoryEquiStatusNumCollectDTO = factoryStatusNumMap.get(equipmentData.getFactory());
-                if (factoryEquiStatusNumCollectDTO ==null){
-                    factoryEquiStatusNumCollectDTO = new EquipmentCollectDataDTO.FactoryEquiStatusNumCollectDTO();
-                    factoryEquiStatusNumCollectDTO.factory = equipmentData.getFactory();
-                    factoryStatusNumMap.put(equipmentData.getFactory(), factoryEquiStatusNumCollectDTO);
-                }
-                factoryEquiStatusNumCollectDTO.totalNum = factoryEquiStatusNumCollectDTO.totalNum+equipmentData.getCount();
-                if ("MAN".equals(equipmentData.getVal())){
-                    factoryEquiStatusNumCollectDTO.pmNum = factoryEquiStatusNumCollectDTO.pmNum+equipmentData.getCount();
-                }
-                if ("WAT".equals(equipmentData.getVal())){
-                    factoryEquiStatusNumCollectDTO.oeeNum = factoryEquiStatusNumCollectDTO.oeeNum+equipmentData.getCount();
-                }
-                if ("RUN".equals(equipmentData.getVal())){
-                    factoryEquiStatusNumCollectDTO.oeeNum = factoryEquiStatusNumCollectDTO.oeeNum+equipmentData.getCount();
-                }
-                if ("TRB".equals(equipmentData.getVal())){
-                    factoryEquiStatusNumCollectDTO.failNum = factoryEquiStatusNumCollectDTO.failNum+equipmentData.getCount();
-                }
-                if ("MNT".equals(equipmentData.getVal())){
-
-                }
-            }
-            List<EquipmentCollectDataDTO.FactoryEquiStatusNumCollectDTO> factoryEquiStatusNumCollectDTOList = new ArrayList<EquipmentCollectDataDTO.FactoryEquiStatusNumCollectDTO>();
-            for (String factory :Constant.factoryLists){
-                factoryEquiStatusNumCollectDTOList.add(factoryStatusNumMap.get(factory));
-            }
-            resultDto.setFactoryStatusNumList(factoryEquiStatusNumCollectDTOList);
-            return resultDto;
-        }catch (Exception e){
-            LogUtils.error(getClass(), e);
-            resultDto.setSuccess(false);
-            resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
-            return resultDto;
-        }
-    }*/
-
     @ApiMethodDoc(apiCode = "CIM_ThroughputData",name = "过货量推移数据接口(OK 几个数值的公式还要替换)")
-    public EquipmentThroughputDataRetDTO equipmentThroughput(@ApiParamDoc(desc = "厂别名称如Array,Cell,CF,SL-OC")String factory){
+    public EquipmentThroughputDataRetDTO equipmentThroughput(@ApiParamDoc(desc = "厂别名称如ARRAY,CELL,CF,SL-OC")String factory){
         EquipmentThroughputDataRetDTO resultDto = new EquipmentThroughputDataRetDTO();
         try{
             if (!Constant.factoryLists.contains(factory)){

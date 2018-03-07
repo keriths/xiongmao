@@ -3,6 +3,7 @@ package com.xm.service.dao.fmcs;
 import com.xm.service.apiimpl.pc.fmcs.water.dto.TapWaterRealTimeData;
 import com.xm.service.apiimpl.pc.fmcs.wwt.dto.WwtbData;
 import com.xm.service.apiimpl.pc.fmcs.wwt.dto.WwtbDataRetDTO;
+import com.xm.service.apiimpl.pc.integrateData.system.dto.WwtDataDTO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -32,4 +33,6 @@ public interface WwtbDataDAO {
     void addData(Map<String, Object> mapData);
 
     void updateData(Map<String, Object> mapData);
+
+    List<WwtDataDTO.WwtData> queryWwtData(@Param("codeList") List<String> codeList);
 }

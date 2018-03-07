@@ -93,17 +93,6 @@ public class ProductLineOCCollectDataRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getPolInput() {
-            if(polInput==null){
-                if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        polInput = new BigDecimal(RandomUtils.randomInt(100100,100300));
-                        return polInput;
-                    }else{
-                        return new BigDecimal(0);
-                    }
-                }
-
-            }
             return polInput;
         }
 
@@ -112,17 +101,6 @@ public class ProductLineOCCollectDataRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getPolOutputA() {
-            if(polOutputA==null){
-                if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        polOutputA = new BigDecimal(RandomUtils.randomInt(20000,20020));
-                        return polOutputA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
-                }
-
-            }
             return polOutputA;
         }
 
@@ -131,17 +109,6 @@ public class ProductLineOCCollectDataRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getPolOutputFA() {
-            if(polOutputFA==null){
-                if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        polOutputFA = new BigDecimal(RandomUtils.randomInt(21000,21010));
-                        return polOutputFA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
-                }
-
-            }
             return polOutputFA;
         }
 
@@ -150,17 +117,6 @@ public class ProductLineOCCollectDataRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getMbiRjOutputA() {
-            if(mbiRjOutputA==null){
-                if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        mbiRjOutputA = new BigDecimal(RandomUtils.randomInt(25000,25020));
-                        return mbiRjOutputA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
-                }
-
-            }
             return mbiRjOutputA;
         }
 
@@ -169,17 +125,6 @@ public class ProductLineOCCollectDataRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getMbiRjOutputFA() {
-            if(mbiRjOutputFA==null){
-                if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        mbiRjOutputFA = new BigDecimal(RandomUtils.randomInt(27000,27020));
-                        return mbiRjOutputFA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
-                }
-
-            }
             return mbiRjOutputFA;
         }
 
@@ -188,17 +133,6 @@ public class ProductLineOCCollectDataRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getPolRwOutputA() {
-            if(polRwOutputA==null){
-                if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        polRwOutputA = new BigDecimal(RandomUtils.randomInt(4000,4020));
-                        return polRwOutputA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
-                }
-
-            }
             return polRwOutputA;
         }
 
@@ -207,17 +141,6 @@ public class ProductLineOCCollectDataRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getPolRwOutputFA() {
-            if(polRwOutputFA==null){
-                if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        polRwOutputFA = new BigDecimal(RandomUtils.randomInt(3000,3010));
-                        return polRwOutputFA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
-                }
-
-            }
             return polRwOutputFA;
         }
 
@@ -226,17 +149,6 @@ public class ProductLineOCCollectDataRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getIobInput() {
-            if(iobInput==null){
-                if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        iobInput = new BigDecimal(RandomUtils.randomInt(100100,100300));
-                        return iobInput;
-                    }else{
-                        return new BigDecimal(0);
-                    }
-                }
-
-            }
             return iobInput;
         }
 
@@ -245,17 +157,6 @@ public class ProductLineOCCollectDataRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getIobEiOutputA() {
-            if(iobEiOutputA==null){
-                if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        iobEiOutputA = new BigDecimal(RandomUtils.randomInt(20000,20020));
-                        return iobEiOutputA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
-                }
-
-            }
             return iobEiOutputA;
         }
 
@@ -264,17 +165,6 @@ public class ProductLineOCCollectDataRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getIobEiOutputFA() {
-            if(iobEiOutputFA==null){
-                if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        iobEiOutputFA = new BigDecimal(RandomUtils.randomInt(21000,21010));
-                        return iobEiOutputFA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
-                }
-
-            }
             return iobEiOutputFA;
         }
 
@@ -283,17 +173,6 @@ public class ProductLineOCCollectDataRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getIobEiOutputBRwA() {
-            if(iobEiOutputBRwA==null){
-                if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        iobEiOutputBRwA = new BigDecimal(RandomUtils.randomInt(25000,25020));
-                        return iobEiOutputBRwA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
-                }
-
-            }
             return iobEiOutputBRwA;
         }
 
@@ -302,17 +181,6 @@ public class ProductLineOCCollectDataRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getIobEiOutputBRwFA() {
-            if(iobEiOutputBRwFA==null){
-                if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        iobEiOutputBRwFA = new BigDecimal(RandomUtils.randomInt(27000,27020));
-                        return iobEiOutputBRwFA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
-                }
-
-            }
             return iobEiOutputBRwFA;
         }
 
@@ -321,17 +189,6 @@ public class ProductLineOCCollectDataRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getIobEiOutputDRwA() {
-            if(iobEiOutputDRwA==null){
-                if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        iobEiOutputDRwA = new BigDecimal(RandomUtils.randomInt(4000,4020));
-                        return iobEiOutputDRwA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
-                }
-
-            }
             return iobEiOutputDRwA;
         }
 
@@ -340,17 +197,6 @@ public class ProductLineOCCollectDataRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getIobEiOutputDRwFA() {
-            if(iobEiOutputDRwFA==null){
-                if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        iobEiOutputDRwFA = new BigDecimal(RandomUtils.randomInt(3000,3010));
-                        return iobEiOutputDRwFA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
-                }
-
-            }
             return iobEiOutputDRwFA;
         }
 

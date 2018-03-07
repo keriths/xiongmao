@@ -34,7 +34,7 @@ public class ActivationServiceImpl {
 
 
     @ApiMethodDoc(apiCode = "CIM_ActivationStatusNum",name="EQP类型的状态值显示(完成)")
-    public ActivationEQPStatusListRetDTO activationStatusNumList(@ApiParamDoc(desc = "厂别：如Array,Cell") String factory, @ApiParamDoc(desc = "EQP类型，如PHOTO PVD") String eqpId){
+    public ActivationEQPStatusListRetDTO activationStatusNumList(@ApiParamDoc(desc = "厂别：ARRAY,CELL") String factory, @ApiParamDoc(desc = "EQP类型，如PHOTO PVD") String eqpId){
         ActivationEQPStatusListRetDTO actType = new ActivationEQPStatusListRetDTO();
 
         try {
@@ -82,7 +82,7 @@ public class ActivationServiceImpl {
     }
 
    @ApiMethodDoc(apiCode = "CIM_ActivationEQPId",name="重点设备稼动显示(完成)")
-    public ActivationEQPIdListRetDTO activationIdList(@ApiParamDoc(desc = "厂别：如Array,Cell") String factory){
+    public ActivationEQPIdListRetDTO activationIdList(@ApiParamDoc(desc = "厂别：ARRAY,CELL") String factory){
        ActivationEQPIdListRetDTO actType = new ActivationEQPIdListRetDTO();
         try {
             List<String> eqpIdList = Constant.factoryEQPStatusListMap.get(factory);

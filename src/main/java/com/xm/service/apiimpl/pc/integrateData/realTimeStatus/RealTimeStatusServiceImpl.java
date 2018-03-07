@@ -98,7 +98,7 @@ public class RealTimeStatusServiceImpl {
             resultDto.setCollectMonthDataRetDTOList(monthDataList);
             return resultDto;
         }catch (Exception e){
-            LogUtils.error(this.getClass(),"outputCompletionRate eclipse",e);
+            LogUtils.error(this.getClass(),"outCollectRetDTO eclipse",e);
             resultDto.setSuccess(false);
             resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return resultDto;
@@ -148,7 +148,7 @@ public class RealTimeStatusServiceImpl {
     }
 
     @ApiMethodDoc(apiCode = "TactTimeCollectMonthAvg",name = "设备TactTime月度平均值")
-    public TactTimeDataDTO tactTimeDataDTO(@ApiParamDoc(desc = "厂别：如Array必填") String factory){
+    public TactTimeDataDTO tactTimeDataDTO(@ApiParamDoc(desc = "厂别：如ARRAY必填") String factory){
         TactTimeDataDTO resultDto = new TactTimeDataDTO();
         try {
             if (!Constant.factoryLists.contains(factory)){
@@ -169,7 +169,7 @@ public class RealTimeStatusServiceImpl {
     }
 
     @ApiMethodDoc(apiCode = "activationCollectData",name = "稼动率")
-    public ActivationDataDTO activationDataDTO(@ApiParamDoc(desc = "厂别：如Array必填") String factory){
+    public ActivationDataDTO activationDataDTO(@ApiParamDoc(desc = "厂别：如ARRAY必填") String factory){
         ActivationDataDTO resultDto = new ActivationDataDTO();
         try {
             if (!Constant.factoryLists.contains(factory)){
@@ -182,7 +182,7 @@ public class RealTimeStatusServiceImpl {
             resultDto.setActivationDateList(activationEQPIdListRetDTO.getActivationDateList());
             return resultDto;
         }catch (Exception e){
-            LogUtils.error(this.getClass(),"tactTimeDataDTO eclipse",e);
+            LogUtils.error(this.getClass(),"activationDataDTO eclipse",e);
             resultDto.setSuccess(false);
             resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return resultDto;

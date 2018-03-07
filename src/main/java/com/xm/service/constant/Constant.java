@@ -36,8 +36,8 @@ public class Constant {
      * 厂别与EQP类型
      */
     public static final Map<String,List<String>> factoryProductIdListMap = MapUtils.newMap(
-            "Array",Lists.newArrayList("PHOTO","PVD","CVD","WET","DE"),
-            "Cell",Lists.newArrayList("PI","FDV","ODF","HSW","KOL"),
+            "ARRAY",Lists.newArrayList("PHOTO","PVD","CVD","WET","DE"),
+            "CELL",Lists.newArrayList("PI","FDV","ODF","HSW","KOL"),
             "CF",Lists.newArrayList("BM","ITO","PS","RGB","RML"),
             "SL-OC",Lists.newArrayList("MBD","POL","OLB","MLR","Aging")
     );
@@ -49,8 +49,8 @@ public class Constant {
      * 厂别与EQP类型
      */
     public static final Map<String,List<String>> factoryEQPStatusListMap = MapUtils.newMap(
-            "Array", Lists.newArrayList("PHOTO","PVD","CVD","WET","DE"),
-            "Cell",Lists.newArrayList("PI","FDV","ODF","HSW","KOL"),
+            "ARRAY", Lists.newArrayList("PHOTO","PVD","CVD","WET","DE"),
+            "CELL",Lists.newArrayList("PI","FDV","ODF","HSW","KOL"),
             "CF",Lists.newArrayList("BM","ITO","PS","RGB","RML"),
             "SL-OC",Lists.newArrayList("MBD","POL","OLB","MLB","Aging")
     );
@@ -72,7 +72,7 @@ public class Constant {
     /**
      * 厂别
      */
-    public static final List<String> factoryLists = Lists.newArrayList("Array","Cell","CF","SL-OC");
+    public static final List<String> factoryLists = Lists.newArrayList("ARRAY","CELL","CF","SL-OC");
     /**
      * 在制品站点
      */

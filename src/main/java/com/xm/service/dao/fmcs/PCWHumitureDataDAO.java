@@ -2,6 +2,7 @@ package com.xm.service.dao.fmcs;
 
 import com.xm.service.apiimpl.pc.fmcs.gas.dto.BigGasRealTimeDate;
 import com.xm.service.apiimpl.pc.fmcs.pcw.dto.HumiturePressureData;
+import com.xm.service.apiimpl.pc.integrateData.system.dto.PcwDataDTO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -31,4 +32,6 @@ public interface PCWHumitureDataDAO {
         void addData(Map<String, Object> mapData);
 
         void updateData(Map<String, Object> mapData);
+
+        List<PcwDataDTO.PcwData> queryPcwData(@Param("systemList") List<String> systemList);
 }

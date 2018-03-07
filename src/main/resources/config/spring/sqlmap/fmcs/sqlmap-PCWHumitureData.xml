@@ -73,4 +73,28 @@
             DATADATE = #{DATADATE}
     </update>
 
+    <select id="queryPcwData" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.system.dto.PcwDataDTO$PcwData">
+        select
+            a.SYSTEM,
+            a.TEMPERATURE,
+            a.PRESSURE
+        from PCWHUMITUREDATA a
+            inner join (
+                select
+                    max(DATADATE) as DATADATE,
+                    SYSTEM as system
+                from
+                    PCWHUMITUREDATA
+                group by
+                    SYSTEM
+                ) b
+            on a.DATADATE = b.DATADATE
+            and a.SYSTEM = b.SYSTEM
+        where
+            a.SYSTEM IN
+            <foreach collection="systemList" item="system" open="(" separator="," close=")" >
+                #{system}
+            </foreach>
+    </select>
+
 </mapper>
