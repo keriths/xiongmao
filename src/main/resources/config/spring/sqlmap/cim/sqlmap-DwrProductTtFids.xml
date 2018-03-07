@@ -8,7 +8,7 @@
             PRODUCTID as productId
         from DWR_PRODUCT_TT_FIDS
         WHERE
-          FACTORY=#{factory}
+          decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY)=#{factory}
           AND PRODUCTID IN
           <foreach collection="productIdList" item="productId" open="(" separator="," close=")" >
               #{productId}
@@ -29,7 +29,7 @@
         FROM
           DWR_PRODUCT_TT_FIDS
         WHERE
-          FACTORY=#{factory}
+          decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY)=#{factory}
           and PRODUCTID=#{productId}
           <![CDATA[
           and PERIODDATE >= #{beginDate}

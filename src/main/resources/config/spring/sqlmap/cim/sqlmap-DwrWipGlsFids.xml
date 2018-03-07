@@ -11,7 +11,7 @@
         FROM
         DWR_WIP_GLS_FIDS
         WHERE
-        FACTORY=#{factory}
+        decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY)=#{factory}
         AND
         STEPID IN
         <foreach collection="stepIdList" item="stepId" open="(" separator="," close=")" >
@@ -31,11 +31,11 @@
             sum(STORE_MIN) as storeMin,
             sum(WIP_GLS_QTY) as quantity,
             /*STEPID as setepId,*/
-            FACTORY as factory,
+            decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) as factory,
             TO_CHAR(PERIODDATE,'HH24')||':00' as dataDate
         from DWR_WIP_GLS_FIDS
         WHERE
-            FACTORY IN
+            decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) IN
             <foreach collection="factoryList" item="factory" open="(" separator="," close=")" >
                 #{factory}
             </foreach>
@@ -50,7 +50,7 @@
              ]]>
         GROUP BY
           /*STEPID,*/
-          FACTORY,
+          decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY),
           TO_CHAR(PERIODDATE,'HH24')||':00'
     </select>
 

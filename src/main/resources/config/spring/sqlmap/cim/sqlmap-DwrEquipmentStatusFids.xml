@@ -11,7 +11,7 @@
             DEMODATA as demoData,
             DATADATE as dataDate
         from DWR_EQUIPMENT_STATUS_FIDS
-        where FACTORY=#{factory}
+        where decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY)=#{factory}
     </select>
 
     <!--根据key查询-->
@@ -47,17 +47,17 @@
 
     <select id="queryStatus" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto.EquipmentDataDto$EquipmentData">
         select
-          FACTORY as factory,
-          VAL as val,
-          count(*) as count
+            decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) as factory,
+            VAL as val,
+            count(*) as count
         from
-          DWR_EQUIPMENT_STATUS_FIDS
+            DWR_EQUIPMENT_STATUS_FIDS
         WHERE
-          FACTORY in
-          <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+            decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) in
+            <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
               #{factory}
-          </foreach>
+            </foreach>
         group by
-          FACTORY,VAL
+            decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY),VAL
     </select>
 </mapper>

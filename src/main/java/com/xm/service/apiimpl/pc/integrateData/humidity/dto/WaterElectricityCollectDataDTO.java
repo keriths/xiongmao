@@ -32,7 +32,7 @@ public class WaterElectricityCollectDataDTO extends BaseRetDTO{
     private List<WaterElectricityCollectData> electMonthDataList;
 
     public static class WaterElectricityCollectData{
-        @ApiResultFieldDesc(desc = "当天使用总量")
+        @ApiResultFieldDesc(desc = "使用总量")
         private BigDecimal totalNum;
         @ApiResultFieldDesc(desc = "时间")
         private String dataDate;

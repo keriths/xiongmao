@@ -5,7 +5,7 @@
     <select id="cycleTimeShow" resultType="com.xm.service.apiimpl.pc.cim.cycletime.dto.CycleTimeData$CycleTimeDetailData" parameterType="Map">
         select
             sum(CT_TARGET) as plan,
-            sum(TOTAL_CT)/sum(TOTAL_GLS_QTY) as actual,FACTORY,
+            sum(TOTAL_CT)/sum(TOTAL_GLS_QTY) as actual,decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY),
             <if test="dateType=='month'.toString()">/*按月*/
                 TO_CHAR(PERIODDATE,'MM')||'月'
             </if>
@@ -35,7 +35,7 @@
             <if test="dateType=='day'.toString()">
                 TO_CHAR(PERIODDATE,'mm/dd'),
             </if>
-            FACTORY
+            decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY)
     </select>
 
     <select id="loadByPrimaryKey" parameterType="map" resultType="map">
