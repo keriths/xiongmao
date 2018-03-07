@@ -28,8 +28,8 @@ public class GasCollectDataDTO extends BaseRetDTO{
         private String gasName;
         @ApiResultFieldDesc(desc = "使用量")
         private BigDecimal totalNum;
-        @ApiResultFieldDesc(desc = "横坐标时间")
-        private String periodDate;
+        @ApiResultFieldDesc(desc = "时间")
+        private String dataDate;
 
         public String getGasType() {
             return gasType;
@@ -55,12 +55,12 @@ public class GasCollectDataDTO extends BaseRetDTO{
             this.totalNum = totalNum;
         }
 
-        public String getPeriodDate() {
-            return periodDate;
+        public String getDataDate() {
+            return dataDate;
         }
 
-        public void setPeriodDate(String periodDate) {
-            this.periodDate = periodDate;
+        public void setDataDate(String dataDate) {
+            this.dataDate = dataDate;
         }
     }
 

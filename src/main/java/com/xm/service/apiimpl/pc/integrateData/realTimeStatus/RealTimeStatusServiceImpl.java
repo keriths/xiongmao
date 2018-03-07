@@ -147,7 +147,7 @@ public class RealTimeStatusServiceImpl {
         }
     }
 
-    @ApiMethodDoc(apiCode = "TactTimeCollectMonthAvg",name = "设备TactTime月度平均值")
+    @ApiMethodDoc(apiCode = "TactTimeCollectMonthAvg",name = "TactTime月度平均值")
     public TactTimeDataDTO tactTimeDataDTO(@ApiParamDoc(desc = "厂别：如ARRAY必填") String factory){
         TactTimeDataDTO resultDto = new TactTimeDataDTO();
         try {

@@ -56,7 +56,7 @@
         FROM
         NatgasEveryDayData
         WHERE
-        TO_CHAR(DATADATE,'mm/dd')=TO_CHAR(sysdate,'dd') AND
+        TO_CHAR(DATADATE,'mm/dd')=TO_CHAR(sysdate,'mm/dd') AND
         GASTYPE IN
         <foreach collection="gasTypeList" item="gasType" open="(" separator="," close=")" >
             #{gasType}

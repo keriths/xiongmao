@@ -117,7 +117,7 @@
         FROM
         DWS_PRODUCT_OC_YIELD_FIDS
         WHERE
-        TO_CHAR(PERIODDATE,'mm/dd')=TO_CHAR(sysdate-1,'dd') AND
+        TO_CHAR(PERIODDATE,'mm/dd')=TO_CHAR(sysdate-1,'mm/dd') AND
         PRODUCTID IN
         <foreach collection="productIdList" item="productId" open="(" separator="," close=")" >
             #{productId}

@@ -62,7 +62,7 @@
         FROM
         GASEVERYDAYDATA
         WHERE
-        TO_CHAR(DATADATE,'mm/dd')=TO_CHAR(sysdate,'dd') AND
+        TO_CHAR(DATADATE,'mm/dd')=TO_CHAR(sysdate,'mm/dd') AND
         GASNAME IN
         <foreach collection="gasNameList" item="gasName" open="(" separator="," close=")" >
             #{gasName}

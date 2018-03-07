@@ -54,7 +54,7 @@
         FROM
         TAPWATEREVERYDAYDATA
         WHERE
-        TO_CHAR(DATADATE,'mm/dd')=TO_CHAR(sysdate,'dd')
+        TO_CHAR(DATADATE,'mm/dd')=TO_CHAR(sysdate,'mm/dd')
         GROUP BY TO_CHAR(DATADATE,'mm/dd')
     </select>
 

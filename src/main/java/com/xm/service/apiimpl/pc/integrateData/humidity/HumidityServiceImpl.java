@@ -18,7 +18,7 @@ import java.util.List;
  * Created by wangshuna on 2018/3/6.
  */
 @Service("HumidityServiceImpl")
-@ApiServiceDoc(name = "水电温湿度综合数据")
+@ApiServiceDoc(name = "水电气温湿度综合数据")
 public class HumidityServiceImpl {
 
     @Resource(name = "tapWaterEveryDayDataDAO")

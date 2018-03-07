@@ -84,7 +84,7 @@
         FROM
         DWS_PRODUCT_LINE_YIELD_FIDS
         WHERE
-        TO_CHAR(PERIODDATE,'mm/dd')=TO_CHAR(sysdate,'dd') AND
+        TO_CHAR(PERIODDATE,'mm/dd')=TO_CHAR(sysdate,'mm/dd') AND
         FACTORY IN
         <foreach collection="factoryList" item="factory" open="(" separator="," close=")" >
             #{factory}
