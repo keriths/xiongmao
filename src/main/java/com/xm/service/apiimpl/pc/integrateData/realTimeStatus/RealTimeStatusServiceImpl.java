@@ -20,7 +20,7 @@ import java.util.*;
  * Created by wangshuna on 2018/3/6.
  */
 @Service("RealTimeStatusService")
-@ApiServiceDoc(name = "实时状态综合数据")
+@ApiServiceDoc(name = "综合数据_实时状态")
 public class RealTimeStatusServiceImpl {
 
     @Resource(name = "dwrEquipmentStatusFidsDAO")

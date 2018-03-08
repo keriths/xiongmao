@@ -22,7 +22,7 @@ import java.util.List;
  * Created by wangshuna on 2018/3/6.
  */
 @Service("SystemService")
-@ApiServiceDoc(name = "PCW,CDA,MAU,RCU,SEX,UPW,WWT综合数据")
+@ApiServiceDoc(name = "综合数据_PCW,CDA,MAU,RCU,SEX,UPW,WWT")
 public class SystemServiceImpl {
 
     @Resource(name = "mauSystemDataDAO")
