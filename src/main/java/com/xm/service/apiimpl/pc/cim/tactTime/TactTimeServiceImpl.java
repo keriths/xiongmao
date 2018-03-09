@@ -51,7 +51,7 @@ public class TactTimeServiceImpl {
             Date startTime = DateUtils.getBeforHourStartDay(11);
             Date endTime = new Date();
             List<String> hourList = DateUtils.getHourStrList(startTime, endTime);
-            List<TactTimeProductTimeListRetDTO.TactTimeProductDetail> dbQueryList = dwrProductTtFidsDAO.queryTactTimeListByProductIdAndTime(factory, productId, startTime, endTime);
+            List<TactTimeProductTimeListRetDTO.TactTimeProductDetail> dbQueryList = dwrProductTtFidsDAO.queryTactTimeListByProductIdAndTime(Constant.allSingleFactoryLists, productId, startTime, endTime);
             Map<String,TactTimeProductTimeListRetDTO.TactTimeProductDetail> dbQueryMap = MapUtils.listToMap(dbQueryList,"getPeriodDate");
             List<TactTimeProductTimeListRetDTO.TactTimeProductDetail> tactTimeProductDetailList = new ArrayList<TactTimeProductTimeListRetDTO.TactTimeProductDetail>();
             for (String hour:hourList){
@@ -78,6 +78,7 @@ public class TactTimeServiceImpl {
     public TactTimeMonthAvgRetDTO monthAvg(@ApiParamDoc(desc = "厂别：如ARRAY必填") String factory){
         TactTimeMonthAvgRetDTO retDto = new TactTimeMonthAvgRetDTO();
         try {
+            List<String> factoryList = Constant.factoryMap.get(factory);
             List<String> productIdList = Constant.factoryProductIdListMap.get(factory);
             if (CollectionUtils.isEmpty(productIdList)){
                 retDto.setSuccess(false);
@@ -86,12 +87,12 @@ public class TactTimeServiceImpl {
             }
             Date beginDate = DateUtils.getBeforMonthStartDay(0);
             Date endDate = new Date();
-            List<TactTimeMonthAvgDataDTO> tactTimeMonthAvgDataDTOList = dwrProductTtFidsDAO.queryMonthAvg(factory, productIdList, beginDate, endDate);
+            List<TactTimeMonthAvgDataDTO> tactTimeMonthAvgDataDTOList = dwrProductTtFidsDAO.queryMonthAvg(factoryList, productIdList, beginDate, endDate);
             if (CollectionUtils.isEmpty(tactTimeMonthAvgDataDTOList)){
                 //如果当月数据为空，取上个月的数据,上个月的取不到，不继续取
                 beginDate = DateUtils.getBeforMonthStartDay(1);
                 endDate = DateUtils.getBeforMonthEndDay(1);
-                tactTimeMonthAvgDataDTOList = dwrProductTtFidsDAO.queryMonthAvg(factory, productIdList, beginDate, endDate);
+                tactTimeMonthAvgDataDTOList = dwrProductTtFidsDAO.queryMonthAvg(factoryList, productIdList, beginDate, endDate);
             }
             Map<String,TactTimeMonthAvgDataDTO> avgDataDTOMap = MapUtils.listToMap(tactTimeMonthAvgDataDTOList, "getProductId");
             List<TactTimeMonthAvgDataDTO> avgDataDTOList = new ArrayList<TactTimeMonthAvgDataDTO>();

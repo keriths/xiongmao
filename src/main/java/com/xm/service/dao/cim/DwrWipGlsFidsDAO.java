@@ -20,7 +20,7 @@ public interface DwrWipGlsFidsDAO {
 
     List<GoodInProcessFtRetDTO.GoodInProcessFtDate> queryGoodInProcessFtDate(
 
-            @Param("factory")String factory,
+            @Param("factoryList") List<String> factoryList,
             @Param("stepIdList") List<String> stepIdList,
             @Param("beginDate")Date beginDate,
             @Param("endDate")Date endDate

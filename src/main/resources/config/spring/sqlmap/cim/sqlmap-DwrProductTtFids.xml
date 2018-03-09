@@ -8,11 +8,14 @@
             PRODUCTID as productId
         from DWR_PRODUCT_TT_FIDS
         WHERE
-          decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY)=#{factory}
-          AND PRODUCTID IN
-          <foreach collection="productIdList" item="productId" open="(" separator="," close=")" >
-              #{productId}
-          </foreach>
+            FACTORY IN
+            <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+                #{factory}
+            </foreach>
+            AND PRODUCTID IN
+            <foreach collection="productIdList" item="productId" open="(" separator="," close=")" >
+                #{productId}
+            </foreach>
         <![CDATA[
           and PERIODDATE >= #{beginDate}
           and PERIODDATE <= #{endDate}
@@ -22,19 +25,23 @@
 
     <select id="queryTactTimeListByProductIdAndTime" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeProductTimeListRetDTO$TactTimeProductDetail">
         SELECT
-          TT_TARGET as target,
-          TOTAL_TT/TOTAL_GLS_QTY as total,
+          sum(TT_TARGET) as target,
+          sum(TOTAL_TT)/sum(TOTAL_GLS_QTY) as total,
           to_char(PERIODDATE,'HH24')||':00' as periodDate,
           PRODUCTID
         FROM
           DWR_PRODUCT_TT_FIDS
         WHERE
-          decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY)=#{factory}
-          and PRODUCTID=#{productId}
-          <![CDATA[
-          and PERIODDATE >= #{beginDate}
-          and PERIODDATE <= #{endDate}
-          ]]>
+            FACTORY IN
+            <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+                #{factory}
+            </foreach>
+            and PRODUCTID=#{productId}
+            <![CDATA[
+            and PERIODDATE >= #{beginDate}
+            and PERIODDATE <= #{endDate}
+            ]]>
+        group by PRODUCTID,to_char(PERIODDATE,'HH24')||':00'
     </select>
 
     <select id="loadByPrimaryKey" parameterType="map" resultType="map">

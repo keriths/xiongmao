@@ -4,39 +4,42 @@
 
     <select id="queryProductLineData" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductLineData$ProductLineDetailData" parameterType="Map">
         select
-        decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) as factory,
-        sum(OUTPUT_GLS_QTY) as outputGls,
-        sum(SCRAP_GLS_QTY) as scrapGls,
-        sum(INPUT_PNL_QTY) as inputPnl,
-        sum(OUTPUT_PNL_QTY) as outputPnl,
-        <if test="dateType=='month'.toString()">/*按月*/
-            TO_CHAR(PERIODDATE,'MM')||'月'
-        </if>
-        <if test="dateType=='quarter'.toString()">/*按季度*/
-            TO_CHAR(PERIODDATE,'yyyy') ||'年' || TO_CHAR(PERIODDATE,'q') ||'季度'
-        </if>
-        <if test="dateType=='day'.toString()">/*按天*/
-            TO_CHAR(PERIODDATE,'mm/dd')
-        </if>
-        as periodDate
+            decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) as factory,
+            sum(OUTPUT_GLS_QTY) as outputGls,
+            sum(SCRAP_GLS_QTY) as scrapGls,
+            sum(INPUT_PNL_QTY) as inputPnl,
+            sum(OUTPUT_PNL_QTY) as outputPnl,
+            <if test="dateType=='month'.toString()">/*按月*/
+                TO_CHAR(PERIODDATE,'MM')||'月'
+            </if>
+            <if test="dateType=='quarter'.toString()">/*按季度*/
+                TO_CHAR(PERIODDATE,'yyyy') ||'年' || TO_CHAR(PERIODDATE,'q') ||'季度'
+            </if>
+            <if test="dateType=='day'.toString()">/*按天*/
+                TO_CHAR(PERIODDATE,'mm/dd')
+            </if>
+            as periodDate
         from DWS_PRODUCT_LINE_YIELD_FIDS
         WHERE
-        <![CDATA[
-            PERIODDATE >= #{beginDate}
-            and PERIODDATE <= #{endDate}
-        ]]>
-        AND decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY)=#{factory,jdbcType=VARCHAR}
+            <![CDATA[
+                PERIODDATE >= #{beginDate}
+                and PERIODDATE <= #{endDate}
+            ]]>
+            AND FACTORY IN
+            <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+                #{factory}
+            </foreach>
         GROUP BY
-        <if test="dateType=='month'.toString()">/*按月*/
-            TO_CHAR(PERIODDATE,'MM')||'月',
-        </if>
-        <if test="dateType=='quarter'.toString()">
-            TO_CHAR(PERIODDATE,'yyyy') ||'年' || TO_CHAR(PERIODDATE,'q') ||'季度',
-        </if>
-        <if test="dateType=='day'.toString()">
-            TO_CHAR(PERIODDATE,'mm/dd'),
-        </if>
-        decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY)
+            <if test="dateType=='month'.toString()">/*按月*/
+                TO_CHAR(PERIODDATE,'MM')||'月',
+            </if>
+            <if test="dateType=='quarter'.toString()">
+                TO_CHAR(PERIODDATE,'yyyy') ||'年' || TO_CHAR(PERIODDATE,'q') ||'季度',
+            </if>
+            <if test="dateType=='day'.toString()">
+                TO_CHAR(PERIODDATE,'mm/dd'),
+            </if>
+            decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY)
     </select>
 
     <select id="loadByPrimaryKey" parameterType="map" resultType="map">
@@ -85,8 +88,8 @@
         DWS_PRODUCT_LINE_YIELD_FIDS
         WHERE
         TO_CHAR(PERIODDATE,'mm/dd')=TO_CHAR(sysdate,'mm/dd') AND
-        decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) IN
-        <foreach collection="factoryList" item="factory" open="(" separator="," close=")" >
+        FACTORY IN
+        <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
             #{factory}
         </foreach>
         GROUP BY decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY),TO_CHAR(PERIODDATE,'mm/dd')
@@ -104,8 +107,8 @@
         DWS_PRODUCT_LINE_YIELD_FIDS
         WHERE
         TO_CHAR(PERIODDATE,'mm')=TO_CHAR(sysdate,'mm') AND
-        decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) IN
-        <foreach collection="factoryList" item="factory" open="(" separator="," close=")" >
+        FACTORY IN
+        <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
             #{factory}
         </foreach>
         GROUP BY decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY),TO_CHAR(PERIODDATE,'MM')||'月'

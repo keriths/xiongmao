@@ -40,9 +40,10 @@ public class RateOfGoodProductServiceImpl {
                                                        @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
         ProductLineDataRetDTO resultDto=new ProductLineDataRetDTO();
         try {
-            if(!Constant.factoryLists.contains(factory)){
+            List<String> factoryList = Constant.factoryMap.get(factory);
+            if(!Constant.showFactoryList.contains(factory)){
                 resultDto.setSuccess(false);
-                resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.factoryLists + "】");
+                resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.showFactoryList + "】");
                 return resultDto;
             }
             if (!Constant.dateTypeList.contains(dateType)){
@@ -69,7 +70,7 @@ public class RateOfGoodProductServiceImpl {
                 dateList = DateUtils.getQuarterStrList(beginDate,endDate);
             }
 
-            List<ProductLineData.ProductLineDetailData> detailDataList=dwsProductLineYieldFidsDAO.queryProductLineData(factory,dateType,beginDate,endDate);
+            List<ProductLineData.ProductLineDetailData> detailDataList=dwsProductLineYieldFidsDAO.queryProductLineData(factoryList,dateType,beginDate,endDate);
             Map<String,ProductLineData.ProductLineDetailData> dataMap= MapUtils.listToMap(detailDataList,"getPeriodDate");
             List<ProductLineData> dataList=new ArrayList<ProductLineData>();
             List<ProductLineData.ProductLineDetailData> ProductDetailDataList = new ArrayList<ProductLineData.ProductLineDetailData>();

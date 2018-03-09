@@ -109,7 +109,7 @@ public class RealTimeStatusServiceImpl {
     public ProductLineCollectDataRetDTO lineCollectRetDTO(){
         ProductLineCollectDataRetDTO resultDto = new ProductLineCollectDataRetDTO();
         try {
-            List<String> factoryList = Constant.factoryLists;
+            List<String> factoryList = Constant.allSingleFactoryLists;
             List<ProductLineCollectDataRetDTO.ProductLineCollectData> dayDataList = dwsProductLineYieldFidsDAO.productLineCollectDayData(factoryList);
             List<ProductLineCollectDataRetDTO.ProductLineCollectData> monthDataList = dwsProductLineYieldFidsDAO.productLineCollectMonthData(factoryList);
             resultDto.setProductLineCollectDayDataList(dayDataList);

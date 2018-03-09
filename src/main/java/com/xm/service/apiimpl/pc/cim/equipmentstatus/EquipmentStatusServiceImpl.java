@@ -53,16 +53,17 @@ public class EquipmentStatusServiceImpl {
     public EquipmentThroughputDataRetDTO equipmentThroughput(@ApiParamDoc(desc = "厂别名称如ARRAY,CELL,CF,SL-OC")String factory){
         EquipmentThroughputDataRetDTO resultDto = new EquipmentThroughputDataRetDTO();
         try{
-            if (!Constant.factoryLists.contains(factory)){
+            List<String> factoryList = Constant.factoryMap.get(factory);
+            if (!Constant.showFactoryList.contains(factory)){
                 resultDto.setSuccess(false);
-                resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.factoryLists + "】");
+                resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.showFactoryList + "】");
                 return resultDto;
             }
             List<String> dateList = null;
             Date beginDate = DateUtils.getBeforHourStartDay(11);
             Date endDate = new Date();
             dateList = DateUtils.getHourStrList(beginDate,endDate);
-            List<EquipmentThroughputData> dataList=dwrEquipmentThroughputFidsDAO.queryThroughputData(factory,beginDate,endDate);
+            List<EquipmentThroughputData> dataList=dwrEquipmentThroughputFidsDAO.queryThroughputData(factoryList,beginDate,endDate);
             Map<String,EquipmentThroughputData> dataMap= MapUtils.listToMap(dataList,"getDataDate");
             List<EquipmentThroughputData> throughputList =new ArrayList<EquipmentThroughputData>();
             for (String str:dateList){

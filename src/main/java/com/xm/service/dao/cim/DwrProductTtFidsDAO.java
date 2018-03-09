@@ -15,14 +15,14 @@ import java.util.Map;
 @Repository("dwrProductTtFidsDAO")
 public interface DwrProductTtFidsDAO {
     List<TactTimeMonthAvgDataDTO> queryMonthAvg(
-            @Param("factory")String factory,
+            @Param("factoryList") List<String> factoryList,
             @Param("productIdList")List<String> productIdList,
             @Param("beginDate")Date beginDate,
             @Param("endDate")Date endDate
     );
 
     List<TactTimeProductTimeListRetDTO.TactTimeProductDetail> queryTactTimeListByProductIdAndTime(
-            @Param("factory")String factory,
+            @Param("factoryList") List<String> factoryList,
             @Param("productId")String productId,
             @Param("beginDate")Date beginDate,
             @Param("endDate")Date endDate

@@ -38,10 +38,11 @@ public class GoodsInProcessServiceImpl {
     public GoodInProcessFtRetDTO goodInProcessFtRetDTO(@ApiParamDoc(desc = "厂别,如ARRAY,CELL,CF,SL-OC") String factory){
         GoodInProcessFtRetDTO retDTO = new GoodInProcessFtRetDTO();
         try{
-            List<String> factoryList = Constant.factoryLists;
-            if (!factoryList.contains(factory)){
+            List<String> factoryList = Constant.factoryMap.get(factory);
+            List<String> factoryLists = Constant.showFactoryList;
+            if (!factoryLists.contains(factory)){
                 retDTO.setSuccess(false);
-                retDTO.setErrorMsg("factory参数错误,请传入【" + factoryList + "】");
+                retDTO.setErrorMsg("factory参数错误,请传入【" + factoryLists + "】");
                 return retDTO;
             }
             StepRetDTO stepRetDTO = new StepRetDTO();
@@ -50,12 +51,12 @@ public class GoodsInProcessServiceImpl {
             List<String> stepIdLists = stepRetDTO.getStepList();
             Date beginDate = DateUtils .getBeforHourStartDay(0);
             Date endDate = new Date();
-            List<GoodInProcessFtRetDTO.GoodInProcessFtDate> queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factory,stepIdLists,beginDate,endDate);
+            List<GoodInProcessFtRetDTO.GoodInProcessFtDate> queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factoryList,stepIdLists,beginDate,endDate);
             if (CollectionUtils.isEmpty(queryFtdate)){
                 //如果这一小时数据还没有出来，取上一小时的数据
                 beginDate = DateUtils.getBeforHourStartDay(1);
                 endDate = DateUtils.getBeforHourEndDay(1);
-                queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factory,stepIdLists,beginDate,endDate);
+                queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factoryList,stepIdLists,beginDate,endDate);
             }
             Map<String,GoodInProcessFtRetDTO.GoodInProcessFtDate> queryMap = MapUtils.listToMap(queryFtdate,"getStepId");
             List<GoodInProcessFtRetDTO.GoodInProcessFtDate> list = new ArrayList<GoodInProcessFtRetDTO.GoodInProcessFtDate>();
@@ -119,12 +120,12 @@ public class GoodsInProcessServiceImpl {
             dateList = DateUtils.getHourStrList(beginDate,endDate);
 
             //List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.factoryLists,Constant.stepIdLists, beginDate, endDate);
-            List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.factoryLists,beginDate, endDate);
+            List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.allSingleFactoryLists,beginDate, endDate);
             if (CollectionUtils.isEmpty(wipDetailDataList)) {
                 //如果这一小时数据还没有出来，取上一小时的数据
                 beginDate = DateUtils.getBeforHourStartDay(1);
                 endDate = DateUtils.getBeforHourEndDay(1);
-                wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.factoryLists, beginDate, endDate);
+                wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.allSingleFactoryLists, beginDate, endDate);
             }
 
             Map<String, GoodInProcessWipDataDTO.GoodInProcessWipDetailData> dataMap = MapUtils.listToMap(wipDetailDataList, "key");
@@ -134,7 +135,7 @@ public class GoodsInProcessServiceImpl {
                 //dataDto.setSetepId(stepId);
                 dataDto.setDataDate(date);
                 List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> detailDataList = new ArrayList<GoodInProcessWipDataDTO.GoodInProcessWipDetailData>();
-                for (String factory : Constant.factoryLists) {
+                for (String factory : Constant.showFactoryList) {
                     //String key = stepId + " " + factory;
                     String key = date + " " + factory;
                     GoodInProcessWipDataDTO.GoodInProcessWipDetailData detailData = dataMap.get(key);

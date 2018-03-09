@@ -11,7 +11,10 @@
         FROM
         DWR_WIP_GLS_FIDS
         WHERE
-        decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY)=#{factory}
+        FACTORY IN
+        <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+            #{factory}
+        </foreach>
         AND
         STEPID IN
         <foreach collection="stepIdList" item="stepId" open="(" separator="," close=")" >
@@ -35,8 +38,8 @@
             TO_CHAR(PERIODDATE,'HH24')||':00' as dataDate
         from DWR_WIP_GLS_FIDS
         WHERE
-            decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) IN
-            <foreach collection="factoryList" item="factory" open="(" separator="," close=")" >
+            FACTORY IN
+            <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
                 #{factory}
             </foreach>
             <!--AND

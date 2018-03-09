@@ -16,7 +16,7 @@ package com.xm.service.dao.cim;
 public interface DwrEqpOeeFidsDAO {
 
     List<ActivationStatusDate.StatusNumberList> queryActivationStatusNum(
-            @Param("factory") String factory,
+            @Param("factoryList") List<String> factoryList,
             @Param("eqpIdList") List<String> eqpIdList,
             @Param("beginDate")Date beginDate,
             @Param("endDate")Date endDate
@@ -24,7 +24,7 @@ public interface DwrEqpOeeFidsDAO {
     );
 
     List<ActivationDate.StatusDateList> queryActivationEQPId(
-            @Param("factory")String factory,
+            @Param("factoryList") List<String> factoryList,
             @Param("eqpIdList") List<String> eqpIdList,
             @Param("beginDate")Date beginDate,
             @Param("endDate")Date endDate

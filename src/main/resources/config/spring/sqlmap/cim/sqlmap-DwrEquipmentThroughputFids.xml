@@ -13,9 +13,10 @@
                PERIODDATE >= #{beginDate}
                and PERIODDATE <= #{endDate}
             ]]>
-            <if test="factory!=null and factory!=''">
-                AND decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY)=#{factory,jdbcType=VARCHAR}
-            </if>
+            and FACTORY IN
+            <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+                #{factory}
+            </foreach>
         GROUP BY
             decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY),TO_CHAR(PERIODDATE,'HH24')||':00'
     </select>

@@ -13,7 +13,7 @@
         from DWR_EQUIPMENT_STATUS_FIDS
         where FACTORY IN
         <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
-            #{factory} ,
+            #{factory}
         </foreach>
     </select>
 

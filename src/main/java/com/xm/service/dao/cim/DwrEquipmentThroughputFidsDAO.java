@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Repository("dwrEquipmentThroughputFidsDAO")
 public interface DwrEquipmentThroughputFidsDAO {
-    List<EquipmentThroughputData> queryThroughputData(@Param("factory") String factory,
+    List<EquipmentThroughputData> queryThroughputData(@Param("factoryList") List<String> factoryList,
                                                       @Param("beginDate") Date beginDate,
                                                       @Param("endDate") Date endDate);
 }

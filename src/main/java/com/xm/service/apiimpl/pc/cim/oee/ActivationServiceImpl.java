@@ -38,6 +38,7 @@ public class ActivationServiceImpl {
         ActivationEQPStatusListRetDTO actType = new ActivationEQPStatusListRetDTO();
 
         try {
+            List<String> factoryList = Constant.factoryMap.get(factory);
             List<String> eqpIdList = Constant.factoryEQPStatusListMap.get(factory);
             if (CollectionUtils.isEmpty(eqpIdList)) {
                 actType.setSuccess(false);
@@ -56,7 +57,7 @@ public class ActivationServiceImpl {
             Date endDate = new Date();
             List<String> hourList = DateUtils.getHourStrList(beginDate,endDate);
             //List<ActivationStatusDate.StatusNumberList> activationNumList = activationDAO.queryActivationStatusNum(factory, eqpId, beginDate, endDate);
-            List<ActivationStatusDate.StatusNumberList> activationNumList = activationDAO.queryActivationStatusNum(factory, eqpIdList, beginDate, endDate);
+            List<ActivationStatusDate.StatusNumberList> activationNumList = activationDAO.queryActivationStatusNum(factoryList, eqpIdList, beginDate, endDate);
             Map<String, ActivationStatusDate.StatusNumberList> queryMap = MapUtils.listToMap(activationNumList, "key");
             List<ActivationStatusDate> dtList = new ArrayList<ActivationStatusDate>();
             for (String hour:hourList) {
@@ -89,6 +90,7 @@ public class ActivationServiceImpl {
     public ActivationEQPIdListRetDTO activationIdList(@ApiParamDoc(desc = "厂别：ARRAY,CELL") String factory){
        ActivationEQPIdListRetDTO actType = new ActivationEQPIdListRetDTO();
         try {
+            List<String> factoryList = Constant.factoryMap.get(factory);
             List<String> eqpIdList = Constant.factoryEQPStatusListMap.get(factory);
             if (CollectionUtils.isEmpty(eqpIdList)) {
                 actType.setSuccess(false);
@@ -105,12 +107,12 @@ public class ActivationServiceImpl {
                 activationDate.setEqpId(eqpId);
 
                 eqpIdList=Constant.eqpIdMap.get(eqpId);
-                List<ActivationDate.StatusDateList> activationIdList = activationDAO.queryActivationEQPId(factory, eqpIdList, beginDate, endDate);
+                List<ActivationDate.StatusDateList> activationIdList = activationDAO.queryActivationEQPId(factoryList, eqpIdList, beginDate, endDate);
                 if (CollectionUtils.isEmpty(activationIdList)){
                     //如果这一小时数据还没有出来，取上一小时的数据
                     beginDate = DateUtils.getBeforHourStartDay(1);
                     endDate = DateUtils.getBeforHourEndDay(1);
-                    activationIdList = activationDAO.queryActivationEQPId(factory, eqpIdList, beginDate, endDate);
+                    activationIdList = activationDAO.queryActivationEQPId(factoryList, eqpIdList, beginDate, endDate);
                 }
                 Map<String, ActivationDate.StatusDateList> queryMap = MapUtils.listToMap(activationIdList, "key");
 

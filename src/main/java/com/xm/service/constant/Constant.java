@@ -58,7 +58,7 @@ public class Constant {
     /**
      * cycleTime厂别
      */
-    public static final List<String> cycleTimeFactoryList=Lists.newArrayList("Array","Cell","SL-OC");
+    public static final List<String> cycleTimeFactoryList=Lists.newArrayList("ARRAY","CELL","SL-OC");
     /**
      * cycleTime产品id
      */

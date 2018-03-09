@@ -4,13 +4,15 @@
 
     <select id="queryActivationEQPId" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.oee.dto.ActivationDate$StatusDateList">
         SELECT
-        EQP_ID as eqpId,
         EQP_STATUS as status,
         sum(STATUS_DURATION) as statusNum
         FROM
         DWR_EQP_OEE_FIDS
         WHERE
-        decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY)=#{factory}
+        FACTORY IN
+        <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+            #{factory}
+        </foreach>
         AND EQP_ID IN
         <foreach collection="eqpIdList" item="eqpId" open="(" separator="," close=")" >
             #{eqpId}
@@ -19,7 +21,7 @@
           and PERIODDATE >= #{beginDate}
           and PERIODDATE <= #{endDate}
           ]]>
-        GROUP BY EQP_ID,EQP_STATUS
+        GROUP BY EQP_STATUS
     </select>
 
     <select id="queryActivationStatusNum" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.oee.dto.ActivationStatusDate$StatusNumberList">
@@ -31,7 +33,10 @@
         FROM
         DWR_EQP_OEE_FIDS
         WHERE
-        decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY)=#{factory}
+        FACTORY IN
+        <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+            #{factory}
+        </foreach>
         and EQP_ID IN
         <foreach collection="eqpIdList" item="eqpId" open="(" separator="," close=")" >
             #{eqpId}
@@ -41,7 +46,6 @@
           and PERIODDATE <= #{endDate}
           ]]>
         GROUP BY decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) ,
-        EQP_ID ,
         to_char(PERIODDATE,'HH24')||':00' ,
         EQP_STATUS
     </select>

@@ -15,7 +15,7 @@ import java.util.Map;
 @Repository("dwsProductLineYieldFidsDAO")
 public interface DwsProductLineYieldFidsDAO {
 
-    List<ProductLineData.ProductLineDetailData> queryProductLineData(@Param("factory") String factory,
+    List<ProductLineData.ProductLineDetailData> queryProductLineData(@Param("factoryList") List<String> factoryList,
                                                                      @Param("dateType")String dateType,
                                                                      @Param("beginDate") Date beginDate,
                                                                      @Param("endDate") Date endDate);
