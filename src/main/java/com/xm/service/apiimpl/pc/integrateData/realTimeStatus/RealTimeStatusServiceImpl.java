@@ -41,7 +41,7 @@ public class RealTimeStatusServiceImpl {
     public EquipmentCollectDataDTO equipmentData(){
         EquipmentCollectDataDTO resultDto = new EquipmentCollectDataDTO();
         try {
-            List<EquipmentDataDto.EquipmentData> queryList = dwrEquipmentStatusFidsDAO.queryStatus(Constant.factoryLists);
+            List<EquipmentDataDto.EquipmentData> queryList = dwrEquipmentStatusFidsDAO.queryStatus(Constant.allSingleFactoryLists);
             Map<String,EquipmentCollectDataDTO.FactoryEquiStatusNumCollectDTO> factoryStatusNumMap = new HashMap<String, EquipmentCollectDataDTO.FactoryEquiStatusNumCollectDTO>();
             for (EquipmentDataDto.EquipmentData equipmentData : queryList){
                 EquipmentCollectDataDTO.FactoryEquiStatusNumCollectDTO factoryEquiStatusNumCollectDTO = factoryStatusNumMap.get(equipmentData.getFactory());
@@ -68,7 +68,7 @@ public class RealTimeStatusServiceImpl {
                 }
             }
             List<EquipmentCollectDataDTO.FactoryEquiStatusNumCollectDTO> factoryEquiStatusNumCollectDTOList = new ArrayList<EquipmentCollectDataDTO.FactoryEquiStatusNumCollectDTO>();
-            for (String factory :Constant.factoryLists){
+            for (String factory :Constant.showFactoryList){
                 factoryEquiStatusNumCollectDTOList.add(factoryStatusNumMap.get(factory));
             }
             resultDto.setFactoryStatusNumList(factoryEquiStatusNumCollectDTOList);

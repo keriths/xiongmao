@@ -56,7 +56,7 @@
         from
             DWR_EQUIPMENT_STATUS_FIDS
         WHERE
-            decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) in
+            FACTORY in
             <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
               #{factory}
             </foreach>

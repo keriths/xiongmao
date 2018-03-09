@@ -73,6 +73,8 @@ public class Constant {
      * 厂别
      */
     public static final List<String> factoryLists = Lists.newArrayList("ARRAY","CELL","CF","SL-OC");
+    public static final List<String> showFactoryList = Lists.newArrayList("ARRAY","CELL","CF","SL-OC");
+    public static final List<String> allSingleFactoryLists = Lists.newArrayList("ARRAY","CELL","CF","SL","OC");
     public static final Map<String,List<String>> factoryMap = MapUtils.newMap(
             "ARRAY",Lists.newArrayList("ARRAY"),
             "CELL",Lists.newArrayList("CELL"),
