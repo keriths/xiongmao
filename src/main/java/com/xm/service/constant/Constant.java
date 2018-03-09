@@ -233,7 +233,7 @@ public class Constant {
             "POL",Lists.newArrayList("MLR208CL","MBD205CN","MLR202CN","AVL205CN","IMD403CL"),
             "OLB",Lists.newArrayList("MBD-25CL","MLR204CN","MLR203CN","MLR202CN","MLR207CN"),
             "MLB",Lists.newArrayList("SSL205CN","BGW205CN","MBD-25CL","BGW205CN","ASL205CN"),
-            "Aqing",Lists.newArrayList("AVL205CN","IMD403CL","IMD205CT","SUD205CN","ABI204CN"));
+            "Aging",Lists.newArrayList("AVL205CN","IMD403CL","IMD205CT","SUD205CN","ABI204CN"));
 
     //不确定用1还是2
     public static final Map<String,String> eqpIdEqpNameMap1 = MapUtils.newMap(
