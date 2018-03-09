@@ -17,7 +17,7 @@ public interface DwrEqpOeeFidsDAO {
 
     List<ActivationStatusDate.StatusNumberList> queryActivationStatusNum(
             @Param("factory") String factory,
-            @Param("eqpId")String eqpId,
+            @Param("eqpIdList") List<String> eqpIdList,
             @Param("beginDate")Date beginDate,
             @Param("endDate")Date endDate
 

@@ -49,10 +49,14 @@ public class ActivationServiceImpl {
                 actType.setErrorMsg("eqpId参数错误,请传入【" + eqpIdList + "】");
                 return actType;
             }
+
+            eqpIdList=Constant.eqpIdMap.get(eqpId);
+
             Date beginDate = DateUtils.getBeforHourStartDay(11);
             Date endDate = new Date();
             List<String> hourList = DateUtils.getHourStrList(beginDate,endDate);
-            List<ActivationStatusDate.StatusNumberList> activationNumList = activationDAO.queryActivationStatusNum(factory, eqpId, beginDate, endDate);
+            //List<ActivationStatusDate.StatusNumberList> activationNumList = activationDAO.queryActivationStatusNum(factory, eqpId, beginDate, endDate);
+            List<ActivationStatusDate.StatusNumberList> activationNumList = activationDAO.queryActivationStatusNum(factory, eqpIdList, beginDate, endDate);
             Map<String, ActivationStatusDate.StatusNumberList> queryMap = MapUtils.listToMap(activationNumList, "key");
             List<ActivationStatusDate> dtList = new ArrayList<ActivationStatusDate>();
             for (String hour:hourList) {

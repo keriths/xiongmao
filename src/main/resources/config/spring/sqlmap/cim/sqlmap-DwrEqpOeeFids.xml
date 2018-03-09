@@ -33,7 +33,10 @@
         DWR_EQP_OEE_FIDS
         WHERE
         decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY)=#{factory}
-        and EQP_ID=#{eqpId}
+        and EQP_ID IN
+        <foreach collection="eqpIdList" item="eqpId" open="(" separator="," close=")" >
+            #{eqpId}
+        </foreach>
         <![CDATA[
           and PERIODDATE >= #{beginDate}
           and PERIODDATE <= #{endDate}
