@@ -32,12 +32,13 @@ public class EquipmentStatusServiceImpl {
     public EquipmentStatusDataRetDTO equipmentStatus(@ApiParamDoc(desc = "厂别名称如ARRAY,CELL,CF,SL-OC")String factory){
         EquipmentStatusDataRetDTO resultDto = new EquipmentStatusDataRetDTO();
         try {
-            if (!Constant.factoryLists.contains(factory)){
+            List<String> factoryList = Constant.factoryMap.get(factory);
+            if (factoryList==null){
                 resultDto.setSuccess(false);
-                resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.factoryLists + "】");
+                resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.factoryMap.keySet() + "】");
                 return resultDto;
             }
-            List<EquipmentStatusData> queryList = dwrEquipmentStatusFidsDAO.queryStatusData(factory);
+            List<EquipmentStatusData> queryList = dwrEquipmentStatusFidsDAO.queryStatusData(factoryList);
             resultDto.setEquipmentStatusDataList(queryList);
             return resultDto;
         }catch (Exception e){

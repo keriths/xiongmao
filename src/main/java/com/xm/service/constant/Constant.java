@@ -73,6 +73,12 @@ public class Constant {
      * 厂别
      */
     public static final List<String> factoryLists = Lists.newArrayList("ARRAY","CELL","CF","SL-OC");
+    public static final Map<String,List<String>> factoryMap = MapUtils.newMap(
+            "ARRAY",Lists.newArrayList("ARRAY"),
+            "CELL",Lists.newArrayList("CELL"),
+            "CF",Lists.newArrayList("CF"),
+            "SL-OC",Lists.newArrayList("SL","OC")
+    );
     /**
      * 在制品站点
      */
@@ -100,18 +106,18 @@ public class Constant {
      *温湿度区域设备
      */
     public static final Map<String,List<String>> placeEquipmentListMap = MapUtils.newMap(
-            "曝光机区",Lists.newArrayList("曝光机-201","曝光机-301"),
-            "Coater区",Lists.newArrayList("COA-201","COA-301"),
-            "PVD区",Lists.newArrayList("PVD-201","PVD-301"),
-            "CVD区",Lists.newArrayList("CVD-201","CVD-301"),
-            "WET区",Lists.newArrayList("WET-201","WET-301"),
-            "OVEN区",Lists.newArrayList("OVEN-201","OVEN-301"),
-            "ITO区",Lists.newArrayList("ITO-201","ITO-301"),
-            "BM区",Lists.newArrayList("BM-201","BM-301"),
-            "RGM区",Lists.newArrayList("RGM-201","RGM-301"),
-            "PI区",Lists.newArrayList("PI-201","PI-301"),
-            "ODF区",Lists.newArrayList("ODF-201","ODF-301"),
-            "配向区",Lists.newArrayList("配向-201","配向-301"));
+            "曝光机区", Lists.newArrayList("曝光机-201", "曝光机-301"),
+            "Coater区", Lists.newArrayList("COA-201", "COA-301"),
+            "PVD区", Lists.newArrayList("PVD-201", "PVD-301"),
+            "CVD区", Lists.newArrayList("CVD-201", "CVD-301"),
+            "WET区", Lists.newArrayList("WET-201", "WET-301"),
+            "OVEN区", Lists.newArrayList("OVEN-201", "OVEN-301"),
+            "ITO区", Lists.newArrayList("ITO-201", "ITO-301"),
+            "BM区", Lists.newArrayList("BM-201", "BM-301"),
+            "RGM区", Lists.newArrayList("RGM-201", "RGM-301"),
+            "PI区", Lists.newArrayList("PI-201", "PI-301"),
+            "ODF区", Lists.newArrayList("ODF-201", "ODF-301"),
+            "配向区", Lists.newArrayList("配向-201", "配向-301"));
 
 
     /**
@@ -148,14 +154,14 @@ public class Constant {
      * MAU系统类型
      */
     public static final Map<String,List<String>> mauSystemListMap = MapUtils.newMap(
-            "MAU",Lists.newArrayList("MAU"),
-            "4A",Lists.newArrayList("4A-L2-MAU-N-01","4A-L2-MAU-N-02","4A-M2-MAU-N-01","4A-M2-MAU-N-02","4A-M2-MAU-N-03","4A-M2-MAU-N-04","4A-M2-MAU-N-05",
-                            "4A-M2-MAU-N-06","4A-M2-MAU-N-07","4A-M2-MAU-N-08","4A-M2-MAU-N-09","4A-M2-MAU-N-10","4A-M2-MAU-N-11","4A-M2-MAU-N-12","4A-M2-MAU-N-13",
-                            "4A-M2-MAU-S-01","4A-M2-MAU-S-02","4A-M2-MAU-S-03","4A-M2-MAU-S-04","4A-M2-MAU-S-05","4A-M2-MAU-S-06","4A-M2-MAU-S-07","4A-M2-MAU-S-08",
-                            "4A-M2-MAU-S-09","4A-M2-MAU-S-10","4A-M2-MAU-S-11","4A-M2-MAU-S-12"),
-            "4B",Lists.newArrayList("4B-M2-MAU-N-01","4B-M2-MAU-N-02","4B-M2-MAU-N-03","4B-M2-MAU-N-04","4B-M2-MAU-N-05","4B-M2-MAU-N-06","4B-M2-MAU-N-08",
-                            "4B-M2-MAU-N-09","4B-M2-MAU-N-10","4B-M2-MAU-S-01","4B-M2-MAU-S-02","4B-M2-MAU-S-03","4B-M2-MAU-S-04","4B-M2-MAU-S-06","4B-M2-MAU-S-07",
-                            "4B-M2-MAU-S-08","4B-M2-MAU-S-09","4B-M2-MAU-S-10","4B-M2-MAU-S-11","4B-M2-MAU-SL-N-01","4B-M2-MAU-SL-N-02","4B-M2-MAU-SL-N-03"));
+            "MAU", Lists.newArrayList("MAU"),
+            "4A", Lists.newArrayList("4A-L2-MAU-N-01", "4A-L2-MAU-N-02", "4A-M2-MAU-N-01", "4A-M2-MAU-N-02", "4A-M2-MAU-N-03", "4A-M2-MAU-N-04", "4A-M2-MAU-N-05",
+                    "4A-M2-MAU-N-06", "4A-M2-MAU-N-07", "4A-M2-MAU-N-08", "4A-M2-MAU-N-09", "4A-M2-MAU-N-10", "4A-M2-MAU-N-11", "4A-M2-MAU-N-12", "4A-M2-MAU-N-13",
+                    "4A-M2-MAU-S-01", "4A-M2-MAU-S-02", "4A-M2-MAU-S-03", "4A-M2-MAU-S-04", "4A-M2-MAU-S-05", "4A-M2-MAU-S-06", "4A-M2-MAU-S-07", "4A-M2-MAU-S-08",
+                    "4A-M2-MAU-S-09", "4A-M2-MAU-S-10", "4A-M2-MAU-S-11", "4A-M2-MAU-S-12"),
+            "4B", Lists.newArrayList("4B-M2-MAU-N-01", "4B-M2-MAU-N-02", "4B-M2-MAU-N-03", "4B-M2-MAU-N-04", "4B-M2-MAU-N-05", "4B-M2-MAU-N-06", "4B-M2-MAU-N-08",
+                    "4B-M2-MAU-N-09", "4B-M2-MAU-N-10", "4B-M2-MAU-S-01", "4B-M2-MAU-S-02", "4B-M2-MAU-S-03", "4B-M2-MAU-S-04", "4B-M2-MAU-S-06", "4B-M2-MAU-S-07",
+                    "4B-M2-MAU-S-08", "4B-M2-MAU-S-09", "4B-M2-MAU-S-10", "4B-M2-MAU-S-11", "4B-M2-MAU-SL-N-01", "4B-M2-MAU-SL-N-02", "4B-M2-MAU-SL-N-03"));
 
     /**
      * RCU系统类型
@@ -173,7 +179,7 @@ public class Constant {
     /**
      * 电的统计时间类型小时hour天day月month
      */
-    public static final List<String> systemTypeList = Lists.newArrayList("4A","4B");
+    public static final List<String> systemTypeList = Lists.newArrayList("4A", "4B");
 
     /**
      * 电的统计时间类型小时hour天day月month
@@ -229,10 +235,10 @@ public class Constant {
 
     //不确定用1还是2
     public static final Map<String,String> eqpIdEqpNameMap1 = MapUtils.newMap(
-            "PHOTO","设备A1","PVD","设备A2","CVD","设备A3","WET","设备A4","DE","设备A5",
-            "PI","设备B1","FDV","设备B2","ODF","设备B3","HSW","设备B4","KOL","设备B5",
-            "BM","设备C1","ITO","设备C2","PS","设备C3","RGB","设备C4","RML","设备C5",
-            "MBD","设备D1","POL","设备D2","OLB","设备D3","MLB","设备D4","Aqing","设备D5");
+            "PHOTO", "设备A1", "PVD", "设备A2", "CVD", "设备A3", "WET", "设备A4", "DE", "设备A5",
+            "PI", "设备B1", "FDV", "设备B2", "ODF", "设备B3", "HSW", "设备B4", "KOL", "设备B5",
+            "BM", "设备C1", "ITO", "设备C2", "PS", "设备C3", "RGB", "设备C4", "RML", "设备C5",
+            "MBD", "设备D1", "POL", "设备D2", "OLB", "设备D3", "MLB", "设备D4", "Aqing", "设备D5");
 
     public static final Map<String,String> eqpIdEqpNameMap2 = MapUtils.newMap(
             "VDN-01C","设备A1","PEB-16C","设备A2","KAM-02C","设备A3","WIT-02CL","设备A4","KRV-01C","设备A5",

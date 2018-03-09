@@ -11,7 +11,10 @@
             DEMODATA as demoData,
             DATADATE as dataDate
         from DWR_EQUIPMENT_STATUS_FIDS
-        where decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY)=#{factory}
+        where FACTORY IN
+        <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+            #{factory} ,
+        </foreach>
     </select>
 
     <!--根据key查询-->

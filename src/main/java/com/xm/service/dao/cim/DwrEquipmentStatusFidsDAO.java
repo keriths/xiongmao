@@ -12,7 +12,7 @@ import java.util.List;
  */
 @Repository("dwrEquipmentStatusFidsDAO")
 public interface DwrEquipmentStatusFidsDAO {
-    List<EquipmentStatusData> queryStatusData(@Param("factory") String factory);
+    List<EquipmentStatusData> queryStatusData(@Param("factoryList") List<String> factory);
 
     int updateStatusData(EquipmentStatusData equipmentStatusData);
 
