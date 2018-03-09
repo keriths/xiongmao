@@ -97,24 +97,29 @@ public class ActivationServiceImpl {
             }
             Date beginDate = DateUtils.getBeforHourStartDay(0);
             Date endDate = new Date();
-            List<ActivationDate.StatusDateList> activationIdList = activationDAO.queryActivationEQPId(factory, eqpIdList, beginDate, endDate);
-            if (CollectionUtils.isEmpty(activationIdList)){
-                //如果这一小时数据还没有出来，取上一小时的数据
-                beginDate = DateUtils.getBeforHourStartDay(1);
-                endDate = DateUtils.getBeforHourEndDay(1);
-                activationIdList = activationDAO.queryActivationEQPId(factory, eqpIdList, beginDate, endDate);
-            }
-            Map<String, ActivationDate.StatusDateList> queryMap = MapUtils.listToMap(activationIdList, "key");
+
             List<ActivationDate> dateList = new ArrayList<ActivationDate>();
-            for (String eqpId:eqpIdList) {
-                ActivationDate activationDate = new ActivationDate();
+
+            for (String eqpId: eqpIdList){
+                ActivationDate activationDate=new ActivationDate();
                 activationDate.setEqpId(eqpId);
+
+                eqpIdList=Constant.eqpIdMap.get(eqpId);
+                List<ActivationDate.StatusDateList> activationIdList = activationDAO.queryActivationEQPId(factory, eqpIdList, beginDate, endDate);
+                if (CollectionUtils.isEmpty(activationIdList)){
+                    //如果这一小时数据还没有出来，取上一小时的数据
+                    beginDate = DateUtils.getBeforHourStartDay(1);
+                    endDate = DateUtils.getBeforHourEndDay(1);
+                    activationIdList = activationDAO.queryActivationEQPId(factory, eqpIdList, beginDate, endDate);
+                }
+                Map<String, ActivationDate.StatusDateList> queryMap = MapUtils.listToMap(activationIdList, "key");
+
                 List<ActivationDate.StatusDateList> dtList = new ArrayList<ActivationDate.StatusDateList>();
                 for (String stType : Constant.statusList) {
-                    String key = eqpId + " " + stType;
+                    String key = stType;
                     ActivationDate.StatusDateList statusNumber = queryMap.get(key);
                     if (statusNumber == null) {
-                        statusNumber = new ActivationDate.StatusDateList(stType, eqpId);
+                        statusNumber = new ActivationDate.StatusDateList(stType);
                     }
                     dtList.add(statusNumber);
                 }
@@ -123,6 +128,7 @@ public class ActivationServiceImpl {
             }
             actType.setActivationDateList(dateList);
             return actType;
+
         }catch (Exception e){
             LogUtils.error(getClass(), e);
             actType.setSuccess(false);

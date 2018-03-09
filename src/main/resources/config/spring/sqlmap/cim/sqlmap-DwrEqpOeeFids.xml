@@ -25,7 +25,6 @@
     <select id="queryActivationStatusNum" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.oee.dto.ActivationStatusDate$StatusNumberList">
         SELECT
         decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) as factory,
-        EQP_ID as eqpId,
         to_char(PERIODDATE,'HH24')||':00' as periodDate,
         EQP_STATUS as status,
         sum(STATUS_DURATION) as statusNum

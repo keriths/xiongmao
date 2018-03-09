@@ -29,13 +29,12 @@ public class ActivationDate implements Serializable{
     public static class StatusDateList{
 
         public String key(){
-            return eqpId+" "+status;
+            return status;
         }
         public StatusDateList(){
         }
-        public StatusDateList(String status,String eqpId){
+        public StatusDateList(String status){
             this.status = status;
-            this.eqpId = eqpId;
         }
 
         @ApiResultFieldDesc(desc = "厂别,如Array,Cell,CF,SL-OC")
