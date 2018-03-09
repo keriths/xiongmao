@@ -27,7 +27,7 @@ import java.util.Map;
  */
 
 @Service("GoodsInProcessService")
-@ApiServiceDoc(name = "CIM4_在制品(完成)")
+@ApiServiceDoc(name = "CIM4_在制品(完成-工厂数据验证)")
 public class GoodsInProcessServiceImpl {
     @Resource(name="dwrWipGlsFidsDAO")
     private DwrWipGlsFidsDAO dwrWipGlsFidsDAO;
@@ -121,12 +121,6 @@ public class GoodsInProcessServiceImpl {
 
             //List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.factoryLists,Constant.stepIdLists, beginDate, endDate);
             List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.allSingleFactoryLists,beginDate, endDate);
-            if (CollectionUtils.isEmpty(wipDetailDataList)) {
-                //如果这一小时数据还没有出来，取上一小时的数据
-                beginDate = DateUtils.getBeforHourStartDay(1);
-                endDate = DateUtils.getBeforHourEndDay(1);
-                wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.allSingleFactoryLists, beginDate, endDate);
-            }
 
             Map<String, GoodInProcessWipDataDTO.GoodInProcessWipDetailData> dataMap = MapUtils.listToMap(wipDetailDataList, "key");
             List<GoodInProcessWipDataDTO> dataDTOList = new ArrayList<GoodInProcessWipDataDTO>();

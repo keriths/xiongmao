@@ -24,7 +24,7 @@ public class OutputCompletionRateServiceImpl {
     @Resource
     private DwsProductOutputFidsDAO outputcompletionDAO;
 
-    @ApiMethodDoc(apiCode = "CIM_outputCompletionRate" , name = "产出达成率接口(完成)")
+    @ApiMethodDoc(apiCode = "CIM_outputCompletionRate" , name = "产出达成率接口(完成-工厂数据验证)")
     public OutputCompletionRetDTO outputCompletionRate(@ApiParamDoc(desc = "产品类型：如55不传时是全部，就是汇总的") String productId, @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
         OutputCompletionRetDTO resultDto=new OutputCompletionRetDTO();
 
