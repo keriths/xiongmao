@@ -26,32 +26,32 @@ import java.util.Map;
  */
 
 @Service("ActivationService")
-@ApiServiceDoc(name = "CIM7_稼动率(完成)")
+@ApiServiceDoc(name = "CIM7_稼动率（完成-工厂数据已验证）")
 public class ActivationServiceImpl {
 
     @Resource(name="activationDAO")
     private DwrEqpOeeFidsDAO activationDAO;
 
 
-    @ApiMethodDoc(apiCode = "CIM_ActivationStatusNum",name="EQP类型的状态值显示(完成)")
+    @ApiMethodDoc(apiCode = "CIM_ActivationStatusNum",name="EQP类型的状态值显示（完成-工厂数据已验证）")
     public ActivationEQPStatusListRetDTO activationStatusNumList(@ApiParamDoc(desc = "厂别：ARRAY,CELL") String factory, @ApiParamDoc(desc = "EQP类型，如PHOTO PVD") String eqpId){
         ActivationEQPStatusListRetDTO actType = new ActivationEQPStatusListRetDTO();
 
         try {
             List<String> factoryList = Constant.factoryMap.get(factory);
-            List<String> eqpIdList = Constant.factoryEQPStatusListMap.get(factory);
-            if (CollectionUtils.isEmpty(eqpIdList)) {
+            List<String> showEqpIdList = Constant.factoryEQPStatusListMap.get(factory);
+            if (CollectionUtils.isEmpty(factoryList)) {
                 actType.setSuccess(false);
-                actType.setErrorMsg("factory参数错误,请传入【" + Constant.factoryEQPStatusListMap.keySet() + "】");
+                actType.setErrorMsg("factory参数错误,请传入【" + Constant.factoryMap.keySet() + "】");
                 return actType;
             }
-            if (!eqpIdList.contains(eqpId)){
+            if (!showEqpIdList.contains(eqpId)){
                 actType.setSuccess(false);
-                actType.setErrorMsg("eqpId参数错误,请传入【" + eqpIdList + "】");
+                actType.setErrorMsg("eqpId参数错误,请传入【" + showEqpIdList + "】");
                 return actType;
             }
 
-            eqpIdList=Constant.eqpIdMap.get(eqpId);
+            List<String> eqpIdList=Constant.eqpIdMap.get(eqpId);
 
             Date beginDate = DateUtils.getBeforHourStartDay(11);
             Date endDate = new Date();
@@ -86,13 +86,13 @@ public class ActivationServiceImpl {
 
     }
 
-   @ApiMethodDoc(apiCode = "CIM_ActivationEQPId",name="重点设备稼动显示(完成)")
+   @ApiMethodDoc(apiCode = "CIM_ActivationEQPId",name="重点设备稼动显示（完成-工厂数据已验证）")
     public ActivationEQPIdListRetDTO activationIdList(@ApiParamDoc(desc = "厂别：ARRAY,CELL") String factory){
        ActivationEQPIdListRetDTO actType = new ActivationEQPIdListRetDTO();
         try {
             List<String> factoryList = Constant.factoryMap.get(factory);
-            List<String> eqpIdList = Constant.factoryEQPStatusListMap.get(factory);
-            if (CollectionUtils.isEmpty(eqpIdList)) {
+            List<String> showEqpIdList = Constant.factoryEQPStatusListMap.get(factory);
+            if (CollectionUtils.isEmpty(showEqpIdList)) {
                 actType.setSuccess(false);
                 actType.setErrorMsg("factory参数错误,请传入【" + Constant.factoryEQPStatusListMap.keySet() + "】");
                 return actType;
@@ -102,11 +102,11 @@ public class ActivationServiceImpl {
 
             List<ActivationDate> dateList = new ArrayList<ActivationDate>();
 
-            for (String eqpId: eqpIdList){
+            for (String eqpId: showEqpIdList){
                 ActivationDate activationDate=new ActivationDate();
                 activationDate.setEqpId(eqpId);
 
-                eqpIdList=Constant.eqpIdMap.get(eqpId);
+                List<String> eqpIdList=Constant.eqpIdMap.get(eqpId);
                 List<ActivationDate.StatusDateList> activationIdList = activationDAO.queryActivationEQPId(factoryList, eqpIdList, beginDate, endDate);
                 if (CollectionUtils.isEmpty(activationIdList)){
                     //如果这一小时数据还没有出来，取上一小时的数据

@@ -44,7 +44,7 @@ public class Constant {
     /**
      * EQP状态
      */
-    public static final List<String> statusList = Lists.newArrayList("RUN", "TRB", "WAIT", "MAN", "MNT");
+    public static final List<String> statusList = Lists.newArrayList("RUN", "TRB", "WAT", "MAN", "MNT");
     /**
      * 厂别与EQP类型
      */
@@ -214,7 +214,7 @@ public class Constant {
 
 
     public static final Map<String,List<String>> eqpIdMap = MapUtils.newMap(
-            "PHOTO",Lists.newArrayList("VDN-01C","PEB-16C","KAM-02C","WIT-02CL","KRV-01C"),
+            "PHOTO",Lists.newArrayList("SPM-02CL","WGT-02C","KAM-02C","WIT-02CL","KRV-01C"),
             "PVD",Lists.newArrayList("SPI-01C","VDN-05C-CUL","CAK-16CL","PCD-07C","CAK-07CL"),
             "CVD",Lists.newArrayList("KLD-01CL","PHB-07C","VDN-01CL","KEF-01CL","KGM-01CL"),
             "WET",Lists.newArrayList("KHM-01CL","WIG-01CL","WUK-02C","DEV-07C","SPX-01CL"),
