@@ -27,14 +27,14 @@ import java.util.Map;
  */
 
 @Service("GoodsInProcessService")
-@ApiServiceDoc(name = "CIM4_在制品(完成-工厂数据验证)")
+@ApiServiceDoc(name = "CIM4_在制品（完成-工厂数据已验证）")
 public class GoodsInProcessServiceImpl {
     @Resource(name="dwrWipGlsFidsDAO")
     private DwrWipGlsFidsDAO dwrWipGlsFidsDAO;
     @Resource(name="stepDAO")
     private StepDAO stepDAO;
 
-    @ApiMethodDoc(apiCode = "CIM_goodInProcessFt" , name = "每个厂别的在制品接口(完成)")
+    @ApiMethodDoc(apiCode = "CIM_goodInProcessFt" , name = "每个厂别的在制品接口（完成-工厂数据已验证）")
     public GoodInProcessFtRetDTO goodInProcessFtRetDTO(@ApiParamDoc(desc = "厂别,如ARRAY,CELL,CF,SL-OC") String factory){
         GoodInProcessFtRetDTO retDTO = new GoodInProcessFtRetDTO();
         try{
@@ -104,7 +104,7 @@ public class GoodsInProcessServiceImpl {
     }
 
 
-    @ApiMethodDoc(apiCode = "CIM_InProcess",name = "在制品WIP推移数据接口(完成)")
+    @ApiMethodDoc(apiCode = "CIM_InProcess",name = "在制品WIP推移数据接口（完成-工厂数据已验证）")
     public GoodInProcessWipRetDTO queryInProcessWip() {
         GoodInProcessWipRetDTO resultDto = new GoodInProcessWipRetDTO();
 
