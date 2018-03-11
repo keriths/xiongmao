@@ -15,6 +15,7 @@ import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DwsProductLineYieldFidsDAO;
 import com.xm.service.dao.cim.DwsProductOcYieldFidsDAO;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -28,22 +29,22 @@ import java.util.Map;
  */
 
 @Service("RateOfGoodProductService")
-@ApiServiceDoc(name = "CIM5_良品率")
+@ApiServiceDoc(name = "CIM5_良品率（完成-工厂数据已验证）")
 public class RateOfGoodProductServiceImpl {
     @Resource(name = "dwsProductLineYieldFidsDAO")
     private DwsProductLineYieldFidsDAO dwsProductLineYieldFidsDAO;
     @Resource(name = "dwsProductOcYieldFidsDAO")
     private DwsProductOcYieldFidsDAO dwsProductOcYieldFidsDAO;
 
-    @ApiMethodDoc(apiCode = "CIM_ProductLineYield",name = "指定工厂良品率显示接口")
+    @ApiMethodDoc(apiCode = "CIM_ProductLineYield",name = "指定工厂良品率显示接口（完成-工厂数据已验证）")
     public ProductLineDataRetDTO productLineDataRetDTO(@ApiParamDoc(desc = "厂别ARRAY,CELL,CF,SL-OC(必填)")String factory,
                                                        @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
         ProductLineDataRetDTO resultDto=new ProductLineDataRetDTO();
         try {
             List<String> factoryList = Constant.factoryMap.get(factory);
-            if(!Constant.showFactoryList.contains(factory)){
+            if(CollectionUtils.isEmpty(factoryList)){
                 resultDto.setSuccess(false);
-                resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.showFactoryList + "】");
+                resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.factoryMap.keySet() + "】");
                 return resultDto;
             }
             if (!Constant.dateTypeList.contains(dateType)){
@@ -51,11 +52,6 @@ public class RateOfGoodProductServiceImpl {
                 resultDto.setErrorMsg("dateType参数错误,请传入【" + Constant.dateTypeList + "】");
                 return resultDto;
             }
-//            if (!StringUtils.isEmpty(productId) && !Constant.productIdNameMap.containsKey(productId)){
-//                resultDto.setSuccess(false);
-//                resultDto.setErrorMsg("productId参数错误,请传入【" + Constant.productIdNameMap.keySet() + "】");
-//                return resultDto;
-//            }
             List<String> dateList = null;
             Date beginDate = null;
             Date endDate = new Date();
@@ -82,8 +78,6 @@ public class RateOfGoodProductServiceImpl {
                     productLineDetailData =new ProductLineData.ProductLineDetailData(day,factory);
                 }
                 ProductDetailDataList.add(productLineDetailData);
-//                productLineData.setProductLineDetailDataList(ProductDetailDataList);
-//                dataList.add(productLineData);
             }
             resultDto.setProductLineDetailDataList(ProductDetailDataList);
             return resultDto;
@@ -97,7 +91,7 @@ public class RateOfGoodProductServiceImpl {
     }
 
 
-    @ApiMethodDoc(apiCode = "CIM_ProductOcYield",name = "指定产品良品率显示接口")
+    @ApiMethodDoc(apiCode = "CIM_ProductOcYield",name = "指定产品良品率显示接口（完成-工厂数据已验证）")
     public ProductOcDataRetDTO productOcDataRetDTO(
                                                      @ApiParamDoc(desc = "产品类型：如55,为空时是全部")String productId,
                                                      @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
@@ -106,11 +100,6 @@ public class RateOfGoodProductServiceImpl {
             if (!Constant.dateTypeList.contains(dateType)){
                 resultDto.setSuccess(false);
                 resultDto.setErrorMsg("dateType参数错误,请传入【" + Constant.dateTypeList + "】");
-                return resultDto;
-            }
-            if (!StringUtils.isEmpty(productId) && !Constant.productIdNameMap.containsKey(productId)){
-                resultDto.setSuccess(false);
-                resultDto.setErrorMsg("productId参数错误,请传入【" + Constant.productIdNameMap.keySet() + "】");
                 return resultDto;
             }
             List<String> dateList = null;
@@ -128,18 +117,14 @@ public class RateOfGoodProductServiceImpl {
             }
 
             List<ProductOcData.ProductOcDetailData> detailDataList = dwsProductOcYieldFidsDAO.queryProductOcData(productId,dateType,beginDate,endDate);
-            Map<String,ProductOcData.ProductOcDetailData> dataMap= MapUtils.listToMap(detailDataList,"getPeriodDate");
-            List<ProductOcData> dataList=new ArrayList<ProductOcData>();
+            Map<String,ProductOcData.ProductOcDetailData> dataMap= MapUtils.listToMap(detailDataList, "getPeriodDate");
             List<ProductOcData.ProductOcDetailData> ProductDetailDataList = new ArrayList<ProductOcData.ProductOcDetailData>();
             for (String day:dateList){
-//                ProductOcData productOcData = new ProductOcData();
                 ProductOcData.ProductOcDetailData productOcDetailData = dataMap.get(day);
                 if(productOcDetailData ==null){
                     productOcDetailData =new ProductOcData.ProductOcDetailData(productId,day);
                 }
                 ProductDetailDataList.add(productOcDetailData);
-//                productOcData.setProductOcDetailDataList(ProductDetailDataList);
-//                dataList.add(productOcData);
             }
             resultDto.setProductOcDetailDataList(ProductDetailDataList);
             return resultDto;

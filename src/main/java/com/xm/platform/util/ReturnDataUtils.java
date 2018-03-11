@@ -56,8 +56,14 @@ public class ReturnDataUtils {
         return data;
     }
 
+    /**
+     * 指定工厂产品时间的目标良品率
+     * @param factory
+     * @param productId
+     * @param periodDate
+     * @return
+     */
     public static BigDecimal targetData(String factory,String productId,String periodDate){
-
         return new BigDecimal("99.8");
     }
 

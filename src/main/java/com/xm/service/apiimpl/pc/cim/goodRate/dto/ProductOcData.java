@@ -76,12 +76,10 @@ public class ProductOcData {
         public BigDecimal getPolInput() {
             if(polInput==null){
                 if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        polInput = new BigDecimal(RandomUtils.randomInt(100100,100300));
-                        return polInput;
-                    }else{
-                        return new BigDecimal(0);
-                    }
+                    polInput = new BigDecimal(RandomUtils.randomInt(100100,100300));
+                    return polInput;
+                }else{
+                    return new BigDecimal(0);
                 }
 
             }
@@ -95,12 +93,10 @@ public class ProductOcData {
         public BigDecimal getPolOutputA() {
             if(polOutputA==null){
                 if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        polOutputA = new BigDecimal(RandomUtils.randomInt(20000,20020));
-                        return polOutputA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
+                    polOutputA = new BigDecimal(RandomUtils.randomInt(20000,20020));
+                    return polOutputA;
+                }else{
+                    return new BigDecimal(0);
                 }
 
             }
@@ -114,14 +110,11 @@ public class ProductOcData {
         public BigDecimal getPolOutputFA() {
             if(polOutputFA==null){
                 if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        polOutputFA = new BigDecimal(RandomUtils.randomInt(21000,21010));
-                        return polOutputFA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
+                    polOutputFA = new BigDecimal(RandomUtils.randomInt(21000,21010));
+                    return polOutputFA;
+                }else{
+                    return new BigDecimal(0);
                 }
-
             }
             return polOutputFA;
         }
@@ -133,14 +126,11 @@ public class ProductOcData {
         public BigDecimal getMbiRjOutputA() {
             if(mbiRjOutputA==null){
                 if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        mbiRjOutputA = new BigDecimal(RandomUtils.randomInt(25000,25020));
-                        return mbiRjOutputA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
+                    mbiRjOutputA = new BigDecimal(RandomUtils.randomInt(25000,25020));
+                    return mbiRjOutputA;
+                }else{
+                    return new BigDecimal(0);
                 }
-
             }
             return mbiRjOutputA;
         }
@@ -152,14 +142,11 @@ public class ProductOcData {
         public BigDecimal getMbiRjOutputFA() {
             if(mbiRjOutputFA==null){
                 if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        mbiRjOutputFA = new BigDecimal(RandomUtils.randomInt(27000,27020));
-                        return mbiRjOutputFA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
+                    mbiRjOutputFA = new BigDecimal(RandomUtils.randomInt(27000,27020));
+                    return mbiRjOutputFA;
+                }else{
+                    return new BigDecimal(0);
                 }
-
             }
             return mbiRjOutputFA;
         }
@@ -171,14 +158,11 @@ public class ProductOcData {
         public BigDecimal getPolRwOutputA() {
             if(polRwOutputA==null){
                 if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        polRwOutputA = new BigDecimal(RandomUtils.randomInt(4000,4020));
-                        return polRwOutputA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
+                    polRwOutputA = new BigDecimal(RandomUtils.randomInt(4000,4020));
+                    return polRwOutputA;
+                }else{
+                    return new BigDecimal(0);
                 }
-
             }
             return polRwOutputA;
         }
@@ -190,14 +174,11 @@ public class ProductOcData {
         public BigDecimal getPolRwOutputFA() {
             if(polRwOutputFA==null){
                 if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        polRwOutputFA = new BigDecimal(RandomUtils.randomInt(3000,3010));
-                        return polRwOutputFA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
+                    polRwOutputFA = new BigDecimal(RandomUtils.randomInt(3000,3010));
+                    return polRwOutputFA;
+                }else{
+                    return new BigDecimal(0);
                 }
-
             }
             return polRwOutputFA;
         }
@@ -209,14 +190,11 @@ public class ProductOcData {
         public BigDecimal getIobInput() {
             if(iobInput==null){
                 if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        iobInput = new BigDecimal(RandomUtils.randomInt(100100,100300));
-                        return iobInput;
-                    }else{
-                        return new BigDecimal(0);
-                    }
+                    iobInput = new BigDecimal(RandomUtils.randomInt(100100,100300));
+                    return iobInput;
+                }else{
+                    return new BigDecimal(0);
                 }
-
             }
             return iobInput;
         }
@@ -228,14 +206,11 @@ public class ProductOcData {
         public BigDecimal getIobEiOutputA() {
             if(iobEiOutputA==null){
                 if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        iobEiOutputA = new BigDecimal(RandomUtils.randomInt(20000,20020));
-                        return iobEiOutputA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
+                    iobEiOutputA = new BigDecimal(RandomUtils.randomInt(20000,20020));
+                    return iobEiOutputA;
+                }else{
+                    return new BigDecimal(0);
                 }
-
             }
             return iobEiOutputA;
         }
@@ -247,14 +222,11 @@ public class ProductOcData {
         public BigDecimal getIobEiOutputFA() {
             if(iobEiOutputFA==null){
                 if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        iobEiOutputFA = new BigDecimal(RandomUtils.randomInt(21000,21010));
-                        return iobEiOutputFA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
+                    iobEiOutputFA = new BigDecimal(RandomUtils.randomInt(21000,21010));
+                    return iobEiOutputFA;
+                }else{
+                    return new BigDecimal(0);
                 }
-
             }
             return iobEiOutputFA;
         }
@@ -266,14 +238,11 @@ public class ProductOcData {
         public BigDecimal getIobEiOutputBRwA() {
             if(iobEiOutputBRwA==null){
                 if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        iobEiOutputBRwA = new BigDecimal(RandomUtils.randomInt(25000,25020));
-                        return iobEiOutputBRwA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
+                    iobEiOutputBRwA = new BigDecimal(RandomUtils.randomInt(25000,25020));
+                    return iobEiOutputBRwA;
+                }else{
+                    return new BigDecimal(0);
                 }
-
             }
             return iobEiOutputBRwA;
         }
@@ -285,14 +254,11 @@ public class ProductOcData {
         public BigDecimal getIobEiOutputBRwFA() {
             if(iobEiOutputBRwFA==null){
                 if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        iobEiOutputBRwFA = new BigDecimal(RandomUtils.randomInt(27000,27020));
-                        return iobEiOutputBRwFA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
+                    iobEiOutputBRwFA = new BigDecimal(RandomUtils.randomInt(27000,27020));
+                    return iobEiOutputBRwFA;
+                }else{
+                    return new BigDecimal(0);
                 }
-
             }
             return iobEiOutputBRwFA;
         }
@@ -304,14 +270,11 @@ public class ProductOcData {
         public BigDecimal getIobEiOutputDRwA() {
             if(iobEiOutputDRwA==null){
                 if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        iobEiOutputDRwA = new BigDecimal(RandomUtils.randomInt(4000,4020));
-                        return iobEiOutputDRwA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
+                    iobEiOutputDRwA = new BigDecimal(RandomUtils.randomInt(4000,4020));
+                    return iobEiOutputDRwA;
+                }else{
+                    return new BigDecimal(0);
                 }
-
             }
             return iobEiOutputDRwA;
         }
@@ -323,14 +286,11 @@ public class ProductOcData {
         public BigDecimal getIobEiOutputDRwFA() {
             if(iobEiOutputDRwFA==null){
                 if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        iobEiOutputDRwFA = new BigDecimal(RandomUtils.randomInt(3000,3010));
-                        return iobEiOutputDRwFA;
-                    }else{
-                        return new BigDecimal(0);
-                    }
+                    iobEiOutputDRwFA = new BigDecimal(RandomUtils.randomInt(3000,3010));
+                    return iobEiOutputDRwFA;
+                }else{
+                    return new BigDecimal(0);
                 }
-
             }
             return iobEiOutputDRwFA;
         }
@@ -356,69 +316,41 @@ public class ProductOcData {
         }
 
         public BigDecimal getTargetInLine() {
-            if(targetInLine==null){
-                if (Constant.showDemoData){
-                    targetInLine = ReturnDataUtils.targetData("",getProductId(),getPeriodDate());
-                }else{
-                    return new BigDecimal("99.8");
-                }
-            }
-            return targetInLine;
+            return ReturnDataUtils.targetData(null,getProductId(),getPeriodDate());
         }
 
         public BigDecimal getInLine() {
             BigDecimal inLine=new BigDecimal(100);
-            BigDecimal polInLine=new BigDecimal("0");//POL良率
-            BigDecimal crimpInLine=new BigDecimal("0");//压接良率
-//            if(!CollectionUtils.isEmpty(productOcDetailDataList)) {
-//                for (ProductOcDetailData a : productOcDetailDataList) {
-                    BigDecimal polInput = getPolInput();
-                    BigDecimal polOutputA = getPolOutputA();
-                    BigDecimal polOutputFA = getPolOutputFA();
-                    BigDecimal mbiRjOutputA = getMbiRjOutputA();
-                    BigDecimal mbiRjOutputFA = getMbiRjOutputFA();
-                    BigDecimal polRwOutputA = getPolRwOutputA();
-                    BigDecimal polRwOutputFA = getPolRwOutputFA();
-                    BigDecimal iobInput = getIobInput();
-                    BigDecimal iobEiOutputA = getIobEiOutputA();
-                    BigDecimal iobEiOutputFA = getIobEiOutputFA();
-                    BigDecimal iobEiOutputBRwA = getIobEiOutputBRwA();
-                    BigDecimal iobEiOutputBRwFA = getIobEiOutputBRwFA();
-                    BigDecimal iobEiOutputDRwA = getIobEiOutputDRwA();
-                    BigDecimal iobEiOutputDRwFA = getIobEiOutputDRwFA();
+            BigDecimal polInLine=BigDecimal.ZERO;//POL良率
+            BigDecimal crimpInLine=BigDecimal.ZERO;//压接良率
 
-                    if(polInput.compareTo(new BigDecimal(0))==0){//等于0
-                        polInLine=new BigDecimal(0);
-                    }else{
-                        polInLine = (polOutputA.add(polOutputFA).add(mbiRjOutputA).add(mbiRjOutputFA).add(polRwOutputA).add(polRwOutputFA)).divide(polInput,4, RoundingMode.HALF_UP);
-                    }
-                    if(iobInput.compareTo(new BigDecimal(0))==0){//等于0
-                        crimpInLine=new BigDecimal(0);
-                    }else{
-                        crimpInLine = (iobEiOutputA.add(iobEiOutputFA).add(iobEiOutputBRwA).add(iobEiOutputBRwFA).add(iobEiOutputDRwA).add(iobEiOutputDRwFA)).divide(iobInput,4, RoundingMode.HALF_UP);
-                    }
-                    //polInLine = (polOutputA.add(polOutputFA).add(mbiRjOutputA).add(mbiRjOutputFA).add(polRwOutputA).add(polRwOutputFA)).divide(polInput,4, RoundingMode.HALF_UP);
-                    //crimpInLine = (iobEiOutputA.add(iobEiOutputFA).add(iobEiOutputBRwA).add(iobEiOutputBRwFA).add(iobEiOutputDRwA).add(iobEiOutputDRwFA)).divide(iobInput,4, RoundingMode.HALF_UP);
+            BigDecimal polInput = getPolInput();
+            BigDecimal polOutputA = getPolOutputA();
+            BigDecimal polOutputFA = getPolOutputFA();
+            BigDecimal mbiRjOutputA = getMbiRjOutputA();
+            BigDecimal mbiRjOutputFA = getMbiRjOutputFA();
+            BigDecimal polRwOutputA = getPolRwOutputA();
+            BigDecimal polRwOutputFA = getPolRwOutputFA();
+            BigDecimal iobInput = getIobInput();
+            BigDecimal iobEiOutputA = getIobEiOutputA();
+            BigDecimal iobEiOutputFA = getIobEiOutputFA();
+            BigDecimal iobEiOutputBRwA = getIobEiOutputBRwA();
+            BigDecimal iobEiOutputBRwFA = getIobEiOutputBRwFA();
+            BigDecimal iobEiOutputDRwA = getIobEiOutputDRwA();
+            BigDecimal iobEiOutputDRwFA = getIobEiOutputDRwFA();
 
-                    //inLine = (polOutputA.add(polOutputFA).add(mbiRjOutputA).add(mbiRjOutputFA).add(polRwOutputA).add(polRwOutputFA)).divide(polInput).multiply((iobEiOutputA.add(iobEiOutputFA).add(iobEiOutputBRwA).add(iobEiOutputBRwFA).add(iobEiOutputDRwA).add(iobEiOutputDRwFA)).divide(iobInput)).multiply(new BigDecimal("100")).setScale(2,BigDecimal.ROUND_HALF_UP);
-//                }
-                inLine = polInLine.multiply(crimpInLine).multiply(new BigDecimal("100")).setScale(2,BigDecimal.ROUND_HALF_UP);
-//            }
+            if(polInput.compareTo(new BigDecimal(0))==0){//等于0
+                polInLine=new BigDecimal(0);
+            }else{
+                polInLine = (polOutputA.add(polOutputFA).add(mbiRjOutputA).add(mbiRjOutputFA).add(polRwOutputA).add(polRwOutputFA)).divide(polInput,4, RoundingMode.HALF_UP);
+            }
+            if(iobInput.compareTo(new BigDecimal(0))==0){//等于0
+                crimpInLine=new BigDecimal(0);
+            }else{
+                crimpInLine = (iobEiOutputA.add(iobEiOutputFA).add(iobEiOutputBRwA).add(iobEiOutputBRwFA).add(iobEiOutputDRwA).add(iobEiOutputDRwFA)).divide(iobInput,4, RoundingMode.HALF_UP);
+            }
+            inLine = polInLine.multiply(crimpInLine).multiply(new BigDecimal("100")).setScale(2,BigDecimal.ROUND_HALF_UP);
             return inLine;
         }
     }
-
-
-
-
-
-//    public void setInLine(BigDecimal inLine) {
-//        this.inLine = inLine;
-//    }
-//
-//
-//
-//    public void setTargetInLine(BigDecimal targetInLine) {
-//        this.targetInLine = targetInLine;
-//    }
 }

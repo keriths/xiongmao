@@ -58,14 +58,11 @@ public class ProductLineData implements Serializable{
         public BigDecimal getOutputGls() {
             if(outputGls==null){
                 if (Constant.showDemoData){
-                    if (Constant.showDemoData){
-                        outputGls = new BigDecimal(RandomUtils.randomInt(10000,10010));
-                        return outputGls;
-                    }else{
-                        return new BigDecimal(0);
-                    }
+                    outputGls = new BigDecimal(RandomUtils.randomInt(10000,10010));
+                    return outputGls;
+                }else{
+                    return new BigDecimal(0);
                 }
-
             }
             return outputGls;
         }
@@ -142,10 +139,10 @@ public class ProductLineData implements Serializable{
         public BigDecimal getInLine() {
 
             if(factory!=null){
-                BigDecimal outputPnl= getOutputPnl();
-                BigDecimal inputPnl= getInputPnl();
-                BigDecimal outputGls= getOutputGls();
-                BigDecimal scrapGls= getScrapGls();
+                BigDecimal outputPnl= getOutputPnl()!=null?getOutputPnl():BigDecimal.ZERO;
+                BigDecimal inputPnl= getInputPnl()!=null?getInputPnl():BigDecimal.ZERO;
+                BigDecimal outputGls= getOutputGls()!=null?getOutputGls():BigDecimal.ZERO;
+                BigDecimal scrapGls= getScrapGls()!=null?getScrapGls():BigDecimal.ZERO;
                 if("SL-OC".equals(factory)){
                     if(inputPnl.compareTo(new BigDecimal(0))==0){//等于0
                         inLine=new BigDecimal(0);
@@ -167,14 +164,7 @@ public class ProductLineData implements Serializable{
         }
 
         public BigDecimal getTargetInLine() {
-            if(targetInLine==null){
-                if (Constant.showDemoData){
-                    targetInLine = ReturnDataUtils.targetData(getFactory(),getProductId(),getPeriodDate());
-                }else{
-                    return new BigDecimal(0);
-                }
-            }
-            return targetInLine;
+            return ReturnDataUtils.targetData(getFactory(),getProductId(),getPeriodDate());
         }
     }
 //
