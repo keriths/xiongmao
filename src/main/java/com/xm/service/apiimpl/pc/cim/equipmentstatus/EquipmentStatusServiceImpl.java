@@ -9,7 +9,7 @@ import com.xm.service.dao.cim.DwrEquipmentStatusFidsDAO;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
-import com.xm.service.dao.cim.DwrEquipmentThroughputFidsDAO;
+import com.xm.service.dao.cim.DwsProductOutputFidsHDAO;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
@@ -26,7 +26,7 @@ public class EquipmentStatusServiceImpl {
     @Resource(name = "dwrEquipmentStatusFidsDAO")
     public DwrEquipmentStatusFidsDAO dwrEquipmentStatusFidsDAO;
     @Resource(name = "dwrEquipmentThroughputFidsDAO")
-    public DwrEquipmentThroughputFidsDAO dwrEquipmentThroughputFidsDAO;
+    public DwsProductOutputFidsHDAO dwsProductOutputFidsHDAO;
 
     @ApiMethodDoc(apiCode = "CIM_EquipmentStatus",name = "设备状态接口")
     public EquipmentStatusDataRetDTO equipmentStatus(@ApiParamDoc(desc = "厂别名称如ARRAY,CELL,CF,SL-OC")String factory){
@@ -63,7 +63,7 @@ public class EquipmentStatusServiceImpl {
             Date beginDate = DateUtils.getBeforHourStartDay(11);
             Date endDate = new Date();
             dateList = DateUtils.getHourStrList(beginDate,endDate);
-            List<EquipmentThroughputData> dataList=dwrEquipmentThroughputFidsDAO.queryThroughputData(factoryList,beginDate,endDate);
+            List<EquipmentThroughputData> dataList= dwsProductOutputFidsHDAO.queryThroughputData(factoryList,beginDate,endDate);
             Map<String,EquipmentThroughputData> dataMap= MapUtils.listToMap(dataList,"getDataDate");
             List<EquipmentThroughputData> throughputList =new ArrayList<EquipmentThroughputData>();
             for (String str:dateList){

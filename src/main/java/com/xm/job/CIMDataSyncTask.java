@@ -34,6 +34,11 @@ public class CIMDataSyncTask {
     @Resource
     private DwsProductOutputFidsDAO outputcompletionDAO;
 
+    @Resource
+    private FactoryDwsProductOutputFidsHDAO factoryDwsProductOutputFidsHDAO;
+    @Resource
+    private DwsProductOutputFidsHDAO outputcompletionHDAO;
+
     //---------------在制品------------
     @Resource
     private FactoryDwrWipGlsFidsDAO factoryDwrWipGlsFidsDAO;
@@ -196,6 +201,62 @@ public class CIMDataSyncTask {
         }catch (Exception e){
             long t2 = System.currentTimeMillis();
             LogUtils.error(this.getClass(), "****************************************同步产出达成率[DWS_PRODUCT_OUTPUT_FIDS]数据出现异常，用时" + ((t2 - t1) / 1000) + "秒一共同步[" + offset + "]条数据", e);
+        }
+    }
+
+    /**
+     * 过货量推移数据同步
+     * 已测通
+     */
+    //@Scheduled(fixedRate = 1000*60*60)
+    public void OutputCompletionHDataSync(){
+        int offset = 0;
+        int limit = 1000;
+        long t1 = System.currentTimeMillis();
+        try {
+            while (true){
+                List<Map<String,Object>> mapDataList;
+                try {
+                    long t11 = System.currentTimeMillis();
+                    mapDataList = factoryDwsProductOutputFidsHDAO.querySyncData(offset, limit);
+                    long t22 = System.currentTimeMillis();
+                    LogUtils.info(this.getClass(),"过货量推移factoryDwsProductOutputFidsHDAO.querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
+                }catch (Exception e){
+                    LogUtils.error(this.getClass(),"过货量推移factoryDwsProductOutputFidsHDAO.querySyncData exception",e);
+                    try {
+                        Thread.sleep(1000l);
+                    } catch (InterruptedException e1) {
+                        e1.printStackTrace();
+                    }
+                    continue;
+                }
+                if (CollectionUtils.isEmpty(mapDataList)){
+                    break;
+                }
+                for (Map<String,Object> mapData : mapDataList){
+                    try {
+                        Map<String,Object> data = outputcompletionHDAO.loadByPrimaryKey(mapData);
+                        if (data==null){
+                            //添加
+                            outputcompletionHDAO.addData(mapData);
+                        }else {
+                            //更新
+                            if (notEquals(data.get("PLAN_OUTPUT_PNL_QTY"),mapData.get("PLAN_OUTPUT_PNL_QTY"))||
+                                    notEquals(data.get("ACTUAL_OUTPUT_PNL_QTY"),mapData.get("ACTUAL_OUTPUT_PNL_QTY"))){
+                                outputcompletionHDAO.updateData(mapData);
+                            }
+                        }
+                    }catch (Exception e){
+                        LogUtils.error(this.getClass(),"********************同步过货量推移[DWS_PRODUCT_OUTPUT_FIDS_H]数据单条处理失败原数据["+ JSON.toJSONString(mapData)+"]",e);
+                    }
+                }
+                offset = offset+mapDataList.size();
+            }
+            long t2 = System.currentTimeMillis();
+            LogUtils.info(this.getClass(),"同步过货量推移[DWS_PRODUCT_OUTPUT_FIDS_H]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
+        }catch (Exception e){
+            long t2 = System.currentTimeMillis();
+            LogUtils.error(this.getClass(), "****************************************同步过货量推移[DWS_PRODUCT_OUTPUT_FIDS_H]数据出现异常，用时" + ((t2 - t1) / 1000) + "秒一共同步[" + offset + "]条数据", e);
         }
     }
 
