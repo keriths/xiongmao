@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by wangshuna on 2017/12/26.
  */
-@Repository("dwrEquipmentThroughputFidsDAO")
+@Repository("dwrProductOutputFidsHDAO")
 public interface DwsProductOutputFidsHDAO {
     List<EquipmentThroughputData> queryThroughputData(@Param("factoryList") List<String> factoryList,
                                                       @Param("beginDate") Date beginDate,

@@ -25,7 +25,7 @@ import java.util.*;
 public class EquipmentStatusServiceImpl {
     @Resource(name = "dwrEquipmentStatusFidsDAO")
     public DwrEquipmentStatusFidsDAO dwrEquipmentStatusFidsDAO;
-    @Resource(name = "dwrEquipmentThroughputFidsDAO")
+    @Resource
     public DwsProductOutputFidsHDAO dwsProductOutputFidsHDAO;
 
     @ApiMethodDoc(apiCode = "CIM_EquipmentStatus",name = "设备状态接口")

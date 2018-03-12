@@ -37,7 +37,7 @@ public class CIMDataSyncTask {
     @Resource
     private FactoryDwsProductOutputFidsHDAO factoryDwsProductOutputFidsHDAO;
     @Resource
-    private DwsProductOutputFidsHDAO outputcompletionHDAO;
+    private DwsProductOutputFidsHDAO dwrProductOutputFidsHDAO;
 
     //---------------在制品------------
     @Resource
@@ -235,15 +235,15 @@ public class CIMDataSyncTask {
                 }
                 for (Map<String,Object> mapData : mapDataList){
                     try {
-                        Map<String,Object> data = outputcompletionHDAO.loadByPrimaryKey(mapData);
+                        Map<String,Object> data = dwrProductOutputFidsHDAO.loadByPrimaryKey(mapData);
                         if (data==null){
                             //添加
-                            outputcompletionHDAO.addData(mapData);
+                            dwrProductOutputFidsHDAO.addData(mapData);
                         }else {
                             //更新
                             if (notEquals(data.get("PLAN_OUTPUT_PNL_QTY"),mapData.get("PLAN_OUTPUT_PNL_QTY"))||
                                     notEquals(data.get("ACTUAL_OUTPUT_PNL_QTY"),mapData.get("ACTUAL_OUTPUT_PNL_QTY"))){
-                                outputcompletionHDAO.updateData(mapData);
+                                dwrProductOutputFidsHDAO.updateData(mapData);
                             }
                         }
                     }catch (Exception e){
