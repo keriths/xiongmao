@@ -22,6 +22,11 @@ public class DateUtils {
         return curDateTime.plusDays(-beforDayNum).millisOfDay().withMinimumValue().toDate();
     }
 
+    public static Date getBeforDayEndDay(int beforDayNum){
+        DateTime curDateTime = new DateTime();
+        return curDateTime.plusDays(-beforDayNum).millisOfDay().withMaximumValue().toDate();
+    }
+
     public static Date getBeforHourStartDay(int beforHourNum){
         DateTime curDateTime = new DateTime();
         return curDateTime.plusHours(-beforHourNum).withMinuteOfHour(0).withSecondOfMinute(0).withMillisOfSecond(0).toDate();

@@ -3,6 +3,7 @@ package com.xm.service.apiimpl.pc.integrateData.realTimeStatus;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
+import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.service.apiimpl.pc.cim.oee.ActivationServiceImpl;
 import com.xm.service.apiimpl.pc.cim.oee.dto.ActivationEQPIdListRetDTO;
@@ -92,8 +93,14 @@ public class RealTimeStatusServiceImpl {
                 Map.Entry<String, String> entry = it.next();
                 productIdList.add(entry.getKey());
             }
-            List<OutputCollectDataRetDTO.CollectDataList> dayDataList = outputcompletionDAO.outputDayData(productIdList);
-            List<OutputCollectDataRetDTO.CollectDataList> monthDataList = outputcompletionDAO.outputMonthData(productIdList);
+            Date todayStart = DateUtils.getBeforDayStartDay(0);
+            Date todayEnd = DateUtils.getBeforDayEndDay(0);
+            Date curMonthStart = DateUtils.getBeforMonthStartDay(0);
+            Date curMonthEnd = DateUtils.getBeforMonthEndDay(0);
+            List<OutputCollectDataRetDTO.CollectDataList> dayDataList = outputcompletionDAO.queryTotalOutputByDateAndProductIdList(productIdList,todayStart,todayEnd);
+            List<OutputCollectDataRetDTO.CollectDataList> monthDataList = outputcompletionDAO.queryTotalOutputByDateAndProductIdList(productIdList,curMonthStart,curMonthEnd);
+//            List<OutputCollectDataRetDTO.CollectDataList> dayDataList = outputcompletionDAO.outputDayData(productIdList);
+//            List<OutputCollectDataRetDTO.CollectDataList> monthDataList = outputcompletionDAO.outputMonthData(productIdList);
             resultDto.setCollectDayDataRetDTOList(dayDataList);
             resultDto.setCollectMonthDataRetDTOList(monthDataList);
             return resultDto;
