@@ -1,7 +1,6 @@
 package com.xm.service.dao.cim;
 
 import com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcData;
-import com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto.ProductLineOCCollectDataRetDTO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -36,8 +35,8 @@ public interface DwsProductOcYieldFidsDAO {
 
     void updateTargetData(Map<String, Object> mapData);
 
-    List<ProductLineOCCollectDataRetDTO.ProductLineOCCollectData> productLineOCCollectDayData(
-            @Param("productIdList") List<String> productIdList);
-    List<ProductLineOCCollectDataRetDTO.ProductLineOCCollectData> productLineOCCollectMonthData(
-            @Param("productIdList") List<String> productIdList);
+    List<ProductOcData.ProductOcDetailData> queryTotalProductLineOCByDateAndProductList(
+            @Param("productIdList") List<String> productIdList,
+            @Param("startDate")Date startDate,
+            @Param("endDate")Date endDate);
 }

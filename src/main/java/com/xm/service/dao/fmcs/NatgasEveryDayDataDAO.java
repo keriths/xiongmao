@@ -28,8 +28,8 @@ public interface NatgasEveryDayDataDAO {
 
     void updateData(Map<String, Object> mapData);
 
-    List<GasCollectDataDTO.GasCollectData> collectDayData(
-            @Param("gasTypeList") List<String> gasTypeList);
-    List<GasCollectDataDTO.GasCollectData> collectMonthData(
-            @Param("gasTypeList") List<String> gasTypeList);
+    List<GasCollectDataDTO.GasCollectData> queryNatGasByDateAndGasNameList(
+            @Param("gasTypeList") List<String> gasTypeList,
+            @Param("startDate")Date startDate,
+            @Param("endDate")Date endDate);
 }

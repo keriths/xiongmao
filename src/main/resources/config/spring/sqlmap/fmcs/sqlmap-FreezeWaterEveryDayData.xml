@@ -52,26 +52,16 @@
         DATADATE = #{DATADATE}
     </update>
 
-    <select id="collectDayData" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.humidity.dto.WaterElectricityCollectDataDTO$WaterElectricityCollectData">
+    <select id="queryFreezeWaterByDate" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.humidity.dto.WaterElectricityCollectDataDTO$WaterElectricityCollectData">
         SELECT
-        sum(TOTALNUM) as totalNum,
-        TO_CHAR(DATADATE,'mm/dd') as dataDate
+        sum(TOTALNUM) as totalNum
         FROM
         FREEZEWATEREVERYDAYDATA
         WHERE
-        TO_CHAR(DATADATE,'mm/dd')=TO_CHAR(sysdate,'mm/dd')
-        GROUP BY TO_CHAR(DATADATE,'mm/dd')
-    </select>
-
-    <select id="collectMonthData" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.humidity.dto.WaterElectricityCollectDataDTO$WaterElectricityCollectData">
-        SELECT
-        sum(TOTALNUM) as totalNum,
-        TO_CHAR(DATADATE,'MM')||'月' as dataDate
-        FROM
-        FREEZEWATEREVERYDAYDATA
-        WHERE
-        TO_CHAR(DATADATE,'mm')=TO_CHAR(sysdate,'mm')
-        GROUP BY TO_CHAR(DATADATE,'MM')||'月'
+        <![CDATA[
+          DATADATE >= #{startDate}
+          and DATADATE <= #{endDate}
+        ]]>
     </select>
 
 </mapper>

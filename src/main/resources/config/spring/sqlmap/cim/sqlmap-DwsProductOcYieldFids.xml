@@ -94,7 +94,7 @@
         TARGETOC.PRODUCTID=DWS_PRODUCT_OC_YIELD_FIDS.PRODUCTID)
     </update>
 
-    <select id="productLineOCCollectDayData" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto.ProductLineOCCollectDataRetDTO$ProductLineOCCollectData">
+    <select id="queryTotalProductLineOCByDateAndProductList" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcData$ProductOcDetailData">
         SELECT
         PRODUCTID as productId,
         sum(POL_INPUT) as polInput,
@@ -110,45 +110,18 @@
         sum(IOB_EI_OUTPUT_B_RW_A) as iobEiOutputBRwA,
         sum(IOB_EI_OUTPUT_B_RW_FA) as iobEiOutputBRwFA,
         sum(IOB_EI_OUTPUT_D_RW_A) as iobEiOutputDRwA,
-        sum(IOB_EI_OUTPUT_D_RW_FA) as iobEiOutputDRwFA,
-        TO_CHAR(PERIODDATE,'mm/dd') as periodDate
+        sum(IOB_EI_OUTPUT_D_RW_FA) as iobEiOutputDRwFA
         FROM
         DWS_PRODUCT_OC_YIELD_FIDS
         WHERE
-        TO_CHAR(PERIODDATE,'mm/dd')=TO_CHAR(sysdate-1,'mm/dd') AND
         PRODUCTID IN
         <foreach collection="productIdList" item="productId" open="(" separator="," close=")" >
             #{productId}
         </foreach>
-        GROUP BY PRODUCTID,TO_CHAR(PERIODDATE,'mm/dd')
-    </select>
-
-    <select id="productLineOCCollectMonthData" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto.ProductLineOCCollectDataRetDTO$ProductLineOCCollectData">
-        SELECT
-        PRODUCTID as productId,
-        sum(POL_INPUT) as polInput,
-        sum(POL_OUTPUT_A) as polOutputA,
-        sum(POL_OUTPUT_FA) as polOutputFA,
-        sum(MBI_RJ_OUTPUT_A) as mbiRjOutputA,
-        sum(MBI_RJ_OUTPUT_FA) as mbiRjOutputFA,
-        sum(POL_RW_OUTPUT_A) as polRwOutputA,
-        sum(POL_RW_OUTPUT_FA) as polRwOutputFA,
-        sum(IOB_INPUT) as iobInput,
-        sum(IOB_EI_OUTPUT_A) as iobEiOutputA,
-        sum(IOB_EI_OUTPUT_FA) as iobEiOutputFA,
-        sum(IOB_EI_OUTPUT_B_RW_A) as iobEiOutputBRwA,
-        sum(IOB_EI_OUTPUT_B_RW_FA) as iobEiOutputBRwFA,
-        sum(IOB_EI_OUTPUT_D_RW_A) as iobEiOutputDRwA,
-        sum(IOB_EI_OUTPUT_D_RW_FA) as iobEiOutputDRwFA,
-        TO_CHAR(PERIODDATE,'MM')||'月' as periodDate
-        FROM
-        DWS_PRODUCT_OC_YIELD_FIDS
-        WHERE
-        TO_CHAR(PERIODDATE,'mm')=TO_CHAR(sysdate,'mm') AND
-        PRODUCTID IN
-        <foreach collection="productIdList" item="productId" open="(" separator="," close=")" >
-            #{productId}
-        </foreach>
-        GROUP BY PRODUCTID,TO_CHAR(PERIODDATE,'MM')||'月'
+        <![CDATA[
+          and PERIODDATE >= #{startDate}
+          and PERIODDATE <= #{endDate}
+        ]]>
+        GROUP BY PRODUCTID
     </select>
 </mapper>

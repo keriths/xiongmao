@@ -5,6 +5,8 @@ import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
+import com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductLineData;
+import com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcData;
 import com.xm.service.apiimpl.pc.cim.oee.ActivationServiceImpl;
 import com.xm.service.apiimpl.pc.cim.oee.dto.ActivationEQPIdListRetDTO;
 import com.xm.service.apiimpl.pc.cim.tactTime.TactTimeServiceImpl;
@@ -93,8 +95,8 @@ public class RealTimeStatusServiceImpl {
                 Map.Entry<String, String> entry = it.next();
                 productIdList.add(entry.getKey());
             }
-            Date todayStart = DateUtils.getBeforDayStartDay(0);
-            Date todayEnd = DateUtils.getBeforDayEndDay(0);
+            Date todayStart = DateUtils.getBeforDayStartDay(1);
+            Date todayEnd = DateUtils.getBeforDayEndDay(1);
             Date curMonthStart = DateUtils.getBeforMonthStartDay(0);
             Date curMonthEnd = DateUtils.getBeforMonthEndDay(0);
             List<OutputCollectDataRetDTO.CollectDataList> dayDataList = outputcompletionDAO.queryTotalOutputByDateAndProductIdList(productIdList,todayStart,todayEnd);
@@ -113,12 +115,16 @@ public class RealTimeStatusServiceImpl {
     }
 
     @ApiMethodDoc(apiCode = "CIM_lineCollectData" , name = "指定工厂的良品率")
-    public ProductLineCollectDataRetDTO lineCollectRetDTO(){
-        ProductLineCollectDataRetDTO resultDto = new ProductLineCollectDataRetDTO();
+    public ProductLineData lineCollectRetDTO(){
+        ProductLineData resultDto = new ProductLineData();
         try {
             List<String> factoryList = Constant.allSingleFactoryLists;
-            List<ProductLineCollectDataRetDTO.ProductLineCollectData> dayDataList = dwsProductLineYieldFidsDAO.productLineCollectDayData(factoryList);
-            List<ProductLineCollectDataRetDTO.ProductLineCollectData> monthDataList = dwsProductLineYieldFidsDAO.productLineCollectMonthData(factoryList);
+            Date todayStart = DateUtils.getBeforDayStartDay(0);
+            Date todayEnd = DateUtils.getBeforDayEndDay(0);
+            Date curMonthStart = DateUtils.getBeforMonthStartDay(0);
+            Date curMonthEnd = DateUtils.getBeforMonthEndDay(0);
+            List<ProductLineData.ProductLineDetailData> dayDataList = dwsProductLineYieldFidsDAO.queryTotalProductLineByDateAndFactoryList(factoryList,todayStart,todayEnd);
+            List<ProductLineData.ProductLineDetailData> monthDataList = dwsProductLineYieldFidsDAO.queryTotalProductLineByDateAndFactoryList(factoryList,curMonthStart,curMonthEnd);
             resultDto.setProductLineCollectDayDataList(dayDataList);
             resultDto.setProductLineCollectMonthDataList(monthDataList);
             return resultDto;
@@ -131,8 +137,8 @@ public class RealTimeStatusServiceImpl {
     }
 
     @ApiMethodDoc(apiCode = "CIM_ocCollectData" , name = "指定产品的良品率")
-    public ProductLineOCCollectDataRetDTO ocCollectRetDTO(){
-        ProductLineOCCollectDataRetDTO resultDto = new ProductLineOCCollectDataRetDTO();
+    public ProductOcData ocCollectRetDTO(){
+        ProductOcData resultDto = new ProductOcData();
         try {
             List<String> productIdList=new ArrayList<String>();
             Map<String,String> dataMap=Constant.outProductIdNameMap;
@@ -141,8 +147,12 @@ public class RealTimeStatusServiceImpl {
                 Map.Entry<String, String> entry = it.next();
                 productIdList.add(entry.getKey());
             }
-            List<ProductLineOCCollectDataRetDTO.ProductLineOCCollectData> dayDataList = dwsProductOcYieldFidsDAO.productLineOCCollectDayData(productIdList);
-            List<ProductLineOCCollectDataRetDTO.ProductLineOCCollectData> monthDataList = dwsProductOcYieldFidsDAO.productLineOCCollectMonthData(productIdList);
+            Date todayStart = DateUtils.getBeforDayStartDay(1);
+            Date todayEnd = DateUtils.getBeforDayEndDay(1);
+            Date curMonthStart = DateUtils.getBeforMonthStartDay(0);
+            Date curMonthEnd = DateUtils.getBeforMonthEndDay(0);
+            List<ProductOcData.ProductOcDetailData> dayDataList = dwsProductOcYieldFidsDAO.queryTotalProductLineOCByDateAndProductList(productIdList,todayStart,todayEnd);
+            List<ProductOcData.ProductOcDetailData> monthDataList = dwsProductOcYieldFidsDAO.queryTotalProductLineOCByDateAndProductList(productIdList,curMonthStart,curMonthEnd);
             resultDto.setProductLineOCCollectDayDataList(dayDataList);
             resultDto.setProductLineOCCollectMonthDataList(monthDataList);
             return resultDto;
@@ -164,7 +174,6 @@ public class RealTimeStatusServiceImpl {
                 return resultDto;
             }
             TactTimeMonthAvgRetDTO tactTimeMonthAvgRetDTO = tactTimeService.monthAvg(factory);
-
             resultDto.setTactTimeMonthAvgDataList(tactTimeMonthAvgRetDTO.getTactTimeMonthAvgDataDTOList());
             return resultDto;
         }catch (Exception e){

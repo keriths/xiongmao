@@ -4,18 +4,23 @@ import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.RandomUtils;
 import com.xm.platform.util.ReturnDataUtils;
 import com.xm.service.constant.Constant;
+import com.xm.service.dto.BaseRetDTO;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
+import java.util.prefs.BackingStoreException;
 
 /**
  * Created by wangshuna on 2018/1/24.
  */
-public class ProductOcData {
+public class ProductOcData extends BaseRetDTO{
 
-
+    @ApiResultFieldDesc(desc="指定产品昨日综合良品率返回")
+    private List<ProductOcDetailData> productLineOCCollectDayDataList;
+    @ApiResultFieldDesc(desc="指定产品本月综合良品率返回")
+    private List<ProductOcDetailData> productLineOCCollectMonthDataList;
 
     public static class ProductOcDetailData{
 
@@ -352,5 +357,21 @@ public class ProductOcData {
             inLine = polInLine.multiply(crimpInLine).multiply(new BigDecimal("100")).setScale(2,BigDecimal.ROUND_HALF_UP);
             return inLine;
         }
+    }
+
+    public List<ProductOcDetailData> getProductLineOCCollectDayDataList() {
+        return productLineOCCollectDayDataList;
+    }
+
+    public void setProductLineOCCollectDayDataList(List<ProductOcDetailData> productLineOCCollectDayDataList) {
+        this.productLineOCCollectDayDataList = productLineOCCollectDayDataList;
+    }
+
+    public List<ProductOcDetailData> getProductLineOCCollectMonthDataList() {
+        return productLineOCCollectMonthDataList;
+    }
+
+    public void setProductLineOCCollectMonthDataList(List<ProductOcDetailData> productLineOCCollectMonthDataList) {
+        this.productLineOCCollectMonthDataList = productLineOCCollectMonthDataList;
     }
 }

@@ -35,8 +35,8 @@ public interface GasEveryDayDataDAO {
 
     void updateData(Map<String, Object> mapData);
 
-    List<GasCollectDataDTO.GasCollectData> collectDayData(
-            @Param("gasNameList") List<String> gasNameList);
-    List<GasCollectDataDTO.GasCollectData> collectMonthData(
-            @Param("gasNameList") List<String> gasNameList);
+    List<GasCollectDataDTO.GasCollectData> queryBigGasByDateAndGasNameList(
+            @Param("gasNameList") List<String> gasNameList,
+            @Param("startDate")Date startDate,
+            @Param("endDate")Date endDate);
 }

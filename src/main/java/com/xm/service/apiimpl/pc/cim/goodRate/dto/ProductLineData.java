@@ -4,6 +4,7 @@ import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.RandomUtils;
 import com.xm.platform.util.ReturnDataUtils;
 import com.xm.service.constant.Constant;
+import com.xm.service.dto.BaseRetDTO;
 import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
@@ -14,10 +15,12 @@ import java.util.List;
 /**
  * Created by wangshuna on 2018/1/18.
  */
-public class ProductLineData implements Serializable{
+public class ProductLineData extends BaseRetDTO{
 
-//    @ApiResultFieldDesc(desc = "返回数据详情")
-//    private List<ProductLineData.ProductLineDetailData> productLineDetailDataList;
+    @ApiResultFieldDesc(desc="指定工厂今日综合良品率返回")
+    private List<ProductLineDetailData> productLineCollectDayDataList;
+    @ApiResultFieldDesc(desc="指定工厂本月综合良品率返回")
+    private List<ProductLineDetailData> productLineCollectMonthDataList;
 
 
     public static class ProductLineDetailData{
@@ -167,12 +170,20 @@ public class ProductLineData implements Serializable{
             return ReturnDataUtils.targetData(getFactory(),getProductId(),getPeriodDate());
         }
     }
-//
-//    public List<ProductLineDetailData> getProductLineDetailDataList() {
-//        return productLineDetailDataList;
-//    }
-//
-//    public void setProductLineDetailDataList(List<ProductLineDetailData> productLineDetailDataList) {
-//        this.productLineDetailDataList = productLineDetailDataList;
-//    }
+
+    public List<ProductLineDetailData> getProductLineCollectDayDataList() {
+        return productLineCollectDayDataList;
+    }
+
+    public void setProductLineCollectDayDataList(List<ProductLineDetailData> productLineCollectDayDataList) {
+        this.productLineCollectDayDataList = productLineCollectDayDataList;
+    }
+
+    public List<ProductLineDetailData> getProductLineCollectMonthDataList() {
+        return productLineCollectMonthDataList;
+    }
+
+    public void setProductLineCollectMonthDataList(List<ProductLineDetailData> productLineCollectMonthDataList) {
+        this.productLineCollectMonthDataList = productLineCollectMonthDataList;
+    }
 }

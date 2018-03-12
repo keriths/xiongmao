@@ -33,6 +33,8 @@ public interface TapWaterEveryDayDataDAO {
 
     void updateData(Map<String, Object> mapData);
 
-    List<WaterElectricityCollectDataDTO.WaterElectricityCollectData> collectDayData();
-    List<WaterElectricityCollectDataDTO.WaterElectricityCollectData> collectMonthData();
+    List<WaterElectricityCollectDataDTO.WaterElectricityCollectData> queryTapWaterByDate(
+            @Param("startDate")Date startDate,
+            @Param("endDate")Date endDate
+    );
 }

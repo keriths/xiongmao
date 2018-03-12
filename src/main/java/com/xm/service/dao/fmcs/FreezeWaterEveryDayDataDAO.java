@@ -34,6 +34,8 @@ public interface FreezeWaterEveryDayDataDAO {
 
     void updateData(Map<String, Object> mapData);
 
-    List<WaterElectricityCollectDataDTO.WaterElectricityCollectData> collectDayData();
-    List<WaterElectricityCollectDataDTO.WaterElectricityCollectData> collectMonthData();
+    List<WaterElectricityCollectDataDTO.WaterElectricityCollectData> queryFreezeWaterByDate(
+            @Param("startDate")Date startDate,
+            @Param("endDate")Date endDate
+    );
 }

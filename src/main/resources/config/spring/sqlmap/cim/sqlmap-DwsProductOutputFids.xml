@@ -102,8 +102,7 @@
     <select id="queryTotalOutputByDateAndProductIdList" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto.OutputCollectDataRetDTO$CollectDataList">
         SELECT
         PRODUCTID as productId,
-        sum(ACTUAL_OUTPUT_PNL_QTY) as outputNum,
-        TO_CHAR(PERIODDATE,'mm/dd') as periodDate
+        sum(ACTUAL_OUTPUT_PNL_QTY) as outputNum
         FROM
         DWS_PRODUCT_OUTPUT_FIDS
         WHERE
@@ -114,8 +113,8 @@
         <![CDATA[
           and PERIODDATE >= #{startDate}
           and PERIODDATE <= #{endDate}
-        ]]]>
-        GROUP BY PRODUCTID,TO_CHAR(PERIODDATE,'mm/dd')
+        ]]>
+        GROUP BY PRODUCTID
     </select>
 
 </mapper>

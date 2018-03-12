@@ -51,6 +51,8 @@ public interface ElecEveryHourDataDAO {
 
     void updateData(Map<String, Object> mapData);
 
-    List<WaterElectricityCollectDataDTO.WaterElectricityCollectData> collectDayData();
-    List<WaterElectricityCollectDataDTO.WaterElectricityCollectData> collectMonthData();
+    List<WaterElectricityCollectDataDTO.WaterElectricityCollectData> queryElectricityByDate(
+            @Param("startDate")Date startDate,
+            @Param("endDate")Date endDate
+    );
 }
