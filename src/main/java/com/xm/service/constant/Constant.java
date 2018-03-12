@@ -264,4 +264,11 @@ public class Constant {
             "SSL205CN","设备S1","BGW205CN","设备S2","MBD-25CL","设备S3","BGW205CN","设备S4","ASL205CN","设备S5",
             "AVL205CN","设备T1","IMD403CL","设备T2","IMD205CT","设备T3","SUD205CN","设备T4","ABI204CN","设备T5");
 
+
+    //productType 量产
+    public static final List<String> productTypeMPList = Lists.newArrayList("MP");
+
+    //productType 试验
+    public static final List<String> productTypeTestList = Lists.newArrayList("TS","ES","CS","DM","E1","E2");
+
 }

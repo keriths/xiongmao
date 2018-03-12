@@ -24,7 +24,8 @@ public interface DwrProductCtFidsDAO {
     List<CycleTimeData.CycleTimeDetailData> cycleTimeShow(@Param("productId") String productId,
                                                           @Param("dateType")String dateType,
                                                           @Param("beginDate") Date beginDate,
-                                                          @Param("endDate") Date endDate);
+                                                          @Param("endDate") Date endDate,
+                                                          @Param("productTypeList")List<String> productTypeList);
 
     Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
 

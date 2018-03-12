@@ -23,12 +23,14 @@ public interface DwrWipGlsFidsDAO {
             @Param("factoryList") List<String> factoryList,
             @Param("stepIdList") List<String> stepIdList,
             @Param("beginDate")Date beginDate,
-            @Param("endDate")Date endDate
+            @Param("endDate")Date endDate,
+            @Param("productTypeList")List<String> productTypeList
     );
 
     List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> queryGoodInProcessWip(@Param("factoryList") List<String> factoryList,
                                                                                    @Param("beginDate") Date beginDate,
-                                                                                   @Param("endDate") Date endDate);
+                                                                                   @Param("endDate") Date endDate,
+                                                                                   @Param("productTypeList")List<String> productTypeList);
     Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
 
     void addData(Map<String, Object> mapData);

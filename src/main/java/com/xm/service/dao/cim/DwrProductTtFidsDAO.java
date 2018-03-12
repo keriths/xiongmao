@@ -18,14 +18,16 @@ public interface DwrProductTtFidsDAO {
             @Param("factoryList") List<String> factoryList,
             @Param("productIdList")List<String> productIdList,
             @Param("beginDate")Date beginDate,
-            @Param("endDate")Date endDate
+            @Param("endDate")Date endDate,
+            @Param("productTypeList")List<String> productTypeList
     );
 
     List<TactTimeProductTimeListRetDTO.TactTimeProductDetail> queryTactTimeListByProductIdAndTime(
             @Param("factoryList") List<String> factoryList,
             @Param("productId")String productId,
             @Param("beginDate")Date beginDate,
-            @Param("endDate")Date endDate
+            @Param("endDate")Date endDate,
+            @Param("productTypeList")List<String> productTypeList
     );
 
     Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);

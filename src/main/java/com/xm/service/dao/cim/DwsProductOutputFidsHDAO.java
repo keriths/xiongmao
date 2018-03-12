@@ -15,7 +15,8 @@ import java.util.Map;
 public interface DwsProductOutputFidsHDAO {
     List<EquipmentThroughputData> queryThroughputData(@Param("factoryList") List<String> factoryList,
                                                       @Param("beginDate") Date beginDate,
-                                                      @Param("endDate") Date endDate);
+                                                      @Param("endDate") Date endDate,
+                                                      @Param("productTypeList")List<String> productTypeList);
 
 
 

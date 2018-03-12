@@ -25,6 +25,10 @@
             <if test=" productId!=null ">
                 and PRODUCTID = #{productId}
             </if>
+            and PRODUCTTYPE IN
+            <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
+                #{productType}
+            </foreach>
         group by
             <if test="dateType=='day'.toString()">
                 to_char(PERIODDATE,'MM/DD')

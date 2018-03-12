@@ -17,7 +17,8 @@ public interface DwsProductLineYieldFidsDAO {
     List<ProductLineData.ProductLineDetailData> queryProductLineData(@Param("factoryList") List<String> factoryList,
                                                                      @Param("dateType")String dateType,
                                                                      @Param("beginDate") Date beginDate,
-                                                                     @Param("endDate") Date endDate);
+                                                                     @Param("endDate") Date endDate,
+                                                                     @Param("productTypeList")List<String> productTypeList);
     Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
 
     void addData(Map<String, Object> mapData);
@@ -37,5 +38,6 @@ public interface DwsProductLineYieldFidsDAO {
     List<ProductLineData.ProductLineDetailData> queryTotalProductLineByDateAndFactoryList(
             @Param("factoryList") List<String> factoryList,
             @Param("startDate")Date startDate,
-            @Param("endDate")Date endDate);
+            @Param("endDate")Date endDate,
+            @Param("productTypeList")List<String> productTypeList);
 }

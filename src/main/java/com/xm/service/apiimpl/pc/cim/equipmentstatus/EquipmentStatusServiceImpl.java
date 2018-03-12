@@ -63,7 +63,10 @@ public class EquipmentStatusServiceImpl {
             Date beginDate = DateUtils.getBeforHourStartDay(11);
             Date endDate = new Date();
             dateList = DateUtils.getHourStrList(beginDate,endDate);
-            List<EquipmentThroughputData> dataList= dwsProductOutputFidsHDAO.queryThroughputData(factoryList,beginDate,endDate);
+
+            List<String> productTypeList=Constant.productTypeTestList;
+
+            List<EquipmentThroughputData> dataList= dwsProductOutputFidsHDAO.queryThroughputData(factoryList,beginDate,endDate,productTypeList);
             Map<String,EquipmentThroughputData> dataMap= MapUtils.listToMap(dataList,"getDataDate");
             List<EquipmentThroughputData> throughputList =new ArrayList<EquipmentThroughputData>();
             for (String str:dateList){

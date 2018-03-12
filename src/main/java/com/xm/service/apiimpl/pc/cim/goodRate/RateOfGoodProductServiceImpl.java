@@ -66,7 +66,9 @@ public class RateOfGoodProductServiceImpl {
                 dateList = DateUtils.getQuarterStrList(beginDate,endDate);
             }
 
-            List<ProductLineData.ProductLineDetailData> detailDataList=dwsProductLineYieldFidsDAO.queryProductLineData(factoryList,dateType,beginDate,endDate);
+            List<String> productTypeList=Constant.productTypeTestList;
+
+            List<ProductLineData.ProductLineDetailData> detailDataList=dwsProductLineYieldFidsDAO.queryProductLineData(factoryList,dateType,beginDate,endDate,productTypeList);
             Map<String,ProductLineData.ProductLineDetailData> dataMap= MapUtils.listToMap(detailDataList,"getPeriodDate");
             List<ProductLineData> dataList=new ArrayList<ProductLineData>();
             List<ProductLineData.ProductLineDetailData> ProductDetailDataList = new ArrayList<ProductLineData.ProductLineDetailData>();
@@ -116,7 +118,9 @@ public class RateOfGoodProductServiceImpl {
                 dateList = DateUtils.getQuarterStrList(beginDate,endDate);
             }
 
-            List<ProductOcData.ProductOcDetailData> detailDataList = dwsProductOcYieldFidsDAO.queryProductOcData(productId,dateType,beginDate,endDate);
+            List<String> productTypeList=Constant.productTypeTestList;
+
+            List<ProductOcData.ProductOcDetailData> detailDataList = dwsProductOcYieldFidsDAO.queryProductOcData(productId,dateType,beginDate,endDate,productTypeList);
             Map<String,ProductOcData.ProductOcDetailData> dataMap= MapUtils.listToMap(detailDataList, "getPeriodDate");
             List<ProductOcData.ProductOcDetailData> ProductDetailDataList = new ArrayList<ProductOcData.ProductOcDetailData>();
             for (String day:dateList){

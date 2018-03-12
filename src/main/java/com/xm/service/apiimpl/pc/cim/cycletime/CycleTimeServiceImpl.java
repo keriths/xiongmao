@@ -53,7 +53,9 @@ public class CycleTimeServiceImpl {
                 dateList = DateUtils.getQuarterStrList(beginDate,endDate);
             }
 
-            List<CycleTimeData.CycleTimeDetailData> detailDataList=dwrProductCtFidsDAO.cycleTimeShow(productId,dateType,beginDate,endDate);
+            List<String> productTypeList=Constant.productTypeTestList;
+
+            List<CycleTimeData.CycleTimeDetailData> detailDataList=dwrProductCtFidsDAO.cycleTimeShow(productId,dateType,beginDate,endDate,productTypeList);
             Map<String,CycleTimeData.CycleTimeDetailData> dataMap= MapUtils.listToMap(detailDataList,"key");
             List<CycleTimeData> dataList=new ArrayList<CycleTimeData>();
             for(String date:dateList){

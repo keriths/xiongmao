@@ -51,12 +51,15 @@ public class GoodsInProcessServiceImpl {
             List<String> stepIdLists = stepRetDTO.getStepList();
             Date beginDate = DateUtils .getBeforHourStartDay(0);
             Date endDate = new Date();
-            List<GoodInProcessFtRetDTO.GoodInProcessFtDate> queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factoryList,stepIdLists,beginDate,endDate);
+
+            List<String> productTypeList=Constant.productTypeTestList;
+
+            List<GoodInProcessFtRetDTO.GoodInProcessFtDate> queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factoryList,stepIdLists,beginDate,endDate,productTypeList);
             if (CollectionUtils.isEmpty(queryFtdate)){
                 //如果这一小时数据还没有出来，取上一小时的数据
                 beginDate = DateUtils.getBeforHourStartDay(1);
                 endDate = DateUtils.getBeforHourEndDay(1);
-                queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factoryList,stepIdLists,beginDate,endDate);
+                queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factoryList,stepIdLists,beginDate,endDate,productTypeList);
             }
             Map<String,GoodInProcessFtRetDTO.GoodInProcessFtDate> queryMap = MapUtils.listToMap(queryFtdate,"getStepId");
             List<GoodInProcessFtRetDTO.GoodInProcessFtDate> list = new ArrayList<GoodInProcessFtRetDTO.GoodInProcessFtDate>();
@@ -119,8 +122,10 @@ public class GoodsInProcessServiceImpl {
             beginDate = DateUtils.getBeforHourStartDay(11);
             dateList = DateUtils.getHourStrList(beginDate,endDate);
 
+            List<String> productTypeList=Constant.productTypeTestList;
+
             //List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.factoryLists,Constant.stepIdLists, beginDate, endDate);
-            List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.allSingleFactoryLists,beginDate, endDate);
+            List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.allSingleFactoryLists,beginDate, endDate,productTypeList);
 
             Map<String, GoodInProcessWipDataDTO.GoodInProcessWipDetailData> dataMap = MapUtils.listToMap(wipDetailDataList, "key");
             List<GoodInProcessWipDataDTO> dataDTOList = new ArrayList<GoodInProcessWipDataDTO>();

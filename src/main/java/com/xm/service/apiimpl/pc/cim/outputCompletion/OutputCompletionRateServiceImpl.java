@@ -91,8 +91,9 @@ public class OutputCompletionRateServiceImpl {
                 dateList = DateUtils.getQuarterStrList(beginDate,endDate);
             }
 
+            List<String> productTypeList=Constant.productTypeTestList;
 
-            List<OutputCompletionData.DataList> dataList=outputcompletionDAO.OutputCompletionRate(productId,dateType,beginDate,endDate);
+            List<OutputCompletionData.DataList> dataList=outputcompletionDAO.OutputCompletionRate(productId,dateType,beginDate,endDate,productTypeList);
 
             Map<String,OutputCompletionData.DataList> dataMap=MapUtils.listToMap(dataList,"key");
 
