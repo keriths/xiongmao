@@ -51,12 +51,13 @@
         where
         FACTORY = #{FACTORY} and
         PERIODDATE = #{PERIODDATE} and
-        PRODUCTID = #{PRODUCTID}
+        PRODUCTID = #{PRODUCTID} and
+        PRODUCTTYPE = #{PRODUCTTYPE}
     </select>
     <insert id="addData" parameterType="map">
         INSERT INTO  DWS_PRODUCT_LINE_YIELD_FIDS
-        (FACTORY,   PERIODDATE,   PRODUCTID,   OUTPUT_GLS_QTY,   SCRAP_GLS_QTY,   INPUT_PNL_QTY,   OUTPUT_PNL_QTY,   INTERFACE_TIME) VALUES
-        (#{FACTORY},#{PERIODDATE},#{PRODUCTID},#{OUTPUT_GLS_QTY},#{SCRAP_GLS_QTY},#{INPUT_PNL_QTY},#{OUTPUT_PNL_QTY},sysdate)
+        (FACTORY,   PERIODDATE,   PRODUCTID,   OUTPUT_GLS_QTY,   SCRAP_GLS_QTY,   INPUT_PNL_QTY,   OUTPUT_PNL_QTY,   INTERFACE_TIME,   PRODUCTTYPE) VALUES
+        (#{FACTORY},#{PERIODDATE},#{PRODUCTID},#{OUTPUT_GLS_QTY},#{SCRAP_GLS_QTY},#{INPUT_PNL_QTY},#{OUTPUT_PNL_QTY},sysdate,#{PRODUCTTYPE})
     </insert>
     <update id="updateData" parameterType="map">
         UPDATE DWS_PRODUCT_LINE_YIELD_FIDS SET
@@ -68,7 +69,8 @@
         WHERE
         FACTORY = #{FACTORY} and
         PERIODDATE = #{PERIODDATE} and
-        PRODUCTID = #{PRODUCTID}
+        PRODUCTID = #{PRODUCTID} AND
+        PRODUCTTYPE = #{PRODUCTTYPE}
     </update>
 
     <update id="updateTargetData" parameterType="map">

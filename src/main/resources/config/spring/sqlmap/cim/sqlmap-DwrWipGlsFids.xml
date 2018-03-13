@@ -77,11 +77,12 @@
         <if test="STEPID == null">
             STEPID is null and
         </if>
-        PERIODDATE = #{PERIODDATE}
+        PERIODDATE = #{PERIODDATE} and
+        PRODUCTTYPE = #{PRODUCTTYPE}
     </select>
     <insert id="addData" parameterType="map">
         INSERT INTO  DWR_WIP_GLS_FIDS
-        (FACTORY,   PERIODDATE,   PRODUCTID,   STEPID,   WIP_GLS_QTY,   INTERFACE_TIME) VALUES
+        (FACTORY,   PERIODDATE,   PRODUCTID,   STEPID,   WIP_GLS_QTY,   INTERFACE_TIME,   PRODUCTTYPE) VALUES
         (#{FACTORY},#{PERIODDATE},#{PRODUCTID},
         <if test="STEPID != null">
             #{STEPID}
@@ -89,7 +90,7 @@
         <if test="STEPID == null">
             null
         </if>
-        ,#{WIP_GLS_QTY},sysdate)
+        ,#{WIP_GLS_QTY},sysdate,#{PRODUCTTYPE})
     </insert>
     <update id="updateData" parameterType="map">
         UPDATE DWR_WIP_GLS_FIDS SET
@@ -104,7 +105,8 @@
         <if test="STEPID == null">
             STEPID is null and
         </if>
-        PRODUCTID = #{PRODUCTID}
+        PRODUCTID = #{PRODUCTID} AND
+        PRODUCTTYPE = #{PRODUCTTYPE}
     </update>
 
     <update id="updateStoreData" parameterType="map">
