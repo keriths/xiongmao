@@ -43,6 +43,11 @@ public class MauRcuCollectDataDTO extends BaseRetDTO{
         }
 
         public BigDecimal getTemperature() {
+            if(temperature==null){
+                return temperature;
+            }else{
+                temperature = temperature.setScale(1,BigDecimal.ROUND_HALF_UP);
+            }
             return temperature;
         }
 
@@ -51,6 +56,11 @@ public class MauRcuCollectDataDTO extends BaseRetDTO{
         }
 
         public BigDecimal getDewPoint() {
+            if(dewPoint==null){
+                return dewPoint;
+            }else{
+                dewPoint = dewPoint.setScale(1,BigDecimal.ROUND_HALF_UP);
+            }
             return dewPoint;
         }
 

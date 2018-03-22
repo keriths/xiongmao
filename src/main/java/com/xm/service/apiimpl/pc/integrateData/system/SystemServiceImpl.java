@@ -45,7 +45,7 @@ public class SystemServiceImpl {
             List<MauRcuCollectDataDTO.MauRcuCollectData> mauDataList = mauSystemDataDAO.queryMAUData(Constant.systemTypeList);
             List<MauRcuCollectDataDTO.MauRcuCollectData> rcuDataList = rcuSystemDataDAO.queryRCUData(Constant.systemTypeList);
             resultDto.setMauCollectDataList(mauDataList);
-            resultDto.setRcuCollectDataList(mauDataList);
+            resultDto.setRcuCollectDataList(rcuDataList);
             return resultDto;
         }catch (Exception e){
             LogUtils.error(this.getClass(),"mauRcuCollectDataDTO eclipse",e);
