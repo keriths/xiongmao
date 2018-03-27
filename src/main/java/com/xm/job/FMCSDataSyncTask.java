@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * Created by luokaiming on 18/1/25.
  */
-@Component
+//@Component
 public class FMCSDataSyncTask {
     //---------------水------------
     @Resource

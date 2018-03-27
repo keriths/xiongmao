@@ -77,7 +77,7 @@
             <appender-ref ref="sql"/>
             <appender-ref ref="Console"/>
         </logger>
-        <logger name="com.xm.job" level="INFO" additivity="false">
+        <logger name="com.xm.job.Tibrvlisten" level="INFO" additivity="false">
             <appender-ref ref="TibcoLog"/>
             <appender-ref ref="Console"/>
         </logger>
