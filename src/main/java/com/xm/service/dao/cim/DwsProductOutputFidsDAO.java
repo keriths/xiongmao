@@ -37,7 +37,7 @@ public interface DwsProductOutputFidsDAO {
                                                                 @Param("endDate")Date endDate);*/
 
     List<OutputCollectDataRetDTO.CollectDataList> queryTotalOutputByDateAndProductIdList(
-            @Param("productIdList") List<String> productIdList,
+            @Param("productNameList") List<String> productNameList,
             @Param("startDate")Date startDate,
             @Param("endDate")Date endDate,
             @Param("productTypeList")List<String> productTypeList

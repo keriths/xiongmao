@@ -18,19 +18,19 @@ public class OutputCollectDataRetDTO extends BaseRetDTO {
 
     public static class CollectDataList{
 
-        @ApiResultFieldDesc(desc="产品ID")
-        private String productId;
+        @ApiResultFieldDesc(desc="产品名称")
+        private String productName;
         @ApiResultFieldDesc(desc = "产出数")
         private BigDecimal outputNum;
         @ApiResultFieldDesc(desc = "时间")
         private String periodDate;
 
-        public String getProductId() {
-            return productId;
+        public String getProductName() {
+            return productName;
         }
 
-        public void setProductId(String productId) {
-            this.productId = productId;
+        public void setProductName(String productName) {
+            this.productName = productName;
         }
 
         public BigDecimal getOutputNum() {

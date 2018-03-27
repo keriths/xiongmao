@@ -107,14 +107,14 @@
 
     <select id="queryTotalOutputByDateAndProductIdList" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto.OutputCollectDataRetDTO$CollectDataList">
         SELECT
-        PRODUCTID as productId,
+        PRODUCTID as productName,
         sum(ACTUAL_OUTPUT_PNL_QTY) as outputNum
         FROM
         DWS_PRODUCT_OUTPUT_FIDS
         WHERE
         PRODUCTID IN
-        <foreach collection="productIdList" item="productId" open="(" separator="," close=")" >
-            #{productId}
+        <foreach collection="productNameList" item="productName" open="(" separator="," close=")" >
+            #{productName}
         </foreach>
         and PRODUCTTYPE IN
         <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
