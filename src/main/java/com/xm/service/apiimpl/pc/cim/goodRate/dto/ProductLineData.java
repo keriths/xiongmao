@@ -45,8 +45,8 @@ public class ProductLineData extends BaseRetDTO{
         private BigDecimal inputPnl;
         @ApiResultFieldDesc(desc = "PNL产出数量")
         private BigDecimal outputPnl;
-        @ApiResultFieldDesc(desc = "产品id")
-        private String productId;
+        @ApiResultFieldDesc(desc = "产品名称")
+        private String productName;
         @ApiResultFieldDesc(desc = "横坐标时间")
         private String periodDate;
 
@@ -122,12 +122,12 @@ public class ProductLineData extends BaseRetDTO{
             this.outputPnl = outputPnl;
         }
 
-        public String getProductId() {
-            return productId;
+        public String getProductName() {
+            return productName;
         }
 
-        public void setProductId(String productId) {
-            this.productId = productId;
+        public void setProductName(String productName) {
+            this.productName = productName;
         }
 
         public String getPeriodDate() {
@@ -167,7 +167,7 @@ public class ProductLineData extends BaseRetDTO{
         }
 
         public BigDecimal getTargetInLine() {
-            return ReturnDataUtils.targetData(getFactory(),getProductId(),getPeriodDate());
+            return ReturnDataUtils.targetData(getFactory(),getProductName(),getPeriodDate());
         }
     }
 

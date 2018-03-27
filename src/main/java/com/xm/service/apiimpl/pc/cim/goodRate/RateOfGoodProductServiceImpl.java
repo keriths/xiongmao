@@ -95,7 +95,7 @@ public class RateOfGoodProductServiceImpl {
 
     @ApiMethodDoc(apiCode = "CIM_ProductOcYield",name = "指定产品良品率显示接口（完成-工厂数据已验证）")
     public ProductOcDataRetDTO productOcDataRetDTO(
-                                                     @ApiParamDoc(desc = "产品类型：如55,为空时是全部")String productId,
+                                                     @ApiParamDoc(desc = "产品类型：如55,为空时是全部")String productName,
                                                      @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
         ProductOcDataRetDTO resultDto=new ProductOcDataRetDTO();
         try {
@@ -120,13 +120,13 @@ public class RateOfGoodProductServiceImpl {
 
             List<String> productTypeList=Constant.productTypeTestList;
 
-            List<ProductOcData.ProductOcDetailData> detailDataList = dwsProductOcYieldFidsDAO.queryProductOcData(productId,dateType,beginDate,endDate,productTypeList);
+            List<ProductOcData.ProductOcDetailData> detailDataList = dwsProductOcYieldFidsDAO.queryProductOcData(productName,dateType,beginDate,endDate,productTypeList);
             Map<String,ProductOcData.ProductOcDetailData> dataMap= MapUtils.listToMap(detailDataList, "getPeriodDate");
             List<ProductOcData.ProductOcDetailData> ProductDetailDataList = new ArrayList<ProductOcData.ProductOcDetailData>();
             for (String day:dateList){
                 ProductOcData.ProductOcDetailData productOcDetailData = dataMap.get(day);
                 if(productOcDetailData ==null){
-                    productOcDetailData =new ProductOcData.ProductOcDetailData(productId,day);
+                    productOcDetailData =new ProductOcData.ProductOcDetailData(productName,day);
                 }
                 ProductDetailDataList.add(productOcDetailData);
             }

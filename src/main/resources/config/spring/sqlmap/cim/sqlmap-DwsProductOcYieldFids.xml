@@ -4,7 +4,7 @@
 
     <select id="queryProductOcData" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcData$ProductOcDetailData" parameterType="Map">
         select
-        PRODUCTID as productId,
+        PRODUCTID as productName,
         sum(POL_INPUT) as polInput,
         sum(POL_OUTPUT_A) as polOutputA,
         sum(POL_OUTPUT_FA) as polOutputFA,
@@ -35,7 +35,7 @@
             PERIODDATE >= #{beginDate}
             and PERIODDATE <= #{endDate}
         ]]>
-        AND PRODUCTID=#{productId,jdbcType=VARCHAR}
+        AND PRODUCTID=#{productName,jdbcType=VARCHAR}
         and PRODUCTTYPE IN
         <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
             #{productType}
@@ -102,7 +102,7 @@
 
     <select id="queryTotalProductLineOCByDateAndProductList" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcData$ProductOcDetailData">
         SELECT
-        PRODUCTID as productId,
+        PRODUCTID as productName,
         sum(POL_INPUT) as polInput,
         sum(POL_OUTPUT_A) as polOutputA,
         sum(POL_OUTPUT_FA) as polOutputFA,
@@ -121,8 +121,8 @@
         DWS_PRODUCT_OC_YIELD_FIDS
         WHERE
         PRODUCTID IN
-        <foreach collection="productIdList" item="productId" open="(" separator="," close=")" >
-            #{productId}
+        <foreach collection="productNameList" item="productName" open="(" separator="," close=")" >
+            #{productName}
         </foreach>
         and PRODUCTTYPE IN
         <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">

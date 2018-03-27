@@ -26,8 +26,8 @@ public class ProductOcData extends BaseRetDTO{
 
         public ProductOcDetailData(){}
 
-        public ProductOcDetailData(String productId,String periodDate){
-            this.productId = productId;
+        public ProductOcDetailData(String productName,String periodDate){
+            this.productName = productName;
             this.periodDate = periodDate;
         }
 
@@ -65,8 +65,8 @@ public class ProductOcData extends BaseRetDTO{
         private BigDecimal iobEiOutputDRwA;
         @ApiResultFieldDesc(desc = "IOB E检 D Grade修补后FA Grade数量")
         private BigDecimal iobEiOutputDRwFA;
-        @ApiResultFieldDesc(desc = "产品id")
-        private String productId;
+        @ApiResultFieldDesc(desc = "产品名称")
+        private String productName;
         @ApiResultFieldDesc(desc = "横坐标时间")
         private String periodDate;
 
@@ -304,12 +304,12 @@ public class ProductOcData extends BaseRetDTO{
             this.iobEiOutputDRwFA = iobEiOutputDRwFA;
         }
 
-        public String getProductId() {
-            return productId;
+        public String getProductName() {
+            return productName;
         }
 
-        public void setProductId(String productId) {
-            this.productId = productId;
+        public void setProductName(String productName) {
+            this.productName = productName;
         }
 
         public String getPeriodDate() {
@@ -321,7 +321,7 @@ public class ProductOcData extends BaseRetDTO{
         }
 
         public BigDecimal getTargetInLine() {
-            return ReturnDataUtils.targetData(null,getProductId(),getPeriodDate());
+            return ReturnDataUtils.targetData(null,getProductName(),getPeriodDate());
         }
 
         public BigDecimal getInLine() {

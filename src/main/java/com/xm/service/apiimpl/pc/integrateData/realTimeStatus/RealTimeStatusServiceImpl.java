@@ -142,20 +142,20 @@ public class RealTimeStatusServiceImpl {
     public ProductOcData ocCollectRetDTO(){
         ProductOcData resultDto = new ProductOcData();
         try {
-            List<String> productIdList=new ArrayList<String>();
+            List<String> productNameList=new ArrayList<String>();
             Map<String,String> dataMap=Constant.outProductIdNameMap;
             Iterator<Map.Entry<String, String>> it = dataMap.entrySet().iterator();
             while (it.hasNext()) {
                 Map.Entry<String, String> entry = it.next();
-                productIdList.add(entry.getKey());
+                productNameList.add(entry.getKey());
             }
             List<String> productTypeList=Constant.productTypeTestList;
             Date todayStart = DateUtils.getBeforDayStartDay(1);
             Date todayEnd = DateUtils.getBeforDayEndDay(1);
             Date curMonthStart = DateUtils.getBeforMonthStartDay(0);
             Date curMonthEnd = DateUtils.getBeforMonthEndDay(0);
-            List<ProductOcData.ProductOcDetailData> dayDataList = dwsProductOcYieldFidsDAO.queryTotalProductLineOCByDateAndProductList(productIdList,todayStart,todayEnd,productTypeList);
-            List<ProductOcData.ProductOcDetailData> monthDataList = dwsProductOcYieldFidsDAO.queryTotalProductLineOCByDateAndProductList(productIdList,curMonthStart,curMonthEnd,productTypeList);
+            List<ProductOcData.ProductOcDetailData> dayDataList = dwsProductOcYieldFidsDAO.queryTotalProductLineOCByDateAndProductList(productNameList,todayStart,todayEnd,productTypeList);
+            List<ProductOcData.ProductOcDetailData> monthDataList = dwsProductOcYieldFidsDAO.queryTotalProductLineOCByDateAndProductList(productNameList,curMonthStart,curMonthEnd,productTypeList);
             resultDto.setProductLineOCCollectDayDataList(dayDataList);
             resultDto.setProductLineOCCollectMonthDataList(monthDataList);
             return resultDto;
