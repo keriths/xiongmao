@@ -31,7 +31,7 @@ public class Tibrvlisten implements TibrvMsgCallback
                 catch (TibrvException e)
                 {
                     LogUtils.error(Tibrvlisten.class, "Tibrvlisten init .......Failed to open Tibrv in native implementation:", e);
-                    System.exit(0);
+//                    System.exit(0);
                 }
                 TibrvTransport transport = null;
                 try
@@ -41,7 +41,7 @@ public class Tibrvlisten implements TibrvMsgCallback
                 catch (TibrvException e)
                 {
                     LogUtils.error(Tibrvlisten.class,"Tibrvlisten init .......Failed to create TibrvRvdTransport::",e);
-                    System.exit(0);
+//                    System.exit(0);
                 }
                 if (subjects!=null){
                     for (String subject:subjects){
@@ -53,7 +53,7 @@ public class Tibrvlisten implements TibrvMsgCallback
                         catch (TibrvException e)
                         {
                             LogUtils.error(Tibrvlisten.class, "Tibrvlisten init .......Failed to create listener:", e);
-                            System.exit(0);
+//                            System.exit(0);
                         }
                     }
                 }
@@ -68,12 +68,12 @@ public class Tibrvlisten implements TibrvMsgCallback
                     catch(TibrvException e)
                     {
                         LogUtils.error(Tibrvlisten.class,"Tibrvlisten init .......Exception dispatching default queue:",e);
-                        System.exit(0);
+//                        System.exit(0);
                     }
                     catch(InterruptedException ie)
                     {
                         LogUtils.error(Tibrvlisten.class,"Tibrvlisten init .......Exception InterruptedException:",ie);
-                        System.exit(0);
+//                        System.exit(0);
                     }
                 }
             }
