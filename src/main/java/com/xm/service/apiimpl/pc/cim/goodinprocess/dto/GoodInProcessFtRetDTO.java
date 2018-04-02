@@ -38,7 +38,7 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
             this.stepId = stepId;
         }
 
-        @ApiResultFieldDesc(desc = "厂别,如Array,Cell")
+        @ApiResultFieldDesc(desc = "厂别,如ARRAY,CELL,CF,SL-OC")
         private String factory;
         @ApiResultFieldDesc(desc = "站点ID")
         private String stepId;

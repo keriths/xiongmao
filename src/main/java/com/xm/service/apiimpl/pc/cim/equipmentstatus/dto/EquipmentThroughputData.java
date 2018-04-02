@@ -19,7 +19,7 @@ public class EquipmentThroughputData {
         this.dataDate = dataDate;
     }
 
-    @ApiResultFieldDesc(desc = "厂别,如Array,Cell")
+    @ApiResultFieldDesc(desc = "厂别,如ARRAY,CELL,CF,SL-OC")
     private String factory;
     @ApiResultFieldDesc(desc = "过货量")
     private BigDecimal amount;

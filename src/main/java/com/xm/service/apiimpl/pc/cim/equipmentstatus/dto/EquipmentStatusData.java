@@ -13,7 +13,7 @@ import java.math.RoundingMode;
  * Created by wangshuna on 2017/12/26.
  */
 public class EquipmentStatusData {
-    @ApiResultFieldDesc(desc = "厂别")
+    @ApiResultFieldDesc(desc = "厂别如ARRAY,CELL,CF,SL-OC")
     private String factory;
     @ApiResultFieldDesc(desc = "设备名称")
     private String key;

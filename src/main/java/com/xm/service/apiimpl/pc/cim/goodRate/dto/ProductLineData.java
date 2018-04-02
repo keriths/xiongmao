@@ -35,7 +35,7 @@ public class ProductLineData extends BaseRetDTO{
         private BigDecimal inLine;
         @ApiResultFieldDesc(desc = "目标良品率")
         private BigDecimal targetInLine;
-        @ApiResultFieldDesc(desc = "厂别如Array,Cell")
+        @ApiResultFieldDesc(desc = "厂别如ARRAY,CELL,CF,SL-OC")
         private String factory;
         @ApiResultFieldDesc(desc = "GLS产出数量")
         private BigDecimal outputGls;

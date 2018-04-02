@@ -32,7 +32,7 @@ public class CycleTimeData implements Serializable {
             return periodDate+" "+factory;
         }
 
-        @ApiResultFieldDesc(desc = "工厂如Array,Cell")
+        @ApiResultFieldDesc(desc = "工厂如ARRAY,CELL,CF,SL-OC")
         private String factory;
         @ApiResultFieldDesc(desc = "目标值")
         private BigDecimal plan;

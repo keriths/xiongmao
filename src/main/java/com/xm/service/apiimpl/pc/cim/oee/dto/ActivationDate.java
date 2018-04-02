@@ -37,7 +37,7 @@ public class ActivationDate implements Serializable{
             this.status = status;
         }
 
-        @ApiResultFieldDesc(desc = "厂别,如Array,Cell,CF,SL-OC")
+        @ApiResultFieldDesc(desc = "厂别,如ARRAY,CELL,CF,SL-OC")
         private String factory;
         @ApiResultFieldDesc(desc = "EQP状态,如RUN,TRB,WAIT,MAN,MNT")
         private String status;
@@ -79,7 +79,7 @@ public class ActivationDate implements Serializable{
                         statusNum = String.valueOf(RandomUtils.randomFloat(18f, 20f, 1));
                     }else if("TRB".equals(getStatus())){
                         statusNum = String.valueOf(RandomUtils.randomFloat(1f, 2.5f, 1));
-                    }else if("WAIT".equals(getStatus())){
+                    }else if("WAT".equals(getStatus())){
                         statusNum = String.valueOf(RandomUtils.randomFloat(1f, 2.3f, 1));
                     }else if("MAN".equals(getStatus())){
                         statusNum = String.valueOf(RandomUtils.randomFloat(0.6f, 2.3f, 1));
@@ -137,7 +137,7 @@ public class ActivationDate implements Serializable{
                     //activationNum = activationNum.add(new BigDecimal(a.getStatusNum()));
                     if("RUN".equals(a.getStatus())){
                         activationNum = activationNum.add(new BigDecimal(a.getStatusNum()));
-                    }else if ("WAIT".equals(a.getStatus())){
+                    }else if ("WAT".equals(a.getStatus())){
                         activationNum = activationNum.add(new BigDecimal(a.getStatusNum()));
                     }
                 }

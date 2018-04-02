@@ -45,7 +45,7 @@ public class OutputCompletionData implements Serializable{
 
         @ApiResultFieldDesc(desc = "横坐标时间")
         private String periodDate;
-        @ApiResultFieldDesc(desc="厂别：如SL、")
+        @ApiResultFieldDesc(desc="厂别：如SL,OC")
         private String factory;
         @ApiResultFieldDesc(desc = "计划值")
         private BigDecimal plan;
