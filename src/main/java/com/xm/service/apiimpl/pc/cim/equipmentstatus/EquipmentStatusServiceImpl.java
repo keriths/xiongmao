@@ -90,8 +90,11 @@ public class EquipmentStatusServiceImpl {
     @ApiMethodDoc(apiCode = "CIM_SyncEqptState",name = "设备实时状态数据同步(同步数据使用，前端不用)")
     public void equipmentStatusUpdate(String msgContext){
         try {
-            EquipmentStatusData equipmentStatusData=new EquipmentStatusData();
             Document document= Jsoup.parse(msgContext);
+            String MESSAGENAME = document.getElementsByTag("MESSAGENAME").text();
+            if (!"EQStateReport".equals(MESSAGENAME)){
+                return;
+            }
             String factoryName = document.getElementsByTag("ORGNAME").text();
             String eqptId = document.getElementsByTag("EQPTID").text();
             String eqptState = document.getElementsByTag("EQPTSTATE").text();
