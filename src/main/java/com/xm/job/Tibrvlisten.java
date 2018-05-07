@@ -83,15 +83,15 @@ public class Tibrvlisten implements TibrvMsgCallback
     public void onMsg(TibrvListener listener, TibrvMsg msg)
     {
         String msgData = msg.toString();
-        LogUtils.info(Tibrvlisten.class,"received msg :"+msgData);
+//        LogUtils.info(Tibrvlisten.class,"received msg :"+msgData);
         equipmentStatusService.equipmentStatusUpdate(msgData);
 
-        System.out.println((new Date()).toString()+
-                ": subject="+msg.getSendSubject()+
-                ", reply="+msg.getReplySubject()+
-                ", message="+msg.toString()
-        );
-        System.out.flush();
+//        System.out.println((new Date()).toString()+
+//                ": subject="+msg.getSendSubject()+
+//                ", reply="+msg.getReplySubject()+
+//                ", message="+msg.toString()
+//        );
+//        System.out.flush();
     }
 
 

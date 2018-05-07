@@ -1,5 +1,6 @@
 package com.xm.service.apiimpl.pc.cim.equipmentstatus;
 
+import com.xm.job.Tibrvlisten;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
@@ -93,12 +94,17 @@ public class EquipmentStatusServiceImpl {
             Document document= Jsoup.parse(msgContext);
             String MESSAGENAME = document.getElementsByTag("MESSAGENAME").text();
             if (!"EQStateReport".equals(MESSAGENAME)){
+                LogUtils.info(Tibrvlisten.class,"receivednotstate :"+msgContext);
                 return;
             }
             String factoryName = document.getElementsByTag("ORGNAME").text();
             String eqptId = document.getElementsByTag("EQPTID").text();
             String eqptState = document.getElementsByTag("EQPTSTATE").text();
             String eqptType = document.getElementsByTag("EQPTTYPE").text();
+            if (eqptId==null || eqptState==null){
+                LogUtils.info(Tibrvlisten.class,"receivednullmsg :"+msgContext);
+                return;
+            }
             EquipmentStatusData eqptData=dwrEquipmentStatusFidsDAO.queryStatusByKey(factoryName,eqptId.toUpperCase());
             if (eqptData==null){
                 eqptData = new EquipmentStatusData();
