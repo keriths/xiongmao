@@ -87,7 +87,7 @@ public class CIMDataSyncTask {
      * 根据主键查询数据是否存在，已经存在更新
      * 不存在新增加
      */
-    //@Scheduled(fixedRate = 1000*60*60)
+    @Scheduled(fixedRate = 1000*60*60)
     public void InputCompletionDataSync(){
         long t1 = System.currentTimeMillis();
         int offset = 0;
@@ -152,7 +152,7 @@ public class CIMDataSyncTask {
      * 产出达成率数据同步
      * 已测通
      */
-    //@Scheduled(fixedRate = 1000*60*60)
+    @Scheduled(fixedRate = 1000*60*60)
     public void OutputCompletionDataSync(){
         int offset = 0;
         int limit = 1000;
@@ -208,7 +208,7 @@ public class CIMDataSyncTask {
      * 过货量推移数据同步
      * 已测通
      */
-    //@Scheduled(fixedRate = 1000*60*60)
+    @Scheduled(fixedRate = 1000*60*60)
     public void OutputCompletionHDataSync(){
         int offset = 0;
         int limit = 1000;
@@ -264,7 +264,7 @@ public class CIMDataSyncTask {
      * 在制品数据同步
      * 已测通
      */
-    //@Scheduled(fixedRate = 1000*60*60)
+    @Scheduled(fixedRate = 1000*60*60)
     public void GoodInProcessDataSync(){
         int offset = 0;
         int limit = 1000;
@@ -323,7 +323,7 @@ public class CIMDataSyncTask {
      * 在制品的在库量数据同步
      * 已测通
      */
-    //@Scheduled(fixedRate = 1000*5)
+    @Scheduled(fixedRate = 1000*5)
     public void StoreDataSync(){
         int offset = 0;
         int limit = 1000;
@@ -344,7 +344,7 @@ public class CIMDataSyncTask {
      * 良品率数据同步
      * 已测通
      */
-    //@Scheduled(fixedRate = 1000*60*60)
+    @Scheduled(fixedRate = 1000*60*60)
     public void ProductLineGoodRateDataSync(){
         int offset = 0;
         int limit = 1000;
@@ -398,7 +398,7 @@ public class CIMDataSyncTask {
      * 目标良品率数据同步
      *已测通
      */
-    //@Scheduled(fixedRate = 1000*5)
+    @Scheduled(fixedRate = 1000*5)
     public void TargetInLineDataSync(){
         int offset = 0;
         int limit = 1000;
@@ -419,7 +419,7 @@ public class CIMDataSyncTask {
      * 单个良品率数据同步
      * 已测通
      */
-    //@Scheduled(fixedRate = 1000*60*60)
+    @Scheduled(fixedRate = 1000*60*60)
     public void ProductOcGoodRateDataSync(){
         int offset = 0;
         int limit = 1000;
@@ -484,7 +484,7 @@ public class CIMDataSyncTask {
      * 单个目标良品率数据同步
      *已测通
      */
-    //@Scheduled(fixedRate = 1000*5)
+    @Scheduled(fixedRate = 1000*5)
     public void TargetOcInLineDataSync(){
         int offset = 0;
         int limit = 1000;
@@ -505,7 +505,7 @@ public class CIMDataSyncTask {
      * CycleTime数据同步
      * 已测通
      */
-    //@Scheduled(fixedRate = 1000*60*60)
+    @Scheduled(fixedRate = 1000*60*60)
     public void CycleTimeDataSync(){
         int offset = 0;
         int limit = 1000;
@@ -558,7 +558,7 @@ public class CIMDataSyncTask {
      * 稼动率数据同步
      * 已测通
      */
-    //@Scheduled(fixedRate = 1000*60*60)
+    @Scheduled(fixedRate = 1000*60*60)
     public void OeeDataSync(){
         int offset = 0;
         int limit = 1000;
@@ -610,7 +610,7 @@ public class CIMDataSyncTask {
      * TactTime数据同步
      * 已测通
      */
-    //@Scheduled(fixedRate = 1000*60*60)
+    @Scheduled(fixedRate = 1000*60*60)
     public void TactTimeDataSync(){
         int offset = 0;
         int limit = 1000;
