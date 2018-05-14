@@ -69,7 +69,7 @@ public class UPWServiceImpl {
             }
 
         }catch (Exception e) {
-            e.printStackTrace();
+            LogUtils.error(this.getClass(), e);
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.xm.job;
 
+import com.xm.platform.util.LogUtils;
 import com.xm.service.apiimpl.pc.fmcs.exhaust.dto.SyncExhaustAData;
 import com.xm.service.dao.cim.DwsProductInputFidsDAO;
 import com.xm.service.dao.factory.cim.FactoryDwsProductInputFidsDAO;
@@ -702,7 +703,7 @@ public class FMCSDataSyncTask {
             }
 
         }catch (Exception e) {
-            e.printStackTrace();
+            LogUtils.error(this.getClass(), e);
         }
     }
 

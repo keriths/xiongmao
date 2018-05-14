@@ -1,5 +1,6 @@
 package com.xm.web.step;
 
+import com.xm.platform.util.LogUtils;
 import com.xm.service.apiimpl.pc.login.dto.UserDTO;
 import com.xm.service.apiimpl.pc.step.dto.StepRetDTO;
 import com.xm.service.dao.login.StepDAO;
@@ -41,7 +42,7 @@ public class StepAction {
             List<StepRetDTO.StepRetDataDTO> stepList=stepDAO.queryStep();
             resultVo.setRows(stepList);
         }catch (Exception e){
-            e.printStackTrace();
+            LogUtils.error(this.getClass(), e);
         }
         return resultVo;
     }
@@ -91,7 +92,7 @@ public class StepAction {
                 resultVo.setErrorMessage("编辑失败");
             }
         }catch (Exception e){
-            e.printStackTrace();
+            LogUtils.error(this.getClass(), e);
             resultVo.setSuccess(false);
             resultVo.setErrorMessage("编辑失败");
 

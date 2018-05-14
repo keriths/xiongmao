@@ -1,5 +1,6 @@
 package com.xm.web.store;
 
+import com.xm.platform.util.LogUtils;
 import com.xm.service.apiimpl.pc.product.dto.ProductRetDTO;
 import com.xm.service.apiimpl.pc.store.dto.StoreDTO;
 import com.xm.service.apiimpl.pc.login.dto.UserDTO;
@@ -39,7 +40,7 @@ public class StoreAction {
             List<StoreDTO> storetList=storeDAO.queryStore();
             resultVo.setRows(storetList);
         }catch (Exception e){
-            e.printStackTrace();
+            LogUtils.error(this.getClass(), e);
         }
         return resultVo;
     }
@@ -71,7 +72,7 @@ public class StoreAction {
                 resultVo.setErrorMessage("编辑失败");
             }
         }catch (Exception e){
-            e.printStackTrace();
+            LogUtils.error(this.getClass(), e);
             resultVo.setSuccess(false);
             resultVo.setErrorMessage("编辑失败");
 

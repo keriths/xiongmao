@@ -105,7 +105,7 @@ public class CIMDataSyncTask {
                     try {
                         Thread.sleep(1000l);
                     } catch (InterruptedException e1) {
-                        e1.printStackTrace();
+                        LogUtils.error(this.getClass(),e1);
                     }
                     continue;
                 }
@@ -170,7 +170,7 @@ public class CIMDataSyncTask {
                     try {
                         Thread.sleep(1000l);
                     } catch (InterruptedException e1) {
-                        e1.printStackTrace();
+                        LogUtils.error(this.getClass(), e1);
                     }
                     continue;
                 }
@@ -226,7 +226,7 @@ public class CIMDataSyncTask {
                     try {
                         Thread.sleep(1000l);
                     } catch (InterruptedException e1) {
-                        e1.printStackTrace();
+                        LogUtils.error(this.getClass(),e1);
                     }
                     continue;
                 }
@@ -282,7 +282,7 @@ public class CIMDataSyncTask {
                     try {
                         Thread.sleep(1000l);
                     } catch (InterruptedException e1) {
-                        e1.printStackTrace();
+                        LogUtils.error(this.getClass(), e1);
                     }
                     continue;
                 }
@@ -361,7 +361,7 @@ public class CIMDataSyncTask {
                 try {
                     Thread.sleep(1000l);
                 } catch (InterruptedException e1) {
-                    e1.printStackTrace();
+                    LogUtils.error(this.getClass(),e1);
                 }
                 continue;
             }
@@ -436,7 +436,7 @@ public class CIMDataSyncTask {
                 try {
                     Thread.sleep(1000l);
                 } catch (InterruptedException e1) {
-                    e1.printStackTrace();
+                    LogUtils.error(this.getClass(), e1);
                 }
                 continue;
             }
@@ -522,7 +522,7 @@ public class CIMDataSyncTask {
                 try {
                     Thread.sleep(1000l);
                 } catch (InterruptedException e1) {
-                    e1.printStackTrace();
+                    LogUtils.error(this.getClass(), e1);
                 }
                 continue;
             }
@@ -575,7 +575,7 @@ public class CIMDataSyncTask {
                 try {
                     Thread.sleep(1000l);
                 } catch (InterruptedException e1) {
-                    e1.printStackTrace();
+                    LogUtils.error(this.getClass(), e1);
                 }
                 continue;
             }
@@ -627,7 +627,7 @@ public class CIMDataSyncTask {
                 try {
                     Thread.sleep(1000l);
                 } catch (InterruptedException e1) {
-                    e1.printStackTrace();
+                    LogUtils.error(this.getClass(), e1);
                 }
                 continue;
             }

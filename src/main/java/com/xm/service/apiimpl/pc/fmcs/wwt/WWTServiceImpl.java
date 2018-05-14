@@ -144,7 +144,7 @@ public class WWTServiceImpl {
             }
 
         }catch (Exception e) {
-            e.printStackTrace();
+            LogUtils.error(this.getClass(), e);
         }
     }
 

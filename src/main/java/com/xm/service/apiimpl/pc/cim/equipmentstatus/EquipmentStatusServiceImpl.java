@@ -94,18 +94,21 @@ public class EquipmentStatusServiceImpl {
             Document document= Jsoup.parse(msgContext);
             String MESSAGENAME = document.getElementsByTag("MESSAGENAME").text();
             if (!"EQStateReport".equals(MESSAGENAME)){
-                LogUtils.info(Tibrvlisten.class,"receivednotstate :"+msgContext);
+                LogUtils.info(this.getClass(),"receivednotstate :"+msgContext);
                 return;
             }
+            LogUtils.info(Tibrvlisten.class,msgContext);
             String factoryName = document.getElementsByTag("ORGNAME").text();
             String eqptId = document.getElementsByTag("EQPTID").text();
             String eqptState = document.getElementsByTag("EQPTSTATE").text();
             String eqptType = document.getElementsByTag("EQPTTYPE").text();
-            if (eqptId==null || eqptState==null){
+            if (factoryName==null || eqptId==null || eqptState==null){
                 LogUtils.info(Tibrvlisten.class,"receivednullmsg :"+msgContext);
                 return;
             }
-            EquipmentStatusData eqptData=dwrEquipmentStatusFidsDAO.queryStatusByKey(factoryName,eqptId.toUpperCase());
+            factoryName = factoryName.toUpperCase();
+            eqptId = eqptId.toUpperCase();
+            EquipmentStatusData eqptData=dwrEquipmentStatusFidsDAO.queryStatusByKey(factoryName,eqptId);
             if (eqptData==null){
                 eqptData = new EquipmentStatusData();
                 eqptData.setFactory(factoryName);
@@ -138,7 +141,7 @@ public class EquipmentStatusServiceImpl {
 //            }
 
         } catch (Exception e) {
-            e.printStackTrace();
+            LogUtils.error(this.getClass(),e);
         }
 
     }

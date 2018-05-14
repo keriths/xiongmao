@@ -38,7 +38,7 @@ public class ProductAction {
             List<ProductRetDTO.productRetDataDTO> productList=productDAO.queryProduct();
             resultVo.setRows(productList);
         }catch (Exception e){
-            e.printStackTrace();
+            LogUtils.error(this.getClass(), e);
         }
         return resultVo;
     }
