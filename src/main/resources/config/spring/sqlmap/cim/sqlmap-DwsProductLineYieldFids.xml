@@ -79,7 +79,7 @@
         (select TARGETINLINE
         from TARGET
         where
-        TARGET.FACTORY=DWS_PRODUCT_LINE_YIELD_FIDS.FACTORY
+        TARGET.FACTORY=DWS_PRODUCT_LINE_YIELD_FIDS.FACTORY)
     </update>
 
     <select id="queryTotalProductLineByDateAndFactoryList" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductLineData$ProductLineDetailData">
