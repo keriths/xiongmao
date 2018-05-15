@@ -46,7 +46,8 @@
         SELECT * from DWR_PRODUCT_CT_FIDS
         where FACTORY = #{FACTORY} and
         PRODUCTID = #{PRODUCTID} AND
-        PRODUCTTYPE = #{PRODUCTTYPE}
+        PRODUCTTYPE = #{PRODUCTTYPE} AND
+        PERIODDATE = #{PERIODDATE}
     </select>
     <insert id="addData" parameterType="map">
         INSERT INTO  DWR_PRODUCT_CT_FIDS

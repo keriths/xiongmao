@@ -1,5 +1,6 @@
 package com.xm.service.apiimpl.pc.cim.equipmentstatus;
 
+import com.alibaba.fastjson.JSONObject;
 import com.xm.job.Tibrvlisten;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
@@ -108,42 +109,35 @@ public class EquipmentStatusServiceImpl {
             }
             factoryName = factoryName.toUpperCase();
             eqptId = eqptId.toUpperCase();
-            EquipmentStatusData eqptData=dwrEquipmentStatusFidsDAO.queryStatusByKey(factoryName,eqptId);
+            EquipmentStatusData eqptData = null;
+            try {
+                eqptData=dwrEquipmentStatusFidsDAO.queryStatusByKey(factoryName,eqptId);
+            }catch (Exception e){
+                LogUtils.error(this.getClass(),"[DWR_EQUIPMENT_STATUS_FIDS]queryStatusByKey factoryName"+factoryName+" eqptId"+eqptId+" exception",e);
+            }
             if (eqptData==null){
                 eqptData = new EquipmentStatusData();
                 eqptData.setFactory(factoryName);
                 eqptData.setKey(eqptId);
                 eqptData.setVal(eqptState);
                 eqptData.setEqptType(eqptType);
-                dwrEquipmentStatusFidsDAO.insertStatusData(eqptData);
+                try {
+                    dwrEquipmentStatusFidsDAO.insertStatusData(eqptData);
+                }catch (Exception e){
+                    LogUtils.error(this.getClass(),"[DWR_EQUIPMENT_STATUS_FIDS]insertStatusData exception eqptData"+ JSONObject.toJSONString(eqptData),e);
+                }
             }else {
                 eqptData.setVal(eqptState);
                 eqptData.setEqptType(eqptType);
-                dwrEquipmentStatusFidsDAO.updateStatusData(eqptData);
+                try {
+                    dwrEquipmentStatusFidsDAO.updateStatusData(eqptData);
+                }catch (Exception e){
+                    LogUtils.error(this.getClass(),"[DWR_EQUIPMENT_STATUS_FIDS]updateStatusData exception eqptData"+ JSONObject.toJSONString(eqptData),e);
+                }
             }
-//            for(Element el:document.select("Beader")){
-//                String factory=el.select("ORGNAME").text();
-//                equipmentStatusData.setFactory(factory);
-//
-//            }
-//            for(Element el:document.select("Body")){
-//                String key=el.select("EQPTID").text();
-//                String val=el.select("EQPTSTATE").text();
-//                equipmentStatusData.setKey(key.toUpperCase());
-//                equipmentStatusData.setVal(val);
-//
-//                EquipmentStatusData e=dwrEquipmentStatusFidsDAO.queryStatusByKey(key.toUpperCase());
-//                if (e==null){
-//                    dwrEquipmentStatusFidsDAO.insertStatusData(equipmentStatusData);
-//                }else{
-//                    dwrEquipmentStatusFidsDAO.updateStatusData(equipmentStatusData);
-//                }
-//            }
-
         } catch (Exception e) {
-            LogUtils.error(this.getClass(),e);
+            LogUtils.error(this.getClass(),"",e);
         }
-
     }
 
     public static void main(String[] args){

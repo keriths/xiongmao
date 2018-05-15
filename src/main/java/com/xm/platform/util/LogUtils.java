@@ -11,7 +11,7 @@ public class LogUtils {
         LogFactory.getLog(c).error(msg);
     }
     public static void error(Class c,Throwable throwable){
-        LogFactory.getLog(c).error(throwable);
+        LogFactory.getLog(c).error("",throwable);
     }
     public static void error(Class c,String msg, Throwable throwable){
         LogFactory.getLog(c).error(msg,throwable);
