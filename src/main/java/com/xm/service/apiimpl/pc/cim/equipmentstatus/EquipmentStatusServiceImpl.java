@@ -15,6 +15,7 @@ import com.xm.service.dao.cim.DwsProductOutputFidsHDAO;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -103,10 +104,10 @@ public class EquipmentStatusServiceImpl {
             String eqptId = document.getElementsByTag("EQPTID").text();
             String eqptState = document.getElementsByTag("EQPTSTATE").text();
             String eqptType = document.getElementsByTag("EQPTTYPE").text();
-            if (eqptId==null){
+            if (!StringUtils.hasText(eqptId)){
                 eqptId = document.getElementsByTag("PORTID").text();
             }
-            if (factoryName==null || eqptId==null || eqptState==null){
+            if ( !StringUtils.hasText(factoryName) || !StringUtils.hasText(eqptId) || !StringUtils.hasText(eqptState)){
                 LogUtils.info(Tibrvlisten.class,"receivednullmsg :"+msgContext);
                 return;
             }
