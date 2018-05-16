@@ -103,6 +103,9 @@ public class EquipmentStatusServiceImpl {
             String eqptId = document.getElementsByTag("EQPTID").text();
             String eqptState = document.getElementsByTag("EQPTSTATE").text();
             String eqptType = document.getElementsByTag("EQPTTYPE").text();
+            if (eqptId==null){
+                eqptId = document.getElementsByTag("PORTID").text();
+            }
             if (factoryName==null || eqptId==null || eqptState==null){
                 LogUtils.info(Tibrvlisten.class,"receivednullmsg :"+msgContext);
                 return;
@@ -124,7 +127,7 @@ public class EquipmentStatusServiceImpl {
                 try {
                     dwrEquipmentStatusFidsDAO.insertStatusData(eqptData);
                 }catch (Exception e){
-                    LogUtils.error(this.getClass(),"[DWR_EQUIPMENT_STATUS_FIDS]insertStatusData exception eqptData"+ JSONObject.toJSONString(eqptData),e);
+                    LogUtils.error(this.getClass(),"[DWR_EQUIPMENT_STATUS_FIDS]insertStatusData exception document="+document+" eqptData"+ JSONObject.toJSONString(eqptData),e);
                 }
             }else {
                 eqptData.setVal(eqptState);
@@ -132,7 +135,7 @@ public class EquipmentStatusServiceImpl {
                 try {
                     dwrEquipmentStatusFidsDAO.updateStatusData(eqptData);
                 }catch (Exception e){
-                    LogUtils.error(this.getClass(),"[DWR_EQUIPMENT_STATUS_FIDS]updateStatusData exception eqptData"+ JSONObject.toJSONString(eqptData),e);
+                    LogUtils.error(this.getClass(),"[DWR_EQUIPMENT_STATUS_FIDS]updateStatusData exception document="+document+" eqptData"+ JSONObject.toJSONString(eqptData),e);
                 }
             }
         } catch (Exception e) {
