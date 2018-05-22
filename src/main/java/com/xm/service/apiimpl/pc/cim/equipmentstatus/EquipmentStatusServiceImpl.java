@@ -90,7 +90,7 @@ public class EquipmentStatusServiceImpl {
     }
 
 
-    @ApiMethodDoc(apiCode = "CIM_SyncEqptState",name = "设备实时状态数据同步(同步数据使用，前端不用)")
+    //同步数据使用的接口
     public void equipmentStatusUpdate(String msgContext){
         try {
             Document document= Jsoup.parse(msgContext);

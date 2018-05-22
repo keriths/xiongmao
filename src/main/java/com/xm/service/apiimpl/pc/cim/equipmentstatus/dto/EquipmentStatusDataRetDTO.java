@@ -25,8 +25,8 @@ public class EquipmentStatusDataRetDTO extends BaseRetDTO{
     BigDecimal oeeNum;
     @ApiResultFieldDesc(desc = "故障中的设备数")
     BigDecimal failNum;
-    /*@ApiResultFieldDesc(desc = "AMHS连接状态 1 0")
-    Integer amhs;*/
+    @ApiResultFieldDesc(desc = "AMHS连接状态 1 0")
+    Integer amhs = 1;
 
     public List<EquipmentStatusData> getEquipmentStatusDataList() {
         return equipmentStatusDataList;
@@ -62,6 +62,7 @@ public class EquipmentStatusDataRetDTO extends BaseRetDTO{
         pmNum=new BigDecimal("0");
         oeeNum=new BigDecimal("0");
         failNum=new BigDecimal("0");
+        amhs  = 1;//TODO 这块还要看怎么取，先默认1
         if (CollectionUtils.isEmpty(equipmentStatusDataList)){
            return;
         }

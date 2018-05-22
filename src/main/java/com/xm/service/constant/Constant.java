@@ -32,6 +32,53 @@ public class Constant {
      * 厂别
      */
     public static final List<String> factoryList = Lists.newArrayList("SL", "OC");
+    public static final Map<String,List<String>> factoryStepIdListMap = MapUtils.newMap(
+            "ARRAY",Lists.newArrayList("00000",
+                    "00060",
+                    "00070",
+                    "01200",
+                    "01201",
+                    "01204",
+                    "01300",
+                    "01301",
+                    "01302",
+                    "01303","01304",
+                            "01305",
+                            "01306"),
+            "CELL",Lists.newArrayList("42100",
+                    "42110",
+                    "42300",
+                    "43100",
+                    "43110",
+                    "44100",
+                    "45300",
+                    "46100",
+                    "46310"),
+            "CF",Lists.newArrayList("03000",
+                    "70000",
+                    "70450",
+                    "70460",
+                    "71000",
+                    "71100",
+                    "71200",
+                    "71410",
+                    "71411",
+                    "71428",
+                    "71430",
+                    "71432"),
+            "SL-OC",Lists.newArrayList("51000",
+                    "52000",
+                    "55100",
+                    "55200",
+                    "55500",
+                    "55800",
+                    "55900",
+                    "61000",
+                    "61610",
+                    "62000",
+                    "63000",
+                    "64200")
+    );
     /**
      * 厂别与EQP类型
      */
@@ -41,6 +88,7 @@ public class Constant {
             "CF",Lists.newArrayList("BM","ITO","PS","RGB","RML"),
             "SL-OC",Lists.newArrayList("MBD","POL","OLB","MLR","Aging")
     );
+
     /**
      * EQP状态
      */
@@ -270,5 +318,7 @@ public class Constant {
 
     //productType 试验
     public static final List<String> productTypeTestList = Lists.newArrayList("TS","ES","CS","DM","E1","E2");
+
+
 
 }

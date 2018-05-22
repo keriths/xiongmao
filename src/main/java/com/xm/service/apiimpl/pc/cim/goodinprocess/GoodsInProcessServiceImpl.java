@@ -45,10 +45,10 @@ public class GoodsInProcessServiceImpl {
                 retDTO.setErrorMsg("factory参数错误,请传入【" + factoryLists + "】");
                 return retDTO;
             }
-            StepRetDTO stepRetDTO = new StepRetDTO();
-            List<StepRetDTO.StepRetDataDTO> queryStepDataList = stepDAO.queryStepId(factory);
-            stepRetDTO.setDataDTOList(queryStepDataList);
-            List<String> stepIdLists = stepRetDTO.getStepList();
+//            StepRetDTO stepRetDTO = new StepRetDTO();
+//            List<StepRetDTO.StepRetDataDTO> queryStepDataList = stepDAO.queryStepId(factory);
+//            stepRetDTO.setDataDTOList(queryStepDataList);
+            List<String> stepIdLists = Constant.factoryStepIdListMap.get(factory);
             Date beginDate = DateUtils .getBeforHourStartDay(0);
             Date endDate = new Date();
 
