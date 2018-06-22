@@ -243,16 +243,37 @@ public class DateUtils {
         return curDateTime.plusMinutes(-beforMinuteNum).withSecondOfMinute(0).withMillisOfSecond(0).toDate();
     }
 
+    public static List<Date> getAll5MinuteOfHourCurTime(Date curTime){
+        Date curDate = getCur5MinuteOfHourDate(curTime);
+        List<Date> dateList = new ArrayList<>();
+        for (int i = 9;i>= 0;i--){
+            dateList.add(new DateTime(curDate).plusMinutes(-i*5).toDate());
+        }
+        dateList.add(new DateTime(curDate).plusMinutes(5).toDate());
+        dateList.add(new DateTime(curDate).plusMinutes(10).toDate());
+        dateList.add(new DateTime(curDate).plusMinutes(15).toDate());
+        return dateList;
+    }
+    public static Date getCur5MinuteOfHourDate(Date curTime){
+        DateTime curDateTime = new DateTime(curTime);
+        int hour = curDateTime.getHourOfDay();
+        int minute = curDateTime.getMinuteOfHour();
+        if (minute%5==0){
+            return curDateTime.secondOfMinute().withMaximumValue().millisOfSecond().withMaximumValue().toDate();
+        }else {
+            minute = (minute/5+1)*5;
+            if (minute==60){
+                return curDateTime.plusHours(1).withMinuteOfHour(0).secondOfMinute().withMaximumValue().millisOfSecond().withMaximumValue().toDate();
+            }else {
+                return curDateTime.withMinuteOfHour(minute).secondOfMinute().withMaximumValue().millisOfSecond().withMaximumValue().toDate();
+            }
+        }
 
+    }
 
     public static void main(String[] args){
-        System.out.println(getStrDate(getBeforQuarterStartDay(0), "yyyyMMdd HH:mm:ss"));
-        System.out.println(getHourStrList(getBeforHourStartDay(4), new Date()));
-        System.out.println(getDayStrList(getBeforDayStartDay(4), new Date()));
-        System.out.println(getMonthStrList(getBeforMonthStartDay(4), new Date()));
-        System.out.println(getQuarterStrList(getBeforQuarterStartDay(12),new Date()));
-        System.out.println(getMinuteStrList(getBeforMinuteStartDay(3),new Date()));
-        System.out.println(getSecondStrList(getBeforMinuteStartDay(3),new Date()));
+        System.out.println(getStrDate(getCur5MinuteOfHourDate(new Date()),"HH:mm"));
+        getAll5MinuteOfHourCurTime(new Date()).stream().forEach(date -> System.out.println(getStrDate(date,"HH:mm")));
     }
 
 }
