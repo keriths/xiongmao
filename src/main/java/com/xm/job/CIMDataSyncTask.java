@@ -7,6 +7,7 @@ import com.xm.service.dao.factory.cim.*;
 import com.xm.service.dao.login.StoreDAO;
 import com.xm.service.dao.login.TargetDAO;
 import com.xm.service.dao.login.TargetocDAO;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -14,6 +15,7 @@ import org.springframework.util.CollectionUtils;
 import sun.rmi.runtime.Log;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -81,6 +83,19 @@ public class CIMDataSyncTask {
     @Resource
     private DwrProductTtFidsDAO dwrProductTtFidsDAO;
 
+    private Date getmaxPeriodDate(String tableName){
+        Date maxPeriodDate = dwsProductInputFidsDAO.getMaxPeriodDateByTableName(tableName);
+        if (maxPeriodDate!=null){
+            maxPeriodDate = new DateTime(maxPeriodDate).plusMinutes(-1).toDate();
+        }else {
+            maxPeriodDate = new DateTime().withYear(2018).withMonthOfYear(1).withDayOfMonth(1).millisOfDay().withMinimumValue().toDate();
+        }
+        return maxPeriodDate;
+    }
+    private List<Map<String,Object>> queryLatestDataByDataAndTableName(int offset,int limit,Date maxPeriodDate,String tableName){
+        List<Map<String,Object>> mapDataList = factoryDwsProductInputFidsDAO.queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
+        return mapDataList;
+    }
     /**
      * 投入达成率数据同步，数据按天同步，同步任务每小时跑一次，每次把前三天的数据检查一遍
      * 首先把工厂数据库前三天的数据查询出来
@@ -93,11 +108,13 @@ public class CIMDataSyncTask {
         int offset = 0;
         int limit = 1000;
         try {
+            String tableName="DWS_PRODUCT_INPUT_FIDS";
+            Date maxPeriodDate = getmaxPeriodDate(tableName);
             while (true){
                 List<Map<String,Object>> mapDataList;
                 try {
                     long t11 = System.currentTimeMillis();
-                    mapDataList = factoryDwsProductInputFidsDAO.querySyncData(offset,limit);
+                    mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);// factoryDwsProductInputFidsDAO.queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
                     long t22 = System.currentTimeMillis();
                     LogUtils.info(this.getClass(),"同步投入达成率[DWS_PRODUCT_INPUT_FIDS]查询数据用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
                 }catch (Exception e){
@@ -153,15 +170,19 @@ public class CIMDataSyncTask {
      */
     @Scheduled(fixedRate = 1000*60*60)
     public void OutputCompletionDataSync(){
+
         int offset = 0;
         int limit = 1000;
         long t1 = System.currentTimeMillis();
         try {
+            String tableName="DWS_PRODUCT_OUTPUT_FIDS";
+            Date maxPeriodDate = getmaxPeriodDate(tableName);
             while (true){
                 List<Map<String,Object>> mapDataList;
                 try {
                     long t11 = System.currentTimeMillis();
-                    mapDataList = factoryDwsProductOutputFidsDAO.querySyncData(offset, limit);
+//                    mapDataList = factoryDwsProductOutputFidsDAO.querySyncData(offset, limit);
+                    mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
                     long t22 = System.currentTimeMillis();
                     LogUtils.info(this.getClass(),"同步产出达成率[DWS_PRODUCT_OUTPUT_FIDS]查询用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
                 }catch (Exception e){
@@ -213,11 +234,14 @@ public class CIMDataSyncTask {
         int limit = 1000;
         long t1 = System.currentTimeMillis();
         try {
+            String tableName="DWS_PRODUCT_OUTPUT_FIDS_H";
+            Date maxPeriodDate = getmaxPeriodDate(tableName);
             while (true){
                 List<Map<String,Object>> mapDataList;
                 try {
                     long t11 = System.currentTimeMillis();
-                    mapDataList = factoryDwsProductOutputFidsHDAO.querySyncData(offset, limit);
+//                    mapDataList = factoryDwsProductOutputFidsHDAO.querySyncData(offset, limit);
+                    mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
                     long t22 = System.currentTimeMillis();
                     LogUtils.info(this.getClass(),"同步过货量推移[DWS_PRODUCT_OUTPUT_FIDS_H]查询用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
                 }catch (Exception e){
@@ -268,12 +292,15 @@ public class CIMDataSyncTask {
         int offset = 0;
         int limit = 1000;
         long t1 = System.currentTimeMillis();
-
         while (true){
+            String tableName="DWR_WIP_GLS_FIDS";
+            Date maxPeriodDate = getmaxPeriodDate(tableName);
+//            mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
             List<Map<String,Object>> mapDataList;
             try {
                 long t11 = System.currentTimeMillis();
-                mapDataList = factoryDwrWipGlsFidsDAO.querySyncData(offset,limit);
+//                mapDataList = factoryDwrWipGlsFidsDAO.querySyncData(offset,limit);
+                mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
                 long t22 = System.currentTimeMillis();
                 LogUtils.info(this.getClass(), "同步在制品[DWR_WIP_GLS_FIDS]querySyncData 用时" + (t22 - t11) + "毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
@@ -343,10 +370,14 @@ public class CIMDataSyncTask {
         int limit = 1000;
         long t1 = System.currentTimeMillis();
         while (true){
+            String tableName="DWS_PRODUCT_LINE_YIELD_FIDS";
+            Date maxPeriodDate = getmaxPeriodDate(tableName);
+//            mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
             List<Map<String,Object>> mapDataList;
             try {
                 long t11 = System.currentTimeMillis();
-                mapDataList = factoryDwsProductLineYieldFidsDAO.querySyncData(offset,limit);
+//                mapDataList = factoryDwsProductLineYieldFidsDAO.querySyncData(offset,limit);
+                mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
                 long t22 = System.currentTimeMillis();
                 LogUtils.info(this.getClass(),"同步良品率[DWS_PRODUCT_LINE_YIELD_FIDS]querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
@@ -418,10 +449,14 @@ public class CIMDataSyncTask {
         int limit = 1000;
         long t1 = System.currentTimeMillis();
         while (true){
+            String tableName="DWS_PRODUCT_OC_YIELD_FIDS";
+            Date maxPeriodDate = getmaxPeriodDate(tableName);
+//            mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
             List<Map<String,Object>> mapDataList ;
             try {
                 long t11 = System.currentTimeMillis();
-                mapDataList = factoryDwsProductOcYieldFidsDAO.querySyncData(offset,limit);
+//                mapDataList = factoryDwsProductOcYieldFidsDAO.querySyncData(offset,limit);
+                mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
                 long t22 = System.currentTimeMillis();
                 LogUtils.info(this.getClass(),"同步良品率[DWS_PRODUCT_OC_YIELD_FIDS]querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
@@ -504,10 +539,15 @@ public class CIMDataSyncTask {
         int limit = 1000;
         long t1 = System.currentTimeMillis();
         while (true){
+
+            String tableName="DWR_PRODUCT_CT_FIDS";
+            Date maxPeriodDate = getmaxPeriodDate(tableName);
+//            mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
             List<Map<String,Object>> mapDataList;
             try {
                 long t11 = System.currentTimeMillis();
-                mapDataList = factoryDwrProductCtFidsDAO.querySyncData(offset,limit);
+//                mapDataList = factoryDwrProductCtFidsDAO.querySyncData(offset,limit);
+                mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
                 long t22 = System.currentTimeMillis();
                 LogUtils.info(this.getClass(),"同步CycleTime[DWR_PRODUCT_CT_FIDS]querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
@@ -557,10 +597,15 @@ public class CIMDataSyncTask {
         int limit = 1000;
         long t1 = System.currentTimeMillis();
         while (true){
+
+            String tableName="DWR_EQP_OEE_FIDS";
+            Date maxPeriodDate = getmaxPeriodDate(tableName);
+//            mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
             List<Map<String,Object>> mapDataList;
             try {
                 long t11 = System.currentTimeMillis();
-                mapDataList = factoryDwrEqpOeeFidsDAO.querySyncData(offset,limit);
+//                mapDataList = factoryDwrEqpOeeFidsDAO.querySyncData(offset,limit);
+                mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
                 long t22 = System.currentTimeMillis();
                 LogUtils.info(this.getClass(),"同步稼动率[DWR_EQP_OEE_FIDS]querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
@@ -609,10 +654,15 @@ public class CIMDataSyncTask {
         int limit = 1000;
         long t1 = System.currentTimeMillis();
         while (true){
+
+            String tableName="DWR_PRODUCT_TT_FIDS";
+            Date maxPeriodDate = getmaxPeriodDate(tableName);
+//            mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
             List<Map<String,Object>> mapDataList;
             try {
                 long t11 = System.currentTimeMillis();
-                mapDataList = factoryDwrProductTtFidsDAO.querySyncData(offset,limit);
+//                mapDataList = factoryDwrProductTtFidsDAO.querySyncData(offset,limit);
+                mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
                 long t22 = System.currentTimeMillis();
                 LogUtils.info(this.getClass(),"同步TactTime[DWR_PRODUCT_TT_FIDS]querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){

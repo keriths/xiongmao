@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.cim.DwsProductInputFidsDAO" >
+    <select id="getMaxPERIODDATE" resultType="java.util.Date">
+        SELECT max(PERIODDATE) from DWS_PRODUCT_INPUT_FIDS
+    </select>
+    <select id="getMaxPeriodDateByTableName" resultType="java.util.Date" parameterType="map">
+        SELECT max(PERIODDATE) from ${tableName}
+    </select>
     <select id="queryInputInfo" resultType="com.xm.service.apiimpl.pc.cim.inputCompletion.dto.InputCompletionRetDTO$InputCompletionData" parameterType="map">
         select
             sum(PLAN_INPUT_GLS_QTY) as plan,
@@ -46,12 +52,18 @@
         where FACTORY = #{FACTORY} and
               PRODUCTID = #{PRODUCTID} and
               PERIODDATE = #{PERIODDATE} and
-              PRODUCTTYPE = #{PRODUCTTYPE}
+              <if test="PRODUCTTYPE != null">
+                  PRODUCTTYPE = #{PRODUCTTYPE}
+              </if>
+              <if test="PRODUCTTYPE == null">
+                  PRODUCTTYPE is null
+              </if>
+
     </select>
     <insert id="addData" parameterType="map">
         INSERT INTO  DWS_PRODUCT_INPUT_FIDS
         (FACTORY,   PERIODDATE,   PRODUCTID,   PLAN_INPUT_GLS_QTY,   ACTUAL_INPUT_GLS_QTY,   INTERFACE_TIME,   PRODUCTTYPE) VALUES
-        (#{FACTORY},#{PERIODDATE},#{PRODUCTID},#{PLAN_INPUT_GLS_QTY},#{ACTUAL_INPUT_GLS_QTY},sysdate,#{PRODUCTTYPE})
+        (#{FACTORY},#{PERIODDATE},#{PRODUCTID},#{PLAN_INPUT_GLS_QTY},#{ACTUAL_INPUT_GLS_QTY},sysdate,#{PRODUCTTYPE,jdbcType=VARCHAR})
     </insert>
     <update id="updateData" parameterType="map">
         UPDATE DWS_PRODUCT_INPUT_FIDS SET

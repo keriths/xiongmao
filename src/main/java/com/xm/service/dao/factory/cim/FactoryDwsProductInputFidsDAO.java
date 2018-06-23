@@ -3,6 +3,7 @@ package com.xm.service.dao.factory.cim;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -12,4 +13,8 @@ import java.util.Map;
 @Repository("factoryDwsProductInputFidsDAO")
 public interface FactoryDwsProductInputFidsDAO {
     List<Map<String,Object>> querySyncData(@Param("offset")int offset,@Param("limit")int limit);
+
+    List<Map<String,Object>> queryLatestData(@Param("minPeriodDate")Date minPeriodDate);
+
+    List<Map<String,Object>> queryLatestDataByDataAndTableName(@Param("offset")int offset,@Param("limit")int limit,@Param("minPeriodDate")Date maxPeriodDate,@Param("tableName") String tableName);
 }

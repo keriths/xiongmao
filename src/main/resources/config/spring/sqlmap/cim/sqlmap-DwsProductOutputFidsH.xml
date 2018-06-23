@@ -30,12 +30,17 @@
         where FACTORY = #{FACTORY} and
         PRODUCTID = #{PRODUCTID} and
         PERIODDATE = #{PERIODDATE} and
-        PRODUCTTYPE = #{PRODUCTTYPE}
+        <if test="PRODUCTTYPE == null">
+            PRODUCTTYPE is null
+        </if>
+        <if test="PRODUCTTYPE != null">
+          PRODUCTTYPE = #{PRODUCTTYPE}
+        </if>
     </select>
     <insert id="addData" parameterType="map">
         INSERT INTO  DWS_PRODUCT_OUTPUT_FIDS_H
         (FACTORY,   PERIODDATE,   PRODUCTID,   PLAN_OUTPUT_PNL_QTY,   ACTUAL_OUTPUT_PNL_QTY,   INTERFACE_TIME,   PRODUCTTYPE) VALUES
-        (#{FACTORY},#{PERIODDATE},#{PRODUCTID},#{PLAN_OUTPUT_PNL_QTY},#{ACTUAL_OUTPUT_PNL_QTY},sysdate,#{PRODUCTTYPE})
+        (#{FACTORY},#{PERIODDATE},#{PRODUCTID},#{PLAN_OUTPUT_PNL_QTY},#{ACTUAL_OUTPUT_PNL_QTY},sysdate,#{PRODUCTTYPE,jdbcType=VARCHAR})
     </insert>
     <update id="updateData" parameterType="map">
         UPDATE DWS_PRODUCT_OUTPUT_FIDS_H SET

@@ -1,9 +1,30 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.factory.cim.FactoryDwsProductInputFidsDAO" >
+    <select id="queryLatestData" parameterType="map" resultType="map">
+        SELECT *
+        from DWS_PRODUCT_INPUT_FIDS
+        where
+        <![CDATA[
+          PERIODDATE >= #{minPeriodDate}
+          and rownum < 1000
+        ]]>
+        order by PERIODDATE
+    </select>
+    <select id="queryLatestDataByDataAndTableName" parameterType="map" resultType="map">
+        <![CDATA[
+        select * from (
+          select t.*,rownum as rn
+          from ${tableName} t
+          where PERIODDATE >= #{minPeriodDate}
+            and rownum <= #{offset}+#{limit}
+            order by  t.PERIODDATE
+        ) a where a.rn > #{offset}
+
+        ]]>
+    </select>
     <select id="querySyncData" parameterType="map" resultType="map">
         <![CDATA[
-
         select * from (
           select t.*,rownum as rn
           from DWS_PRODUCT_INPUT_FIDS t
