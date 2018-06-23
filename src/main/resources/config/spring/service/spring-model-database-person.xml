@@ -34,7 +34,7 @@
     <bean id="personSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
         <constructor-arg index="0" ref="personSqlSessionFactory" />
     </bean>
-    <bean id="factoryCimMapperConfig" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+    <bean id="personMapperConfig" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage" value="com.xm.service.dao.person" />
         <property name="sqlSessionFactoryBeanName" value="personSqlSessionFactory" />
         <property name="sqlSessionTemplateBeanName" value="personSqlSessionTemplate" />

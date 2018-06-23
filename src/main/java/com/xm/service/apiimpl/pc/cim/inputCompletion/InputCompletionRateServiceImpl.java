@@ -31,6 +31,7 @@ public class InputCompletionRateServiceImpl{
     public InputCompletionRetDTO inputCompletionRate(@ApiParamDoc(desc = "产品类型：如55,为空时是全部") String productId, @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
         InputCompletionRetDTO retDto = new InputCompletionRetDTO();
         try {
+            //50 和 58
             if (!Constant.dateTypeList.contains(dateType)){
                 retDto.setSuccess(false);
                 retDto.setErrorMsg("dateType参数错误,请传入【" + Constant.dateTypeList + "】");

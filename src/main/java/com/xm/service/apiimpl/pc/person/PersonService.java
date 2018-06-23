@@ -27,8 +27,8 @@ import java.util.stream.Collectors;
 public class PersonService {
     private static Map<String,PersonInWorkData> cacheFactoryTimeData = new HashMap<>();
     String staffParrtern = "^[0-9]{1}";
-    private static Map<String,List<Integer>> inMap ;
-    private static Map<String,List<Integer>> outMap ;
+    private static Map<String,List<Integer>> inMap = new HashMap<>();
+    private static Map<String,List<Integer>> outMap =new HashMap<>();
     static {
         inMap.put("4A", Lists.newArrayList(421,426,431,436));
         inMap.put("4B", Lists.newArrayList(107,112,117,122));

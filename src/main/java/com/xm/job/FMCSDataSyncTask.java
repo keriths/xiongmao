@@ -2,13 +2,9 @@ package com.xm.job;
 
 import com.xm.platform.util.LogUtils;
 import com.xm.service.apiimpl.pc.fmcs.exhaust.dto.SyncExhaustAData;
-import com.xm.service.dao.cim.DwsProductInputFidsDAO;
-import com.xm.service.dao.factory.cim.FactoryDwsProductInputFidsDAO;
 import com.xm.service.dao.factory.fmcs.*;
 import com.xm.service.dao.fmcs.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
