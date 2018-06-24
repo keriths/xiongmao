@@ -14,7 +14,7 @@ import java.util.Map;
 @Repository("dwsProductInputFidsDAO")
 public interface DwsProductInputFidsDAO {
     List<InputCompletionRetDTO.InputCompletionData> queryInputInfo(
-            @Param("productId")String productId,
+            @Param("productIdList")List<String> productIdList,
             @Param("dateType")String dateType,
             @Param("beginDate")Date beginDate,
             @Param("endDate")Date endDate,

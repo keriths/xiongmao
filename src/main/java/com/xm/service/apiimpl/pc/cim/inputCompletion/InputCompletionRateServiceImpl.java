@@ -97,10 +97,15 @@ public class InputCompletionRateServiceImpl{
                 startTime = DateUtils.getBeforQuarterStartDay(3);
                 dateList = DateUtils.getQuarterStrList(startTime,endTime);
             }
-
+            final List<String> productIdList = new ArrayList<>();
+            if (productId==null){
+                productMap.entrySet().stream().forEach(entry -> productIdList.addAll(entry.getValue()));
+            }else {
+                productIdList.addAll(productMap.get(productId));
+            }
             List<String> productTypeList=Constant.productTypeTestList;
 
-            List<InputCompletionRetDTO.InputCompletionData> dbValueList = dwsProductInputFidsDAO.queryInputInfo(productId, dateType, startTime, endTime,productTypeList);
+            List<InputCompletionRetDTO.InputCompletionData> dbValueList = dwsProductInputFidsDAO.queryInputInfo(productIdList, dateType, startTime, endTime,productTypeList);
             Map<String,InputCompletionRetDTO.InputCompletionData> dbValueMap = MapUtils.listToMap(dbValueList,"getDateTime");
             List<InputCompletionRetDTO.InputCompletionData> completionDataList = new ArrayList<InputCompletionRetDTO.InputCompletionData>();
             for (String dateStr:dateList){

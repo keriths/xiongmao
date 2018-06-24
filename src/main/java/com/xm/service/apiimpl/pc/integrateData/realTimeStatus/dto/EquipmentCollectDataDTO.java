@@ -28,6 +28,8 @@ public class EquipmentCollectDataDTO extends BaseRetDTO {
         public Integer oeeNum = 0;
         @ApiResultFieldDesc(desc = "故障设备总数")
         public Integer failNum = 0;
+        @ApiResultFieldDesc(desc = "amhs状态 1正常 0不正常")
+        public Integer amhsStatus=1;
 
         public String getFactory() {
             return factory;
@@ -49,5 +51,32 @@ public class EquipmentCollectDataDTO extends BaseRetDTO {
             return failNum;
         }
 
+        public void setFactory(String factory) {
+            this.factory = factory;
+        }
+
+        public void setTotalNum(Integer totalNum) {
+            this.totalNum = totalNum;
+        }
+
+        public void setPmNum(Integer pmNum) {
+            this.pmNum = pmNum;
+        }
+
+        public void setOeeNum(Integer oeeNum) {
+            this.oeeNum = oeeNum;
+        }
+
+        public void setFailNum(Integer failNum) {
+            this.failNum = failNum;
+        }
+
+        public Integer getAmhsStatus() {
+            return amhsStatus;
+        }
+
+        public void setAmhsStatus(Integer amhsStatus) {
+            this.amhsStatus = amhsStatus;
+        }
     }
 }
