@@ -21,7 +21,7 @@ public interface DwrProductCtFidsDAO {
      * @param endDate 结束时间
      * @return
      */
-    List<CycleTimeData.CycleTimeDetailData> cycleTimeShow(@Param("productId") String productId,
+    List<CycleTimeData.CycleTimeDetailData> cycleTimeShow(@Param("productIdList") List<String> productIdList,
                                                           @Param("dateType")String dateType,
                                                           @Param("beginDate") Date beginDate,
                                                           @Param("endDate") Date endDate,

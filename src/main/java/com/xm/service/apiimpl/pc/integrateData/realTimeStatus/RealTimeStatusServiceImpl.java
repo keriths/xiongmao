@@ -88,20 +88,20 @@ public class RealTimeStatusServiceImpl {
     public OutputCollectDataRetDTO outCollectRetDTO(){
         OutputCollectDataRetDTO resultDto = new OutputCollectDataRetDTO();
         try {
-            List<String> productNameList=new ArrayList<String>();
-            Map<String,String> dataMap=Constant.outProductIdNameMap;
-            Iterator<Map.Entry<String, String>> it = dataMap.entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry<String, String> entry = it.next();
-                productNameList.add(entry.getKey());
-            }
+//            List<String> productNameList=new ArrayList<String>();
+//            Map<String,String> dataMap=Constant.outProductIdNameMap;
+//            Iterator<Map.Entry<String, String>> it = dataMap.entrySet().iterator();
+//            while (it.hasNext()) {
+//                Map.Entry<String, String> entry = it.next();
+//                productNameList.add(entry.getKey());
+//            }
             List<String> productTypeList=Constant.productTypeTestList;
             Date todayStart = DateUtils.getBeforDayStartDay(1);
             Date todayEnd = DateUtils.getBeforDayEndDay(1);
             Date curMonthStart = DateUtils.getBeforMonthStartDay(0);
             Date curMonthEnd = DateUtils.getBeforMonthEndDay(0);
-            List<OutputCollectDataRetDTO.CollectDataList> dayDataList = outputcompletionDAO.queryTotalOutputByDateAndProductIdList(productNameList,todayStart,todayEnd,productTypeList);
-            List<OutputCollectDataRetDTO.CollectDataList> monthDataList = outputcompletionDAO.queryTotalOutputByDateAndProductIdList(productNameList,curMonthStart,curMonthEnd,productTypeList);
+            List<OutputCollectDataRetDTO.CollectDataList> dayDataList = outputcompletionDAO.queryTotalOutputByDateAndProductIdList(todayStart,todayEnd,productTypeList);
+            List<OutputCollectDataRetDTO.CollectDataList> monthDataList = outputcompletionDAO.queryTotalOutputByDateAndProductIdList(curMonthStart,curMonthEnd,productTypeList);
 //            List<OutputCollectDataRetDTO.CollectDataList> dayDataList = outputcompletionDAO.outputDayData(productIdList);
 //            List<OutputCollectDataRetDTO.CollectDataList> monthDataList = outputcompletionDAO.outputMonthData(productIdList);
             resultDto.setCollectDayDataRetDTOList(dayDataList);

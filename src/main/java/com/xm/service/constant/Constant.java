@@ -23,11 +23,10 @@ public class Constant {
     /**
      * 产品id
      */
-    public static final Map<String,String> productIdNameMap = MapUtils.newMap(
-            "55","55寸",
-            "40","40寸",
-            "50","50寸",
-            "60","60寸");
+    public static final Map<String,String> productIdNameMap =
+            MapUtils.newMap(
+            "50","50'",
+            "58","58'");
     /**
      * 厂别
      */
@@ -317,7 +316,7 @@ public class Constant {
     public static final List<String> productTypeMPList = Lists.newArrayList("MP");
 
     //productType 试验
-    public static final List<String> productTypeTestList = Lists.newArrayList("TS","ES","CS","DM","E1","E2");
+    public static final List<String> productTypeTestList = Lists.newArrayList("CM","CS","DM","ES","MP","TS","ZP02","ZP03","ZP20","ZP21","ZP22","ZP30","E1","E2");
 
 
 

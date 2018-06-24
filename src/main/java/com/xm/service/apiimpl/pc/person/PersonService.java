@@ -22,8 +22,8 @@ import java.util.stream.Collectors;
 /**
  * Created by fanshuai on 18/6/17.
  */
-@Service("personService")
-@ApiServiceDoc(name = "人员系统(完成)")
+//@Service("personService")
+//@ApiServiceDoc(name = "人员系统(完成)")
 public class PersonService {
     private static Map<String,PersonInWorkData> cacheFactoryTimeData = new HashMap<>();
     String staffParrtern = "^[0-9]{1}";

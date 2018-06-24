@@ -1,5 +1,6 @@
 package com.xm.service.apiimpl.pc.cim.inputCompletion;
 
+import com.google.common.collect.Lists;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
@@ -22,7 +23,11 @@ import java.util.*;
 @Service("InputCompletionRateService")
 @ApiServiceDoc(name = "CIM2_投入达成率（完成-工厂数据已验证）")
 public class InputCompletionRateServiceImpl{
-
+    private static Map<String,List<String>> productMap = new HashMap<>();
+    static {
+        productMap.put("50", Lists.newArrayList("C41A", "D41A"));
+        productMap.put("58", Lists.newArrayList("C51A","D51A"));
+    }
 
     @Resource
     private DwsProductInputFidsDAO dwsProductInputFidsDAO;

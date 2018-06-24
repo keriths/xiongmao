@@ -107,15 +107,12 @@
 
     <select id="queryTotalOutputByDateAndProductIdList" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto.OutputCollectDataRetDTO$CollectDataList">
         SELECT
-        PRODUCTID as productName,
+        decode(PRODUCTID,'C41A','50','D41A','50','C51A','58','D51A','58',PRODUCTID) as productName,
         sum(ACTUAL_OUTPUT_PNL_QTY) as outputNum
         FROM
         DWS_PRODUCT_OUTPUT_FIDS
         WHERE
-        PRODUCTID IN
-        <foreach collection="productNameList" item="productName" open="(" separator="," close=")" >
-            #{productName}
-        </foreach>
+        PRODUCTID IN ('C41A','D41A','C51A','D51A')
         and PRODUCTTYPE IN
         <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
             #{productType}
@@ -124,7 +121,7 @@
           and PERIODDATE >= #{startDate}
           and PERIODDATE <= #{endDate}
         ]]>
-        GROUP BY PRODUCTID
+        GROUP BY decode(PRODUCTID,'C41A','50','D41A','50','C51A','58','D51A','58',PRODUCTID)
     </select>
 
 </mapper>

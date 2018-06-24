@@ -4,6 +4,7 @@
 
     <select id="queryStatusData" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentStatusData">
         select
+            decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) as factory,
             KEY as key,
             VAL as val,
             KEYDESC as keyDesc,
