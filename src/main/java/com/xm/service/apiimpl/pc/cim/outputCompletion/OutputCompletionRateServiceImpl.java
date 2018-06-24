@@ -22,7 +22,7 @@ import java.util.*;
 @Service("OutputCompletionRateService")
 @ApiServiceDoc(name = "CIM3_产出达成率（完成-工厂数据已验证）")
 public class OutputCompletionRateServiceImpl {
-    private static Map<String,List<String>> productMap = Constant.factoryMap;
+    private static Map<String,List<String>> productMap = Constant.productMap;
     @Resource
     private DwsProductOutputFidsDAO outputcompletionDAO;
 

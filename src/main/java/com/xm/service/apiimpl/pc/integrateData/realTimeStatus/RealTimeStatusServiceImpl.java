@@ -26,7 +26,6 @@ import java.util.*;
 @Service("RealTimeStatusService")
 @ApiServiceDoc(name = "综合数据_实时状态")
 public class RealTimeStatusServiceImpl {
-    private static Map<String,List<String>> productMap = Constant.factoryMap;
 
     @Resource(name = "dwrEquipmentStatusFidsDAO")
     public DwrEquipmentStatusFidsDAO dwrEquipmentStatusFidsDAO;
