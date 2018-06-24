@@ -1,5 +1,6 @@
 package com.xm.service.apiimpl.pc.cim.outputCompletion;
 
+import com.google.common.collect.Lists;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
@@ -21,6 +22,7 @@ import java.util.*;
 @Service("OutputCompletionRateService")
 @ApiServiceDoc(name = "CIM3_产出达成率（完成-工厂数据已验证）")
 public class OutputCompletionRateServiceImpl {
+    private static Map<String,List<String>> productMap = Constant.factoryMap;
     @Resource
     private DwsProductOutputFidsDAO outputcompletionDAO;
 
@@ -90,10 +92,15 @@ public class OutputCompletionRateServiceImpl {
                 beginDate = DateUtils.getBeforQuarterStartDay(3);
                 dateList = DateUtils.getQuarterStrList(beginDate,endDate);
             }
-
+            final List<String> productIdList = new ArrayList<>();
+            if (productId==null){
+                productMap.entrySet().stream().forEach(entry -> productIdList.addAll(entry.getValue()));
+            }else {
+                productIdList.addAll(productMap.get(productId));
+            }
             List<String> productTypeList=Constant.productTypeTestList;
 
-            List<OutputCompletionData.DataList> dataList=outputcompletionDAO.OutputCompletionRate(productId,dateType,beginDate,endDate,productTypeList);
+            List<OutputCompletionData.DataList> dataList=outputcompletionDAO.OutputCompletionRate(productIdList,dateType,beginDate,endDate,productTypeList);
 
             Map<String,OutputCompletionData.DataList> dataMap=MapUtils.listToMap(dataList,"key");
 

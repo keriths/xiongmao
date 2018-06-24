@@ -23,11 +23,7 @@ import java.util.*;
 @Service("InputCompletionRateService")
 @ApiServiceDoc(name = "CIM2_投入达成率（完成-工厂数据已验证）")
 public class InputCompletionRateServiceImpl{
-    private static Map<String,List<String>> productMap = new HashMap<>();
-    static {
-        productMap.put("50", Lists.newArrayList("C41A", "D41A"));
-        productMap.put("58", Lists.newArrayList("C51A","D51A"));
-    }
+    private static Map<String,List<String>> productMap = Constant.factoryMap;
 
     @Resource
     private DwsProductInputFidsDAO dwsProductInputFidsDAO;

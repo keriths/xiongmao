@@ -150,7 +150,7 @@ public class ProductLineData extends BaseRetDTO{
                     if(inputPnl.compareTo(new BigDecimal(0))==0){//等于0
                         inLine=new BigDecimal(0);
                     }else{
-                        inLine = outputPnl.multiply(new BigDecimal("100")).divide(inputPnl,2, RoundingMode.HALF_UP);
+                        inLine = outputPnl.multiply(new BigDecimal("100")).divide(inputPnl.add(outputPnl),2, RoundingMode.HALF_UP);
                     }
                 }else{
                     if(outputGls.compareTo(new BigDecimal(0))==0 && scrapGls.compareTo(new BigDecimal(0))==0){

@@ -18,7 +18,7 @@ public interface DwsProductOutputFidsDAO {
      * 产出达成率
      * @return
      */
-    List<OutputCompletionData.DataList> OutputCompletionRate(@Param("productId")String productId,
+    List<OutputCompletionData.DataList> OutputCompletionRate(@Param("productIdList")List<String> productIdList,
                                                          @Param("dateType")String dateType,
                                                          @Param("beginDate")Date beginDate,
                                                          @Param("endDate")Date endDate,

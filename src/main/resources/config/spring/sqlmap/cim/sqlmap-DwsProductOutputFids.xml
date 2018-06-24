@@ -29,9 +29,10 @@
               and PERIODDATE <= #{endDate}
              ]]>
         and FACTORY in ('SL','OC')
-            <if test="productId!=null and productId!=''">
-                AND PRODUCTID=#{productId,jdbcType=VARCHAR}
-            </if>
+        and PRODUCTID in
+        <foreach collection="productIdList" item="productId" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
         and PRODUCTTYPE IN
         <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
             #{productType}
@@ -107,7 +108,8 @@
 
     <select id="queryTotalOutputByDateAndProductIdList" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto.OutputCollectDataRetDTO$CollectDataList">
         SELECT
-        decode(PRODUCTID,'C41A','50','D41A','50','C51A','58','D51A','58',PRODUCTID) as productName,
+        decode(PRODUCTID,'C41A','50', 'D41A','50','A1CC495PU1L01','50','D0NL495PU1L01','50',
+        'C51A','58','D51A','58','A1CC575PU1L01','58','A1CC575PU3L01','58',PRODUCTID) as productName,
         sum(ACTUAL_OUTPUT_PNL_QTY) as outputNum
         FROM
         DWS_PRODUCT_OUTPUT_FIDS
@@ -121,7 +123,8 @@
           and PERIODDATE >= #{startDate}
           and PERIODDATE <= #{endDate}
         ]]>
-        GROUP BY decode(PRODUCTID,'C41A','50','D41A','50','C51A','58','D51A','58',PRODUCTID)
+        GROUP BY decode(PRODUCTID,'C41A','50', 'D41A','50','A1CC495PU1L01','50','D0NL495PU1L01','50',
+        'C51A','58','D51A','58','A1CC575PU1L01','58','A1CC575PU3L01','58',PRODUCTID)
     </select>
 
 </mapper>

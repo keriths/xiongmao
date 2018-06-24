@@ -3,6 +3,7 @@ package com.xm.service.constant;
 import com.google.common.collect.Lists;
 import com.xm.platform.util.MapUtils;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -319,5 +320,11 @@ public class Constant {
     public static final List<String> productTypeTestList = Lists.newArrayList("CM","CS","DM","ES","MP","TS","ZP02","ZP03","ZP20","ZP21","ZP22","ZP30","E1","E2");
 
 
+
+    private static Map<String,List<String>> productMap = new HashMap<>();
+    static {
+        productMap.put("50", Lists.newArrayList("C41A", "D41A","A1CC495PU1L01","D0NL495PU1L01"));
+        productMap.put("58", Lists.newArrayList("C51A","D51A","A1CC575PU1L01","A1CC575PU3L01"));
+    }
 
 }
