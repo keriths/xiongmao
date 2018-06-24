@@ -2,7 +2,6 @@ package com.xm.service.apiimpl.pc.cim.inputCompletion.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.RandomUtils;
-import com.xm.service.constant.Constant;
 import com.xm.service.dto.BaseRetDTO;
 
 import java.io.Serializable;
@@ -15,6 +14,7 @@ import java.util.Random;
  * Created by fanshuai on 17/11/12.
  */
 public class InputCompletionRetDTO extends BaseRetDTO{
+
     @ApiResultFieldDesc(desc = "达成率数据集合")
     private List<InputCompletionData> completionDataList;
 
@@ -29,6 +29,7 @@ public class InputCompletionRetDTO extends BaseRetDTO{
 
 
     public static class InputCompletionData implements Serializable{
+        boolean showDemoData = false;
         public InputCompletionData(){}
         public InputCompletionData(String dateTime){
             this.dateTime=dateTime;
@@ -58,7 +59,7 @@ public class InputCompletionRetDTO extends BaseRetDTO{
 
         public BigDecimal getPlan() {
             if (plan==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     plan = new BigDecimal(RandomUtils.randomInt(planMin,planMax));
                     return plan;
                 }else {
@@ -75,7 +76,7 @@ public class InputCompletionRetDTO extends BaseRetDTO{
 
         public BigDecimal getActual() {
             if (actual==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     actual = new BigDecimal(RandomUtils.randomInt(actualMin,actualMax));
                     return actual;
                 }else {

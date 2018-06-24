@@ -45,6 +45,12 @@ public class CycleTimeData implements Serializable {
 
 
         public String getFactory() {
+            if("ARRAY".equals(factory)){
+                return "Array";
+            }
+            if ("CELL".equals(factory)){
+                return "Cell";
+            }
             return factory;
         }
 

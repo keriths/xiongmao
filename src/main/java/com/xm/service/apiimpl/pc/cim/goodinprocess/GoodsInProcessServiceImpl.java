@@ -38,6 +38,9 @@ public class GoodsInProcessServiceImpl {
     public GoodInProcessFtRetDTO goodInProcessFtRetDTO(@ApiParamDoc(desc = "厂别,如ARRAY,CELL,CF,SL-OC") String factory){
         GoodInProcessFtRetDTO retDTO = new GoodInProcessFtRetDTO();
         try{
+            if (factory!=null){
+                factory = factory.toUpperCase();
+            }
             List<String> factoryList = Constant.factoryMap.get(factory);
             List<String> factoryLists = Constant.showFactoryList;
             if (!factoryLists.contains(factory)){

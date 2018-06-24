@@ -2,13 +2,12 @@ package com.xm.service.apiimpl.pc.cim.outputCompletion.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.RandomUtils;
-import com.xm.service.constant.Constant;
+
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static java.lang.Double.valueOf;
 
 /**
  * Created by luokaiming on 2017/11/13 0013.
@@ -24,6 +23,7 @@ public class OutputCompletionData implements Serializable{
     public OutputCompletionData(String periodDate){this.periodDate=periodDate;}*/
 
     public static class DataList{
+        boolean showDemoData = false;
         public DataList(){}
         public DataList( String periodDate,String factory){
             this.periodDate=periodDate;
@@ -76,7 +76,7 @@ public class OutputCompletionData implements Serializable{
 
         public BigDecimal getPlan() {
             if (plan==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     if("SL".equals(getFactory())){
                         plan = new BigDecimal(RandomUtils.randomInt(planMin,planMax));
                         return plan;
@@ -98,7 +98,7 @@ public class OutputCompletionData implements Serializable{
 
         public BigDecimal getActual() {
             if (actual==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     if("SL".equals(getFactory())){
                         actual = new BigDecimal(RandomUtils.randomInt(actualMin,actualMax));
                         return actual;

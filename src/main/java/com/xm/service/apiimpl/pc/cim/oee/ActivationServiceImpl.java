@@ -36,8 +36,10 @@ public class ActivationServiceImpl {
     @ApiMethodDoc(apiCode = "CIM_ActivationStatusNum",name="EQP类型的状态值显示（完成-工厂数据已验证）")
     public ActivationEQPStatusListRetDTO activationStatusNumList(@ApiParamDoc(desc = "厂别：ARRAY,CELL") String factory, @ApiParamDoc(desc = "EQP类型，如PHOTO PVD") String eqpId){
         ActivationEQPStatusListRetDTO actType = new ActivationEQPStatusListRetDTO();
-
         try {
+            if (factory!=null){
+                factory = factory.toUpperCase();
+            }
             List<String> factoryList = Constant.factoryMap.get(factory);
             List<String> showEqpIdList = Constant.factoryEQPStatusListMap.get(factory);
             if (CollectionUtils.isEmpty(factoryList)) {

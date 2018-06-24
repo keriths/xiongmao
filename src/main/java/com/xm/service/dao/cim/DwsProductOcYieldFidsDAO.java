@@ -15,7 +15,7 @@ import java.util.Map;
 public interface DwsProductOcYieldFidsDAO {
 
     List<ProductOcData.ProductOcDetailData> queryProductOcData(
-                                                                 @Param("productName") String productName,
+                                                                 @Param("productIdList") List<String> productIdList,
                                                                  @Param("dateType")String dateType,
                                                                  @Param("beginDate") Date beginDate,
                                                                  @Param("endDate") Date endDate,

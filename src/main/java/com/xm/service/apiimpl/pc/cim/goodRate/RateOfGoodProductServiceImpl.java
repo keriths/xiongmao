@@ -41,6 +41,9 @@ public class RateOfGoodProductServiceImpl {
                                                        @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
         ProductLineDataRetDTO resultDto=new ProductLineDataRetDTO();
         try {
+            if (factory!=null){
+                factory = factory.toUpperCase();
+            }
             List<String> factoryList = Constant.factoryMap.get(factory);
             if(CollectionUtils.isEmpty(factoryList)){
                 resultDto.setSuccess(false);
@@ -56,7 +59,7 @@ public class RateOfGoodProductServiceImpl {
             Date beginDate = null;
             Date endDate = new Date();
             if (dateType.equals(Constant.day)){
-                beginDate = DateUtils.getBeforDayStartDay(6);
+                beginDate = DateUtils.getBeforDayStartDay(9);
                 dateList = DateUtils.getDayStrList(beginDate,endDate);
             }else if (dateType.equals(Constant.month)){
                 beginDate = DateUtils.getBeforMonthStartDay(11);
@@ -99,6 +102,7 @@ public class RateOfGoodProductServiceImpl {
                                                      @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
         ProductOcDataRetDTO resultDto=new ProductOcDataRetDTO();
         try {
+            List<String> productIdList = Constant.productMap.get(productName);
             if (!Constant.dateTypeList.contains(dateType)){
                 resultDto.setSuccess(false);
                 resultDto.setErrorMsg("dateType参数错误,请传入【" + Constant.dateTypeList + "】");
@@ -108,7 +112,7 @@ public class RateOfGoodProductServiceImpl {
             Date beginDate = null;
             Date endDate = new Date();
             if (dateType.equals(Constant.day)){
-                beginDate = DateUtils.getBeforDayStartDay(6);
+                beginDate = DateUtils.getBeforDayStartDay(9);
                 dateList = DateUtils.getDayStrList(beginDate,endDate);
             }else if (dateType.equals(Constant.month)){
                 beginDate = DateUtils.getBeforMonthStartDay(11);
@@ -120,7 +124,7 @@ public class RateOfGoodProductServiceImpl {
 
             List<String> productTypeList=Constant.productTypeTestList;
 
-            List<ProductOcData.ProductOcDetailData> detailDataList = dwsProductOcYieldFidsDAO.queryProductOcData(productName,dateType,beginDate,endDate,productTypeList);
+            List<ProductOcData.ProductOcDetailData> detailDataList = dwsProductOcYieldFidsDAO.queryProductOcData(productIdList,dateType,beginDate,endDate,productTypeList);
             Map<String,ProductOcData.ProductOcDetailData> dataMap= MapUtils.listToMap(detailDataList, "getPeriodDate");
             List<ProductOcData.ProductOcDetailData> ProductDetailDataList = new ArrayList<ProductOcData.ProductOcDetailData>();
             for (String day:dateList){
