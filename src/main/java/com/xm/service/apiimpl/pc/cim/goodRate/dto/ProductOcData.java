@@ -3,14 +3,12 @@ package com.xm.service.apiimpl.pc.cim.goodRate.dto;
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.RandomUtils;
 import com.xm.platform.util.ReturnDataUtils;
-import com.xm.service.constant.Constant;
+
 import com.xm.service.dto.BaseRetDTO;
-import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
-import java.util.prefs.BackingStoreException;
 
 /**
  * Created by wangshuna on 2018/1/24.
@@ -30,7 +28,7 @@ public class ProductOcData extends BaseRetDTO{
             this.productName = productName;
             this.periodDate = periodDate;
         }
-
+        boolean showDemoData = true;
         @ApiResultFieldDesc(desc = "单个产品良品率")
         private BigDecimal inLine;
         @ApiResultFieldDesc(desc = "目标良品率")
@@ -80,7 +78,7 @@ public class ProductOcData extends BaseRetDTO{
 
         public BigDecimal getPolInput() {
             if(polInput==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     polInput = new BigDecimal(RandomUtils.randomInt(100100,100300));
                     return polInput;
                 }else{
@@ -97,7 +95,7 @@ public class ProductOcData extends BaseRetDTO{
 
         public BigDecimal getPolOutputA() {
             if(polOutputA==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     polOutputA = new BigDecimal(RandomUtils.randomInt(20000,20020));
                     return polOutputA;
                 }else{
@@ -114,7 +112,7 @@ public class ProductOcData extends BaseRetDTO{
 
         public BigDecimal getPolOutputFA() {
             if(polOutputFA==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     polOutputFA = new BigDecimal(RandomUtils.randomInt(21000,21010));
                     return polOutputFA;
                 }else{
@@ -130,7 +128,7 @@ public class ProductOcData extends BaseRetDTO{
 
         public BigDecimal getMbiRjOutputA() {
             if(mbiRjOutputA==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     mbiRjOutputA = new BigDecimal(RandomUtils.randomInt(25000,25020));
                     return mbiRjOutputA;
                 }else{
@@ -146,7 +144,7 @@ public class ProductOcData extends BaseRetDTO{
 
         public BigDecimal getMbiRjOutputFA() {
             if(mbiRjOutputFA==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     mbiRjOutputFA = new BigDecimal(RandomUtils.randomInt(27000,27020));
                     return mbiRjOutputFA;
                 }else{
@@ -162,7 +160,7 @@ public class ProductOcData extends BaseRetDTO{
 
         public BigDecimal getPolRwOutputA() {
             if(polRwOutputA==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     polRwOutputA = new BigDecimal(RandomUtils.randomInt(4000,4020));
                     return polRwOutputA;
                 }else{
@@ -178,7 +176,7 @@ public class ProductOcData extends BaseRetDTO{
 
         public BigDecimal getPolRwOutputFA() {
             if(polRwOutputFA==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     polRwOutputFA = new BigDecimal(RandomUtils.randomInt(3000,3010));
                     return polRwOutputFA;
                 }else{
@@ -194,7 +192,7 @@ public class ProductOcData extends BaseRetDTO{
 
         public BigDecimal getIobInput() {
             if(iobInput==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     iobInput = new BigDecimal(RandomUtils.randomInt(100100,100300));
                     return iobInput;
                 }else{
@@ -210,7 +208,7 @@ public class ProductOcData extends BaseRetDTO{
 
         public BigDecimal getIobEiOutputA() {
             if(iobEiOutputA==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     iobEiOutputA = new BigDecimal(RandomUtils.randomInt(20000,20020));
                     return iobEiOutputA;
                 }else{
@@ -226,7 +224,7 @@ public class ProductOcData extends BaseRetDTO{
 
         public BigDecimal getIobEiOutputFA() {
             if(iobEiOutputFA==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     iobEiOutputFA = new BigDecimal(RandomUtils.randomInt(21000,21010));
                     return iobEiOutputFA;
                 }else{
@@ -242,7 +240,7 @@ public class ProductOcData extends BaseRetDTO{
 
         public BigDecimal getIobEiOutputBRwA() {
             if(iobEiOutputBRwA==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     iobEiOutputBRwA = new BigDecimal(RandomUtils.randomInt(25000,25020));
                     return iobEiOutputBRwA;
                 }else{
@@ -258,7 +256,7 @@ public class ProductOcData extends BaseRetDTO{
 
         public BigDecimal getIobEiOutputBRwFA() {
             if(iobEiOutputBRwFA==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     iobEiOutputBRwFA = new BigDecimal(RandomUtils.randomInt(27000,27020));
                     return iobEiOutputBRwFA;
                 }else{
@@ -274,7 +272,7 @@ public class ProductOcData extends BaseRetDTO{
 
         public BigDecimal getIobEiOutputDRwA() {
             if(iobEiOutputDRwA==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     iobEiOutputDRwA = new BigDecimal(RandomUtils.randomInt(4000,4020));
                     return iobEiOutputDRwA;
                 }else{
@@ -290,7 +288,7 @@ public class ProductOcData extends BaseRetDTO{
 
         public BigDecimal getIobEiOutputDRwFA() {
             if(iobEiOutputDRwFA==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     iobEiOutputDRwFA = new BigDecimal(RandomUtils.randomInt(3000,3010));
                     return iobEiOutputDRwFA;
                 }else{

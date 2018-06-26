@@ -55,6 +55,12 @@ public class GoodInProcessWipDataDTO{
         private BigDecimal storeMin;
 
         public String getFactory() {
+//            if ("ARRAY".equals(factory)){
+//                return "Array";
+//            }
+//            if ("CELL".equals(factory)){
+//                return "Cell";
+//            }
             return factory;
         }
 

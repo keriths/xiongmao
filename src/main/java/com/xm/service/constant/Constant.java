@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.xm.platform.util.MapUtils;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,10 +25,11 @@ public class Constant {
     /**
      * 产品id
      */
-    public static final Map<String,String> productIdNameMap =
-            MapUtils.newMap(
-            "50","50'",
-            "58","58'");
+    public static final Map<String,String> productIdNameMap = new LinkedHashMap<>();
+    static {
+        productIdNameMap.put("50","50'");
+        productIdNameMap.put("58","58'");
+    }
     /**
      * 厂别
      */
@@ -83,10 +85,10 @@ public class Constant {
      * 厂别与EQP类型
      */
     public static final Map<String,List<String>> factoryProductIdListMap = MapUtils.newMap(
-            "ARRAY",Lists.newArrayList("PHOTO","PVD","CVD","WET","DE"),
-            "CELL",Lists.newArrayList("PI","FDV","ODF","HSW","KOL"),
-            "CF",Lists.newArrayList("BM","ITO","PS","RGB","RML"),
-            "SL-OC",Lists.newArrayList("MBD","POL","OLB","MLR","Aging")
+            "ARRAY", Lists.newArrayList("PHOTO", "PVD", "CVD", "WET", "DE"),
+            "CELL", Lists.newArrayList("PI", "FDV", "ODF", "HSW", "KOL"),
+            "CF", Lists.newArrayList("BM", "ITO", "PS", "RGB", "RML"),
+            "SL-OC", Lists.newArrayList("MBD","POL","OLB","MLR","Aging")
     );
 
     /**
@@ -97,16 +99,16 @@ public class Constant {
      * 厂别与EQP类型
      */
     public static final Map<String,List<String>> factoryEQPStatusListMap = MapUtils.newMap(
-            "ARRAY", Lists.newArrayList("PHOTO","PVD","CVD","WET","DE"),
-            "CELL",Lists.newArrayList("PI","FDV","ODF","HSW","KOL"),
-            "CF",Lists.newArrayList("BM","ITO","PS","RGB","RML"),
-            "SL-OC",Lists.newArrayList("MBD","POL","OLB","MLB","Aging")
+            "ARRAY", Lists.newArrayList("PHOTO", "PVD", "CVD", "WET", "DE"),
+            "CELL", Lists.newArrayList("PI", "FDV", "ODF", "HSW", "KOL"),
+            "CF", Lists.newArrayList("BM", "ITO", "PS", "RGB", "RML"),
+            "SL-OC", Lists.newArrayList("MBD","POL","OLB","MLB","Aging")
     );
 
     /**
      * cycleTime厂别
      */
-    public static final List<String> cycleTimeFactoryList=Lists.newArrayList("ARRAY","CELL","SL-OC");
+    public static final List<String> cycleTimeFactoryList = Lists.newArrayList("ARRAY","CELL","SL-OC");
     /**
      * cycleTime产品id
      */
@@ -116,7 +118,7 @@ public class Constant {
      * goodInProcess站点id名称
      */
     public static final Map<String,String> goodInProcessStepIdNameMap = MapUtils.newMap(
-            "a","a","b","b","c","c","d","d","e","e","f","f","g","g");
+            "a", "a", "b", "b", "c", "c","d","d","e","e","f","f","g","g");
     /**
      * 厂别
      */
@@ -124,10 +126,10 @@ public class Constant {
     public static final List<String> showFactoryList = Lists.newArrayList("ARRAY","CELL","CF","SL-OC");
     public static final List<String> allSingleFactoryLists = Lists.newArrayList("ARRAY","CELL","CF","SL","OC");
     public static final Map<String,List<String>> factoryMap = MapUtils.newMap(
-            "ARRAY",Lists.newArrayList("ARRAY"),
-            "CELL",Lists.newArrayList("CELL"),
-            "CF",Lists.newArrayList("CF"),
-            "SL-OC",Lists.newArrayList("SL","OC")
+            "ARRAY", Lists.newArrayList("ARRAY"),
+            "CELL", Lists.newArrayList("CELL"),
+            "CF", Lists.newArrayList("CF"),
+            "SL-OC", Lists.newArrayList("SL","OC")
     );
     /**
      * 在制品站点
@@ -198,7 +200,7 @@ public class Constant {
                                                                             "PCW-4B-101","PCW-4B-201",
                                                                             "PCW-4B-301","PCW-4B-401");
 
-    public static final List<String> wwtbDataCodeList=Lists.newArrayList("PH","F","PO4-P","CODcr","T-N","C1","Cu");
+    public static final List<String> wwtbDataCodeList = Lists.newArrayList("PH", "F","PO4-P","CODcr","T-N","C1","Cu");
 
     /**
      * MAU系统类型
@@ -217,14 +219,14 @@ public class Constant {
      * RCU系统类型
      */
     public static final Map<String,List<String>> rcuSystemListMap = MapUtils.newMap(
-            "RCU",Lists.newArrayList("RCU"),
-            "4A",Lists.newArrayList("4A-L1-PHT-RCU-01","4A-L1-PHT-RCU-02","4A-L1-PHT-RCU-03","4A-L1-PHT-RCU-04","4A-L1-PHT-RCU-05","4A-L1-PHT-RCU-06","4A-L1-PHT-RCU-07",
-                            "4A-L1-PHT-RCU-08","4A-L1-PHT-RCU-09","4A-L1-PHT-RCU-10","4A-L1-PHT-RCU-11","4A-L1-PHT-RCU-12","4A-L1-PHT-RCU-13","4A-L1-PHT-RCU-B1","4A-L1-PHT-RCU-B2",
-                            "4A-L3-PHT-RCU-04","4A-L3-PHT-RCU-05","4A-L3-PHT-RCU-06","4A-L3-PHT-RCU-07","4A-L3-PHT-RCU-08","4A-L3-PHT-RCU-09","4A-L3-PHT-RCU-10","4A-L3-PHT-RCU-11",
-                            "4A-L3-PHT-RCU-12","4A-L3-PHT-RCU-B1","4A-L3-PHT-RCU-B2"),
-            "4B",Lists.newArrayList("4B-1-RCU-PHT-01","4B-1-RCU-PHT-02","4B-1-RCU-PHT-03","4B-1-RCU-PHT-04","4B-1-RCU-PHT-05","4B-1-RCU-PHT-06","4B-1-RCU-PHT-08",
-                            "4B-1-RCU-PHT-10","4B-1-RCU-PHT-12","4B-1-RCU-PHT-13","4B-1-RCU-UV2A-01","4B-1-RCU-UV2A-02","4B-1-RCU-UV2A-03","4B-3-RCU-PHT-01","4B-3-RCU-PHT-02",
-                            "4B-3-RCU-PHT-03","4B-3-RCU-PHT-04","4B-3-RCU-PHT-05","4B-3-RCU-PHT-06","4B-3-RCU-PHT-07","4B-3-RCU-UV2A-01","4B-3-RCU-UV2A-02","4B-3-RCU-UV2A-03"));
+            "RCU", Lists.newArrayList("RCU"),
+            "4A", Lists.newArrayList("4A-L1-PHT-RCU-01", "4A-L1-PHT-RCU-02", "4A-L1-PHT-RCU-03", "4A-L1-PHT-RCU-04", "4A-L1-PHT-RCU-05", "4A-L1-PHT-RCU-06", "4A-L1-PHT-RCU-07",
+                    "4A-L1-PHT-RCU-08", "4A-L1-PHT-RCU-09", "4A-L1-PHT-RCU-10", "4A-L1-PHT-RCU-11", "4A-L1-PHT-RCU-12", "4A-L1-PHT-RCU-13", "4A-L1-PHT-RCU-B1", "4A-L1-PHT-RCU-B2",
+                    "4A-L3-PHT-RCU-04", "4A-L3-PHT-RCU-05", "4A-L3-PHT-RCU-06", "4A-L3-PHT-RCU-07", "4A-L3-PHT-RCU-08", "4A-L3-PHT-RCU-09", "4A-L3-PHT-RCU-10", "4A-L3-PHT-RCU-11",
+                    "4A-L3-PHT-RCU-12", "4A-L3-PHT-RCU-B1", "4A-L3-PHT-RCU-B2"),
+            "4B", Lists.newArrayList("4B-1-RCU-PHT-01", "4B-1-RCU-PHT-02", "4B-1-RCU-PHT-03", "4B-1-RCU-PHT-04", "4B-1-RCU-PHT-05", "4B-1-RCU-PHT-06", "4B-1-RCU-PHT-08",
+                    "4B-1-RCU-PHT-10", "4B-1-RCU-PHT-12", "4B-1-RCU-PHT-13", "4B-1-RCU-UV2A-01", "4B-1-RCU-UV2A-02", "4B-1-RCU-UV2A-03", "4B-3-RCU-PHT-01", "4B-3-RCU-PHT-02",
+                    "4B-3-RCU-PHT-03", "4B-3-RCU-PHT-04", "4B-3-RCU-PHT-05", "4B-3-RCU-PHT-06", "4B-3-RCU-PHT-07", "4B-3-RCU-UV2A-01", "4B-3-RCU-UV2A-02","4B-3-RCU-UV2A-03"));
 
     /**
      * 电的统计时间类型小时hour天day月month
@@ -291,26 +293,26 @@ public class Constant {
             "MBD", "设备D1", "POL", "设备D2", "OLB", "设备D3", "MLB", "设备D4", "Aqing", "设备D5");
 
     public static final Map<String,String> eqpIdEqpNameMap2 = MapUtils.newMap(
-            "VDN-01C","设备A1","PEB-16C","设备A2","KAM-02C","设备A3","WIT-02CL","设备A4","KRV-01C","设备A5",
-            "SPI-01C","设备B1","VDN-05C-CUL","设备B2","CAK-16CL","设备B3","PCD-07C","设备B4","CAK-07CL","设备B5",
-            "KLD-01CL","设备C1","PHB-07C","设备C2","VDN-01CL","设备C3","KEF-01CL","设备C4","KGM-01CL","设备C5",
-            "KHM-01CL","设备D1","WIG-01CL","设备D2","WUK-02C","设备D3","DEV-07C","设备D4","SPX-01CL","设备D5",
-            "KAR-02CL","设备E1","XSB-01C2","设备E2","XOB-03CL","设备E3","SPI-01CL","设备E4","KMM-03CL","设备E5",
-            "PIS-11C","设备F1","PMW-11C","设备F22","CPR-141C","设备F3","CPL-11CU","设备F4","PKS-12C","设备F5",
-            "KOL-01C","设备G1","PRS-11C","设备G2","MVW-01CL","设备G3","SSR-13C","设备G4","CPR-151C","设备G5",
-            "MVK-01C","设备H1","FDV-11C","设备H2","MVW-01C","设备H3","SSR-11C","设备H4","CHL-01CL","设备H4",
-            "PRK-11C","设备I1","CPR-121C","设备I2","CPR-151C","设备I3","CPR-111C","设备I4","CFL-11CL","设备I5",
-            "FDV-11C","设备J1","CPR-141C","设备J2","PKS-11C","设备J3","CPR-161C","设备J4","PKS-11C","设备J5",
-            "RML-01C","设备K1","PDV-03C","设备K2","FMR-131C","设备K3","FMR-141C","设备K4","FRC-112C","设备K5",
-            "FDB-121C","设备L1","FMC-111C","设备L2","FRT-112C","设备L3","MTP-01C","设备L4","WUK-03CL","设备L5",
-            "FRL-01CU","设备M1","IOV-01C","设备M2","PTC-03C","设备M3","FRC-113C","设备M4","PDV-02C","设备M5",
-            "MTM-01C","设备N1","FMR-181C","设备N2","FDL-01CU","设备N3","FPC-172C","设备N4","FPC-114C","设备N5",
-            "WCP-02C","设备O1","FDR-111C","设备O2","FDR-141C","设备O3","FMR-121C","设备O4","PMT-03C","设备O5",
-            "AVL205CN","设备P1","MLR206CN","设备P2","MLR207CN","设备P3","IMD205CT","设备P4","MBD205CN","设备P5",
-            "MLR208CL","设备Q1","MBD205CN","设备Q2","MLR202CN","设备Q3","AVL205CN","设备Q4","IMD403CL","设备Q5",
-            "MBD-25CL","设备R1","MLR204CN","设备R2","MLR203CN","设备R3","MLR202CN","设备R4","MLR207CN","设备R5",
-            "SSL205CN","设备S1","BGW205CN","设备S2","MBD-25CL","设备S3","BGW205CN","设备S4","ASL205CN","设备S5",
-            "AVL205CN","设备T1","IMD403CL","设备T2","IMD205CT","设备T3","SUD205CN","设备T4","ABI204CN","设备T5");
+            "VDN-01C", "设备A1", "PEB-16C", "设备A2", "KAM-02C", "设备A3", "WIT-02CL", "设备A4", "KRV-01C", "设备A5",
+            "SPI-01C", "设备B1", "VDN-05C-CUL", "设备B2", "CAK-16CL", "设备B3", "PCD-07C", "设备B4", "CAK-07CL", "设备B5",
+            "KLD-01CL", "设备C1", "PHB-07C", "设备C2", "VDN-01CL", "设备C3", "KEF-01CL", "设备C4", "KGM-01CL", "设备C5",
+            "KHM-01CL", "设备D1", "WIG-01CL", "设备D2", "WUK-02C", "设备D3", "DEV-07C", "设备D4", "SPX-01CL", "设备D5",
+            "KAR-02CL", "设备E1", "XSB-01C2", "设备E2", "XOB-03CL", "设备E3", "SPI-01CL", "设备E4", "KMM-03CL", "设备E5",
+            "PIS-11C", "设备F1", "PMW-11C", "设备F22", "CPR-141C", "设备F3", "CPL-11CU", "设备F4", "PKS-12C", "设备F5",
+            "KOL-01C", "设备G1", "PRS-11C", "设备G2", "MVW-01CL", "设备G3", "SSR-13C", "设备G4", "CPR-151C", "设备G5",
+            "MVK-01C", "设备H1", "FDV-11C", "设备H2", "MVW-01C", "设备H3", "SSR-11C", "设备H4", "CHL-01CL", "设备H4",
+            "PRK-11C", "设备I1", "CPR-121C", "设备I2", "CPR-151C", "设备I3", "CPR-111C", "设备I4", "CFL-11CL", "设备I5",
+            "FDV-11C", "设备J1", "CPR-141C", "设备J2", "PKS-11C", "设备J3", "CPR-161C", "设备J4", "PKS-11C", "设备J5",
+            "RML-01C", "设备K1", "PDV-03C", "设备K2", "FMR-131C", "设备K3", "FMR-141C", "设备K4", "FRC-112C", "设备K5",
+            "FDB-121C", "设备L1", "FMC-111C", "设备L2", "FRT-112C", "设备L3", "MTP-01C", "设备L4", "WUK-03CL", "设备L5",
+            "FRL-01CU", "设备M1", "IOV-01C", "设备M2", "PTC-03C", "设备M3", "FRC-113C", "设备M4", "PDV-02C", "设备M5",
+            "MTM-01C", "设备N1", "FMR-181C", "设备N2", "FDL-01CU", "设备N3", "FPC-172C", "设备N4", "FPC-114C", "设备N5",
+            "WCP-02C", "设备O1", "FDR-111C", "设备O2", "FDR-141C", "设备O3", "FMR-121C", "设备O4", "PMT-03C", "设备O5",
+            "AVL205CN", "设备P1", "MLR206CN", "设备P2", "MLR207CN", "设备P3", "IMD205CT", "设备P4", "MBD205CN", "设备P5",
+            "MLR208CL", "设备Q1", "MBD205CN", "设备Q2", "MLR202CN", "设备Q3", "AVL205CN", "设备Q4", "IMD403CL", "设备Q5",
+            "MBD-25CL", "设备R1", "MLR204CN", "设备R2", "MLR203CN", "设备R3", "MLR202CN", "设备R4", "MLR207CN", "设备R5",
+            "SSL205CN", "设备S1", "BGW205CN", "设备S2", "MBD-25CL", "设备S3", "BGW205CN", "设备S4", "ASL205CN", "设备S5",
+            "AVL205CN", "设备T1", "IMD403CL", "设备T2", "IMD205CT", "设备T3", "SUD205CN","设备T4","ABI204CN","设备T5");
 
 
     //productType 量产

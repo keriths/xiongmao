@@ -38,9 +38,6 @@ public class GoodsInProcessServiceImpl {
     public GoodInProcessFtRetDTO goodInProcessFtRetDTO(@ApiParamDoc(desc = "厂别,如ARRAY,CELL,CF,SL-OC") String factory){
         GoodInProcessFtRetDTO retDTO = new GoodInProcessFtRetDTO();
         try{
-            if (factory!=null){
-                factory = factory.toUpperCase();
-            }
             List<String> factoryList = Constant.factoryMap.get(factory);
             List<String> factoryLists = Constant.showFactoryList;
             if (!factoryLists.contains(factory)){
@@ -113,7 +110,6 @@ public class GoodsInProcessServiceImpl {
     @ApiMethodDoc(apiCode = "CIM_InProcess",name = "在制品WIP推移数据接口（完成-工厂数据已验证）")
     public GoodInProcessWipRetDTO queryInProcessWip() {
         GoodInProcessWipRetDTO resultDto = new GoodInProcessWipRetDTO();
-
         try {
            // List<String> stepIdList = Lists.newArrayList("a", "b", "c", "d", "e", "f", "g");
             /*Date beginDate = DateUtils.getBeforHourStartDay(0);
@@ -129,7 +125,7 @@ public class GoodsInProcessServiceImpl {
 
             //List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.factoryLists,Constant.stepIdLists, beginDate, endDate);
             List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.allSingleFactoryLists,beginDate, endDate,productTypeList);
-
+            wipDetailDataList = new ArrayList<>();
             Map<String, GoodInProcessWipDataDTO.GoodInProcessWipDetailData> dataMap = MapUtils.listToMap(wipDetailDataList, "key");
             List<GoodInProcessWipDataDTO> dataDTOList = new ArrayList<GoodInProcessWipDataDTO>();
             for (String date : dateList) {

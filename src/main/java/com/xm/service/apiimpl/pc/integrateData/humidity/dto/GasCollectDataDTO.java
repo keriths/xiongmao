@@ -1,6 +1,7 @@
 package com.xm.service.apiimpl.pc.integrateData.humidity.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.RandomUtils;
 import com.xm.service.dto.BaseRetDTO;
 
 import java.math.BigDecimal;
@@ -21,6 +22,11 @@ public class GasCollectDataDTO extends BaseRetDTO{
     private List<GasCollectData> natGasMonthCollectDataList;
 
     public static class GasCollectData{
+        public GasCollectData(){}
+        public GasCollectData(String gasName,int min,int max){
+            this.gasName = gasName;
+            totalNum = RandomUtils.randomIntBigDecimal(min,max);
+        }
 
         @ApiResultFieldDesc(desc = "气体类型")
         private String gasType;

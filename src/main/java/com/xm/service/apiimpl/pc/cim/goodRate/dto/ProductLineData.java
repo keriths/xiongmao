@@ -3,11 +3,9 @@ package com.xm.service.apiimpl.pc.cim.goodRate.dto;
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.RandomUtils;
 import com.xm.platform.util.ReturnDataUtils;
-import com.xm.service.constant.Constant;
 import com.xm.service.dto.BaseRetDTO;
-import org.springframework.util.CollectionUtils;
 
-import java.io.Serializable;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
@@ -49,7 +47,7 @@ public class ProductLineData extends BaseRetDTO{
         private String productName;
         @ApiResultFieldDesc(desc = "横坐标时间")
         private String periodDate;
-
+        boolean showDemoData = true;
         public String getFactory() {
             return factory;
         }
@@ -60,7 +58,7 @@ public class ProductLineData extends BaseRetDTO{
 
         public BigDecimal getOutputGls() {
             if(outputGls==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     outputGls = new BigDecimal(RandomUtils.randomInt(10000,10010));
                     return outputGls;
                 }else{
@@ -76,7 +74,7 @@ public class ProductLineData extends BaseRetDTO{
 
         public BigDecimal getScrapGls() {
             if(scrapGls==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     scrapGls = new BigDecimal(RandomUtils.randomInt(10,20));
                     return scrapGls;
                 }else{
@@ -92,7 +90,7 @@ public class ProductLineData extends BaseRetDTO{
 
         public BigDecimal getInputPnl() {
             if(inputPnl==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     inputPnl = new BigDecimal(RandomUtils.randomInt(8020,8024));
                     return inputPnl;
                 }else{
@@ -108,7 +106,7 @@ public class ProductLineData extends BaseRetDTO{
 
         public BigDecimal getOutputPnl() {
             if(outputPnl==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     outputPnl = new BigDecimal(RandomUtils.randomInt(8000,8020));
                     return outputPnl;
                 }else{

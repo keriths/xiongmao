@@ -23,7 +23,7 @@ import java.util.*;
 @Service("CycleTimeService")
 @ApiServiceDoc(name = "CIM6_Cycle_Time(完成)")
 public class CycleTimeServiceImpl {
-    private static Map<String,List<String>> productMap = new HashMap<>();
+    private static Map<String,List<String>> productMap = new LinkedHashMap<>();
     static {
         productMap.put("50", Lists.newArrayList("C41A","D41A"));
         productMap.put("58", Lists.newArrayList("C51A","D51A"));

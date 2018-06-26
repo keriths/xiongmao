@@ -26,7 +26,7 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
     }
 
     public static class GoodInProcessFtDate implements Serializable {
-
+        boolean showDemoData=false;
         public GoodInProcessFtDate(){
 
         }
@@ -67,7 +67,7 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
 
         public BigDecimal getQuantity() {
             if (quantity==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     if ("CF".equals(factory)){
                         return new BigDecimal(RandomUtils.randomInt(1400,1600));
                     }else if ("Cell".equals(factory)){
@@ -88,7 +88,7 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
 
         public BigDecimal getStoreMax() {
             if (storeMax==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     if ("CF".equals(factory)){
                         return new BigDecimal(RandomUtils.randomInt(1700,1800));
                     }else if ("Cell".equals(factory)){
@@ -109,7 +109,7 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
 
         public BigDecimal getStoreMin() {
             if (storeMin==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     if ("CF".equals(factory)){
                         return new BigDecimal(RandomUtils.randomInt(1300,1500));
                     }else if ("Cell".equals(factory)){

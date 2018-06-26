@@ -1,6 +1,7 @@
 package com.xm.service.apiimpl.pc.integrateData.humidity.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.RandomUtils;
 import com.xm.service.dto.BaseRetDTO;
 
 import java.math.BigDecimal;
@@ -37,6 +38,10 @@ public class WaterElectricityCollectDataDTO extends BaseRetDTO{
         @ApiResultFieldDesc(desc = "时间")
         private String dataDate;
 
+        public WaterElectricityCollectData(){}
+        public WaterElectricityCollectData(int min,int max){
+            totalNum = RandomUtils.randomIntBigDecimal(min,max);
+        }
         public BigDecimal getTotalNum() {
             return totalNum;
         }

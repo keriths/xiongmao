@@ -46,6 +46,7 @@
             <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
                 #{factory}
             </foreach>
+            and PRODUCTID in ('D41A','D51A','D52A','D53A')
             and PRODUCTTYPE IN
             <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
                 #{productType}

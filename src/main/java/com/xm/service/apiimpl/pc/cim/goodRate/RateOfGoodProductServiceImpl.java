@@ -124,7 +124,8 @@ public class RateOfGoodProductServiceImpl {
 
             List<String> productTypeList=Constant.productTypeTestList;
 
-            List<ProductOcData.ProductOcDetailData> detailDataList = dwsProductOcYieldFidsDAO.queryProductOcData(productIdList,dateType,beginDate,endDate,productTypeList);
+//            List<ProductOcData.ProductOcDetailData> detailDataList = dwsProductOcYieldFidsDAO.queryProductOcData(productIdList,dateType,beginDate,endDate,productTypeList);
+            List<ProductOcData.ProductOcDetailData> detailDataList = new ArrayList<>();
             Map<String,ProductOcData.ProductOcDetailData> dataMap= MapUtils.listToMap(detailDataList, "getPeriodDate");
             List<ProductOcData.ProductOcDetailData> ProductDetailDataList = new ArrayList<ProductOcData.ProductOcDetailData>();
             for (String day:dateList){
