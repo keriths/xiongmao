@@ -132,6 +132,7 @@ public class HumidityServiceImpl {
             List<HumitureDataDTO.HumitureData> humitureDataList = humitureRealTimeDataDAO.queryData(factoryList);
             humitureDataList = factoryList.stream().map(factory ->{
                 HumitureDataDTO.HumitureData data = new HumitureDataDTO.HumitureData();
+                data.setFactory(factory);
                 data.setTemperature(RandomUtils.randomFloat(20,30));
                 data.setCleanliness(RandomUtils.randomFloat(70,90));
                 data.setHumidity(RandomUtils.randomFloat(50,70));

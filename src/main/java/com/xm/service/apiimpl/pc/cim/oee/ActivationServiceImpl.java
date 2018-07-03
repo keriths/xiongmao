@@ -60,6 +60,7 @@ public class ActivationServiceImpl {
             List<String> hourList = DateUtils.getHourStrList(beginDate,endDate);
             //List<ActivationStatusDate.StatusNumberList> activationNumList = activationDAO.queryActivationStatusNum(factory, eqpId, beginDate, endDate);
             List<ActivationStatusDate.StatusNumberList> activationNumList = activationDAO.queryActivationStatusNum(factoryList, eqpIdList, beginDate, endDate);
+            activationNumList = new ArrayList<>();
             Map<String, ActivationStatusDate.StatusNumberList> queryMap = MapUtils.listToMap(activationNumList, "key");
             List<ActivationStatusDate> dtList = new ArrayList<ActivationStatusDate>();
             for (String hour:hourList) {

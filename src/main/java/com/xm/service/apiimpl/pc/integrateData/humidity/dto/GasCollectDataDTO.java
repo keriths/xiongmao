@@ -24,6 +24,7 @@ public class GasCollectDataDTO extends BaseRetDTO{
     public static class GasCollectData{
         public GasCollectData(){}
         public GasCollectData(String gasName,int min,int max){
+            this.gasType = gasName;
             this.gasName = gasName;
             totalNum = RandomUtils.randomIntBigDecimal(min,max);
         }
