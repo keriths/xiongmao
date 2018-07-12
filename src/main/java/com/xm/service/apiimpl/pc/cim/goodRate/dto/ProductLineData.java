@@ -47,7 +47,7 @@ public class ProductLineData extends BaseRetDTO{
         private String productName;
         @ApiResultFieldDesc(desc = "横坐标时间")
         private String periodDate;
-        boolean showDemoData = true;
+        boolean showDemoData=true;
         public String getFactory() {
             return factory;
         }
