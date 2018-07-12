@@ -5,6 +5,7 @@
     <select id="queryGoodInProcessFtDate" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodinprocess.dto.GoodInProcessFtRetDTO$GoodInProcessFtDate">
         SELECT
         STEPID as stepId,
+        STEPNAME as stepName,
         sum(WIP_GLS_QTY) as quantity,
         sum(STORE_MAX) as storeMax,
         sum(STORE_MIN) as storeMin
@@ -28,7 +29,7 @@
           and PERIODDATE >= #{beginDate}
           and PERIODDATE <= #{endDate}
           ]]>
-        GROUP BY STEPID
+        GROUP BY STEPID,STEPNAME
     </select>
 
 
@@ -83,12 +84,19 @@
     </select>
     <insert id="addData" parameterType="map">
         INSERT INTO  DWR_WIP_GLS_FIDS
-        (FACTORY,   PERIODDATE,   PRODUCTID,   STEPID,   WIP_GLS_QTY,   INTERFACE_TIME,   PRODUCTTYPE) VALUES
+        (FACTORY,   PERIODDATE,   PRODUCTID,   STEPID,STEPNAME,   WIP_GLS_QTY,   INTERFACE_TIME,   PRODUCTTYPE) VALUES
         (#{FACTORY},#{PERIODDATE},#{PRODUCTID},
         <if test="STEPID != null">
             #{STEPID}
         </if>
         <if test="STEPID == null">
+            null
+        </if>
+        ,
+        <if test="STEPNAME != null">
+            #{STEPNAME}
+        </if>
+        <if test="STEPNAME == null">
             null
         </if>
         ,#{WIP_GLS_QTY},sysdate,#{PRODUCTTYPE})

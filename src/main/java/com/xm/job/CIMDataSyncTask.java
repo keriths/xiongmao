@@ -31,13 +31,13 @@ public class CIMDataSyncTask {
     private DwsProductInputFidsDAO dwsProductInputFidsDAO;
 
     //---------------产出达成率------------
-    @Resource
-    private FactoryDwsProductOutputFidsDAO factoryDwsProductOutputFidsDAO;
+//    @Resource
+//    private FactoryDwsProductOutputFidsDAO factoryDwsProductOutputFidsDAO;
     @Resource
     private DwsProductOutputFidsDAO outputcompletionDAO;
 
-    @Resource
-    private FactoryDwsProductOutputFidsHDAO factoryDwsProductOutputFidsHDAO;
+//    @Resource
+//    private FactoryDwsProductOutputFidsHDAO factoryDwsProductOutputFidsHDAO;
     @Resource
     private DwsProductOutputFidsHDAO dwrProductOutputFidsHDAO;
 
@@ -51,12 +51,12 @@ public class CIMDataSyncTask {
     private StoreDAO storeDAO;
 
     //---------------良品率------------
-    @Resource
-    private FactoryDwsProductLineYieldFidsDAO factoryDwsProductLineYieldFidsDAO;
+//    @Resource
+//    private FactoryDwsProductLineYieldFidsDAO factoryDwsProductLineYieldFidsDAO;
     @Resource
     private DwsProductLineYieldFidsDAO dwsProductLineYieldFidsDAO;
-    @Resource
-    private FactoryDwsProductOcYieldFidsDAO factoryDwsProductOcYieldFidsDAO;
+//    @Resource
+//    private FactoryDwsProductOcYieldFidsDAO factoryDwsProductOcYieldFidsDAO;
     @Resource
     private DwsProductOcYieldFidsDAO dwsProductOcYieldFidsDAO;
 
@@ -66,20 +66,20 @@ public class CIMDataSyncTask {
     private TargetocDAO targetocDAO;
 
     //---------------CycleTime------------
-    @Resource
-    private FactoryDwrProductCtFidsDAO factoryDwrProductCtFidsDAO;
+//    @Resource
+//    private FactoryDwrProductCtFidsDAO factoryDwrProductCtFidsDAO;
     @Resource
     private DwrProductCtFidsDAO dwrProductCtFidsDAO;
 
     //---------------稼动率------------
-    @Resource
-    private FactoryDwrEqpOeeFidsDAO factoryDwrEqpOeeFidsDAO;
+//    @Resource
+//    private FactoryDwrEqpOeeFidsDAO factoryDwrEqpOeeFidsDAO;
     @Resource
     private DwrEqpOeeFidsDAO dwrEqpOeeFidsDAO;
 
     //---------------TactTime------------
-    @Resource
-    private FactoryDwrProductTtFidsDAO factoryDwrProductTtFidsDAO;
+//    @Resource
+//    private FactoryDwrProductTtFidsDAO factoryDwrProductTtFidsDAO;
     @Resource
     private DwrProductTtFidsDAO dwrProductTtFidsDAO;
 

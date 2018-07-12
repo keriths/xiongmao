@@ -57,8 +57,8 @@
     </select>
     <insert id="addData" parameterType="map">
         INSERT INTO  DWR_PRODUCT_TT_FIDS
-        (FACTORY,   PERIODDATE,   PRODUCTID,   TT_TARGET,   TOTAL_TT,   TOTAL_GLS_QTY,   INTERFACE_TIME,   PRODUCTTYPE) VALUES
-        (#{FACTORY},#{PERIODDATE},#{PRODUCTID},#{TT_TARGET},#{TOTAL_TT,jdbcType=NUMBER},#{TOTAL_GLS_QTY},sysdate,#{PRODUCTTYPE})
+        (FACTORY,   PERIODDATE,   PRODUCTID,   TT_TARGET,   TOTAL_TT,   TOTAL_GLS_QTY,   INTERFACE_TIME,   PRODUCTTYPE  , EQP_ID , EQP_TYPE) VALUES
+        (#{FACTORY},#{PERIODDATE},#{PRODUCTID},#{TT_TARGET},#{TOTAL_TT,jdbcType=NUMBER},#{TOTAL_GLS_QTY},sysdate,#{PRODUCTTYPE},#{EQP_ID,jdbcType=VARCHAR},#{EQP_TYPE,jdbcType=VARCHAR})
     </insert>
     <update id="updateData" parameterType="map">
         UPDATE DWR_PRODUCT_TT_FIDS SET

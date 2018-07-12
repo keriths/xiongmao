@@ -61,7 +61,7 @@ public class GoodsInProcessServiceImpl {
                 endDate = DateUtils.getBeforHourEndDay(1);
                 queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factoryList,stepIdLists,beginDate,endDate,productTypeList);
             }
-            Map<String,GoodInProcessFtRetDTO.GoodInProcessFtDate> queryMap = MapUtils.listToMap(queryFtdate,"getStepId");
+            Map<String,GoodInProcessFtRetDTO.GoodInProcessFtDate> queryMap = MapUtils.listToMap(queryFtdate,"getStepIdKey");
             List<GoodInProcessFtRetDTO.GoodInProcessFtDate> list = new ArrayList<GoodInProcessFtRetDTO.GoodInProcessFtDate>();
             for(String step:stepIdLists){
                 GoodInProcessFtRetDTO.GoodInProcessFtDate data = null;
