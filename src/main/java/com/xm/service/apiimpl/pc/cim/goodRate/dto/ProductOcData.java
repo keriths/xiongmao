@@ -4,6 +4,7 @@ import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.RandomUtils;
 import com.xm.platform.util.ReturnDataUtils;
 
+import com.xm.service.constant.Constant;
 import com.xm.service.dto.BaseRetDTO;
 
 import java.math.BigDecimal;
@@ -28,7 +29,7 @@ public class ProductOcData extends BaseRetDTO{
             this.productName = productName;
             this.periodDate = periodDate;
         }
-        boolean showDemoData = true;
+        boolean showDemoData=true;
         @ApiResultFieldDesc(desc = "单个产品良品率")
         private BigDecimal inLine;
         @ApiResultFieldDesc(desc = "目标良品率")
@@ -303,6 +304,9 @@ public class ProductOcData extends BaseRetDTO{
         }
 
         public String getProductName() {
+            if (Constant.productIdNameMap.get(productName)!=null){
+                return Constant.productIdNameMap.get(productName);
+            }
             return productName;
         }
 
