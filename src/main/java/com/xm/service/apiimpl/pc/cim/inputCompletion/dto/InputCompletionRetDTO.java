@@ -29,7 +29,8 @@ public class InputCompletionRetDTO extends BaseRetDTO{
 
 
     public static class InputCompletionData implements Serializable{
-        boolean showDemoData = false;
+        //TODO TEST true
+        boolean showDemoData=false;
         public InputCompletionData(){}
         public InputCompletionData(String dateTime){
             this.dateTime=dateTime;

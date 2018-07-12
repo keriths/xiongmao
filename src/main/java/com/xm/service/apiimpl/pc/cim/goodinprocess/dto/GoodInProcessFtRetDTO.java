@@ -26,6 +26,7 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
     }
 
     public static class GoodInProcessFtDate implements Serializable {
+        //TODO TEST true
         boolean showDemoData=false;
         public GoodInProcessFtDate(){
 
