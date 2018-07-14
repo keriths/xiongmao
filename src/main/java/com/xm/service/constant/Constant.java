@@ -12,7 +12,7 @@ import java.util.Map;
  * Created by fanshuai on 17/11/19.
  */
 public class Constant {
-    public static final boolean showDemoData=false;
+    public static final boolean showDemoData=true;
 
     public static final String hour="hour";
     public static final String day="day";

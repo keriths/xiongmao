@@ -13,7 +13,7 @@ import java.util.Map;
  */
 @Repository("dwrProductOutputFidsHDAO")
 public interface DwsProductOutputFidsHDAO {
-    List<EquipmentThroughputData> queryThroughputData(@Param("factoryList") List<String> factoryList,
+    List<EquipmentThroughputData> queryThroughputData(@Param("productIdList") List<String>productIdList,@Param("factoryList") List<String> factoryList,
                                                       @Param("beginDate") Date beginDate,
                                                       @Param("endDate") Date endDate,
                                                       @Param("productTypeList")List<String> productTypeList);

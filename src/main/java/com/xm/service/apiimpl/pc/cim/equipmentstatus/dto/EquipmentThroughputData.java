@@ -11,7 +11,7 @@ import java.math.BigDecimal;
  * Created by wangshuna on 2017/12/26.
  */
 public class EquipmentThroughputData {
-
+    boolean showDemoData=false;
     public EquipmentThroughputData(){
 
     }
@@ -36,7 +36,7 @@ public class EquipmentThroughputData {
 
     public BigDecimal getAmount() {
         if (amount == null) {
-            if (Constant.showDemoData) {
+            if (showDemoData) {
                 return RandomUtils.randomIntBigDecimal(3000, 6000);
             } else {
                 return new BigDecimal("0");

@@ -2,8 +2,6 @@ package com.xm.service.apiimpl.pc.cim.goodinprocess.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.RandomUtils;
-import com.xm.service.constant.Constant;
-import com.xm.service.dto.BaseRetDTO;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -12,7 +10,7 @@ import java.util.List;
 /**
  * Created by luokaiming on 2017/11/22.
  */
-public class GoodInProcessWipDataDTO{
+public class GoodInProcessWipDataDTO implements Serializable{
     @ApiResultFieldDesc(desc = "返回数据详情列表")
     private List<GoodInProcessWipDetailData> wipDetailDataList;
 
@@ -26,8 +24,8 @@ public class GoodInProcessWipDataDTO{
     private BigDecimal storeMinSum;
 
 
-    public static class GoodInProcessWipDetailData{
-
+    public static class GoodInProcessWipDetailData implements Serializable{
+        boolean showDemoData=false;
         public GoodInProcessWipDetailData(){};
         /*public GoodInProcessWipDetailData(String stepId,String factory){
             this.stepId=stepId;
@@ -74,7 +72,7 @@ public class GoodInProcessWipDataDTO{
             if (quantity!=null){
                 return quantity;
             }
-            if (!Constant.showDemoData){
+            if (!showDemoData){
                 return quantity = BigDecimal.ZERO;
             }
             if ("CF".equals(factory)){

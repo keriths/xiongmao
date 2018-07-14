@@ -26,6 +26,7 @@ import java.util.*;
 @Service("EquipmentRealTimeStatusService")
 @ApiServiceDoc(name = "CIM1_设备实时状态（设备比例公式还没提供，目前数据随便用了一个公式,还需要和消息对接联调）")
 public class EquipmentStatusServiceImpl {
+    private static Map<String,List<String>> productMap = Constant.productMap;
     @Resource(name = "dwrEquipmentStatusFidsDAO")
     public DwrEquipmentStatusFidsDAO dwrEquipmentStatusFidsDAO;
     @Resource
@@ -62,6 +63,9 @@ public class EquipmentStatusServiceImpl {
                 resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.showFactoryList + "】");
                 return resultDto;
             }
+            final List<String> productIdList = new ArrayList<>();
+            productMap.entrySet().stream().forEach(entry -> productIdList.addAll(entry.getValue()));
+
             List<String> dateList = null;
             Date beginDate = DateUtils.getBeforHourStartDay(11);
             Date endDate = new Date();

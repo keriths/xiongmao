@@ -13,6 +13,10 @@
                PERIODDATE >= #{beginDate}
                and PERIODDATE <= #{endDate}
             ]]>
+            and PRODUCTID in
+            <foreach collection="productIdList" item="productId" open="(" separator="," close=")">
+                #{productId}
+            </foreach>
             and FACTORY IN
             <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
                 #{factory}

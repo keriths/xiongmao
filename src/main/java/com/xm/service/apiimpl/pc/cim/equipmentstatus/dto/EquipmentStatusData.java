@@ -2,17 +2,13 @@ package com.xm.service.apiimpl.pc.cim.equipmentstatus.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.ReturnDataUtils;
-import com.xm.service.constant.Constant;
-import com.xm.service.dao.cim.DwrEquipmentStatusFidsDAO;
-
-import javax.annotation.Resource;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import java.io.Serializable;
 
 /**
  * Created by wangshuna on 2017/12/26.
  */
-public class EquipmentStatusData {
+public class EquipmentStatusData implements Serializable{
+    boolean showDemoData=false;
     @ApiResultFieldDesc(desc = "厂别如ARRAY,CELL,CF,SL-OC")
     private String factory;
     @ApiResultFieldDesc(desc = "设备名称")
@@ -48,7 +44,7 @@ public class EquipmentStatusData {
 
     public String getVal() {
         if (val==null){
-            if (Constant.showDemoData){
+            if (showDemoData){
                 if(dataType!=null && demoData!=null){
                     val =  ReturnDataUtils.demoData(getDataType(),getDemoData()).toString();
                     if("string".equals(getDataType())){
