@@ -120,21 +120,15 @@ public class OutputCompletionData implements Serializable{
         }
 
         public BigDecimal getCompletionRate() {
+            if (completionRate!=null){
+                return completionRate;
+            }
             BigDecimal plan=getPlan();
             BigDecimal actual=getActual();
-            BigDecimal completionRate;
-            if( (plan.compareTo(new BigDecimal(0))==0)){//等于0
-                if((actual.compareTo(new BigDecimal(0))==0)){
-                    completionRate=new BigDecimal(0);
-                }else {
-                    completionRate=new BigDecimal(1);
-                }
-            }else{
-                // completionRate= plan.divide(actual).setScale(4,BigDecimal.ROUND_HALF_UP);
-                completionRate=(actual.divide(plan, 4, BigDecimal.ROUND_HALF_UP)).multiply(new BigDecimal(100)).setScale(2,BigDecimal.ROUND_HALF_UP);
+            if( (plan.equals(BigDecimal.ZERO))){//等于0
+                return completionRate=new BigDecimal(0);
             }
-
-            return completionRate;
+            return    completionRate=actual.divide(plan, 5, BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100)).setScale(2,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setCompletionRate(BigDecimal completionRate) {
