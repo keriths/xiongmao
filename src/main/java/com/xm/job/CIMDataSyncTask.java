@@ -479,23 +479,23 @@ public class CIMDataSyncTask {
                         dwsProductOcYieldFidsDAO.addData(mapData);
                     }else {
                         //更新
-                        if (notEquals(data.get("POL_INPUT"),mapData.get("POL_INPUT"))||
-                                notEquals(data.get("POL_OUTPUT_A"),mapData.get("POL_OUTPUT_A"))||
-                                notEquals(data.get("POL_OUTPUT_FA"),mapData.get("POL_OUTPUT_FA"))||
-                                notEquals(data.get("MBI_RJ_OUTPUT_A"),mapData.get("MBI_RJ_OUTPUT_A"))||
-                                notEquals(data.get("MBI_RJ_OUTPUT_FA"),mapData.get("MBI_RJ_OUTPUT_FA"))||
-                                notEquals(data.get("POL_RW_OUTPUT_A"),mapData.get("POL_RW_OUTPUT_A"))||
-                                notEquals(data.get("POL_RW_OUTPUT_FA"),mapData.get("POL_RW_OUTPUT_FA"))||
-                                notEquals(data.get("IOB_INPUT"),mapData.get("IOB_INPUT"))||
-                                notEquals(data.get("IOB_EI_OUTPUT_A"),mapData.get("IOB_EI_OUTPUT_A"))||
-                                notEquals(data.get("IOB_EI_OUTPUT_FA"),mapData.get("IOB_EI_OUTPUT_FA"))||
-                                notEquals(data.get("IOB_EI_OUTPUT_B_RW_A"),mapData.get("IOB_EI_OUTPUT_B_RW_A"))||
-                                notEquals(data.get("IOB_EI_OUTPUT_B_RW_FA"),mapData.get("IOB_EI_OUTPUT_B_RW_FA"))||
-                                notEquals(data.get("IOB_EI_OUTPUT_D_RW_A"),mapData.get("IOB_EI_OUTPUT_D_RW_A"))||
-                                notEquals(data.get("IOB_EI_OUTPUT_D_RW_FA"),mapData.get("IOB_EI_OUTPUT_D_RW_FA"))
-                                ){
-                            dwsProductOcYieldFidsDAO.updateData(mapData);
-                        }
+//                        if (notEquals(data.get("POL_INPUT"),mapData.get("POL_INPUT"))||
+//                                notEquals(data.get("POL_OUTPUT_A"),mapData.get("POL_OUTPUT_A"))||
+//                                notEquals(data.get("POL_OUTPUT_FA"),mapData.get("POL_OUTPUT_FA"))||
+//                                notEquals(data.get("MBI_RJ_OUTPUT_A"),mapData.get("MBI_RJ_OUTPUT_A"))||
+//                                notEquals(data.get("MBI_RJ_OUTPUT_FA"),mapData.get("MBI_RJ_OUTPUT_FA"))||
+//                                notEquals(data.get("POL_RW_OUTPUT_A"),mapData.get("POL_RW_OUTPUT_A"))||
+//                                notEquals(data.get("POL_RW_OUTPUT_FA"),mapData.get("POL_RW_OUTPUT_FA"))||
+//                                notEquals(data.get("IOB_INPUT"),mapData.get("IOB_INPUT"))||
+//                                notEquals(data.get("IOB_EI_OUTPUT_A"),mapData.get("IOB_EI_OUTPUT_A"))||
+//                                notEquals(data.get("IOB_EI_OUTPUT_FA"),mapData.get("IOB_EI_OUTPUT_FA"))||
+//                                notEquals(data.get("IOB_EI_OUTPUT_B_RW_A"),mapData.get("IOB_EI_OUTPUT_B_RW_A"))||
+//                                notEquals(data.get("IOB_EI_OUTPUT_B_RW_FA"),mapData.get("IOB_EI_OUTPUT_B_RW_FA"))||
+//                                notEquals(data.get("IOB_EI_OUTPUT_D_RW_A"),mapData.get("IOB_EI_OUTPUT_D_RW_A"))||
+//                                notEquals(data.get("IOB_EI_OUTPUT_D_RW_FA"),mapData.get("IOB_EI_OUTPUT_D_RW_FA"))
+//                                ){
+//                            dwsProductOcYieldFidsDAO.updateData(mapData);
+//                        }
                     }
                 }catch (Exception e){
                     LogUtils.error(this.getClass(),"同步良品率[DWS_PRODUCT_OC_YIELD_FIDS]数据单条处理失败原数据["+ JSON.toJSONString(mapData)+"]",e);
