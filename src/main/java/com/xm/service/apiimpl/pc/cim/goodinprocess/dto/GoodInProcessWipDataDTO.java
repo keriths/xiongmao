@@ -55,12 +55,6 @@ public class GoodInProcessWipDataDTO{
         private BigDecimal storeMin;
 
         public String getFactory() {
-//            if ("ARRAY".equals(factory)){
-//                return "Array";
-//            }
-//            if ("CELL".equals(factory)){
-//                return "Cell";
-//            }
             return factory;
         }
 
@@ -77,20 +71,16 @@ public class GoodInProcessWipDataDTO{
         }
 
         public BigDecimal getQuantity() {
-            if (quantity==null){
-                if (Constant.showDemoData){
-                    if ("CF".equals(factory)){
-                        return new BigDecimal(RandomUtils.randomInt(1400,1600));
-                    }else if ("Cell".equals(factory)){
-                        return new BigDecimal(RandomUtils.randomInt(2300,2500));
-                    }
-                    return new BigDecimal(RandomUtils.randomInt(2700,2900));
-                }else {
-                    return new BigDecimal("0");
-                }
-                //return new BigDecimal("0");
+            if (quantity!=null){
+                return quantity;
             }
-            return quantity;
+            if (!Constant.showDemoData){
+                return quantity = BigDecimal.ZERO;
+            }
+            if ("CF".equals(factory)){
+                return quantity = new BigDecimal(RandomUtils.randomInt(1400,1600));
+            }
+            return quantity = new BigDecimal(RandomUtils.randomInt(2300,2500));
         }
 
         public void setQuantity(BigDecimal quantity) {
@@ -98,20 +88,10 @@ public class GoodInProcessWipDataDTO{
         }
 
         public BigDecimal getStoreMax() {
-            if (storeMax==null){
-                if (Constant.showDemoData){
-                    if ("CF".equals(factory)){
-                        return new BigDecimal(RandomUtils.randomInt(1700,1800));
-                    }else if ("Cell".equals(factory)){
-                        return new BigDecimal(RandomUtils.randomInt(2600,2700));
-                    }
-                    return new BigDecimal(RandomUtils.randomInt(3000,3100));
-                }else {
-                    return new BigDecimal("0");
-                }
-
+            if (storeMax!=null){
+                return storeMax;
             }
-            return storeMax;
+            return storeMax = getQuantity().multiply(new BigDecimal("1.1")).setScale(0,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setStoreMax(BigDecimal storeMax) {
@@ -119,20 +99,10 @@ public class GoodInProcessWipDataDTO{
         }
 
         public BigDecimal getStoreMin() {
-            if (storeMin==null){
-                if (Constant.showDemoData){
-                    if ("CF".equals(factory)){
-                        return new BigDecimal(RandomUtils.randomInt(1300,1500));
-                    }else if ("Cell".equals(factory)){
-                        return new BigDecimal(RandomUtils.randomInt(2200,2400));
-                    }
-                    return new BigDecimal(RandomUtils.randomInt(2600,2800));
-                }else {
-                    return new BigDecimal("0");
-                }
-
+            if (storeMin!=null){
+                return storeMin;
             }
-            return storeMin;
+            return storeMin = getQuantity().multiply(new BigDecimal("0.9")).setScale(0,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setStoreMin(BigDecimal storeMin) {
