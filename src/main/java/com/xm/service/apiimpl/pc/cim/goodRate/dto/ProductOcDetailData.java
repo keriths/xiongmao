@@ -13,7 +13,7 @@ import java.math.RoundingMode;
  * Created by fanshuai on 18/7/14.
  */
 public class ProductOcDetailData {
-    boolean showDemoData=true;
+    boolean showDemoData=false;
     public ProductOcDetailData(){}
 
     public ProductOcDetailData(String productName,String periodDate){
