@@ -73,7 +73,7 @@ public class EquipmentStatusServiceImpl {
 
             List<String> productTypeList=Constant.productTypeTestList;
 
-            List<EquipmentThroughputData> dataList= dwsProductOutputFidsHDAO.queryThroughputData(factoryList,beginDate,endDate,productTypeList);
+            List<EquipmentThroughputData> dataList= dwsProductOutputFidsHDAO.queryThroughputData(productIdList,factoryList,beginDate,endDate,productTypeList);
             Map<String,EquipmentThroughputData> dataMap= MapUtils.listToMap(dataList,"getDataDate");
             List<EquipmentThroughputData> throughputList =new ArrayList<EquipmentThroughputData>();
             for (String str:dateList){
