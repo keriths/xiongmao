@@ -125,7 +125,7 @@ public class GoodsInProcessServiceImpl {
 
             //List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.factoryLists,Constant.stepIdLists, beginDate, endDate);
             List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.allSingleFactoryLists,beginDate, endDate,productTypeList);
-            wipDetailDataList = new ArrayList<>();
+//            wipDetailDataList = new ArrayList<>();
             Map<String, GoodInProcessWipDataDTO.GoodInProcessWipDetailData> dataMap = MapUtils.listToMap(wipDetailDataList, "key");
             List<GoodInProcessWipDataDTO> dataDTOList = new ArrayList<GoodInProcessWipDataDTO>();
             for (String date : dateList) {
