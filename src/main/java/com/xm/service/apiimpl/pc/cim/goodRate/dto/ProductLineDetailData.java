@@ -120,15 +120,15 @@ public class ProductLineDetailData {
             return inLine = BigDecimal.ZERO;
         }
         if("SL-OC".equals(factory)){
-            if(inputPnl.add(outputPnl).equals(BigDecimal.ZERO)){//等于0
+            if(getInputPnl().add(getOutputPnl()).equals(BigDecimal.ZERO)){//等于0
                 return inLine=new BigDecimal(0);
             }
-            return inLine = outputPnl.divide(inputPnl.add(outputPnl),4, RoundingMode.HALF_UP).multiply(new BigDecimal("100"));
+            return inLine = getOutputPnl().divide(getInputPnl().add(getOutputPnl()),5, RoundingMode.HALF_UP).multiply(new BigDecimal("100")).setScale(2, RoundingMode.HALF_UP);
         }
-        if (outputGls.add(scrapGls).equals(BigDecimal.ZERO)){
+        if (getOutputGls().add(getScrapGls()).equals(BigDecimal.ZERO)){
             return inLine = BigDecimal.ZERO;
         }
-        return inLine = outputGls.divide(outputGls.add(scrapGls),4, RoundingMode.HALF_UP).multiply(new BigDecimal("100"));
+        return inLine = getOutputGls().divide(getOutputGls().add(getScrapGls()),5, RoundingMode.HALF_UP).multiply(new BigDecimal("100")).setScale(2, RoundingMode.HALF_UP);
     }
 
     public BigDecimal getTargetInLine() {

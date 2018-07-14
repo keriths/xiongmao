@@ -6,6 +6,8 @@ import com.xm.platform.util.ReturnDataUtils;
 import com.xm.service.constant.Constant;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 /**
  * 产品良品率
  * Created by fanshuai on 18/7/14.
@@ -67,14 +69,14 @@ public class ProductOcDetailData {
         if (inLine!=null){
             return inLine;
         }
-        if (getIobOutPutSum().equals(BigDecimal.ZERO)||getPolOutPutSum().equals(BigDecimal.ZERO)){
+        if (getIobOutPut().equals(BigDecimal.ZERO)||getPolOutPut().equals(BigDecimal.ZERO)){
             return BigDecimal.ZERO;
         }
         //压接良率
-        BigDecimal iobInline = getIobOutPutSum().divide(iobOutPut,4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
+        BigDecimal iobInline = getIobOutPutSum().divide(getIobOutPut(), 5, RoundingMode.HALF_UP);
         //POL良率
-        BigDecimal polInLine = getPolOutPutSum().divide(polOutPut,4,BigDecimal.ROUND_HALF_UP).multiply(new BigDecimal(100));
-        inLine = iobInline.multiply(polInLine).setScale(2,BigDecimal.ROUND_HALF_UP);
+        BigDecimal polInLine = getPolOutPutSum().divide(getPolOutPut(), 5, RoundingMode.HALF_UP);
+        inLine = iobInline.multiply(polInLine).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP);
         return inLine;
     }
 
