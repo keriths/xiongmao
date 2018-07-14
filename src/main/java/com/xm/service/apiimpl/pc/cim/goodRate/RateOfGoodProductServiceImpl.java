@@ -98,6 +98,11 @@ public class RateOfGoodProductServiceImpl {
         ProductOcDataRetDTO resultDto=new ProductOcDataRetDTO();
         try {
             List<String> productIdList = Constant.productMap.get(productName);
+            if (CollectionUtils.isEmpty(productIdList)){
+                resultDto.setSuccess(false);
+                resultDto.setErrorMsg("productName参数错误,请传入【" + Constant.productMap.keySet()+ "】");
+                return resultDto;
+            }
             if (!Constant.dateTypeList.contains(dateType)){
                 resultDto.setSuccess(false);
                 resultDto.setErrorMsg("dateType参数错误,请传入【" + Constant.dateTypeList + "】");
