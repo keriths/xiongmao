@@ -36,11 +36,6 @@ public class OutputCompletionRateServiceImpl {
                 resultDto.setErrorMsg("dateType参数错误,请传入【" + Constant.dateTypeList + "】");
                 return resultDto;
             }
-//            if (!StringUtils.isEmpty(productId) && !Constant.productIdNameMap.containsKey(productId)){
-//                resultDto.setSuccess(false);
-//                resultDto.setErrorMsg("productId参数错误,请传入【" + Constant.productIdNameMap.keySet() + "】");
-//                return resultDto;
-//            }
 
             List<String> dateList = null;
             Date beginDate = null;
