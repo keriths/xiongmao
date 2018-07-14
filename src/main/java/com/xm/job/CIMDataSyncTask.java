@@ -137,7 +137,7 @@ public class CIMDataSyncTask {
                             dwsProductInputFidsDAO.addData(mapData);
                         }else {
                             //更新
-                            if (notEquals(data.get("PLAN_INPUT_GLS_QTY"),mapData.get("PLAN_INPUT_GLS_QTY"))||
+                            if (notEquals(data.get("PLAN_INPUT_GLS_QTY"),mapData.get("PLAN_INPUT_GLS_QTY")) ||
                                     notEquals(data.get("ACTUAL_INPUT_GLS_QTY"),mapData.get("ACTUAL_INPUT_GLS_QTY"))
                                     ){
                                 dwsProductInputFidsDAO.updateData(mapData);

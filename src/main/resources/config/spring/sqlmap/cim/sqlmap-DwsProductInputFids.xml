@@ -68,13 +68,13 @@
     </insert>
     <update id="updateData" parameterType="map">
         UPDATE DWS_PRODUCT_INPUT_FIDS SET
-          PLAN_INPUT_GLS_QTY = #{PLAN_INPUT_GLS_QTY} ,
-          ACTUAL_INPUT_GLS_QTY = #{ACTUAL_INPUT_GLS_QTY},
+          PLAN_INPUT_GLS_QTY = #{PLAN_INPUT_GLS_QTY,jdbcType=DOUBLE} ,
+          ACTUAL_INPUT_GLS_QTY = #{ACTUAL_INPUT_GLS_QTY,jdbcType=DOUBLE},
           INTERFACE_TIME = sysdate
         WHERE
-          FACTORY = #{FACTORY} and
-          PERIODDATE = #{PERIODDATE} and
-          PRODUCTID = #{PRODUCTID} and
-          PRODUCTTYPE = #{PRODUCTTYPE}
+          FACTORY = #{FACTORY,jdbcType=VARCHAR} and
+          PERIODDATE = #{PERIODDATE,jdbcType=DATE} and
+          PRODUCTID = #{PRODUCTID,jdbcType=VARCHAR} and
+          PRODUCTTYPE = #{PRODUCTTYPE,jdbcType=VARCHAR}
     </update>
 </mapper>
