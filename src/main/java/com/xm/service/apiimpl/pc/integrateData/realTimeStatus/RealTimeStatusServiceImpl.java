@@ -7,7 +7,9 @@ import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductLineData;
+import com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductLineDetailData;
 import com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcData;
+import com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcDetailData;
 import com.xm.service.apiimpl.pc.cim.oee.ActivationServiceImpl;
 import com.xm.service.apiimpl.pc.cim.oee.dto.ActivationEQPIdListRetDTO;
 import com.xm.service.apiimpl.pc.cim.tactTime.TactTimeServiceImpl;
@@ -136,13 +138,13 @@ public class RealTimeStatusServiceImpl {
             Date todayEnd = DateUtils.getBeforDayEndDay(0);
             Date curMonthStart = DateUtils.getBeforMonthStartDay(0);
             Date curMonthEnd = DateUtils.getBeforMonthEndDay(0);
-            List<ProductLineData.ProductLineDetailData> dayDataList = dwsProductLineYieldFidsDAO.queryTotalProductLineByDateAndFactoryList(factoryList,todayStart,todayEnd,productTypeList);
-            List<ProductLineData.ProductLineDetailData> monthDataList = dwsProductLineYieldFidsDAO.queryTotalProductLineByDateAndFactoryList(factoryList,curMonthStart,curMonthEnd,productTypeList);
+            List<ProductLineDetailData> dayDataList = dwsProductLineYieldFidsDAO.queryTotalProductLineByDateAndFactoryList(factoryList,todayStart,todayEnd,productTypeList);
+            List<ProductLineDetailData> monthDataList = dwsProductLineYieldFidsDAO.queryTotalProductLineByDateAndFactoryList(factoryList,curMonthStart,curMonthEnd,productTypeList);
             if (CollectionUtils.isEmpty(dayDataList)){
-                dayDataList = factoryList.stream().map(factory -> new ProductLineData.ProductLineDetailData(DateUtils.getStrDate(todayStart,"MM/dd"),factory)).collect(Collectors.toList());
+                dayDataList = factoryList.stream().map(factory -> new ProductLineDetailData(DateUtils.getStrDate(todayStart,"MM/dd"),factory)).collect(Collectors.toList());
             }
             if (CollectionUtils.isEmpty(monthDataList)){
-                monthDataList = factoryList.stream().map(factory -> new ProductLineData.ProductLineDetailData(DateUtils.getStrDate(curMonthStart,"yyyy/MM"), factory)).collect(Collectors.toList());
+                monthDataList = factoryList.stream().map(factory -> new ProductLineDetailData(DateUtils.getStrDate(curMonthStart,"yyyy/MM"), factory)).collect(Collectors.toList());
             }
             resultDto.setProductLineCollectDayDataList(dayDataList);
             resultDto.setProductLineCollectMonthDataList(monthDataList);
@@ -171,13 +173,13 @@ public class RealTimeStatusServiceImpl {
             Date todayEnd = DateUtils.getBeforDayEndDay(1);
             Date curMonthStart = DateUtils.getBeforMonthStartDay(0);
             Date curMonthEnd = DateUtils.getBeforMonthEndDay(0);
-            List<ProductOcData.ProductOcDetailData> dayDataList = dwsProductOcYieldFidsDAO.queryTotalProductLineOCByDateAndProductList(productNameList,todayStart,todayEnd,productTypeList);
-            List<ProductOcData.ProductOcDetailData> monthDataList = dwsProductOcYieldFidsDAO.queryTotalProductLineOCByDateAndProductList(productNameList,curMonthStart,curMonthEnd,productTypeList);
+            List<ProductOcDetailData> dayDataList = dwsProductOcYieldFidsDAO.queryTotalProductLineOCByDateAndProductList(productNameList,todayStart,todayEnd,productTypeList);
+            List<ProductOcDetailData> monthDataList = dwsProductOcYieldFidsDAO.queryTotalProductLineOCByDateAndProductList(productNameList,curMonthStart,curMonthEnd,productTypeList);
             if (CollectionUtils.isEmpty(dayDataList)){
-                dayDataList = Lists.newArrayList(new ProductOcData.ProductOcDetailData("50","20180705"));
+                dayDataList = Lists.newArrayList(new ProductOcDetailData("50","20180705"));
             }
             if (CollectionUtils.isEmpty(monthDataList)){
-                monthDataList = Lists.newArrayList(new ProductOcData.ProductOcDetailData("50","201807"));
+                monthDataList = Lists.newArrayList(new ProductOcDetailData("50","201807"));
             }
             resultDto.setProductLineOCCollectDayDataList(dayDataList);
             resultDto.setProductLineOCCollectMonthDataList(monthDataList);

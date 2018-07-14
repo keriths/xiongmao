@@ -1,6 +1,6 @@
 package com.xm.service.dao.cim;
 
-import com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductLineData;
+import com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductLineDetailData;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +14,7 @@ import java.util.Map;
 @Repository("dwsProductLineYieldFidsDAO")
 public interface DwsProductLineYieldFidsDAO {
 
-    List<ProductLineData.ProductLineDetailData> queryProductLineData(@Param("factoryList") List<String> factoryList,
+    List<ProductLineDetailData> queryProductLineData(@Param("factoryList") List<String> factoryList,
                                                                      @Param("dateType")String dateType,
                                                                      @Param("beginDate") Date beginDate,
                                                                      @Param("endDate") Date endDate,
@@ -35,7 +35,7 @@ public interface DwsProductLineYieldFidsDAO {
 
     void updateTargetData(Map<String, Object> mapData);
 
-    List<ProductLineData.ProductLineDetailData> queryTotalProductLineByDateAndFactoryList(
+    List<ProductLineDetailData> queryTotalProductLineByDateAndFactoryList(
             @Param("factoryList") List<String> factoryList,
             @Param("startDate")Date startDate,
             @Param("endDate")Date endDate,

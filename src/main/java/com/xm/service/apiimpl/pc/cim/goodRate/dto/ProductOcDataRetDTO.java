@@ -10,13 +10,13 @@ import java.util.List;
  */
 public class ProductOcDataRetDTO extends BaseRetDTO{
     @ApiResultFieldDesc(desc = "返回数据详情")
-    private List<ProductOcData.ProductOcDetailData> productOcDetailDataList;
+    private List<ProductOcDetailData> productOcDetailDataList;
 
-    public List<ProductOcData.ProductOcDetailData> getProductOcDetailDataList() {
+    public List<ProductOcDetailData> getProductOcDetailDataList() {
         return productOcDetailDataList;
     }
 
-    public void setProductOcDetailDataList(List<ProductOcData.ProductOcDetailData> productOcDetailDataList) {
+    public void setProductOcDetailDataList(List<ProductOcDetailData> productOcDetailDataList) {
         this.productOcDetailDataList = productOcDetailDataList;
     }
 }

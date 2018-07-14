@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.cim.DwsProductLineYieldFidsDAO" >
 
-    <select id="queryProductLineData" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductLineData$ProductLineDetailData" parameterType="Map">
+    <select id="queryProductLineData" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductLineDetailData" parameterType="Map">
         select
             decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) as factory,
             sum(OUTPUT_GLS_QTY) as outputGls,
@@ -82,7 +82,7 @@
         TARGET.FACTORY=DWS_PRODUCT_LINE_YIELD_FIDS.FACTORY)
     </update>
 
-    <select id="queryTotalProductLineByDateAndFactoryList" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductLineData$ProductLineDetailData">
+    <select id="queryTotalProductLineByDateAndFactoryList" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductLineDetailData">
         SELECT
         decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) as factory,
         sum(OUTPUT_GLS_QTY) as outputGls,

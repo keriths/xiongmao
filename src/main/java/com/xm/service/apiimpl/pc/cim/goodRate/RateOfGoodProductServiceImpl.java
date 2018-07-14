@@ -6,17 +6,12 @@ import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
-import com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductLineData;
-import com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductLineDataRetDTO;
-import com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcData;
-import com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcDataRetDTO;
-import com.xm.service.apiimpl.pc.cim.inputCompletion.dto.InputCompletionRetDTO;
+import com.xm.service.apiimpl.pc.cim.goodRate.dto.*;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DwsProductLineYieldFidsDAO;
 import com.xm.service.dao.cim.DwsProductOcYieldFidsDAO;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -71,16 +66,16 @@ public class RateOfGoodProductServiceImpl {
 
             List<String> productTypeList=Constant.productTypeTestList;
 
-            List<ProductLineData.ProductLineDetailData> detailDataList=dwsProductLineYieldFidsDAO.queryProductLineData(factoryList,dateType,beginDate,endDate,productTypeList);
-            Map<String,ProductLineData.ProductLineDetailData> dataMap= MapUtils.listToMap(detailDataList,"getPeriodDate");
+            List<ProductLineDetailData> detailDataList=dwsProductLineYieldFidsDAO.queryProductLineData(factoryList,dateType,beginDate,endDate,productTypeList);
+            Map<String,ProductLineDetailData> dataMap= MapUtils.listToMap(detailDataList,"getPeriodDate");
             List<ProductLineData> dataList=new ArrayList<ProductLineData>();
-            List<ProductLineData.ProductLineDetailData> ProductDetailDataList = new ArrayList<ProductLineData.ProductLineDetailData>();
+            List<ProductLineDetailData> ProductDetailDataList = new ArrayList<ProductLineDetailData>();
             for (String day:dateList){
 //                ProductLineData productLineData = new ProductLineData();
 
-                ProductLineData.ProductLineDetailData productLineDetailData =dataMap.get(day);
+                ProductLineDetailData productLineDetailData =dataMap.get(day);
                 if(productLineDetailData ==null){
-                    productLineDetailData =new ProductLineData.ProductLineDetailData(day,factory);
+                    productLineDetailData =new ProductLineDetailData(day,factory);
                 }
                 ProductDetailDataList.add(productLineDetailData);
             }
@@ -124,14 +119,13 @@ public class RateOfGoodProductServiceImpl {
 
             List<String> productTypeList=Constant.productTypeTestList;
 
-//            List<ProductOcData.ProductOcDetailData> detailDataList = dwsProductOcYieldFidsDAO.queryProductOcData(productIdList,dateType,beginDate,endDate,productTypeList);
-            List<ProductOcData.ProductOcDetailData> detailDataList = new ArrayList<>();
-            Map<String,ProductOcData.ProductOcDetailData> dataMap= MapUtils.listToMap(detailDataList, "getPeriodDate");
-            List<ProductOcData.ProductOcDetailData> ProductDetailDataList = new ArrayList<ProductOcData.ProductOcDetailData>();
+            List<ProductOcDetailData> detailDataList = dwsProductOcYieldFidsDAO.queryProductOcData(productIdList,dateType,beginDate,endDate,productTypeList);
+            Map<String,ProductOcDetailData> dataMap= MapUtils.listToMap(detailDataList, "getPeriodDate");
+            List<ProductOcDetailData> ProductDetailDataList = new ArrayList<ProductOcDetailData>();
             for (String day:dateList){
-                ProductOcData.ProductOcDetailData productOcDetailData = dataMap.get(day);
+                ProductOcDetailData productOcDetailData = dataMap.get(day);
                 if(productOcDetailData ==null){
-                    productOcDetailData =new ProductOcData.ProductOcDetailData(productName,day);
+                    productOcDetailData =new ProductOcDetailData(productName,day);
                 }
                 ProductDetailDataList.add(productOcDetailData);
             }

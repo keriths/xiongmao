@@ -2,22 +2,23 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.cim.DwsProductOcYieldFidsDAO" >
 
-    <select id="queryProductOcData" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcData$ProductOcDetailData" parameterType="Map">
+    <select id="queryProductOcData" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcDetailData" parameterType="Map">
         select
-        sum(POL_INPUT) as polInput,
-        sum(POL_OUTPUT_A) as polOutputA,
-        sum(POL_OUTPUT_FA) as polOutputFA,
-        sum(MBI_RJ_OUTPUT_A) as mbiRjOutputA,
-        sum(MBI_RJ_OUTPUT_FA) as mbiRjOutputFA,
-        sum(POL_RW_OUTPUT_A) as polRwOutputA,
-        sum(POL_RW_OUTPUT_FA) as polRwOutputFA,
-        sum(IOB_INPUT) as iobInput,
-        sum(IOB_EI_OUTPUT_A) as iobEiOutputA,
-        sum(IOB_EI_OUTPUT_FA) as iobEiOutputFA,
-        sum(IOB_EI_OUTPUT_B_RW_A) as iobEiOutputBRwA,
-        sum(IOB_EI_OUTPUT_B_RW_FA) as iobEiOutputBRwFA,
-        sum(IOB_EI_OUTPUT_D_RW_A) as iobEiOutputDRwA,
-        sum(IOB_EI_OUTPUT_D_RW_FA) as iobEiOutputDRwFA,
+        sum(POL_OUTPUT) as polOutPut,
+        sum(POL_OUTPUT_PA)+
+        sum(POL_OUTPUT_JUDGE29)+
+        sum(MBI_RJ_OUTPUT_PA)+
+        sum(MBI_RJ_OUTPUT_JUDGE29)+
+        sum(POL_RW_OUTPUT_PA)+
+        sum(POL_RW_OUTPUT_JUDGE29) as polOutPutSum,
+
+        sum(IOB_OUTPUT) as iobOutPut,
+        sum(IOB_EI_OUTPUT_A)+
+        sum(IOB_EI_OUTPUT_FA)+
+        sum(IOB_EI_OUTPUT_S)+
+        sum(IOB_EI_OUTPUT_B_RW_A)+
+        sum(IOB_EI_OUTPUT_D_RW_FA)+
+        sum(IOB_EI_OUTPUT_D_RW_S) as iobOutPutSum,
         <if test="dateType=='month'.toString()">/*按月*/
             TO_CHAR(PERIODDATE,'MM')||'月'
         </if>
@@ -57,125 +58,76 @@
 
     <select id="loadByPrimaryKey" parameterType="map" resultType="map">
         SELECT * from DWS_PRODUCT_OC_YIELD_FIDS
-        where FACTORY = #{FACTORY} and
-        PERIODDATE = #{PERIODDATE} and
-        PRODUCTID = #{PRODUCTID} and
-        PRODUCTTYPE = #{PRODUCTTYPE}
+        where
+            FACTORY = #{FACTORY,jdbcType=VARCHAR} and
+            PERIODDATE = #{PERIODDATE,jdbcType=DATE} and
+            PRODUCTID = #{PRODUCTID,jdbcType=VARCHAR} and
+            PRODUCTTYPE = #{PRODUCTTYPE,jdbcType=VARCHAR}
     </select>
+
     <insert id="addData" parameterType="map">
         INSERT INTO  DWS_PRODUCT_OC_YIELD_FIDS
-        (FACTORY,
-        PERIODDATE,
-        PRODUCTID,
-        POL_INPUT,
-         POL_OUTPUT_A,
-         POL_OUTPUT_FA,
-         MBI_RJ_OUTPUT_A,
-         MBI_RJ_OUTPUT_FA,
-          POL_RW_OUTPUT_A,
-          POL_RW_OUTPUT_FA,
-                    IOB_INPUT,
-                    IOB_EI_OUTPUT_A,
-                    IOB_EI_OUTPUT_FA,
-                    IOB_EI_OUTPUT_B_RW_A,
-                     IOB_EI_OUTPUT_B_RW_FA,
-                      IOB_EI_OUTPUT_D_RW_A,
-                       IOB_EI_OUTPUT_D_RW_FA,
-                        INTERFACE_TIME,
-                        PRODUCTTYPE,
-POL_OUTPUT,
-POL_OUTPUT_PA,
-POL_OUTPUT_JUDGE29,
-MBI_RJ_OUTPUT_PA,
-MBI_RJ_OUTPUT_JUDGE29,
-POL_RW_OUTPUT_PA,
-POL_RW_OUTPUT_JUDGE29,
-IOB_OUTPUT,
-IOB_EI_OUTPUT_S,
-IOB_EI_OUTPUT_D_RW_S
-                        ) VALUES
-        (#{FACTORY},
-        #{PERIODDATE},
-        #{PRODUCTID},
-        #{POL_INPUT,jdbcType=NUMBER},
-        #{POL_OUTPUT_A,jdbcType=NUMBER},
-        #{POL_OUTPUT_FA,jdbcType=NUMBER},
-        #{MBI_RJ_OUTPUT_A,jdbcType=NUMBER},
-        #{MBI_RJ_OUTPUT_FA,jdbcType=NUMBER},
-        #{POL_RW_OUTPUT_A,jdbcType=NUMBER},
-        #{POL_RW_OUTPUT_FA,jdbcType=NUMBER},
-                    #{IOB_INPUT,jdbcType=NUMBER},
-                    #{IOB_EI_OUTPUT_A,jdbcType=NUMBER},
-                    #{IOB_EI_OUTPUT_FA,jdbcType=NUMBER},
-                    #{IOB_EI_OUTPUT_B_RW_A,jdbcType=NUMBER},
-                    #{IOB_EI_OUTPUT_B_RW_FA,jdbcType=NUMBER},
-                    #{IOB_EI_OUTPUT_D_RW_A,jdbcType=NUMBER},
-                    #{IOB_EI_OUTPUT_D_RW_FA,jdbcType=NUMBER},
-                    sysdate,
-                    #{PRODUCTTYPE},
-#{POL_OUTPUT,jdbcType=NUMBER},
-#{POL_OUTPUT_PA,jdbcType=NUMBER},
-#{POL_OUTPUT_JUDGE29,jdbcType=NUMBER},
-#{MBI_RJ_OUTPUT_PA,jdbcType=NUMBER},
-#{MBI_RJ_OUTPUT_JUDGE29,jdbcType=NUMBER},
-#{POL_RW_OUTPUT_PA,jdbcType=NUMBER},
-#{POL_RW_OUTPUT_JUDGE29,jdbcType=NUMBER},
-#{IOB_OUTPUT,jdbcType=NUMBER},
-#{IOB_EI_OUTPUT_S,jdbcType=NUMBER},
-#{IOB_EI_OUTPUT_D_RW_S,jdbcType=NUMBER}
-                    )
+        (
+            FACTORY,
+            PERIODDATE,
+            PRODUCTTYPE,
+            PRODUCTID,
+            POL_OUTPUT,
+            POL_OUTPUT_PA,
+            POL_OUTPUT_JUDGE29,
+            MBI_RJ_OUTPUT_PA,
+            MBI_RJ_OUTPUT_JUDGE29,
+            POL_RW_OUTPUT_PA,
+            POL_RW_OUTPUT_JUDGE29,
+            IOB_OUTPUT,
+            IOB_EI_OUTPUT_A,
+            IOB_EI_OUTPUT_FA,
+            IOB_EI_OUTPUT_S,
+            IOB_EI_OUTPUT_B_RW_A,
+            IOB_EI_OUTPUT_D_RW_FA,
+            IOB_EI_OUTPUT_D_RW_S
+        ) VALUES
+        (
+            #{FACTORY,jdbcType=VARCHAR},
+            #{PERIODDATE,jdbcType=DATE},
+            #{PRODUCTTYPE,jdbcType=VARCHAR},
+            #{PRODUCTID,jdbcType=VARCHAR},
+            #{POL_OUTPUT,jdbcType=NUMBER},
+            #{POL_OUTPUT_PA,jdbcType=NUMBER},
+            #{POL_OUTPUT_JUDGE29,jdbcType=NUMBER},
+            #{MBI_RJ_OUTPUT_PA,jdbcType=NUMBER},
+            #{MBI_RJ_OUTPUT_JUDGE29,jdbcType=NUMBER},
+            #{POL_RW_OUTPUT_PA,jdbcType=NUMBER},
+            #{POL_RW_OUTPUT_JUDGE29,jdbcType=NUMBER},
+            #{IOB_OUTPUT,jdbcType=NUMBER},
+            #{IOB_EI_OUTPUT_A,jdbcType=NUMBER},
+            #{IOB_EI_OUTPUT_FA,jdbcType=NUMBER},
+            #{IOB_EI_OUTPUT_S,jdbcType=NUMBER},
+            #{IOB_EI_OUTPUT_B_RW_A,jdbcType=NUMBER},
+            #{IOB_EI_OUTPUT_D_RW_FA,jdbcType=NUMBER},
+            #{IOB_EI_OUTPUT_D_RW_S,jdbcType=NUMBER}
+        )
     </insert>
-    <update id="updateData" parameterType="map">
-        UPDATE DWS_PRODUCT_OC_YIELD_FIDS SET
-        POL_INPUT = #{POL_INPUT,jdbcType=NUMBER} ,
-        POL_OUTPUT_A = #{POL_OUTPUT_A,jdbcType=NUMBER} ,
-        POL_OUTPUT_FA = #{POL_OUTPUT_FA,jdbcType=NUMBER},
-        MBI_RJ_OUTPUT_A = #{MBI_RJ_OUTPUT_A,jdbcType=NUMBER} ,
-        MBI_RJ_OUTPUT_FA = #{MBI_RJ_OUTPUT_FA,jdbcType=NUMBER} ,
-        POL_RW_OUTPUT_A = #{POL_RW_OUTPUT_A,jdbcType=NUMBER} ,
-        POL_RW_OUTPUT_FA = #{POL_RW_OUTPUT_FA,jdbcType=NUMBER} ,
-        IOB_INPUT = #{IOB_INPUT,jdbcType=NUMBER} ,
-        IOB_EI_OUTPUT_A = #{IOB_EI_OUTPUT_A,jdbcType=NUMBER} ,
-        IOB_EI_OUTPUT_FA = #{IOB_EI_OUTPUT_FA,jdbcType=NUMBER} ,
-        IOB_EI_OUTPUT_B_RW_A = #{IOB_EI_OUTPUT_B_RW_A,jdbcType=NUMBER} ,
-        IOB_EI_OUTPUT_B_RW_FA = #{IOB_EI_OUTPUT_B_RW_FA,jdbcType=NUMBER} ,
-        IOB_EI_OUTPUT_D_RW_A = #{IOB_EI_OUTPUT_D_RW_A,jdbcType=NUMBER} ,
-        IOB_EI_OUTPUT_D_RW_FA = #{IOB_EI_OUTPUT_D_RW_FA,jdbcType=NUMBER} ,
-        INTERFACE_TIME = sysdate
-        WHERE
-        FACTORY = #{FACTORY} and
-        PERIODDATE = #{PERIODDATE} and
-        PRODUCTID = #{PRODUCTID} and
-        PRODUCTTYPE = #{PRODUCTTYPE}
-    </update>
 
-    <update id="updateTargetData" parameterType="map">
-        UPDATE DWS_PRODUCT_OC_YIELD_FIDS SET
-        (DWS_PRODUCT_OC_YIELD_FIDS.TARGETINLINE)=
-        (select TARGETINLINE
-        from TARGETOC
-        where
-        TARGETOC.PRODUCTID=DWS_PRODUCT_OC_YIELD_FIDS.PRODUCTID)
-    </update>
-
-    <select id="queryTotalProductLineOCByDateAndProductList" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcData$ProductOcDetailData">
+    <select id="queryTotalProductLineOCByDateAndProductList" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcDetailData">
         SELECT
         decode(PRODUCTID,'C41A','50', 'D41A','50','A1CC495PU1L01','50','D0NL495PU1L01','50',
         'C51A','58','D51A','58','A1CC575PU1L01','58','A1CC575PU3L01','58',PRODUCTID) as productName,
-        sum(POL_INPUT) as polInput,
-        sum(POL_OUTPUT_A) as polOutputA,
-        sum(POL_OUTPUT_FA) as polOutputFA,
-        sum(MBI_RJ_OUTPUT_A) as mbiRjOutputA,
-        sum(MBI_RJ_OUTPUT_FA) as mbiRjOutputFA,
-        sum(POL_RW_OUTPUT_A) as polRwOutputA,
-        sum(POL_RW_OUTPUT_FA) as polRwOutputFA,
-        sum(IOB_INPUT) as iobInput,
-        sum(IOB_EI_OUTPUT_A) as iobEiOutputA,
-        sum(IOB_EI_OUTPUT_FA) as iobEiOutputFA,
-        sum(IOB_EI_OUTPUT_B_RW_A) as iobEiOutputBRwA,
-        sum(IOB_EI_OUTPUT_B_RW_FA) as iobEiOutputBRwFA,
-        sum(IOB_EI_OUTPUT_D_RW_A) as iobEiOutputDRwA,
-        sum(IOB_EI_OUTPUT_D_RW_FA) as iobEiOutputDRwFA
+        sum(POL_OUTPUT) as polOutPut,
+        sum(POL_OUTPUT_PA)+
+        sum(POL_OUTPUT_JUDGE29)+
+        sum(MBI_RJ_OUTPUT_PA)+
+        sum(MBI_RJ_OUTPUT_JUDGE29)+
+        sum(POL_RW_OUTPUT_PA)+
+        sum(POL_RW_OUTPUT_JUDGE29) as polOutPutSum,
+
+        sum(IOB_OUTPUT) as iobOutPut,
+        sum(IOB_EI_OUTPUT_A)+
+        sum(IOB_EI_OUTPUT_FA)+
+        sum(IOB_EI_OUTPUT_S)+
+        sum(IOB_EI_OUTPUT_B_RW_A)+
+        sum(IOB_EI_OUTPUT_D_RW_FA)+
+        sum(IOB_EI_OUTPUT_D_RW_S) as iobOutPutSum
         FROM
         DWS_PRODUCT_OC_YIELD_FIDS
         WHERE
