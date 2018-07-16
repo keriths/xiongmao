@@ -294,6 +294,8 @@ public class CIMDataSyncTask {
         long t1 = System.currentTimeMillis();
         String tableName="DWR_WIP_GLS_FIDS";
         Date maxPeriodDate = getmaxPeriodDate(tableName);
+        int insertNum = 0;
+        int updateNum = 0;
         while (true){
 //            mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
             List<Map<String,Object>> mapDataList;
@@ -322,7 +324,10 @@ public class CIMDataSyncTask {
                     if (data==null){
                            //添加  添加时把在库容量上限下限读出来一起同步
                         dwrWipGlsFidsDAO.addData(mapData);
+                        insertNum++;
                     }else {
+                        updateNum++;
+                        LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_havedData"+mapData);
                         if (notEquals(data.get("WIP_GLS_QTY"),mapData.get("WIP_GLS_QTY"))){
                             dwrWipGlsFidsDAO.updateData(mapData);
                         }
@@ -336,7 +341,7 @@ public class CIMDataSyncTask {
             offset = offset+limit;
         }
         long t2 = System.currentTimeMillis();
-        LogUtils.info(this.getClass(),"同步在制品[DWR_WIP_GLS_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
+        LogUtils.info(this.getClass(),"同步在制品[DWR_WIP_GLS_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+insertNum+"]条数据,更新["+updateNum+"]条数据");
     }
 
     /**
