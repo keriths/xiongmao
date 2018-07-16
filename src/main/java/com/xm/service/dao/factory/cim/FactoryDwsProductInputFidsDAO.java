@@ -14,7 +14,7 @@ import java.util.Map;
 public interface FactoryDwsProductInputFidsDAO {
     List<Map<String,Object>> querySyncData(@Param("offset")int offset,@Param("limit")int limit);
 
-    List<Map<String,Object>> queryLatestData(@Param("minPeriodDate")Date minPeriodDate);
+//    List<Map<String,Object>> queryLatestData(@Param("minPeriodDate")Date minPeriodDate);
 
-    List<Map<String,Object>> queryLatestDataByDataAndTableName(@Param("offset")int offset,@Param("limit")int limit,@Param("minPeriodDate")Date maxPeriodDate,@Param("tableName") String tableName);
+    List<Map<String,Object>> queryLatestDataByDataAndTableName(@Param("offset")int offset,@Param("limit")int limit,@Param("minPeriodDate")Date maxPeriodDate,@Param("tableName") String tableName,@Param("orderby") String  orderby);
 }
