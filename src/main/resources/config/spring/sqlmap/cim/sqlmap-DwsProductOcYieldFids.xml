@@ -16,9 +16,9 @@
         sum(IOB_EI_OUTPUT_A)+
         sum(IOB_EI_OUTPUT_FA)+
         sum(IOB_EI_OUTPUT_S)+
-        sum(IOB_EI_OUTPUT_B_RW_A)+
-        sum(IOB_EI_OUTPUT_D_RW_FA)+
-        sum(IOB_EI_OUTPUT_D_RW_S) as iobOutPutSum,
+        sum(IOB_EI_OUTPUT_RW_A)+
+        sum(IOB_EI_OUTPUT_RW_FA)+
+        sum(IOB_EI_OUTPUT_RW_S) as iobOutPutSum,
         <if test="dateType=='month'.toString()">/*按月*/
             TO_CHAR(PERIODDATE,'MM')||'月'
         </if>
@@ -83,9 +83,9 @@
             IOB_EI_OUTPUT_A,
             IOB_EI_OUTPUT_FA,
             IOB_EI_OUTPUT_S,
-            IOB_EI_OUTPUT_B_RW_A,
-            IOB_EI_OUTPUT_D_RW_FA,
-            IOB_EI_OUTPUT_D_RW_S
+            IOB_EI_OUTPUT_RW_A,
+            IOB_EI_OUTPUT_RW_FA,
+            IOB_EI_OUTPUT_RW_S
         ) VALUES
         (
             #{FACTORY,jdbcType=VARCHAR},
@@ -103,9 +103,9 @@
             #{IOB_EI_OUTPUT_A,jdbcType=DOUBLE},
             #{IOB_EI_OUTPUT_FA,jdbcType=DOUBLE},
             #{IOB_EI_OUTPUT_S,jdbcType=DOUBLE},
-            #{IOB_EI_OUTPUT_B_RW_A,jdbcType=DOUBLE},
-            #{IOB_EI_OUTPUT_D_RW_FA,jdbcType=DOUBLE},
-            #{IOB_EI_OUTPUT_D_RW_S,jdbcType=DOUBLE}
+            #{IOB_EI_OUTPUT_RW_A,jdbcType=DOUBLE},
+            #{IOB_EI_OUTPUT_RW_FA,jdbcType=DOUBLE},
+            #{IOB_EI_OUTPUT_RW_S,jdbcType=DOUBLE}
         )
     </insert>
 
@@ -125,9 +125,9 @@
         sum(IOB_EI_OUTPUT_A)+
         sum(IOB_EI_OUTPUT_FA)+
         sum(IOB_EI_OUTPUT_S)+
-        sum(IOB_EI_OUTPUT_B_RW_A)+
-        sum(IOB_EI_OUTPUT_D_RW_FA)+
-        sum(IOB_EI_OUTPUT_D_RW_S) as iobOutPutSum
+        sum(IOB_EI_OUTPUT_RW_A)+
+        sum(IOB_EI_OUTPUT_RW_FA)+
+        sum(IOB_EI_OUTPUT_RW_S) as iobOutPutSum
         FROM
         DWS_PRODUCT_OC_YIELD_FIDS
         WHERE

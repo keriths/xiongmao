@@ -4,7 +4,7 @@
     <select id="queryMonthAvg" resultType="com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeMonthAvgDataDTO" parameterType="map">
         select
             avg(TT_TARGET) as target,
-            sum(TOTAL_TT)/sum(TOTAL_GLS_QTY) as actual,
+            sum(NVL(TOTAL_TT,0))/sum(NVL(TOTAL_GLS_QTY,999999999)) as actual,
             PRODUCTID as productId
         from DWR_PRODUCT_TT_FIDS
         WHERE
@@ -25,8 +25,8 @@
 
     <select id="queryTactTimeListByProductIdAndTime" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeProductTimeListRetDTO$TactTimeProductDetail">
         SELECT
-          sum(TT_TARGET) as target,
-          sum(TOTAL_TT)/sum(TOTAL_GLS_QTY) as total,
+          sum(NVL(TT_TARGET,0)) as target,
+          sum(NVL(TOTAL_TT,0))/sum(NVL(TOTAL_GLS_QTY,999999999)) as total,
           to_char(PERIODDATE,'HH24')||':00' as periodDate,
           PRODUCTID
         FROM
