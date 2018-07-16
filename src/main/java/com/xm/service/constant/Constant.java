@@ -319,7 +319,7 @@ public class Constant {
     public static final List<String> productTypeMPList = Lists.newArrayList("MP");
 
     //productType 试验
-    public static final List<String> productTypeTestList = Lists.newArrayList("CM","CS","DM","ES","MP","TS","ZP02","ZP03","ZP20","ZP21","ZP22","ZP24","ZP30","E1","E2");
+    public static final List<String> productTypeTestList = Lists.newArrayList("CM","CS","CS-M","DM","E1","ES","MP","TS","ZP02","ZP03","ZP20","ZP21","ZP22","ZP24","ZP30","E1","E2");
 
 
 
