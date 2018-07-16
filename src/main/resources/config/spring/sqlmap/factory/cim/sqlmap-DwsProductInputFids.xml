@@ -14,13 +14,16 @@
     <select id="queryLatestDataByDataAndTableName" parameterType="map" resultType="map">
         <![CDATA[
         select * from (
-          select t.*,rownum as rn
-          from ${tableName} t
-          where PERIODDATE >= #{minPeriodDate}
-            and rownum <= #{offset}+#{limit}
-            order by  t.PERIODDATE
-        ) a where a.rn > #{offset}
 
+          select a.*,rownum as rn from (
+
+            select t.*
+              from ${tableName} t
+              where PERIODDATE >= #{minPeriodDate}
+              order by  t.PERIODDATE
+            ) a
+            where rownum <= #{offset}+#{limit}
+        ) where rn > #{offset}
         ]]>
     </select>
     <select id="querySyncData" parameterType="map" resultType="map">
