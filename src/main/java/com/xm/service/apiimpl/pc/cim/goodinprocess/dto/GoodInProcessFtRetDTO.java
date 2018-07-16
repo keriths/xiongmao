@@ -43,8 +43,8 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
         private String factory;
         @ApiResultFieldDesc(desc = "站点ID")
         private String stepId;
-        @ApiResultFieldDesc(desc = "站点名称")
-        private String stepName;
+        @ApiResultFieldDesc(desc = "站点描述")
+        private String stepDesc;
         @ApiResultFieldDesc(desc = "在制品数量")
         private BigDecimal quantity;
         @ApiResultFieldDesc(desc = "在库量上限")
@@ -60,19 +60,19 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
             this.factory = factory;
         }
 
-        public String getStepName() {
-            return stepName;
-        }
-
-        public void setStepName(String stepName) {
-            this.stepName = stepName;
-        }
-
         public String getStepId() {
-            if (stepName!=null){
-                return stepName;
+            if (stepDesc!=null){
+                return stepDesc;
             }
             return stepId;
+        }
+
+        public String getStepDesc() {
+            return stepDesc;
+        }
+
+        public void setStepDesc(String stepDesc) {
+            this.stepDesc = stepDesc;
         }
 
         public String getStepIdKey() {
@@ -146,4 +146,6 @@ public class GoodInProcessFtRetDTO extends BaseRetDTO {
             this.storeMin = storeMin;
         }
     }
+
+
 }
