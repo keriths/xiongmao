@@ -292,9 +292,9 @@ public class CIMDataSyncTask {
         int offset = 0;
         int limit = 1000;
         long t1 = System.currentTimeMillis();
+        String tableName="DWR_WIP_GLS_FIDS";
+        Date maxPeriodDate = getmaxPeriodDate(tableName);
         while (true){
-            String tableName="DWR_WIP_GLS_FIDS";
-            Date maxPeriodDate = getmaxPeriodDate(tableName);
 //            mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
             List<Map<String,Object>> mapDataList;
             try {
@@ -369,9 +369,10 @@ public class CIMDataSyncTask {
         int offset = 0;
         int limit = 1000;
         long t1 = System.currentTimeMillis();
+        String tableName="DWS_PRODUCT_LINE_YIELD_FIDS";
+        Date maxPeriodDate = getmaxPeriodDate(tableName);
         while (true){
-            String tableName="DWS_PRODUCT_LINE_YIELD_FIDS";
-            Date maxPeriodDate = getmaxPeriodDate(tableName);
+
 //            mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
             List<Map<String,Object>> mapDataList;
             try {
@@ -448,9 +449,10 @@ public class CIMDataSyncTask {
         int offset = 0;
         int limit = 1000;
         long t1 = System.currentTimeMillis();
+        String tableName="DWS_PRODUCT_OC_YIELD_FIDS";
+        Date maxPeriodDate = getmaxPeriodDate(tableName);
         while (true){
-            String tableName="DWS_PRODUCT_OC_YIELD_FIDS";
-            Date maxPeriodDate = getmaxPeriodDate(tableName);
+
 //            mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
             List<Map<String,Object>> mapDataList ;
             try {
@@ -538,10 +540,11 @@ public class CIMDataSyncTask {
         int offset = 0;
         int limit = 1000;
         long t1 = System.currentTimeMillis();
+        String tableName="DWR_PRODUCT_CT_FIDS";
+        Date maxPeriodDate = getmaxPeriodDate(tableName);
         while (true){
 
-            String tableName="DWR_PRODUCT_CT_FIDS";
-            Date maxPeriodDate = getmaxPeriodDate(tableName);
+
 //            mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
             List<Map<String,Object>> mapDataList;
             try {
@@ -596,10 +599,11 @@ public class CIMDataSyncTask {
         int offset = 0;
         int limit = 1000;
         long t1 = System.currentTimeMillis();
+        String tableName="DWR_EQP_OEE_FIDS";
+        Date maxPeriodDate = getmaxPeriodDate(tableName);
         while (true){
 
-            String tableName="DWR_EQP_OEE_FIDS";
-            Date maxPeriodDate = getmaxPeriodDate(tableName);
+
 //            mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
             List<Map<String,Object>> mapDataList;
             try {
@@ -653,10 +657,11 @@ public class CIMDataSyncTask {
         int offset = 0;
         int limit = 1000;
         long t1 = System.currentTimeMillis();
+        String tableName="DWR_PRODUCT_TT_FIDS";
+        Date maxPeriodDate = getmaxPeriodDate(tableName);
         while (true){
 
-            String tableName="DWR_PRODUCT_TT_FIDS";
-            Date maxPeriodDate = getmaxPeriodDate(tableName);
+
 //            mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
             List<Map<String,Object>> mapDataList;
             try {
