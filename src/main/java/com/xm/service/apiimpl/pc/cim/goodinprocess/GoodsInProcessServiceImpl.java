@@ -13,6 +13,7 @@ import com.xm.service.apiimpl.pc.step.dto.StepRetDTO;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DwrWipGlsFidsDAO;
 import com.xm.service.dao.login.StepDAO;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -116,13 +117,20 @@ public class GoodsInProcessServiceImpl {
             Date endDate = new Date();*/
 
             List<String> dateList = null;
+            DateTime curTime = new DateTime();
+            int curMinute = curTime.getMinuteOfHour();
             Date beginDate = null;
-            Date endDate = new Date();
-            beginDate = DateUtils.getBeforHourStartDay(11);
-            dateList = DateUtils.getHourStrList(beginDate,endDate);
+            Date endDate = curTime.toDate();
+            if (curMinute>30){
+                beginDate = DateUtils.getBeforHourStartDay(11);
+                dateList = DateUtils.getHourStrList(beginDate,endDate);
+            }else {
+                beginDate = DateUtils.getBeforHourStartDay(12);
+                endDate = curTime.plusDays(-1).toDate();
+                dateList = DateUtils.getHourStrList(beginDate,endDate);
+            }
 
             List<String> productTypeList=Constant.productTypeTestList;
-
             //List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.factoryLists,Constant.stepIdLists, beginDate, endDate);
             List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.allSingleFactoryLists,beginDate, endDate,productTypeList);
 //            wipDetailDataList = new ArrayList<>();

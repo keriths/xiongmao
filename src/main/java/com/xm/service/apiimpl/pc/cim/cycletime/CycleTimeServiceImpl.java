@@ -12,6 +12,7 @@ import com.xm.service.apiimpl.pc.cim.cycletime.dto.CycleTimeRetDTO;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DwrProductCtFidsDAO;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -36,6 +37,11 @@ public class CycleTimeServiceImpl {
         CycleTimeRetDTO resultDto=new CycleTimeRetDTO();
         try {
             List<String> productIdList = productMap.get(productId);
+            if (CollectionUtils.isEmpty(productIdList)){
+                resultDto.setSuccess(false);
+                resultDto.setErrorMsg("productId参数错误,请传入【" + productMap.keySet() + "】");
+                return resultDto;
+            }
             if (!Constant.dateTypeList.contains(dateType)){
                 resultDto.setSuccess(false);
                 resultDto.setErrorMsg("dateType参数错误,请传入【" + Constant.dateTypeList + "】");
