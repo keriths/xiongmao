@@ -32,7 +32,7 @@ public class TactTimeMonthAvgDataDTO implements Serializable{
                 return new BigDecimal("0");
             }
         }
-        return target;
+        return target.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
     public void setTarget(BigDecimal target) {
@@ -50,7 +50,7 @@ public class TactTimeMonthAvgDataDTO implements Serializable{
                 return new BigDecimal("0");
             }
         }
-        return actual;
+        return actual.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
     public void setActual(BigDecimal actual) {
