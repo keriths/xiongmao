@@ -37,24 +37,25 @@ public class TactTimeServiceImpl {
     public TactTimeProductTimeListRetDTO tactTimeProductTimeList(@ApiParamDoc(desc = "厂别：如ARRAY") String factory, @ApiParamDoc(desc = "产品类型：如PHOTO、PVD") String productId){
         TactTimeProductTimeListRetDTO retDto=new TactTimeProductTimeListRetDTO();
         try {
-            List<String> productIdList = Constant.factoryProductIdListMap.get(factory);
-            if (productIdList==null){
+            List<String> groupList = Constant.factoryProductIdListMap.get(factory);
+            if (groupList==null){
                 retDto.setSuccess(false);
                 retDto.setErrorMsg("factory参数错误,请传入【" + Constant.factoryProductIdListMap.keySet() + "】");
                 return retDto;
             }
-            if (!productIdList.contains(productId)){
+            if (!groupList.contains(productId)){
                 retDto.setSuccess(false);
-                retDto.setErrorMsg("productId参数错误,请传入【" + productIdList + "】");
+                retDto.setErrorMsg("productId参数错误,请传入【" + groupList + "】");
                 return retDto;
             }
+            List<String> factoryList = Constant.factoryMap.get(factory);
             Date startTime = DateUtils.getBeforHourStartDay(11);
             Date endTime = new Date();
             List<String> hourList = DateUtils.getHourStrList(startTime, endTime);
 
             List<String> productTypeList=Constant.productTypeTestList;
 
-            List<TactTimeProductTimeListRetDTO.TactTimeProductDetail> dbQueryList = dwrProductTtFidsDAO.queryTactTimeListByProductIdAndTime(Constant.allSingleFactoryLists, productId, startTime, endTime,productTypeList);
+            List<TactTimeProductTimeListRetDTO.TactTimeProductDetail> dbQueryList = dwrProductTtFidsDAO.queryTactTimeListByProductIdAndTime(factoryList, productId, startTime, endTime,productTypeList);
             Map<String,TactTimeProductTimeListRetDTO.TactTimeProductDetail> dbQueryMap = MapUtils.listToMap(dbQueryList,"getPeriodDate");
             List<TactTimeProductTimeListRetDTO.TactTimeProductDetail> tactTimeProductDetailList = new ArrayList<TactTimeProductTimeListRetDTO.TactTimeProductDetail>();
             for (String hour:hourList){
@@ -82,8 +83,8 @@ public class TactTimeServiceImpl {
         TactTimeMonthAvgRetDTO retDto = new TactTimeMonthAvgRetDTO();
         try {
             List<String> factoryList = Constant.factoryMap.get(factory);
-            List<String> productIdList = Constant.factoryProductIdListMap.get(factory);
-            if (CollectionUtils.isEmpty(productIdList)){
+            List<String> groupNameList = Constant.factoryProductIdListMap.get(factory);
+            if (CollectionUtils.isEmpty(groupNameList)){
                 retDto.setSuccess(false);
                 retDto.setErrorMsg("factory参数错误,请传入【" + Constant.factoryProductIdListMap.keySet() + "】");
                 return retDto;
@@ -93,16 +94,16 @@ public class TactTimeServiceImpl {
 
             List<String> productTypeList=Constant.productTypeTestList;
 
-            List<TactTimeMonthAvgDataDTO> tactTimeMonthAvgDataDTOList = dwrProductTtFidsDAO.queryMonthAvg(factoryList, productIdList, beginDate, endDate,productTypeList);
+            List<TactTimeMonthAvgDataDTO> tactTimeMonthAvgDataDTOList = dwrProductTtFidsDAO.queryMonthAvg(factoryList, groupNameList, beginDate, endDate,productTypeList);
             if (CollectionUtils.isEmpty(tactTimeMonthAvgDataDTOList)){
                 //如果当月数据为空，取上个月的数据,上个月的取不到，不继续取
                 beginDate = DateUtils.getBeforMonthStartDay(1);
                 endDate = DateUtils.getBeforMonthEndDay(1);
-                tactTimeMonthAvgDataDTOList = dwrProductTtFidsDAO.queryMonthAvg(factoryList, productIdList, beginDate, endDate,productTypeList);
+                tactTimeMonthAvgDataDTOList = dwrProductTtFidsDAO.queryMonthAvg(factoryList, groupNameList, beginDate, endDate,productTypeList);
             }
             Map<String,TactTimeMonthAvgDataDTO> avgDataDTOMap = MapUtils.listToMap(tactTimeMonthAvgDataDTOList, "getProductId");
             List<TactTimeMonthAvgDataDTO> avgDataDTOList = new ArrayList<TactTimeMonthAvgDataDTO>();
-            for (String productId:productIdList){
+            for (String productId:groupNameList){
                 TactTimeMonthAvgDataDTO dto=null;
                 if (!CollectionUtils.isEmpty(avgDataDTOMap)){
                     dto = avgDataDTOMap.get(productId);

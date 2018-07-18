@@ -2,7 +2,6 @@ package com.xm.service.apiimpl.pc.cim.cycletime.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.RandomUtils;
-import com.xm.service.constant.Constant;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -22,6 +21,7 @@ public class CycleTimeData implements Serializable {
 
 
     public static class CycleTimeDetailData{
+        boolean showDemoData=false;
         public CycleTimeDetailData(){}
 
         public CycleTimeDetailData(String periodDate,String factory){
@@ -60,7 +60,7 @@ public class CycleTimeData implements Serializable {
 
         public BigDecimal getPlan() {
             if (plan==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     if("Array".equals(getFactory())){
                         return new BigDecimal("6");
                     }else if("Cell".equals(getFactory())){
@@ -83,7 +83,7 @@ public class CycleTimeData implements Serializable {
 
         public BigDecimal getActual() {
             if (actual==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     if("Array".equals(getFactory())){
                         return RandomUtils.randomFloat(5.9f,6.5f,2);
                     }else if("Cell".equals(getFactory())){
@@ -95,9 +95,8 @@ public class CycleTimeData implements Serializable {
                 }else {
                     return new BigDecimal("0");
                 }
-
             }
-            return actual;
+            return actual.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setActual(BigDecimal actual) {

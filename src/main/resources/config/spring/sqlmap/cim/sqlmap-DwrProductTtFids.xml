@@ -4,15 +4,16 @@
     <select id="queryMonthAvg" resultType="com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeMonthAvgDataDTO" parameterType="map">
         select
             avg(TT_TARGET) as target,
-            sum(NVL(TOTAL_TT,0))/sum(NVL(TOTAL_GLS_QTY,999999999)) as actual,
-            PRODUCTID as productId
+            avg(NVL(TOTAL_TT,0))/avg(NVL(TOTAL_GLS_QTY,999999999)) as actual,
+            gg.GROUPNAME  as productId
         from DWR_PRODUCT_TT_FIDS
+        join FACTORY_GROUP_EQP_MAPPING gg on gg.EQP_ID = tt.EQP_ID
         WHERE
             FACTORY IN
             <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
                 #{factory}
             </foreach>
-            AND PRODUCTID IN
+             and gg.GROUPNAME IN
             <foreach collection="productIdList" item="productId" open="(" separator="," close=")" >
                 #{productId}
             </foreach>
@@ -20,17 +21,18 @@
           and PERIODDATE >= #{beginDate}
           and PERIODDATE <= #{endDate}
           ]]>
-        group by PRODUCTID
+        group by gg.GROUPNAME
     </select>
 
     <select id="queryTactTimeListByProductIdAndTime" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeProductTimeListRetDTO$TactTimeProductDetail">
         SELECT
-          sum(NVL(TT_TARGET,0)) as target,
-          sum(NVL(TOTAL_TT,0))/sum(NVL(TOTAL_GLS_QTY,999999999)) as total,
+          avg(NVL(TT_TARGET,0)) as target,
+          avg(NVL(TOTAL_TT,0))/avg(NVL(TOTAL_GLS_QTY,999999999)) as total,
           to_char(PERIODDATE,'HH24')||':00' as periodDate,
-          PRODUCTID
+          gg.GROUPNAME as PRODUCTID
         FROM
-          DWR_PRODUCT_TT_FIDS
+          DWR_PRODUCT_TT_FIDS tt
+          join FACTORY_GROUP_EQP_MAPPING gg on gg.EQP_ID = tt.EQP_ID
         WHERE
             FACTORY IN
             <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
@@ -40,7 +42,7 @@
             <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
                 #{productType}
             </foreach>
-            and PRODUCTID=#{productId}
+            and gg.GROUPNAME=#{productId}
             <![CDATA[
             and PERIODDATE >= #{beginDate}
             and PERIODDATE <= #{endDate}
