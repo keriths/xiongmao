@@ -28,7 +28,7 @@
         SELECT
           avg(NVL(TT_TARGET,0)) as target,
           avg(NVL(TOTAL_TT,0))/avg(TOTAL_GLS_QTY) as total,
-          to_char(PERIODDATE,'HH24')||':00' as periodDate,
+          to_char(PERIODDATE,'MM/DD') as periodDate,
           gg.GROUPNAME as PRODUCTID
         FROM
           DWR_PRODUCT_TT_FIDS tt
@@ -47,7 +47,7 @@
             and PERIODDATE >= #{beginDate}
             and PERIODDATE <= #{endDate}
             ]]>
-        group by gg.GROUPNAME,to_char(PERIODDATE,'HH24')||':00'
+        group by gg.GROUPNAME,to_char(PERIODDATE,'MM/DD')
     </select>
 
     <select id="loadByPrimaryKey" parameterType="map" resultType="map">

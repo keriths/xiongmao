@@ -2,7 +2,6 @@ package com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.RandomUtils;
-import com.xm.service.constant.Constant;
 import com.xm.service.dto.BaseRetDTO;
 
 import java.math.BigDecimal;
@@ -19,6 +18,7 @@ public class OutputCollectDataRetDTO extends BaseRetDTO {
     private List<CollectDataList> collectMonthDataRetDTOList;
 
     public static class CollectDataList{
+        boolean showDemoData=false;
         public CollectDataList(){}
         public CollectDataList(String productName,String periodDate){
             this.periodDate = periodDate;
@@ -42,7 +42,7 @@ public class OutputCollectDataRetDTO extends BaseRetDTO {
 
         public BigDecimal getOutputNum() {
             if (outputNum==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     outputNum = new BigDecimal(RandomUtils.randomInt(100, 200));
                 }
             }

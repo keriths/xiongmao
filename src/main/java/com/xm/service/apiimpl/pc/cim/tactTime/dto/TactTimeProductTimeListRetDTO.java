@@ -2,7 +2,6 @@ package com.xm.service.apiimpl.pc.cim.tactTime.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.RandomUtils;
-import com.xm.service.constant.Constant;
 import com.xm.service.dto.BaseRetDTO;
 
 import java.math.BigDecimal;
@@ -26,6 +25,7 @@ public class TactTimeProductTimeListRetDTO extends BaseRetDTO{
     }
 
     public static class TactTimeProductDetail{
+        boolean showDemoData=false;
         public TactTimeProductDetail(){
 
         }
@@ -43,7 +43,7 @@ public class TactTimeProductTimeListRetDTO extends BaseRetDTO{
 
         public BigDecimal getTarget() {
             if (target==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     return new BigDecimal(RandomUtils.randomInt(130,130));
                 }else {
                     return new BigDecimal("0");
@@ -58,7 +58,7 @@ public class TactTimeProductTimeListRetDTO extends BaseRetDTO{
 
         public BigDecimal getTotal() {
             if (total==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     return new BigDecimal(RandomUtils.randomInt(120,140));
                 }else {
                     return new BigDecimal("0");
