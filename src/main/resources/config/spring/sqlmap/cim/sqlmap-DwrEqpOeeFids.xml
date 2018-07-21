@@ -7,7 +7,7 @@
         EQP_STATUS as status,
         sum(NVL(STATUS_DURATION,0)/3600/EQPNUM.EQPCOUNT) as statusNum
         FROM
-        DWR_EQP_OEE_FIDS
+        DWR_EQP_OEE_FIDS OEE
         join FACTORY_GROUP_EQP_MAPPING GG on GG.EQP_ID = OEE.EQP_ID
         JOIN (
             SELECT
@@ -30,7 +30,7 @@
             GROUP BY OEE.FACTORY,GG.GROUPNAME
         ) EQPNUM ON EQPNUM.FACTORY = OEE.FACTORY AND EQPNUM.GROUPNAME = GG.GROUPNAME
         WHERE
-        FACTORY IN
+        OEE.FACTORY IN
         <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
             #{factory}
         </foreach>
