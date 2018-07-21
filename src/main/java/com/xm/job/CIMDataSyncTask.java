@@ -8,11 +8,9 @@ import com.xm.service.dao.login.StoreDAO;
 import com.xm.service.dao.login.TargetDAO;
 import com.xm.service.dao.login.TargetocDAO;
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import sun.rmi.runtime.Log;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -31,13 +29,9 @@ public class CIMDataSyncTask {
     private DwsProductInputFidsDAO dwsProductInputFidsDAO;
 
     //---------------产出达成率------------
-//    @Resource
-//    private FactoryDwsProductOutputFidsDAO factoryDwsProductOutputFidsDAO;
     @Resource
     private DwsProductOutputFidsDAO outputcompletionDAO;
 
-//    @Resource
-//    private FactoryDwsProductOutputFidsHDAO factoryDwsProductOutputFidsHDAO;
     @Resource
     private DwsProductOutputFidsHDAO dwrProductOutputFidsHDAO;
 
@@ -51,12 +45,8 @@ public class CIMDataSyncTask {
     private StoreDAO storeDAO;
 
     //---------------良品率------------
-//    @Resource
-//    private FactoryDwsProductLineYieldFidsDAO factoryDwsProductLineYieldFidsDAO;
     @Resource
     private DwsProductLineYieldFidsDAO dwsProductLineYieldFidsDAO;
-//    @Resource
-//    private FactoryDwsProductOcYieldFidsDAO factoryDwsProductOcYieldFidsDAO;
     @Resource
     private DwsProductOcYieldFidsDAO dwsProductOcYieldFidsDAO;
 
@@ -66,20 +56,14 @@ public class CIMDataSyncTask {
     private TargetocDAO targetocDAO;
 
     //---------------CycleTime------------
-//    @Resource
-//    private FactoryDwrProductCtFidsDAO factoryDwrProductCtFidsDAO;
     @Resource
     private DwrProductCtFidsDAO dwrProductCtFidsDAO;
 
     //---------------稼动率------------
-//    @Resource
-//    private FactoryDwrEqpOeeFidsDAO factoryDwrEqpOeeFidsDAO;
     @Resource
     private DwrEqpOeeFidsDAO dwrEqpOeeFidsDAO;
 
     //---------------TactTime------------
-//    @Resource
-//    private FactoryDwrProductTtFidsDAO factoryDwrProductTtFidsDAO;
     @Resource
     private DwrProductTtFidsDAO dwrProductTtFidsDAO;
 
@@ -110,6 +94,7 @@ public class CIMDataSyncTask {
         try {
             String tableName="DWS_PRODUCT_INPUT_FIDS";
             Date maxPeriodDate = getmaxPeriodDate(tableName);
+            maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-2).toDate();
             while (true){
                 List<Map<String,Object>> mapDataList;
                 try {
