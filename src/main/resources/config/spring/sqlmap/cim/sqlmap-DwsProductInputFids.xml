@@ -27,7 +27,7 @@
             <foreach collection="productIdList" open="(" separator="," close=")" item="productId">
                 #{productId}
             </foreach>
-            and PRODUCTTYPE IN
+            and PRODUCTTYPE NOT IN
             <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
                 #{productType}
             </foreach>

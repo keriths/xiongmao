@@ -39,7 +39,7 @@
         <foreach collection="productIdList" item="productId" open="(" separator="," close=")">
             #{productId}
         </foreach>
-        and PRODUCTTYPE IN
+        and PRODUCTTYPE NOT IN
         <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
             #{productType}
         </foreach>
@@ -81,7 +81,7 @@
         DWS_PRODUCT_OC_YIELD_FIDS
         WHERE
         PRODUCTID IN ('C41A', 'D41A','A1CC495PU1L01','D0NL495PU1L01', 'C51A','D51A','A1CC575PU1L01','A1CC575PU3L01')
-        and PRODUCTTYPE IN
+        and PRODUCTTYPE NOT IN
         <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
             #{productType}
         </foreach>

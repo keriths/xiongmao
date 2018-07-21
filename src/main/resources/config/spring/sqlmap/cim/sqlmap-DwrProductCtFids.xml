@@ -31,7 +31,7 @@
             </foreach>
         </if>
         <if test="productTypeList != null">
-            and PRODUCTTYPE IN
+            and PRODUCTTYPE NOT IN
             <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
                 #{productType}
             </foreach>

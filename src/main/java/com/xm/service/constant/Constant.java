@@ -27,8 +27,8 @@ public class Constant {
      */
     public static final Map<String,String> productIdNameMap = new LinkedHashMap<>();
     static {
-        productIdNameMap.put("50","50'");
-        productIdNameMap.put("58","58'");
+        productIdNameMap.put("50","50\"");
+        productIdNameMap.put("58","58\"");
     }
     /**
      * 厂别
@@ -263,64 +263,64 @@ public class Constant {
             "65","65");
 
 
-    public static final Map<String,List<String>> eqpIdMap = MapUtils.newMap(
-            "PHOTO",Lists.newArrayList("SPM-02CL","WGT-02C","KAM-02C","WIT-02CL","KRV-01C"),
-            "PVD",Lists.newArrayList("SPI-01C","VDN-05C-CUL","CAK-16CL","PCD-07C","CAK-07CL"),
-            "CVD",Lists.newArrayList("KLD-01CL","PHB-07C","VDN-01CL","KEF-01CL","KGM-01CL"),
-            "WET",Lists.newArrayList("KHM-01CL","WIG-01CL","WUK-02C","DEV-07C","SPX-01CL"),
-            "DE",Lists.newArrayList("KAR-02CL","XSB-01C2","XOB-03CL","SPI-01CL","KMM-03CL"),
-            "PI",Lists.newArrayList("PIS-11C","PMW-11C","CPR-141C","CPL-11CU","PKS-12C"),
-            "FDV",Lists.newArrayList("KOL-01C","PRS-11C","MVW-01CL","SSR-13C","CPR-151C"),
-            "ODF",Lists.newArrayList("MVK-01C","FDV-11C","MVW-01C","SSR-11C","CHL-01CL"),
-            "HSW",Lists.newArrayList("PRK-11C","CPR-121C","CPR-151C","CPR-111C","CFL-11CL"),
-            "KOL",Lists.newArrayList("FDV-11C","CPR-141C","PKS-11C","CPR-161C","PKS-11C"),
-            "BM",Lists.newArrayList("RML-01C","PDV-03C","FMR-131C","FMR-141C","FRC-112C"),
-            "ITO",Lists.newArrayList("FDB-121C","FMC-111C","FRT-112C","MTP-01C","WUK-03CL"),
-            "PS",Lists.newArrayList("FRL-01CU","IOV-01C","PTC-03C","FRC-113C","PDV-02C"),
-            "RGB",Lists.newArrayList("MTM-01C","FMR-181C","FDL-01CU","FPC-172C","FPC-114C"),
-            "RML",Lists.newArrayList("WCP-02C","FDR-111C","FDR-141C","FMR-121C","PMT-03C"),
-            "MBD",Lists.newArrayList("AVL205CN","MLR206CN","MLR207CN","IMD205CT","MBD205CN"),
-            "POL",Lists.newArrayList("MLR208CL","MBD205CN","MLR202CN","AVL205CN","IMD403CL"),
-            "OLB",Lists.newArrayList("MBD-25CL","MLR204CN","MLR203CN","MLR202CN","MLR207CN"),
-            "MLB",Lists.newArrayList("SSL205CN","BGW205CN","MBD-25CL","BGW205CN","ASL205CN"),
-            "Aging",Lists.newArrayList("AVL205CN","IMD403CL","IMD205CT","SUD205CN","ABI204CN"));
+//    public static final Map<String,List<String>> eqpIdMap = MapUtils.newMap(
+//            "PHOTO",Lists.newArrayList("SPM-02CL","WGT-02C","KAM-02C","WIT-02CL","KRV-01C"),
+//            "PVD",Lists.newArrayList("SPI-01C","VDN-05C-CUL","CAK-16CL","PCD-07C","CAK-07CL"),
+//            "CVD",Lists.newArrayList("KLD-01CL","PHB-07C","VDN-01CL","KEF-01CL","KGM-01CL"),
+//            "WET",Lists.newArrayList("KHM-01CL","WIG-01CL","WUK-02C","DEV-07C","SPX-01CL"),
+//            "DE",Lists.newArrayList("KAR-02CL","XSB-01C2","XOB-03CL","SPI-01CL","KMM-03CL"),
+//            "PI",Lists.newArrayList("PIS-11C","PMW-11C","CPR-141C","CPL-11CU","PKS-12C"),
+//            "FDV",Lists.newArrayList("KOL-01C","PRS-11C","MVW-01CL","SSR-13C","CPR-151C"),
+//            "ODF",Lists.newArrayList("MVK-01C","FDV-11C","MVW-01C","SSR-11C","CHL-01CL"),
+//            "HSW",Lists.newArrayList("PRK-11C","CPR-121C","CPR-151C","CPR-111C","CFL-11CL"),
+//            "KOL",Lists.newArrayList("FDV-11C","CPR-141C","PKS-11C","CPR-161C","PKS-11C"),
+//            "BM",Lists.newArrayList("RML-01C","PDV-03C","FMR-131C","FMR-141C","FRC-112C"),
+//            "ITO",Lists.newArrayList("FDB-121C","FMC-111C","FRT-112C","MTP-01C","WUK-03CL"),
+//            "PS",Lists.newArrayList("FRL-01CU","IOV-01C","PTC-03C","FRC-113C","PDV-02C"),
+//            "RGB",Lists.newArrayList("MTM-01C","FMR-181C","FDL-01CU","FPC-172C","FPC-114C"),
+//            "RML",Lists.newArrayList("WCP-02C","FDR-111C","FDR-141C","FMR-121C","PMT-03C"),
+//            "MBD",Lists.newArrayList("AVL205CN","MLR206CN","MLR207CN","IMD205CT","MBD205CN"),
+//            "POL",Lists.newArrayList("MLR208CL","MBD205CN","MLR202CN","AVL205CN","IMD403CL"),
+//            "OLB",Lists.newArrayList("MBD-25CL","MLR204CN","MLR203CN","MLR202CN","MLR207CN"),
+//            "MLB",Lists.newArrayList("SSL205CN","BGW205CN","MBD-25CL","BGW205CN","ASL205CN"),
+//            "Aging",Lists.newArrayList("AVL205CN","IMD403CL","IMD205CT","SUD205CN","ABI204CN"));
 
     //不确定用1还是2
-    public static final Map<String,String> eqpIdEqpNameMap1 = MapUtils.newMap(
-            "PHOTO", "设备A1", "PVD", "设备A2", "CVD", "设备A3", "WET", "设备A4", "DE", "设备A5",
-            "PI", "设备B1", "FDV", "设备B2", "ODF", "设备B3", "HSW", "设备B4", "KOL", "设备B5",
-            "BM", "设备C1", "ITO", "设备C2", "PS", "设备C3", "RGB", "设备C4", "RML", "设备C5",
-            "MBD", "设备D1", "POL", "设备D2", "OLB", "设备D3", "MLB", "设备D4", "Aqing", "设备D5");
+//    public static final Map<String,String> eqpIdEqpNameMap1 = MapUtils.newMap(
+//            "PHOTO", "设备A1", "PVD", "设备A2", "CVD", "设备A3", "WET", "设备A4", "DE", "设备A5",
+//            "PI", "设备B1", "FDV", "设备B2", "ODF", "设备B3", "HSW", "设备B4", "KOL", "设备B5",
+//            "BM", "设备C1", "ITO", "设备C2", "PS", "设备C3", "RGB", "设备C4", "RML", "设备C5",
+//            "MBD", "设备D1", "POL", "设备D2", "OLB", "设备D3", "MLB", "设备D4", "Aqing", "设备D5");
 
-    public static final Map<String,String> eqpIdEqpNameMap2 = MapUtils.newMap(
-            "VDN-01C", "设备A1", "PEB-16C", "设备A2", "KAM-02C", "设备A3", "WIT-02CL", "设备A4", "KRV-01C", "设备A5",
-            "SPI-01C", "设备B1", "VDN-05C-CUL", "设备B2", "CAK-16CL", "设备B3", "PCD-07C", "设备B4", "CAK-07CL", "设备B5",
-            "KLD-01CL", "设备C1", "PHB-07C", "设备C2", "VDN-01CL", "设备C3", "KEF-01CL", "设备C4", "KGM-01CL", "设备C5",
-            "KHM-01CL", "设备D1", "WIG-01CL", "设备D2", "WUK-02C", "设备D3", "DEV-07C", "设备D4", "SPX-01CL", "设备D5",
-            "KAR-02CL", "设备E1", "XSB-01C2", "设备E2", "XOB-03CL", "设备E3", "SPI-01CL", "设备E4", "KMM-03CL", "设备E5",
-            "PIS-11C", "设备F1", "PMW-11C", "设备F22", "CPR-141C", "设备F3", "CPL-11CU", "设备F4", "PKS-12C", "设备F5",
-            "KOL-01C", "设备G1", "PRS-11C", "设备G2", "MVW-01CL", "设备G3", "SSR-13C", "设备G4", "CPR-151C", "设备G5",
-            "MVK-01C", "设备H1", "FDV-11C", "设备H2", "MVW-01C", "设备H3", "SSR-11C", "设备H4", "CHL-01CL", "设备H4",
-            "PRK-11C", "设备I1", "CPR-121C", "设备I2", "CPR-151C", "设备I3", "CPR-111C", "设备I4", "CFL-11CL", "设备I5",
-            "FDV-11C", "设备J1", "CPR-141C", "设备J2", "PKS-11C", "设备J3", "CPR-161C", "设备J4", "PKS-11C", "设备J5",
-            "RML-01C", "设备K1", "PDV-03C", "设备K2", "FMR-131C", "设备K3", "FMR-141C", "设备K4", "FRC-112C", "设备K5",
-            "FDB-121C", "设备L1", "FMC-111C", "设备L2", "FRT-112C", "设备L3", "MTP-01C", "设备L4", "WUK-03CL", "设备L5",
-            "FRL-01CU", "设备M1", "IOV-01C", "设备M2", "PTC-03C", "设备M3", "FRC-113C", "设备M4", "PDV-02C", "设备M5",
-            "MTM-01C", "设备N1", "FMR-181C", "设备N2", "FDL-01CU", "设备N3", "FPC-172C", "设备N4", "FPC-114C", "设备N5",
-            "WCP-02C", "设备O1", "FDR-111C", "设备O2", "FDR-141C", "设备O3", "FMR-121C", "设备O4", "PMT-03C", "设备O5",
-            "AVL205CN", "设备P1", "MLR206CN", "设备P2", "MLR207CN", "设备P3", "IMD205CT", "设备P4", "MBD205CN", "设备P5",
-            "MLR208CL", "设备Q1", "MBD205CN", "设备Q2", "MLR202CN", "设备Q3", "AVL205CN", "设备Q4", "IMD403CL", "设备Q5",
-            "MBD-25CL", "设备R1", "MLR204CN", "设备R2", "MLR203CN", "设备R3", "MLR202CN", "设备R4", "MLR207CN", "设备R5",
-            "SSL205CN", "设备S1", "BGW205CN", "设备S2", "MBD-25CL", "设备S3", "BGW205CN", "设备S4", "ASL205CN", "设备S5",
-            "AVL205CN", "设备T1", "IMD403CL", "设备T2", "IMD205CT", "设备T3", "SUD205CN","设备T4","ABI204CN","设备T5");
-
+//    public static final Map<String,String> eqpIdEqpNameMap2 = MapUtils.newMap(
+//            "VDN-01C", "设备A1", "PEB-16C", "设备A2", "KAM-02C", "设备A3", "WIT-02CL", "设备A4", "KRV-01C", "设备A5",
+//            "SPI-01C", "设备B1", "VDN-05C-CUL", "设备B2", "CAK-16CL", "设备B3", "PCD-07C", "设备B4", "CAK-07CL", "设备B5",
+//            "KLD-01CL", "设备C1", "PHB-07C", "设备C2", "VDN-01CL", "设备C3", "KEF-01CL", "设备C4", "KGM-01CL", "设备C5",
+//            "KHM-01CL", "设备D1", "WIG-01CL", "设备D2", "WUK-02C", "设备D3", "DEV-07C", "设备D4", "SPX-01CL", "设备D5",
+//            "KAR-02CL", "设备E1", "XSB-01C2", "设备E2", "XOB-03CL", "设备E3", "SPI-01CL", "设备E4", "KMM-03CL", "设备E5",
+//            "PIS-11C", "设备F1", "PMW-11C", "设备F22", "CPR-141C", "设备F3", "CPL-11CU", "设备F4", "PKS-12C", "设备F5",
+//            "KOL-01C", "设备G1", "PRS-11C", "设备G2", "MVW-01CL", "设备G3", "SSR-13C", "设备G4", "CPR-151C", "设备G5",
+//            "MVK-01C", "设备H1", "FDV-11C", "设备H2", "MVW-01C", "设备H3", "SSR-11C", "设备H4", "CHL-01CL", "设备H4",
+//            "PRK-11C", "设备I1", "CPR-121C", "设备I2", "CPR-151C", "设备I3", "CPR-111C", "设备I4", "CFL-11CL", "设备I5",
+//            "FDV-11C", "设备J1", "CPR-141C", "设备J2", "PKS-11C", "设备J3", "CPR-161C", "设备J4", "PKS-11C", "设备J5",
+//            "RML-01C", "设备K1", "PDV-03C", "设备K2", "FMR-131C", "设备K3", "FMR-141C", "设备K4", "FRC-112C", "设备K5",
+//            "FDB-121C", "设备L1", "FMC-111C", "设备L2", "FRT-112C", "设备L3", "MTP-01C", "设备L4", "WUK-03CL", "设备L5",
+//            "FRL-01CU", "设备M1", "IOV-01C", "设备M2", "PTC-03C", "设备M3", "FRC-113C", "设备M4", "PDV-02C", "设备M5",
+//            "MTM-01C", "设备N1", "FMR-181C", "设备N2", "FDL-01CU", "设备N3", "FPC-172C", "设备N4", "FPC-114C", "设备N5",
+//            "WCP-02C", "设备O1", "FDR-111C", "设备O2", "FDR-141C", "设备O3", "FMR-121C", "设备O4", "PMT-03C", "设备O5",
+//            "AVL205CN", "设备P1", "MLR206CN", "设备P2", "MLR207CN", "设备P3", "IMD205CT", "设备P4", "MBD205CN", "设备P5",
+//            "MLR208CL", "设备Q1", "MBD205CN", "设备Q2", "MLR202CN", "设备Q3", "AVL205CN", "设备Q4", "IMD403CL", "设备Q5",
+//            "MBD-25CL", "设备R1", "MLR204CN", "设备R2", "MLR203CN", "设备R3", "MLR202CN", "设备R4", "MLR207CN", "设备R5",
+//            "SSL205CN", "设备S1", "BGW205CN", "设备S2", "MBD-25CL", "设备S3", "BGW205CN", "设备S4", "ASL205CN", "设备S5",
+//            "AVL205CN", "设备T1", "IMD403CL", "设备T2", "IMD205CT", "设备T3", "SUD205CN","设备T4","ABI204CN","设备T5");
+//
 
     //productType 量产
     public static final List<String> productTypeMPList = Lists.newArrayList("MP");
 
     //productType 试验
-    public static final List<String> productTypeTestList = Lists.newArrayList("CM","CS","CS-M","DM","E1","ES","MP","TS","ZP02","ZP03","ZP20","ZP21","ZP22","ZP24","ZP30","E1","E2");
-
+    //public static final List<String> productTypeTestList = Lists.newArrayList("CM","CS","CS-M","DM","E1","ES","MP","TS","ZP02","ZP03","ZP20","ZP21","ZP22","ZP24","ZP30","E1","E2");
+    public static final List<String> productTypeTestList = Lists.newArrayList("DM");
 
 
     public static Map<String,List<String>> productMap = new HashMap<>();
