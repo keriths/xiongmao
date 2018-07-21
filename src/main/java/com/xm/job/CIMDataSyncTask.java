@@ -163,6 +163,7 @@ public class CIMDataSyncTask {
         try {
             String tableName="DWS_PRODUCT_OUTPUT_FIDS";
             Date maxPeriodDate = getmaxPeriodDate(tableName);
+            maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-2).toDate();
             while (true){
                 List<Map<String,Object>> mapDataList;
                 try {
@@ -191,8 +192,10 @@ public class CIMDataSyncTask {
                             outputcompletionDAO.addData(mapData);
                         }else {
                             //更新
-                            if (notEquals(data.get("PLAN_OUTPUT_PNL_QTY"),mapData.get("PLAN_OUTPUT_PNL_QTY"))||
-                                    notEquals(data.get("ACTUAL_OUTPUT_PNL_QTY"),mapData.get("ACTUAL_OUTPUT_PNL_QTY"))){
+                            if (
+                                    notEquals(data.get("PLAN_OUTPUT_PNL_QTY"),mapData.get("PLAN_OUTPUT_PNL_QTY")) ||
+                                    notEquals(data.get("ACTUAL_OUTPUT_PNL_QTY"),mapData.get("ACTUAL_OUTPUT_PNL_QTY"))
+                                    ){
                                 outputcompletionDAO.updateData(mapData);
                             }
                         }
