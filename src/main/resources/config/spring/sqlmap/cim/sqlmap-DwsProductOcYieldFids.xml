@@ -56,13 +56,57 @@
 
     </select>
 
+
+
+    <select id="queryTotalProductLineOCByDateAndProductList" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcDetailData">
+        SELECT
+        decode(PRODUCTID,'C41A','50', 'D41A','50','A1CC495PU1L01','50','D0NL495PU1L01','50',
+        'C51A','58','D51A','58','A1CC575PU1L01','58','A1CC575PU3L01','58',PRODUCTID) as productName,
+        sum(POL_OUTPUT) as polOutPut,
+        sum(POL_OUTPUT_PA)+
+        sum(POL_OUTPUT_JUDGE29)+
+        sum(MBI_RJ_OUTPUT_PA)+
+        sum(MBI_RJ_OUTPUT_JUDGE29)+
+        sum(POL_RW_OUTPUT_PA)+
+        sum(POL_RW_OUTPUT_JUDGE29) as polOutPutSum,
+
+        sum(IOB_OUTPUT) as iobOutPut,
+        sum(IOB_EI_OUTPUT_A)+
+        sum(IOB_EI_OUTPUT_FA)+
+        sum(IOB_EI_OUTPUT_S)+
+        sum(IOB_EI_OUTPUT_RW_A)+
+        sum(IOB_EI_OUTPUT_RW_FA)+
+        sum(IOB_EI_OUTPUT_RW_S) as iobOutPutSum
+        FROM
+        DWS_PRODUCT_OC_YIELD_FIDS
+        WHERE
+        PRODUCTID IN ('C41A', 'D41A','A1CC495PU1L01','D0NL495PU1L01', 'C51A','D51A','A1CC575PU1L01','A1CC575PU3L01')
+        and PRODUCTTYPE IN
+        <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
+            #{productType}
+        </foreach>
+        <![CDATA[
+          and PERIODDATE >= #{startDate}
+          and PERIODDATE <= #{endDate}
+        ]]>
+        GROUP BY decode(PRODUCTID,'C41A','50', 'D41A','50','A1CC495PU1L01','50','D0NL495PU1L01','50',
+        'C51A','58','D51A','58','A1CC575PU1L01','58','A1CC575PU3L01','58',PRODUCTID)
+    </select>
+
+
+
     <select id="loadByPrimaryKey" parameterType="map" resultType="map">
         SELECT * from DWS_PRODUCT_OC_YIELD_FIDS
         where
-            FACTORY = #{FACTORY,jdbcType=VARCHAR} and
-            PERIODDATE = #{PERIODDATE,jdbcType=DATE} and
-            PRODUCTID = #{PRODUCTID,jdbcType=VARCHAR} and
+        FACTORY = #{FACTORY,jdbcType=VARCHAR} and
+        PERIODDATE = #{PERIODDATE,jdbcType=DATE} and
+        PRODUCTID = #{PRODUCTID,jdbcType=VARCHAR} and
+        <if test="PRODUCTTYPE != null">
             PRODUCTTYPE = #{PRODUCTTYPE,jdbcType=VARCHAR}
+        </if>
+        <if test="PRODUCTTYPE == null">
+            PRODUCTTYPE is null
+        </if>
     </select>
 
     <insert id="addData" parameterType="map">
@@ -109,38 +153,31 @@
         )
     </insert>
 
-    <select id="queryTotalProductLineOCByDateAndProductList" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcDetailData">
-        SELECT
-        decode(PRODUCTID,'C41A','50', 'D41A','50','A1CC495PU1L01','50','D0NL495PU1L01','50',
-        'C51A','58','D51A','58','A1CC575PU1L01','58','A1CC575PU3L01','58',PRODUCTID) as productName,
-        sum(POL_OUTPUT) as polOutPut,
-        sum(POL_OUTPUT_PA)+
-        sum(POL_OUTPUT_JUDGE29)+
-        sum(MBI_RJ_OUTPUT_PA)+
-        sum(MBI_RJ_OUTPUT_JUDGE29)+
-        sum(POL_RW_OUTPUT_PA)+
-        sum(POL_RW_OUTPUT_JUDGE29) as polOutPutSum,
-
-        sum(IOB_OUTPUT) as iobOutPut,
-        sum(IOB_EI_OUTPUT_A)+
-        sum(IOB_EI_OUTPUT_FA)+
-        sum(IOB_EI_OUTPUT_S)+
-        sum(IOB_EI_OUTPUT_RW_A)+
-        sum(IOB_EI_OUTPUT_RW_FA)+
-        sum(IOB_EI_OUTPUT_RW_S) as iobOutPutSum
-        FROM
-        DWS_PRODUCT_OC_YIELD_FIDS
+    <update id="updateData" parameterType="map">
+        UPDATE DWS_PRODUCT_OC_YIELD_FIDS set
+            POL_OUTPUT = #{,jdbcType=DOUBLE},
+            POL_OUTPUT_PA = #{,jdbcType=DOUBLE},
+            POL_OUTPUT_JUDGE29 = #{,jdbcType=DOUBLE},
+            MBI_RJ_OUTPUT_PA = #{,jdbcType=DOUBLE},
+            MBI_RJ_OUTPUT_JUDGE29 = #{,jdbcType=DOUBLE},
+            POL_RW_OUTPUT_PA = #{,jdbcType=DOUBLE},
+            POL_RW_OUTPUT_JUDGE29 = #{,jdbcType=DOUBLE},
+            IOB_OUTPUT = #{,jdbcType=DOUBLE},
+            IOB_EI_OUTPUT_A = #{,jdbcType=DOUBLE},
+            IOB_EI_OUTPUT_FA = #{,jdbcType=DOUBLE},
+            IOB_EI_OUTPUT_S = #{,jdbcType=DOUBLE},
+            IOB_EI_OUTPUT_RW_A = #{,jdbcType=DOUBLE},
+            IOB_EI_OUTPUT_RW_FA = #{,jdbcType=DOUBLE},
+            IOB_EI_OUTPUT_RW_S = #{,jdbcType=DOUBLE}
         WHERE
-        PRODUCTID IN ('C41A', 'D41A','A1CC495PU1L01','D0NL495PU1L01', 'C51A','D51A','A1CC575PU1L01','A1CC575PU3L01')
-        and PRODUCTTYPE IN
-        <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
-            #{productType}
-        </foreach>
-        <![CDATA[
-          and PERIODDATE >= #{startDate}
-          and PERIODDATE <= #{endDate}
-        ]]>
-        GROUP BY decode(PRODUCTID,'C41A','50', 'D41A','50','A1CC495PU1L01','50','D0NL495PU1L01','50',
-        'C51A','58','D51A','58','A1CC575PU1L01','58','A1CC575PU3L01','58',PRODUCTID)
-    </select>
+            FACTORY = #{FACTORY,jdbcType=VARCHAR} and
+            PERIODDATE = #{PERIODDATE,jdbcType=DATE} and
+            PRODUCTID = #{PRODUCTID,jdbcType=VARCHAR} and
+            <if test="PRODUCTTYPE != null">
+                PRODUCTTYPE = #{PRODUCTTYPE,jdbcType=VARCHAR}
+            </if>
+            <if test="PRODUCTTYPE == null">
+                PRODUCTTYPE is null
+            </if>
+    </update>
 </mapper>
