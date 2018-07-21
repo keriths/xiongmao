@@ -100,7 +100,7 @@ public class ActivationServiceImpl {
                 actType.setErrorMsg("factory参数错误,请传入【" + Constant.factoryEQPStatusListMap.keySet() + "】");
                 return actType;
             }
-            Date beginDate = DateUtils.getBeforHourStartDay(0);
+            Date beginDate = DateUtils.getBeforDayStartDay(0);
             Date endDate = new Date();
 
             List<ActivationDate> dateList = new ArrayList<ActivationDate>();
@@ -113,8 +113,8 @@ public class ActivationServiceImpl {
                 List<ActivationDate.StatusDateList> activationIdList = activationDAO.queryActivationEQPId(factoryList, groupName, beginDate, endDate);
                 if (CollectionUtils.isEmpty(activationIdList)){
                     //如果这一小时数据还没有出来，取上一小时的数据
-                    beginDate = DateUtils.getBeforHourStartDay(1);
-                    endDate = DateUtils.getBeforHourEndDay(1);
+                    beginDate = DateUtils.getBeforDayStartDay(1);
+                    endDate = DateUtils.getBeforDayEndDay(1);
                     activationIdList = activationDAO.queryActivationEQPId(factoryList, groupName, beginDate, endDate);
                 }
                 Map<String, ActivationDate.StatusDateList> queryMap = MapUtils.listToMap(activationIdList, "key");

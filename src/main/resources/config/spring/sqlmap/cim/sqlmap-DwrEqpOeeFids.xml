@@ -48,7 +48,7 @@
         gg.GROUPNAME as eqpId,
         to_char(PERIODDATE,'HH24')||':00' as periodDate,
         EQP_STATUS as status,
-        sum(NVL(STATUS_DURATION,0)/3600/EQPNUM.EQPCOUNT) as statusNum
+        sum(NVL(STATUS_DURATION,0)/60/EQPNUM.EQPCOUNT) as statusNum
         FROM
         DWR_EQP_OEE_FIDS oee
         join FACTORY_GROUP_EQP_MAPPING gg on gg.EQP_ID = oee.EQP_ID
