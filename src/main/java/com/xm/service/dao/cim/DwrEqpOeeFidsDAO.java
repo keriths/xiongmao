@@ -17,7 +17,7 @@ public interface DwrEqpOeeFidsDAO {
 
     List<ActivationStatusDate.StatusNumberList> queryActivationStatusNum(
             @Param("factoryList") List<String> factoryList,
-            @Param("eqpIdList") List<String> eqpIdList,
+            @Param("groupName") String groupName,
             @Param("beginDate")Date beginDate,
             @Param("endDate")Date endDate
 
@@ -25,7 +25,7 @@ public interface DwrEqpOeeFidsDAO {
 
     List<ActivationDate.StatusDateList> queryActivationEQPId(
             @Param("factoryList") List<String> factoryList,
-            @Param("eqpIdList") List<String> eqpIdList,
+            @Param("groupName") String groupName,
             @Param("beginDate")Date beginDate,
             @Param("endDate")Date endDate
     );

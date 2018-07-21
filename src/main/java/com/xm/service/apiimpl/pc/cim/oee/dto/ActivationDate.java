@@ -2,7 +2,6 @@ package com.xm.service.apiimpl.pc.cim.oee.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.RandomUtils;
-import com.xm.service.constant.Constant;
 import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
@@ -27,7 +26,7 @@ public class ActivationDate implements Serializable{
     private BigDecimal activation;
 
     public static class StatusDateList{
-
+        boolean showDemoData=false;
         public String key(){
             return status;
         }
@@ -44,7 +43,7 @@ public class ActivationDate implements Serializable{
         @ApiResultFieldDesc(desc = "EQP类型,如PHOTO,PVD,CVD,WET,DE")
         private String eqpId;
         @ApiResultFieldDesc(desc = "EQP状态累计时间")
-        private String statusNum;
+        private BigDecimal statusNum;
         @ApiResultFieldDesc(desc = "时间小时")
         private String periodDate;
 
@@ -72,28 +71,28 @@ public class ActivationDate implements Serializable{
             this.status = status;
         }
 
-        public String getStatusNum() {
+        public BigDecimal getStatusNum() {
             if (statusNum==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     if("RUN".equals(getStatus())){
-                        statusNum = String.valueOf(RandomUtils.randomFloat(18f, 20f, 1));
+                        statusNum = (RandomUtils.randomFloat(18f, 20f, 1));
                     }else if("TRB".equals(getStatus())){
-                        statusNum = String.valueOf(RandomUtils.randomFloat(1f, 2.5f, 1));
+                        statusNum = (RandomUtils.randomFloat(1f, 2.5f, 1));
                     }else if("WAT".equals(getStatus())){
-                        statusNum = String.valueOf(RandomUtils.randomFloat(1f, 2.3f, 1));
+                        statusNum = (RandomUtils.randomFloat(1f, 2.3f, 1));
                     }else if("MAN".equals(getStatus())){
-                        statusNum = String.valueOf(RandomUtils.randomFloat(0.6f, 2.3f, 1));
+                        statusNum = (RandomUtils.randomFloat(0.6f, 2.3f, 1));
                     }else  if("MNT".equals(getStatus())){
-                        statusNum = String.valueOf(RandomUtils.randomFloat(0.2f, 1.7f, 1));
+                        statusNum = (RandomUtils.randomFloat(0.2f, 1.7f, 1));
                     }
                 }else {
-                    statusNum = "0";
+                    statusNum = BigDecimal.ZERO;
                 }
             }
-            return statusNum;
+            return statusNum.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
 
-        public void setStatusNum(String statusNum) {
+        public void setStatusNum(BigDecimal statusNum) {
             this.statusNum = statusNum;
         }
 
@@ -114,7 +113,7 @@ public class ActivationDate implements Serializable{
         if(!CollectionUtils.isEmpty(statusDateList)) {
             for (StatusDateList s : statusDateList) {
 
-                total = total.add(new BigDecimal(s.getStatusNum()));
+                total = total.add((s.getStatusNum()).setScale(2,BigDecimal.ROUND_HALF_UP));
             }
         }
         return total;
@@ -136,9 +135,9 @@ public class ActivationDate implements Serializable{
                 for (StatusDateList a : statusDateList) {
                     //activationNum = activationNum.add(new BigDecimal(a.getStatusNum()));
                     if("RUN".equals(a.getStatus())){
-                        activationNum = activationNum.add(new BigDecimal(a.getStatusNum()));
+                        activationNum = activationNum.add((a.getStatusNum()));
                     }else if ("WAT".equals(a.getStatus())){
-                        activationNum = activationNum.add(new BigDecimal(a.getStatusNum()));
+                        activationNum = activationNum.add((a.getStatusNum()));
                     }
                 }
                 activation = activationNum.multiply(new BigDecimal("100")).divide(all,1, RoundingMode.HALF_UP);
