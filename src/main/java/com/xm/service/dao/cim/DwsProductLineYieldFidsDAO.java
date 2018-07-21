@@ -33,7 +33,7 @@ public interface DwsProductLineYieldFidsDAO {
 
     void addTargetData(Map<String, Object> mapData);*/
 
-    void updateTargetData(Map<String, Object> mapData);
+//    void updateTargetData(Map<String, Object> mapData);
 
     List<ProductLineDetailData> queryTotalProductLineByDateAndFactoryList(
             @Param("factoryList") List<String> factoryList,

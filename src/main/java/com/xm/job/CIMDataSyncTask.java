@@ -324,8 +324,6 @@ public class CIMDataSyncTask {
                         if (notEquals(data.get("WIP_GLS_QTY"),mapData.get("WIP_GLS_QTY"))){
                             dwrWipGlsFidsDAO.updateData(mapData);
                         }
-                            //更新  把data中的数据，仅仅对数据更新一下，然后更新
-//                            dwrWipGlsFidsDAO.updateData(mapData);
                     }
                 }catch (Exception e){
                     LogUtils.error(this.getClass(),"同步在制品[DWR_WIP_GLS_FIDS]数据单条处理失败原数据["+ JSON.toJSONString(mapData)+"]",e);
@@ -335,27 +333,6 @@ public class CIMDataSyncTask {
         }
         long t2 = System.currentTimeMillis();
         LogUtils.info(this.getClass(),"同步在制品[DWR_WIP_GLS_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+insertNum+"]条数据,更新["+updateNum+"]条数据");
-    }
-
-    /**
-     * 在制品的在库量数据同步
-     * 已测通
-     */
-//    @Scheduled(fixedRate = 1000*5)
-    public void StoreDataSync(){
-        int offset = 0;
-        int limit = 1000;
-        while (true){
-            List<Map<String,Object>> mapDataList = storeDAO.querySyncData(offset,limit);
-            if (CollectionUtils.isEmpty(mapDataList)){
-                return;
-            }
-            for (Map<String,Object> mapData : mapDataList){
-                //更新
-                dwrWipGlsFidsDAO.updateStoreData(mapData);
-            }
-            offset = offset+limit;
-        }
     }
 
     /**
@@ -415,27 +392,6 @@ public class CIMDataSyncTask {
         }
         long t2 = System.currentTimeMillis();
         LogUtils.info(this.getClass(),"同步良品率[DWS_PRODUCT_LINE_YIELD_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
-    }
-
-    /**
-     * 目标良品率数据同步
-     *已测通
-     */
-//    @Scheduled(fixedRate = 1000*5)
-    public void TargetInLineDataSync(){
-        int offset = 0;
-        int limit = 1000;
-        while (true){
-            List<Map<String,Object>> mapDataList = targetDAO.querySyncData(offset,limit);
-            if (CollectionUtils.isEmpty(mapDataList)){
-                return;
-            }
-            for (Map<String,Object> mapData : mapDataList){
-                //更新
-                dwsProductLineYieldFidsDAO.updateTargetData(mapData);
-            }
-            offset = offset+limit;
-        }
     }
 
     /**
@@ -507,26 +463,7 @@ public class CIMDataSyncTask {
         LogUtils.info(this.getClass(),"同步良品率[DWS_PRODUCT_OC_YIELD_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
     }
 
-    /**
-     * 单个目标良品率数据同步
-     *已测通
-     */
-//    @Scheduled(fixedRate = 1000*5)
-    public void TargetOcInLineDataSync(){
-        int offset = 0;
-        int limit = 1000;
-        while (true){
-            List<Map<String,Object>> mapDataList = targetocDAO.querySyncData(offset,limit);
-            if (CollectionUtils.isEmpty(mapDataList)){
-                return;
-            }
-            for (Map<String,Object> mapData : mapDataList){
-                //更新
-                dwsProductOcYieldFidsDAO.updateTargetData(mapData);
-            }
-            offset = offset+limit;
-        }
-    }
+
 
     /**
      * CycleTime数据同步

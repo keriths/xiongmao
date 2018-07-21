@@ -45,6 +45,6 @@ public interface DwrWipGlsFidsDAO {
     /*Map<String,Object> loadStoreByPrimaryKey(Map<String, Object> mapData);
 
     void addStoreData(Map<String, Object> mapData);*/
-    void updateStoreData(Map<String, Object> mapData);
+//    void updateStoreData(Map<String, Object> mapData);
 
 }

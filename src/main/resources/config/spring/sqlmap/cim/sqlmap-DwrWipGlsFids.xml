@@ -71,61 +71,65 @@
     <select id="loadByPrimaryKey" parameterType="map" resultType="map">
         SELECT * from DWR_WIP_GLS_FIDS
         where
-        FACTORY = #{FACTORY} and
-        PRODUCTID = #{PRODUCTID} and
-        <if test="STEPID != null">
-            STEPID = #{STEPID} and
-        </if>
-        <if test="STEPID == null">
-            STEPID is null and
-        </if>
-        PERIODDATE = #{PERIODDATE} and
-        PRODUCTTYPE = #{PRODUCTTYPE}
+            FACTORY = #{FACTORY,jdbcType=VARCHAR} and
+            PRODUCTID = #{PRODUCTID,jdbcType=VARCHAR} and
+            PERIODDATE = #{PERIODDATE,jdbcType=DATE} and
+            <if test="STEPID != null">
+                STEPID = #{STEPID,jdbcType=VARCHAR} and
+            </if>
+            <if test="STEPID == null">
+                STEPID is null and
+            </if>
+            <if test="PRODUCTTYPE != null">
+                PRODUCTTYPE = #{PRODUCTTYPE,jdbcType=VARCHAR}
+            </if>
+            <if test="PRODUCTTYPE == null">
+                PRODUCTTYPE is null
+            </if>
     </select>
     <insert id="addData" parameterType="map">
         INSERT INTO  DWR_WIP_GLS_FIDS
-        (FACTORY,   PERIODDATE,   PRODUCTID,   STEPID,STEPDESC,   WIP_GLS_QTY,   INTERFACE_TIME,   PRODUCTTYPE) VALUES
-        (#{FACTORY},#{PERIODDATE},#{PRODUCTID},
-        <if test="STEPID != null">
-            #{STEPID}
-        </if>
-        <if test="STEPID == null">
-            null
-        </if>
-        ,
-        <if test="STEPDESC != null">
-            #{STEPDESC}
-        </if>
-        <if test="STEPDESC == null">
-            null
-        </if>
-        ,#{WIP_GLS_QTY},sysdate,#{PRODUCTTYPE})
+        (
+            FACTORY,
+            PERIODDATE,
+            PRODUCTID,
+            STEPID,
+            STEPDESC,
+            WIP_GLS_QTY,
+            INTERFACE_TIME,
+            PRODUCTTYPE
+        ) VALUES
+        (
+            #{FACTORY,jdbcType=VARCHAR},
+            #{PERIODDATE,jdbcType=DATE},
+            #{PRODUCTID,jdbcType=VARCHAR},
+            #{STEPID,jdbcType=VARCHAR},
+            #{STEPDESC,jdbcType=VARCHAR}
+            ,#{WIP_GLS_QTY,jdbcType=DOUBLE},
+            sysdate,
+            #{PRODUCTTYPE,jdbcType=VARCHAR}
+        )
     </insert>
     <update id="updateData" parameterType="map">
         UPDATE DWR_WIP_GLS_FIDS SET
-        WIP_GLS_QTY = #{WIP_GLS_QTY} ,
-        INTERFACE_TIME = sysdate
+            WIP_GLS_QTY = #{WIP_GLS_QTY,jdbcType=DOUBLE} ,
+            STEPDESC = #{STEPDESC,jdbcType=VARCHAR},
+            INTERFACE_TIME = sysdate
         WHERE
-        FACTORY = #{FACTORY} and
-        PERIODDATE = #{PERIODDATE} and
-        <if test="STEPID != null">
-            STEPID = #{STEPID} and
-        </if>
-        <if test="STEPID == null">
-            STEPID is null and
-        </if>
-        PRODUCTID = #{PRODUCTID} AND
-        PRODUCTTYPE = #{PRODUCTTYPE}
-    </update>
-
-    <update id="updateStoreData" parameterType="map">
---         UPDATE DWR_WIP_GLS_FIDS SET
---         (DWR_WIP_GLS_FIDS.STORE_MAX,
---         DWR_WIP_GLS_FIDS.STORE_MIN)=
---         (select STORE_MAX,STORE_MIN
---         from STORE
---         where
---         STORE.FACTORY=DWR_WIP_GLS_FIDS.FACTORY and
---         STORE.STEPID=DWR_WIP_GLS_FIDS.STEPID)
+            FACTORY = #{FACTORY,jdbcType=VARCHAR} and
+            PRODUCTID = #{PRODUCTID,jdbcType=VARCHAR} and
+            PERIODDATE = #{PERIODDATE,jdbcType=DATE} and
+            <if test="STEPID != null">
+                STEPID = #{STEPID,jdbcType=VARCHAR} and
+            </if>
+            <if test="STEPID == null">
+                STEPID is null and
+            </if>
+            <if test="PRODUCTTYPE != null">
+                PRODUCTTYPE = #{PRODUCTTYPE,jdbcType=VARCHAR}
+            </if>
+            <if test="PRODUCTTYPE == null">
+                PRODUCTTYPE is null
+            </if>
     </update>
 </mapper>

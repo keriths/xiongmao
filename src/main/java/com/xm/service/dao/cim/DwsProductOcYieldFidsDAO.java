@@ -35,7 +35,7 @@ public interface DwsProductOcYieldFidsDAO {
 
     void addTargetData(Map<String, Object> mapData);*/
 
-    void updateTargetData(Map<String, Object> mapData);
+//    void updateTargetData(Map<String, Object> mapData);
 
     List<ProductOcDetailData> queryTotalProductLineOCByDateAndProductList(
             @Param("productNameList") List<String> productNameList,
