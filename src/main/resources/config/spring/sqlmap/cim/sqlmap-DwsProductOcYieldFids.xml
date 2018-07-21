@@ -155,20 +155,20 @@
 
     <update id="updateData" parameterType="map">
         UPDATE DWS_PRODUCT_OC_YIELD_FIDS set
-            POL_OUTPUT = #{,jdbcType=DOUBLE},
-            POL_OUTPUT_PA = #{,jdbcType=DOUBLE},
-            POL_OUTPUT_JUDGE29 = #{,jdbcType=DOUBLE},
-            MBI_RJ_OUTPUT_PA = #{,jdbcType=DOUBLE},
-            MBI_RJ_OUTPUT_JUDGE29 = #{,jdbcType=DOUBLE},
-            POL_RW_OUTPUT_PA = #{,jdbcType=DOUBLE},
-            POL_RW_OUTPUT_JUDGE29 = #{,jdbcType=DOUBLE},
-            IOB_OUTPUT = #{,jdbcType=DOUBLE},
-            IOB_EI_OUTPUT_A = #{,jdbcType=DOUBLE},
-            IOB_EI_OUTPUT_FA = #{,jdbcType=DOUBLE},
-            IOB_EI_OUTPUT_S = #{,jdbcType=DOUBLE},
-            IOB_EI_OUTPUT_RW_A = #{,jdbcType=DOUBLE},
-            IOB_EI_OUTPUT_RW_FA = #{,jdbcType=DOUBLE},
-            IOB_EI_OUTPUT_RW_S = #{,jdbcType=DOUBLE}
+            POL_OUTPUT = #{POL_OUTPUT,jdbcType=DOUBLE},
+            POL_OUTPUT_PA = #{POL_OUTPUT_PA,jdbcType=DOUBLE},
+            POL_OUTPUT_JUDGE29 = #{POL_OUTPUT_JUDGE29,jdbcType=DOUBLE},
+            MBI_RJ_OUTPUT_PA = #{MBI_RJ_OUTPUT_PA,jdbcType=DOUBLE},
+            MBI_RJ_OUTPUT_JUDGE29 = #{MBI_RJ_OUTPUT_JUDGE29,jdbcType=DOUBLE},
+            POL_RW_OUTPUT_PA = #{POL_RW_OUTPUT_PA,jdbcType=DOUBLE},
+            POL_RW_OUTPUT_JUDGE29 = #{POL_RW_OUTPUT_JUDGE29,jdbcType=DOUBLE},
+            IOB_OUTPUT = #{IOB_OUTPUT,jdbcType=DOUBLE},
+            IOB_EI_OUTPUT_A = #{IOB_EI_OUTPUT_A,jdbcType=DOUBLE},
+            IOB_EI_OUTPUT_FA = #{IOB_EI_OUTPUT_FA,jdbcType=DOUBLE},
+            IOB_EI_OUTPUT_S = #{IOB_EI_OUTPUT_S,jdbcType=DOUBLE},
+            IOB_EI_OUTPUT_RW_A = #{IOB_EI_OUTPUT_RW_A,jdbcType=DOUBLE},
+            IOB_EI_OUTPUT_RW_FA = #{IOB_EI_OUTPUT_RW_FA,jdbcType=DOUBLE},
+            IOB_EI_OUTPUT_RW_S = #{IOB_EI_OUTPUT_RW_S,jdbcType=DOUBLE}
         WHERE
             FACTORY = #{FACTORY,jdbcType=VARCHAR} and
             PERIODDATE = #{PERIODDATE,jdbcType=DATE} and
