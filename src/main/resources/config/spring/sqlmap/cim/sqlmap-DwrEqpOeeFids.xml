@@ -87,44 +87,54 @@
 
     <select id="loadByPrimaryKey" parameterType="map" resultType="map">
         SELECT * from DWR_EQP_OEE_FIDS
-        where FACTORY = #{FACTORY} and
-        PERIODDATE = #{PERIODDATE} and
-        <if test="EQP_TYPE == null">
-            EQP_TYPE is null and
-        </if>
-        <if test="EQP_TYPE != null">
-            EQP_TYPE = #{EQP_TYPE} and
-        </if>
-        EQP_ID = #{EQP_ID} and
-        EQP_STATUS = #{EQP_STATUS}
+        where
+            FACTORY = #{FACTORY,jdbcType=VARCHAR} and
+            PERIODDATE = #{PERIODDATE,jdbcType=DATE} and
+            <if test="EQP_TYPE == null">
+                EQP_TYPE is null and
+            </if>
+            <if test="EQP_TYPE != null">
+                EQP_TYPE = #{EQP_TYPE,jdbcType=VARCHAR} and
+            </if>
+            EQP_ID = #{EQP_ID,jdbcType=VARCHAR} and
+            EQP_STATUS = #{EQP_STATUS,jdbcType=VARCHAR}
     </select>
     <insert id="addData" parameterType="map">
         INSERT INTO  DWR_EQP_OEE_FIDS
-        (FACTORY,   PERIODDATE,   EQP_TYPE,   EQP_ID,   EQP_STATUS,   STATUS_DURATION,   INTERFACE_TIME) VALUES
-        (#{FACTORY},#{PERIODDATE},
-        <if test="EQP_TYPE == null">
-            null
-        </if>
-        <if test="EQP_TYPE != null">
-            #{EQP_TYPE}
-        </if>
-        ,#{EQP_ID},#{EQP_STATUS},#{STATUS_DURATION},sysdate)
+        (
+            FACTORY,
+            PERIODDATE,
+            EQP_TYPE,
+            EQP_ID,
+            EQP_STATUS,
+            STATUS_DURATION,
+            INTERFACE_TIME
+        ) VALUES
+        (
+            #{FACTORY,jdbcType=VARCHAR},
+            #{PERIODDATE,jdbcType=DATE},
+            #{EQP_TYPE,jdbcType=VARCHAR},
+            #{EQP_ID,jdbcType=VARCHAR},
+            #{EQP_STATUS,jdbcType=VARCHAR},
+            #{STATUS_DURATION,jdbcType=DOUBLE},
+            sysdate
+        )
     </insert>
     <update id="updateData" parameterType="map">
         UPDATE DWR_EQP_OEE_FIDS SET
-        STATUS_DURATION = #{STATUS_DURATION} ,
+        STATUS_DURATION = #{STATUS_DURATION,jdbcType=DOUBLE} ,
         INTERFACE_TIME = sysdate
         WHERE
-        FACTORY = #{FACTORY} and
-        PERIODDATE = #{PERIODDATE} and
-        <if test="EQP_TYPE == null">
-            EQP_TYPE is null and
-        </if>
-        <if test="EQP_TYPE != null">
-            EQP_TYPE = #{EQP_TYPE} and
-        </if>
-        EQP_ID = #{EQP_ID} and
-        EQP_STATUS = #{EQP_STATUS}
+            FACTORY = #{FACTORY,jdbcType=VARCHAR} and
+            PERIODDATE = #{PERIODDATE,jdbcType=DATE} and
+            <if test="EQP_TYPE == null">
+                EQP_TYPE is null and
+            </if>
+            <if test="EQP_TYPE != null">
+                EQP_TYPE = #{EQP_TYPE,jdbcType=VARCHAR} and
+            </if>
+            EQP_ID = #{EQP_ID,jdbcType=VARCHAR} and
+            EQP_STATUS = #{EQP_STATUS,jdbcType=VARCHAR}
     </update>
 
 </mapper>

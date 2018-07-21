@@ -531,9 +531,6 @@ public class CIMDataSyncTask {
         String tableName="DWR_EQP_OEE_FIDS";
         Date maxPeriodDate = getmaxPeriodDate(tableName);
         while (true){
-
-
-//            mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
             List<Map<String,Object>> mapDataList;
             try {
                 long t11 = System.currentTimeMillis();

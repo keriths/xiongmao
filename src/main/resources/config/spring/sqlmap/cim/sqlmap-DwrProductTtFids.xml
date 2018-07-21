@@ -52,26 +52,72 @@
 
     <select id="loadByPrimaryKey" parameterType="map" resultType="map">
         SELECT * from DWR_PRODUCT_TT_FIDS
-        where FACTORY = #{FACTORY} and
-        PERIODDATE = #{PERIODDATE} and
-        PRODUCTID = #{PRODUCTID} AND
-        PRODUCTTYPE = #{PRODUCTTYPE}
+        where
+            FACTORY = #{FACTORY,jdbcType=VARCHAR} and
+            PERIODDATE = #{PERIODDATE,jdbcType=DATE} and
+            PRODUCTID = #{PRODUCTID,jdbcType=VARCHAR} AND
+            EQP_ID = #{EQP_ID,jdbcType=VARCHAR} AND
+            <if test="EQP_TYPE != null">
+                EQP_TYPE = #{EQP_TYPE,jdbcType=VARCHAR} AND
+            </if>
+            <if test="EQP_TYPE == null">
+                EQP_TYPE is null  AND
+            </if>
+            <if test="PRODUCTTYPE != null">
+                PRODUCTTYPE = #{PRODUCTTYPE,jdbcType=VARCHAR}
+            </if>
+            <if test="PRODUCTTYPE == null">
+                PRODUCTTYPE is NULL
+            </if>
     </select>
     <insert id="addData" parameterType="map">
         INSERT INTO  DWR_PRODUCT_TT_FIDS
-        (FACTORY,   PERIODDATE,   PRODUCTID,   TT_TARGET,   TOTAL_TT,   TOTAL_GLS_QTY,   INTERFACE_TIME,   PRODUCTTYPE  , EQP_ID , EQP_TYPE) VALUES
-        (#{FACTORY},#{PERIODDATE},#{PRODUCTID},#{TT_TARGET},#{TOTAL_TT,jdbcType=DOUBLE},#{TOTAL_GLS_QTY},sysdate,#{PRODUCTTYPE},#{EQP_ID,jdbcType=VARCHAR},#{EQP_TYPE,jdbcType=VARCHAR})
+        (
+            FACTORY,
+            PERIODDATE,
+            PRODUCTID,
+            TT_TARGET,
+            TOTAL_TT,
+            TOTAL_GLS_QTY,
+            INTERFACE_TIME,
+            PRODUCTTYPE  ,
+            EQP_ID ,
+            EQP_TYPE
+        ) VALUES
+        (
+            #{FACTORY,jdbcType=VARCHAR},
+            #{PERIODDATE,jdbcType=DATE},
+            #{PRODUCTID,jdbcType=VARCHAR},
+            #{TT_TARGET,jdbcType=DOUBLE},
+            #{TOTAL_TT,jdbcType=DOUBLE},
+            #{TOTAL_GLS_QTY,jdbcType=DOUBLE},
+            sysdate,
+            #{PRODUCTTYPE},#{EQP_ID,jdbcType=VARCHAR},
+            #{EQP_TYPE,jdbcType=VARCHAR}
+        )
     </insert>
     <update id="updateData" parameterType="map">
         UPDATE DWR_PRODUCT_TT_FIDS SET
-        TT_TARGET = #{TT_TARGET} ,
-        TOTAL_TT = #{TOTAL_TT,jdbcType=DOUBLE} ,
-        TOTAL_GLS_QTY = #{TOTAL_GLS_QTY},
-        INTERFACE_TIME = sysdate
+            TT_TARGET = #{TT_TARGET,jdbcType=DOUBLE} ,
+            TOTAL_TT = #{TOTAL_TT,jdbcType=DOUBLE} ,
+            TOTAL_GLS_QTY = #{TOTAL_GLS_QTY,jdbcType=DOUBLE},
+            INTERFACE_TIME = sysdate
         WHERE
-        FACTORY = #{FACTORY} and
-        PERIODDATE = #{PERIODDATE} and
-        PRODUCTID = #{PRODUCTID} AND
-        PRODUCTTYPE = #{PRODUCTTYPE}
+            FACTORY = #{FACTORY,jdbcType=VARCHAR} and
+            PERIODDATE = #{PERIODDATE,jdbcType=DATE} and
+            PRODUCTID = #{PRODUCTID,jdbcType=VARCHAR} AND
+            EQP_ID = #{EQP_ID,jdbcType=VARCHAR} AND
+            <if test="EQP_TYPE != null">
+                EQP_TYPE = #{EQP_TYPE,jdbcType=VARCHAR} AND
+            </if>
+            <if test="EQP_TYPE == null">
+                EQP_TYPE is null  AND
+            </if>
+            <if test="PRODUCTTYPE != null">
+                PRODUCTTYPE = #{PRODUCTTYPE,jdbcType=VARCHAR}
+            </if>
+            <if test="PRODUCTTYPE == null">
+                PRODUCTTYPE is NULL
+            </if>
     </update>
 </mapper>
