@@ -51,7 +51,7 @@ public class TactTimeServiceImpl {
             List<String> factoryList = Constant.factoryMap.get(factory);
             Date startTime = DateUtils.getBeforDayStartDay(11);
             Date endTime = new Date();
-            List<String> hourList = DateUtils.getHourStrList(startTime, endTime);
+            List<String> hourList = DateUtils.getDayStrList(startTime, endTime);
 
             List<String> productTypeList=Constant.productTypeTestList;
 

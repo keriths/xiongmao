@@ -37,8 +37,6 @@ public class CIMDataSyncTask {
 
     //---------------在制品------------
     @Resource
-    private FactoryDwrWipGlsFidsDAO factoryDwrWipGlsFidsDAO;
-    @Resource
     private DwrWipGlsFidsDAO dwrWipGlsFidsDAO;
 
     @Resource
@@ -50,10 +48,7 @@ public class CIMDataSyncTask {
     @Resource
     private DwsProductOcYieldFidsDAO dwsProductOcYieldFidsDAO;
 
-    @Resource
-    private TargetDAO targetDAO;
-    @Resource
-    private TargetocDAO targetocDAO;
+
 
     //---------------CycleTime------------
     @Resource
@@ -94,7 +89,7 @@ public class CIMDataSyncTask {
         try {
             String tableName="DWS_PRODUCT_INPUT_FIDS";
             Date maxPeriodDate = getmaxPeriodDate(tableName);
-            maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-2).toDate();
+            maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
             while (true){
                 List<Map<String,Object>> mapDataList;
                 try {
@@ -163,7 +158,7 @@ public class CIMDataSyncTask {
         try {
             String tableName="DWS_PRODUCT_OUTPUT_FIDS";
             Date maxPeriodDate = getmaxPeriodDate(tableName);
-            maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-2).toDate();
+            maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
             while (true){
                 List<Map<String,Object>> mapDataList;
                 try {
@@ -225,6 +220,7 @@ public class CIMDataSyncTask {
         try {
             String tableName="DWS_PRODUCT_OUTPUT_FIDS_H";
             Date maxPeriodDate = getmaxPeriodDate(tableName);
+            maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
             while (true){
                 List<Map<String,Object>> mapDataList;
                 try {
@@ -283,6 +279,7 @@ public class CIMDataSyncTask {
         long t1 = System.currentTimeMillis();
         String tableName="DWR_WIP_GLS_FIDS";
         Date maxPeriodDate = getmaxPeriodDate(tableName);
+        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
         int insertNum = 0;
         int updateNum = 0;
         while (true){
@@ -346,6 +343,7 @@ public class CIMDataSyncTask {
         long t1 = System.currentTimeMillis();
         String tableName="DWS_PRODUCT_LINE_YIELD_FIDS";
         Date maxPeriodDate = getmaxPeriodDate(tableName);
+        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
         while (true){
             List<Map<String,Object>> mapDataList;
             try {
@@ -403,6 +401,7 @@ public class CIMDataSyncTask {
         long t1 = System.currentTimeMillis();
         String tableName="DWS_PRODUCT_OC_YIELD_FIDS";
         Date maxPeriodDate = getmaxPeriodDate(tableName);
+        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
         while (true){
 
             List<Map<String,Object>> mapDataList ;
@@ -474,6 +473,7 @@ public class CIMDataSyncTask {
         long t1 = System.currentTimeMillis();
         String tableName="DWR_PRODUCT_CT_FIDS";
         Date maxPeriodDate = getmaxPeriodDate(tableName);
+        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
         while (true){
             List<Map<String,Object>> mapDataList;
             try {
@@ -530,6 +530,7 @@ public class CIMDataSyncTask {
         long t1 = System.currentTimeMillis();
         String tableName="DWR_EQP_OEE_FIDS";
         Date maxPeriodDate = getmaxPeriodDate(tableName);
+        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
         while (true){
             List<Map<String,Object>> mapDataList;
             try {
@@ -585,10 +586,8 @@ public class CIMDataSyncTask {
         long t1 = System.currentTimeMillis();
         String tableName="DWR_PRODUCT_TT_FIDS";
         Date maxPeriodDate = getmaxPeriodDate(tableName);
+        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
         while (true){
-
-
-//            mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
             List<Map<String,Object>> mapDataList;
             try {
                 long t11 = System.currentTimeMillis();
