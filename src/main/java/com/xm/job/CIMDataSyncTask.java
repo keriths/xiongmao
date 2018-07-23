@@ -81,13 +81,15 @@ public class CIMDataSyncTask {
      * 根据主键查询数据是否存在，已经存在更新
      * 不存在新增加
      */
-    @Scheduled(fixedRate = 1000*60*60)
+    @Scheduled(fixedRate = 1000*60*5)
     public void InputCompletionDataSync(){
+        String tableName="DWS_PRODUCT_INPUT_FIDS";
+        LogUtils.info(this.getClass(),"beginSyncInPut["+tableName+"]---");
         long t1 = System.currentTimeMillis();
         int offset = 0;
         int limit = 1000;
         try {
-            String tableName="DWS_PRODUCT_INPUT_FIDS";
+
             Date maxPeriodDate = getmaxPeriodDate(tableName);
             maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
             while (true){
@@ -95,11 +97,11 @@ public class CIMDataSyncTask {
                 try {
                     long t11 = System.currentTimeMillis();
                     String orderby = "FACTORY , PRODUCTTYPE , PRODUCTID";
-                    mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);// factoryDwsProductInputFidsDAO.queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
+                    mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
                     long t22 = System.currentTimeMillis();
                     LogUtils.info(this.getClass(),"同步投入达成率[DWS_PRODUCT_INPUT_FIDS]查询数据用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
                 }catch (Exception e){
-                    LogUtils.error(this.getClass(),"同步投入达成率[DWS_PRODUCT_INPUT_FIDS]查询数据 exception",e);
+                    LogUtils.error(this.getClass(),"同步投入达成率[DWS_PRODUCT_INPUT_FIDS]offset["+offset+"]limit["+limit+"]查询数据 exception",e);
                     try {
                         Thread.sleep(1000l);
                     } catch (InterruptedException e1) {
@@ -149,14 +151,14 @@ public class CIMDataSyncTask {
      * 产出达成率数据同步
      * 已测通
      */
-    @Scheduled(fixedRate = 1000*60*60)
+    @Scheduled(fixedRate = 1000*60*5)
     public void OutputCompletionDataSync(){
-
+        String tableName="DWS_PRODUCT_OUTPUT_FIDS";
+        LogUtils.info(this.getClass(),"beginSyncOutPut["+tableName+"]---");
         int offset = 0;
         int limit = 1000;
         long t1 = System.currentTimeMillis();
         try {
-            String tableName="DWS_PRODUCT_OUTPUT_FIDS";
             Date maxPeriodDate = getmaxPeriodDate(tableName);
             maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
             while (true){
@@ -168,7 +170,7 @@ public class CIMDataSyncTask {
                     long t22 = System.currentTimeMillis();
                     LogUtils.info(this.getClass(),"同步产出达成率[DWS_PRODUCT_OUTPUT_FIDS]查询用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
                 }catch (Exception e){
-                    LogUtils.error(this.getClass(),"同步产出达成率[DWS_PRODUCT_OUTPUT_FIDS]查询 exception",e);
+                    LogUtils.error(this.getClass(),"同步产出达成率[DWS_PRODUCT_OUTPUT_FIDS]查询offset["+offset+"]limit["+limit+"] exception",e);
                     try {
                         Thread.sleep(1000l);
                     } catch (InterruptedException e1) {
@@ -212,13 +214,14 @@ public class CIMDataSyncTask {
      * 过货量推移数据同步
      * 已测通     报错，表没建
      */
-    @Scheduled(fixedRate = 1000*60*60)
+    @Scheduled(fixedRate = 1000*60*5)
     public void OutputCompletionHDataSync(){
+        String tableName="DWS_PRODUCT_OUTPUT_FIDS_H";
+        LogUtils.info(this.getClass(),"beginSyncOutPutH["+tableName+"]---");
         int offset = 0;
         int limit = 1000;
         long t1 = System.currentTimeMillis();
         try {
-            String tableName="DWS_PRODUCT_OUTPUT_FIDS_H";
             Date maxPeriodDate = getmaxPeriodDate(tableName);
             maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
             while (true){
@@ -230,7 +233,7 @@ public class CIMDataSyncTask {
                     long t22 = System.currentTimeMillis();
                     LogUtils.info(this.getClass(),"同步过货量推移[DWS_PRODUCT_OUTPUT_FIDS_H]查询用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
                 }catch (Exception e){
-                    LogUtils.error(this.getClass(),"同步过货量推移[DWS_PRODUCT_OUTPUT_FIDS_H]查询 exception",e);
+                    LogUtils.error(this.getClass(),"同步过货量推移[DWS_PRODUCT_OUTPUT_FIDS_H]查询offset["+offset+"]limit["+limit+"] exception",e);
                     try {
                         Thread.sleep(1000l);
                     } catch (InterruptedException e1) {
@@ -272,28 +275,27 @@ public class CIMDataSyncTask {
      * 在制品数据同步
      * 已测通
      */
-    @Scheduled(fixedRate = 1000*60*60)
+    @Scheduled(fixedRate = 1000*60*5)
     public void GoodInProcessDataSync(){
+        String tableName="DWR_WIP_GLS_FIDS";
+        LogUtils.info(this.getClass(),"beginSyncWip["+tableName+"]---");
         int offset = 0;
         int limit = 1000;
         long t1 = System.currentTimeMillis();
-        String tableName="DWR_WIP_GLS_FIDS";
         Date maxPeriodDate = getmaxPeriodDate(tableName);
         maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
         int insertNum = 0;
         int updateNum = 0;
         while (true){
-//            mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName);
             List<Map<String,Object>> mapDataList;
             try {
                 long t11 = System.currentTimeMillis();
-//                mapDataList = factoryDwrWipGlsFidsDAO.querySyncData(offset,limit);
                 String orderby = "FACTORY , PRODUCTTYPE , STEPID , PRODUCTID";
                 mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
                 long t22 = System.currentTimeMillis();
                 LogUtils.info(this.getClass(), "同步在制品[DWR_WIP_GLS_FIDS]querySyncData 用时" + (t22 - t11) + "毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
-                LogUtils.error(this.getClass(),"同步在制品[DWR_WIP_GLS_FIDS]querySyncData exception",e);
+                LogUtils.error(this.getClass(),"同步在制品[DWR_WIP_GLS_FIDS]offset["+offset+"]limit["+limit+"]querySyncData exception",e);
                 try {
                     Thread.sleep(1000l);
                 } catch (InterruptedException e1) {
@@ -336,12 +338,13 @@ public class CIMDataSyncTask {
      * 良品率数据同步
      * 已测通
      */
-    @Scheduled(fixedRate = 1000*60*60)
+    @Scheduled(fixedRate = 1000*60*5)
     public void ProductLineGoodRateDataSync(){
+        String tableName="DWS_PRODUCT_LINE_YIELD_FIDS";
+        LogUtils.info(this.getClass(),"beginSyncLine["+tableName+"]---");
         int offset = 0;
         int limit = 1000;
         long t1 = System.currentTimeMillis();
-        String tableName="DWS_PRODUCT_LINE_YIELD_FIDS";
         Date maxPeriodDate = getmaxPeriodDate(tableName);
         maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
         while (true){
@@ -353,7 +356,7 @@ public class CIMDataSyncTask {
                 long t22 = System.currentTimeMillis();
                 LogUtils.info(this.getClass(),"同步良品率[DWS_PRODUCT_LINE_YIELD_FIDS]querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
-                LogUtils.error(this.getClass(),"同步良品率[DWS_PRODUCT_LINE_YIELD_FIDS]querySyncData exception",e);
+                LogUtils.error(this.getClass(),"同步良品率[DWS_PRODUCT_LINE_YIELD_FIDS]offset["+offset+"]limit["+limit+"]querySyncData exception",e);
                 try {
                     Thread.sleep(1000l);
                 } catch (InterruptedException e1) {
@@ -394,12 +397,13 @@ public class CIMDataSyncTask {
      * 单个良品率数据同步
      * 已测通
      */
-    @Scheduled(fixedRate = 1000*60*60)
+    @Scheduled(fixedRate = 1000*60*5)
     public void ProductOcGoodRateDataSync(){
+        String tableName="DWS_PRODUCT_OC_YIELD_FIDS";
+        LogUtils.info(this.getClass(),"beginSyncOC["+tableName+"]---");
         int offset = 0;
         int limit = 1000;
         long t1 = System.currentTimeMillis();
-        String tableName="DWS_PRODUCT_OC_YIELD_FIDS";
         Date maxPeriodDate = getmaxPeriodDate(tableName);
         maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
         while (true){
@@ -412,7 +416,7 @@ public class CIMDataSyncTask {
                 long t22 = System.currentTimeMillis();
                 LogUtils.info(this.getClass(),"同步良品率[DWS_PRODUCT_OC_YIELD_FIDS]querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
-                LogUtils.error(this.getClass(),"同步良品率[DWS_PRODUCT_OC_YIELD_FIDS]querySyncData exception",e);
+                LogUtils.error(this.getClass(),"同步良品率[DWS_PRODUCT_OC_YIELD_FIDS]offset["+offset+"]limit["+limit+"]querySyncData exception",e);
                 try {
                     Thread.sleep(1000l);
                 } catch (InterruptedException e1) {
@@ -466,12 +470,13 @@ public class CIMDataSyncTask {
      * CycleTime数据同步
      * 已测通   有重复数据
      */
-    @Scheduled(fixedRate = 1000*60*60)
+    @Scheduled(fixedRate = 1000*60*5)
     public void CycleTimeDataSync(){
+        String tableName="DWR_PRODUCT_CT_FIDS";
+        LogUtils.info(this.getClass(),"beginSyncCycleTime["+tableName+"]---");
         int offset = 0;
         int limit = 1000;
         long t1 = System.currentTimeMillis();
-        String tableName="DWR_PRODUCT_CT_FIDS";
         Date maxPeriodDate = getmaxPeriodDate(tableName);
         maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
         while (true){
@@ -483,7 +488,7 @@ public class CIMDataSyncTask {
                 long t22 = System.currentTimeMillis();
                 LogUtils.info(this.getClass(),"同步CycleTime[DWR_PRODUCT_CT_FIDS]querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
-                LogUtils.error(this.getClass(),"同步CycleTime[DWR_PRODUCT_CT_FIDS]querySyncData exception",e);
+                LogUtils.error(this.getClass(),"同步CycleTime[DWR_PRODUCT_CT_FIDS]offset["+offset+"]limit["+limit+"]querySyncData exception",e);
                 try {
                     Thread.sleep(1000l);
                 } catch (InterruptedException e1) {
@@ -523,12 +528,14 @@ public class CIMDataSyncTask {
      * 稼动率数据同步
      * 已测通  有报错
      */
-    @Scheduled(fixedRate = 1000*60*60)
+    @Scheduled(fixedRate = 1000*60*5)
     public void OeeDataSync(){
+        String tableName="DWR_EQP_OEE_FIDS";
+        LogUtils.info(this.getClass(),"beginSyncOEE["+tableName+"]---");
         int offset = 0;
         int limit = 1000;
         long t1 = System.currentTimeMillis();
-        String tableName="DWR_EQP_OEE_FIDS";
+
         Date maxPeriodDate = getmaxPeriodDate(tableName);
         maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
         while (true){
@@ -540,7 +547,7 @@ public class CIMDataSyncTask {
                 long t22 = System.currentTimeMillis();
                 LogUtils.info(this.getClass(),"同步稼动率[DWR_EQP_OEE_FIDS]querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
-                LogUtils.error(this.getClass(),"同步稼动率[DWR_EQP_OEE_FIDS]querySyncData exception",e);
+                LogUtils.error(this.getClass(),"同步稼动率[DWR_EQP_OEE_FIDS]offset["+offset+"]limit["+limit+"]querySyncData exception",e);
                 try {
                     Thread.sleep(1000l);
                 } catch (InterruptedException e1) {
@@ -579,12 +586,14 @@ public class CIMDataSyncTask {
      * TactTime数据同步
      * 已测通
      */
-    @Scheduled(fixedRate = 1000*60*60)
+    @Scheduled(fixedRate = 1000*60*5)
     public void TactTimeDataSync(){
+        String tableName="DWR_PRODUCT_TT_FIDS";
+        LogUtils.info(this.getClass(),"beginSyncTactTime["+tableName+"]---");
         int offset = 0;
         int limit = 1000;
         long t1 = System.currentTimeMillis();
-        String tableName="DWR_PRODUCT_TT_FIDS";
+
         Date maxPeriodDate = getmaxPeriodDate(tableName);
         maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
         while (true){
@@ -596,7 +605,7 @@ public class CIMDataSyncTask {
                 long t22 = System.currentTimeMillis();
                 LogUtils.info(this.getClass(),"同步TactTime[DWR_PRODUCT_TT_FIDS]querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
-                LogUtils.error(this.getClass(),"同步TactTime[DWR_PRODUCT_TT_FIDS]querySyncData exception",e);
+                LogUtils.error(this.getClass(),"同步TactTime[DWR_PRODUCT_TT_FIDS]offset["+offset+"]limit["+limit+"]querySyncData exception",e);
                 try {
                     Thread.sleep(1000l);
                 } catch (InterruptedException e1) {

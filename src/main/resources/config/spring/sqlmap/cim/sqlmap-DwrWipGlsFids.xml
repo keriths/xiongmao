@@ -16,6 +16,7 @@
         <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
             #{factory}
         </foreach>
+        and FACTORY != 'SL'
         and PRODUCTTYPE NOT IN
         <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
             #{productType}
@@ -47,22 +48,16 @@
             <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
                 #{factory}
             </foreach>
-        /*and PRODUCTID in ('C41A','C51A','C52A','D41A','D51A','D52A','D53A','A1CC575PU2L01','DONL495PU1L01','A1CC575PU1L01','A1CC575PU3L01','A1CC495PU1L01')*/
+            and FACTORY != 'SL'
             and PRODUCTTYPE NOT IN
             <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
                 #{productType}
             </foreach>
-            <!--AND
-            STEPID IN
-            <foreach collection="stepIdList" item="stepId" open="(" separator="," close=")" >
-                #{stepId}
-            </foreach>-->
             <![CDATA[
               and PERIODDATE >= #{beginDate}
               and PERIODDATE <= #{endDate}
              ]]>
         GROUP BY
-          /*STEPID,*/
           decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY),
           TO_CHAR(PERIODDATE,'HH24')||':00'
     </select>

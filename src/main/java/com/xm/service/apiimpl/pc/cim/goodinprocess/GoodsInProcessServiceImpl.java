@@ -32,8 +32,6 @@ import java.util.Map;
 public class GoodsInProcessServiceImpl {
     @Resource(name="dwrWipGlsFidsDAO")
     private DwrWipGlsFidsDAO dwrWipGlsFidsDAO;
-    @Resource(name="stepDAO")
-    private StepDAO stepDAO;
 
     @ApiMethodDoc(apiCode = "CIM_goodInProcessFt" , name = "每个厂别的在制品接口（完成-工厂数据已验证）")
     public GoodInProcessFtRetDTO goodInProcessFtRetDTO(@ApiParamDoc(desc = "厂别,如ARRAY,CELL,CF,SL-OC") String factory){
