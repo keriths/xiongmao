@@ -1,6 +1,8 @@
 package com.xm.service.dao.factory.cim;
 
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.TypeDiscriminator;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;

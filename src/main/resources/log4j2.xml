@@ -69,6 +69,7 @@
         <!--</logger>-->
         <!--<logger name="org.hibernate" level="INFO">-->
         <!--</logger>-->
+
         <logger name="org.apache.ibatis" level="DEBUG" additivity="false">
             <appender-ref ref="sql"/>
             <appender-ref ref="Console"/>

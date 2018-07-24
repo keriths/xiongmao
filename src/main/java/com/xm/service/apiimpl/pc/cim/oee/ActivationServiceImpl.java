@@ -59,7 +59,7 @@ public class ActivationServiceImpl {
             Date endDate = new Date();
             List<String> hourList = DateUtils.getHourStrList(beginDate,endDate);
             //List<ActivationStatusDate.StatusNumberList> activationNumList = activationDAO.queryActivationStatusNum(factory, eqpId, beginDate, endDate);
-            List<ActivationStatusDate.StatusNumberList> activationNumList = activationDAO.queryActivationStatusNum(factoryList, eqpId, beginDate, endDate);
+            List<ActivationStatusDate.StatusNumberList> activationNumList = activationDAO.queryActivationStatusNum(factoryList, eqpId, DateUtils.getStrDate(beginDate,"yyyy-MM-dd HH:mm:ss"),DateUtils.getStrDate( endDate,"yyyy-MM-dd HH:mm:ss"));
 //            activationNumList = new ArrayList<>();
             Map<String, ActivationStatusDate.StatusNumberList> queryMap = MapUtils.listToMap(activationNumList, "key");
             List<ActivationStatusDate> dtList = new ArrayList<ActivationStatusDate>();
@@ -110,12 +110,12 @@ public class ActivationServiceImpl {
                 activationDate.setEqpId(groupName);
 
 
-                List<ActivationDate.StatusDateList> activationIdList = activationDAO.queryActivationEQPId(factoryList, groupName, beginDate, endDate);
+                List<ActivationDate.StatusDateList> activationIdList = activationDAO.queryActivationEQPId(factoryList, groupName,DateUtils.getStrDate(beginDate,"yyyy-MM-dd HH:mm:ss") ,DateUtils.getStrDate(endDate,"yyyy-MM-dd HH:mm:ss") );
                 if (CollectionUtils.isEmpty(activationIdList)){
                     //如果这一小时数据还没有出来，取上一小时的数据
                     beginDate = DateUtils.getBeforDayStartDay(1);
                     endDate = DateUtils.getBeforDayEndDay(1);
-                    activationIdList = activationDAO.queryActivationEQPId(factoryList, groupName, beginDate, endDate);
+                    activationIdList = activationDAO.queryActivationEQPId(factoryList, groupName,DateUtils.getStrDate(beginDate,"yyyy-MM-dd HH:mm:ss") , DateUtils.getStrDate(endDate,"yyyy-MM-dd HH:mm:ss"));
                 }
                 Map<String, ActivationDate.StatusDateList> queryMap = MapUtils.listToMap(activationIdList, "key");
 

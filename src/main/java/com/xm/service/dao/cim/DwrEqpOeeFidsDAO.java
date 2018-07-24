@@ -18,16 +18,16 @@ public interface DwrEqpOeeFidsDAO {
     List<ActivationStatusDate.StatusNumberList> queryActivationStatusNum(
             @Param("factoryList") List<String> factoryList,
             @Param("groupName") String groupName,
-            @Param("beginDate")Date beginDate,
-            @Param("endDate")Date endDate
+            @Param("beginDateStr")String beginDate,
+            @Param("endDateStr")String endDate
 
     );
 
     List<ActivationDate.StatusDateList> queryActivationEQPId(
             @Param("factoryList") List<String> factoryList,
             @Param("groupName") String groupName,
-            @Param("beginDate")Date beginDate,
-            @Param("endDate")Date endDate
+            @Param("beginDateStr")String beginDate,
+            @Param("endDateStr")String endDate
     );
 
     Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);

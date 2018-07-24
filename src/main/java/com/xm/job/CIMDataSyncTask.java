@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -572,6 +574,8 @@ public class CIMDataSyncTask {
             mapDataList.stream().parallel().forEach(mapData -> {
                 long t5 = System.currentTimeMillis();
                 try {
+                    Timestamp timestamp = (Timestamp)mapData.get("PERIODDATE");
+                    mapData.put("PERIODDATE_str",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp));
                     long t7 = System.currentTimeMillis();
                     Map<String, Object> data = dwrEqpOeeFidsDAO.loadByPrimaryKey(mapData);
                     long t8 = System.currentTimeMillis();
@@ -641,6 +645,8 @@ public class CIMDataSyncTask {
             mapDataList.stream().parallel().forEach(mapData -> {
                 long t5 = System.currentTimeMillis();
                 try {
+                    Timestamp timestamp = (Timestamp)mapData.get("PERIODDATE");
+                    mapData.put("PERIODDATE_str",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp));
                     long t7 = System.currentTimeMillis();
                     Map<String, Object> data = dwrEqpOeeFidsDAO.loadByPrimaryKey(mapData);
                     long t8 = System.currentTimeMillis();

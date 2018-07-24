@@ -24,8 +24,8 @@
                 </foreach>
             AND GG.GROUPNAME = #{groupName}
             <![CDATA[
-              and PERIODDATE >= #{beginDate}
-              and PERIODDATE <= #{endDate}
+              and PERIODDATE >= to_date(#{beginDateStr},'yyyy-mm-dd hh24:mi:ss')
+              and PERIODDATE <=to_date(#{endDateStr},'yyyy-mm-dd hh24:mi:ss')
               ]]>
             GROUP BY OEE.FACTORY,GG.GROUPNAME
         ) EQPNUM ON EQPNUM.FACTORY = OEE.FACTORY AND EQPNUM.GROUPNAME = GG.GROUPNAME
@@ -36,8 +36,8 @@
         </foreach>
         AND GG.GROUPNAME = #{groupName}
         <![CDATA[
-          and PERIODDATE >= #{beginDate}
-          and PERIODDATE <= #{endDate}
+          and PERIODDATE >= to_date(#{beginDateStr},'yyyy-mm-dd hh24:mi:ss')
+          and PERIODDATE <= to_date(#{endDateStr},'yyyy-mm-dd hh24:mi:ss')
           ]]>
         GROUP BY EQP_STATUS
     </select>
@@ -65,8 +65,8 @@
                     </foreach>
                     and gg2.GROUPNAME = #{groupName}
                     <![CDATA[
-                      and PERIODDATE >= #{beginDate}
-                      and PERIODDATE <= #{endDate}
+                      and PERIODDATE >= to_date(#{beginDateStr},'yyyy-mm-dd hh24:mi:ss')
+                      and PERIODDATE <= to_date(#{endDateStr},'yyyy-mm-dd hh24:mi:ss')
                       ]]>
                     GROUP BY  oee2.FACTORY,gg2.GROUPNAME
           ) EQPNUM ON EQPNUM.FACTORY = oee.FACTORY AND EQPNUM.GROUPNAME = gg.GROUPNAME
@@ -78,8 +78,8 @@
         </foreach>
         and gg.GROUPNAME = #{groupName}
         <![CDATA[
-          and PERIODDATE >= #{beginDate}
-          and PERIODDATE <= #{endDate}
+          and PERIODDATE >= to_date(#{beginDateStr},'yyyy-mm-dd hh24:mi:ss')
+          and PERIODDATE <= to_date(#{endDateStr},'yyyy-mm-dd hh24:mi:ss')
           ]]>
         GROUP BY decode(oee.FACTORY,'SL','SL-OC','OC','SL-OC',oee.FACTORY) , gg.GROUPNAME ,EQP_STATUS,
         to_char(PERIODDATE,'HH24')||':00'
@@ -89,7 +89,7 @@
         SELECT * from DWR_EQP_OEE_FIDS
         where
             FACTORY = #{FACTORY,jdbcType=VARCHAR} and
-            PERIODDATE = #{PERIODDATE,jdbcType=DATE} and
+            PERIODDATE = to_date(#{PERIODDATE_str},'yyyy-mm-dd hh24:mi:ss') and
             <if test="EQP_TYPE == null">
                 EQP_TYPE is null and
             </if>
@@ -126,7 +126,7 @@
         INTERFACE_TIME = sysdate
         WHERE
             FACTORY = #{FACTORY,jdbcType=VARCHAR} and
-            PERIODDATE = #{PERIODDATE,jdbcType=DATE} and
+            PERIODDATE = to_date(#{PERIODDATE_str},'yyyy-mm-dd hh24:mi:ss') and
             <if test="EQP_TYPE == null">
                 EQP_TYPE is null and
             </if>

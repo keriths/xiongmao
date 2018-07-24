@@ -27,7 +27,8 @@
     <import resource="spring-model-database-local.xml"/>
     <import resource="spring-model-database-factory-cim.xml"/>
     <import resource="spring-model-database-factory-fmcs.xml"/>
-    <import resource="spring-model-tibco.xml"/>
-    <import resource="spring-model-database-person.xml"/>
+    <!--<import resource="spring-model-tibco.xml"/>-->
+    <!--<import resource="spring-model-database-person.xml"/>-->
+    <!--<bean id="personService" class="com.xm.service.apiimpl.pc.person.PersonService"/>-->
     <bean id="ServiceAPIDocumentBeanPostProcessor" class="com.xm.platform.processor.ServiceAPIDocumentBeanPostProcessor"></bean>
 </beans>
