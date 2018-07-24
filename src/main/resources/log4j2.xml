@@ -54,7 +54,7 @@
         </RollingFile>
         <RollingFile name="sql" fileName="/data/logs/xiongmao/sql.log"
                      filePattern="/data/logs/xiongmao/$${date:yyyyMM}/sql-%d{yyyy-MM-dd}-%i.log">
-            <ThresholdFilter level="INFO"/>
+            <ThresholdFilter level="DEBUG"/>
             <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
             <Policies>
                 <TimeBasedTriggeringPolicy/>

@@ -9,23 +9,31 @@
     http://www.springframework.org/schema/context/spring-context-3.0.xsd
     http://www.springframework.org/schema/mvc
     http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
-    <bean id="factoryCimDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-        <property name="driverClassName"><value>oracle.jdbc.OracleDriver</value></property>
-        <!--<property name="url"><value>jdbc:oracle:thin:@192.168.1.123:1521:xe</value></property>
-        <property name="username"><value>abc</value></property>
-        <property name="password"><value>abc123</value></property>-->
-        <property name="url"><value>${factory.cim.database.url}</value></property>
-        <property name="username"><value>${factory.cim.database.username}</value></property>
-        <property name="password"><value>${factory.cim.database.password}</value></property>
-        <property name="maxActive"><value>10</value></property>
-        <property name="maxWait"><value>100000</value></property>
-        <property name="maxIdle"><value>3</value></property>
-        <property name="initialSize"><value>10</value></property>
-        <property name="removeAbandoned"><value>true</value></property>
-        <property name="removeAbandonedTimeout"><value>180</value></property>
-        <property name="validationQuery"><value>SELECT 1 from dual</value></property>
+    <!--<bean id="factoryCimDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">-->
+        <!--<property name="driverClassName"><value>oracle.jdbc.OracleDriver</value></property>-->
+        <!--&lt;!&ndash;<property name="url"><value>jdbc:oracle:thin:@192.168.1.123:1521:xe</value></property>-->
+        <!--<property name="username"><value>abc</value></property>-->
+        <!--<property name="password"><value>abc123</value></property>&ndash;&gt;-->
+        <!--<property name="url"><value>${factory.cim.database.url}</value></property>-->
+        <!--<property name="username"><value>${factory.cim.database.username}</value></property>-->
+        <!--<property name="password"><value>${factory.cim.database.password}</value></property>-->
+        <!--<property name="maxActive"><value>10</value></property>-->
+        <!--<property name="maxWait"><value>100000</value></property>-->
+        <!--<property name="maxIdle"><value>3</value></property>-->
+        <!--<property name="initialSize"><value>10</value></property>-->
+        <!--<property name="removeAbandoned"><value>true</value></property>-->
+        <!--<property name="removeAbandonedTimeout"><value>180</value></property>-->
+        <!--<property name="validationQuery"><value>SELECT 1 from dual</value></property>-->
+    <!--</bean>-->
+    <bean id="factoryCimDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="jdbcUrl" value="${factory.cim.database.url}"/>
+        <property name="user" value="${factory.cim.database.username}"/>
+        <property name="password" value="${factory.cim.database.password}"/>
+        <property name="maxPoolSize" value="50"/>
+        <property name="minPoolSize" value="15"/>
+        <property name="initialPoolSize" value="20"/>
     </bean>
-
 
     <bean id="factoryCimSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="configLocation" value="classpath:config/spring/sqlmap/factory/cim/mybatis-config.xml"></property>
