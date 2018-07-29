@@ -46,22 +46,22 @@ public class CDAServiceImpl {
     }
 
 
-    @ApiMethodDoc(apiCode = "FMCS_SyncCdaData",name = "同步设备实时状态")
-    public void syncCdaData(){
-        try {
-            List<SyncCdaData> queryList = factoryCdaDataDAO.queryCdaData();
-            for(SyncCdaData cdaData:queryList){
-                SyncCdaData data=cdaDataDAO.queryStatusByKey(cdaData.getKey());
-                if(data==null){
-                    cdaDataDAO.insertStatusData(cdaData);
-                }else {
-                    cdaDataDAO.updateStatusData(cdaData);
-                }
-            }
-
-        }catch (Exception e) {
-            LogUtils.error(this.getClass(), e);
-        }
-    }
+//    @ApiMethodDoc(apiCode = "FMCS_SyncCdaData",name = "同步设备实时状态")
+//    public void syncCdaData(){
+//        try {
+//            List<SyncCdaData> queryList = factoryCdaDataDAO.queryCdaData();
+//            for(SyncCdaData cdaData:queryList){
+//                SyncCdaData data=cdaDataDAO.queryStatusByKey(cdaData.getKey());
+//                if(data==null){
+//                    cdaDataDAO.insertStatusData(cdaData);
+//                }else {
+//                    cdaDataDAO.updateStatusData(cdaData);
+//                }
+//            }
+//
+//        }catch (Exception e) {
+//            LogUtils.error(this.getClass(), e);
+//        }
+//    }
 
 }

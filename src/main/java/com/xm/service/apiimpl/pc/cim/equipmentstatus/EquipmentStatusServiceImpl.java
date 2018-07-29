@@ -100,10 +100,10 @@ public class EquipmentStatusServiceImpl {
             Document document= Jsoup.parse(msgContext);
             String MESSAGENAME = document.getElementsByTag("MESSAGENAME").text();
             if (!"EQStateReport".equals(MESSAGENAME)){
-                LogUtils.info(this.getClass(),"receivednotstate :"+msgContext);
+//                LogUtils.info(this.getClass(),"receivednotstate :"+msgContext);
                 return;
             }
-            LogUtils.info(Tibrvlisten.class,msgContext);
+//            LogUtils.info(Tibrvlisten.class,msgContext);
             String factoryName = document.getElementsByTag("ORGNAME").text();
             String eqptId = document.getElementsByTag("EQPTID").text();
             String eqptState = document.getElementsByTag("EQPTSTATE").text();
@@ -112,7 +112,7 @@ public class EquipmentStatusServiceImpl {
                 eqptId = document.getElementsByTag("PORTID").text();
             }
             if ( !StringUtils.hasText(factoryName) || !StringUtils.hasText(eqptId) || !StringUtils.hasText(eqptState)){
-                LogUtils.info(Tibrvlisten.class,"receivednullmsg :"+msgContext);
+//                LogUtils.info(Tibrvlisten.class,"receivednullmsg :"+msgContext);
                 return;
             }
             factoryName = factoryName.toUpperCase();

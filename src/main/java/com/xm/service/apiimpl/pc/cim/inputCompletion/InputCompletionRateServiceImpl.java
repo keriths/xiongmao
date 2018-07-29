@@ -23,10 +23,15 @@ import java.util.*;
 @Service("InputCompletionRateService")
 @ApiServiceDoc(name = "CIM2_投入达成率（完成-工厂数据已验证）")
 public class InputCompletionRateServiceImpl{
-    public static Map<String,List<String>> productMap = new HashMap<>();
+//    public static Map<String,List<String>> productMap = new HashMap<>();
+//    static {
+//        productMap.put("50", Lists.newArrayList( "D41A"));
+//        productMap.put("58", Lists.newArrayList("D51A"));
+//    }
+public static Map<String,List<String>> productMap = new HashMap<>();
     static {
-        productMap.put("50", Lists.newArrayList( "D41A"));
-        productMap.put("58", Lists.newArrayList("D51A"));
+        productMap.put("50", Lists.newArrayList("C41A","D41A"));
+        productMap.put("58", Lists.newArrayList("C51A","D51A","D52A","D53A"));
     }
 
     @Resource
@@ -66,7 +71,8 @@ public class InputCompletionRateServiceImpl{
                     actualMin=4100;
                     actualMax=4400;
                 }
-                startTime = DateUtils.getBeforDayStartDay(6);
+                startTime = DateUtils.getBeforDayStartDay(7);
+                endTime = DateUtils.getBeforDayEndDay(1);
                 dateList = DateUtils.getDayStrList(startTime,endTime);
             }else if (dateType.equals(Constant.month)){
                 if (productId==null){

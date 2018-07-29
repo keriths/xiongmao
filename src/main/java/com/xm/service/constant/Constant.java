@@ -200,7 +200,7 @@ public class Constant {
                                                                             "PCW-4B-101","PCW-4B-201",
                                                                             "PCW-4B-301","PCW-4B-401");
 
-    public static final List<String> wwtbDataCodeList = Lists.newArrayList("PH", "F","PO4-P","CODcr","T-N","C1","Cu");
+    public static final List<String> wwtbDataCodeList = Lists.newArrayList("pH", "F","T-P","CODcr","T-N","CL","Cu");
 
     /**
      * MAU系统类型
@@ -325,8 +325,8 @@ public class Constant {
 
     public static Map<String,List<String>> productMap = new HashMap<>();
     static {
-        productMap.put("50", Lists.newArrayList("C41A", "D41A","A1CC495PU1L01","D0NL495PU1L01"));
-        productMap.put("58", Lists.newArrayList("C51A","D51A","A1CC575PU1L01","A1CC575PU3L01"));
+        productMap.put("50", Lists.newArrayList("C41A","D41A","A1CC495PU1L01","D0NL495PU1L01"));
+        productMap.put("58", Lists.newArrayList("C51A","D51A","D52A","D53A","A1CC575PU1L01","A1CC575PU3L01"));
     }
 
 }

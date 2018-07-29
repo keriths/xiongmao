@@ -22,7 +22,11 @@ import java.util.*;
 @Service("OutputCompletionRateService")
 @ApiServiceDoc(name = "CIM3_产出达成率（完成-工厂数据已验证）")
 public class OutputCompletionRateServiceImpl {
-    private static Map<String,List<String>> productMap = Constant.productMap;
+    public static Map<String,List<String>> productMap = new HashMap<>();
+    static {
+        productMap.put("50", Lists.newArrayList("D41A"));
+        productMap.put("58", Lists.newArrayList("D51A","D52A","D53A"));
+    }
     @Resource
     private DwsProductOutputFidsDAO outputcompletionDAO;
 
@@ -56,7 +60,8 @@ public class OutputCompletionRateServiceImpl {
                     actualMin=2900;
                     actualMax=3200;
                 }
-                beginDate = DateUtils.getBeforDayStartDay(6);
+                beginDate = DateUtils.getBeforDayStartDay(7);
+                endDate = DateUtils.getBeforDayEndDay(1);
                 dateList = DateUtils.getDayStrList(beginDate,endDate);
             }else if (dateType.equals(Constant.month)){
                 if (productId==null){

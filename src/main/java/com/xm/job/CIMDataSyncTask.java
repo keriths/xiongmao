@@ -85,7 +85,7 @@ public class CIMDataSyncTask {
      * 根据主键查询数据是否存在，已经存在更新
      * 不存在新增加
      */
-    @Scheduled(fixedRate = 1000*60*5)
+    @Scheduled(fixedRate = 1000*60*30)
     public void InputCompletionDataSync(){
         String tableName="DWS_PRODUCT_INPUT_FIDS";
         LogUtils.info(this.getClass(),"beginSyncInPut["+tableName+"]---");
@@ -155,7 +155,7 @@ public class CIMDataSyncTask {
      * 产出达成率数据同步
      * 已测通
      */
-    @Scheduled(fixedRate = 1000*60*5)
+    @Scheduled(fixedRate = 1000*60*30)
     public void OutputCompletionDataSync(){
         String tableName="DWS_PRODUCT_OUTPUT_FIDS";
         LogUtils.info(this.getClass(),"beginSyncOutPut["+tableName+"]---");
@@ -219,7 +219,7 @@ public class CIMDataSyncTask {
      * 过货量推移数据同步
      * 已测通     报错，表没建
      */
-    @Scheduled(fixedRate = 1000*60*5)
+    @Scheduled(fixedRate = 1000*60*30)
     public void OutputCompletionHDataSync(){
         String tableName="DWS_PRODUCT_OUTPUT_FIDS_H";
         LogUtils.info(this.getClass(),"beginSyncOutPutH["+tableName+"]---");
@@ -281,7 +281,7 @@ public class CIMDataSyncTask {
      * 在制品数据同步
      * 已测通
      */
-    @Scheduled(fixedRate = 1000*60*5)
+    @Scheduled(fixedRate = 1000*60*30)
     public void GoodInProcessDataSync(){
         String tableName="DWR_WIP_GLS_FIDS";
         LogUtils.info(this.getClass(),"beginSyncWip["+tableName+"]---");
@@ -345,7 +345,7 @@ public class CIMDataSyncTask {
      * 良品率数据同步
      * 已测通
      */
-    @Scheduled(fixedRate = 1000*60*5)
+    @Scheduled(fixedRate = 1000*60*30)
     public void ProductLineGoodRateDataSync(){
         String tableName="DWS_PRODUCT_LINE_YIELD_FIDS";
         LogUtils.info(this.getClass(),"beginSyncLine["+tableName+"]---");
@@ -405,7 +405,7 @@ public class CIMDataSyncTask {
      * 单个良品率数据同步
      * 已测通
      */
-    @Scheduled(fixedRate = 1000*60*5)
+    @Scheduled(fixedRate = 1000*60*30)
     public void ProductOcGoodRateDataSync(){
         String tableName="DWS_PRODUCT_OC_YIELD_FIDS";
         LogUtils.info(this.getClass(),"beginSyncOC["+tableName+"]---");
@@ -479,7 +479,7 @@ public class CIMDataSyncTask {
      * CycleTime数据同步
      * 已测通   有重复数据
      */
-    @Scheduled(fixedRate = 1000*60*5)
+    @Scheduled(fixedRate = 1000*60*30)
     public void CycleTimeDataSync(){
         String tableName="DWR_PRODUCT_CT_FIDS";
         LogUtils.info(this.getClass(),"beginSyncCycleTime["+tableName+"]---");
@@ -539,7 +539,7 @@ public class CIMDataSyncTask {
      * 稼动率数据同步
      * 已测通  有报错
      */
-    @Scheduled(fixedRate = 1000*60*5)
+    @Scheduled(fixedRate = 1000*60*60*20)
     public void OeeDataSync(){
         String tableName="DWR_EQP_OEE_FIDS";
         LogUtils.info(this.getClass(),"beginSyncOEE["+tableName+"]---");
@@ -548,7 +548,7 @@ public class CIMDataSyncTask {
         long t1 = System.currentTimeMillis();
 
         Date maxPeriodDate = getmaxPeriodDate(tableName);
-        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-4).toDate();
+        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
         while (true){
             long t111 = System.currentTimeMillis();
             List<Map<String,Object>> mapDataList;
@@ -610,7 +610,7 @@ public class CIMDataSyncTask {
         LogUtils.info(this.getClass(),"endSyncOEE["+tableName+"]---");
     }
 
-    @Scheduled(fixedRate = 1000*60*5)
+    @Scheduled(fixedRate = 1000*60*30)
     public void OeeDataSyncToday(){
         String tableName="DWR_EQP_OEE_FIDS";
         LogUtils.info(this.getClass(),"beginSyncOEE["+tableName+"]OeeDataSyncToday ---");
@@ -619,7 +619,7 @@ public class CIMDataSyncTask {
         long t1 = System.currentTimeMillis();
 
         Date maxPeriodDate = getmaxPeriodDate(tableName);
-        maxPeriodDate = new DateTime(maxPeriodDate).plusHours(-26).toDate();
+        maxPeriodDate = new DateTime(maxPeriodDate).plusHours(-25).toDate();
         while (true){
             long t111 = System.currentTimeMillis();
             List<Map<String,Object>> mapDataList;
@@ -685,7 +685,7 @@ public class CIMDataSyncTask {
      * TactTime数据同步
      * 已测通
      */
-    @Scheduled(fixedRate = 1000*60*5)
+    @Scheduled(fixedRate = 1000*60*30)
     public void TactTimeDataSync(){
         String tableName="DWR_PRODUCT_TT_FIDS";
         LogUtils.info(this.getClass(),"beginSyncTactTime["+tableName+"]---");

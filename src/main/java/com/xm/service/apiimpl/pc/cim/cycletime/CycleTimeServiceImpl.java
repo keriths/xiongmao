@@ -24,11 +24,11 @@ import java.util.*;
 @Service("CycleTimeService")
 @ApiServiceDoc(name = "CIM6_Cycle_Time(完成)")
 public class CycleTimeServiceImpl {
-    private static Map<String,List<String>> productMap = new LinkedHashMap<>();
-    static {
-        productMap.put("50", Lists.newArrayList("C41A","D41A"));
-        productMap.put("58", Lists.newArrayList("C51A","D51A"));
-    }
+//    private static Map<String,List<String>> productMap = new LinkedHashMap<>();
+//    static {
+//        productMap.put("50", Lists.newArrayList("C41A","D41A"));
+//        productMap.put("58", Lists.newArrayList("C51A","D51A"));
+//    }
     @Resource
     private DwrProductCtFidsDAO dwrProductCtFidsDAO;
 
@@ -36,10 +36,10 @@ public class CycleTimeServiceImpl {
     public CycleTimeRetDTO cycleTime(@ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType,@ApiParamDoc(desc = "产品如55，50(必填)")String productId){
         CycleTimeRetDTO resultDto=new CycleTimeRetDTO();
         try {
-            List<String> productIdList = productMap.get(productId);
+            List<String> productIdList = Constant.productMap.get(productId);
             if (CollectionUtils.isEmpty(productIdList)){
                 resultDto.setSuccess(false);
-                resultDto.setErrorMsg("productId参数错误,请传入【" + productMap.keySet() + "】");
+                resultDto.setErrorMsg("productId参数错误,请传入【" + Constant.productMap.keySet() + "】");
                 return resultDto;
             }
             if (!Constant.dateTypeList.contains(dateType)){

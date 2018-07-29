@@ -129,23 +129,23 @@ public class WWTServiceImpl {
 
     }
 
-
-    @ApiMethodDoc(apiCode = "FMCS_SyncWwtaData",name = "同步设备实时状态")
-    public void syncWwtaData(){
-        try {
-            List<SyncWwtaData> queryList = factoryWwtaDataDAO.queryWwtaDataList();
-            for(SyncWwtaData wwtaData:queryList){
-                SyncWwtaData data=wwtaDataDAO.queryStatusByKey(wwtaData.getKey());
-                if(data==null){
-                    wwtaDataDAO.insertStatusData(wwtaData);
-                }else {
-                    wwtaDataDAO.updateStatusData(wwtaData);
-                }
-            }
-
-        }catch (Exception e) {
-            LogUtils.error(this.getClass(), e);
-        }
-    }
+//
+//    @ApiMethodDoc(apiCode = "FMCS_SyncWwtaData",name = "同步设备实时状态")
+//    public void syncWwtaData(){
+//        try {
+//            List<SyncWwtaData> queryList = factoryWwtaDataDAO.queryWwtaDataList();
+//            for(SyncWwtaData wwtaData:queryList){
+//                SyncWwtaData data=wwtaDataDAO.queryStatusByKey(wwtaData.getKey());
+//                if(data==null){
+//                    wwtaDataDAO.insertStatusData(wwtaData);
+//                }else {
+//                    wwtaDataDAO.updateStatusData(wwtaData);
+//                }
+//            }
+//
+//        }catch (Exception e) {
+//            LogUtils.error(this.getClass(), e);
+//        }
+//    }
 
 }

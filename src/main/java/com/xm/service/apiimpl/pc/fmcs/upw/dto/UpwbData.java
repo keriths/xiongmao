@@ -43,7 +43,6 @@ public class UpwbData {
     }
 
     public BigDecimal getStatus() {
-        BigDecimal status=new BigDecimal(1);
         return status;
     }
 
@@ -52,7 +51,6 @@ public class UpwbData {
     }
 
     public BigDecimal getTemperature() {
-        BigDecimal temperature= new BigDecimal(RandomUtils.randomInt(15,25));
         return temperature;
     }
 
@@ -61,7 +59,6 @@ public class UpwbData {
     }
 
     public BigDecimal getResistivity() {
-        BigDecimal resistivity=RandomUtils.randomFloat(0.02f,0.04f,2);
         return resistivity;
     }
 
@@ -78,7 +75,6 @@ public class UpwbData {
     }
 
     public BigDecimal getParticle() {
-        BigDecimal particle=RandomUtils.randomFloat(0.4f,1.3f,1);
         return particle;
     }
 
@@ -87,7 +83,6 @@ public class UpwbData {
     }
 
     public BigDecimal getToc() {
-        BigDecimal toc=new BigDecimal(RandomUtils.randomInt(30,50));
         return toc;
     }
 

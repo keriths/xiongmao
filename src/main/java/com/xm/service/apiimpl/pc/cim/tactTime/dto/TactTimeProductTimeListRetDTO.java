@@ -49,7 +49,7 @@ public class TactTimeProductTimeListRetDTO extends BaseRetDTO{
                     return new BigDecimal("0");
                 }
             }
-            return target.setScale(2,BigDecimal.ROUND_HALF_UP);
+            return target.setScale(0,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setTarget(BigDecimal target) {
@@ -64,7 +64,7 @@ public class TactTimeProductTimeListRetDTO extends BaseRetDTO{
                     return new BigDecimal("0");
                 }
             }
-            return total.setScale(2,BigDecimal.ROUND_HALF_UP);
+            return total.setScale(0,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setTotal(BigDecimal total) {

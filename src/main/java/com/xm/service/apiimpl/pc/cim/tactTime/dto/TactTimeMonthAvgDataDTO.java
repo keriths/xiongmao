@@ -32,12 +32,12 @@ public class TactTimeMonthAvgDataDTO implements Serializable{
                 return new BigDecimal("0");
             }
         }
-        return target.setScale(2,BigDecimal.ROUND_HALF_UP);
+        return target.setScale(0,BigDecimal.ROUND_HALF_UP);
     }
 
     public void setTarget(BigDecimal target) {
         if (target!=null){
-            this.target = target.setScale(1,BigDecimal.ROUND_HALF_UP);
+            this.target = target.setScale(0,BigDecimal.ROUND_HALF_UP);
         }
     }
 
@@ -50,12 +50,12 @@ public class TactTimeMonthAvgDataDTO implements Serializable{
                 return new BigDecimal("0");
             }
         }
-        return actual.setScale(2,BigDecimal.ROUND_HALF_UP);
+        return actual.setScale(0,BigDecimal.ROUND_HALF_UP);
     }
 
     public void setActual(BigDecimal actual) {
         if (actual!=null){
-            this.actual = actual.setScale(1,BigDecimal.ROUND_HALF_UP);
+            this.actual = actual.setScale(0,BigDecimal.ROUND_HALF_UP);
         }
     }
 

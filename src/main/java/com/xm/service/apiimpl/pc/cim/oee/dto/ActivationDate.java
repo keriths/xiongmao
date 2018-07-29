@@ -43,7 +43,7 @@ public class ActivationDate implements Serializable{
         @ApiResultFieldDesc(desc = "EQP类型,如PHOTO,PVD,CVD,WET,DE")
         private String eqpId;
         @ApiResultFieldDesc(desc = "EQP状态累计时间")
-        private BigDecimal statusNum;
+        public BigDecimal statusNum;
         @ApiResultFieldDesc(desc = "时间小时")
         private String periodDate;
 
@@ -89,7 +89,7 @@ public class ActivationDate implements Serializable{
                     statusNum = BigDecimal.ZERO;
                 }
             }
-            return statusNum.setScale(2,BigDecimal.ROUND_HALF_UP);
+            return statusNum.add(BigDecimal.ZERO).setScale(2, BigDecimal.ROUND_HALF_UP);
         }
 
         public void setStatusNum(BigDecimal statusNum) {
@@ -112,11 +112,10 @@ public class ActivationDate implements Serializable{
         BigDecimal total=new BigDecimal(0);
         if(!CollectionUtils.isEmpty(statusDateList)) {
             for (StatusDateList s : statusDateList) {
-
-                total = total.add((s.getStatusNum()).setScale(2,BigDecimal.ROUND_HALF_UP));
+                total = total.add(s.statusNum==null?BigDecimal.ZERO:s.statusNum);
             }
         }
-        return total;
+        return total.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
     public void setTotal(BigDecimal total) {

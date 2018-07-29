@@ -1,85 +1,84 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.cim.DwrEqpOeeFidsDAO" >
-
-    <select id="queryActivationEQPId" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.oee.dto.ActivationDate$StatusDateList">
+    <select id="queryActivationEQPId_eqpidNum" parameterType="map" resultType="int">
         SELECT
-        EQP_STATUS as status,
-        sum(NVL(STATUS_DURATION,0)/3600/EQPNUM.EQPCOUNT) as statusNum
+--         OEE.FACTORY,
+--         GG.GROUPNAME,
+        COUNT(DISTINCT OEE.EQP_ID) AS eqpCount
         FROM
         DWR_EQP_OEE_FIDS OEE
         join FACTORY_GROUP_EQP_MAPPING GG on GG.EQP_ID = OEE.EQP_ID
-        JOIN (
-            SELECT
-            OEE.FACTORY,
-            GG.GROUPNAME,
-            COUNT(DISTINCT OEE.EQP_ID) AS EQPCOUNT
-            FROM
-            DWR_EQP_OEE_FIDS OEE
-            join FACTORY_GROUP_EQP_MAPPING GG on GG.EQP_ID = OEE.EQP_ID
-            WHERE
-            OEE.FACTORY IN
-                <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
-                    #{factory}
-                </foreach>
-            AND GG.GROUPNAME = #{groupName}
-            <![CDATA[
-              and PERIODDATE >= to_date(#{beginDateStr},'yyyy-mm-dd hh24:mi:ss')
-              and PERIODDATE <=to_date(#{endDateStr},'yyyy-mm-dd hh24:mi:ss')
-              ]]>
-            GROUP BY OEE.FACTORY,GG.GROUPNAME
-        ) EQPNUM ON EQPNUM.FACTORY = OEE.FACTORY AND EQPNUM.GROUPNAME = GG.GROUPNAME
         WHERE
         OEE.FACTORY IN
         <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
-            #{factory}
+            '${factory}'
         </foreach>
-        AND GG.GROUPNAME = #{groupName}
+        AND GG.GROUPNAME = '${groupName}'
         <![CDATA[
-          and PERIODDATE >= to_date(#{beginDateStr},'yyyy-mm-dd hh24:mi:ss')
-          and PERIODDATE <= to_date(#{endDateStr},'yyyy-mm-dd hh24:mi:ss')
+              and PERIODDATE >= to_date('${beginDateStr}','yyyy-mm-dd hh24:mi:ss')
+              and PERIODDATE <=to_date('${endDateStr}','yyyy-mm-dd hh24:mi:ss')
+              ]]>
+        GROUP BY GG.GROUPNAME
+    </select>
+    <select id="queryActivationEQPId" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.oee.dto.ActivationDate$StatusDateList">
+        SELECT
+        EQP_STATUS as status,
+        sum(NVL(STATUS_DURATION,0)/3600) as statusNum
+        FROM
+        DWR_EQP_OEE_FIDS OEE
+        join FACTORY_GROUP_EQP_MAPPING GG on GG.EQP_ID = OEE.EQP_ID
+        WHERE
+        OEE.FACTORY IN
+        <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+            '${factory}'
+        </foreach>
+        AND GG.GROUPNAME = '${groupName}'
+        <![CDATA[
+          and PERIODDATE >= to_date('${beginDateStr}','yyyy-mm-dd hh24:mi:ss')
+          and PERIODDATE <= to_date('${endDateStr}','yyyy-mm-dd hh24:mi:ss')
           ]]>
         GROUP BY EQP_STATUS
     </select>
-
+    <select id="queryActivationStatusNum_dqpidNum" parameterType="map" resultType="int">
+        SELECT
+--         oee2.FACTORY,
+--         gg2.GROUPNAME,
+        COUNT(DISTINCT oee2.EQP_ID)  AS eqpCount
+        FROM
+        DWR_EQP_OEE_FIDS oee2
+        join FACTORY_GROUP_EQP_MAPPING gg2 on gg2.EQP_ID = oee2.EQP_ID
+        WHERE
+        oee2.FACTORY IN
+        <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+            '${factory}'
+        </foreach>
+        and gg2.GROUPNAME = '${groupName}'
+        <![CDATA[
+                      and PERIODDATE >= to_date('${beginDateStr}','yyyy-mm-dd hh24:mi:ss')
+                      and PERIODDATE <= to_date('${endDateStr}','yyyy-mm-dd hh24:mi:ss')
+                      ]]>
+        GROUP BY  gg2.GROUPNAME
+    </select>
     <select id="queryActivationStatusNum" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.oee.dto.ActivationStatusDate$StatusNumberList">
         SELECT
         decode(oee.FACTORY,'SL','SL-OC','OC','SL-OC',oee.FACTORY) as factory,
         gg.GROUPNAME as eqpId,
         to_char(PERIODDATE,'HH24')||':00' as periodDate,
         EQP_STATUS as status,
-        sum(NVL(STATUS_DURATION,0)/60/EQPNUM.EQPCOUNT) as statusNum
+        sum(NVL(STATUS_DURATION,0)/60) as statusNum
         FROM
         DWR_EQP_OEE_FIDS oee
         join FACTORY_GROUP_EQP_MAPPING gg on gg.EQP_ID = oee.EQP_ID
-        JOIN (
-                  SELECT
-                    oee2.FACTORY,gg2.GROUPNAME,COUNT(DISTINCT oee2.EQP_ID) AS EQPCOUNT
-                    FROM
-                    DWR_EQP_OEE_FIDS oee2
-                    join FACTORY_GROUP_EQP_MAPPING gg2 on gg2.EQP_ID = oee2.EQP_ID
-                    WHERE
-                    oee2.FACTORY IN
-                    <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
-                        #{factory}
-                    </foreach>
-                    and gg2.GROUPNAME = #{groupName}
-                    <![CDATA[
-                      and PERIODDATE >= to_date(#{beginDateStr},'yyyy-mm-dd hh24:mi:ss')
-                      and PERIODDATE <= to_date(#{endDateStr},'yyyy-mm-dd hh24:mi:ss')
-                      ]]>
-                    GROUP BY  oee2.FACTORY,gg2.GROUPNAME
-          ) EQPNUM ON EQPNUM.FACTORY = oee.FACTORY AND EQPNUM.GROUPNAME = gg.GROUPNAME
-
         WHERE
         oee.FACTORY IN
         <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
-            #{factory}
+            '${factory}'
         </foreach>
-        and gg.GROUPNAME = #{groupName}
+        and gg.GROUPNAME = '${groupName}'
         <![CDATA[
-          and PERIODDATE >= to_date(#{beginDateStr},'yyyy-mm-dd hh24:mi:ss')
-          and PERIODDATE <= to_date(#{endDateStr},'yyyy-mm-dd hh24:mi:ss')
+          and PERIODDATE >= to_date('${beginDateStr}','yyyy-mm-dd hh24:mi:ss')
+          and PERIODDATE <= to_date('${endDateStr}','yyyy-mm-dd hh24:mi:ss')
           ]]>
         GROUP BY decode(oee.FACTORY,'SL','SL-OC','OC','SL-OC',oee.FACTORY) , gg.GROUPNAME ,EQP_STATUS,
         to_char(PERIODDATE,'HH24')||':00'

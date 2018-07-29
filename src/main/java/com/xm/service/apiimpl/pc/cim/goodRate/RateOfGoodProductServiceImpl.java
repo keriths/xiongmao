@@ -54,7 +54,8 @@ public class RateOfGoodProductServiceImpl {
             Date beginDate = null;
             Date endDate = new Date();
             if (dateType.equals(Constant.day)){
-                beginDate = DateUtils.getBeforDayStartDay(9);
+                beginDate = DateUtils.getBeforDayStartDay(10);
+                endDate = DateUtils.getBeforDayEndDay(1);
                 dateList = DateUtils.getDayStrList(beginDate,endDate);
             }else if (dateType.equals(Constant.month)){
                 beginDate = DateUtils.getBeforMonthStartDay(11);

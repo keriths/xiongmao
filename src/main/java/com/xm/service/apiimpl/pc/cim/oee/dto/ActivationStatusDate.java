@@ -47,7 +47,7 @@ public class ActivationStatusDate implements Serializable {
         @ApiResultFieldDesc(desc = "EQP状态,如RUN,TRB,WAIT,MAN,MNT")
         private String status;
         @ApiResultFieldDesc(desc = "EQP状态累计时间")
-        private BigDecimal statusNum;
+        public BigDecimal statusNum;
 
 
         public String getFactory() {
@@ -92,7 +92,7 @@ public class ActivationStatusDate implements Serializable {
                     statusNum = BigDecimal.ZERO;
                 }
             }
-            return statusNum.setScale(2,BigDecimal.ROUND_HALF_UP);
+            return statusNum.add(BigDecimal.ZERO).setScale(2, BigDecimal.ROUND_HALF_UP);
         }
 
         public void setStatusNum(BigDecimal statusNum) {
@@ -131,10 +131,10 @@ public class ActivationStatusDate implements Serializable {
         BigDecimal total=new BigDecimal(0);
         if(!CollectionUtils.isEmpty(statusNumberLists)) {
             for (StatusNumberList s : statusNumberLists) {
-                total = total.add((s.getStatusNum()));
+                total = total.add((s.statusNum==null?BigDecimal.ZERO:s.statusNum));
             }
         }
-        return total;
+        return total.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
     public void setTotal(BigDecimal total) {

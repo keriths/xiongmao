@@ -119,14 +119,14 @@ public class GoodsInProcessServiceImpl {
             int curMinute = curTime.getMinuteOfHour();
             Date beginDate = null;
             Date endDate = curTime.toDate();
-            if (curMinute>30){
-                beginDate = DateUtils.getBeforHourStartDay(11);
+//            if (curMinute>30){
+//                beginDate = DateUtils.getBeforHourStartDay(11);
+//                dateList = DateUtils.getHourStrList(beginDate,endDate);
+//            }else {
+                beginDate = DateUtils.getBeforHourStartDay(13);
+                endDate = DateUtils.getBeforHourEndDay(1);
                 dateList = DateUtils.getHourStrList(beginDate,endDate);
-            }else {
-                beginDate = DateUtils.getBeforHourStartDay(12);
-                endDate = curTime.plusDays(-1).toDate();
-                dateList = DateUtils.getHourStrList(beginDate,endDate);
-            }
+//            }
 
             List<String> productTypeList=Constant.productTypeTestList;
             //List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.factoryLists,Constant.stepIdLists, beginDate, endDate);

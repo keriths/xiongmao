@@ -55,21 +55,21 @@ public class UPWServiceImpl {
         }
     }
 
-    @ApiMethodDoc(apiCode = "FMCS_SyncUpwaData",name = "同步设备实时状态")
-    public void syncUpwaData(){
-        try {
-            List<SyncUpwaData> queryList = factoryUpwaDataDAO.queryUpwaDataList();
-            for(SyncUpwaData upwaData:queryList){
-                SyncUpwaData data=upwaDataDAO.queryStatusByKey(upwaData.getKey());
-                if(data==null){
-                    upwaDataDAO.insertStatusData(upwaData);
-                }else {
-                    upwaDataDAO.updateStatusData(upwaData);
-                }
-            }
-
-        }catch (Exception e) {
-            LogUtils.error(this.getClass(), e);
-        }
-    }
+//    @ApiMethodDoc(apiCode = "FMCS_SyncUpwaData",name = "同步设备实时状态")
+//    public void syncUpwaData(){
+//        try {
+//            List<SyncUpwaData> queryList = factoryUpwaDataDAO.queryUpwaDataList();
+//            for(SyncUpwaData upwaData:queryList){
+//                SyncUpwaData data=upwaDataDAO.queryStatusByKey(upwaData.getKey());
+//                if(data==null){
+//                    upwaDataDAO.insertStatusData(upwaData);
+//                }else {
+//                    upwaDataDAO.updateStatusData(upwaData);
+//                }
+//            }
+//
+//        }catch (Exception e) {
+//            LogUtils.error(this.getClass(), e);
+//        }
+//    }
 }
