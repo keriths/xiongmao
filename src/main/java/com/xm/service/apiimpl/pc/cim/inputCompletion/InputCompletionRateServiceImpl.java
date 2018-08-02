@@ -109,7 +109,7 @@ public static Map<String,List<String>> productMap = new HashMap<>();
             }else {
                 productIdList.addAll(productMap.get(productId));
             }
-            List<String> productTypeList=Lists.newArrayList("CS","CM","TS","ES");
+            List<String> productTypeList=Lists.newArrayList("CS","CM","MP");
 
             List<InputCompletionRetDTO.InputCompletionData> dbValueList = dwsProductInputFidsDAO.queryInputInfo(productIdList, dateType, startTime, endTime,productTypeList);
             Map<String,InputCompletionRetDTO.InputCompletionData> dbValueMap = MapUtils.listToMap(dbValueList,"getDateTime");
