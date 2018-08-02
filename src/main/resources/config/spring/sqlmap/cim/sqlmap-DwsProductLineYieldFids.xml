@@ -29,10 +29,28 @@
             <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
                 #{factory}
             </foreach>
-            and PRODUCTTYPE NOT IN
-            <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
-                #{productType}
-            </foreach>
+              and
+                (
+                    (
+                        FACTORY in ('ARRAY','CELL','SL')
+                        and PRODUCTTYPE  IN ('CS','MP','CM')
+                        AND PRODUCTID IN ('D41A','D51A','D52A','D53A')
+                    )
+                    OR
+                    (
+                        FACTORY IN ('CF')
+                        and PRODUCTTYPE  IN ('CS','MP','CM')
+                        AND PRODUCTID IN ('C41A','C51A','C52A')
+                    )
+                    OR
+                    (
+                        FACTORY in ('OC')
+                        and PRODUCTTYPE  IN ('ZP21','ZP24','ZP10')
+                        AND PRODUCTID IN ('A1CC495PU1L01','A1CC575PU1L01','A1CC575PU2L01','A1CC575PU3L01')
+                    )
+                )
+
+
         GROUP BY
             <if test="dateType=='month'.toString()">/*按月*/
                 TO_CHAR(PERIODDATE,'MM')||'月',
@@ -119,10 +137,26 @@
         <foreach collection="factoryList" item="factory" open="(" separator="," close=")" >
             #{factory}
         </foreach>
-        and PRODUCTTYPE NOT IN
-        <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
-            #{productType}
-        </foreach>
+        and
+        (
+        (
+        FACTORY in ('ARRAY','CELL','SL')
+        and PRODUCTTYPE  IN ('CS','MP','CM')
+        AND PRODUCTID IN ('D41A','D51A','D52A','D53A')
+        )
+        OR
+        (
+        FACTORY IN ('CF')
+        and PRODUCTTYPE  IN ('CS','MP','CM')
+        AND PRODUCTID IN ('C41A','C51A','C52A')
+        )
+        OR
+        (
+        FACTORY in ('OC')
+        and PRODUCTTYPE  IN ('ZP21','ZP24','ZP10')
+        AND PRODUCTID IN ('A1CC495PU1L01','A1CC575PU1L01','A1CC575PU2L01','A1CC575PU3L01')
+        )
+        )
         <![CDATA[
           and PERIODDATE >= #{startDate}
           and PERIODDATE <= #{endDate}
