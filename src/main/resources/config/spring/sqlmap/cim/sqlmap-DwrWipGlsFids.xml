@@ -16,12 +16,19 @@
         <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
             #{factory}
         </foreach>
-        and FACTORY != 'SL'
-        and PRODUCTTYPE NOT IN
-        <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
-            #{productType}
-        </foreach>
         AND STEPID IS NOT NULL
+        and
+        (
+        (
+        FACTORY IN ( 'ARRAR','CELL','CF','SL')
+        and PRODUCTTYPE IN ('CS','MP','CM')
+        )
+        OR
+        (
+        FACTORY = 'OC'
+        and PRODUCTTYPE IN ('ZP21','ZP24','ZP10')
+        )
+        )
         AND STEPID IN
         <foreach collection="stepIdList" item="stepId" open="(" separator="," close=")" >
             #{stepId}
@@ -48,24 +55,20 @@
             <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
                 #{factory}
             </foreach>
-            and FACTORY != 'SL'
+
             AND STEPID IS NOT NULL
             and
             (
                 (
-                    FACTORY = 'OC'
-                    and PRODUCTTYPE NOT IN ('DM')
+                    FACTORY IN ( 'ARRAR','CELL','CF','SL')
+                    and PRODUCTTYPE IN ('CS','MP','CM')
                 )
                 OR
                 (
-                    FACTORY != 'OC'
-                    and PRODUCTTYPE IN ('CS','CM','ES','TS')
+                    FACTORY = 'OC'
+                    and PRODUCTTYPE IN ('ZP21','ZP24','ZP10')
                 )
             )
-            <!--and PRODUCTTYPE NOT IN-->
-            <!--<foreach collection="productTypeList" item="productType" open="(" separator="," close=")">-->
-                <!--#{productType}-->
-            <!--</foreach>-->
             <![CDATA[
               and PERIODDATE >= #{beginDate}
               and PERIODDATE <= #{endDate}
