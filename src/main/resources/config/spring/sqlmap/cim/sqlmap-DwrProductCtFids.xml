@@ -30,12 +30,18 @@
                 #{productId}
             </foreach>
         </if>
-        <if test="productTypeList != null">
-            and PRODUCTTYPE NOT IN
-            <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
-                #{productType}
-            </foreach>
-        </if>
+        and
+        (
+            (
+                FACTORY IN ( 'ARRAR','CELL','SL')
+                and PRODUCTTYPE IN ('CS','MP','CM')
+            )
+            OR
+            (
+                FACTORY = 'OC'
+                and PRODUCTTYPE IN ('ZP21','ZP24','ZP10')
+            )
+        )
         GROUP BY
             <if test="dateType=='month'.toString()">/*按月*/
             TO_CHAR(PERIODDATE,'MM')||'月',
