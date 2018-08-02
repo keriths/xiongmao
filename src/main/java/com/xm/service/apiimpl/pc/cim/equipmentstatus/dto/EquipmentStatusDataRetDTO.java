@@ -66,16 +66,18 @@ public class EquipmentStatusDataRetDTO extends BaseRetDTO{
         if (CollectionUtils.isEmpty(equipmentStatusDataList)){
            return;
         }
-        eqptTotalNum=new BigDecimal(equipmentStatusDataList.size());
         for (EquipmentStatusData data:equipmentStatusDataList){
             if ("TRB".equals(data.getVal())){
                 failNum = failNum.add(BigDecimal.ONE);
+                eqptTotalNum = eqptTotalNum.add(BigDecimal.ONE);
             }
-            if ("RUN".equals(data.getVal())|| "WAT".equals(data.getVal())){
+            if ("RUN".equals(data.getVal()) || "WAT".equals(data.getVal())){
                 oeeNum=oeeNum.add(BigDecimal.ONE);
+                eqptTotalNum = eqptTotalNum.add(BigDecimal.ONE);
             }
-            if ("MAN".equals(data.getVal())){
+            if ("MAN".equals(data.getVal()) || "MNT".equals(data.getVal())){
                 pmNum=pmNum.add(BigDecimal.ONE);
+                eqptTotalNum = eqptTotalNum.add(BigDecimal.ONE);
             }
         }
     }
