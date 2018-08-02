@@ -67,7 +67,7 @@ public class ProductOcDetailData {
 
     public BigDecimal getInLine() {
         if (inLine!=null){
-            return inLine;
+            return (inLine.floatValue()>100)?new BigDecimal("100"):inLine;
         }
         if (getIobOutPut().equals(BigDecimal.ZERO)||getPolOutPut().equals(BigDecimal.ZERO)){
             return BigDecimal.ZERO;
@@ -77,7 +77,7 @@ public class ProductOcDetailData {
         //POL良率
         BigDecimal polInLine = getPolOutPutSum().divide(getPolOutPut(), 5, RoundingMode.HALF_UP);
         inLine = iobInline.multiply(polInLine).multiply(new BigDecimal(100)).setScale(2, BigDecimal.ROUND_HALF_UP);
-        return inLine;
+        return (inLine.floatValue()>100)?new BigDecimal("100"):inLine;
     }
 
 

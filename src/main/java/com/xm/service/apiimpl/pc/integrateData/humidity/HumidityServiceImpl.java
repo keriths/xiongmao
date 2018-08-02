@@ -101,15 +101,15 @@ public class HumidityServiceImpl {
             Date curMonthStart = DateUtils.getBeforMonthStartDay(0);
             Date curMonthEnd = DateUtils.getBeforMonthEndDay(0);
             List<GasCollectDataDTO.GasCollectData> bigGasDayDataList = bigGasEveryDayDataDAO.queryBigGasByDateAndGasNameList(Constant.gasNamelist,todayStart,todayEnd);
-            bigGasDayDataList = Constant.gasTypelist.stream().map(gasName -> new GasCollectDataDTO.GasCollectData(gasName,3600,5000)).collect(Collectors.toList());
+            bigGasDayDataList = Constant.gasNamelist.stream().map(gasName -> new GasCollectDataDTO.GasCollectData(gasName,3600,5000)).collect(Collectors.toList());
             List<GasCollectDataDTO.GasCollectData> bigGasMonthDataList = bigGasEveryDayDataDAO.queryBigGasByDateAndGasNameList(Constant.gasNamelist,curMonthStart,curMonthEnd);
-            bigGasMonthDataList = Constant.gasTypelist.stream().map(gasName -> new GasCollectDataDTO.GasCollectData(gasName,80000,90000)).collect(Collectors.toList());
+            bigGasMonthDataList = Constant.gasNamelist.stream().map(gasName -> new GasCollectDataDTO.GasCollectData(gasName,80000,90000)).collect(Collectors.toList());
 
             List<GasCollectDataDTO.GasCollectData> natGasDayDataList = natgasEveryDayDataDAO.queryNatGasByDateAndGasNameList(Constant.gasTypelist,todayStart,todayEnd);
-            natGasDayDataList = Constant.gasNamelist.stream().map(gasName -> new GasCollectDataDTO.GasCollectData(gasName,300,350)).collect(Collectors.toList());
+            natGasDayDataList = Constant.gasTypelist.stream().map(gasName -> new GasCollectDataDTO.GasCollectData(gasName,300,350)).collect(Collectors.toList());
 
             List<GasCollectDataDTO.GasCollectData> natGasMonthDataList = natgasEveryDayDataDAO.queryNatGasByDateAndGasNameList(Constant.gasTypelist,curMonthStart,curMonthEnd);
-            natGasMonthDataList = Constant.gasNamelist.stream().map(gasName -> new GasCollectDataDTO.GasCollectData(gasName,6000,7000)).collect(Collectors.toList());
+            natGasMonthDataList = Constant.gasTypelist.stream().map(gasName -> new GasCollectDataDTO.GasCollectData(gasName,6000,7000)).collect(Collectors.toList());
 
             resultDto.setBigGasDayCollectDataList(bigGasDayDataList);
             resultDto.setBigGasMonthCollectDataList(bigGasMonthDataList);

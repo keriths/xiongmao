@@ -14,6 +14,10 @@
         from EXHAUSTBDATA
     </select>
 
+    <select id="queryKeyStatusNum" resultType="int" parameterType="Map">
+        select count(*) from EXHAUSTBDATA where KEY like '%-${key}-%' and val = '${status}' group by val
+    </select>
+
 
     <!--根据key查询-->
     <select id="queryStatusByKey" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.exhaust.dto.SyncExhaustBData">

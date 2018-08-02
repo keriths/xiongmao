@@ -24,8 +24,8 @@ import java.util.*;
 public class OutputCompletionRateServiceImpl {
     public static Map<String,List<String>> productMap = new HashMap<>();
     static {
-        productMap.put("50", Lists.newArrayList("D41A"));
-        productMap.put("58", Lists.newArrayList("D51A","D52A","D53A"));
+        productMap.put("50", Lists.newArrayList("D41A","A1CC495PU1L01","DONL495PU1L01"));
+        productMap.put("58", Lists.newArrayList("D51A","D52A","D53A","A1CC575PU1L01","A1CC575PU3L01","A1CC575PU2L01"));
     }
     @Resource
     private DwsProductOutputFidsDAO outputcompletionDAO;

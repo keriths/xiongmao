@@ -50,7 +50,7 @@ public class BigGasStatisticsDateRetDTO extends BaseRetDTO{
                     }else if ("PAr".equals(getGasName()) || "PH2".equals(getGasName())){
                         totalNum = (RandomUtils.randomIntBigDecimal(150,250));
                     }else{
-                        totalNum = (RandomUtils.randomIntBigDecimal(3000,5000));
+                        totalNum = (RandomUtils.randomIntBigDecimal(3000,3900));
                     }
 
                 }else {

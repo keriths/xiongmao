@@ -35,7 +35,7 @@ public class MauRcuCollectDataDTO extends BaseRetDTO{
         }
 
         public String getStatus() {
-            return status;
+            return "1";
         }
 
         public void setStatus(String status) {

@@ -28,15 +28,27 @@
                PERIODDATE >= #{beginDate}
               and PERIODDATE <= #{endDate}
              ]]>
-        and FACTORY in ('SL','OC')
+        and
+        (
+            (
+              FACTORY = 'SL'
+              and PRODUCTTYPE in ('CS','CM','TS','ES')
+            )
+            OR
+            (
+              FACTORY = 'OC'
+              and PRODUCTTYPE not in ('DM')
+            )
+        )
         and PRODUCTID in
         <foreach collection="productIdList" item="productId" open="(" separator="," close=")">
             #{productId}
         </foreach>
-        and PRODUCTTYPE NOT IN
-        <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
-            #{productType}
-        </foreach>
+        <!--and FACTORY in ('SL','OC')-->
+        <!--and PRODUCTTYPE NOT IN-->
+        <!--<foreach collection="productTypeList" item="productType" open="(" separator="," close=")">-->
+            <!--#{productType}-->
+        <!--</foreach>-->
         GROUP BY
             <if test="dateType=='month'.toString()">/*按月*/
             TO_CHAR(PERIODDATE,'MM')||'月',

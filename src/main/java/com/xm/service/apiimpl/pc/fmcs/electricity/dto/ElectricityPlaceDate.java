@@ -35,7 +35,7 @@ public class ElectricityPlaceDate {
     public BigDecimal getTotalNum() {
         if (totalNum==null){
             if (Constant.showDemoData){
-                totalNum = RandomUtils.randomIntBigDecimal(1800, 2100);
+                totalNum = RandomUtils.randomIntBigDecimal(1600, 1900);
             }else {
                 totalNum=new BigDecimal(0);
             }

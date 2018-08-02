@@ -114,7 +114,7 @@ public class ProductLineDetailData {
 
     public BigDecimal getInLine() {
         if (inLine!=null){
-            return inLine;
+            return inLine.floatValue()>100?new BigDecimal("100"):inLine;
         }
         if (factory==null){
             return inLine = BigDecimal.ZERO;
@@ -123,12 +123,14 @@ public class ProductLineDetailData {
             if(getInputPnl().add(getOutputPnl()).equals(BigDecimal.ZERO)){//等于0
                 return inLine=new BigDecimal(0);
             }
-            return inLine = getOutputPnl().divide(getInputPnl().add(getOutputPnl()),5, RoundingMode.HALF_UP).multiply(new BigDecimal("100")).setScale(2, RoundingMode.HALF_UP);
+            inLine = getOutputPnl().divide(getInputPnl().add(getOutputPnl()),5, RoundingMode.HALF_UP).multiply(new BigDecimal("100")).setScale(2, RoundingMode.HALF_UP);
+            return inLine.floatValue()>100?new BigDecimal("100"):inLine;
         }
         if (getOutputGls().add(getScrapGls()).equals(BigDecimal.ZERO)){
             return inLine = BigDecimal.ZERO;
         }
-        return inLine = getOutputGls().divide(getOutputGls().add(getScrapGls()),5, RoundingMode.HALF_UP).multiply(new BigDecimal("100")).setScale(2, RoundingMode.HALF_UP);
+        inLine = getOutputGls().divide(getOutputGls().add(getScrapGls()),5, RoundingMode.HALF_UP).multiply(new BigDecimal("100")).setScale(2, RoundingMode.HALF_UP);
+        return (inLine.floatValue()>100)?new BigDecimal("100"):inLine;
     }
 
     public BigDecimal getTargetInLine() {

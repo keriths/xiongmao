@@ -21,8 +21,8 @@
         <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
             #{productType}
         </foreach>
-        AND
-        STEPID IN
+        AND STEPID IS NOT NULL
+        AND STEPID IN
         <foreach collection="stepIdList" item="stepId" open="(" separator="," close=")" >
             #{stepId}
         </foreach>
@@ -49,10 +49,23 @@
                 #{factory}
             </foreach>
             and FACTORY != 'SL'
-            and PRODUCTTYPE NOT IN
-            <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
-                #{productType}
-            </foreach>
+            AND STEPID IS NOT NULL
+            and
+            (
+                (
+                    FACTORY = 'OC'
+                    and PRODUCTTYPE NOT IN ('DM')
+                )
+                OR
+                (
+                    FACTORY != 'OC'
+                    and PRODUCTTYPE IN ('CS','CM','ES','TS')
+                )
+            )
+            <!--and PRODUCTTYPE NOT IN-->
+            <!--<foreach collection="productTypeList" item="productType" open="(" separator="," close=")">-->
+                <!--#{productType}-->
+            <!--</foreach>-->
             <![CDATA[
               and PERIODDATE >= #{beginDate}
               and PERIODDATE <= #{endDate}

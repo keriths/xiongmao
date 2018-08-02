@@ -25,8 +25,8 @@ public class SEXServiceImpl {
     private ExhaustADataDAO exhaustADataDAO;
     @Resource(name="exhaustBDataDAO")
     private ExhaustBDataDAO exhaustBDataDAO;
-    @Resource(name = "factoryExhaustBDataDAO")
-    private FactoryExhaustBDataDAO factoryExhaustBDataDAO;
+//    @Resource(name = "factoryExhaustBDataDAO")
+//    private FactoryExhaustBDataDAO factoryExhaustBDataDAO;
 
     @ApiMethodDoc(apiCode = "FMCS_ExhaustAData",name = "4A-VOC-S数据接口")
     public ExhaustADataRetDTO exhaustADataRetDTO(@ApiParamDoc(desc = "系统名称,如“F-101A,F-101B,F-101C”") String name){
@@ -64,21 +64,21 @@ public class SEXServiceImpl {
     }
 
 
-    @ApiMethodDoc(apiCode = "FMCS_SyncExhaustBData",name = "同步设备实时状态")
-    public void syncExhaustBData(){
-        try {
-            List<SyncExhaustBData> queryList = factoryExhaustBDataDAO.queryExhaustBData();
-            for(SyncExhaustBData exhaustBData:queryList){
-                SyncExhaustBData data=exhaustBDataDAO.queryStatusByKey(exhaustBData.getKey());
-                if(data==null){
-                    exhaustBDataDAO.insertStatusData(exhaustBData);
-                }else {
-                    exhaustBDataDAO.updateStatusData(exhaustBData);
-                }
-            }
-
-        }catch (Exception e) {
-            LogUtils.error(this.getClass(), e);
-        }
-    }
+//    @ApiMethodDoc(apiCode = "FMCS_SyncExhaustBData",name = "同步设备实时状态")
+//    public void syncExhaustBData(){
+//        try {
+//            List<SyncExhaustBData> queryList = factoryExhaustBDataDAO.queryExhaustBData();
+//            for(SyncExhaustBData exhaustBData:queryList){
+//                SyncExhaustBData data=exhaustBDataDAO.queryStatusByKey(exhaustBData.getKey());
+//                if(data==null){
+//                    exhaustBDataDAO.insertStatusData(exhaustBData);
+//                }else {
+//                    exhaustBDataDAO.updateStatusData(exhaustBData);
+//                }
+//            }
+//
+//        }catch (Exception e) {
+//            LogUtils.error(this.getClass(), e);
+//        }
+//    }
 }

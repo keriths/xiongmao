@@ -12,15 +12,14 @@ import com.xm.service.apiimpl.pc.fmcs.upw.UPWServiceImpl;
 import com.xm.service.apiimpl.pc.fmcs.upw.dto.UpwbDataRetDTO;
 import com.xm.service.apiimpl.pc.integrateData.system.dto.*;
 import com.xm.service.constant.Constant;
-import com.xm.service.dao.fmcs.MAUSystemDataDAO;
-import com.xm.service.dao.fmcs.PCWHumitureDataDAO;
-import com.xm.service.dao.fmcs.RcuSystemDataDAO;
-import com.xm.service.dao.fmcs.WwtbDataDAO;
+import com.xm.service.dao.fmcs.*;
 import com.xm.service.dto.BaseRetDTO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
@@ -147,16 +146,25 @@ public class SystemServiceImpl {
         }
     }
 
-
+    @Resource(name="exhaustBDataDAO")
+    private ExhaustBDataDAO exhaustBDataDAO;
     @ApiMethodDoc(apiCode = "exhaust",name = "排气系统")
     public ExhaustDataResult exhaustData(){
         ExhaustDataResult resultDto = new ExhaustDataResult();
         try {
             List<String> typeList = Lists.newArrayList("SEX","AEX","VOC");
-            List<ExhaustData> exhaustDatas = typeList.stream().map(type -> {
+            Map<String,String> keyMap= new HashMap<String,String>();
+            keyMap.put("SEX","SEX");
+            keyMap.put("AEX","AEX");
+            keyMap.put("VOC","VOC");
+            List<ExhaustData> exhaustDatas = keyMap.keySet().stream().map(type -> {
+                Integer stopNum = exhaustBDataDAO.queryKeyStatusNum(keyMap.get(type),"0");
+                Integer runNum = exhaustBDataDAO.queryKeyStatusNum(keyMap.get(type),"1");
                 ExhaustData d= new ExhaustData();
                 d.setName(type);
                 d.setStatus("1");
+                d.setStopNum(stopNum==null?0:stopNum);
+                d.setRunNum(runNum==null?0:runNum);
                 return d;
             }).collect(Collectors.toList());
             resultDto.setExhaustDatas(exhaustDatas);
@@ -187,6 +195,10 @@ public class SystemServiceImpl {
 
         @ApiResultFieldDesc(desc = "状态(0自动1启动2停止3复位)")
         private String status;
+        @ApiResultFieldDesc(desc = "运行状态数量")
+        private int runNum;
+        @ApiResultFieldDesc(desc = "停止状态数量")
+        private int stopNum;
 
         public String getName() {
             return name;
@@ -203,6 +215,23 @@ public class SystemServiceImpl {
         public void setStatus(String status) {
             this.status = status;
         }
+
+        public int getRunNum() {
+            return runNum;
+        }
+
+        public void setRunNum(int runNum) {
+            this.runNum = runNum;
+        }
+
+        public int getStopNum() {
+            return stopNum;
+        }
+
+        public void setStopNum(int stopNum) {
+            this.stopNum = stopNum;
+        }
     }
+
 
 }

@@ -96,7 +96,7 @@ public class CycleTimeData implements Serializable {
                     return new BigDecimal("0");
                 }
             }
-            return actual.setScale(2,BigDecimal.ROUND_HALF_UP);
+            return actual.setScale(1,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setActual(BigDecimal actual) {

@@ -14,6 +14,8 @@ import java.util.List;
 public interface ExhaustBDataDAO {
     List<ExhaustBData> queryExhaustBData();
 
+    Integer queryKeyStatusNum(@Param("key") String key,@Param("status") String status);
+
     int updateStatusData(SyncExhaustBData exhaustBData);
 
     int insertStatusData(SyncExhaustBData exhaustBData);

@@ -27,7 +27,7 @@ public class FreezeWaterEveryDayData {
     public BigDecimal getTotalNum() {
         if(totalNum==null){
             if (Constant.showDemoData){
-                totalNum = RandomUtils.randomIntBigDecimal(1800, 2100);
+                totalNum = RandomUtils.randomIntBigDecimal(1500,2000);
             }else {
                 totalNum=new BigDecimal(0);
             }
