@@ -20,7 +20,7 @@
         and
         (
         (
-        FACTORY IN ( 'ARRAR','CELL','CF','SL')
+        FACTORY IN ( 'ARRAY','CELL','CF','SL')
         and PRODUCTTYPE IN ('CS','MP','CM')
         )
         OR
@@ -46,7 +46,6 @@
             sum(STORE_MAX) as storeMax,
             sum(STORE_MIN) as storeMin,
             sum(WIP_GLS_QTY) as quantity,
-            /*STEPID as setepId,*/
             decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) as factory,
             TO_CHAR(PERIODDATE,'HH24')||':00' as dataDate
         from DWR_WIP_GLS_FIDS
@@ -55,18 +54,25 @@
             <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
                 #{factory}
             </foreach>
-
             AND STEPID IS NOT NULL
             and
             (
                 (
-                    FACTORY IN ( 'ARRAR','CELL','CF','SL')
-                    and PRODUCTTYPE IN ('CS','MP','CM')
+                    FACTORY in ('ARRAY','CELL','SL')
+                    and PRODUCTTYPE  IN ('CS','MP','CM')
+                    AND PRODUCTID IN ('D41A','D51A','D52A','D53A')
                 )
                 OR
                 (
-                    FACTORY = 'OC'
-                    and PRODUCTTYPE IN ('ZP21','ZP24','ZP10')
+                    FACTORY IN ('CF')
+                    and PRODUCTTYPE  IN ('CS','MP','CM')
+                    AND PRODUCTID IN ('C41A','C51A','C52A')
+                )
+                OR
+                (
+                    FACTORY in ('OC')
+                    and PRODUCTTYPE  IN ('ZP21','ZP24','ZP10')
+                    AND PRODUCTID IN ('A1CC495PU1L01','A1CC575PU1L01','A1CC575PU2L01','A1CC575PU3L01')
                 )
             )
             <![CDATA[

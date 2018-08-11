@@ -43,9 +43,13 @@ public class ActivationDate implements Serializable{
         @ApiResultFieldDesc(desc = "EQP类型,如PHOTO,PVD,CVD,WET,DE")
         private String eqpId;
         @ApiResultFieldDesc(desc = "EQP状态累计时间")
-        public BigDecimal statusNum;
+        private BigDecimal statusNum;
         @ApiResultFieldDesc(desc = "时间小时")
         private String periodDate;
+
+        public BigDecimal getOriginalStatusNum(){
+            return statusNum!=null?statusNum:BigDecimal.ZERO;
+        }
 
         public String getFactory() {
             return factory;
@@ -108,11 +112,12 @@ public class ActivationDate implements Serializable{
     }
 
     public BigDecimal getTotal() {
-        //TODO 目标值的实现
-        BigDecimal total=new BigDecimal(0);
+        if (total!=null){
+            return total;
+        }
         if(!CollectionUtils.isEmpty(statusDateList)) {
             for (StatusDateList s : statusDateList) {
-                total = total.add(s.statusNum==null?BigDecimal.ZERO:s.statusNum);
+                total = total.add(s.getOriginalStatusNum());
             }
         }
         return total.setScale(2,BigDecimal.ROUND_HALF_UP);
@@ -123,26 +128,22 @@ public class ActivationDate implements Serializable{
     }
 
     public BigDecimal getActivation() {
-        //TODO 稼动率的实现
-        BigDecimal activation=new BigDecimal(100);
-        BigDecimal all=getTotal();
-        BigDecimal activationNum=new BigDecimal("0");
-        if(!CollectionUtils.isEmpty(statusDateList)) {
-            if(all.compareTo(new BigDecimal(0))==0){//等于0
-                activation=new BigDecimal(0);
-            }else{
-                for (StatusDateList a : statusDateList) {
-                    //activationNum = activationNum.add(new BigDecimal(a.getStatusNum()));
-                    if("RUN".equals(a.getStatus())){
-                        activationNum = activationNum.add((a.getStatusNum()));
-                    }else if ("WAT".equals(a.getStatus())){
-                        activationNum = activationNum.add((a.getStatusNum()));
-                    }
-                }
-                activation = activationNum.multiply(new BigDecimal("100")).divide(all,1, RoundingMode.HALF_UP);
-            }
-            //activation = activationNum.multiply(new BigDecimal("100")).divide(all,1, RoundingMode.HALF_UP);
+        if (activation!=null){
+            return activation;
         }
+        BigDecimal all=getTotal();
+        if (all.intValue()==0){
+            activation=BigDecimal.ZERO;
+            return activation;
+        }
+        BigDecimal activationNum=new BigDecimal("0");
+        for (StatusDateList a : statusDateList) {
+            //activationNum = activationNum.add(new BigDecimal(a.getStatusNum()));
+            if("RUN".equals(a.getStatus())){
+                activationNum = activationNum.add((a.getStatusNum()));
+            }
+        }
+        activation = activationNum.multiply(new BigDecimal("100")).divide(all,1, RoundingMode.HALF_UP);
         return activation;
     }
 
@@ -160,6 +161,18 @@ public class ActivationDate implements Serializable{
 
     public void setStatusDateList(List<StatusDateList> statusDateList) {
         this.statusDateList = statusDateList;
+        total = new BigDecimal("24");
+        BigDecimal listTotal = new BigDecimal("0");
+        for (StatusDateList statusDateList1 : statusDateList){
+            listTotal = listTotal.add(statusDateList1.getOriginalStatusNum());
+        }
+        if (listTotal.intValue() == 0){
+            total = BigDecimal.ZERO;
+            return;
+        }
+        for (StatusDateList statusDateList1 : statusDateList){
+            statusDateList1.setStatusNum(statusDateList1.getOriginalStatusNum().multiply(total).divide(listTotal,2,BigDecimal.ROUND_HALF_UP));
+        }
     }
 
     public String getEqpId() {

@@ -61,20 +61,19 @@ public class ActivationServiceImpl {
             String beginDateStr = DateUtils.getStrDate(beginDate,"yyyy-MM-dd HH:mm:ss");
             String endDateStr =DateUtils.getStrDate( endDate,"yyyy-MM-dd HH:mm:ss");
             List<String> hourList = DateUtils.getHourStrList(beginDate,endDate);
-            //List<ActivationStatusDate.StatusNumberList> activationNumList = activationDAO.queryActivationStatusNum(factory, eqpId, beginDate, endDate);
             long t1  = System.currentTimeMillis();
             List<ActivationStatusDate.StatusNumberList> activationNumList = activationDAO.queryActivationStatusNum(factoryList, eqpId, beginDateStr,endDateStr);
             long t2 = System.currentTimeMillis();
             LogUtils.info(this.getClass(),"queryActivationStatusNum_usetime["+(t2-t1)+"毫秒factoryList["+factoryList+"]eqpId["+eqpId+"]beginDateStr["+beginDateStr+"]endDateStr["+endDateStr+"]");
-            long t3 = System.currentTimeMillis();
-            int eqpCount = activationDAO.queryActivationStatusNum_dqpidNum(factoryList,eqpId,beginDateStr,endDateStr);
-            LogUtils.info(this.getClass(),"queryActivationStatusNum_dqpidNum_usetime["+(t3-t2)+"毫秒factoryList["+factoryList+"]eqpId["+eqpId+"]beginDateStr["+beginDateStr+"]endDateStr["+endDateStr+"]");
-            if (!CollectionUtils.isEmpty(activationNumList)){
-                for (ActivationStatusDate.StatusNumberList statusDateList : activationNumList){
-                    BigDecimal statusNum = statusDateList.getStatusNum();
-                    statusDateList.setStatusNum(statusNum.divide(new BigDecimal(eqpCount),5,BigDecimal.ROUND_HALF_UP));
-                }
-            }
+//            long t3 = System.currentTimeMillis();
+//            int eqpCount = activationDAO.queryActivationStatusNum_dqpidNum(factoryList,eqpId,beginDateStr,endDateStr);
+//            LogUtils.info(this.getClass(),"queryActivationStatusNum_dqpidNum_usetime["+(t3-t2)+"毫秒factoryList["+factoryList+"]eqpId["+eqpId+"]beginDateStr["+beginDateStr+"]endDateStr["+endDateStr+"]");
+//            if (!CollectionUtils.isEmpty(activationNumList)){
+//                for (ActivationStatusDate.StatusNumberList statusDateList : activationNumList){
+//                    BigDecimal statusNum = statusDateList.getStatusNum();
+//                    statusDateList.setStatusNum(statusNum.divide(new BigDecimal(eqpCount),5,BigDecimal.ROUND_HALF_UP));
+//                }
+//            }
             Map<String, ActivationStatusDate.StatusNumberList> queryMap = MapUtils.listToMap(activationNumList, "key");
             List<ActivationStatusDate> dtList = new ArrayList<ActivationStatusDate>();
             for (String hour:hourList) {
@@ -163,16 +162,16 @@ public class ActivationServiceImpl {
         List<ActivationDate.StatusDateList> ret =activationDAO.queryActivationEQPId(factoryList, groupName, DateUtils.getStrDate(beginDate, "yyyy-MM-dd HH:mm:ss") ,DateUtils.getStrDate(endDate,"yyyy-MM-dd HH:mm:ss") );
         long t2 = System.currentTimeMillis();
         LogUtils.info(this.getClass(),"queryActivationEQPId_usetime["+(t2-t1)+"]factoryList["+factoryList+"]groupName["+groupName+"]beginDateStr["+DateUtils.getStrDate(beginDate, "yyyy-MM-dd HH:mm:ss")+"]endDateStr["+DateUtils.getStrDate(endDate,"yyyy-MM-dd HH:mm:ss") +"]");
-        if (CollectionUtils.isEmpty(ret)){
-            return ret;
-        }
-        int eqpCount = activationDAO.queryActivationEQPId_eqpidNum(factoryList,groupName,DateUtils.getStrDate(beginDate, "yyyy-MM-dd HH:mm:ss") ,DateUtils.getStrDate(endDate,"yyyy-MM-dd HH:mm:ss"));
-        long t3 = System.currentTimeMillis();
-        LogUtils.info(this.getClass(),"queryActivationEQPId_eqpidNum_usetime["+(t3-t2)+"]factoryList["+factoryList+"]groupName["+groupName+"]beginDateStr["+DateUtils.getStrDate(beginDate, "yyyy-MM-dd HH:mm:ss")+"]endDateStr["+DateUtils.getStrDate(endDate,"yyyy-MM-dd HH:mm:ss") +"]");
-        for (ActivationDate.StatusDateList statusDateList : ret){
-            BigDecimal statusNum = statusDateList.getStatusNum();
-            statusDateList.setStatusNum(statusNum.divide(new BigDecimal(eqpCount),5,BigDecimal.ROUND_HALF_UP));
-        }
+//        if (CollectionUtils.isEmpty(ret)){
+//            return ret;
+//        }
+//        int eqpCount = activationDAO.queryActivationEQPId_eqpidNum(factoryList,groupName,DateUtils.getStrDate(beginDate, "yyyy-MM-dd HH:mm:ss") ,DateUtils.getStrDate(endDate,"yyyy-MM-dd HH:mm:ss"));
+//        long t3 = System.currentTimeMillis();
+//        LogUtils.info(this.getClass(),"queryActivationEQPId_eqpidNum_usetime["+(t3-t2)+"]factoryList["+factoryList+"]groupName["+groupName+"]beginDateStr["+DateUtils.getStrDate(beginDate, "yyyy-MM-dd HH:mm:ss")+"]endDateStr["+DateUtils.getStrDate(endDate,"yyyy-MM-dd HH:mm:ss") +"]");
+//        for (ActivationDate.StatusDateList statusDateList : ret){
+//            BigDecimal statusNum = statusDateList.getStatusNum();
+//            statusDateList.setStatusNum(statusNum.divide(new BigDecimal(eqpCount),5,BigDecimal.ROUND_HALF_UP));
+//        }
         return ret;
     }
 

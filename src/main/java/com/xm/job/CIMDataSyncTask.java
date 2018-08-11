@@ -5,8 +5,6 @@ import com.xm.platform.util.LogUtils;
 import com.xm.service.dao.cim.*;
 import com.xm.service.dao.factory.cim.*;
 import com.xm.service.dao.login.StoreDAO;
-import com.xm.service.dao.login.TargetDAO;
-import com.xm.service.dao.login.TargetocDAO;
 import org.joda.time.DateTime;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -79,22 +77,114 @@ public class CIMDataSyncTask {
         List<Map<String,Object>> mapDataList = factoryDwsProductInputFidsDAO.queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
         return mapDataList;
     }
-    /**
-     * 投入达成率数据同步，数据按天同步，同步任务每小时跑一次，每次把前三天的数据检查一遍
-     * 首先把工厂数据库前三天的数据查询出来
-     * 根据主键查询数据是否存在，已经存在更新
-     * 不存在新增加
-     */
-    @Scheduled(fixedRate = 1000*60*30)
+
+
+    @Scheduled(fixedRate = 1000*60*5)
+    public void OutputCompletionDataSyncOneDay(){
+        int syncDayNums = 1;
+        syncDWS_PRODUCT_OUTPUT_FIDS(syncDayNums);
+    }
+    @Scheduled(fixedRate = 1000*60*5)
+    public void InputCompletionDataSyncOneDay(){
+        int syncDayNums = 1;
+        syncDWS_PRODUCT_INPUT_FIDS(syncDayNums);
+    }
+    @Scheduled(fixedRate = 1000*60*5)
+    public void ProductOcGoodRateDataSyncOneDay(){
+        int syncDayNums = 1;
+        syncDWS_PRODUCT_OC_YIELD_FIDS(syncDayNums);
+    }
+    @Scheduled(fixedRate = 1000*60*5)
+    public void CycleTimeDataSyncOneDay(){
+        int syncDayNums = 1;
+        syncDWR_PRODUCT_CT_FIDS(syncDayNums);
+    }
+    @Scheduled(fixedRate = 1000*60*5)
+    public void OeeDataSyncOneDay(){
+        int syncDayNums = 1;
+        syncDWR_EQP_OEE_FIDS(syncDayNums);
+    }
+    @Scheduled(fixedRate = 1000*60*5)
+    public void TactTimeDataSyncOneDay(){
+        int syncDayNums = 1;
+        syncDWR_PRODUCT_TT_FIDS(syncDayNums);
+    }
+    @Scheduled(fixedRate = 1000*60*5)
+    public void ProductLineGoodRateDataSyncOneDay(){
+        int syncDayNums = 1;
+        syncDWS_PRODUCT_LINE_YIELD_FIDS(syncDayNums);
+    }
+    @Scheduled(fixedRate = 1000*60*5)
+    public void GoodInProcessDataSyncOneDay(){
+        int syncDayNums = 1;
+        syncDWR_WIP_GLS_FIDS(syncDayNums);
+    }
+    @Scheduled(fixedRate = 1000*60*5)
+    public void OutputCompletionHDataSyncOneDay(){
+        int syncDayNums = 1;
+        syncDWS_PRODUCT_OUTPUT_FIDS_H(syncDayNums);
+    }
+
+
+    @Scheduled(fixedRate = 1000*60*60*24)
+    public void OutputCompletionHDataSync(){
+        int syncDayNums = 30;
+        syncDWS_PRODUCT_OUTPUT_FIDS_H(syncDayNums);
+    }
+    @Scheduled(fixedRate = 1000*60*60*24)
+    public void GoodInProcessDataSync(){
+        int syncDayNums = 30;
+        syncDWR_WIP_GLS_FIDS(syncDayNums);
+    }
+    @Scheduled(fixedRate = 1000*60*60*24)
+    public void ProductLineGoodRateDataSync(){
+        int syncDayNums = 30;
+        syncDWS_PRODUCT_LINE_YIELD_FIDS(syncDayNums);
+    }
+    @Scheduled(fixedRate = 1000*60*60*24)
+    public void OutputCompletionDataSync(){
+        int syncDayNums = 30;
+        syncDWS_PRODUCT_OUTPUT_FIDS(syncDayNums);
+    }
+    @Scheduled(fixedRate = 1000*60*60*24)
     public void InputCompletionDataSync(){
+        int syncDayNums = 30;
+        syncDWS_PRODUCT_INPUT_FIDS(syncDayNums);
+    }
+    @Scheduled(fixedRate = 1000*60*60*24)
+    public void ProductOcGoodRateDataSync(){
+        int syncDayNums = 30;
+        syncDWS_PRODUCT_OC_YIELD_FIDS(syncDayNums);
+    }
+    @Scheduled(fixedRate = 1000*60*60*24)
+    public void CycleTimeDataSync(){
+        int syncDayNums = 30;
+        syncDWR_PRODUCT_CT_FIDS(syncDayNums);
+    }
+    @Scheduled(fixedRate = 1000*60*60*24)
+    public void OeeDataSync(){
+        int syncDayNums = 30;
+        syncDWR_EQP_OEE_FIDS(syncDayNums);
+    }
+    @Scheduled(fixedRate = 1000*60*60*24)
+    public void TactTimeDataSync(){
+        int syncDayNums = 30;
+        syncDWR_PRODUCT_TT_FIDS(syncDayNums);
+    }
+
+    /**
+     * 同步投入达成率
+     * @param syncDayNums
+     */
+    private void syncDWS_PRODUCT_INPUT_FIDS(int syncDayNums) {
         String tableName="DWS_PRODUCT_INPUT_FIDS";
-        LogUtils.info(this.getClass(),"beginSyncInPut["+tableName+"]---");
+        LogUtils.info(this.getClass(), "beginSyncInPut[" + tableName + "]---");
         long t1 = System.currentTimeMillis();
         int offset = 0;
         int limit = 10000;
         try {
             Date maxPeriodDate = getmaxPeriodDate(tableName);
-            maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
+            maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-syncDayNums).toDate();
             while (true){
                 List<Map<String,Object>> mapDataList;
                 try {
@@ -143,6 +233,7 @@ public class CIMDataSyncTask {
         }
         LogUtils.info(this.getClass(),"endSyncInPut["+tableName+"]---");
     }
+
     public boolean notEquals(Object o1,Object o2){
         if (o1==null){
             return o2!=null;
@@ -151,20 +242,15 @@ public class CIMDataSyncTask {
         }
     }
 
-    /**
-     * 产出达成率数据同步
-     * 已测通
-     */
-    @Scheduled(fixedRate = 1000*60*30)
-    public void OutputCompletionDataSync(){
+    private void syncDWS_PRODUCT_OUTPUT_FIDS(int syncDayNums) {
         String tableName="DWS_PRODUCT_OUTPUT_FIDS";
-        LogUtils.info(this.getClass(),"beginSyncOutPut["+tableName+"]---");
+        LogUtils.info(this.getClass(), "beginSyncOutPut[" + tableName + "]---");
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
         try {
             Date maxPeriodDate = getmaxPeriodDate(tableName);
-            maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
+            maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-syncDayNums).toDate();
             while (true){
                 List<Map<String,Object>> mapDataList;
                 try {
@@ -212,23 +298,20 @@ public class CIMDataSyncTask {
             long t2 = System.currentTimeMillis();
             LogUtils.error(this.getClass(), "同步产出达成率[DWS_PRODUCT_OUTPUT_FIDS]数据出现异常，用时" + ((t2 - t1) / 1000) + "秒一共同步[" + offset + "]条数据", e);
         }
-        LogUtils.info(this.getClass(),"endSyncOutPut["+tableName+"]---");
+        LogUtils.info(this.getClass(), "endSyncOutPut[" + tableName + "]---");
     }
 
-    /**
-     * 过货量推移数据同步
-     * 已测通     报错，表没建
-     */
-    @Scheduled(fixedRate = 1000*60*30)
-    public void OutputCompletionHDataSync(){
+
+
+    private void syncDWS_PRODUCT_OUTPUT_FIDS_H(int syncDayNums) {
         String tableName="DWS_PRODUCT_OUTPUT_FIDS_H";
-        LogUtils.info(this.getClass(),"beginSyncOutPutH["+tableName+"]---");
+        LogUtils.info(this.getClass(), "beginSyncOutPutH[" + tableName + "]---");
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
         try {
             Date maxPeriodDate = getmaxPeriodDate(tableName);
-            maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
+            maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-syncDayNums).toDate();
             while (true){
                 List<Map<String,Object>> mapDataList;
                 try {
@@ -274,22 +357,18 @@ public class CIMDataSyncTask {
             long t2 = System.currentTimeMillis();
             LogUtils.error(this.getClass(), "同步过货量推移[DWS_PRODUCT_OUTPUT_FIDS_H]数据出现异常，用时" + ((t2 - t1) / 1000) + "秒一共同步[" + offset + "]条数据", e);
         }
-        LogUtils.info(this.getClass(),"endSyncOutPutH["+tableName+"]---");
+        LogUtils.info(this.getClass(), "endSyncOutPutH[" + tableName + "]---");
     }
 
-    /**
-     * 在制品数据同步
-     * 已测通
-     */
-    @Scheduled(fixedRate = 1000*60*30)
-    public void GoodInProcessDataSync(){
+
+    private void syncDWR_WIP_GLS_FIDS(int syncDayNums) {
         String tableName="DWR_WIP_GLS_FIDS";
-        LogUtils.info(this.getClass(),"beginSyncWip["+tableName+"]---");
+        LogUtils.info(this.getClass(), "beginSyncWip[" + tableName + "]---");
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
         Date maxPeriodDate = getmaxPeriodDate(tableName);
-        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
+        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-syncDayNums).toDate();
         int insertNum = 0;
         int updateNum = 0;
         while (true){
@@ -341,19 +420,15 @@ public class CIMDataSyncTask {
         LogUtils.info(this.getClass(),"endSyncWip["+tableName+"]---");
     }
 
-    /**
-     * 良品率数据同步
-     * 已测通
-     */
-    @Scheduled(fixedRate = 1000*60*30)
-    public void ProductLineGoodRateDataSync(){
+
+    private void syncDWS_PRODUCT_LINE_YIELD_FIDS(int syncDayNums) {
         String tableName="DWS_PRODUCT_LINE_YIELD_FIDS";
-        LogUtils.info(this.getClass(),"beginSyncLine["+tableName+"]---");
+        LogUtils.info(this.getClass(), "beginSyncLine[" + tableName + "]---");
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
         Date maxPeriodDate = getmaxPeriodDate(tableName);
-        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
+        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-syncDayNums).toDate();
         while (true){
             List<Map<String,Object>> mapDataList;
             try {
@@ -398,22 +473,19 @@ public class CIMDataSyncTask {
         }
         long t2 = System.currentTimeMillis();
         LogUtils.info(this.getClass(),"同步良品率[DWS_PRODUCT_LINE_YIELD_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
-        LogUtils.info(this.getClass(),"endSyncLine["+tableName+"]---");
+        LogUtils.info(this.getClass(), "endSyncLine[" + tableName + "]---");
     }
 
-    /**
-     * 单个良品率数据同步
-     * 已测通
-     */
-    @Scheduled(fixedRate = 1000*60*30)
-    public void ProductOcGoodRateDataSync(){
+
+
+    private void syncDWS_PRODUCT_OC_YIELD_FIDS(int syncDayNums) {
         String tableName="DWS_PRODUCT_OC_YIELD_FIDS";
-        LogUtils.info(this.getClass(),"beginSyncOC["+tableName+"]---");
+        LogUtils.info(this.getClass(), "beginSyncOC[" + tableName + "]---");
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
         Date maxPeriodDate = getmaxPeriodDate(tableName);
-        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
+        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-syncDayNums).toDate();
         while (true){
 
             List<Map<String,Object>> mapDataList ;
@@ -443,20 +515,30 @@ public class CIMDataSyncTask {
                         dwsProductOcYieldFidsDAO.addData(mapData);
                     }else {
                         //更新
-                        if (notEquals(data.get("POL_OUTPUT"),mapData.get("POL_OUTPUT"))||
-                                notEquals(data.get("POL_OUTPUT_PA"),mapData.get("POL_OUTPUT_PA"))||
-                                notEquals(data.get("POL_OUTPUT_JUDGE29"),mapData.get("POL_OUTPUT_JUDGE29"))||
-                                notEquals(data.get("MBI_RJ_OUTPUT_PA"),mapData.get("MBI_RJ_OUTPUT_PA"))||
-                                notEquals(data.get("MBI_RJ_OUTPUT_JUDGE29"),mapData.get("MBI_RJ_OUTPUT_JUDGE29"))||
-                                notEquals(data.get("POL_RW_OUTPUT_PA"),mapData.get("POL_RW_OUTPUT_PA"))||
-                                notEquals(data.get("POL_RW_OUTPUT_JUDGE29"),mapData.get("POL_RW_OUTPUT_JUDGE29"))||
-                                notEquals(data.get("IOB_OUTPUT"),mapData.get("IOB_OUTPUT"))||
-                                notEquals(data.get("IOB_EI_OUTPUT_A"),mapData.get("IOB_EI_OUTPUT_A"))||
-                                notEquals(data.get("IOB_EI_OUTPUT_FA"),mapData.get("IOB_EI_OUTPUT_FA"))||
-                                notEquals(data.get("IOB_EI_OUTPUT_S"),mapData.get("IOB_EI_OUTPUT_S"))||
-                                notEquals(data.get("IOB_EI_OUTPUT_RW_A"),mapData.get("IOB_EI_OUTPUT_RW_A"))||
-                                notEquals(data.get("IOB_EI_OUTPUT_RW_FA"),mapData.get("IOB_EI_OUTPUT_RW_FA"))||
-                                notEquals(data.get("IOB_EI_OUTPUT_RW_S"),mapData.get("IOB_EI_OUTPUT_RW_S"))
+                        if (
+                                        notEquals(data.get("ACTUAL_REPAIR_YIELD_D"),mapData.get("ACTUAL_REPAIR_YIELD_D"))||
+                                        notEquals(data.get("OEI_OUTPUT_AM"),mapData.get("OEI_OUTPUT_AM"))||
+                                        notEquals(data.get("OEI_OUTPUT_D"),mapData.get("OEI_OUTPUT_D"))||
+                                        notEquals(data.get("OEI_OUTPUT_B"),mapData.get("OEI_OUTPUT_B"))||
+                                        notEquals(data.get("OEI_OUTPUT_JUDGE39"),mapData.get("OEI_OUTPUT_JUDGE39"))||
+                                        notEquals(data.get("OEI_OUTPUT_JUDGE37"),mapData.get("OEI_OUTPUT_JUDGE37"))||
+                                        notEquals(data.get("OEI_OUTPUT_JUDGE29"),mapData.get("OEI_OUTPUT_JUDGE29"))||
+                                        notEquals(data.get("OEI_OUTPUT_JUDGE28"),mapData.get("OEI_OUTPUT_JUDGE28"))||
+                                        notEquals(data.get("OEI_OUTPUT_JUDGE25"),mapData.get("OEI_OUTPUT_JUDGE25"))||
+                                        notEquals(data.get("OEI_OUTPUT_JUDGE23"),mapData.get("OEI_OUTPUT_JUDGE23"))||
+                                        notEquals(data.get("OEI_OUTPUT_JUDGE22"),mapData.get("OEI_OUTPUT_JUDGE22"))||
+                                        notEquals(data.get("OEI_OUTPUT_JUDGE21"),mapData.get("OEI_OUTPUT_JUDGE21"))||
+                                        notEquals(data.get("OEI_OUTPUT_JUDGE20"),mapData.get("OEI_OUTPUT_JUDGE20"))||
+                                        notEquals(data.get("OEI_OUTPUT_FA"),mapData.get("OEI_OUTPUT_FA"))||
+                                        notEquals(data.get("OEI_OUTPUT_A"),mapData.get("OEI_OUTPUT_A"))||
+                                        notEquals(data.get("OEI_OUTPUT_S"),mapData.get("OEI_OUTPUT_S"))||
+                                        notEquals(data.get("OEI_OUTPUT"),mapData.get("OEI_OUTPUT"))||
+                                        notEquals(data.get("MBI_OUTPUT_PD"),mapData.get("MBI_OUTPUT_PD"))||
+                                        notEquals(data.get("MBI_OUTPUT"),mapData.get("MBI_OUTPUT"))||
+                                        notEquals(data.get("MBI_OUTPUT_JUDGE29"),mapData.get("MBI_OUTPUT_JUDGE29"))||
+                                        notEquals(data.get("MBI_OUTPUT_PA"),mapData.get("MBI_OUTPUT_PA"))||
+                                        notEquals(data.get("ABI_OUTPUT_JUDGE29"),mapData.get("ABI_OUTPUT_JUDGE29"))||
+                                        notEquals(data.get("ABI_OUTPUT_PA"),mapData.get("ABI_OUTPUT_PA"))
                                 ){
                             dwsProductOcYieldFidsDAO.updateData(mapData);
                         }
@@ -475,19 +557,18 @@ public class CIMDataSyncTask {
 
 
 
-    /**
-     * CycleTime数据同步
-     * 已测通   有重复数据
-     */
-    @Scheduled(fixedRate = 1000*60*30)
-    public void CycleTimeDataSync(){
+
+
+
+
+    private void syncDWR_PRODUCT_CT_FIDS(int syncDayNums) {
         String tableName="DWR_PRODUCT_CT_FIDS";
-        LogUtils.info(this.getClass(),"beginSyncCycleTime["+tableName+"]---");
+        LogUtils.info(this.getClass(), "beginSyncCycleTime[" + tableName + "]---");
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
         Date maxPeriodDate = getmaxPeriodDate(tableName);
-        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
+        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-syncDayNums).toDate();
         while (true){
             List<Map<String,Object>> mapDataList;
             try {
@@ -535,20 +616,17 @@ public class CIMDataSyncTask {
     }
 
     private static ExecutorService oeeThreadPool = Executors.newFixedThreadPool(30);
-    /**
-     * 稼动率数据同步
-     * 已测通  有报错
-     */
-    @Scheduled(fixedRate = 1000*60*60*20)
-    public void OeeDataSync(){
+
+
+    private void syncDWR_EQP_OEE_FIDS(int syncDayNums) {
         String tableName="DWR_EQP_OEE_FIDS";
-        LogUtils.info(this.getClass(),"beginSyncOEE["+tableName+"]---");
+        LogUtils.info(this.getClass(), "beginSyncOEE[" + tableName + "]---");
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
 
         Date maxPeriodDate = getmaxPeriodDate(tableName);
-        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
+        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-syncDayNums).toDate();
         while (true){
             long t111 = System.currentTimeMillis();
             List<Map<String,Object>> mapDataList;
@@ -588,7 +666,9 @@ public class CIMDataSyncTask {
                         LogUtils.info(this.getClass(), "同步稼动率[DWR_EQP_OEE_FIDS]数据单条插入addData用时["+(t10-t9)+"]");
                     } else {
                         //更新
-                        if (notEquals(data.get("STATUS_DURATION"), mapData.get("STATUS_DURATION"))) {
+                        if (notEquals(data.get("STATUS_DURATION"), mapData.get("STATUS_DURATION")) ||
+                                notEquals(data.get("LOCATION"), mapData.get("LOCATION"))
+                                ) {
                             long t11 = System.currentTimeMillis();
                             dwrEqpOeeFidsDAO.updateData(mapData);
                             long t12 = System.currentTimeMillis();
@@ -607,94 +687,20 @@ public class CIMDataSyncTask {
         }
         long t2 = System.currentTimeMillis();
         LogUtils.info(this.getClass(),"同步稼动率[DWR_EQP_OEE_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
-        LogUtils.info(this.getClass(),"endSyncOEE["+tableName+"]---");
+        LogUtils.info(this.getClass(), "endSyncOEE[" + tableName + "]---");
     }
 
-    @Scheduled(fixedRate = 1000*60*30)
-    public void OeeDataSyncToday(){
-        String tableName="DWR_EQP_OEE_FIDS";
-        LogUtils.info(this.getClass(),"beginSyncOEE["+tableName+"]OeeDataSyncToday ---");
-        int offset = 0;
-        int limit = 10000;
-        long t1 = System.currentTimeMillis();
 
-        Date maxPeriodDate = getmaxPeriodDate(tableName);
-        maxPeriodDate = new DateTime(maxPeriodDate).plusHours(-25).toDate();
-        while (true){
-            long t111 = System.currentTimeMillis();
-            List<Map<String,Object>> mapDataList;
-            try {
-                String orderby = "FACTORY ,EQP_ID, EQP_TYPE,EQP_STATUS";
-                mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
-                long t22 = System.currentTimeMillis();
-                LogUtils.info(this.getClass(),"同步稼动率[DWR_EQP_OEE_FIDS]OeeDataSyncToday querySyncData用时"+(t22-t111)+"毫秒参数offset" + offset + " limit" + limit);
-            }catch (Exception e){
-                LogUtils.error(this.getClass(),"同步稼动率[DWR_EQP_OEE_FIDS]OeeDataSyncToday offset["+offset+"]limit["+limit+"]querySyncData exception",e);
-                try {
-                    Thread.sleep(100l);
-                } catch (InterruptedException e1) {
-                    LogUtils.error(this.getClass(), e1);
-                }
-                continue;
-            }
-            if (CollectionUtils.isEmpty(mapDataList)){
-                LogUtils.info(this.getClass(),"emptySyncOEE["+tableName+"]OeeDataSyncToday ---");
-                break;
-            }
-            long t3 = System.currentTimeMillis();
-            mapDataList.stream().parallel().forEach(mapData -> {
-                long t5 = System.currentTimeMillis();
-                try {
-                    Timestamp timestamp = (Timestamp)mapData.get("PERIODDATE");
-                    mapData.put("PERIODDATE_str",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(timestamp));
-                    long t7 = System.currentTimeMillis();
-                    Map<String, Object> data = dwrEqpOeeFidsDAO.loadByPrimaryKey(mapData);
-                    long t8 = System.currentTimeMillis();
-                    LogUtils.info(this.getClass(), "同步稼动率[DWR_EQP_OEE_FIDS]OeeDataSyncToday 数据单条查询loadByPrimaryKey用时["+(t8-t7)+"]");
-                    if (data == null) {
-                        //添加
-                        long t9 = System.currentTimeMillis();
-                        dwrEqpOeeFidsDAO.addData(mapData);
-                        long t10 = System.currentTimeMillis();
-                        LogUtils.info(this.getClass(), "同步稼动率[DWR_EQP_OEE_FIDS]OeeDataSyncToday 数据单条插入addData用时["+(t10-t9)+"]");
-                    } else {
-                        //更新
-                        if (notEquals(data.get("STATUS_DURATION"), mapData.get("STATUS_DURATION"))) {
-                            long t11 = System.currentTimeMillis();
-                            dwrEqpOeeFidsDAO.updateData(mapData);
-                            long t12 = System.currentTimeMillis();
-                            LogUtils.info(this.getClass(), "同步稼动率[DWR_EQP_OEE_FIDS]OeeDataSyncToday 数据单条更新updateData用时["+(t12-t11)+"]");
-                        }
-                    }
-                } catch (Exception e) {
-                    LogUtils.error(this.getClass(), "同步稼动率[DWR_EQP_OEE_FIDS]OeeDataSyncToday 数据单条处理失败原数据[" + JSON.toJSONString(mapData) + "]", e);
-                }
-                long t6 = System.currentTimeMillis();
-                LogUtils.info(this.getClass(), "同步稼动率[DWR_EQP_OEE_FIDS]OeeDataSyncToday 数据单条处理用时[" + (t6 - t5) + "]");
-            });
-            offset = offset+limit;
-            long t4 = System.currentTimeMillis();
-            LogUtils.info(this.getClass(),"同步稼动率[DWR_EQP_OEE_FIDS]OeeDataSyncToday 批次处理结束 保存用时"+(t4-t3)+"毫秒 总用时"+(t4-t1)+"参数offset" + offset + " limit" + limit);
-        }
-        long t2 = System.currentTimeMillis();
-        LogUtils.info(this.getClass(),"同步稼动率[DWR_EQP_OEE_FIDS]OeeDataSyncToday 数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
-        LogUtils.info(this.getClass(),"endSyncOEE["+tableName+"]OeeDataSyncToday ---");
-    }
 
-    /**
-     * TactTime数据同步
-     * 已测通
-     */
-    @Scheduled(fixedRate = 1000*60*30)
-    public void TactTimeDataSync(){
+    private void syncDWR_PRODUCT_TT_FIDS(int syncDayNums) {
         String tableName="DWR_PRODUCT_TT_FIDS";
-        LogUtils.info(this.getClass(),"beginSyncTactTime["+tableName+"]---");
+        LogUtils.info(this.getClass(), "beginSyncTactTime[" + tableName + "]---");
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
 
         Date maxPeriodDate = getmaxPeriodDate(tableName);
-        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-200).toDate();
+        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-syncDayNums).toDate();
         while (true){
             List<Map<String,Object>> mapDataList;
             try {

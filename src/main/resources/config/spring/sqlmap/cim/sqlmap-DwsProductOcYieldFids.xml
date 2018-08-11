@@ -2,23 +2,67 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.cim.DwsProductOcYieldFidsDAO" >
 
+    <sql id="inline">
+          (
+            (
+              sum(ABI_OUTPUT_PA)+
+              sum(MBI_OUTPUT_PA)+
+              sum(ABI_OUTPUT_JUDGE29)+
+              sum(MBI_OUTPUT_JUDGE29)-
+              sum(OEI_OUTPUT_JUDGE37)
+            )
+            /
+            (
+              (
+                sum(ABI_OUTPUT_PA)+
+                sum(MBI_OUTPUT)
+              )
+            )
+            +
+            (
+              sum(MBI_OUTPUT_PD)+
+              sum(OEI_OUTPUT_JUDGE37)
+            )
+            /
+            (
+              sum(ABI_OUTPUT_PA)+
+              sum(MBI_OUTPUT)
+            )
+            +
+              sum(ACTUAL_REPAIR_YIELD_D)
+          )
+          *
+          (
+            (
+              sum(OEI_OUTPUT_S)+
+              sum(OEI_OUTPUT_A)+
+              sum(OEI_OUTPUT_FA)+
+              sum(OEI_OUTPUT_JUDGE20)+
+              sum(OEI_OUTPUT_JUDGE21)+
+              sum(OEI_OUTPUT_JUDGE22)+
+              sum(OEI_OUTPUT_JUDGE23)+
+              sum(OEI_OUTPUT_JUDGE25)+
+              sum(OEI_OUTPUT_JUDGE28)+
+              sum(OEI_OUTPUT_JUDGE29)+
+              sum(OEI_OUTPUT_JUDGE37)+
+              sum(OEI_OUTPUT_JUDGE39)
+            )/sum(OEI_OUTPUT)
+            +
+            (
+              sum(OEI_OUTPUT_B)+
+              sum(OEI_OUTPUT_D)+
+              sum(OEI_OUTPUT_AM)-
+              sum(OEI_OUTPUT_JUDGE37)-
+              sum(OEI_OUTPUT_JUDGE39)
+            )/sum(OEI_OUTPUT)
+            +
+            sum(ACTUAL_REPAIR_YIELD_D)
+          )
+    </sql>
+
     <select id="queryProductOcData" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcDetailData" parameterType="Map">
         select
-        sum(POL_OUTPUT) as polOutPut,
-        sum(POL_OUTPUT_PA)+
-        sum(POL_OUTPUT_JUDGE29)+
-        sum(MBI_RJ_OUTPUT_PA)+
-        sum(MBI_RJ_OUTPUT_JUDGE29)+
-        sum(POL_RW_OUTPUT_PA)+
-        sum(POL_RW_OUTPUT_JUDGE29) as polOutPutSum,
-
-        sum(IOB_OUTPUT) as iobOutPut,
-        sum(IOB_EI_OUTPUT_A)+
-        sum(IOB_EI_OUTPUT_FA)+
-        sum(IOB_EI_OUTPUT_S)+
-        sum(IOB_EI_OUTPUT_RW_A)+
-        sum(IOB_EI_OUTPUT_RW_FA)+
-        sum(IOB_EI_OUTPUT_RW_S) as iobOutPutSum,
+        <include refid="inline"/> as inLine,
         <if test="dateType=='month'.toString()">/*按月*/
             TO_CHAR(PERIODDATE,'MM')||'月'
         </if>
@@ -62,21 +106,7 @@
         SELECT
         decode(PRODUCTID,'C41A','50', 'D41A','50','A1CC495PU1L01','50','D0NL495PU1L01','50',
         'C51A','58','D51A','58','A1CC575PU1L01','58','A1CC575PU3L01','58',PRODUCTID) as productName,
-        sum(POL_OUTPUT) as polOutPut,
-        sum(POL_OUTPUT_PA)+
-        sum(POL_OUTPUT_JUDGE29)+
-        sum(MBI_RJ_OUTPUT_PA)+
-        sum(MBI_RJ_OUTPUT_JUDGE29)+
-        sum(POL_RW_OUTPUT_PA)+
-        sum(POL_RW_OUTPUT_JUDGE29) as polOutPutSum,
-
-        sum(IOB_OUTPUT) as iobOutPut,
-        sum(IOB_EI_OUTPUT_A)+
-        sum(IOB_EI_OUTPUT_FA)+
-        sum(IOB_EI_OUTPUT_S)+
-        sum(IOB_EI_OUTPUT_RW_A)+
-        sum(IOB_EI_OUTPUT_RW_FA)+
-        sum(IOB_EI_OUTPUT_RW_S) as iobOutPutSum
+        <include refid="inline"/> as inLine
         FROM
         DWS_PRODUCT_OC_YIELD_FIDS
         WHERE
@@ -109,6 +139,7 @@
         </if>
     </select>
 
+
     <insert id="addData" parameterType="map">
         INSERT INTO  DWS_PRODUCT_OC_YIELD_FIDS
         (
@@ -116,59 +147,88 @@
             PERIODDATE,
             PRODUCTTYPE,
             PRODUCTID,
-            POL_OUTPUT,
-            POL_OUTPUT_PA,
-            POL_OUTPUT_JUDGE29,
-            MBI_RJ_OUTPUT_PA,
-            MBI_RJ_OUTPUT_JUDGE29,
-            POL_RW_OUTPUT_PA,
-            POL_RW_OUTPUT_JUDGE29,
-            IOB_OUTPUT,
-            IOB_EI_OUTPUT_A,
-            IOB_EI_OUTPUT_FA,
-            IOB_EI_OUTPUT_S,
-            IOB_EI_OUTPUT_RW_A,
-            IOB_EI_OUTPUT_RW_FA,
-            IOB_EI_OUTPUT_RW_S
+
+            ABI_OUTPUT_PA,
+            ABI_OUTPUT_JUDGE29,
+            MBI_OUTPUT_PA,
+            MBI_OUTPUT_JUDGE29,
+            MBI_OUTPUT,
+            MBI_OUTPUT_PD,
+            OEI_OUTPUT,
+            OEI_OUTPUT_S,
+            OEI_OUTPUT_A,
+            OEI_OUTPUT_FA,
+            OEI_OUTPUT_JUDGE20,
+            OEI_OUTPUT_JUDGE21,
+            OEI_OUTPUT_JUDGE22,
+            OEI_OUTPUT_JUDGE23,
+            OEI_OUTPUT_JUDGE25,
+            OEI_OUTPUT_JUDGE28,
+            OEI_OUTPUT_JUDGE29,
+            OEI_OUTPUT_JUDGE37,
+            OEI_OUTPUT_JUDGE39,
+            OEI_OUTPUT_B,
+            OEI_OUTPUT_D,
+            OEI_OUTPUT_AM,
+            ACTUAL_REPAIR_YIELD_D
         ) VALUES
         (
             #{FACTORY,jdbcType=VARCHAR},
             #{PERIODDATE,jdbcType=DATE},
             #{PRODUCTTYPE,jdbcType=VARCHAR},
             #{PRODUCTID,jdbcType=VARCHAR},
-            #{POL_OUTPUT,jdbcType=DOUBLE},
-            #{POL_OUTPUT_PA,jdbcType=DOUBLE},
-            #{POL_OUTPUT_JUDGE29,jdbcType=DOUBLE},
-            #{MBI_RJ_OUTPUT_PA,jdbcType=DOUBLE},
-            #{MBI_RJ_OUTPUT_JUDGE29,jdbcType=DOUBLE},
-            #{POL_RW_OUTPUT_PA,jdbcType=DOUBLE},
-            #{POL_RW_OUTPUT_JUDGE29,jdbcType=DOUBLE},
-            #{IOB_OUTPUT,jdbcType=DOUBLE},
-            #{IOB_EI_OUTPUT_A,jdbcType=DOUBLE},
-            #{IOB_EI_OUTPUT_FA,jdbcType=DOUBLE},
-            #{IOB_EI_OUTPUT_S,jdbcType=DOUBLE},
-            #{IOB_EI_OUTPUT_RW_A,jdbcType=DOUBLE},
-            #{IOB_EI_OUTPUT_RW_FA,jdbcType=DOUBLE},
-            #{IOB_EI_OUTPUT_RW_S,jdbcType=DOUBLE}
+
+            #{ABI_OUTPUT_PA,jdbcType=DOUBLE},
+            #{ABI_OUTPUT_JUDGE29,jdbcType=DOUBLE},
+            #{MBI_OUTPUT_PA,jdbcType=DOUBLE},
+            #{MBI_OUTPUT_JUDGE29,jdbcType=DOUBLE},
+            #{MBI_OUTPUT,jdbcType=DOUBLE},
+            #{MBI_OUTPUT_PD,jdbcType=DOUBLE},
+            #{OEI_OUTPUT,jdbcType=DOUBLE},
+            #{OEI_OUTPUT_S,jdbcType=DOUBLE},
+            #{OEI_OUTPUT_A,jdbcType=DOUBLE},
+            #{OEI_OUTPUT_FA,jdbcType=DOUBLE},
+            #{OEI_OUTPUT_JUDGE20,jdbcType=DOUBLE},
+            #{OEI_OUTPUT_JUDGE21,jdbcType=DOUBLE},
+            #{OEI_OUTPUT_JUDGE22,jdbcType=DOUBLE},
+            #{OEI_OUTPUT_JUDGE23,jdbcType=DOUBLE},
+            #{OEI_OUTPUT_JUDGE25,jdbcType=DOUBLE},
+            #{OEI_OUTPUT_JUDGE28,jdbcType=DOUBLE},
+            #{OEI_OUTPUT_JUDGE29,jdbcType=DOUBLE},
+            #{OEI_OUTPUT_JUDGE37,jdbcType=DOUBLE},
+            #{OEI_OUTPUT_JUDGE39,jdbcType=DOUBLE},
+            #{OEI_OUTPUT_B,jdbcType=DOUBLE},
+            #{OEI_OUTPUT_D,jdbcType=DOUBLE},
+            #{OEI_OUTPUT_AM,jdbcType=DOUBLE},
+            #{ACTUAL_REPAIR_YIELD_D,jdbcType=DOUBLE}
         )
     </insert>
 
     <update id="updateData" parameterType="map">
         UPDATE DWS_PRODUCT_OC_YIELD_FIDS set
-            POL_OUTPUT = #{POL_OUTPUT,jdbcType=DOUBLE},
-            POL_OUTPUT_PA = #{POL_OUTPUT_PA,jdbcType=DOUBLE},
-            POL_OUTPUT_JUDGE29 = #{POL_OUTPUT_JUDGE29,jdbcType=DOUBLE},
-            MBI_RJ_OUTPUT_PA = #{MBI_RJ_OUTPUT_PA,jdbcType=DOUBLE},
-            MBI_RJ_OUTPUT_JUDGE29 = #{MBI_RJ_OUTPUT_JUDGE29,jdbcType=DOUBLE},
-            POL_RW_OUTPUT_PA = #{POL_RW_OUTPUT_PA,jdbcType=DOUBLE},
-            POL_RW_OUTPUT_JUDGE29 = #{POL_RW_OUTPUT_JUDGE29,jdbcType=DOUBLE},
-            IOB_OUTPUT = #{IOB_OUTPUT,jdbcType=DOUBLE},
-            IOB_EI_OUTPUT_A = #{IOB_EI_OUTPUT_A,jdbcType=DOUBLE},
-            IOB_EI_OUTPUT_FA = #{IOB_EI_OUTPUT_FA,jdbcType=DOUBLE},
-            IOB_EI_OUTPUT_S = #{IOB_EI_OUTPUT_S,jdbcType=DOUBLE},
-            IOB_EI_OUTPUT_RW_A = #{IOB_EI_OUTPUT_RW_A,jdbcType=DOUBLE},
-            IOB_EI_OUTPUT_RW_FA = #{IOB_EI_OUTPUT_RW_FA,jdbcType=DOUBLE},
-            IOB_EI_OUTPUT_RW_S = #{IOB_EI_OUTPUT_RW_S,jdbcType=DOUBLE}
+        ABI_OUTPUT_PA=#{ABI_OUTPUT_PA,jdbcType=DOUBLE},
+        ABI_OUTPUT_JUDGE29=#{ABI_OUTPUT_JUDGE29,jdbcType=DOUBLE},
+        MBI_OUTPUT_PA=#{MBI_OUTPUT_PA,jdbcType=DOUBLE},
+        MBI_OUTPUT_JUDGE29=#{MBI_OUTPUT_JUDGE29,jdbcType=DOUBLE},
+        MBI_OUTPUT=#{MBI_OUTPUT,jdbcType=DOUBLE},
+        MBI_OUTPUT_PD=#{MBI_OUTPUT_PD,jdbcType=DOUBLE},
+        OEI_OUTPUT=#{OEI_OUTPUT,jdbcType=DOUBLE},
+        OEI_OUTPUT_S=#{OEI_OUTPUT_S,jdbcType=DOUBLE},
+        OEI_OUTPUT_A=#{OEI_OUTPUT_A,jdbcType=DOUBLE},
+        OEI_OUTPUT_FA=#{OEI_OUTPUT_FA,jdbcType=DOUBLE},
+        OEI_OUTPUT_JUDGE20=#{OEI_OUTPUT_JUDGE20,jdbcType=DOUBLE},
+        OEI_OUTPUT_JUDGE21=#{OEI_OUTPUT_JUDGE21,jdbcType=DOUBLE},
+        OEI_OUTPUT_JUDGE22=#{OEI_OUTPUT_JUDGE22,jdbcType=DOUBLE},
+        OEI_OUTPUT_JUDGE23=#{OEI_OUTPUT_JUDGE23,jdbcType=DOUBLE},
+        OEI_OUTPUT_JUDGE25=#{OEI_OUTPUT_JUDGE25,jdbcType=DOUBLE},
+        OEI_OUTPUT_JUDGE28=#{OEI_OUTPUT_JUDGE28,jdbcType=DOUBLE},
+        OEI_OUTPUT_JUDGE29=#{OEI_OUTPUT_JUDGE29,jdbcType=DOUBLE},
+        OEI_OUTPUT_JUDGE37=#{OEI_OUTPUT_JUDGE37,jdbcType=DOUBLE},
+        OEI_OUTPUT_JUDGE39=#{OEI_OUTPUT_JUDGE39,jdbcType=DOUBLE},
+        OEI_OUTPUT_B=#{OEI_OUTPUT_B,jdbcType=DOUBLE},
+        OEI_OUTPUT_D=#{OEI_OUTPUT_D,jdbcType=DOUBLE},
+        OEI_OUTPUT_AM=#{OEI_OUTPUT_AM,jdbcType=DOUBLE},
+        ACTUAL_REPAIR_YIELD_D=#{ACTUAL_REPAIR_YIELD_D,jdbcType=DOUBLE}
         WHERE
             FACTORY = #{FACTORY,jdbcType=VARCHAR} and
             PERIODDATE = #{PERIODDATE,jdbcType=DATE} and

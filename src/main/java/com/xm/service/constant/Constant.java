@@ -85,10 +85,10 @@ public class Constant {
      * 厂别与EQP类型
      */
     public static final Map<String,List<String>> factoryProductIdListMap = MapUtils.newMap(
-            "ARRAY", Lists.newArrayList("PHOTO", "PVD", "CVD", "WET", "DE"),
+            "ARRAY", Lists.newArrayList("PHOTO", "PVD", "CVD", "WET", "DRY"),
             "CELL", Lists.newArrayList("PI", "FDV", "ODF", "HSW", "KOL"),
             "CF", Lists.newArrayList("BM", "ITO", "PS", "RGB", "RML"),
-            "SL-OC", Lists.newArrayList("MBD","POL","OLB","MLR","Aging")
+            "SL-OC", Lists.newArrayList("MBD","POL","OLB","MLR","OEI")
     );
 
     /**
@@ -99,10 +99,10 @@ public class Constant {
      * 厂别与EQP类型
      */
     public static final Map<String,List<String>> factoryEQPStatusListMap = MapUtils.newMap(
-            "ARRAY", Lists.newArrayList("PHOTO", "PVD", "CVD", "WET", "DE"),
+            "ARRAY", Lists.newArrayList("PHOTO", "PVD", "CVD", "WET", "DRY"),
             "CELL", Lists.newArrayList("PI", "FDV", "ODF", "HSW", "KOL"),
             "CF", Lists.newArrayList("BM", "ITO", "PS", "RGB", "RML"),
-            "SL-OC", Lists.newArrayList("MBD","POL","OLB","MLB","Aging")
+            "SL-OC", Lists.newArrayList("MBD","POL","OLB","MLR","OEI")
     );
 
     /**

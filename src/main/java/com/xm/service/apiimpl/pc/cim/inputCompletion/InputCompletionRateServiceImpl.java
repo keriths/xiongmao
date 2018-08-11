@@ -30,8 +30,8 @@ public class InputCompletionRateServiceImpl{
 //    }
 public static Map<String,List<String>> productMap = new HashMap<>();
     static {
-        productMap.put("50", Lists.newArrayList("C41A","D41A"));
-        productMap.put("58", Lists.newArrayList("C51A","D51A","D52A","D53A"));
+        productMap.put("50", Lists.newArrayList("D41A"));
+        productMap.put("58", Lists.newArrayList("D51A","D52A","D53A"));
     }
 
     @Resource

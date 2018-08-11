@@ -5,23 +5,35 @@
         select
             avg(TT_TARGET) as target,
             avg(NVL(TOTAL_TT,0))/avg(TOTAL_GLS_QTY) as actual,
-            gg.GROUPNAME  as productId
+            gg.BIG_EQP_TYPE  as productId
         from DWR_PRODUCT_TT_FIDS tt
-        join FACTORY_GROUP_EQP_MAPPING gg on gg.EQP_ID = tt.EQP_ID
+        join DWR_EQPTYPE_MASTER_FIDS gg on gg.EQP_TYPE = tt.EQP_TYPE
         WHERE
             tt.FACTORY IN
             <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
                 #{factory}
             </foreach>
-             and gg.GROUPNAME IN
+             and gg.BIG_EQP_TYPE IN
             <foreach collection="productIdList" item="productId" open="(" separator="," close=")" >
                 #{productId}
             </foreach>
+            and
+            (
+                (
+                    tt.FACTORY IN ( 'ARRAY','CELL','CF','SL')
+                    and tt.PRODUCTTYPE IN ('CS','MP','CM')
+                )
+                OR
+                (
+                    tt.FACTORY = 'OC'
+                    and tt.PRODUCTTYPE IN ('ZP21','ZP24','ZP10')
+                )
+            )
         <![CDATA[
           and PERIODDATE >= #{beginDate}
           and PERIODDATE <= #{endDate}
           ]]>
-        group by gg.GROUPNAME
+        group by gg.BIG_EQP_TYPE
     </select>
 
     <select id="queryTactTimeListByProductIdAndTime" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeProductTimeListRetDTO$TactTimeProductDetail">
@@ -29,25 +41,33 @@
           avg(NVL(TT_TARGET,0)) as target,
           avg(NVL(TOTAL_TT,0))/avg(TOTAL_GLS_QTY) as total,
           to_char(PERIODDATE,'MM/DD') as periodDate,
-          gg.GROUPNAME as PRODUCTID
+          gg.BIG_EQP_TYPE as PRODUCTID
         FROM
           DWR_PRODUCT_TT_FIDS tt
-          join FACTORY_GROUP_EQP_MAPPING gg on gg.EQP_ID = tt.EQP_ID
+          join DWR_EQPTYPE_MASTER_FIDS gg on gg.EQP_TYPE = tt.EQP_TYPE
         WHERE
             tt.FACTORY IN
             <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
                 #{factory}
             </foreach>
-            and PRODUCTTYPE NOT IN
-            <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
-                #{productType}
-            </foreach>
-            and gg.GROUPNAME=#{productId}
+            and
+            (
+                (
+                    tt.FACTORY IN ( 'ARRAY','CELL','CF','SL')
+                    and tt.PRODUCTTYPE IN ('CS','MP','CM')
+                )
+                OR
+                (
+                    tt.FACTORY = 'OC'
+                    and tt.PRODUCTTYPE IN ('ZP21','ZP24','ZP10')
+                )
+            )
+            and gg.BIG_EQP_TYPE=#{productId}
             <![CDATA[
             and PERIODDATE >= #{beginDate}
             and PERIODDATE <= #{endDate}
             ]]>
-        group by gg.GROUPNAME,to_char(PERIODDATE,'MM/DD')
+        group by gg.BIG_EQP_TYPE,to_char(PERIODDATE,'MM/DD')
     </select>
 
     <select id="loadByPrimaryKey" parameterType="map" resultType="map">

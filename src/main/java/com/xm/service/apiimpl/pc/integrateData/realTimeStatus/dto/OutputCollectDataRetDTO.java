@@ -2,6 +2,7 @@ package com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.RandomUtils;
+import com.xm.service.constant.Constant;
 import com.xm.service.dto.BaseRetDTO;
 
 import java.math.BigDecimal;
@@ -33,6 +34,10 @@ public class OutputCollectDataRetDTO extends BaseRetDTO {
         private String periodDate;
 
         public String getProductName() {
+            String name = Constant.productIdNameMap.get(productName);
+            if (name!=null){
+                return name;
+            }
             return productName;
         }
 

@@ -47,8 +47,11 @@ public class ActivationStatusDate implements Serializable {
         @ApiResultFieldDesc(desc = "EQP状态,如RUN,TRB,WAIT,MAN,MNT")
         private String status;
         @ApiResultFieldDesc(desc = "EQP状态累计时间")
-        public BigDecimal statusNum;
+        private BigDecimal statusNum = BigDecimal.ZERO;
 
+        public BigDecimal getOriginalStatusNum(){
+            return statusNum!=null?statusNum:BigDecimal.ZERO;
+        }
 
         public String getFactory() {
             return factory;
@@ -116,6 +119,19 @@ public class ActivationStatusDate implements Serializable {
 
     public void setStatusNumberLists(List<StatusNumberList> statusNumberLists) {
         this.statusNumberLists = statusNumberLists;
+        total = new BigDecimal("60");
+        BigDecimal listTotal = new BigDecimal("0");
+        for (StatusNumberList statusNumberList:statusNumberLists){
+            listTotal = listTotal.add(statusNumberList.getOriginalStatusNum());
+        }
+        if (listTotal.intValue()==0){
+            total = BigDecimal.ZERO;
+            return;
+        }
+        for (StatusNumberList statusNumberList:statusNumberLists){
+            BigDecimal hourNum = statusNumberList.getOriginalStatusNum().multiply(total).divide(listTotal,2,BigDecimal.ROUND_HALF_UP);
+            statusNumberList.setStatusNum(hourNum);
+        }
     }
 
     public String getPeriodDate() {
@@ -127,11 +143,13 @@ public class ActivationStatusDate implements Serializable {
     }
 
     public BigDecimal getTotal() {
-        //TODO 目标值的实现
+        if (total!=null){
+            return total;
+        }
         BigDecimal total=new BigDecimal(0);
         if(!CollectionUtils.isEmpty(statusNumberLists)) {
             for (StatusNumberList s : statusNumberLists) {
-                total = total.add((s.statusNum==null?BigDecimal.ZERO:s.statusNum));
+                total = total.add((s.getOriginalStatusNum()));
             }
         }
         return total.setScale(2,BigDecimal.ROUND_HALF_UP);
@@ -142,24 +160,21 @@ public class ActivationStatusDate implements Serializable {
     }
 
     public BigDecimal getActivation() {
-        //TODO 稼动率的实现
-        BigDecimal activation=new BigDecimal(100);
+        if (activation!=null){
+            return activation;
+        }
         BigDecimal all=getTotal();
+        if(all.compareTo(new BigDecimal(0))==0){//等于0
+            activation=new BigDecimal(0);
+            return activation;
+        }
         BigDecimal activationNum=new BigDecimal("0");
-        if(!CollectionUtils.isEmpty(statusNumberLists)) {
-            if(all.compareTo(new BigDecimal(0))==0){//等于0
-                activation=new BigDecimal(0);
-            }else{
-                for (StatusNumberList a : statusNumberLists) {
-                    if("RUN".equals(a.getStatus())){
-                        activationNum = activationNum.add((a.getStatusNum()));
-                    }else if ("WAT".equals(a.getStatus())){
-                        activationNum = activationNum.add((a.getStatusNum()));
-                    }
-                }
-                activation = activationNum.multiply(new BigDecimal("100")).divide(all,1, RoundingMode.HALF_UP);
+        for (StatusNumberList a : statusNumberLists) {
+            if("RUN".equals(a.getStatus()) ){
+                activationNum = activationNum.add((a.getStatusNum()));
             }
         }
+        activation = activationNum.multiply(new BigDecimal("100")).divide(all,1, RoundingMode.HALF_UP);
         return activation;
 
     }

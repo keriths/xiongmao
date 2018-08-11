@@ -60,21 +60,26 @@ public class RealTimeStatusServiceImpl {
                     factoryEquiStatusNumCollectDTO.factory = equipmentData.getFactory();
                     factoryStatusNumMap.put(equipmentData.getFactory(), factoryEquiStatusNumCollectDTO);
                 }
-                factoryEquiStatusNumCollectDTO.totalNum = factoryEquiStatusNumCollectDTO.totalNum+equipmentData.getCount();
+
                 if ("MAN".equals(equipmentData.getVal())){
                     factoryEquiStatusNumCollectDTO.pmNum = factoryEquiStatusNumCollectDTO.pmNum+equipmentData.getCount();
+                    factoryEquiStatusNumCollectDTO.totalNum = factoryEquiStatusNumCollectDTO.totalNum+equipmentData.getCount();
                 }
                 if ("WAT".equals(equipmentData.getVal())){
                     factoryEquiStatusNumCollectDTO.oeeNum = factoryEquiStatusNumCollectDTO.oeeNum+equipmentData.getCount();
+                    factoryEquiStatusNumCollectDTO.totalNum = factoryEquiStatusNumCollectDTO.totalNum+equipmentData.getCount();
                 }
                 if ("RUN".equals(equipmentData.getVal())){
                     factoryEquiStatusNumCollectDTO.oeeNum = factoryEquiStatusNumCollectDTO.oeeNum+equipmentData.getCount();
+                    factoryEquiStatusNumCollectDTO.totalNum = factoryEquiStatusNumCollectDTO.totalNum+equipmentData.getCount();
                 }
                 if ("TRB".equals(equipmentData.getVal())){
                     factoryEquiStatusNumCollectDTO.failNum = factoryEquiStatusNumCollectDTO.failNum+equipmentData.getCount();
+                    factoryEquiStatusNumCollectDTO.totalNum = factoryEquiStatusNumCollectDTO.totalNum+equipmentData.getCount();
                 }
                 if ("MNT".equals(equipmentData.getVal())){
-
+                    factoryEquiStatusNumCollectDTO.pmNum = factoryEquiStatusNumCollectDTO.pmNum+equipmentData.getCount();
+                    factoryEquiStatusNumCollectDTO.totalNum = factoryEquiStatusNumCollectDTO.totalNum+equipmentData.getCount();
                 }
             }
             List<EquipmentCollectDataDTO.FactoryEquiStatusNumCollectDTO> factoryEquiStatusNumCollectDTOList = new ArrayList<EquipmentCollectDataDTO.FactoryEquiStatusNumCollectDTO>();
@@ -128,14 +133,15 @@ public class RealTimeStatusServiceImpl {
         }
     }
 
+
     @ApiMethodDoc(apiCode = "CIM_lineCollectData" , name = "指定工厂的良品率")
     public ProductLineData lineCollectRetDTO(){
         ProductLineData resultDto = new ProductLineData();
         try {
             List<String> factoryList = Constant.allSingleFactoryLists;
             List<String> productTypeList=Constant.productTypeTestList;
-            Date todayStart = DateUtils.getBeforDayStartDay(0);
-            Date todayEnd = DateUtils.getBeforDayEndDay(0);
+            Date todayStart = DateUtils.getBeforDayStartDay(1);
+            Date todayEnd = DateUtils.getBeforDayEndDay(1);
             Date curMonthStart = DateUtils.getBeforMonthStartDay(0);
             Date curMonthEnd = DateUtils.getBeforMonthEndDay(0);
             List<ProductLineDetailData> dayDataList = dwsProductLineYieldFidsDAO.queryTotalProductLineByDateAndFactoryList(factoryList,todayStart,todayEnd,productTypeList);
@@ -156,7 +162,7 @@ public class RealTimeStatusServiceImpl {
             return resultDto;
         }
     }
-
+    //这个只取50的
     @ApiMethodDoc(apiCode = "CIM_ocCollectData" , name = "指定产品的良品率")
     public ProductOcData ocCollectRetDTO(){
         ProductOcData resultDto = new ProductOcData();
