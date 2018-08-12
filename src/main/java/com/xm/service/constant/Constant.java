@@ -187,10 +187,10 @@ public class Constant {
     /**
      * 冷冻水类型
      */
-    public static final List<String> FreezeTypeList = Lists.newArrayList("4A低温冷冻水", "4B低温冷冻水", "4H低温冷冻水", "4C低温冷冻水",
-                                                                                        "4B中温冷冻水", "4H中温冷冻水","4E中温冷冻水","4D中温冷冻水","4G中温冷冻水","4M中温冷冻水",
+    public static final List<String> FreezeTypeList = Lists.newArrayList("4A低温冷冻水", "4B低温冷冻水", "4H低温冷冻水",
+                                                                        "4C中温冷冻水","4A中温冷冻水", "4B中温冷冻水", "4H中温冷冻水","4E中温冷冻水","4D中温冷冻水","4G中温冷冻水","4M中温冷冻水",
                                                                                         "4A温水","4B温水","4H温水","4E温水","4G温水",
-                                                                                        "4B热水","4C热水","4A热水","4A热水");
+                                                                                        "4B热水","4C热水","4E热水","4M热水");
     /**
      * PCW设备类型
      */

@@ -24,7 +24,7 @@ public class OutputCompletionData implements Serializable{
 
     public static class DataList{
         //TODO TEST true
-        boolean showDemoData=false;
+        boolean showDemoData=true;
         public DataList(){}
         public DataList( String periodDate,String factory){
             this.periodDate=periodDate;
