@@ -1,22 +1,15 @@
 package com.xm.service.apiimpl.pc.fmcs.cda;
 
 import com.xm.platform.annotations.ApiMethodDoc;
-import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.LogUtils;
-import com.xm.platform.util.MapUtils;
 import com.xm.service.apiimpl.pc.fmcs.cda.dto.CdaData;
 import com.xm.service.apiimpl.pc.fmcs.cda.dto.CdaDataRetDTO;
-import com.xm.service.apiimpl.pc.fmcs.cda.dto.SyncCdaData;
-import com.xm.service.dao.factory.fmcs.FactoryCDADataDAO;
 import com.xm.service.dao.fmcs.CDADataDAO;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by fanshuai on 17/10/24.
@@ -27,8 +20,7 @@ public class CDAServiceImpl {
 
     @Resource(name="cdaDataDAO")
     private CDADataDAO cdaDataDAO;
-    @Resource(name = "factoryCdaDataDAO")
-    private FactoryCDADataDAO factoryCdaDataDAO;
+
 
     @ApiMethodDoc(apiCode = "FMCS_CDAData",name = "空压系统数据接口")
     public CdaDataRetDTO cdaDataDataRetDto(){

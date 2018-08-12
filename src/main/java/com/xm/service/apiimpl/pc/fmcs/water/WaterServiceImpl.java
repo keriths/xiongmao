@@ -309,6 +309,7 @@ public class WaterServiceImpl {
                 freezeEveryDayRet.setErrorMsg("waterType参数错误,请传入【" + Constant.FreezeTypeList + "】");
                 return freezeEveryDayRet;
             }
+
             List<String> dateList = null;
             Date beginDate = null;
             Date endDate = new Date();

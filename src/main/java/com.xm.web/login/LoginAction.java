@@ -25,61 +25,64 @@ import java.util.Map;
 
 @Controller
 public class LoginAction {
-
-    @Resource
-    private LoginService loginService;
-    @Resource
-    private StoreDAO storeDAO;
-
-    @RequestMapping(value = "/login")
-    public ModelAndView loginIndex(HttpServletRequest req){
-//        String cookieName = "token";
-//        String cookieVal = WebUtils.getCookieValue(cookieName);
-//        if (cookieVal==null){
-//            return new ModelAndView("loginIndex");
+//
+//    @Resource
+//    private LoginService loginService;
+//    @Resource
+//    private StoreDAO storeDAO;
+//
+//    @RequestMapping(value = "/login")
+//    public ModelAndView loginIndex(HttpServletRequest req){
+////        String cookieName = "token";
+////        String cookieVal = WebUtils.getCookieValue(cookieName);
+////        if (cookieVal==null){
+////            return new ModelAndView("loginIndex");
+////        }
+//        UserDTO userDTO = LoginBO.getLoginedUser();
+//        if (userDTO==null){
+//            return new ModelAndView("login/loginIndex");
+//        }else {
+//            return new ModelAndView("redirect:/welcome");
 //        }
-        UserDTO userDTO = LoginBO.getLoginedUser();
-        if (userDTO==null){
-            return new ModelAndView("login/loginIndex");
-        }else {
-            return new ModelAndView("redirect:/welcome");
-        }
-    }
-
-
-
-    @RequestMapping(value = "/doLogin")
-    public ModelAndView doLogin(String name, String password, HttpServletRequest req, HttpServletResponse res){
-        String token = loginService.doLogin(name,password);
-        if (token==null){
-            Map model = new HashMap();
-            model.put("errorMsg","登录失败,用户名或密码错误");
-            return new ModelAndView("login/loginIndex",model);
-        }
-        UserDTO userDTO = loginService.getLoginUserByToken(token);
-        if (userDTO==null){
-            Map model = new HashMap();
-            model.put("errorMsg","登录失败,用户名或密码错误");
-            return new ModelAndView("login/loginIndex",model);
-        }
-        res.addCookie(new Cookie("token",token));
-        return new ModelAndView("redirect:/welcome");
-    }
-
-    @RequestMapping(value = "/welcome")
-    public ModelAndView welcome(){
-        UserDTO userDTO = LoginBO.getLoginedUser();
-        if (userDTO==null){
-            return new ModelAndView("redirect:/login");
-        }
-        ModelAndView modelAndView=new ModelAndView("mainFrame/index");
-        modelAndView.addObject("realName",userDTO.getRealName());
-        return modelAndView;
-    }
-
+//    }
+//
+//
+//
+//    @RequestMapping(value = "/doLogin")
+//    public ModelAndView doLogin(String name, String password, HttpServletRequest req, HttpServletResponse res){
+//        String token = loginService.doLogin(name,password);
+//        if (token==null){
+//            Map model = new HashMap();
+//            model.put("errorMsg","登录失败,用户名或密码错误");
+//            return new ModelAndView("login/loginIndex",model);
+//        }
+//        UserDTO userDTO = loginService.getLoginUserByToken(token);
+//        if (userDTO==null){
+//            Map model = new HashMap();
+//            model.put("errorMsg","登录失败,用户名或密码错误");
+//            return new ModelAndView("login/loginIndex",model);
+//        }
+//        res.addCookie(new Cookie("token",token));
+//        return new ModelAndView("redirect:/welcome");
+//    }
+//
+//    @RequestMapping(value = "/welcome")
+//    public ModelAndView welcome(){
+//        UserDTO userDTO = LoginBO.getLoginedUser();
+//        if (userDTO==null){
+//            return new ModelAndView("redirect:/login");
+//        }
+//        ModelAndView modelAndView=new ModelAndView("mainFrame/index");
+//        modelAndView.addObject("realName",userDTO.getRealName());
+//        return modelAndView;
+//    }
+//
+//    @RequestMapping(value = "/")
+//    public ModelAndView index(){
+//        return new ModelAndView("redirect:/welcome");
+//    }
     @RequestMapping(value = "/")
     public ModelAndView index(){
-        return new ModelAndView("redirect:/welcome");
+        return new ModelAndView("redirect:/index.html");
     }
-
 }

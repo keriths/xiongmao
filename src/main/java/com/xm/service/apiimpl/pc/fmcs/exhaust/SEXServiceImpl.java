@@ -6,7 +6,6 @@ import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.LogUtils;
 import com.xm.service.apiimpl.pc.fmcs.exhaust.dto.*;
 import com.xm.service.constant.Constant;
-import com.xm.service.dao.factory.fmcs.FactoryExhaustBDataDAO;
 import com.xm.service.dao.fmcs.ExhaustADataDAO;
 import com.xm.service.dao.fmcs.ExhaustBDataDAO;
 import org.springframework.stereotype.Service;

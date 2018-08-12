@@ -6,10 +6,8 @@ import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
-import com.xm.service.apiimpl.pc.fmcs.water.dto.TapWaterRealTimeData;
 import com.xm.service.apiimpl.pc.fmcs.wwt.dto.*;
 import com.xm.service.constant.Constant;
-import com.xm.service.dao.factory.fmcs.FactoryWwtaDataDAO;
 import com.xm.service.dao.fmcs.WwtaDataDAO;
 import com.xm.service.dao.fmcs.WwtbDataDAO;
 import org.joda.time.DateTime;
@@ -28,8 +26,7 @@ public class WWTServiceImpl {
     private WwtaDataDAO wwtaDataDAO;
     @Resource
     private WwtbDataDAO wwtbDataDAO;
-    @Resource
-    private FactoryWwtaDataDAO factoryWwtaDataDAO;
+
 
     @ApiMethodDoc(apiCode = "FMCS_wwtaDataList",name = "设备状态接口")
     public WwtaDataRetDTO wwtaDataList(){

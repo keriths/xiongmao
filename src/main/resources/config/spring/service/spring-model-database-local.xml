@@ -11,13 +11,6 @@
     http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
     <bean id="localCimDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName"><value>oracle.jdbc.OracleDriver</value></property>
-        <!--<property name="url"><value>jdbc:oracle:thin:@192.168.1.123:1521:xe</value></property>
-        <property name="username"><value>abc</value></property>
-        <property name="password"><value>abc123</value></property>-->
-        <!--<property name="url"><value>jdbc:oracle:thin:@kerith.vicp.io:1521:orcl</value></property>-->
-        <!--<property name="url"><value>jdbc:oracle:thin:@xm.ora.kerith.cn:1521:orcl</value></property>-->
-        <!--<property name="username"><value>xiongmaodbuser</value></property>-->
-        <!--<property name="password"><value>password</value></property>-->
         <property name="url"><value>${local.cim.database.url}</value></property>
         <property name="username"><value>${local.cim.database.username}</value></property>
         <property name="password"><value>${local.cim.database.password}</value></property>
@@ -48,13 +41,6 @@
 
     <bean id="localFmcsDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName"><value>oracle.jdbc.OracleDriver</value></property>
-        <!--<property name="url"><value>jdbc:oracle:thin:@192.168.1.123:1521:xe</value></property>
-        <property name="username"><value>abc</value></property>
-        <property name="password"><value>abc123</value></property>-->
-        <!--<property name="url"><value>jdbc:oracle:thin:@kerith.vicp.io:1521:orcl</value></property>-->
-        <!--<property name="url"><value>jdbc:oracle:thin:@xm.ora.kerith.cn:1521:orcl</value></property>-->
-        <!--<property name="username"><value>xiongmaodbuser</value></property>-->
-        <!--<property name="password"><value>password</value></property>-->
         <property name="url"><value>${local.fmcs.database.url}</value></property>
         <property name="username"><value>${local.fmcs.database.username}</value></property>
         <property name="password"><value>${local.fmcs.database.password}</value></property>
@@ -87,13 +73,6 @@
 
     <bean id="localUserDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
         <property name="driverClassName"><value>oracle.jdbc.OracleDriver</value></property>
-        <!--<property name="url"><value>jdbc:oracle:thin:@192.168.1.123:1521:xe</value></property>
-        <property name="username"><value>abc</value></property>
-        <property name="password"><value>abc123</value></property>-->
-        <!--<property name="url"><value>jdbc:oracle:thin:@kerith.vicp.io:1521:orcl</value></property>-->
-        <!--<property name="url"><value>jdbc:oracle:thin:@xm.ora.kerith.cn:1521:orcl</value></property>-->
-        <!--<property name="username"><value>xiongmaodbuser</value></property>-->
-        <!--<property name="password"><value>password</value></property>-->
         <property name="url"><value>${local.user.database.url}</value></property>
         <property name="username"><value>${local.user.database.username}</value></property>
         <property name="password"><value>${local.user.database.password}</value></property>
@@ -120,10 +99,5 @@
         <property name="sqlSessionFactoryBeanName" value="localUserSqlSessionFactory" />
         <property name="sqlSessionTemplateBeanName" value="localUserSqlSessionTemplate" />
     </bean>
-
-
-    <!--<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">-->
-        <!--<property name="dataSource" ref="dataSource" />-->
-    <!--</bean>-->
 
 </beans>

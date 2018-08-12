@@ -4,7 +4,6 @@ import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.LogUtils;
 import com.xm.service.apiimpl.pc.fmcs.upw.dto.*;
-import com.xm.service.dao.factory.fmcs.FactoryUpwaDataDAO;
 import com.xm.service.dao.fmcs.UpwaDataDAO;
 import com.xm.service.dao.fmcs.UpwbDataDAO;
 import org.springframework.stereotype.Service;
@@ -22,8 +21,7 @@ public class UPWServiceImpl {
     private UpwaDataDAO upwaDataDAO;
     @Resource
     private UpwbDataDAO upwbDataDAO;
-    @Resource
-    private FactoryUpwaDataDAO factoryUpwaDataDAO;
+
 
     @ApiMethodDoc(apiCode = "FMCS_upwaDataList",name = "设备状态接口")
     public UpwaDataRetDTO upwaDataList(){
