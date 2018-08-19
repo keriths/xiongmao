@@ -14,12 +14,14 @@ import java.util.List;
  */
 public class WwtbData {
 
+
     @ApiResultFieldDesc(desc = "数据详情")
     private List<WwtbDetailData> wwtbDetailDataList;
     @ApiResultFieldDesc(desc = "横坐标时间")
     private String periodDate;
 
     public static class WwtbDetailData{
+        public boolean showDemoData=false;
         public WwtbDetailData(){};
         public WwtbDetailData(String periodDate,String dataDate){
             this.dataDate=dataDate;
@@ -56,7 +58,7 @@ public class WwtbData {
 
         public BigDecimal getValue() {
             if(value==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     if ("integer".equals(dataType)){
                         value= RandomUtils.speed(midint, dataDate, 2,0.02f);
                         //value = new BigDecimal(RandomUtils.randomInt(min,max));

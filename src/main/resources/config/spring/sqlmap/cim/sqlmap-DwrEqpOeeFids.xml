@@ -38,8 +38,18 @@
           and PERIODDATE >= to_date('${beginDateStr}','yyyy-mm-dd hh24:mi:ss')
           and PERIODDATE <= to_date('${endDateStr}','yyyy-mm-dd hh24:mi:ss')
           ]]>
-        and OEE.eqp_id not like '%-%-%'
-        and OEE.LOCATION = '2F'
+        AND (
+          (
+            OEE.FACTORY in ('SL','OC')
+            and OEE.LOCATION in ('2F','3F')
+          ) or
+          (
+            OEE.FACTORY not in ('SL','OC')
+            and OEE.eqp_id not like '%-%-%'
+            and OEE.LOCATION = '2F'
+          )
+        )
+
         GROUP BY EQP_STATUS
     </select>
     <!--<select id="queryActivationStatusNum_dqpidNum" parameterType="map" resultType="int">-->
@@ -78,8 +88,17 @@
             '${factory}'
         </foreach>
         and gg.BIG_EQP_TYPE = '${groupName}'
-        and oee.eqp_id not like '%-%-%'
-        and oee.LOCATION = '2F'
+        AND (
+            (
+                OEE.FACTORY in ('SL','OC')
+                and OEE.LOCATION in ('2F','3F')
+            ) or
+            (
+                OEE.FACTORY not in ('SL','OC')
+                and OEE.eqp_id not like '%-%-%'
+                and OEE.LOCATION = '2F'
+            )
+        )
         <![CDATA[
           and PERIODDATE >= to_date('${beginDateStr}','yyyy-mm-dd hh24:mi:ss')
           and PERIODDATE <= to_date('${endDateStr}','yyyy-mm-dd hh24:mi:ss')

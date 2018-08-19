@@ -48,7 +48,7 @@ public class HumitureRealTimeDate {
 
         @ApiResultFieldDesc(desc = "最新更新时间")
         private String secondDate;
-
+        boolean showDemoData=false;
 
         public String getFactory() {
             return factory;
@@ -76,7 +76,7 @@ public class HumitureRealTimeDate {
 
         public BigDecimal getTemperature() {
             if (temperature==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     temperature=RandomUtils.speed(22f, secondDate, 1,0.01f);
                     //temperature = RandomUtils.randomFloat(20.00f,27.20f);
                 }else {
@@ -92,7 +92,7 @@ public class HumitureRealTimeDate {
 
         public BigDecimal getHumidity() {
             if (humidity==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     humidity=RandomUtils.speed(50f, secondDate, 1,0.01f);
                     //humidity = RandomUtils.randomFloat(40.00f,55.00f);
                 }else {
@@ -108,7 +108,7 @@ public class HumitureRealTimeDate {
 
         public BigDecimal getCleanliness() {
             if (cleanliness==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     cleanliness= RandomUtils.speed(25f, secondDate, 1,0.01f);
                     //cleanliness = RandomUtils.randomFloat(30.00f,60.00f);
                 }else {

@@ -128,47 +128,47 @@ public class CIMDataSyncTask {
 
     @Scheduled(fixedRate = 1000*60*60*24)
     public void OutputCompletionHDataSync(){
-        int syncDayNums = 30;
+        int syncDayNums = 3;
         syncDWS_PRODUCT_OUTPUT_FIDS_H(syncDayNums);
     }
     @Scheduled(fixedRate = 1000*60*60*24)
     public void GoodInProcessDataSync(){
-        int syncDayNums = 30;
+        int syncDayNums = 3;
         syncDWR_WIP_GLS_FIDS(syncDayNums);
     }
     @Scheduled(fixedRate = 1000*60*60*24)
     public void ProductLineGoodRateDataSync(){
-        int syncDayNums = 30;
+        int syncDayNums = 3;
         syncDWS_PRODUCT_LINE_YIELD_FIDS(syncDayNums);
     }
     @Scheduled(fixedRate = 1000*60*60*24)
     public void OutputCompletionDataSync(){
-        int syncDayNums = 30;
+        int syncDayNums = 3;
         syncDWS_PRODUCT_OUTPUT_FIDS(syncDayNums);
     }
     @Scheduled(fixedRate = 1000*60*60*24)
     public void InputCompletionDataSync(){
-        int syncDayNums = 30;
+        int syncDayNums = 3;
         syncDWS_PRODUCT_INPUT_FIDS(syncDayNums);
     }
     @Scheduled(fixedRate = 1000*60*60*24)
     public void ProductOcGoodRateDataSync(){
-        int syncDayNums = 30;
+        int syncDayNums = 3;
         syncDWS_PRODUCT_OC_YIELD_FIDS(syncDayNums);
     }
     @Scheduled(fixedRate = 1000*60*60*24)
     public void CycleTimeDataSync(){
-        int syncDayNums = 30;
+        int syncDayNums = 3;
         syncDWR_PRODUCT_CT_FIDS(syncDayNums);
     }
     @Scheduled(fixedRate = 1000*60*60*24)
     public void OeeDataSync(){
-        int syncDayNums = 30;
+        int syncDayNums = 3;
         syncDWR_EQP_OEE_FIDS(syncDayNums);
     }
     @Scheduled(fixedRate = 1000*60*60*24)
     public void TactTimeDataSync(){
-        int syncDayNums = 30;
+        int syncDayNums = 3;
         syncDWR_PRODUCT_TT_FIDS(syncDayNums);
     }
 

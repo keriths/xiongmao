@@ -98,19 +98,12 @@ public class HumitureServiceImpl {
     public HumitureDateRetDTO factoryHumitureRtData(@ApiParamDoc(desc = "厂别,如ARRAY,CELL,CF,SL") String factory){
         HumitureDateRetDTO resultDto = new HumitureDateRetDTO();
         try {
-//            List<String> placeList = Constant.factoryPlaceListMap.get(factory);
-            //List<String> equList = Constant.placeEquipmentListMp.get(place);
-//            if(!Constant.factoryPlaceListMap.containsKey(factory)){
-//                resultDto.setSuccess(false);
-//                resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.factoryPlaceListMap.keySet() + "】");
-//                return resultDto;
-//            }
-
             List<HumitureDate.HtPeDate> queryList = humitureDataDAO.queryFactoryHumiture(factory);
-            if (CollectionUtils.isEmpty(queryList)){
-
-            }
             List<HumitureDate> htPaDateList = new ArrayList<HumitureDate>();
+            if (CollectionUtils.isEmpty(queryList)){
+                resultDto.setHumitureDateList(htPaDateList);
+                return resultDto;
+            }
             for (HumitureDate.HtPeDate htPeDate : queryList){
                 String place = htPeDate.getPlace();
                 HumitureDate curHumitureDate = null;
@@ -134,30 +127,6 @@ public class HumitureServiceImpl {
             }
             resultDto.setHumitureDateList(htPaDateList);
             return resultDto;
-//            Map<String,HumitureDate.HtPeDate> queryMap = MapUtils.listToMap(queryList,"getEquipment");
-//            List<HumitureDate> htPaDateList = new ArrayList<HumitureDate>();
-//            for(String p:placeList){
-//                HumitureDate hpe = new HumitureDate();
-//                hpe.setPlace(p);
-//                List<HumitureDate.HtPeDate> htDateList = new ArrayList<HumitureDate.HtPeDate>();
-//                List<String> equList = Constant.placeEquipmentListMap.get(p);
-//                for(String e:equList){
-////                    HumitureDate.HtPeDate ht = new HumitureDate.HtPeDate();
-////                    ht.setEquipment(e);
-//                    HumitureDate.HtPeDate htD = null;
-//                    if(!CollectionUtils.isEmpty(queryMap)){
-//                        htD = queryMap.get(e);
-//                    }
-//                    if(htD == null){
-//                        htD = new HumitureDate.HtPeDate(p,e);
-//                    }
-//                    htDateList.add(htD);
-//                }
-//                hpe.setHumitureDetailDateList(htDateList);
-//                htPaDateList.add(hpe);
-//            }
-//            resultDto.setHumitureDateList(htPaDateList);
-//            return resultDto;
         }catch (Exception e){
             LogUtils.error(getClass(), e);
             resultDto.setSuccess(false);

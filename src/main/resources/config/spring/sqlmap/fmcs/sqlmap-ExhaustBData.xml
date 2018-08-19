@@ -11,7 +11,10 @@
             DATATYPE as dataType,
             DEMODATA as demoData,
             UNIT as unit
-        from EXHAUSTBDATA
+        from EXHAUSTBDATA  a
+        join (
+        select key as keyb,max(DATADATE) as DATADATEb from EXHAUSTBDATA group by key )
+        b on  a.key = b.keyb and a.DATADATE = b.DATADATEb
     </select>
 
     <select id="queryKeyStatusNum" resultType="int" parameterType="Map">

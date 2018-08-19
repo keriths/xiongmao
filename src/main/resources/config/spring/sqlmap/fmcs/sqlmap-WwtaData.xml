@@ -11,7 +11,10 @@
             DATATYPE AS dataType,
             DEMODATA AS demoData,
             UNIT as unit
-        FROM WWTADATA
+        FROM WWTADATA a
+join (
+select key as keyb,max(DATADATE) as DATADATEb from WWTADATA group by key )
+b on  a.key = b.keyb and a.DATADATE = b.DATADATEb
     </select>
 
 

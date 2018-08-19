@@ -11,6 +11,10 @@
             a.HUMIDITY,
             a.CLEANLINESS
         from HUMITUREDATA a
+        join (
+        select FACTORY as FACTORYb,PLACE as PLACEb,EQUIPMENT as EQUIPMENTb,max(DATADATE) as DATADATEb from HUMITUREDATA group by FACTORY,PLACE,EQUIPMENT
+        )
+        b on  a.FACTORY = b.FACTORYb and a.PLACE = b.PLACEb and a.EQUIPMENT = b.EQUIPMENTb and a.DATADATE = b.DATADATEb
         where
             <if test="factory!=null and factory!=''">
                 a.FACTORY=#{factory,jdbcType=VARCHAR}
