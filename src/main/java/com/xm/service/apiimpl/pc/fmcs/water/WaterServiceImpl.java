@@ -1,5 +1,7 @@
 package com.xm.service.apiimpl.pc.fmcs.water;
 
+import com.xm.IQueryDayDataList;
+import com.xm.ITransferData;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
@@ -7,14 +9,18 @@ import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
 import com.xm.service.apiimpl.pc.fmcs.water.dto.*;
+import com.xm.service.apiimpl.pc.integrateData.humidity.dto.WaterElectricityCollectDataDTO;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.fmcs.*;
+import com.xm.service.dto.DayDataDTO;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.*;
+import java.util.function.Predicate;
 
 /**
  * Created by fanshuai on 17/10/24.
@@ -213,26 +219,40 @@ public class WaterServiceImpl {
                 tapEveryDayRet.setErrorMsg("dateType参数错误,请传入【" + Constant.gasDateTypeList + "】");
                 return tapEveryDayRet;
             }
-            List<String> dateList = null;
-            Date beginDate = null;
-            Date endDate = new Date();
-            if (dateType.equals(Constant.day)){
-                beginDate = DateUtils.getBeforDayStartDay(12);
-                dateList = DateUtils.getDayStrList(beginDate,endDate);
-            }else if (dateType.equals(Constant.month)){
-                beginDate = DateUtils.getBeforMonthStartDay(11);
-                dateList = DateUtils.getMonthStrList(beginDate,endDate);
-            }
-            List<TapWaterEveryDayData>  dataList=tapWaterEveryDayDataDAO.tapWaterEveryDayData(dateType,beginDate,endDate);
-            Map<String,TapWaterEveryDayData> dataMap= MapUtils.listToMap(dataList,"getDataDate");
-            List<TapWaterEveryDayData> tapWaterEveryDayDataList =new ArrayList<TapWaterEveryDayData>();
-            for (String str:dateList){
-                TapWaterEveryDayData tapWaterEveryDayData =dataMap.get(str);
-                if(tapWaterEveryDayData ==null){
-                    tapWaterEveryDayData =new TapWaterEveryDayData(str);
-                }
-                tapWaterEveryDayDataList.add(tapWaterEveryDayData);
-            }
+            List<TapWaterEveryDayData> tapWaterEveryDayDataList = queryDayStatics("市政府自来水", dateType,
+                    new IQueryDayDataList() {
+                        @Override
+                        public List<DayDataDTO> queryFreezeWaterByDateList(String waterType, List<Date> queryDays) {
+                            return tapWaterEveryDayDataDAO.queryDayDataByDateList(waterType, queryDays);
+                        }
+                    },
+                    new ITransferData<TapWaterEveryDayData>() {
+                        @Override
+                        public TapWaterEveryDayData queryFreezeWaterByDateList(String waterType, String dateType, Date today, Date tomorrow, BigDecimal todayNum, BigDecimal tomorrowNum) {
+                            return new TapWaterEveryDayData(waterType, dateType, today, tomorrow, todayNum, tomorrowNum);
+                        }
+                    });
+//
+//            List<String> dateList = null;
+//            Date beginDate = null;
+//            Date endDate = new Date();
+//            if (dateType.equals(Constant.day)){
+//                beginDate = DateUtils.getBeforDayStartDay(12);
+//                dateList = DateUtils.getDayStrList(beginDate,endDate);
+//            }else if (dateType.equals(Constant.month)){
+//                beginDate = DateUtils.getBeforMonthStartDay(11);
+//                dateList = DateUtils.getMonthStrList(beginDate,endDate);
+//            }
+//            List<TapWaterEveryDayData>  dataList=tapWaterEveryDayDataDAO.tapWaterEveryDayData(dateType,beginDate,endDate);
+//            Map<String,TapWaterEveryDayData> dataMap= MapUtils.listToMap(dataList,"getDataDate");
+//            List<TapWaterEveryDayData> tapWaterEveryDayDataList =new ArrayList<TapWaterEveryDayData>();
+//            for (String str:dateList){
+//                TapWaterEveryDayData tapWaterEveryDayData =dataMap.get(str);
+//                if(tapWaterEveryDayData ==null){
+//                    tapWaterEveryDayData =new TapWaterEveryDayData(str);
+//                }
+//                tapWaterEveryDayDataList.add(tapWaterEveryDayData);
+//            }
             tapEveryDayRet.setWaterEveryDayDateList(tapWaterEveryDayDataList);
             return tapEveryDayRet;
         }catch (Exception e){
@@ -261,28 +281,43 @@ public class WaterServiceImpl {
                 pureEveryDayRet.setErrorMsg("waterType参数错误,请传入【" + Constant.PureTypeList + "】");
                 return pureEveryDayRet;
             }
-            List<String> dateList = null;
-            Date beginDate = null;
-            Date endDate = new Date();
-            if (dateType.equals(Constant.day)){
-                beginDate = DateUtils.getBeforDayStartDay(12);
-                dateList = DateUtils.getDayStrList(beginDate,endDate);
-            }else if (dateType.equals(Constant.month)){
-                beginDate = DateUtils.getBeforMonthStartDay(11);
-                dateList = DateUtils.getMonthStrList(beginDate,endDate);
-            }
-            List<PureWaterEveryDayData>  dataList=pureWaterEveryDayDataDAO.pureWaterEveryDayData(dateType,beginDate,endDate,waterType);
-            Map<String,PureWaterEveryDayData> dataMap= MapUtils.listToMap(dataList,"getDataDate");
-            List<PureWaterEveryDayData> pureWaterEveryDayDataList =new ArrayList<PureWaterEveryDayData>();
-            for (String str:dateList){
-                PureWaterEveryDayData pureWaterEveryDayData =dataMap.get(str);
-                if(pureWaterEveryDayData ==null){
-                    pureWaterEveryDayData =new PureWaterEveryDayData(str);
-                }
-                pureWaterEveryDayDataList.add(pureWaterEveryDayData);
-            }
-            pureEveryDayRet.setPureWaterEveryDayDataList(pureWaterEveryDayDataList);
+            pureEveryDayRet.setPureWaterEveryDayDataList(queryDayStatics(waterType, dateType,
+                    new IQueryDayDataList() {
+                        @Override
+                        public List<DayDataDTO> queryFreezeWaterByDateList(String waterType, List<Date> queryDays) {
+                            return pureWaterEveryDayDataDAO.queryDayDataByDateList(waterType, queryDays);
+                        }
+                    },
+                    new ITransferData<PureWaterEveryDayData>() {
+                        @Override
+                        public PureWaterEveryDayData queryFreezeWaterByDateList(String waterType, String dateType, Date today, Date tomorrow, BigDecimal todayNum, BigDecimal tomorrowNum) {
+                            return new PureWaterEveryDayData(waterType, dateType, today, tomorrow, todayNum, tomorrowNum);
+                        }
+                    }));
             return pureEveryDayRet;
+
+//            List<String> dateList = null;
+//            Date beginDate = null;
+//            Date endDate = new Date();
+//            if (dateType.equals(Constant.day)){
+//                beginDate = DateUtils.getBeforDayStartDay(12);
+//                dateList = DateUtils.getDayStrList(beginDate,endDate);
+//            }else if (dateType.equals(Constant.month)){
+//                beginDate = DateUtils.getBeforMonthStartDay(11);
+//                dateList = DateUtils.getMonthStrList(beginDate,endDate);
+//            }
+//            List<PureWaterEveryDayData>  dataList=pureWaterEveryDayDataDAO.pureWaterEveryDayData(dateType,beginDate,endDate,waterType);
+//            Map<String,PureWaterEveryDayData> dataMap= MapUtils.listToMap(dataList,"getDataDate");
+//            List<PureWaterEveryDayData> pureWaterEveryDayDataList =new ArrayList<PureWaterEveryDayData>();
+//            for (String str:dateList){
+//                PureWaterEveryDayData pureWaterEveryDayData =dataMap.get(str);
+//                if(pureWaterEveryDayData ==null){
+//                    pureWaterEveryDayData =new PureWaterEveryDayData(str);
+//                }
+//                pureWaterEveryDayDataList.add(pureWaterEveryDayData);
+//            }
+//            pureEveryDayRet.setPureWaterEveryDayDataList(pureWaterEveryDayDataList);
+//            return pureEveryDayRet;
         }catch (Exception e){
             LogUtils.error(getClass(), e);
             pureEveryDayRet.setSuccess(false);
@@ -309,35 +344,86 @@ public class WaterServiceImpl {
                 freezeEveryDayRet.setErrorMsg("waterType参数错误,请传入【" + Constant.FreezeTypeList + "】");
                 return freezeEveryDayRet;
             }
-
-            List<String> dateList = null;
-            Date beginDate = null;
-            Date endDate = new Date();
-            if (dateType.equals(Constant.day)){
-                beginDate = DateUtils.getBeforDayStartDay(12);
-                dateList = DateUtils.getDayStrList(beginDate,endDate);
-            }else if (dateType.equals(Constant.month)){
-                beginDate = DateUtils.getBeforMonthStartDay(11);
-                dateList = DateUtils.getMonthStrList(beginDate,endDate);
-            }
-            List<FreezeWaterEveryDayData>  dataList=freezeWaterEveryDayDataDAO.freezeWaterEveryDayData(dateType,beginDate,endDate,waterType);
-            Map<String,FreezeWaterEveryDayData> dataMap= MapUtils.listToMap(dataList,"getDataDate");
-            List<FreezeWaterEveryDayData> freezeWaterEveryDayDataList =new ArrayList<FreezeWaterEveryDayData>();
-            for (String str:dateList){
-                FreezeWaterEveryDayData freezeWaterEveryDayData =dataMap.get(str);
-                if(freezeWaterEveryDayData ==null){
-                    freezeWaterEveryDayData =new FreezeWaterEveryDayData(str);
-                }
-                freezeWaterEveryDayDataList.add(freezeWaterEveryDayData);
-            }
-            freezeEveryDayRet.setFreezeWaterEveryDayDataList(freezeWaterEveryDayDataList);
+            freezeEveryDayRet.setFreezeWaterEveryDayDataList(queryDayStatics(waterType, dateType,
+                    new IQueryDayDataList() {
+                        @Override
+                        public List<DayDataDTO> queryFreezeWaterByDateList(String waterType, List<Date> queryDays) {
+                            return freezeWaterEveryDayDataDAO.queryDayDataByDateList(waterType, queryDays);
+                        }
+                    },
+                    new ITransferData<FreezeWaterEveryDayData>() {
+                        @Override
+                        public FreezeWaterEveryDayData queryFreezeWaterByDateList(String waterType, String dateType, Date today, Date tomorrow, BigDecimal todayNum, BigDecimal tomorrowNum) {
+                            return new FreezeWaterEveryDayData(waterType,dateType,today,tomorrow,todayNum,tomorrowNum);
+                        }
+                    }));
             return freezeEveryDayRet;
+//
+//            List<String> dateList = null;
+//            Date beginDate = null;
+//            Date endDate = new Date();
+//            if (dateType.equals(Constant.day)){
+//                beginDate = DateUtils.getBeforDayStartDay(12);
+//                dateList = DateUtils.getDayStrList(beginDate,endDate);
+//            }else if (dateType.equals(Constant.month)){
+//                beginDate = DateUtils.getBeforMonthStartDay(11);
+//                dateList = DateUtils.getMonthStrList(beginDate,endDate);
+//            }
+//            List<FreezeWaterEveryDayData>  dataList=freezeWaterEveryDayDataDAO.freezeWaterEveryDayData(dateType,beginDate,endDate,waterType);
+//            Map<String,FreezeWaterEveryDayData> dataMap= MapUtils.listToMap(dataList,"getDataDate");
+//            List<FreezeWaterEveryDayData> freezeWaterEveryDayDataList =new ArrayList<FreezeWaterEveryDayData>();
+//            for (String str:dateList){
+//                FreezeWaterEveryDayData freezeWaterEveryDayData =dataMap.get(str);
+//                if(freezeWaterEveryDayData ==null){
+//                    freezeWaterEveryDayData =new FreezeWaterEveryDayData(str);
+//                }
+//                freezeWaterEveryDayDataList.add(freezeWaterEveryDayData);
+//            }
+//            freezeEveryDayRet.setFreezeWaterEveryDayDataList(freezeWaterEveryDayDataList);
+//            return freezeEveryDayRet;
         }catch (Exception e){
             LogUtils.error(getClass(), e);
             freezeEveryDayRet.setSuccess(false);
             freezeEveryDayRet.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return freezeEveryDayRet;
         }
+    }
+
+//    private FreezeWaterEveryDayRetDTO queryDayStatics(String waterType,String dateType){
+//        List<Date> queryDays = DateUtils.getQueryDates(dateType);
+//        FreezeWaterEveryDayRetDTO freezeWaterEveryDayRetDTO = new FreezeWaterEveryDayRetDTO();
+//        List<FreezeWaterEveryDayData> freezeWaterEveryDayDataList = new ArrayList<>();
+//        List<DayDataDTO> dayDataDTOList = freezeWaterEveryDayDataDAO.queryFreezeWaterByDateList(waterType,queryDays);
+//        Map<String,DayDataDTO> mapData = MapUtils.listToMap(dayDataDTOList,"getDataDate");
+//        for (int i = 0;i<queryDays.size()-1;i++){
+//            Date today = queryDays.get(i);
+//            Date tomorrow = queryDays.get(i+1);
+//            DayDataDTO todayData =  mapData.get(DateUtils.getStrDate(today,"yyyy-MM-dd"));
+//            DayDataDTO tomorrowData =  mapData.get(DateUtils.getStrDate(tomorrow,"yyyy-MM-dd"));
+//            BigDecimal todayNum = todayData==null?null:todayData.getTotalNum();
+//            BigDecimal tomorrowNum = tomorrowData==null?null:tomorrowData.getTotalNum();
+//            FreezeWaterEveryDayData freezeWaterEveryDayData = new FreezeWaterEveryDayData(waterType,dateType,today,tomorrow,todayNum,tomorrowNum);
+//            freezeWaterEveryDayDataList.add(freezeWaterEveryDayData);
+//        }
+//        freezeWaterEveryDayRetDTO.setFreezeWaterEveryDayDataList(freezeWaterEveryDayDataList);
+//        return freezeWaterEveryDayRetDTO;
+//    }
+    private <T> List<T> queryDayStatics(String waterType,String dateType,IQueryDayDataList iQueryDayDataList,ITransferData<T> iTransferData){
+        List<Date> queryDays = DateUtils.getQueryDates(dateType);
+        List<DayDataDTO> dayDataDTOList = iQueryDayDataList.queryFreezeWaterByDateList(waterType,queryDays);
+        Map<String,DayDataDTO> mapData = MapUtils.listToMap(dayDataDTOList,"getDataDate");
+        List<T> freezeWaterEveryDayDataList = new ArrayList<>();
+        for (int i = 0;i<queryDays.size()-1;i++){
+            Date today = queryDays.get(i);
+            Date tomorrow = queryDays.get(i+1);
+            DayDataDTO todayData =  mapData.get(DateUtils.getStrDate(today,"yyyy-MM-dd"));
+            DayDataDTO tomorrowData =  mapData.get(DateUtils.getStrDate(tomorrow,"yyyy-MM-dd"));
+            BigDecimal todayNum = todayData==null?null:todayData.getTotalNum();
+            BigDecimal tomorrowNum = tomorrowData==null?null:tomorrowData.getTotalNum();
+            T t = iTransferData.queryFreezeWaterByDateList(waterType,dateType,today,tomorrow,todayNum,tomorrowNum);
+            freezeWaterEveryDayDataList.add(t);
+        }
+        return freezeWaterEveryDayDataList;
     }
 
 }

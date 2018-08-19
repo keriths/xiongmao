@@ -2,6 +2,7 @@ package com.xm.service.dao.fmcs;
 
 import com.xm.service.apiimpl.pc.fmcs.water.dto.FreezeWaterEveryDayData;
 import com.xm.service.apiimpl.pc.integrateData.humidity.dto.WaterElectricityCollectDataDTO;
+import com.xm.service.dto.DayDataDTO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -38,4 +39,6 @@ public interface FreezeWaterEveryDayDataDAO {
             @Param("startDate")Date startDate,
             @Param("endDate")Date endDate
     );
+
+    List<DayDataDTO> queryDayDataByDateList(@Param("waterType")String waterType,@Param("queryDateList") List<Date> queryDays);
 }

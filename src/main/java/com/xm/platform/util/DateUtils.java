@@ -1,7 +1,9 @@
 package com.xm.platform.util;
 
+import com.xm.service.constant.Constant;
 import org.joda.time.DateTime;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -172,6 +174,14 @@ public class DateUtils {
     public static String getStrDate(Date day,String format){
         return new SimpleDateFormat(format).format(day);
     }
+    public static Date getDateFromStr(String day,String format){
+        try {
+            return new SimpleDateFormat(format).parse(day);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
     public static List<String> getSecondStrList(Date begin,Date end){
         DateTime beginTime = new DateTime(begin);
@@ -276,4 +286,37 @@ public class DateUtils {
         getAll5MinuteOfHourCurTime(new Date()).stream().forEach(date -> System.out.println(getStrDate(date,"HH:mm")));
     }
 
+    public static List<Date> getQueryDates(String dateType) {
+        List<Date> queryDays = new ArrayList<>();
+        if (dateType.equals(Constant.day)) {
+            queryDays.add(DateUtils.getBeforDayStartDay(12));
+            queryDays.add(DateUtils.getBeforDayStartDay(11));
+            queryDays.add(DateUtils.getBeforDayStartDay(10));
+            queryDays.add(DateUtils.getBeforDayStartDay(9));
+            queryDays.add(DateUtils.getBeforDayStartDay(8));
+            queryDays.add(DateUtils.getBeforDayStartDay(7));
+            queryDays.add(DateUtils.getBeforDayStartDay(6));
+            queryDays.add(DateUtils.getBeforDayStartDay(5));
+            queryDays.add(DateUtils.getBeforDayStartDay(4));
+            queryDays.add(DateUtils.getBeforDayStartDay(3));
+            queryDays.add(DateUtils.getBeforDayStartDay(2));
+            queryDays.add(DateUtils.getBeforDayStartDay(1));
+            queryDays.add(DateUtils.getBeforDayStartDay(0));
+        }else if (dateType.equals(Constant.month)){
+            queryDays.add(DateUtils.getBeforMonthStartDay(12));
+            queryDays.add(DateUtils.getBeforMonthStartDay(11));
+            queryDays.add(DateUtils.getBeforMonthStartDay(10));
+            queryDays.add(DateUtils.getBeforMonthStartDay(9));
+            queryDays.add(DateUtils.getBeforMonthStartDay(8));
+            queryDays.add(DateUtils.getBeforMonthStartDay(7));
+            queryDays.add(DateUtils.getBeforMonthStartDay(6));
+            queryDays.add(DateUtils.getBeforMonthStartDay(5));
+            queryDays.add(DateUtils.getBeforMonthStartDay(4));
+            queryDays.add(DateUtils.getBeforMonthStartDay(3));
+            queryDays.add(DateUtils.getBeforMonthStartDay(2));
+            queryDays.add(DateUtils.getBeforMonthStartDay(1));
+            queryDays.add(DateUtils.getBeforDayStartDay(0));
+        }
+        return queryDays;
+    }
 }

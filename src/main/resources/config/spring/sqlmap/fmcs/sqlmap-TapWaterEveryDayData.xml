@@ -59,4 +59,14 @@
         ]]>
     </select>
 
+
+    <select id="queryDayDataByDateList" parameterType="map" resultType="com.xm.service.dto.DayDataDTO">
+        SELECT TOTALNUM as totalNum,TO_CHAR(DATADATE,'YYYY-MM-DD') as dataDate
+        FROM TAPWATEREVERYDAYDATA
+        WHERE  DATADATE IN
+        <foreach collection="queryDateList" item="queryDate" open="(" separator="," close=")">
+            #{queryDate,jdbcType=DATE}
+        </foreach>
+    </select>
+
 </mapper>

@@ -34,16 +34,12 @@ public class HumitureServiceImpl {
     private HumitureRealTimeDataDAO humitureRealTimeDataDAO;
 
     @ApiMethodDoc(apiCode = "FMCS_humitureRealTimeData",name = "指定工厂的温湿洁净度实时数据接口")
-    public HumitureRealTimeDataRetDTO humitureRtData(@ApiParamDoc(desc = "厂别,如ARRAY,CELL,CF(必填)") String factory){
+    public HumitureRealTimeDataRetDTO humitureRtData(@ApiParamDoc(desc = "厂别,如ARRAY,CELL,CF,SL(必填)") String factory){
         HumitureRealTimeDataRetDTO resultDto=new HumitureRealTimeDataRetDTO();
         try {
             //List<String> placeList = Constant.factoryPlaceListMap.get(factory);
             //List<String> equList = Constant.placeEquipmentListMap.get(place);
-            if(!Constant.factoryPlaceListMap.containsKey(factory)){
-                resultDto.setSuccess(false);
-                resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.factoryPlaceListMap.keySet() + "】");
-                return resultDto;
-            }
+
             /*if(!StringUtils.isEmpty(place) && !Constant.placeEquipmentListMap.containsKey(place)){
                 resultDto.setSuccess(false);
                 resultDto.setErrorMsg("place参数错误,请传入【" + Constant.placeEquipmentListMap.keySet() + "】");
@@ -99,42 +95,69 @@ public class HumitureServiceImpl {
     }
 
     @ApiMethodDoc(apiCode = "FMCS_factoryHumitureData",name = "工厂所有区域设备最新温湿洁净度数据接口")
-    public HumitureDateRetDTO factoryHumitureRtData(@ApiParamDoc(desc = "厂别,如ARRAY,CELL,CF") String factory){
+    public HumitureDateRetDTO factoryHumitureRtData(@ApiParamDoc(desc = "厂别,如ARRAY,CELL,CF,SL") String factory){
         HumitureDateRetDTO resultDto = new HumitureDateRetDTO();
         try {
-            List<String> placeList = Constant.factoryPlaceListMap.get(factory);
+//            List<String> placeList = Constant.factoryPlaceListMap.get(factory);
             //List<String> equList = Constant.placeEquipmentListMp.get(place);
-            if(!Constant.factoryPlaceListMap.containsKey(factory)){
-                resultDto.setSuccess(false);
-                resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.factoryPlaceListMap.keySet() + "】");
-                return resultDto;
-            }
+//            if(!Constant.factoryPlaceListMap.containsKey(factory)){
+//                resultDto.setSuccess(false);
+//                resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.factoryPlaceListMap.keySet() + "】");
+//                return resultDto;
+//            }
 
             List<HumitureDate.HtPeDate> queryList = humitureDataDAO.queryFactoryHumiture(factory);
-            Map<String,HumitureDate.HtPeDate> queryMap = MapUtils.listToMap(queryList,"getEquipment");
+            if (CollectionUtils.isEmpty(queryList)){
+
+            }
             List<HumitureDate> htPaDateList = new ArrayList<HumitureDate>();
-            for(String p:placeList){
-                HumitureDate hpe = new HumitureDate();
-                hpe.setPlace(p);
-                List<HumitureDate.HtPeDate> htDateList = new ArrayList<HumitureDate.HtPeDate>();
-                List<String> equList = Constant.placeEquipmentListMap.get(p);
-                for(String e:equList){
-//                    HumitureDate.HtPeDate ht = new HumitureDate.HtPeDate();
-//                    ht.setEquipment(e);
-                    HumitureDate.HtPeDate htD = null;
-                    if(!CollectionUtils.isEmpty(queryMap)){
-                        htD = queryMap.get(e);
+            for (HumitureDate.HtPeDate htPeDate : queryList){
+                String place = htPeDate.getPlace();
+                HumitureDate curHumitureDate = null;
+                for (HumitureDate humitureDate : htPaDateList){
+                    if (humitureDate.getPlace().equals(place)){
+                        curHumitureDate = humitureDate;
+                        break;
                     }
-                    if(htD == null){
-                        htD = new HumitureDate.HtPeDate(p,e);
-                    }
-                    htDateList.add(htD);
                 }
-                hpe.setHumitureDetailDateList(htDateList);
-                htPaDateList.add(hpe);
+                if (curHumitureDate==null){
+                    curHumitureDate = new HumitureDate();
+                    htPaDateList.add(curHumitureDate);
+                    curHumitureDate.setPlace(place);
+                }
+                List<HumitureDate.HtPeDate> htPeDateList = curHumitureDate.getHumitureDetailDateList();
+                if (htPeDateList==null){
+                    htPeDateList = new ArrayList<>();
+                    curHumitureDate.setHumitureDetailDateList(htPeDateList);
+                }
+                htPeDateList.add(htPeDate);
             }
             resultDto.setHumitureDateList(htPaDateList);
             return resultDto;
+//            Map<String,HumitureDate.HtPeDate> queryMap = MapUtils.listToMap(queryList,"getEquipment");
+//            List<HumitureDate> htPaDateList = new ArrayList<HumitureDate>();
+//            for(String p:placeList){
+//                HumitureDate hpe = new HumitureDate();
+//                hpe.setPlace(p);
+//                List<HumitureDate.HtPeDate> htDateList = new ArrayList<HumitureDate.HtPeDate>();
+//                List<String> equList = Constant.placeEquipmentListMap.get(p);
+//                for(String e:equList){
+////                    HumitureDate.HtPeDate ht = new HumitureDate.HtPeDate();
+////                    ht.setEquipment(e);
+//                    HumitureDate.HtPeDate htD = null;
+//                    if(!CollectionUtils.isEmpty(queryMap)){
+//                        htD = queryMap.get(e);
+//                    }
+//                    if(htD == null){
+//                        htD = new HumitureDate.HtPeDate(p,e);
+//                    }
+//                    htDateList.add(htD);
+//                }
+//                hpe.setHumitureDetailDateList(htDateList);
+//                htPaDateList.add(hpe);
+//            }
+//            resultDto.setHumitureDateList(htPaDateList);
+//            return resultDto;
         }catch (Exception e){
             LogUtils.error(getClass(), e);
             resultDto.setSuccess(false);

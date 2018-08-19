@@ -11,26 +11,10 @@
             a.HUMIDITY,
             a.CLEANLINESS
         from HUMITUREDATA a
-            inner join (
-                select
-                    max(DATADATE) as DATADATE,
-                    FACTORY as factory,
-                    PLACE as place,
-                    EQUIPMENT as equipment
-                from
-                    HUMITUREDATA
-                group by
-                    FACTORY,PLACE,EQUIPMENT
-            ) b
-            on a.DATADATE = b.DATADATE
-                and a.FACTORY = b.FACTORY
-                and a.PLACE = b.PLACE
-                and a.EQUIPMENT = b.EQUIPMENT
         where
             <if test="factory!=null and factory!=''">
                 a.FACTORY=#{factory,jdbcType=VARCHAR}
-            </if>
-
+        </if>
     </select>
 
 
