@@ -4,14 +4,18 @@
 
     <select id="queryCdaData" resultType="com.xm.service.apiimpl.pc.fmcs.cda.dto.CdaData" parameterType="Map">
         select
-            KEY as key,
-            VAL as val,
-            KEYDESC as keyDesc,
-            DATATYPE as dataType,
-            DEMODATA as demoData,
-            DATADATE as dataDate,
-            UNIT as unit
-        from CDADATA
+            a.KEY as key,
+            a.VAL as val,
+            a.KEYDESC as keyDesc,
+            a.DATATYPE as dataType,
+            a.DEMODATA as demoData,
+            a.DATADATE as dataDate,
+            a.UNIT as unit
+        from CDADATA a
+            join (
+                    select key,max(DATADATE) as DATADATE from CDADATA group by key
+            )
+            b on  a.key = b.key and a.DATADATE = b.DATADATE
     </select>
 
     <!--根据key查询-->
