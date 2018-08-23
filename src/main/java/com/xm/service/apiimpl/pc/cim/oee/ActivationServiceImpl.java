@@ -125,12 +125,6 @@ public class ActivationServiceImpl {
 
 
                 List<ActivationDate.StatusDateList> activationIdList = getStatusDateLists(factoryList, beginDate, endDate, groupName);
-//                if (CollectionUtils.isEmpty(activationIdList)){
-//                    //如果这一小时数据还没有出来，取上一小时的数据
-//                    beginDate = DateUtils.getBeforDayStartDay(1);
-//                    endDate = DateUtils.getBeforDayEndDay(1);
-//                    activationIdList = getStatusDateLists(factoryList, beginDate, endDate, groupName);
-//                }
                 Map<String, ActivationDate.StatusDateList> queryMap = MapUtils.listToMap(activationIdList, "key");
 
                 List<ActivationDate.StatusDateList> dtList = new ArrayList<ActivationDate.StatusDateList>();

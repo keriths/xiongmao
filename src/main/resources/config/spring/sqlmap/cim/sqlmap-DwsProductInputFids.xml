@@ -24,12 +24,12 @@
             and PERIODDATE <= #{endDate}
             ]]>
             and FACTORY = 'ARRAY'
-
+            and PRODUCTTYPE IN ('CS','CM','MP')
             and PRODUCTID IN
             <foreach collection="productIdList" open="(" separator="," close=")" item="productId">
                 #{productId}
             </foreach>
-            and PRODUCTTYPE IN ('CS','CM','MP')
+
         group by
             <if test="dateType=='day'.toString()">
                 to_char(PERIODDATE,'MM/DD')

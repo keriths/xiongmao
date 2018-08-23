@@ -1,7 +1,7 @@
 package com.xm.service.apiimpl.pc.cim.equipmentstatus;
 
 import com.alibaba.fastjson.JSONObject;
-import com.xm.job.Tibrvlisten;
+import com.google.common.collect.Lists;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
@@ -26,7 +26,6 @@ import java.util.*;
 @Service("EquipmentRealTimeStatusService")
 @ApiServiceDoc(name = "CIM1_设备实时状态（设备比例公式还没提供，目前数据随便用了一个公式,还需要和消息对接联调）")
 public class EquipmentStatusServiceImpl {
-    private static Map<String,List<String>> productMap = Constant.productMap;
     @Resource(name = "dwrEquipmentStatusFidsDAO")
     public DwrEquipmentStatusFidsDAO dwrEquipmentStatusFidsDAO;
     @Resource
@@ -36,10 +35,16 @@ public class EquipmentStatusServiceImpl {
     public EquipmentStatusDataRetDTO equipmentStatus(@ApiParamDoc(desc = "厂别名称如ARRAY,CELL,CF,SL-OC")String factory){
         EquipmentStatusDataRetDTO resultDto = new EquipmentStatusDataRetDTO();
         try {
-            List<String> factoryList = Constant.factoryMap.get(factory);
+            Map<String,List<String>> factoryMap = MapUtils.newMap(
+                    "ARRAY", Lists.newArrayList("ARRAY"),
+                    "CELL", Lists.newArrayList("CELL"),
+                    "CF", Lists.newArrayList("CF"),
+                    "SL-OC", Lists.newArrayList("SL","OC")
+            );
+            List<String> factoryList = factoryMap.get(factory);
             if (factoryList==null){
                 resultDto.setSuccess(false);
-                resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.factoryMap.keySet() + "】");
+                resultDto.setErrorMsg("factory参数错误,请传入【" + factoryMap.keySet() + "】");
                 return resultDto;
             }
             List<EquipmentStatusData> queryList = dwrEquipmentStatusFidsDAO.queryStatusData(factoryList);
@@ -52,28 +57,28 @@ public class EquipmentStatusServiceImpl {
             return resultDto;
         }
     }
-
     @ApiMethodDoc(apiCode = "CIM_ThroughputData",name = "过货量推移数据接口(OK 几个数值的公式还要替换)")
     public EquipmentThroughputDataRetDTO equipmentThroughput(@ApiParamDoc(desc = "厂别名称如ARRAY,CELL,CF,SL-OC")String factory){
         EquipmentThroughputDataRetDTO resultDto = new EquipmentThroughputDataRetDTO();
         try{
-            List<String> factoryList = Constant.factoryMap.get(factory);
-            if (!Constant.showFactoryList.contains(factory)){
+            List<String> showFactoryList = Lists.newArrayList("ARRAY","CELL","CF","SL-OC");
+            Map<String,List<String>> factoryMap = MapUtils.newMap(
+                    "ARRAY", Lists.newArrayList("ARRAY"),
+                    "CELL", Lists.newArrayList("CELL"),
+                    "CF", Lists.newArrayList("CF"),
+                    "SL-OC", Lists.newArrayList("OC")
+            );
+            if (!showFactoryList.contains(factory)){
                 resultDto.setSuccess(false);
                 resultDto.setErrorMsg("factory参数错误,请传入【" + Constant.showFactoryList + "】");
                 return resultDto;
             }
-            final List<String> productIdList = new ArrayList<>();
-            productMap.entrySet().stream().forEach(entry -> productIdList.addAll(entry.getValue()));
-
+            List<String> factoryList = factoryMap.get(factory);
             List<String> dateList = null;
             Date beginDate = DateUtils.getBeforHourStartDay(11);
             Date endDate = new Date();
             dateList = DateUtils.getHourStrList(beginDate,endDate);
-
-            List<String> productTypeList=Constant.productTypeTestList;
-
-            List<EquipmentThroughputData> dataList= dwsProductOutputFidsHDAO.queryThroughputData(productIdList,factoryList,beginDate,endDate,productTypeList);
+            List<EquipmentThroughputData> dataList= dwsProductOutputFidsHDAO.queryThroughputData(null,factoryList,beginDate,endDate,null);
             Map<String,EquipmentThroughputData> dataMap= MapUtils.listToMap(dataList,"getDataDate");
             List<EquipmentThroughputData> throughputList =new ArrayList<EquipmentThroughputData>();
             for (String str:dateList){

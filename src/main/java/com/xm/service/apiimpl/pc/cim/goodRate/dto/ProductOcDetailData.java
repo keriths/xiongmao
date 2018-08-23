@@ -67,7 +67,7 @@ public class ProductOcDetailData {
 
     public BigDecimal getInLine() {
         if (inLine!=null){
-            return (inLine.floatValue()>100)?new BigDecimal("100"):inLine;
+            return (inLine.floatValue()>100)?new BigDecimal("100"):inLine.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
         if (getIobOutPut().equals(BigDecimal.ZERO)||getPolOutPut().equals(BigDecimal.ZERO)){
             return BigDecimal.ZERO;

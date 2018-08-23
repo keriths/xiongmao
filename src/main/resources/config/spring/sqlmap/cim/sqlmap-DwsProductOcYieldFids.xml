@@ -3,7 +3,7 @@
 <mapper namespace="com.xm.service.dao.cim.DwsProductOcYieldFidsDAO" >
 
     <sql id="inline">
-          (
+          ((
             (
               sum(ABI_OUTPUT_PA)+
               sum(MBI_OUTPUT_PA)+
@@ -29,7 +29,7 @@
               sum(MBI_OUTPUT)
             )
             +
-              sum(ACTUAL_REPAIR_YIELD_D)
+              sum(nvl(ACTUAL_REPAIR_YIELD_D,0))
           )
           *
           (
@@ -56,8 +56,8 @@
               sum(OEI_OUTPUT_JUDGE39)
             )/sum(OEI_OUTPUT)
             +
-            sum(ACTUAL_REPAIR_YIELD_D)
-          )
+            sum(nvl(ACTUAL_REPAIR_YIELD_D,0))
+          ))*100
     </sql>
 
     <select id="queryProductOcData" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcDetailData" parameterType="Map">
@@ -83,10 +83,7 @@
         <foreach collection="productIdList" item="productId" open="(" separator="," close=")">
             #{productId}
         </foreach>
-        and PRODUCTTYPE NOT IN
-        <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
-            #{productType}
-        </foreach>
+        and PRODUCTTYPE NOT IN ('DM')
         GROUP BY
         <if test="dateType=='month'.toString()">/*按月*/
             TO_CHAR(PERIODDATE,'MM')||'月'
@@ -111,10 +108,7 @@
         DWS_PRODUCT_OC_YIELD_FIDS
         WHERE
         PRODUCTID IN ('C41A', 'D41A','A1CC495PU1L01','D0NL495PU1L01', 'C51A','D51A','A1CC575PU1L01','A1CC575PU3L01')
-        and PRODUCTTYPE NOT IN
-        <foreach collection="productTypeList" item="productType" open="(" separator="," close=")">
-            #{productType}
-        </foreach>
+        and PRODUCTTYPE NOT IN ('DM')
         <![CDATA[
           and PERIODDATE >= #{startDate}
           and PERIODDATE <= #{endDate}
