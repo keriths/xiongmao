@@ -2,7 +2,6 @@ package com.xm.service.apiimpl.pc.fmcs.water.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.RandomUtils;
-import com.xm.service.constant.Constant;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -20,7 +19,7 @@ public class FreezeWaterRealTimeData {
     private String periodDate;
 
     public static class FreezeWaterRealTimeDetailData{
-
+        boolean showDemoData = false;
         private Date dataFactDate;
         public Date getDataFactDate() {
             return dataFactDate;
@@ -49,7 +48,7 @@ public class FreezeWaterRealTimeData {
 
         public BigDecimal getSpeed() {
             if (speed==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     speed = RandomUtils.speed(1f, dataDate, 3);
                 }else {
                     speed=new BigDecimal(0);
