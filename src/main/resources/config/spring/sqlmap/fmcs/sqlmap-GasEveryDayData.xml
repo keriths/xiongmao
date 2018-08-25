@@ -2,57 +2,70 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.fmcs.GasEveryDayDataDAO" >
 
-    <select id="queryBigGasStatisticsDate" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.gas.dto.BigGasStatisticsDateRetDTO$BigGasStatisticsDate">
-        select
-            sum(TOTALNUM) as totalNum,
-            GASNAME as gasName,
-            <if test="dateType=='day'.toString()">
-                to_char(DATADATE,'mm/dd')
-            </if>
-            <if test="dateType=='month'.toString()">
-                to_char(DATADATE,'MM') ||'月'
-            </if>
-            as periodDate
-        from
-          GASEVERYDAYDATA
-        where
-            <![CDATA[
-                DATADATE >= #{beginDate}
-                and DATADATE <= #{endDate}
-            ]]>
-            <if test="gasName!=null and gasName!=''">
-                AND GASNAME=#{gasName,jdbcType=VARCHAR}
-            </if>
-        group by
-            <if test="dateType=='day'.toString()">
-                to_char(DATADATE,'mm/dd'),
-            </if>
-            <if test="dateType=='month'.toString()">
-                to_char(DATADATE,'MM') ||'月',
-            </if>
-            GASNAME
+
+    <select id="queryBigGasEveryDayDataByDateList" parameterType="map" resultType="com.xm.service.dto.DayDataDTO">
+        SELECT TotalNum as totalNum,TO_CHAR(DATADATE,'YYYY-MM-DD') as dataDate
+        FROM GASEVERYDAYDATA
+        WHERE GASNAME=#{gasName,jdbcType=VARCHAR}
+        AND DATADATE IN
+        <foreach collection="queryDays" item="queryDate" open="(" separator="," close=")">
+            #{queryDate,jdbcType=DATE}
+        </foreach>
+        and TotalNum is not null
+        and TotalNum != -2147483648
     </select>
 
+    <!--<select id="queryBigGasStatisticsDate" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.gas.dto.BigGasStatisticsDateRetDTO$BigGasStatisticsDate">-->
+        <!--select-->
+            <!--sum(TOTALNUM) as totalNum,-->
+            <!--GASNAME as gasName,-->
+            <!--<if test="dateType=='day'.toString()">-->
+                <!--to_char(DATADATE,'mm/dd')-->
+            <!--</if>-->
+            <!--<if test="dateType=='month'.toString()">-->
+                <!--to_char(DATADATE,'MM') ||'月'-->
+            <!--</if>-->
+            <!--as periodDate-->
+        <!--from-->
+          <!--GASEVERYDAYDATA-->
+        <!--where-->
+            <!--<![CDATA[-->
+                <!--DATADATE >= #{beginDate}-->
+                <!--and DATADATE <= #{endDate}-->
+            <!--]]>-->
+            <!--<if test="gasName!=null and gasName!=''">-->
+                <!--AND GASNAME=#{gasName,jdbcType=VARCHAR}-->
+            <!--</if>-->
+        <!--group by-->
+            <!--<if test="dateType=='day'.toString()">-->
+                <!--to_char(DATADATE,'mm/dd'),-->
+            <!--</if>-->
+            <!--<if test="dateType=='month'.toString()">-->
+                <!--to_char(DATADATE,'MM') ||'月',-->
+            <!--</if>-->
+            <!--GASNAME-->
+    <!--</select>-->
 
-    <select id="loadByPrimaryKey" parameterType="map" resultType="map">
-        SELECT * from GASEVERYDAYDATA
-        where
-        GASNAME = #{GASNAME} and
-        DATADATE = #{DATADATE}
-    </select>
-    <insert id="addData" parameterType="map">
-        INSERT INTO  GASEVERYDAYDATA
-        (GASNAME,   DATADATE,   TOTALNUM,   CREATEDATE) VALUES
-        (#{GASNAME},#{DATADATE},#{TOTALNUM},sysdate)
-    </insert>
-    <update id="updateData" parameterType="map">
-        UPDATE GASEVERYDAYDATA SET
-        TOTALNUM = #{TOTALNUM} ,
-        CREATEDATE = sysdate
-        WHERE
-        GASNAME = #{GASNAME} and
-        DATADATE = #{DATADATE}
-    </update>
+
+    <!--<select id="loadByPrimaryKey" parameterType="map" resultType="map">-->
+        <!--SELECT * from GASEVERYDAYDATA-->
+        <!--where-->
+        <!--GASNAME = #{GASNAME} and-->
+        <!--DATADATE = #{DATADATE}-->
+    <!--</select>-->
+    <!--<insert id="addData" parameterType="map">-->
+        <!--INSERT INTO  GASEVERYDAYDATA-->
+        <!--(GASNAME,   DATADATE,   TOTALNUM,   CREATEDATE) VALUES-->
+        <!--(#{GASNAME},#{DATADATE},#{TOTALNUM},sysdate)-->
+    <!--</insert>-->
+    <!--<update id="updateData" parameterType="map">-->
+        <!--UPDATE GASEVERYDAYDATA SET-->
+        <!--TOTALNUM = #{TOTALNUM} ,-->
+        <!--CREATEDATE = sysdate-->
+        <!--WHERE-->
+        <!--GASNAME = #{GASNAME} and-->
+        <!--DATADATE = #{DATADATE}-->
+    <!--</update>-->
 
     <select id="queryBigGasByDateAndGasNameList" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.humidity.dto.GasCollectDataDTO$GasCollectData">
         SELECT

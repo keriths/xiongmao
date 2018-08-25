@@ -15,25 +15,19 @@ import java.util.Map;
  */
 @Repository("freezeWaterEveryDayDataDAO")
 public interface FreezeWaterEveryDayDataDAO {
+//
+//    /**
+//     *
+//     * @param dateType 日期类型
+//     * @param beginDate 开始时间
+//     * @param endDate 结束时间
+//     * @return
+//     */
+//    List<FreezeWaterEveryDayData> freezeWaterEveryDayData(@Param("dateType")String dateType,
+//                                                          @Param("beginDate") Date beginDate,
+//                                                          @Param("endDate") Date endDate,
+//                                                          @Param("waterType")String waterType);
 
-    /**
-     *
-     * @param dateType 日期类型
-     * @param beginDate 开始时间
-     * @param endDate 结束时间
-     * @return
-     */
-    List<FreezeWaterEveryDayData> freezeWaterEveryDayData(@Param("dateType")String dateType,
-                                                          @Param("beginDate") Date beginDate,
-                                                          @Param("endDate") Date endDate,
-                                                          @Param("waterType")String waterType);
-
-
-    Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
-
-    void addData(Map<String, Object> mapData);
-
-    void updateData(Map<String, Object> mapData);
 
     List<WaterElectricityCollectDataDTO.WaterElectricityCollectData> queryFreezeWaterByDate(
             @Param("startDate")Date startDate,

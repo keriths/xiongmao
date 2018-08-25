@@ -7,6 +7,7 @@ import com.xm.service.dto.BaseRetDTO;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,6 +20,17 @@ public class NatgasRealTimeData {
     private String periodDate;
 
     public static class NatgasTimeDetailData{
+
+        boolean showDemoData = false;
+        private Date dataFactDate;
+        public Date getDataFactDate() {
+            return dataFactDate;
+        }
+
+        public void setDataFactDate(Date dataFactDate) {
+            this.dataFactDate = dataFactDate;
+        }
+
         public NatgasTimeDetailData(){}
 
         public NatgasTimeDetailData(String periodDate,String dataDate){
@@ -52,7 +64,7 @@ public class NatgasRealTimeData {
 
         public BigDecimal getSpeed() {
             if (speed==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     speed = RandomUtils.speed(24f,dataDate,1,0.02f);
                 }else {
                     speed=new BigDecimal(0);

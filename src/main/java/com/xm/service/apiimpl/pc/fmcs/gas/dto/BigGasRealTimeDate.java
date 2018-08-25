@@ -2,10 +2,10 @@ package com.xm.service.apiimpl.pc.fmcs.gas.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.RandomUtils;
-import com.xm.service.constant.Constant;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -20,6 +20,15 @@ public class BigGasRealTimeDate {
 
     public static class GasRealTimeDate implements Serializable{
 
+        boolean showDemoData = false;
+        private Date dataFactDate;
+        public Date getDataFactDate() {
+            return dataFactDate;
+        }
+
+        public void setDataFactDate(Date dataFactDate) {
+            this.dataFactDate = dataFactDate;
+        }
         public GasRealTimeDate(){
 
         }
@@ -57,7 +66,7 @@ public class BigGasRealTimeDate {
 
         public BigDecimal getSpeed() {
             if (speed==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     if("GN2".equals(getGasName())){
                         speed = RandomUtils.speed(36000f,secondDate,0,0.02f);
                     }else if ("PHe".equals(getGasName())){

@@ -1,5 +1,8 @@
 package com.xm.service.apiimpl.pc.fmcs.gas;
 
+import com.xm.DayDataQueryTools;
+import com.xm.IQueryDayDataList;
+import com.xm.ITransferData;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
@@ -12,12 +15,14 @@ import com.xm.service.dao.fmcs.GasEveryDayDataDAO;
 import com.xm.service.dao.fmcs.GasRealTimeDataDAO;
 import com.xm.service.dao.fmcs.NatgasEveryDayDataDAO;
 import com.xm.service.dao.fmcs.NatgasRealTimeDataDAO;
+import com.xm.service.dto.DayDataDTO;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -105,28 +110,46 @@ public class GasServiceImpl {
                 return resultDto;
             }
 
-            List<String> dateList = null;
-            Date beginDate = null;
-            Date endDate = new Date();
-            if (dateType.equals(Constant.day)){
-                beginDate = DateUtils.getBeforDayStartDay(12);
-                dateList = DateUtils.getDayStrList(beginDate,endDate);
-            }else if (dateType.equals(Constant.month)){
-                beginDate = DateUtils.getBeforMonthStartDay(11);
-                dateList = DateUtils.getMonthStrList(beginDate,endDate);
-            }
-            List<NatgasStatisticsDataRetDTO.GsaStatisticsData>  dataList=natgasEveryDayDataDAO.queryGsaStatisticsData(dateType,gasType,beginDate,endDate);
-            Map<String,NatgasStatisticsDataRetDTO.GsaStatisticsData> dataMap= MapUtils.listToMap(dataList,"getPeriodDate");
-            List<NatgasStatisticsDataRetDTO.GsaStatisticsData> gsaStatisticsDataList =new ArrayList<NatgasStatisticsDataRetDTO.GsaStatisticsData>();
-            for (String str:dateList){
-                NatgasStatisticsDataRetDTO.GsaStatisticsData gsaStatisticsData =dataMap.get(str);
-                if(gsaStatisticsData ==null){
-                    gsaStatisticsData =new NatgasStatisticsDataRetDTO.GsaStatisticsData(str);
-                }
-                gsaStatisticsDataList.add(gsaStatisticsData);
-            }
+            List<NatgasStatisticsDataRetDTO.GsaStatisticsData> gsaStatisticsDataList = DayDataQueryTools.queryDayStatics(gasType, dateType, new IQueryDayDataList() {
+                        @Override
+                        public List<DayDataDTO> queryFreezeWaterByDateList(String gasType, List<Date> queryDays) {
+                            return natgasEveryDayDataDAO.queryNatgasEveryDayDataByDateList(gasType,queryDays);
+                        }
+                    },
+                    new ITransferData<NatgasStatisticsDataRetDTO.GsaStatisticsData>() {
+                        @Override
+                        public NatgasStatisticsDataRetDTO.GsaStatisticsData queryFreezeWaterByDateList(String gasType, String dateType, Date today, Date tomorrow, BigDecimal todayNum, BigDecimal tomorrowNum) {
+                            NatgasStatisticsDataRetDTO.GsaStatisticsData dayData = new NatgasStatisticsDataRetDTO.GsaStatisticsData(gasType,dateType,today,todayNum,tomorrow,tomorrowNum);
+                            return dayData;
+                        }
+                    }
+            );
             resultDto.setDataList(gsaStatisticsDataList);
             return resultDto;
+//
+//
+//            List<String> dateList = null;
+//            Date beginDate = null;
+//            Date endDate = new Date();
+//            if (dateType.equals(Constant.day)){
+//                beginDate = DateUtils.getBeforDayStartDay(12);
+//                dateList = DateUtils.getDayStrList(beginDate,endDate);
+//            }else if (dateType.equals(Constant.month)){
+//                beginDate = DateUtils.getBeforMonthStartDay(11);
+//                dateList = DateUtils.getMonthStrList(beginDate,endDate);
+//            }
+//            List<NatgasStatisticsDataRetDTO.GsaStatisticsData>  dataList=natgasEveryDayDataDAO.queryGsaStatisticsData(dateType,gasType,beginDate,endDate);
+//            Map<String,NatgasStatisticsDataRetDTO.GsaStatisticsData> dataMap= MapUtils.listToMap(dataList,"getPeriodDate");
+//            List<NatgasStatisticsDataRetDTO.GsaStatisticsData> gsaStatisticsDataList =new ArrayList<NatgasStatisticsDataRetDTO.GsaStatisticsData>();
+//            for (String str:dateList){
+//                NatgasStatisticsDataRetDTO.GsaStatisticsData gsaStatisticsData =dataMap.get(str);
+//                if(gsaStatisticsData ==null){
+//                    gsaStatisticsData =new NatgasStatisticsDataRetDTO.GsaStatisticsData(str);
+//                }
+//                gsaStatisticsDataList.add(gsaStatisticsData);
+//            }
+//            resultDto.setDataList(gsaStatisticsDataList);
+//            return resultDto;
         } catch (Exception e) {
             LogUtils.error(this.getClass(), "natgasStatistics eclipse", e);
             resultDto.setSuccess(false);
@@ -200,34 +223,53 @@ public class GasServiceImpl {
                 resultDto.setErrorMsg("gasName参数错误,请传入【" + Constant.gasNamelist + "】");
                 return resultDto;
             }
-            List<String> dateList = null;
-            Date beginDate = null;
-            Date endDate = new Date();
-            if (dateType.equals(Constant.day)){
-                beginDate = DateUtils.getBeforDayStartDay(12);
-                dateList = DateUtils.getDayStrList(beginDate,endDate);
-            }else if (dateType.equals(Constant.month)){
-                beginDate = DateUtils.getBeforMonthStartDay(11);
-                dateList = DateUtils.getMonthStrList(beginDate,endDate);
-            }
-            List<BigGasStatisticsDateRetDTO.BigGasStatisticsDate> queryList = gasEveryDayDataDAO.queryBigGasStatisticsDate(gasName,dateType,beginDate,endDate);
-            Map<String,BigGasStatisticsDateRetDTO.BigGasStatisticsDate> queryMap = MapUtils.listToMap(queryList,"getPeriodDate");
-            List<BigGasStatisticsDateRetDTO.BigGasStatisticsDate> bigGasSt = new ArrayList<BigGasStatisticsDateRetDTO.BigGasStatisticsDate>();
-            for(String day:dateList){
-                BigGasStatisticsDateRetDTO.BigGasStatisticsDate gasSt = new BigGasStatisticsDateRetDTO.BigGasStatisticsDate();
-                gasSt.setPeriodDate(day);
-                BigGasStatisticsDateRetDTO.BigGasStatisticsDate date = null;
-                if(!CollectionUtils.isEmpty(queryMap)){
-                    date = queryMap.get(day);
-                }
-                if(date == null){
-                    date = new BigGasStatisticsDateRetDTO.BigGasStatisticsDate(day);
-                }
-                bigGasSt.add(date);
-                resultDto.setBigGasStatisticsDateList(bigGasSt);
-            }
 
+            List<BigGasStatisticsDateRetDTO.BigGasStatisticsDate> bigGasSt = DayDataQueryTools.queryDayStatics(gasName, dateType, new IQueryDayDataList() {
+                        @Override
+                        public List<DayDataDTO> queryFreezeWaterByDateList(String gasType, List<Date> queryDays) {
+                            return gasEveryDayDataDAO.queryBigGasEveryDayDataByDateList(gasType,queryDays);
+                        }
+                    },
+                    new ITransferData<BigGasStatisticsDateRetDTO.BigGasStatisticsDate>() {
+                        @Override
+                        public BigGasStatisticsDateRetDTO.BigGasStatisticsDate queryFreezeWaterByDateList(String gasType, String dateType, Date today, Date tomorrow, BigDecimal todayNum, BigDecimal tomorrowNum) {
+                            BigGasStatisticsDateRetDTO.BigGasStatisticsDate dayData = new BigGasStatisticsDateRetDTO.BigGasStatisticsDate(gasType,dateType,today,todayNum,tomorrow,tomorrowNum);
+                            return dayData;
+                        }
+                    }
+            );
+            resultDto.setBigGasStatisticsDateList(bigGasSt);
             return resultDto;
+//
+//
+//            List<String> dateList = null;
+//            Date beginDate = null;
+//            Date endDate = new Date();
+//            if (dateType.equals(Constant.day)){
+//                beginDate = DateUtils.getBeforDayStartDay(12);
+//                dateList = DateUtils.getDayStrList(beginDate,endDate);
+//            }else if (dateType.equals(Constant.month)){
+//                beginDate = DateUtils.getBeforMonthStartDay(11);
+//                dateList = DateUtils.getMonthStrList(beginDate,endDate);
+//            }
+//            List<BigGasStatisticsDateRetDTO.BigGasStatisticsDate> queryList = gasEveryDayDataDAO.queryBigGasStatisticsDate(gasName,dateType,beginDate,endDate);
+//            Map<String,BigGasStatisticsDateRetDTO.BigGasStatisticsDate> queryMap = MapUtils.listToMap(queryList,"getPeriodDate");
+//            List<BigGasStatisticsDateRetDTO.BigGasStatisticsDate> bigGasSt = new ArrayList<BigGasStatisticsDateRetDTO.BigGasStatisticsDate>();
+//            for(String day:dateList){
+//                BigGasStatisticsDateRetDTO.BigGasStatisticsDate gasSt = new BigGasStatisticsDateRetDTO.BigGasStatisticsDate();
+//                gasSt.setPeriodDate(day);
+//                BigGasStatisticsDateRetDTO.BigGasStatisticsDate date = null;
+//                if(!CollectionUtils.isEmpty(queryMap)){
+//                    date = queryMap.get(day);
+//                }
+//                if(date == null){
+//                    date = new BigGasStatisticsDateRetDTO.BigGasStatisticsDate(day);
+//                }
+//                bigGasSt.add(date);
+//                resultDto.setBigGasStatisticsDateList(bigGasSt);
+//            }
+//
+//            return resultDto;
         }catch (Exception e){
             LogUtils.error(this.getClass(),"bigGasStatistics eclipse",e);
             resultDto.setSuccess(false);

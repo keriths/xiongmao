@@ -1,5 +1,6 @@
 package com.xm.service.apiimpl.pc.fmcs.water;
 
+import com.xm.DayDataQueryTools;
 import com.xm.IQueryDayDataList;
 import com.xm.ITransferData;
 import com.xm.platform.annotations.ApiMethodDoc;
@@ -219,7 +220,7 @@ public class WaterServiceImpl {
                 tapEveryDayRet.setErrorMsg("dateType参数错误,请传入【" + Constant.gasDateTypeList + "】");
                 return tapEveryDayRet;
             }
-            List<TapWaterEveryDayData> tapWaterEveryDayDataList = queryDayStatics("市政府自来水", dateType,
+            List<TapWaterEveryDayData> tapWaterEveryDayDataList = DayDataQueryTools.queryDayStatics("市政府自来水", dateType,
                     new IQueryDayDataList() {
                         @Override
                         public List<DayDataDTO> queryFreezeWaterByDateList(String waterType, List<Date> queryDays) {
@@ -262,7 +263,7 @@ public class WaterServiceImpl {
                 pureEveryDayRet.setErrorMsg("waterType参数错误,请传入【" + Constant.PureTypeList + "】");
                 return pureEveryDayRet;
             }
-            pureEveryDayRet.setPureWaterEveryDayDataList(queryDayStatics(waterType, dateType,
+            pureEveryDayRet.setPureWaterEveryDayDataList(DayDataQueryTools.queryDayStatics(waterType, dateType,
                     new IQueryDayDataList() {
                         @Override
                         public List<DayDataDTO> queryFreezeWaterByDateList(String waterType, List<Date> queryDays) {
@@ -302,7 +303,7 @@ public class WaterServiceImpl {
                 freezeEveryDayRet.setErrorMsg("waterType参数错误,请传入【" + Constant.FreezeTypeList + "】");
                 return freezeEveryDayRet;
             }
-            freezeEveryDayRet.setFreezeWaterEveryDayDataList(queryDayStatics(waterType, dateType,
+            freezeEveryDayRet.setFreezeWaterEveryDayDataList(DayDataQueryTools.queryDayStatics(waterType, dateType,
                     new IQueryDayDataList() {
                         @Override
                         public List<DayDataDTO> queryFreezeWaterByDateList(String waterType, List<Date> queryDays) {
@@ -312,7 +313,7 @@ public class WaterServiceImpl {
                     new ITransferData<FreezeWaterEveryDayData>() {
                         @Override
                         public FreezeWaterEveryDayData queryFreezeWaterByDateList(String waterType, String dateType, Date today, Date tomorrow, BigDecimal todayNum, BigDecimal tomorrowNum) {
-                            return new FreezeWaterEveryDayData(waterType,dateType,today,tomorrow,todayNum,tomorrowNum);
+                            return new FreezeWaterEveryDayData(waterType, dateType, today, tomorrow, todayNum, tomorrowNum);
                         }
                     }));
             return freezeEveryDayRet;
@@ -324,22 +325,6 @@ public class WaterServiceImpl {
         }
     }
 
-    private <T> List<T> queryDayStatics(String waterType,String dateType,IQueryDayDataList iQueryDayDataList,ITransferData<T> iTransferData){
-        List<Date> queryDays = DateUtils.getQueryDates(dateType);
-        List<DayDataDTO> dayDataDTOList = iQueryDayDataList.queryFreezeWaterByDateList(waterType,queryDays);
-        Map<String,DayDataDTO> mapData = MapUtils.listToMap(dayDataDTOList,"getDataDate");
-        List<T> freezeWaterEveryDayDataList = new ArrayList<>();
-        for (int i = 0;i<queryDays.size()-1;i++){
-            Date today = queryDays.get(i);
-            Date tomorrow = queryDays.get(i+1);
-            DayDataDTO todayData =  mapData.get(DateUtils.getStrDate(today,"yyyy-MM-dd"));
-            DayDataDTO tomorrowData =  mapData.get(DateUtils.getStrDate(tomorrow,"yyyy-MM-dd"));
-            BigDecimal todayNum = todayData==null?null:todayData.getTotalNum();
-            BigDecimal tomorrowNum = tomorrowData==null?null:tomorrowData.getTotalNum();
-            T t = iTransferData.queryFreezeWaterByDateList(waterType,dateType,today,tomorrow,todayNum,tomorrowNum);
-            freezeWaterEveryDayDataList.add(t);
-        }
-        return freezeWaterEveryDayDataList;
-    }
+
 
 }

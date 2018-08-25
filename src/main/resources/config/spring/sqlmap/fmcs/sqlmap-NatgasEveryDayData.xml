@@ -2,31 +2,43 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.fmcs.NatgasEveryDayDataDAO" >
 
-    <select id="queryGsaStatisticsData" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.gas.dto.NatgasStatisticsDataRetDTO$GsaStatisticsData">
-        SELECT
-            SUM (TotalNum) as totalNum,
-            <if test="dateType=='month'.toString()">/*按月*/
-                TO_CHAR(DataDate,'MM')||'月'
-            </if>
-            <if test="dateType=='day'.toString()">/*按天*/
-                TO_CHAR(DataDate,'mm/dd')
-            </if>
-            as periodDate
+    <select id="queryNatgasEveryDayDataByDateList" parameterType="map" resultType="com.xm.service.dto.DayDataDTO">
+        SELECT TotalNum as totalNum,TO_CHAR(DATADATE,'YYYY-MM-DD') as dataDate
         FROM NatgasEveryDayData
-        WHERE
-            <![CDATA[
-               DataDate >= #{beginDate}
-              and DataDate <= #{endDate}
-            ]]>
-            AND GasType=#{gasType,jdbcType=VARCHAR}
-        GROUP BY
-            <if test="dateType=='month'.toString()">/*按月*/
-                TO_CHAR(DataDate,'MM')||'月'
-            </if>
-            <if test="dateType=='day'.toString()">
-                TO_CHAR(DataDate,'mm/dd')
-            </if>
+        WHERE GasType=#{gasType,jdbcType=VARCHAR}
+        AND DATADATE IN
+        <foreach collection="queryDateList" item="queryDate" open="(" separator="," close=")">
+            #{queryDate,jdbcType=DATE}
+        </foreach>
+        and TotalNum is not null
+        and TotalNum != -2147483648
     </select>
+
+    <!--<select id="queryGsaStatisticsData" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.gas.dto.NatgasStatisticsDataRetDTO$GsaStatisticsData">-->
+        <!--SELECT-->
+            <!--SUM (TotalNum) as totalNum,-->
+            <!--<if test="dateType=='month'.toString()">/*按月*/-->
+                <!--TO_CHAR(DataDate,'MM')||'月'-->
+            <!--</if>-->
+            <!--<if test="dateType=='day'.toString()">/*按天*/-->
+                <!--TO_CHAR(DataDate,'mm/dd')-->
+            <!--</if>-->
+            <!--as periodDate-->
+        <!--FROM NatgasEveryDayData-->
+        <!--WHERE-->
+            <!--<![CDATA[-->
+               <!--DataDate >= #{beginDate}-->
+              <!--and DataDate <= #{endDate}-->
+            <!--]]>-->
+            <!--AND GasType=#{gasType,jdbcType=VARCHAR}-->
+        <!--GROUP BY-->
+            <!--<if test="dateType=='month'.toString()">/*按月*/-->
+                <!--TO_CHAR(DataDate,'MM')||'月'-->
+            <!--</if>-->
+            <!--<if test="dateType=='day'.toString()">-->
+                <!--TO_CHAR(DataDate,'mm/dd')-->
+            <!--</if>-->
+    <!--</select>-->
 
 
     <!--<select id="loadByPrimaryKey" parameterType="map" resultType="map">-->

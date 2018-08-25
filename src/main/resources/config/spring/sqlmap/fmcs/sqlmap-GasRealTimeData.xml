@@ -3,12 +3,14 @@
 <mapper namespace="com.xm.service.dao.fmcs.GasRealTimeDataDAO" >
 
     <select id="queryBigGasRealTimeDate" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.gas.dto.BigGasRealTimeDate$GasRealTimeDate">
+        <![CDATA[
+
         select
             GASNAME as gasName,
-            avg(SPEED) as speed,
+            SPEED as speed,
             TO_CHAR(DATADATE,'mi')||':00' as periodDate,
-            <![CDATA[
-                TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<05 then '00'
+            datadate as dataFactDate,
+            TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<05 then '00'
                 when To_number(TO_CHAR(DataDate,'ss'))<10 then '05'
                 when To_number(TO_CHAR(DataDate,'ss'))<15 then '10'
                 when To_number(TO_CHAR(DataDate,'ss'))<20 then '15'
@@ -19,58 +21,17 @@
                 when To_number(TO_CHAR(DataDate,'ss'))<45 then '40'
                 when To_number(TO_CHAR(DataDate,'ss'))<50 then '45'
                 when To_number(TO_CHAR(DataDate,'ss'))<55 then '50'
-            ]]>
-            else '55'
-            end
-            as secondDate
+            else '55' end as secondDate
         from GASREALTIMEDATA
         WHERE
-            <![CDATA[
-                   DATADATE >= #{beginDate}
+                Speed is not NULL
+                and Speed != -2147483648
+                AND   DATADATE >= #{beginDate}
                   and DATADATE <= #{endDate}
-             ]]>
-            <if test="gasName!=null and gasName!=''">
                 AND GASNAME=#{gasName,jdbcType=VARCHAR}
-            </if>
-        GROUP BY
-            GASNAME,
-            TO_CHAR(DATADATE,'mi')||':00',
-            <![CDATA[
-                TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<05 then '00'
-                when To_number(TO_CHAR(DataDate,'ss'))<10 then '05'
-                when To_number(TO_CHAR(DataDate,'ss'))<15 then '10'
-                when To_number(TO_CHAR(DataDate,'ss'))<20 then '15'
-                when To_number(TO_CHAR(DataDate,'ss'))<25 then '20'
-                when To_number(TO_CHAR(DataDate,'ss'))<30 then '25'
-                when To_number(TO_CHAR(DataDate,'ss'))<35 then '30'
-                when To_number(TO_CHAR(DataDate,'ss'))<40 then '35'
-                when To_number(TO_CHAR(DataDate,'ss'))<45 then '40'
-                when To_number(TO_CHAR(DataDate,'ss'))<50 then '45'
-                when To_number(TO_CHAR(DataDate,'ss'))<55 then '50'
-            ]]>
-            else '55'
-            end
+        order by dataFactDate
+      ]]>
     </select>
 
-
-    <select id="loadByPrimaryKey" parameterType="map" resultType="map">
-        SELECT * from GASREALTIMEDATA
-        where
-            GASNAME = #{GASNAME} and
-            DATADATE = #{DATADATE}
-    </select>
-    <insert id="addData" parameterType="map">
-        INSERT INTO  GASREALTIMEDATA
-        ( GASNAME,   DATADATE,   SPEED,   CREATEDATE) VALUES
-        (#{GASNAME},#{DATADATE},#{SPEED},sysdate)
-    </insert>
-    <update id="updateData" parameterType="map">
-        UPDATE GASREALTIMEDATA SET
-        SPEED = #{SPEED} ,
-        CREATEDATE = sysdate
-        WHERE
-        GASNAME = #{GASNAME} and
-        DATADATE = #{DATADATE}
-    </update>
 
 </mapper>
