@@ -11,7 +11,21 @@
             DEMODATA as demoData,
             DATADATE as dataDate,
             UNIT as unit
-        from PCWDATA
+            from PCWDATA a
+            join (
+              SELECT
+                key as keyb,
+                max(DATADATE) as DATADATEb
+              from
+                PCWDATA
+              WHERE
+                val !=null
+                and key !=null
+                and val != '-2147483648'
+              GROUP by key
+            ) b
+            on a.key = b.keyb
+            and a.DATADATE = b.DATADATEb
     </select>
 
     <!--根据key查询-->

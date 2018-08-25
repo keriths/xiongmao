@@ -6,6 +6,7 @@ import com.xm.service.constant.Constant;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,6 +40,16 @@ public class HumiturePressureData {
         @ApiResultFieldDesc(desc = "数据更新时间")
         private String secondDate;
 
+        boolean showDemoData = false;
+        private Date dataFactDate;
+        public Date getDataFactDate() {
+            return dataFactDate;
+        }
+
+        public void setDataFactDate(Date dataFactDate) {
+            this.dataFactDate = dataFactDate;
+        }
+
         public String getSystem() {
             return system;
         }
@@ -49,7 +60,7 @@ public class HumiturePressureData {
 
         public BigDecimal getTemperature() {
             if (temperature==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     temperature=RandomUtils.speed(15f,secondDate,1,0.01f);
                     //temperature = RandomUtils.randomFloat(15.00f,16.10f);
                 }else {
@@ -65,7 +76,7 @@ public class HumiturePressureData {
 
         public BigDecimal getPressure() {
             if (pressure==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     pressure=RandomUtils.speed(6f,secondDate,2,0.01f);
                     //pressure = RandomUtils.randomFloat(6.00f,6.50f);
                 }else {

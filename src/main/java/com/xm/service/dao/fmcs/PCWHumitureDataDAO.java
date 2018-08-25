@@ -27,11 +27,5 @@ public interface PCWHumitureDataDAO {
                                                                                        @Param("endDate") Date endDate);
 
 
-        Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
-
-        void addData(Map<String, Object> mapData);
-
-        void updateData(Map<String, Object> mapData);
-
         List<PcwDataDTO.PcwData> queryPcwData(@Param("systemList") List<String> systemList);
 }
