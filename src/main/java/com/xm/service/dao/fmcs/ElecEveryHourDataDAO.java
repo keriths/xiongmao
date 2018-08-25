@@ -44,13 +44,6 @@ public interface ElecEveryHourDataDAO {
     );
 
 
-
-    Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
-
-    void addData(Map<String, Object> mapData);
-
-    void updateData(Map<String, Object> mapData);
-
     List<WaterElectricityCollectDataDTO.WaterElectricityCollectData> queryElectricityByDate(
             @Param("startDate")Date startDate,
             @Param("endDate")Date endDate
