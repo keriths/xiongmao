@@ -2,9 +2,9 @@ package com.xm.service.apiimpl.pc.fmcs.water.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.RandomUtils;
-import com.xm.service.constant.Constant;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,6 +19,7 @@ public class PureWaterRealTimeData {
     private String periodDate;
 
     public static class PureWaterRealTimeDetailData{
+        boolean showDemoData = false;
         public PureWaterRealTimeDetailData(){}
         public PureWaterRealTimeDetailData(String periodDate,String dataDate){
             this.periodDate=periodDate;
@@ -37,10 +38,20 @@ public class PureWaterRealTimeData {
         @ApiResultFieldDesc(desc = "横坐标时间")
         private String periodDate;
 
+        private Date dataFactDate;
+        public Date getDataFactDate() {
+            return dataFactDate;
+        }
+
+        public void setDataFactDate(Date dataFactDate) {
+            this.dataFactDate = dataFactDate;
+        }
+
+
 
         public BigDecimal getSpeed() {
             if (speed==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     speed = RandomUtils.speed(1f,dataDate,3);
                 }else {
                     speed=new BigDecimal(0);

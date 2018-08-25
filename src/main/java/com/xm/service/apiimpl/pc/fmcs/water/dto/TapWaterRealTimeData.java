@@ -5,6 +5,7 @@ import com.xm.platform.util.RandomUtils;
 import com.xm.service.constant.Constant;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,6 +20,7 @@ public class TapWaterRealTimeData {
     private String periodDate;
 
     public static class TapWaterRealTimeDetailData{
+        boolean showDemoData = false;
         public TapWaterRealTimeDetailData(){}
         public TapWaterRealTimeDetailData(String periodDate,String dataDate){
             this.periodDate=periodDate;
@@ -35,14 +37,23 @@ public class TapWaterRealTimeData {
         @ApiResultFieldDesc(desc = "横坐标时间")
         private String periodDate;
 
+
+        private Date dataFactDate;
+        public Date getDataFactDate() {
+            return dataFactDate;
+        }
+
+        public void setDataFactDate(Date dataFactDate) {
+            this.dataFactDate = dataFactDate;
+        }
+
         public BigDecimal getSpeed() {
             if(speed==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     speed = RandomUtils.speed(1f,dataDate,3);
                 }else {
                     speed=new BigDecimal(0);
                 }
-
             }
             return speed;
         }

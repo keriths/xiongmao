@@ -3,13 +3,15 @@
 <mapper namespace="com.xm.service.dao.fmcs.PureWaterRealTimeDataDAO" >
 
     <select id="pureWaterRealTimeData" resultType="com.xm.service.apiimpl.pc.fmcs.water.dto.PureWaterRealTimeData$PureWaterRealTimeDetailData" parameterType="Map">
-        SELECT SUM (speed) as speed,periodDate,dataDate FROM (
+        <![CDATA[
+
+
             SELECT
-                TYPE,
-                AVG(Speed) as speed,
+                TYPE as waterType,
+                Speed as speed,
+                datadate as dataFactDate,
                 TO_CHAR(DataDate,'mi')||':00' as periodDate,
-                <![CDATA[
-                    TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<05 then '00'
+                TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<05 then '00'
                     when To_number(TO_CHAR(DataDate,'ss'))<10 then '05'
                     when To_number(TO_CHAR(DataDate,'ss'))<15 then '10'
                     when To_number(TO_CHAR(DataDate,'ss'))<20 then '15'
@@ -20,58 +22,19 @@
                     when To_number(TO_CHAR(DataDate,'ss'))<45 then '40'
                     when To_number(TO_CHAR(DataDate,'ss'))<50 then '45'
                     when To_number(TO_CHAR(DataDate,'ss'))<55 then '50'
-                ]]>
-                else '55'
-                    end as dataDate
+                else '55' end as dataDate
             FROM PureWaterRealTimeData
             WHERE
-                <![CDATA[
-                   DataDate >= #{beginDate}
-                  and DataDate <= #{endDate}
-                ]]>
-                <if test="waterType!=null and waterType!=''">
-                    AND TYPE =#{waterType,jdbcType=VARCHAR}
-                </if>
-            GROUP BY
-                TYPE,
-                TO_CHAR(DataDate,'mi')||':00',
-                <![CDATA[
-                    TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<05 then '00'
-                    when To_number(TO_CHAR(DataDate,'ss'))<10 then '05'
-                    when To_number(TO_CHAR(DataDate,'ss'))<15 then '10'
-                    when To_number(TO_CHAR(DataDate,'ss'))<20 then '15'
-                    when To_number(TO_CHAR(DataDate,'ss'))<25 then '20'
-                    when To_number(TO_CHAR(DataDate,'ss'))<30 then '25'
-                    when To_number(TO_CHAR(DataDate,'ss'))<35 then '30'
-                    when To_number(TO_CHAR(DataDate,'ss'))<40 then '35'
-                    when To_number(TO_CHAR(DataDate,'ss'))<45 then '40'
-                    when To_number(TO_CHAR(DataDate,'ss'))<50 then '45'
-                    when To_number(TO_CHAR(DataDate,'ss'))<55 then '50'
-                ]]>
-                else '55'
-                    end
-        ) GROUP BY periodDate,dataDate
-    </select>
+              Speed is not NULL
+              and Speed != -2147483648
+              and DataDate >= #{beginDate}
+              and DataDate <= #{endDate}
+              AND TYPE =#{waterType,jdbcType=VARCHAR}
+              order by dataFactDate
 
 
-    <select id="loadByPrimaryKey" parameterType="map" resultType="map">
-        SELECT * from PUREWATERREALTIMEDATA
-        where
-            TYPE = #{TYPE} and
-            DATADATE = #{DATADATE}
+      ]]>
     </select>
-    <insert id="addData" parameterType="map">
-        INSERT INTO  PUREWATERREALTIMEDATA
-        (SPEED, TYPE,  DATADATE,   CREATEDATE) VALUES
-        (#{SPEED},#{TYPE},#{DATADATE},sysdate)
-    </insert>
-    <update id="updateData" parameterType="map">
-        UPDATE PUREWATERREALTIMEDATA SET
-            SPEED = #{SPEED} ,
-            CREATEDATE = sysdate
-        WHERE
-            TYPE = #{TYPE} and
-            DATADATE = #{DATADATE}
-    </update>
+
 
 </mapper>
