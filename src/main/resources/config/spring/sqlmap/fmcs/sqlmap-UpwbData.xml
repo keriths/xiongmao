@@ -5,36 +5,18 @@
     <select id="queryUpwbDataList" resultType="com.xm.service.apiimpl.pc.fmcs.upw.dto.UpwbData" parameterType="Map">
         SELECT
             CODE AS code,
-            STATUS AS status,
-            TEMPERATURE AS temperature,
-            RESISTIVITY AS resistivity,
-            DATADATE AS DataDate,
-            PARTICLE AS particle,
-            TOC AS toc
-        FROM UPWBDATA
+            case when STATUS=-2147483648 then null else STATUS end  AS status,
+            case when TEMPERATURE=-2147483648 then null else TEMPERATURE end   AS temperature,
+            case when RESISTIVITY =-2147483648 then null else RESISTIVITY end   AS resistivity,
+            case when PARTICLE =-2147483648 then null else PARTICLE end   AS particle,
+            case when TOC =-2147483648 then null else TOC end  AS toc ,
+            DATADATE AS DataDate
+        FROM UPWBDATA a
+        join (
+          SELECT CODE as CODEb,max(DATADATE) as DATADATEb
+          FROM UPWBDATA
+          GROUP BY CODE
+        ) b on a.CODE = b.CODEb and a.DATADATE = b.DATADATEb
     </select>
-
-    <select id="loadByPrimaryKey" parameterType="map" resultType="map">
-        SELECT * from UPWBDATA
-        where CODE = #{CODE} and
-        DATADATE = #{DATADATE}
-    </select>
-    <insert id="addData" parameterType="map">
-        INSERT INTO  UPWBDATA
-        (CODE,   STATUS,   TEMPERATURE,   RESISTIVITY,   DATADATE,   PARTICLE,   TOC,  UPDATEDATE) VALUES
-        (#{CODE},#{STATUS},#{TEMPERATURE},#{RESISTIVITY},#{DATADATE},#{PARTICLE},#{TOC},sysdate)
-    </insert>
-    <update id="updateData" parameterType="map">
-        UPDATE UPWBDATA SET
-            STATUS = #{STATUS},
-            TEMPERATURE = #{TEMPERATURE},
-            RESISTIVITY =#{RESISTIVITY} ,
-            PARTICLE =#{PARTICLE},
-            TOC =#{TOC},
-            UPDATEDATE = sysdate
-        WHERE
-            CODE = #{CODE} and
-            DATADATE = #{DATADATE}
-    </update>
 
 </mapper>

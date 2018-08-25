@@ -19,9 +19,5 @@ public interface UpwaDataDAO {
      */
     List<UpwaData> queryUpwaDataList();
 
-    int updateStatusData(SyncUpwaData upwaData);
 
-    int insertStatusData(SyncUpwaData upwaData);
-
-    SyncUpwaData queryStatusByKey(@Param("key") String key);
 }

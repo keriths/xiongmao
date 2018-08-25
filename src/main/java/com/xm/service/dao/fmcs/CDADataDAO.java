@@ -13,9 +13,5 @@ import java.util.List;
 public interface CDADataDAO {
     List<CdaData> queryCdaData();
 
-    int updateStatusData(SyncCdaData cdaData);
 
-    int insertStatusData(SyncCdaData cdaData);
-
-    SyncCdaData queryStatusByKey(@Param("key") String key);
 }

@@ -18,9 +18,4 @@ public interface UpwbDataDAO {
      */
     List<UpwbData> queryUpwbDataList();
 
-    Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
-
-    void addData(Map<String, Object> mapData);
-
-    void updateData(Map<String, Object> mapData);
 }

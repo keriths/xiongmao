@@ -11,33 +11,17 @@
             DATATYPE AS dataType,
             DEMODATA AS demoData,
             UNIT as unit
-        FROM UPWADATA
+        FROM UPWADATA a
+        join (
+          SELECT
+            KEY as keyb,
+            max(DATADATE) as DATADATEb
+          FROM  UPWADATA
+          WHERE VALUE is not null and VALUE != '-2147483648'
+          GROUP by key
+        ) b on a.key = b.keyb and a.DATADATE = b.DATADATEb
+        WHERE VALUE is not null and VALUE != '-2147483648'
     </select>
 
-
-    <!--根据key查询-->
-    <select id="queryStatusByKey" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.upw.dto.SyncUpwaData">
-        select
-            KEY as key,
-            VALUE as value,
-            DATADATE as dataDate
-        from UPWADATA
-        WHERE
-            KEY=#{key}
-    </select>
-
-    <update id="updateStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.upw.dto.SyncUpwaData">
-        UPDATE UPWADATA
-        SET KEY=#{key},
-            VALUE=#{value},
-            DATADATE=#{dataDate},
-            UPDATEDATE=sysdate
-        WHERE
-            KEY=#{key}
-    </update>
-
-    <insert id="insertStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.upw.dto.SyncUpwaData">
-        INSERT INTO UPWADATA(KEY,VALUE,DATADATE,UPDATEDATE) VALUES (#{key},#{value},#{dataDate},sysdate)
-    </insert>
 
 </mapper>

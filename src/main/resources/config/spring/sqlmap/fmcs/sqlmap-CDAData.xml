@@ -13,9 +13,15 @@
             a.UNIT as unit
         from CDADATA a
             join (
-                    select key,max(DATADATE) as DATADATE from CDADATA group by key
+                    select
+                      key,
+                      max(DATADATE) as DATADATE
+                      from CDADATA
+                      WHERE VAL is not null and VAL != '-2147483648'
+                      group by key
             )
             b on  a.key = b.key and a.DATADATE = b.DATADATE
+            WHERE a.VAL is not null and a.VAL != '-2147483648'
     </select>
 
     <!--根据key查询-->
