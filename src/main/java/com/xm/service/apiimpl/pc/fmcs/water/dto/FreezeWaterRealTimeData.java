@@ -5,6 +5,7 @@ import com.xm.platform.util.RandomUtils;
 import com.xm.service.constant.Constant;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,6 +20,15 @@ public class FreezeWaterRealTimeData {
     private String periodDate;
 
     public static class FreezeWaterRealTimeDetailData{
+
+        private Date dataFactDate;
+        public Date getDataFactDate() {
+            return dataFactDate;
+        }
+
+        public void setDataFactDate(Date dataFactDate) {
+            this.dataFactDate = dataFactDate;
+        }
         public FreezeWaterRealTimeDetailData(){}
         public FreezeWaterRealTimeDetailData(String periodDate,String dataDate){
             this.dataDate=dataDate;
