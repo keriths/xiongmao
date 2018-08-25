@@ -23,10 +23,5 @@ public interface HumitureDataDAO {
             @Param("factory") String factory);
 
 
-    Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
-
-    void addData(Map<String, Object> mapData);
-
-    void updateData(Map<String, Object> mapData);
 
 }

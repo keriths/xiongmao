@@ -3,14 +3,16 @@
 <mapper namespace="com.xm.service.dao.fmcs.HumitureRealTimeDataDAO" >
 
     <select id="queryHumiture" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumitureRealTimeDate$HumitureRealTimeDetailData">
+        <![CDATA[
+
         select
             FACTORY as factory,
-            avg(TEMPERATURE) as temperature,
-            avg(HUMIDITY) as humidity,
-            avg(CLEANLINESS) as cleanliness,
+            TEMPERATURE as temperature,
+            HUMIDITY as humidity,
+            CLEANLINESS as cleanliness,
+            datadate as dataFactDate,
             TO_CHAR(DATADATE,'mi')||':00' as periodDate,
-            <![CDATA[
-                    TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<05 then '00'
+            TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<05 then '00'
                     when To_number(TO_CHAR(DataDate,'ss'))<10 then '05'
                     when To_number(TO_CHAR(DataDate,'ss'))<15 then '10'
                     when To_number(TO_CHAR(DataDate,'ss'))<20 then '15'
@@ -21,60 +23,23 @@
                     when To_number(TO_CHAR(DataDate,'ss'))<45 then '40'
                     when To_number(TO_CHAR(DataDate,'ss'))<50 then '45'
                     when To_number(TO_CHAR(DataDate,'ss'))<55 then '50'
-                ]]>
-            else '55'
-            end
-            as secondDate
+                    else '55' end as secondDate
         from HUMITUREREALTIMEDATA
         WHERE
-            <![CDATA[
-                       DATADATE >= #{beginDate}
+            TEMPERATURE is not NULL
+            and HUMIDITY is not NULL
+            and CLEANLINESS is not NULL
+             and TEMPERATURE != -2147483648
+             and HUMIDITY != -2147483648
+             and CLEANLINESS != -2147483648
+                      and  DATADATE >= #{beginDate}
                       and DATADATE <= #{endDate}
-                 ]]>
-            <if test="factory!=null and factory!=''">
+
                 AND FACTORY=#{factory,jdbcType=VARCHAR}
-            </if>
-        GROUP BY
-            FACTORY,
-            TO_CHAR(DATADATE,'mi')||':00',
-            <![CDATA[
-                    TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<05 then '00'
-                    when To_number(TO_CHAR(DataDate,'ss'))<10 then '05'
-                    when To_number(TO_CHAR(DataDate,'ss'))<15 then '10'
-                    when To_number(TO_CHAR(DataDate,'ss'))<20 then '15'
-                    when To_number(TO_CHAR(DataDate,'ss'))<25 then '20'
-                    when To_number(TO_CHAR(DataDate,'ss'))<30 then '25'
-                    when To_number(TO_CHAR(DataDate,'ss'))<35 then '30'
-                    when To_number(TO_CHAR(DataDate,'ss'))<40 then '35'
-                    when To_number(TO_CHAR(DataDate,'ss'))<45 then '40'
-                    when To_number(TO_CHAR(DataDate,'ss'))<50 then '45'
-                    when To_number(TO_CHAR(DataDate,'ss'))<55 then '50'
-                ]]>
-            else '55'
-            end
-    </select>
+                order by dataFactDate
 
-
-    <select id="loadByPrimaryKey" parameterType="map" resultType="map">
-        SELECT * from HUMITUREREALTIMEDATA
-        where FACTORY = #{FACTORY} and
-        DATADATE = #{DATADATE}
+      ]]>
     </select>
-    <insert id="addData" parameterType="map">
-        INSERT INTO  HUMITUREREALTIMEDATA
-        (FACTORY,   TEMPERATURE,   HUMIDITY,   CLEANLINESS,   DATADATE  ,CREATEDATE) VALUES
-        (#{FACTORY},#{TEMPERATURE},#{HUMIDITY},#{CLEANLINESS},#{DATADATE},sysdate)
-    </insert>
-    <update id="updateData" parameterType="map">
-        UPDATE HUMITUREREALTIMEDATA SET
-            TEMPERATURE = #{TEMPERATURE} ,
-            HUMIDITY = #{HUMIDITY},
-            CLEANLINESS = #{CLEANLINESS},
-            CREATEDATE = sysdate
-        WHERE
-            FACTORY = #{FACTORY} and
-            DATADATE = #{DATADATE}
-    </update>
 
     <select id="queryData" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.humidity.dto.HumitureDataDTO$HumitureData">
         select
@@ -89,6 +54,17 @@
                     FACTORY as factory
                 from
                     HUMITUREREALTIMEDATA
+                where
+                    FACTORY IN
+                    <foreach collection="factoryList" item="factory" open="(" separator="," close=")" >
+                        #{factory}
+                    </foreach>
+                    and TEMPERATURE is not NULL
+                    and HUMIDITY is not NULL
+                    and CLEANLINESS is not NULL
+                    and TEMPERATURE != -2147483648
+                    and HUMIDITY != -2147483648
+                    and CLEANLINESS != -2147483648
                 group by
                     FACTORY
                     ) b
@@ -99,5 +75,11 @@
             <foreach collection="factoryList" item="factory" open="(" separator="," close=")" >
                 #{factory}
             </foreach>
+            and TEMPERATURE is not NULL
+            and HUMIDITY is not NULL
+            and CLEANLINESS is not NULL
+            and TEMPERATURE != -2147483648
+            and HUMIDITY != -2147483648
+            and CLEANLINESS != -2147483648
     </select>
 </mapper>

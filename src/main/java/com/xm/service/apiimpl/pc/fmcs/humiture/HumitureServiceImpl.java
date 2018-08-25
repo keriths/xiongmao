@@ -37,7 +37,7 @@ public class HumitureServiceImpl {
     public HumitureRealTimeDataRetDTO humitureRtData(@ApiParamDoc(desc = "厂别,如ARRAY,CELL,CF,SL(必填)") String factory){
         HumitureRealTimeDataRetDTO resultDto=new HumitureRealTimeDataRetDTO();
         try {
-            //List<String> placeList = Constant.factoryPlaceListMap.get(factory);
+//            List<String> placeList = Constant.factoryPlaceListMap.get(factory);
             //List<String> equList = Constant.placeEquipmentListMap.get(place);
 
             /*if(!StringUtils.isEmpty(place) && !Constant.placeEquipmentListMap.containsKey(place)){

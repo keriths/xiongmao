@@ -6,6 +6,7 @@ import com.xm.service.constant.Constant;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,6 +24,15 @@ public class HumitureRealTimeDate {
         public HumitureRealTimeDetailData(String periodDate,String secondDate){
             this.periodDate = periodDate;
             this.secondDate = secondDate;
+        }
+
+        private Date dataFactDate;
+        public Date getDataFactDate() {
+            return dataFactDate;
+        }
+
+        public void setDataFactDate(Date dataFactDate) {
+            this.dataFactDate = dataFactDate;
         }
 
         @ApiResultFieldDesc(desc = "工厂如array,cf,cell")

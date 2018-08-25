@@ -12,40 +12,38 @@
             a.CLEANLINESS
         from HUMITUREDATA a
         join (
-        select FACTORY as FACTORYb,PLACE as PLACEb,EQUIPMENT as EQUIPMENTb,max(DATADATE) as DATADATEb from HUMITUREDATA group by FACTORY,PLACE,EQUIPMENT
+          select
+              FACTORY as FACTORYb,
+              PLACE as PLACEb,
+              EQUIPMENT as EQUIPMENTb,
+              max(DATADATE) as DATADATEb
+            from HUMITUREDATA
+            WHERE
+                TEMPERATURE is not NULL
+                and HUMIDITY is not NULL
+                and CLEANLINESS is not NULL
+                and TEMPERATURE != -2147483648
+                and HUMIDITY != -2147483648
+                and CLEANLINESS != -2147483648
+            group by FACTORY,PLACE,EQUIPMENT
         )
-        b on  a.FACTORY = b.FACTORYb and a.PLACE = b.PLACEb and a.EQUIPMENT = b.EQUIPMENTb and a.DATADATE = b.DATADATEb
+        b
+        on
+          a.FACTORY = b.FACTORYb
+          and a.PLACE = b.PLACEb
+          and a.EQUIPMENT = b.EQUIPMENTb
+          and a.DATADATE = b.DATADATEb
         where
+            TEMPERATURE is not NULL
+            and HUMIDITY is not NULL
+            and CLEANLINESS is not NULL
+            and TEMPERATURE != -2147483648
+            and HUMIDITY != -2147483648
+            and CLEANLINESS != -2147483648
             <if test="factory!=null and factory!=''">
-                a.FACTORY=#{factory,jdbcType=VARCHAR}
-        </if>
+                and a.FACTORY=#{factory,jdbcType=VARCHAR}
+            </if>
     </select>
 
-
-
-    <select id="loadByPrimaryKey" parameterType="map" resultType="map">
-        SELECT * from HUMITUREDATA
-        where FACTORY = #{FACTORY} and
-        PLACE = #{PLACE} and
-        EQUIPMENT = #{EQUIPMENT} and
-        DATADATE = #{DATADATE}
-    </select>
-    <insert id="addData" parameterType="map">
-        INSERT INTO  HUMITUREDATA
-        (FACTORY,   PLACE,   EQUIPMENT,   TEMPERATURE,   HUMIDITY,   CLEANLINESS,   DATADATE  ,CREATEDATE) VALUES
-        (#{FACTORY},#{PLACE},#{EQUIPMENT},#{TEMPERATURE},#{HUMIDITY},#{CLEANLINESS},#{DATADATE},sysdate)
-    </insert>
-    <update id="updateData" parameterType="map">
-        UPDATE HUMITUREDATA SET
-            TEMPERATURE = #{TEMPERATURE} ,
-            HUMIDITY = #{HUMIDITY},
-            CLEANLINESS = #{CLEANLINESS},
-            CREATEDATE = sysdate
-        WHERE
-            FACTORY = #{FACTORY} and
-            PLACE = #{PLACE} and
-            EQUIPMENT = #{EQUIPMENT} and
-            DATADATE = #{DATADATE}
-    </update>
 
 </mapper>

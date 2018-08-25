@@ -26,11 +26,6 @@ public interface HumitureRealTimeDataDAO {
                                                                         @Param("endDate") Date endDate);
 
 
-    Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
-
-    void addData(Map<String, Object> mapData);
-
-    void updateData(Map<String, Object> mapData);
 
     List<HumitureDataDTO.HumitureData> queryData(@Param("factoryList") List<String> factoryList);
 }
