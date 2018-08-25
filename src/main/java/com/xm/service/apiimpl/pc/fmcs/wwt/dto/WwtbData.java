@@ -6,6 +6,7 @@ import com.xm.platform.util.ReturnDataUtils;
 import com.xm.service.constant.Constant;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,6 +34,15 @@ public class WwtbData {
             this.midint=midint;
             this.midfloat=midfloat;
             this.dataType=dataType;
+        }
+
+        private Date dataFactDate;
+        public Date getDataFactDate() {
+            return dataFactDate;
+        }
+
+        public void setDataFactDate(Date dataFactDate) {
+            this.dataFactDate = dataFactDate;
         }
 
         private int midint=20;

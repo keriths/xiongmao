@@ -16,9 +16,4 @@ public interface ExhaustBDataDAO {
 
     Integer queryKeyStatusNum(@Param("key") String key,@Param("status") String status);
 
-    int updateStatusData(SyncExhaustBData exhaustBData);
-
-    int insertStatusData(SyncExhaustBData exhaustBData);
-
-    SyncExhaustBData queryStatusByKey(@Param("key") String key);
 }

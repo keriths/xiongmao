@@ -3,11 +3,13 @@
 <mapper namespace="com.xm.service.dao.fmcs.WwtbDataDAO" >
 
     <select id="queryWwtbDataList" resultType="com.xm.service.apiimpl.pc.fmcs.wwt.dto.WwtbData$WwtbDetailData" parameterType="Map">
+        <![CDATA[
+
         SELECT
-            AVG(Value) as value,
+            Value as value,
             TO_CHAR(DataDate,'mi')||':00' as periodDate,
-            <![CDATA[
-                TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<05 then '00'
+            DataDate as dataFactDate,
+            TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<05 then '00'
                 when To_number(TO_CHAR(DataDate,'ss'))<10 then '05'
                 when To_number(TO_CHAR(DataDate,'ss'))<15 then '10'
                 when To_number(TO_CHAR(DataDate,'ss'))<20 then '15'
@@ -18,56 +20,18 @@
                 when To_number(TO_CHAR(DataDate,'ss'))<45 then '40'
                 when To_number(TO_CHAR(DataDate,'ss'))<50 then '45'
                 when To_number(TO_CHAR(DataDate,'ss'))<55 then '50'
-            ]]>
-            else '55'
-            end as dataDate
+            else '55' end as dataDate
         FROM WWTBDATA
         WHERE
-            <![CDATA[
-               DataDate >= #{beginDate}
+            Value is not null
+            and Value != -2147483648
+              and DataDate >= #{beginDate}
               and DataDate <= #{endDate}
-                ]]>
-            <if test="code!=null and code!=''">
                 AND CODE =#{code,jdbcType=VARCHAR}
-            </if>
-        GROUP BY
-            TO_CHAR(DataDate,'mi')||':00',
-            <![CDATA[
-                TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<05 then '00'
-                when To_number(TO_CHAR(DataDate,'ss'))<10 then '05'
-                when To_number(TO_CHAR(DataDate,'ss'))<15 then '10'
-                when To_number(TO_CHAR(DataDate,'ss'))<20 then '15'
-                when To_number(TO_CHAR(DataDate,'ss'))<25 then '20'
-                when To_number(TO_CHAR(DataDate,'ss'))<30 then '25'
-                when To_number(TO_CHAR(DataDate,'ss'))<35 then '30'
-                when To_number(TO_CHAR(DataDate,'ss'))<40 then '35'
-                when To_number(TO_CHAR(DataDate,'ss'))<45 then '40'
-                when To_number(TO_CHAR(DataDate,'ss'))<50 then '45'
-                when To_number(TO_CHAR(DataDate,'ss'))<55 then '50'
-            ]]>
-            else '55'
-            end
-    </select>
+          order by dataFactDate
 
-
-    <select id="loadByPrimaryKey" parameterType="map" resultType="map">
-        SELECT * from WWTBDATA
-        where CODE = #{CODE} and
-        DATADATE = #{DATADATE}
+           ]]>
     </select>
-    <insert id="addData" parameterType="map">
-        INSERT INTO  WWTBDATA
-        (CODE,   VALUE,   DATADATE,   CREATEDATE) VALUES
-        (#{CODE},#{VALUE},#{DATADATE},sysdate)
-    </insert>
-    <update id="updateData" parameterType="map">
-        UPDATE WWTBDATA SET
-            VALUE = #{VALUE} ,
-            CREATEDATE = sysdate
-        WHERE
-            CODE = #{CODE} and
-            DATADATE = #{DATADATE}
-    </update>
 
     <select id="queryWwtData" resultType="com.xm.service.apiimpl.pc.integrateData.system.dto.WwtDataDTO$WwtData" parameterType="Map">
         select
@@ -80,6 +44,8 @@
                     CODE as code
                 from
                     WWTBDATA
+                WHERE Value is not null
+                  and Value != -2147483648
                 group by
                     CODE
                 ) b
@@ -90,6 +56,8 @@
         <foreach collection="codeList" item="code" open="(" separator="," close=")" >
             #{code}
         </foreach>
+        and Value is not null
+        and Value != -2147483648
     </select>
 
 </mapper>

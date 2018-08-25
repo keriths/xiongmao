@@ -28,11 +28,5 @@ public interface WwtbDataDAO {
                                         @Param("endDate") Date endDate);
 
 
-    Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
-
-    void addData(Map<String, Object> mapData);
-
-    void updateData(Map<String, Object> mapData);
-
     List<WwtDataDTO.WwtData> queryWwtData(@Param("codeList") List<String> codeList);
 }

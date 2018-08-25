@@ -12,35 +12,13 @@
             DEMODATA AS demoData,
             UNIT as unit
         FROM WWTADATA a
-join (
-select key as keyb,max(DATADATE) as DATADATEb from WWTADATA group by key )
-b on  a.key = b.keyb and a.DATADATE = b.DATADATEb
+            join (
+              select key as keyb,max(DATADATE) as DATADATEb from WWTADATA
+               WHERE VALUE is not null and VALUE != '-2147483648'
+               group by key )
+            b on  a.key = b.keyb and a.DATADATE = b.DATADATEb
+            WHERE VALUE is not null and VALUE != '-2147483648'
     </select>
 
-
-    <!--根据key查询-->
-    <select id="queryStatusByKey" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.wwt.dto.SyncWwtaData">
-        select
-            KEY as key,
-            VALUE as value,
-            DATADATE as dataDate
-        from WWTADATA
-        WHERE
-            KEY=#{key}
-    </select>
-
-    <update id="updateStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.wwt.dto.SyncWwtaData">
-        UPDATE WWTADATA
-        SET KEY=#{key},
-            VALUE=#{value},
-            DATADATE=#{dataDate},
-            UPDATEDATE=sysdate
-        WHERE
-            KEY=#{key}
-    </update>
-
-    <insert id="insertStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.wwt.dto.SyncWwtaData">
-        INSERT INTO WWTADATA(KEY,VALUE,DATADATE,UPDATEDATE) VALUES (#{key},#{value},#{dataDate},sysdate)
-    </insert>
 
 </mapper>

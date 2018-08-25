@@ -13,41 +13,41 @@
             UNIT as unit
         from EXHAUSTBDATA  a
         join (
-        select key as keyb,max(DATADATE) as DATADATEb from EXHAUSTBDATA group by key )
+        select key as keyb,max(DATADATE) as DATADATEb from EXHAUSTBDATA
+         WHERE VAL is not null and VAL != -2147483648
+         group by key )
         b on  a.key = b.keyb and a.DATADATE = b.DATADATEb
+         WHERE VAL is not null and VAL != -2147483648
     </select>
 
     <select id="queryKeyStatusNum" resultType="int" parameterType="Map">
+        select
+            count(*)
+        from EXHAUSTBDATA  a
+        join (
+            select key as keyb,max(DATADATE) as DATADATEb from EXHAUSTBDATA
+             WHERE VAL is not null and VAL != -2147483648
+             group by key
+        ) b on  a.key = b.keyb and a.DATADATE = b.DATADATEb
+         WHERE KEY like '%-${key}-%' and val = '${status}' and VAL is not null and VAL != -2147483648
+
         select count(*) from EXHAUSTBDATA where KEY like '%-${key}-%' and val = '${status}' group by val
     </select>
 
 
-    <!--根据key查询-->
-    <select id="queryStatusByKey" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.exhaust.dto.SyncExhaustBData">
-        select
-        KEY as key,
-        VAL as val,
-        KEYDESC as keyDesc,
-        DATATYPE as dataType,
-        DEMODATA as demoData,
-        DATADATE as dataDate
-        from EXHAUSTBDATA
-        WHERE
-        KEY=#{key}
-    </select>
+    <!--&lt;!&ndash;根据key查询&ndash;&gt;-->
+    <!--<select id="queryStatusByKey" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.exhaust.dto.SyncExhaustBData">-->
+        <!--select-->
+        <!--KEY as key,-->
+        <!--VAL as val,-->
+        <!--KEYDESC as keyDesc,-->
+        <!--DATATYPE as dataType,-->
+        <!--DEMODATA as demoData,-->
+        <!--DATADATE as dataDate-->
+        <!--from EXHAUSTBDATA-->
+        <!--WHERE-->
+        <!--KEY=#{key}-->
+    <!--</select>-->
 
-    <update id="updateStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.exhaust.dto.SyncExhaustBData">
-        UPDATE EXHAUSTBDATA
-        SET KEY=#{key},
-            VAL=#{val},
-            DATADATE=#{dataDate},
-            UPDATEDATE=sysdate
-        WHERE
-            KEY=#{key}
-    </update>
-
-    <insert id="insertStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.exhaust.dto.SyncExhaustBData">
-        INSERT INTO EXHAUSTBDATA(KEY,VAL,DATADATE,UPDATEDATE) VALUES (#{key},#{val},#{dataDate},sysdate)
-    </insert>
 
 </mapper>

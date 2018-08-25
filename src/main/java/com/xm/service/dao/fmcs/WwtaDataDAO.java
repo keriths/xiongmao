@@ -21,10 +21,5 @@ public interface WwtaDataDAO {
      */
     List<WwtaData> queryWwtaDataList();
 
-    int updateStatusData(SyncWwtaData wwtaData);
-
-    int insertStatusData(SyncWwtaData wwtaData);
-
-    SyncWwtaData queryStatusByKey(@Param("key") String key);
 
 }
