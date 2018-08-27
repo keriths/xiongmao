@@ -64,15 +64,15 @@ public class CIMDataSyncTask {
     @Resource
     private DwrProductTtFidsDAO dwrProductTtFidsDAO;
 
-    private Date getmaxPeriodDate(String tableName){
-        Date maxPeriodDate = dwsProductInputFidsDAO.getMaxPeriodDateByTableName(tableName);
-        if (maxPeriodDate!=null){
-            maxPeriodDate = new DateTime(maxPeriodDate).plusMinutes(-1).toDate();
-        }else {
-            maxPeriodDate = new DateTime().withYear(2018).withMonthOfYear(1).withDayOfMonth(1).millisOfDay().withMinimumValue().toDate();
-        }
-        return maxPeriodDate;
-    }
+//    private Date getmaxPeriodDate(String tableName){
+//        Date maxPeriodDate = dwsProductInputFidsDAO.getMaxPeriodDateByTableName(tableName);
+//        if (maxPeriodDate!=null){
+//            maxPeriodDate = new DateTime(maxPeriodDate).plusMinutes(-1).toDate();
+//        }else {
+//            maxPeriodDate = new DateTime().withYear(2018).withMonthOfYear(1).withDayOfMonth(1).millisOfDay().withMinimumValue().toDate();
+//        }
+//        return maxPeriodDate;
+//    }
     private List<Map<String,Object>> queryLatestDataByDataAndTableName(int offset,int limit,Date maxPeriodDate,String tableName,String orderby){
         List<Map<String,Object>> mapDataList = factoryDwsProductInputFidsDAO.queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
         return mapDataList;
@@ -128,47 +128,47 @@ public class CIMDataSyncTask {
 
     @Scheduled(fixedRate = 1000*60*60*24)
     public void OutputCompletionHDataSync(){
-        int syncDayNums = 3;
+        int syncDayNums = 5;
         syncDWS_PRODUCT_OUTPUT_FIDS_H(syncDayNums);
     }
     @Scheduled(fixedRate = 1000*60*60*24)
     public void GoodInProcessDataSync(){
-        int syncDayNums = 3;
+        int syncDayNums = 5;
         syncDWR_WIP_GLS_FIDS(syncDayNums);
     }
     @Scheduled(fixedRate = 1000*60*60*24)
     public void ProductLineGoodRateDataSync(){
-        int syncDayNums = 3;
+        int syncDayNums = 5;
         syncDWS_PRODUCT_LINE_YIELD_FIDS(syncDayNums);
     }
     @Scheduled(fixedRate = 1000*60*60*24)
     public void OutputCompletionDataSync(){
-        int syncDayNums = 3;
+        int syncDayNums = 5;
         syncDWS_PRODUCT_OUTPUT_FIDS(syncDayNums);
     }
     @Scheduled(fixedRate = 1000*60*60*24)
     public void InputCompletionDataSync(){
-        int syncDayNums = 3;
+        int syncDayNums = 5;
         syncDWS_PRODUCT_INPUT_FIDS(syncDayNums);
     }
     @Scheduled(fixedRate = 1000*60*60*24)
     public void ProductOcGoodRateDataSync(){
-        int syncDayNums = 3;
+        int syncDayNums =5;
         syncDWS_PRODUCT_OC_YIELD_FIDS(syncDayNums);
     }
     @Scheduled(fixedRate = 1000*60*60*24)
     public void CycleTimeDataSync(){
-        int syncDayNums = 3;
+        int syncDayNums = 5;
         syncDWR_PRODUCT_CT_FIDS(syncDayNums);
     }
     @Scheduled(fixedRate = 1000*60*60*24)
     public void OeeDataSync(){
-        int syncDayNums = 3;
+        int syncDayNums = 5;
         syncDWR_EQP_OEE_FIDS(syncDayNums);
     }
     @Scheduled(fixedRate = 1000*60*60*24)
     public void TactTimeDataSync(){
-        int syncDayNums = 3;
+        int syncDayNums = 5;
         syncDWR_PRODUCT_TT_FIDS(syncDayNums);
     }
 
@@ -183,8 +183,8 @@ public class CIMDataSyncTask {
         int offset = 0;
         int limit = 10000;
         try {
-            Date maxPeriodDate = getmaxPeriodDate(tableName);
-            maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-syncDayNums).toDate();
+//            Date maxPeriodDate = getmaxPeriodDate(tableName);
+            Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
             while (true){
                 List<Map<String,Object>> mapDataList;
                 try {
@@ -249,8 +249,8 @@ public class CIMDataSyncTask {
         int limit = 10000;
         long t1 = System.currentTimeMillis();
         try {
-            Date maxPeriodDate = getmaxPeriodDate(tableName);
-            maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-syncDayNums).toDate();
+//            Date maxPeriodDate = getmaxPeriodDate(tableName);
+            Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
             while (true){
                 List<Map<String,Object>> mapDataList;
                 try {
@@ -310,8 +310,8 @@ public class CIMDataSyncTask {
         int limit = 10000;
         long t1 = System.currentTimeMillis();
         try {
-            Date maxPeriodDate = getmaxPeriodDate(tableName);
-            maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-syncDayNums).toDate();
+//            Date maxPeriodDate = getmaxPeriodDate(tableName);
+            Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
             while (true){
                 List<Map<String,Object>> mapDataList;
                 try {
@@ -367,8 +367,8 @@ public class CIMDataSyncTask {
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
-        Date maxPeriodDate = getmaxPeriodDate(tableName);
-        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-syncDayNums).toDate();
+//        Date maxPeriodDate = getmaxPeriodDate(tableName);
+        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
         int insertNum = 0;
         int updateNum = 0;
         while (true){
@@ -427,8 +427,8 @@ public class CIMDataSyncTask {
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
-        Date maxPeriodDate = getmaxPeriodDate(tableName);
-        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-syncDayNums).toDate();
+//        Date maxPeriodDate = getmaxPeriodDate(tableName);
+        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
         while (true){
             List<Map<String,Object>> mapDataList;
             try {
@@ -484,8 +484,8 @@ public class CIMDataSyncTask {
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
-        Date maxPeriodDate = getmaxPeriodDate(tableName);
-        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-syncDayNums).toDate();
+//        Date maxPeriodDate = getmaxPeriodDate(tableName);
+        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
         while (true){
 
             List<Map<String,Object>> mapDataList ;
@@ -567,8 +567,8 @@ public class CIMDataSyncTask {
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
-        Date maxPeriodDate = getmaxPeriodDate(tableName);
-        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-syncDayNums).toDate();
+//        Date maxPeriodDate = getmaxPeriodDate(tableName);
+        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
         while (true){
             List<Map<String,Object>> mapDataList;
             try {
@@ -625,8 +625,8 @@ public class CIMDataSyncTask {
         int limit = 10000;
         long t1 = System.currentTimeMillis();
 
-        Date maxPeriodDate = getmaxPeriodDate(tableName);
-        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-syncDayNums).toDate();
+//        Date maxPeriodDate = getmaxPeriodDate(tableName);
+        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
         while (true){
             long t111 = System.currentTimeMillis();
             List<Map<String,Object>> mapDataList;
@@ -699,8 +699,8 @@ public class CIMDataSyncTask {
         int limit = 10000;
         long t1 = System.currentTimeMillis();
 
-        Date maxPeriodDate = getmaxPeriodDate(tableName);
-        maxPeriodDate = new DateTime(maxPeriodDate).plusDays(-syncDayNums).toDate();
+//        Date maxPeriodDate = getmaxPeriodDate(tableName);
+        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
         while (true){
             List<Map<String,Object>> mapDataList;
             try {

@@ -17,29 +17,97 @@
             SYSTEMNAME,STATUS
     </select>
 
-
-    <select id="loadByPrimaryKey" parameterType="map" resultType="map">
-        SELECT * from MAUSYSTEMDATA
-        where SYSTEMTYPE = #{SYSTEMTYPE} and
-        SYSTEMNAME = #{SYSTEMNAME} and
-        DATADATE = #{DATADATE}
-    </select>
-    <insert id="addData" parameterType="map">
-        INSERT INTO  MAUSYSTEMDATA
-        (SYSTEMTYPE,   SYSTEMNAME,   STATUS,   TEMPERATURE,   DEWPOINT,   DATADATE,   CREATEDATE) VALUES
-        (#{SYSTEMTYPE},#{SYSTEMNAME},#{STATUS},#{TEMPERATURE},#{DEWPOINT},#{DATADATE},sysdate)
-    </insert>
-    <update id="updateData" parameterType="map">
-        UPDATE MAUSYSTEMDATA SET
-            STATUS = #{STATUS} ,
-            TEMPERATURE = #{TEMPERATURE},
-            DEWPOINT = #{DEWPOINT},
-            CREATEDATE = sysdate
+    <select id="queryPVDatas" parameterType="map" resultType="com.xm.service.dto.KeyValueDTO">
+      SELECT
+        KEY as key,
+        VALUE as val,
+        KEYDESC as keyDesc,
+        DATADATE as dataDate
+      FROM PV_01 a
+      join (
+        SELECT
+          KEY as keyb,
+          max(DATADATE) as DATADATEb
+        FROM PV_01
         WHERE
-            SYSTEMTYPE = #{SYSTEMTYPE} and
-            SYSTEMNAME = #{SYSTEMNAME} and
-            DATADATE = #{DATADATE}
-    </update>
+          VALUE is not null
+          and VALUE != '-2147483648'
+        GROUP by KEY
+      ) b on a.KEY = b.KEYb and a.DATADATE = b.DATADATEb
+      where
+          VALUE is not null
+          and VALUE != '-2147483648'
+
+    </select>
+    <select id="querySPGDatas" parameterType="map" resultType="com.xm.service.dto.KeyValueDTO">
+        SELECT
+            KEY as key,
+            VALUE as val,
+            KEYDESC as keyDesc,
+            DATADATE as dataDate
+        FROM SPG_01 a
+        join (
+            SELECT
+                KEY as keyb,
+                max(DATADATE) as DATADATEb
+            FROM SPG_01
+            WHERE
+                VALUE is not null
+                and VALUE != '-2147483648'
+            GROUP by KEY
+        ) b on a.KEY = b.KEYb and a.DATADATE = b.DATADATEb
+        where
+            VALUE is not null
+            and VALUE != '-2147483648'
+    </select>
+    <select id="queryCCSS02Datas"  parameterType="map" resultType="com.xm.service.dto.KeyValueDTO">
+        SELECT
+            KEY as key,
+            VALUE as val,
+            KEYDESC as keyDesc,
+            DATADATE as dataDate
+        FROM CCSS_IGZO_02 a
+        join (
+            SELECT
+                KEY as keyb,
+                max(DATADATE) as DATADATEb
+            FROM CCSS_IGZO_02
+            WHERE
+                VALUE is not null
+                and VALUE != '-2147483648'
+            GROUP by KEY
+        ) b on a.KEY = b.KEYb and a.DATADATE = b.DATADATEb
+        where
+        VALUE is not null
+        and VALUE != '-2147483648'
+
+    </select>
+    <select id="queryCCSSDatas" parameterType="map" resultType="com.xm.service.dto.CCSSDataDTO" >
+        SELECT
+            KEY as key,
+            RUN_STATUS_NUM as runStatusNum,
+            ERROR_STATUS_NUM as errorStatusNum,
+            KEYDESC as keyDesc,
+            DATADATE as dataDate
+        FROM CCSS_IGZO_01 a
+        join (
+            SELECT
+                KEY as keyb,
+                max(DATADATE) as DATADATEb
+            FROM CCSS_IGZO_01
+            WHERE
+                RUN_STATUS_NUM is not null
+                and RUN_STATUS_NUM != '-2147483648'
+                and ERROR_STATUS_NUM is not null
+                and ERROR_STATUS_NUM != '-2147483648'
+            GROUP by KEY
+        ) b on a.KEY = b.KEYb and a.DATADATE = b.DATADATEb
+        where
+            RUN_STATUS_NUM is not null
+            and RUN_STATUS_NUM != '-2147483648'
+            and ERROR_STATUS_NUM is not null
+            and ERROR_STATUS_NUM != '-2147483648'
+    </select>
 
     <select id="queryMAUData" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.system.dto.MauRcuCollectDataDTO$MauRcuCollectData">
         select
