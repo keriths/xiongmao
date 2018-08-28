@@ -19,8 +19,8 @@
               from
                 PCWDATA
               WHERE
-                val !=null
-                and key !=null
+                val is not null
+                and key is not null
                 and val != '-2147483648'
               GROUP by key
             ) b
