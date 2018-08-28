@@ -128,16 +128,16 @@ public class HumidityServiceImpl {
     public HumitureDataDTO humitureDataDTO(){
         HumitureDataDTO resultDto = new HumitureDataDTO();
         try {
-            List<String> factoryList = Lists.newArrayList("ARRAY","CF","CELL");
+            List<String> factoryList = Lists.newArrayList("ARRAY","CF","CELL","SL");
             List<HumitureDataDTO.HumitureData> humitureDataList = humitureRealTimeDataDAO.queryData(factoryList);
-            humitureDataList = factoryList.stream().map(factory ->{
-                HumitureDataDTO.HumitureData data = new HumitureDataDTO.HumitureData();
-                data.setFactory(factory);
-                data.setTemperature(RandomUtils.randomFloat(20,30));
-                data.setCleanliness(RandomUtils.randomFloat(70,90));
-                data.setHumidity(RandomUtils.randomFloat(50,70));
-                return data;
-            }).collect(Collectors.toList());
+//            humitureDataList = factoryList.stream().map(factory ->{
+//                HumitureDataDTO.HumitureData data = new HumitureDataDTO.HumitureData();
+//                data.setFactory(factory);
+//                data.setTemperature(RandomUtils.randomFloat(20,30));
+//                data.setCleanliness(RandomUtils.randomFloat(70,90));
+//                data.setHumidity(RandomUtils.randomFloat(50,70));
+//                return data;
+//            }).collect(Collectors.toList());
             resultDto.setHumitureDataList(humitureDataList);
             return resultDto;
         }catch (Exception e){

@@ -55,11 +55,7 @@
                 from
                     HUMITUREREALTIMEDATA
                 where
-                    FACTORY IN
-                    <foreach collection="factoryList" item="factory" open="(" separator="," close=")" >
-                        #{factory}
-                    </foreach>
-                    and TEMPERATURE is not NULL
+                    TEMPERATURE is not NULL
                     and HUMIDITY is not NULL
                     and CLEANLINESS is not NULL
                     and TEMPERATURE != -2147483648
@@ -71,11 +67,7 @@
             on a.DATADATE = b.DATADATE
             and a.FACTORY = b.FACTORY
         where
-            a.FACTORY IN
-            <foreach collection="factoryList" item="factory" open="(" separator="," close=")" >
-                #{factory}
-            </foreach>
-            and TEMPERATURE is not NULL
+            TEMPERATURE is not NULL
             and HUMIDITY is not NULL
             and CLEANLINESS is not NULL
             and TEMPERATURE != -2147483648
