@@ -90,7 +90,7 @@ public class WwtaData {
     }
 
     public String getUnit() {
-        return unit;
+        return "";
     }
 
     public void setUnit(String unit) {
