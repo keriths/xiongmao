@@ -7,21 +7,7 @@
 
         SELECT
           datadate as dataFactDate,
-          Speed as speed,
-          TO_CHAR(DataDate,'mi')||':00' AS periodDate,
-                TO_CHAR(DataDate,'mi') || ':' || case when To_number(TO_CHAR(DataDate,'ss'))<05 then '00'
-                when To_number(TO_CHAR(DataDate,'ss'))<10 then '05'
-                when To_number(TO_CHAR(DataDate,'ss'))<15 then '10'
-                when To_number(TO_CHAR(DataDate,'ss'))<20 then '15'
-                when To_number(TO_CHAR(DataDate,'ss'))<25 then '20'
-                when To_number(TO_CHAR(DataDate,'ss'))<30 then '25'
-                when To_number(TO_CHAR(DataDate,'ss'))<35 then '30'
-                when To_number(TO_CHAR(DataDate,'ss'))<40 then '35'
-                when To_number(TO_CHAR(DataDate,'ss'))<45 then '40'
-                when To_number(TO_CHAR(DataDate,'ss'))<50 then '45'
-                when To_number(TO_CHAR(DataDate,'ss'))<55 then '50'
-            else '55'
-            end as dataDate
+          Speed as speed
         FROM TapWaterRealTimeData
         WHERE
           Speed is not null

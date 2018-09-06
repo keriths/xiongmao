@@ -3,7 +3,7 @@
 <mapper namespace="com.xm.service.dao.fmcs.NatgasEveryDayDataDAO" >
 
     <select id="queryNatgasEveryDayDataByDateList" parameterType="map" resultType="com.xm.service.dto.DayDataDTO">
-        SELECT TotalNum as totalNum,TO_CHAR(DATADATE,'YYYY-MM-DD') as dataDate
+        SELECT TotalNum as totalNum,DATADATE as dataDate
         FROM NatgasEveryDayData
         WHERE GasType=#{gasType,jdbcType=VARCHAR}
         AND DATADATE IN

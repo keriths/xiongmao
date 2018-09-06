@@ -17,13 +17,13 @@ public class DayDataQueryTools {
     public static  <T> List<T> queryDayStatics(String waterType,String dateType,IQueryDayDataList iQueryDayDataList,ITransferData<T> iTransferData){
         List<Date> queryDays = DateUtils.getQueryDates(dateType);
         List<DayDataDTO> dayDataDTOList = iQueryDayDataList.queryFreezeWaterByDateList(waterType,queryDays);
-        Map<String,DayDataDTO> mapData = MapUtils.listToMap(dayDataDTOList, "getDataDate");
+        Map<String,DayDataDTO> mapData = MapUtils.listToMap(dayDataDTOList, "getDatadateStr");
         List<T> freezeWaterEveryDayDataList = new ArrayList<>();
         for (int i = 0;i<queryDays.size()-1;i++){
             Date today = queryDays.get(i);
             Date tomorrow = queryDays.get(i+1);
-            DayDataDTO todayData =  mapData.get(DateUtils.getStrDate(today,"yyyy-MM-dd"));
-            DayDataDTO tomorrowData =  mapData.get(DateUtils.getStrDate(tomorrow,"yyyy-MM-dd"));
+            DayDataDTO todayData =  mapData.get(DateUtils.getStrDate(today,"yyyy-MM-dd HH:mm:ss"));
+            DayDataDTO tomorrowData =  mapData.get(DateUtils.getStrDate(tomorrow,"yyyy-MM-dd HH:mm:ss"));
             BigDecimal todayNum = todayData==null?null:todayData.getTotalNum();
             BigDecimal tomorrowNum = tomorrowData==null?null:tomorrowData.getTotalNum();
             T t = iTransferData.queryFreezeWaterByDateList(waterType,dateType,today,tomorrow,todayNum,tomorrowNum);

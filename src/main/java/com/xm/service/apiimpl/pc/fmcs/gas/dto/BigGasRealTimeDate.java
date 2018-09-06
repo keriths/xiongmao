@@ -1,7 +1,9 @@
 package com.xm.service.apiimpl.pc.fmcs.gas.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.RandomUtils;
+import org.joda.time.DateTime;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -94,16 +96,24 @@ public class BigGasRealTimeDate {
         }
 
         public String getPeriodDate() {
-            return periodDate;
+            int minute = new DateTime(dataFactDate).getMinuteOfHour();
+            String showTime = DateUtils.getStrDate(dataFactDate, "HH:");
+            if (minute>=0 && minute<30){
+                showTime=showTime+"00";
+            }else {
+                showTime=showTime+"30";
+            }
+            return showTime;
+        }
+        public String getSecondDate() {
+            return DateUtils.getStrDate(dataFactDate,"HH:mm");
         }
 
         public void setPeriodDate(String periodDate) {
             this.periodDate = periodDate;
         }
 
-        public String getSecondDate() {
-            return secondDate;
-        }
+
 
         public void setSecondDate(String secondDate) {
             this.secondDate = secondDate;

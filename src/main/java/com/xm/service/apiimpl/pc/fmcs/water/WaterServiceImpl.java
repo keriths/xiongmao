@@ -9,6 +9,7 @@ import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
+import com.xm.service.apiimpl.pc.fmcs.gas.dto.NatgasRealTimeData;
 import com.xm.service.apiimpl.pc.fmcs.water.dto.*;
 import com.xm.service.apiimpl.pc.integrateData.humidity.dto.WaterElectricityCollectDataDTO;
 import com.xm.service.constant.Constant;
@@ -50,42 +51,66 @@ public class WaterServiceImpl {
     public TapWaterRealTimeRetDTO tapWaterRealTime() {
         TapWaterRealTimeRetDTO tapRealRet = new TapWaterRealTimeRetDTO();
         try {
-            List<String> dateSecondList = null;
-            Date beginDate = null;
             Date endDate = new Date();
-            beginDate = DateUtils.getBeforMinuteStartDay(5);
-            dateSecondList = DateUtils.getSecondStrList(beginDate, endDate);
-
+            Date beginDate = DateUtils.getBeforHourStartDay(2);
             List<TapWaterRealTimeData.TapWaterRealTimeDetailData> dataList = tapWaterRealTimeDataDAO.tapWaterRealTimeData(beginDate, endDate);
-            Map<String, TapWaterRealTimeData.TapWaterRealTimeDetailData> dataMap = MapUtils.listToMap(dataList, "getDataDate");
+            Map<String,List<TapWaterRealTimeData.TapWaterRealTimeDetailData>> periodDateDataListMap = new LinkedHashMap<>();
+            for (TapWaterRealTimeData.TapWaterRealTimeDetailData natgasTimeDetailData : dataList){
+                String periodDate = natgasTimeDetailData.getPeriodDate();
+                List<TapWaterRealTimeData.TapWaterRealTimeDetailData> periodDateDataList = periodDateDataListMap.get(periodDate);
+                if (periodDateDataList==null){
+                    periodDateDataList = new ArrayList<>();
+                    periodDateDataListMap.put(periodDate,periodDateDataList);
+                }
+                periodDateDataList.add(natgasTimeDetailData);
+            }
             List<TapWaterRealTimeData> tapWaterRealTimeDataList = new ArrayList<TapWaterRealTimeData>();
-            Map<String,TapWaterRealTimeData> minuteDataMap = new HashMap<String, TapWaterRealTimeData>();
-            for (String strSecond:dateSecondList){
-                String minute=strSecond.substring(0,2)+":00";
-                TapWaterRealTimeData minuteData = minuteDataMap.get(minute);
-                if (minuteData==null){
-                    minuteData=new TapWaterRealTimeData();
-                    minuteData.setPeriodDate(minute);
-                    minuteData.setTapWaterRealTimeDetailDataList(new ArrayList<TapWaterRealTimeData.TapWaterRealTimeDetailData>());
-                    minuteDataMap.put(minute,minuteData);
-                    tapWaterRealTimeDataList.add(minuteData);
-                }
-                TapWaterRealTimeData.TapWaterRealTimeDetailData tapWaterRealTimeDetailData=dataMap.get(strSecond);
-                if (tapWaterRealTimeDetailData == null) {
-                    DateTime d = new DateTime();
-                    int curMinuteNum = d.getMinuteOfHour();
-                    int curSecondNum = d.getSecondOfMinute();
-                    int dataMinuteNum = Integer.parseInt(strSecond.substring(0,2));
-                    int dataSecondNum = Integer.parseInt(strSecond.substring(3,5));
-                    if (curMinuteNum == dataMinuteNum && dataSecondNum>curSecondNum){
-                        continue;
-                    }
-                    tapWaterRealTimeDetailData = new TapWaterRealTimeData.TapWaterRealTimeDetailData(minute,strSecond);
-                }
-                minuteData.getTapWaterRealTimeDetailDataList().add(tapWaterRealTimeDetailData);
+            for (Map.Entry<String,List<TapWaterRealTimeData.TapWaterRealTimeDetailData>> entry : periodDateDataListMap.entrySet()){
+                TapWaterRealTimeData natgasRealTimeData = new TapWaterRealTimeData();
+                natgasRealTimeData.setPeriodDate(entry.getKey());
+                natgasRealTimeData.setTapWaterRealTimeDetailDataList(entry.getValue());
+                tapWaterRealTimeDataList.add(natgasRealTimeData);
             }
             tapRealRet.setWaterRealTimeDateList(tapWaterRealTimeDataList);
             return tapRealRet;
+
+
+//            List<String> dateSecondList = null;
+//            Date beginDate = null;
+//            Date endDate = new Date();
+//            beginDate = DateUtils.getBeforMinuteStartDay(5);
+//            dateSecondList = DateUtils.getSecondStrList(beginDate, endDate);
+//
+//            List<TapWaterRealTimeData.TapWaterRealTimeDetailData> dataList = tapWaterRealTimeDataDAO.tapWaterRealTimeData(beginDate, endDate);
+//            Map<String, TapWaterRealTimeData.TapWaterRealTimeDetailData> dataMap = MapUtils.listToMap(dataList, "getDataDate");
+//            List<TapWaterRealTimeData> tapWaterRealTimeDataList = new ArrayList<TapWaterRealTimeData>();
+//            Map<String,TapWaterRealTimeData> minuteDataMap = new HashMap<String, TapWaterRealTimeData>();
+//            for (String strSecond:dateSecondList){
+//                String minute=strSecond.substring(0,2)+":00";
+//                TapWaterRealTimeData minuteData = minuteDataMap.get(minute);
+//                if (minuteData==null){
+//                    minuteData=new TapWaterRealTimeData();
+//                    minuteData.setPeriodDate(minute);
+//                    minuteData.setTapWaterRealTimeDetailDataList(new ArrayList<TapWaterRealTimeData.TapWaterRealTimeDetailData>());
+//                    minuteDataMap.put(minute,minuteData);
+//                    tapWaterRealTimeDataList.add(minuteData);
+//                }
+//                TapWaterRealTimeData.TapWaterRealTimeDetailData tapWaterRealTimeDetailData=dataMap.get(strSecond);
+//                if (tapWaterRealTimeDetailData == null) {
+//                    DateTime d = new DateTime();
+//                    int curMinuteNum = d.getMinuteOfHour();
+//                    int curSecondNum = d.getSecondOfMinute();
+//                    int dataMinuteNum = Integer.parseInt(strSecond.substring(0,2));
+//                    int dataSecondNum = Integer.parseInt(strSecond.substring(3,5));
+//                    if (curMinuteNum == dataMinuteNum && dataSecondNum>curSecondNum){
+//                        continue;
+//                    }
+//                    tapWaterRealTimeDetailData = new TapWaterRealTimeData.TapWaterRealTimeDetailData(minute,strSecond);
+//                }
+//                minuteData.getTapWaterRealTimeDetailDataList().add(tapWaterRealTimeDetailData);
+//            }
+//            tapRealRet.setWaterRealTimeDateList(tapWaterRealTimeDataList);
+//            return tapRealRet;
 
         } catch (Exception e) {
             LogUtils.error(getClass(), e);
@@ -107,42 +132,66 @@ public class WaterServiceImpl {
                 pureRealRet.setErrorMsg("waterType参数错误,请传入【" + Constant.PureTypeList + "】");
                 return pureRealRet;
             }
-            List<String> dateSecondList = null;
-            Date beginDate = null;
             Date endDate = new Date();
-            beginDate = DateUtils.getBeforMinuteStartDay(5);
-            dateSecondList = DateUtils.getSecondStrList(beginDate, endDate);
-
+            Date beginDate = DateUtils.getBeforHourStartDay(2);
             List<PureWaterRealTimeData.PureWaterRealTimeDetailData> dataList = pureWaterRealTimeDataDAO.pureWaterRealTimeData(waterType,beginDate, endDate);
-            Map<String, PureWaterRealTimeData.PureWaterRealTimeDetailData> dataMap = MapUtils.listToMap(dataList, "getDataDate");
+            Map<String,List<PureWaterRealTimeData.PureWaterRealTimeDetailData>> periodDateDataListMap = new LinkedHashMap<>();
+            for (PureWaterRealTimeData.PureWaterRealTimeDetailData pureWaterRealTimeDetailData : dataList){
+                String periodDate = pureWaterRealTimeDetailData.getPeriodDate();
+                List<PureWaterRealTimeData.PureWaterRealTimeDetailData> pureWaterRealTimeDetailDatas = periodDateDataListMap.get(periodDate);
+                if (pureWaterRealTimeDetailDatas==null){
+                    pureWaterRealTimeDetailDatas = new ArrayList<>();
+                    periodDateDataListMap.put(periodDate,pureWaterRealTimeDetailDatas);
+                }
+                pureWaterRealTimeDetailDatas.add(pureWaterRealTimeDetailData);
+            }
             List<PureWaterRealTimeData> pureWaterRealTimeDataList = new ArrayList<PureWaterRealTimeData>();
-            Map<String,PureWaterRealTimeData> minuteDataMap = new HashMap<String, PureWaterRealTimeData>();
-            for (String strSecond:dateSecondList){
-                String minute=strSecond.substring(0,2)+":00";
-                PureWaterRealTimeData minuteData = minuteDataMap.get(minute);
-                if (minuteData==null){
-                    minuteData=new PureWaterRealTimeData();
-                    minuteData.setPeriodDate(minute);
-                    minuteData.setPureWaterRealTimeDetailDataList(new ArrayList<PureWaterRealTimeData.PureWaterRealTimeDetailData>());
-                    minuteDataMap.put(minute,minuteData);
-                    pureWaterRealTimeDataList.add(minuteData);
-                }
-                PureWaterRealTimeData.PureWaterRealTimeDetailData pureWaterRealTimeDetailData=dataMap.get(strSecond);
-                if (pureWaterRealTimeDetailData == null) {
-                    DateTime d = new DateTime();
-                    int curMinuteNum = d.getMinuteOfHour();
-                    int curSecondNum = d.getSecondOfMinute();
-                    int dataMinuteNum = Integer.parseInt(strSecond.substring(0,2));
-                    int dataSecondNum = Integer.parseInt(strSecond.substring(3,5));
-                    if (curMinuteNum == dataMinuteNum && dataSecondNum>curSecondNum){
-                        continue;
-                    }
-                    pureWaterRealTimeDetailData = new PureWaterRealTimeData.PureWaterRealTimeDetailData(minute,strSecond);
-                }
-                minuteData.getPureWaterRealTimeDetailDataList().add(pureWaterRealTimeDetailData);
+            for (Map.Entry<String,List<PureWaterRealTimeData.PureWaterRealTimeDetailData>> entry : periodDateDataListMap.entrySet()){
+                PureWaterRealTimeData natgasRealTimeData = new PureWaterRealTimeData();
+                natgasRealTimeData.setPeriodDate(entry.getKey());
+                natgasRealTimeData.setPureWaterRealTimeDetailDataList(entry.getValue());
+                pureWaterRealTimeDataList.add(natgasRealTimeData);
             }
             pureRealRet.setPureWaterRealTimeDataList(pureWaterRealTimeDataList);
             return pureRealRet;
+
+//
+//            List<String> dateSecondList = null;
+//            Date beginDate = null;
+//            Date endDate = new Date();
+//            beginDate = DateUtils.getBeforMinuteStartDay(5);
+//            dateSecondList = DateUtils.getSecondStrList(beginDate, endDate);
+//
+//            List<PureWaterRealTimeData.PureWaterRealTimeDetailData> dataList = pureWaterRealTimeDataDAO.pureWaterRealTimeData(waterType,beginDate, endDate);
+//            Map<String, PureWaterRealTimeData.PureWaterRealTimeDetailData> dataMap = MapUtils.listToMap(dataList, "getDataDate");
+//            List<PureWaterRealTimeData> pureWaterRealTimeDataList = new ArrayList<PureWaterRealTimeData>();
+//            Map<String,PureWaterRealTimeData> minuteDataMap = new HashMap<String, PureWaterRealTimeData>();
+//            for (String strSecond:dateSecondList){
+//                String minute=strSecond.substring(0,2)+":00";
+//                PureWaterRealTimeData minuteData = minuteDataMap.get(minute);
+//                if (minuteData==null){
+//                    minuteData=new PureWaterRealTimeData();
+//                    minuteData.setPeriodDate(minute);
+//                    minuteData.setPureWaterRealTimeDetailDataList(new ArrayList<PureWaterRealTimeData.PureWaterRealTimeDetailData>());
+//                    minuteDataMap.put(minute,minuteData);
+//                    pureWaterRealTimeDataList.add(minuteData);
+//                }
+//                PureWaterRealTimeData.PureWaterRealTimeDetailData pureWaterRealTimeDetailData=dataMap.get(strSecond);
+//                if (pureWaterRealTimeDetailData == null) {
+//                    DateTime d = new DateTime();
+//                    int curMinuteNum = d.getMinuteOfHour();
+//                    int curSecondNum = d.getSecondOfMinute();
+//                    int dataMinuteNum = Integer.parseInt(strSecond.substring(0,2));
+//                    int dataSecondNum = Integer.parseInt(strSecond.substring(3,5));
+//                    if (curMinuteNum == dataMinuteNum && dataSecondNum>curSecondNum){
+//                        continue;
+//                    }
+//                    pureWaterRealTimeDetailData = new PureWaterRealTimeData.PureWaterRealTimeDetailData(minute,strSecond);
+//                }
+//                minuteData.getPureWaterRealTimeDetailDataList().add(pureWaterRealTimeDetailData);
+//            }
+//            pureRealRet.setPureWaterRealTimeDataList(pureWaterRealTimeDataList);
+//            return pureRealRet;
         }catch (Exception e){
             LogUtils.error(getClass(), e);
             pureRealRet.setSuccess(false);
@@ -163,42 +212,66 @@ public class WaterServiceImpl {
                 freezeRealRet.setErrorMsg("waterType参数错误,请传入【" + Constant.FreezeTypeList + "】");
                 return freezeRealRet;
             }
-            List<String> dateSecondList = null;
-            Date beginDate = null;
             Date endDate = new Date();
-            beginDate = DateUtils.getBeforMinuteStartDay(5);
-            dateSecondList = DateUtils.getSecondStrList(beginDate, endDate);
-
+            Date beginDate = DateUtils.getBeforHourStartDay(2);
             List<FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData> dataList = freezeWaterRealTimeDataDAO.freezeWaterRealTimeData(beginDate, endDate,waterType);
-            Map<String, FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData> dataMap = MapUtils.listToMap(dataList, "getDataDate");
+            Map<String,List<FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData>> periodDateDataListMap = new LinkedHashMap<>();
+            for (FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData pureWaterRealTimeDetailData : dataList){
+                String periodDate = pureWaterRealTimeDetailData.getPeriodDate();
+                List<FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData> pureWaterRealTimeDetailDatas = periodDateDataListMap.get(periodDate);
+                if (pureWaterRealTimeDetailDatas==null){
+                    pureWaterRealTimeDetailDatas = new ArrayList<>();
+                    periodDateDataListMap.put(periodDate,pureWaterRealTimeDetailDatas);
+                }
+                pureWaterRealTimeDetailDatas.add(pureWaterRealTimeDetailData);
+            }
             List<FreezeWaterRealTimeData> freezeWaterRealTimeDataList = new ArrayList<FreezeWaterRealTimeData>();
-            Map<String,FreezeWaterRealTimeData> minuteDataMap = new HashMap<String, FreezeWaterRealTimeData>();
-            for (String strSecond:dateSecondList){
-                String minute=strSecond.substring(0,2)+":00";
-                FreezeWaterRealTimeData minuteData = minuteDataMap.get(minute);
-                if (minuteData==null){
-                    minuteData=new FreezeWaterRealTimeData();
-                    minuteData.setPeriodDate(minute);
-                    minuteData.setFreezeWaterRealTimeDetailDataList(new ArrayList<FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData>());
-                    minuteDataMap.put(minute,minuteData);
-                    freezeWaterRealTimeDataList.add(minuteData);
-                }
-                FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData freezeWaterRealTimeDetailData=dataMap.get(strSecond);
-                if (freezeWaterRealTimeDetailData == null) {
-                    DateTime d = new DateTime();
-                    int curMinuteNum = d.getMinuteOfHour();
-                    int curSecondNum = d.getSecondOfMinute();
-                    int dataMinuteNum = Integer.parseInt(strSecond.substring(0,2));
-                    int dataSecondNum = Integer.parseInt(strSecond.substring(3,5));
-                    if (curMinuteNum == dataMinuteNum && dataSecondNum>curSecondNum){
-                        continue;
-                    }
-                    freezeWaterRealTimeDetailData = new FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData(minute,strSecond);
-                }
-                minuteData.getFreezeWaterRealTimeDetailDataList().add(freezeWaterRealTimeDetailData);
+            for (Map.Entry<String,List<FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData>> entry : periodDateDataListMap.entrySet()){
+                FreezeWaterRealTimeData pureWaterRealTimeData = new FreezeWaterRealTimeData();
+                pureWaterRealTimeData.setPeriodDate(entry.getKey());
+                pureWaterRealTimeData.setFreezeWaterRealTimeDetailDataList(entry.getValue());
+                freezeWaterRealTimeDataList.add(pureWaterRealTimeData);
             }
             freezeRealRet.setFreezeWaterRealTimeDataList(freezeWaterRealTimeDataList);
             return freezeRealRet;
+
+//
+//            List<String> dateSecondList = null;
+//            Date beginDate = null;
+//            Date endDate = new Date();
+//            beginDate = DateUtils.getBeforMinuteStartDay(5);
+//            dateSecondList = DateUtils.getSecondStrList(beginDate, endDate);
+//
+//            List<FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData> dataList = freezeWaterRealTimeDataDAO.freezeWaterRealTimeData(beginDate, endDate,waterType);
+//            Map<String, FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData> dataMap = MapUtils.listToMap(dataList, "getDataDate");
+//            List<FreezeWaterRealTimeData> freezeWaterRealTimeDataList = new ArrayList<FreezeWaterRealTimeData>();
+//            Map<String,FreezeWaterRealTimeData> minuteDataMap = new HashMap<String, FreezeWaterRealTimeData>();
+//            for (String strSecond:dateSecondList){
+//                String minute=strSecond.substring(0,2)+":00";
+//                FreezeWaterRealTimeData minuteData = minuteDataMap.get(minute);
+//                if (minuteData==null){
+//                    minuteData=new FreezeWaterRealTimeData();
+//                    minuteData.setPeriodDate(minute);
+//                    minuteData.setFreezeWaterRealTimeDetailDataList(new ArrayList<FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData>());
+//                    minuteDataMap.put(minute,minuteData);
+//                    freezeWaterRealTimeDataList.add(minuteData);
+//                }
+//                FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData freezeWaterRealTimeDetailData=dataMap.get(strSecond);
+//                if (freezeWaterRealTimeDetailData == null) {
+//                    DateTime d = new DateTime();
+//                    int curMinuteNum = d.getMinuteOfHour();
+//                    int curSecondNum = d.getSecondOfMinute();
+//                    int dataMinuteNum = Integer.parseInt(strSecond.substring(0,2));
+//                    int dataSecondNum = Integer.parseInt(strSecond.substring(3,5));
+//                    if (curMinuteNum == dataMinuteNum && dataSecondNum>curSecondNum){
+//                        continue;
+//                    }
+//                    freezeWaterRealTimeDetailData = new FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData(minute,strSecond);
+//                }
+//                minuteData.getFreezeWaterRealTimeDetailDataList().add(freezeWaterRealTimeDetailData);
+//            }
+//            freezeRealRet.setFreezeWaterRealTimeDataList(freezeWaterRealTimeDataList);
+//            return freezeRealRet;
 
         }catch (Exception e){
             LogUtils.error(getClass(), e);

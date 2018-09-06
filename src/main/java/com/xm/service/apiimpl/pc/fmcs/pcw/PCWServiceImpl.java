@@ -7,6 +7,7 @@ import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
 import com.xm.service.apiimpl.pc.fmcs.pcw.dto.*;
+import com.xm.service.apiimpl.pc.fmcs.water.dto.TapWaterRealTimeData;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.fmcs.PCWDataDAO;
 import com.xm.service.dao.fmcs.PCWHumitureDataDAO;
@@ -54,42 +55,66 @@ public class PCWServiceImpl {
                 resultDto.setErrorMsg("system参数错误,请传入【" + Constant.pcwEquipmentList + "】");
                 return resultDto;
             }
-            //Date beginDate = DateUtils.getBeforMinuteStartDay(5);
-            List<String> secondList = null;
-            Date beginDate = null;
-            beginDate = DateUtils.getBeforMinuteStartDay(5);
             Date endDate = new Date();
-            secondList = DateUtils.getSecondStrList(beginDate,endDate);
-            List<HumiturePressureData.HumiturePressureRealTimeDate> queryList = pcwHumitureDataDAO.queryPcwRealTimeDate(system,beginDate,endDate);
-            Map<String,HumiturePressureData.HumiturePressureRealTimeDate> queryMap = MapUtils.listToMap(queryList,"getSecondDate");
-            List<HumiturePressureData> humiturePressureList = new ArrayList<HumiturePressureData>();
-            Map<String,HumiturePressureData> minuteDataMap = new HashMap<String, HumiturePressureData>();
-            for (String strSecond:secondList){
-                String minute=strSecond.substring(0,2)+":00";
-                HumiturePressureData minuteData = minuteDataMap.get(minute);
-                if (minuteData==null){
-                    minuteData=new HumiturePressureData();
-                    minuteData.setPeriodDate(minute);
-                    minuteData.setHumiturePressureRealTimeDateList(new ArrayList<HumiturePressureData.HumiturePressureRealTimeDate>());
-                    minuteDataMap.put(minute,minuteData);
-                    humiturePressureList.add(minuteData);
+            Date beginDate = DateUtils.getBeforHourStartDay(2);
+            List<HumiturePressureData.HumiturePressureRealTimeDate> dataList = pcwHumitureDataDAO.queryPcwRealTimeDate(system, beginDate, endDate);
+            Map<String,List<HumiturePressureData.HumiturePressureRealTimeDate>> periodDateDataListMap = new LinkedHashMap<>();
+            for (HumiturePressureData.HumiturePressureRealTimeDate natgasTimeDetailData : dataList){
+                String periodDate = natgasTimeDetailData.getPeriodDate();
+                List<HumiturePressureData.HumiturePressureRealTimeDate> periodDateDataList = periodDateDataListMap.get(periodDate);
+                if (periodDateDataList==null){
+                    periodDateDataList = new ArrayList<>();
+                    periodDateDataListMap.put(periodDate,periodDateDataList);
                 }
-                HumiturePressureData.HumiturePressureRealTimeDate pcwData = queryMap.get(strSecond);
-                if (pcwData == null) {
-                    DateTime d = new DateTime();
-                    int curMinuteNum = d.getMinuteOfHour();
-                    int curSecondNum = d.getSecondOfMinute();
-                    int dataMinuteNum = Integer.parseInt(strSecond.substring(0,2));
-                    int dataSecondNum = Integer.parseInt(strSecond.substring(3,5));
-                    if (curMinuteNum == dataMinuteNum && dataSecondNum>curSecondNum){
-                        continue;
-                    }
-                    pcwData = new HumiturePressureData.HumiturePressureRealTimeDate(minute,strSecond);
-                }
-                minuteData.getHumiturePressureRealTimeDateList().add(pcwData);
+                periodDateDataList.add(natgasTimeDetailData);
             }
-            resultDto.setHumiturePressureDataList(humiturePressureList);
+            List<HumiturePressureData> humiturePressureDataList = new ArrayList<HumiturePressureData>();
+            for (Map.Entry<String,List<HumiturePressureData.HumiturePressureRealTimeDate>> entry : periodDateDataListMap.entrySet()){
+                HumiturePressureData natgasRealTimeData = new HumiturePressureData();
+                natgasRealTimeData.setPeriodDate(entry.getKey());
+                natgasRealTimeData.setHumiturePressureRealTimeDateList(entry.getValue());
+                humiturePressureDataList.add(natgasRealTimeData);
+            }
+            resultDto.setHumiturePressureDataList(humiturePressureDataList);
             return resultDto;
+
+//
+//            //Date beginDate = DateUtils.getBeforMinuteStartDay(5);
+//            List<String> secondList = null;
+//            Date beginDate = null;
+//            beginDate = DateUtils.getBeforMinuteStartDay(5);
+//            Date endDate = new Date();
+//            secondList = DateUtils.getSecondStrList(beginDate,endDate);
+//            List<HumiturePressureData.HumiturePressureRealTimeDate> queryList = pcwHumitureDataDAO.queryPcwRealTimeDate(system,beginDate,endDate);
+//            Map<String,HumiturePressureData.HumiturePressureRealTimeDate> queryMap = MapUtils.listToMap(queryList,"getSecondDate");
+//            List<HumiturePressureData> humiturePressureList = new ArrayList<HumiturePressureData>();
+//            Map<String,HumiturePressureData> minuteDataMap = new HashMap<String, HumiturePressureData>();
+//            for (String strSecond:secondList){
+//                String minute=strSecond.substring(0,2)+":00";
+//                HumiturePressureData minuteData = minuteDataMap.get(minute);
+//                if (minuteData==null){
+//                    minuteData=new HumiturePressureData();
+//                    minuteData.setPeriodDate(minute);
+//                    minuteData.setHumiturePressureRealTimeDateList(new ArrayList<HumiturePressureData.HumiturePressureRealTimeDate>());
+//                    minuteDataMap.put(minute,minuteData);
+//                    humiturePressureList.add(minuteData);
+//                }
+//                HumiturePressureData.HumiturePressureRealTimeDate pcwData = queryMap.get(strSecond);
+//                if (pcwData == null) {
+//                    DateTime d = new DateTime();
+//                    int curMinuteNum = d.getMinuteOfHour();
+//                    int curSecondNum = d.getSecondOfMinute();
+//                    int dataMinuteNum = Integer.parseInt(strSecond.substring(0,2));
+//                    int dataSecondNum = Integer.parseInt(strSecond.substring(3,5));
+//                    if (curMinuteNum == dataMinuteNum && dataSecondNum>curSecondNum){
+//                        continue;
+//                    }
+//                    pcwData = new HumiturePressureData.HumiturePressureRealTimeDate(minute,strSecond);
+//                }
+//                minuteData.getHumiturePressureRealTimeDateList().add(pcwData);
+//            }
+//            resultDto.setHumiturePressureDataList(humiturePressureList);
+//            return resultDto;
         }catch (Exception e){
             LogUtils.error(this.getClass(),"pcwRealTime eclipse",e);
             resultDto.setSuccess(false);

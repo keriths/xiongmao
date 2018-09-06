@@ -6,6 +6,8 @@ import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
+import com.xm.service.apiimpl.pc.fmcs.pcw.dto.HumiturePressureData;
+import com.xm.service.apiimpl.pc.fmcs.water.dto.TapWaterRealTimeData;
 import com.xm.service.apiimpl.pc.fmcs.wwt.dto.*;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.fmcs.WwtaDataDAO;
@@ -52,70 +54,92 @@ public class WWTServiceImpl {
                 retDTO.setErrorMsg("code参数错误,请传入【" + Constant.wwtbDataCodeList + "】");
                 return retDTO;
             }
-
-            List<String> dateSecondList = null;
-            Date beginDate = null;
             Date endDate = new Date();
-            beginDate = DateUtils.getBeforMinuteStartDay(5);
-            int midint = 20;
-            float midfloat = 7;
-            String dataType ="integer";
-            if ("PH".equals(code)){
-                midfloat=7f;
-                dataType="float";
-            }else if ("F".equals(code)){
-                midfloat=4.5f;
-                dataType="float";
-            }else if ("PO4-P".equals(code)){
-                midfloat=0.5f;
-                dataType="float";
-            }else if ("CODcr".equals(code)){
-                midint=60;
-                dataType="integer";
-            }else if ("T-N".equals(code)){
-                midint=20;
-                dataType="integer";
-            }else if ("C1".equals(code)){
-                midint=50;
-                dataType="integer";
-            }else if ("Cu".equals(code)){
-                midfloat=1f;
-                dataType="float";
-            }
-
-            dateSecondList = DateUtils.getSecondStrList(beginDate, endDate);
-
+            Date beginDate = DateUtils.getBeforHourStartDay(2);
             List<WwtbData.WwtbDetailData> dataList = wwtbDataDAO.queryWwtbDataList(code,beginDate,endDate);
-            Map<String, WwtbData.WwtbDetailData> dataMap = MapUtils.listToMap(dataList, "getDataDate");
+            Map<String,List<WwtbData.WwtbDetailData>> periodDateDataListMap = new LinkedHashMap<>();
+            for (WwtbData.WwtbDetailData natgasTimeDetailData : dataList){
+                String periodDate = natgasTimeDetailData.getPeriodDate();
+                List<WwtbData.WwtbDetailData> periodDateDataList = periodDateDataListMap.get(periodDate);
+                if (periodDateDataList==null){
+                    periodDateDataList = new ArrayList<>();
+                    periodDateDataListMap.put(periodDate,periodDateDataList);
+                }
+                periodDateDataList.add(natgasTimeDetailData);
+            }
             List<WwtbData> wwtbDataList = new ArrayList<WwtbData>();
-            Map<String,WwtbData> minuteDataMap = new HashMap<String, WwtbData>();
-            for (String strSecond:dateSecondList){
-                String minute=strSecond.substring(0,2)+":00";
-                WwtbData minuteData = minuteDataMap.get(minute);
-                if (minuteData==null){
-                    minuteData=new WwtbData();
-                    minuteData.setPeriodDate(minute);
-                    minuteData.setWwtbDetailDataList(new ArrayList<WwtbData.WwtbDetailData>());
-                    minuteDataMap.put(minute,minuteData);
-                    wwtbDataList.add(minuteData);
-                }
-                WwtbData.WwtbDetailData wwtbDetailData=dataMap.get(strSecond);
-                if (wwtbDetailData == null) {
-                    //wwtbDetailData = new WwtbData.WwtbDetailData(minute,strSecond);
-                    DateTime d = new DateTime();
-                    int curMinuteNum = d.getMinuteOfHour();
-                    int curSecondNum = d.getSecondOfMinute();
-                    int dataMinuteNum = Integer.parseInt(strSecond.substring(0,2));
-                    int dataSecondNum = Integer.parseInt(strSecond.substring(3,5));
-                    if (curMinuteNum == dataMinuteNum && dataSecondNum>curSecondNum){
-                        continue;
-                    }
-                    wwtbDetailData = new WwtbData.WwtbDetailData(minute,strSecond,midint,midfloat,dataType);
-                }
-                minuteData.getWwtbDetailDataList().add(wwtbDetailData);
+            for (Map.Entry<String,List<WwtbData.WwtbDetailData>> entry : periodDateDataListMap.entrySet()){
+                WwtbData natgasRealTimeData = new WwtbData();
+                natgasRealTimeData.setPeriodDate(entry.getKey());
+                natgasRealTimeData.setWwtbDetailDataList(entry.getValue());
+                wwtbDataList.add(natgasRealTimeData);
             }
             retDTO.setWwtbDataList(wwtbDataList);
             return retDTO;
+//
+//            List<String> dateSecondList = null;
+//            Date beginDate = null;
+//            Date endDate = new Date();
+//            beginDate = DateUtils.getBeforMinuteStartDay(5);
+//            int midint = 20;
+//            float midfloat = 7;
+//            String dataType ="integer";
+//            if ("PH".equals(code)){
+//                midfloat=7f;
+//                dataType="float";
+//            }else if ("F".equals(code)){
+//                midfloat=4.5f;
+//                dataType="float";
+//            }else if ("PO4-P".equals(code)){
+//                midfloat=0.5f;
+//                dataType="float";
+//            }else if ("CODcr".equals(code)){
+//                midint=60;
+//                dataType="integer";
+//            }else if ("T-N".equals(code)){
+//                midint=20;
+//                dataType="integer";
+//            }else if ("C1".equals(code)){
+//                midint=50;
+//                dataType="integer";
+//            }else if ("Cu".equals(code)){
+//                midfloat=1f;
+//                dataType="float";
+//            }
+//
+//            dateSecondList = DateUtils.getSecondStrList(beginDate, endDate);
+//
+//            List<WwtbData.WwtbDetailData> dataList = wwtbDataDAO.queryWwtbDataList(code,beginDate,endDate);
+//            Map<String, WwtbData.WwtbDetailData> dataMap = MapUtils.listToMap(dataList, "getDataDate");
+//            List<WwtbData> wwtbDataList = new ArrayList<WwtbData>();
+//            Map<String,WwtbData> minuteDataMap = new HashMap<String, WwtbData>();
+//            for (String strSecond:dateSecondList){
+//                String minute=strSecond.substring(0,2)+":00";
+//                WwtbData minuteData = minuteDataMap.get(minute);
+//                if (minuteData==null){
+//                    minuteData=new WwtbData();
+//                    minuteData.setPeriodDate(minute);
+//                    minuteData.setWwtbDetailDataList(new ArrayList<WwtbData.WwtbDetailData>());
+//                    minuteDataMap.put(minute,minuteData);
+//                    wwtbDataList.add(minuteData);
+//                }
+//                WwtbData.WwtbDetailData wwtbDetailData=dataMap.get(strSecond);
+//                if (wwtbDetailData == null) {
+//                    //wwtbDetailData = new WwtbData.WwtbDetailData(minute,strSecond);
+//                    DateTime d = new DateTime();
+//                    int curMinuteNum = d.getMinuteOfHour();
+//                    int curSecondNum = d.getSecondOfMinute();
+//                    int dataMinuteNum = Integer.parseInt(strSecond.substring(0,2));
+//                    int dataSecondNum = Integer.parseInt(strSecond.substring(3,5));
+//                    if (curMinuteNum == dataMinuteNum && dataSecondNum>curSecondNum){
+//                        continue;
+//                    }
+//                    wwtbDetailData = new WwtbData.WwtbDetailData(minute,strSecond,midint,midfloat,dataType);
+//                }
+//                minuteData.getWwtbDetailDataList().add(wwtbDetailData);
+//            }
+//            retDTO.setWwtbDataList(wwtbDataList);
+//            return retDTO;
 
         } catch (Exception e) {
             LogUtils.error(getClass(), e);

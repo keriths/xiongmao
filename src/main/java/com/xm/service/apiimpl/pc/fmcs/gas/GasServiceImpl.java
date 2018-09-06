@@ -50,42 +50,63 @@ public class GasServiceImpl {
                 resultDto.setErrorMsg("gasType参数错误,请传入【" + Constant.GasTypeList + "】");
                 return resultDto;
             }
-            List<String> dateSecondList = null;
-            Date beginDate = null;
             Date endDate = new Date();
-            beginDate = DateUtils.getBeforMinuteStartDay(5);
-            dateSecondList = DateUtils.getSecondStrList(beginDate, endDate);
-
+            Date beginDate = DateUtils.getBeforHourStartDay(2);
             List<NatgasRealTimeData.NatgasTimeDetailData> dataList = natgasRealTimeDataDAO.queryGasRealTimeData(gasType,beginDate, endDate);
-            Map<String, NatgasRealTimeData.NatgasTimeDetailData> dataMap = MapUtils.listToMap(dataList, "getDataDate");
+            Map<String,List<NatgasRealTimeData.NatgasTimeDetailData>> periodDateDataListMap = new LinkedHashMap<>();
+            for (NatgasRealTimeData.NatgasTimeDetailData natgasTimeDetailData : dataList){
+                String periodDate = natgasTimeDetailData.getPeriodDate();
+                List<NatgasRealTimeData.NatgasTimeDetailData> periodDateDataList = periodDateDataListMap.get(periodDate);
+                if (periodDateDataList==null){
+                    periodDateDataList = new ArrayList<>();
+                    periodDateDataListMap.put(periodDate,periodDateDataList);
+                }
+                periodDateDataList.add(natgasTimeDetailData);
+            }
             List<NatgasRealTimeData> natgasRealTimeDataList = new ArrayList<NatgasRealTimeData>();
-            Map<String,NatgasRealTimeData> minuteDataMap = new HashMap<String, NatgasRealTimeData>();
-            for (String strSecond:dateSecondList){
-                String minute=strSecond.substring(0,2)+":00";
-                NatgasRealTimeData minuteData = minuteDataMap.get(minute);
-                if (minuteData==null){
-                    minuteData=new NatgasRealTimeData();
-                    minuteData.setPeriodDate(minute);
-                    minuteData.setGasRealTimeDataList(new ArrayList<NatgasRealTimeData.NatgasTimeDetailData>());
-                    minuteDataMap.put(minute,minuteData);
-                    natgasRealTimeDataList.add(minuteData);
-                }
-                NatgasRealTimeData.NatgasTimeDetailData natgasTimeDetailData=dataMap.get(strSecond);
-                if (natgasTimeDetailData == null) {
-                    DateTime d = new DateTime();
-                    int curMinuteNum = d.getMinuteOfHour();
-                    int curSecondNum = d.getSecondOfMinute();
-                    int dataMinuteNum = Integer.parseInt(strSecond.substring(0,2));
-                    int dataSecondNum = Integer.parseInt(strSecond.substring(3,5));
-                    if (curMinuteNum == dataMinuteNum && dataSecondNum>curSecondNum){
-                        continue;
-                    }
-                    natgasTimeDetailData = new NatgasRealTimeData.NatgasTimeDetailData(minute,strSecond);
-                }
-                minuteData.getGasRealTimeDataList().add(natgasTimeDetailData);
+            for (Map.Entry<String,List<NatgasRealTimeData.NatgasTimeDetailData>> entry : periodDateDataListMap.entrySet()){
+                NatgasRealTimeData natgasRealTimeData = new NatgasRealTimeData();
+                natgasRealTimeData.setPeriodDate(entry.getKey());
+                natgasRealTimeData.setGasRealTimeDataList(entry.getValue());
+                natgasRealTimeDataList.add(natgasRealTimeData);
             }
             resultDto.setNatgasRealTimeDataList(natgasRealTimeDataList);
             return resultDto;
+
+//            List<String> dateSecondList = null;
+//            Date beginDate = null;
+//            Date endDate = new Date();
+//            beginDate = DateUtils.getBeforMinuteStartDay(5);
+//            dateSecondList = DateUtils.getSecondStrList(beginDate, endDate);
+//            Map<String, NatgasRealTimeData.NatgasTimeDetailData> dataMap = MapUtils.listToMap(dataList, "getDataDate");
+//            List<NatgasRealTimeData> natgasRealTimeDataList = new ArrayList<NatgasRealTimeData>();
+//            Map<String,NatgasRealTimeData> minuteDataMap = new HashMap<String, NatgasRealTimeData>();
+//            for (String strSecond:dateSecondList){
+//                String minute=strSecond.substring(0,2)+":00";
+//                NatgasRealTimeData minuteData = minuteDataMap.get(minute);
+//                if (minuteData==null){
+//                    minuteData=new NatgasRealTimeData();
+//                    minuteData.setPeriodDate(minute);
+//                    minuteData.setGasRealTimeDataList(new ArrayList<NatgasRealTimeData.NatgasTimeDetailData>());
+//                    minuteDataMap.put(minute,minuteData);
+//                    natgasRealTimeDataList.add(minuteData);
+//                }
+//                NatgasRealTimeData.NatgasTimeDetailData natgasTimeDetailData=dataMap.get(strSecond);
+//                if (natgasTimeDetailData == null) {
+//                    DateTime d = new DateTime();
+//                    int curMinuteNum = d.getMinuteOfHour();
+//                    int curSecondNum = d.getSecondOfMinute();
+//                    int dataMinuteNum = Integer.parseInt(strSecond.substring(0,2));
+//                    int dataSecondNum = Integer.parseInt(strSecond.substring(3,5));
+//                    if (curMinuteNum == dataMinuteNum && dataSecondNum>curSecondNum){
+//                        continue;
+//                    }
+//                    natgasTimeDetailData = new NatgasRealTimeData.NatgasTimeDetailData(minute,strSecond);
+//                }
+//                minuteData.getGasRealTimeDataList().add(natgasTimeDetailData);
+//            }
+//            resultDto.setNatgasRealTimeDataList(natgasRealTimeDataList);
+//            return resultDto;
         }catch (Exception e){
             LogUtils.error(this.getClass(),"natgasRealTime eclipse",e);
             resultDto.setSuccess(false);
@@ -167,40 +188,63 @@ public class GasServiceImpl {
                 resultDto.setErrorMsg("gasName参数错误,请传入【" + Constant.gasNamelist + "】");
                 return resultDto;
             }
-            Date beginDate = DateUtils.getBeforMinuteStartDay(5);
             Date endDate = new Date();
-            List<String> secondList = DateUtils.getSecondStrList(beginDate,endDate);
-
-            List<BigGasRealTimeDate.GasRealTimeDate> queryList = gasRealTimeDataDAO.queryBigGasRealTimeDate(gasName,beginDate,endDate);
-            Map<String,BigGasRealTimeDate.GasRealTimeDate> queryMap = MapUtils.listToMap(queryList,"getSecondDate");
-            List<BigGasRealTimeDate> bigGasRT = new ArrayList<BigGasRealTimeDate>();
-            Map<String,BigGasRealTimeDate> minuteDataMap = new HashMap<String, BigGasRealTimeDate>();
-            for (String strSecond:secondList){
-                String minute=strSecond.substring(0,2)+":00";
-                BigGasRealTimeDate minuteData = minuteDataMap.get(minute);
-                if (minuteData==null){
-                    minuteData=new BigGasRealTimeDate();
-                    minuteData.setPeriodDate(minute);
-                    minuteData.setGasRealTimeDateList(new ArrayList<BigGasRealTimeDate.GasRealTimeDate>());
-                    minuteDataMap.put(minute,minuteData);
-                    bigGasRT.add(minuteData);
+            Date beginDate = DateUtils.getBeforHourStartDay(2);
+            List<BigGasRealTimeDate.GasRealTimeDate> dataList = gasRealTimeDataDAO.queryBigGasRealTimeDate(gasName,beginDate, endDate);
+            Map<String,List<BigGasRealTimeDate.GasRealTimeDate>> periodDateDataListMap = new LinkedHashMap<>();
+            for (BigGasRealTimeDate.GasRealTimeDate natgasTimeDetailData : dataList){
+                String periodDate = natgasTimeDetailData.getPeriodDate();
+                List<BigGasRealTimeDate.GasRealTimeDate> periodDateDataList = periodDateDataListMap.get(periodDate);
+                if (periodDateDataList==null){
+                    periodDateDataList = new ArrayList<>();
+                    periodDateDataListMap.put(periodDate,periodDateDataList);
                 }
-                BigGasRealTimeDate.GasRealTimeDate bigGasDate=queryMap.get(strSecond);
-                if (bigGasDate == null) {
-                    DateTime d = new DateTime();
-                    int curMinuteNum = d.getMinuteOfHour();
-                    int curSecondNum = d.getSecondOfMinute();
-                    int dataMinuteNum = Integer.parseInt(strSecond.substring(0,2));
-                    int dataSecondNum = Integer.parseInt(strSecond.substring(3,5));
-                    if (curMinuteNum == dataMinuteNum && dataSecondNum>curSecondNum){
-                        continue;
-                    }
-                    bigGasDate = new BigGasRealTimeDate.GasRealTimeDate(minute,strSecond,gasName);
-                }
-                minuteData.getGasRealTimeDateList().add(bigGasDate);
+                periodDateDataList.add(natgasTimeDetailData);
             }
-            resultDto.setBigGasRealTimeDateList(bigGasRT);
+            List<BigGasRealTimeDate> natgasRealTimeDataList = new ArrayList<BigGasRealTimeDate>();
+            for (Map.Entry<String,List<BigGasRealTimeDate.GasRealTimeDate>> entry : periodDateDataListMap.entrySet()){
+                BigGasRealTimeDate natgasRealTimeData = new BigGasRealTimeDate();
+                natgasRealTimeData.setPeriodDate(entry.getKey());
+                natgasRealTimeData.setGasRealTimeDateList(entry.getValue());
+                natgasRealTimeDataList.add(natgasRealTimeData);
+            }
+            resultDto.setBigGasRealTimeDateList(natgasRealTimeDataList);
             return resultDto;
+
+//            Date beginDate = DateUtils.getBeforMinuteStartDay(5);
+//            Date endDate = new Date();
+//            List<String> secondList = DateUtils.getSecondStrList(beginDate,endDate);
+//
+//            List<BigGasRealTimeDate.GasRealTimeDate> queryList = gasRealTimeDataDAO.queryBigGasRealTimeDate(gasName,beginDate,endDate);
+//            Map<String,BigGasRealTimeDate.GasRealTimeDate> queryMap = MapUtils.listToMap(queryList,"getSecondDate");
+//            List<BigGasRealTimeDate> bigGasRT = new ArrayList<BigGasRealTimeDate>();
+//            Map<String,BigGasRealTimeDate> minuteDataMap = new HashMap<String, BigGasRealTimeDate>();
+//            for (String strSecond:secondList){
+//                String minute=strSecond.substring(0,2)+":00";
+//                BigGasRealTimeDate minuteData = minuteDataMap.get(minute);
+//                if (minuteData==null){
+//                    minuteData=new BigGasRealTimeDate();
+//                    minuteData.setPeriodDate(minute);
+//                    minuteData.setGasRealTimeDateList(new ArrayList<BigGasRealTimeDate.GasRealTimeDate>());
+//                    minuteDataMap.put(minute,minuteData);
+//                    bigGasRT.add(minuteData);
+//                }
+//                BigGasRealTimeDate.GasRealTimeDate bigGasDate=queryMap.get(strSecond);
+//                if (bigGasDate == null) {
+//                    DateTime d = new DateTime();
+//                    int curMinuteNum = d.getMinuteOfHour();
+//                    int curSecondNum = d.getSecondOfMinute();
+//                    int dataMinuteNum = Integer.parseInt(strSecond.substring(0,2));
+//                    int dataSecondNum = Integer.parseInt(strSecond.substring(3,5));
+//                    if (curMinuteNum == dataMinuteNum && dataSecondNum>curSecondNum){
+//                        continue;
+//                    }
+//                    bigGasDate = new BigGasRealTimeDate.GasRealTimeDate(minute,strSecond,gasName);
+//                }
+//                minuteData.getGasRealTimeDateList().add(bigGasDate);
+//            }
+//            resultDto.setBigGasRealTimeDateList(bigGasRT);
+//            return resultDto;
         }catch (Exception e){
             LogUtils.error(this.getClass(),"bigGasRealTime eclipse",e);
             resultDto.setSuccess(false);

@@ -66,6 +66,9 @@ public class BigGasStatisticsDateRetDTO extends BaseRetDTO{
             }
             if (todayNum!=null && tomorrowNum!=null){
                 totalNum = tomorrowNum.subtract(todayNum);
+                while (totalNum.intValue()<0){
+                    totalNum = totalNum.add(new BigDecimal("1000000000"));
+                }
                 return totalNum;
             }
             if (showDemoData){

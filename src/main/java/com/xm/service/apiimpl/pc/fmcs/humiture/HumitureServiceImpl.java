@@ -10,6 +10,7 @@ import com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumitureDate;
 import com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumitureRealTimeDataRetDTO;
 import com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumitureRealTimeDate;
 import com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumitureDateRetDTO;
+import com.xm.service.apiimpl.pc.fmcs.water.dto.TapWaterRealTimeData;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.fmcs.HumitureDataDAO;
 import com.xm.service.dao.fmcs.HumitureRealTimeDataDAO;
@@ -37,55 +38,78 @@ public class HumitureServiceImpl {
     public HumitureRealTimeDataRetDTO humitureRtData(@ApiParamDoc(desc = "厂别,如ARRAY,CELL,CF,SL(必填)") String factory){
         HumitureRealTimeDataRetDTO resultDto=new HumitureRealTimeDataRetDTO();
         try {
-//            List<String> placeList = Constant.factoryPlaceListMap.get(factory);
-            //List<String> equList = Constant.placeEquipmentListMap.get(place);
-
-            /*if(!StringUtils.isEmpty(place) && !Constant.placeEquipmentListMap.containsKey(place)){
-                resultDto.setSuccess(false);
-                resultDto.setErrorMsg("place参数错误,请传入【" + Constant.placeEquipmentListMap.keySet() + "】");
-                return resultDto;
-            }
-            if(!StringUtils.isEmpty(equipment) && !equList.contains(equipment)){
-                resultDto.setSuccess(false);
-                resultDto.setErrorMsg("equipment参数错误,请传入【" + equList + "】");
-                return resultDto;
-            }*/
-
-            Date beginDate = DateUtils.getBeforMinuteStartDay(5);
             Date endDate = new Date();
-            //List<String> minuteList = DateUtils.getMinuteStrList(beginDate,endDate);
-            List<String> secondList = DateUtils.getSecondStrList(beginDate,endDate);
-
-            List<HumitureRealTimeDate.HumitureRealTimeDetailData> queryList = humitureRealTimeDataDAO.queryHumiture(factory,beginDate,endDate);
-            Map<String,HumitureRealTimeDate.HumitureRealTimeDetailData> queryMap = MapUtils.listToMap(queryList,"getSecondDate");
-            List<HumitureRealTimeDate> htDateList = new ArrayList<HumitureRealTimeDate>();
-            Map<String,HumitureRealTimeDate> minuteDataMap = new HashMap<String, HumitureRealTimeDate>();
-            for (String strSecond:secondList){
-                String minute=strSecond.substring(0,2)+":00";
-                HumitureRealTimeDate minuteData = minuteDataMap.get(minute);
-                if (minuteData==null){
-                    minuteData=new HumitureRealTimeDate();
-                    minuteData.setPeriodDate(minute);
-                    minuteData.setHumitureRealTimeDetailDataList(new ArrayList<HumitureRealTimeDate.HumitureRealTimeDetailData>());
-                    minuteDataMap.put(minute,minuteData);
-                    htDateList.add(minuteData);
+            Date beginDate = DateUtils.getBeforHourStartDay(2);
+            List<HumitureRealTimeDate.HumitureRealTimeDetailData> dataList = humitureRealTimeDataDAO.queryHumiture(factory, beginDate, endDate);
+            Map<String,List<HumitureRealTimeDate.HumitureRealTimeDetailData>> periodDateDataListMap = new LinkedHashMap<>();
+            for (HumitureRealTimeDate.HumitureRealTimeDetailData natgasTimeDetailData : dataList){
+                String periodDate = natgasTimeDetailData.getPeriodDate();
+                List<HumitureRealTimeDate.HumitureRealTimeDetailData> periodDateDataList = periodDateDataListMap.get(periodDate);
+                if (periodDateDataList==null){
+                    periodDateDataList = new ArrayList<>();
+                    periodDateDataListMap.put(periodDate,periodDateDataList);
                 }
-                HumitureRealTimeDate.HumitureRealTimeDetailData htDetailDate=queryMap.get(strSecond);
-                if (htDetailDate == null) {
-                    DateTime d = new DateTime();
-                    int curMinuteNum = d.getMinuteOfHour();
-                    int curSecondNum = d.getSecondOfMinute();
-                    int dataMinuteNum = Integer.parseInt(strSecond.substring(0,2));
-                    int dataSecondNum = Integer.parseInt(strSecond.substring(3,5));
-                    if (curMinuteNum == dataMinuteNum && dataSecondNum>curSecondNum){
-                        continue;
-                    }
-                    htDetailDate = new HumitureRealTimeDate.HumitureRealTimeDetailData(minute,strSecond);
-                }
-                minuteData.getHumitureRealTimeDetailDataList().add(htDetailDate);
+                periodDateDataList.add(natgasTimeDetailData);
             }
-            resultDto.setHumitureRealTimeDateList(htDateList);
+            List<HumitureRealTimeDate> humitureRealTimeDateList = new ArrayList<HumitureRealTimeDate>();
+            for (Map.Entry<String,List<HumitureRealTimeDate.HumitureRealTimeDetailData>> entry : periodDateDataListMap.entrySet()){
+                HumitureRealTimeDate natgasRealTimeData = new HumitureRealTimeDate();
+                natgasRealTimeData.setPeriodDate(entry.getKey());
+                natgasRealTimeData.setHumitureRealTimeDetailDataList(entry.getValue());
+                humitureRealTimeDateList.add(natgasRealTimeData);
+            }
+            resultDto.setHumitureRealTimeDateList(humitureRealTimeDateList);
             return resultDto;
+//
+////            List<String> placeList = Constant.factoryPlaceListMap.get(factory);
+//            //List<String> equList = Constant.placeEquipmentListMap.get(place);
+//
+//            /*if(!StringUtils.isEmpty(place) && !Constant.placeEquipmentListMap.containsKey(place)){
+//                resultDto.setSuccess(false);
+//                resultDto.setErrorMsg("place参数错误,请传入【" + Constant.placeEquipmentListMap.keySet() + "】");
+//                return resultDto;
+//            }
+//            if(!StringUtils.isEmpty(equipment) && !equList.contains(equipment)){
+//                resultDto.setSuccess(false);
+//                resultDto.setErrorMsg("equipment参数错误,请传入【" + equList + "】");
+//                return resultDto;
+//            }*/
+//
+//            Date beginDate = DateUtils.getBeforMinuteStartDay(5);
+//            Date endDate = new Date();
+//            //List<String> minuteList = DateUtils.getMinuteStrList(beginDate,endDate);
+//            List<String> secondList = DateUtils.getSecondStrList(beginDate,endDate);
+//
+//            List<HumitureRealTimeDate.HumitureRealTimeDetailData> queryList = humitureRealTimeDataDAO.queryHumiture(factory,beginDate,endDate);
+//            Map<String,HumitureRealTimeDate.HumitureRealTimeDetailData> queryMap = MapUtils.listToMap(queryList,"getSecondDate");
+//            List<HumitureRealTimeDate> htDateList = new ArrayList<HumitureRealTimeDate>();
+//            Map<String,HumitureRealTimeDate> minuteDataMap = new HashMap<String, HumitureRealTimeDate>();
+//            for (String strSecond:secondList){
+//                String minute=strSecond.substring(0,2)+":00";
+//                HumitureRealTimeDate minuteData = minuteDataMap.get(minute);
+//                if (minuteData==null){
+//                    minuteData=new HumitureRealTimeDate();
+//                    minuteData.setPeriodDate(minute);
+//                    minuteData.setHumitureRealTimeDetailDataList(new ArrayList<HumitureRealTimeDate.HumitureRealTimeDetailData>());
+//                    minuteDataMap.put(minute,minuteData);
+//                    htDateList.add(minuteData);
+//                }
+//                HumitureRealTimeDate.HumitureRealTimeDetailData htDetailDate=queryMap.get(strSecond);
+//                if (htDetailDate == null) {
+//                    DateTime d = new DateTime();
+//                    int curMinuteNum = d.getMinuteOfHour();
+//                    int curSecondNum = d.getSecondOfMinute();
+//                    int dataMinuteNum = Integer.parseInt(strSecond.substring(0,2));
+//                    int dataSecondNum = Integer.parseInt(strSecond.substring(3,5));
+//                    if (curMinuteNum == dataMinuteNum && dataSecondNum>curSecondNum){
+//                        continue;
+//                    }
+//                    htDetailDate = new HumitureRealTimeDate.HumitureRealTimeDetailData(minute,strSecond);
+//                }
+//                minuteData.getHumitureRealTimeDetailDataList().add(htDetailDate);
+//            }
+//            resultDto.setHumitureRealTimeDateList(htDateList);
+//            return resultDto;
         }catch (Exception e){
             LogUtils.error(getClass(), e);
             resultDto.setSuccess(false);

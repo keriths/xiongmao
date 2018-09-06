@@ -1,8 +1,10 @@
 package com.xm.service.apiimpl.pc.fmcs.pcw.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.RandomUtils;
 import com.xm.service.constant.Constant;
+import org.joda.time.DateTime;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -57,6 +59,17 @@ public class HumiturePressureData {
         public void setSystem(String system) {
             this.system = system;
         }
+        public String getPeriodDate() {
+            int minute = new DateTime(dataFactDate).getMinuteOfHour();
+            String showTime = DateUtils.getStrDate(dataFactDate, "HH:");
+            if (minute>=0 && minute<30){
+                showTime=showTime+"00";
+            }else {
+                showTime=showTime+"30";
+            }
+            return showTime;
+        }
+
 
         public BigDecimal getTemperature() {
             if (temperature==null){
@@ -90,16 +103,14 @@ public class HumiturePressureData {
             this.pressure = pressure;
         }
 
-        public String getPeriodDate() {
-            return periodDate;
-        }
+
 
         public void setPeriodDate(String periodDate) {
             this.periodDate = periodDate;
         }
 
         public String getSecondDate() {
-            return secondDate;
+            return DateUtils.getStrDate(dataFactDate,"HH:mm");
         }
 
         public void setSecondDate(String secondDate) {

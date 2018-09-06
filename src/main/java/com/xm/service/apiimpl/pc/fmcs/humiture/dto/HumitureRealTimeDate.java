@@ -1,8 +1,10 @@
 package com.xm.service.apiimpl.pc.fmcs.humiture.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.RandomUtils;
 import com.xm.service.constant.Constant;
+import org.joda.time.DateTime;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -59,6 +61,21 @@ public class HumitureRealTimeDate {
         @ApiResultFieldDesc(desc = "最新更新时间")
         private String secondDate;
         boolean showDemoData=false;
+
+
+        public String getPeriodDate() {
+            int minute = new DateTime(dataFactDate).getMinuteOfHour();
+            String showTime = DateUtils.getStrDate(dataFactDate, "HH:");
+            if (minute>=0 && minute<30){
+                showTime=showTime+"00";
+            }else {
+                showTime=showTime+"30";
+            }
+            return showTime;
+        }
+        public String getSecondDate() {
+            return DateUtils.getStrDate(dataFactDate,"HH:mm");
+        }
 
         public String getFactory() {
             return factory;
@@ -132,17 +149,13 @@ public class HumitureRealTimeDate {
             this.cleanliness = cleanliness;
         }
 
-        public String getPeriodDate() {
-            return periodDate;
-        }
+
 
         public void setPeriodDate(String periodDate) {
             this.periodDate = periodDate;
         }
 
-        public String getSecondDate() {
-            return secondDate;
-        }
+
 
         public void setSecondDate(String secondDate) {
             this.secondDate = secondDate;

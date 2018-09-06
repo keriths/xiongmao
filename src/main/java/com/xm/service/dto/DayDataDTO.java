@@ -1,5 +1,7 @@
 package com.xm.service.dto;
 
+import com.xm.platform.util.DateUtils;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -9,7 +11,7 @@ import java.util.Date;
  */
 public class DayDataDTO implements Serializable{
     private BigDecimal totalNum;
-    private String dataDate;
+    private Date dataDate;
 
     public BigDecimal getTotalNum() {
         return totalNum;
@@ -19,11 +21,15 @@ public class DayDataDTO implements Serializable{
         this.totalNum = totalNum;
     }
 
-    public String getDataDate() {
+    public Date getDataDate() {
         return dataDate;
     }
 
-    public void setDataDate(String dataDate) {
+    public void setDataDate(Date dataDate) {
         this.dataDate = dataDate;
+    }
+
+    public String getDatadateStr(){
+        return DateUtils.getStrDate(dataDate, "yyyy-MM-dd HH:mm:ss");
     }
 }

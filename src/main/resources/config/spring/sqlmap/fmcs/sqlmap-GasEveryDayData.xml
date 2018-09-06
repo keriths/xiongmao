@@ -4,7 +4,7 @@
 
 
     <select id="queryBigGasEveryDayDataByDateList" parameterType="map" resultType="com.xm.service.dto.DayDataDTO">
-        SELECT TotalNum as totalNum,TO_CHAR(DATADATE,'YYYY-MM-DD') as dataDate
+        SELECT TotalNum as totalNum,DATADATE as dataDate
         FROM GASEVERYDAYDATA
         WHERE GASNAME=#{gasName,jdbcType=VARCHAR}
         AND DATADATE IN

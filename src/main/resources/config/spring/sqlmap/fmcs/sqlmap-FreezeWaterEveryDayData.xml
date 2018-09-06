@@ -67,7 +67,7 @@
     </select>
 
     <select id="queryDayDataByDateList" parameterType="map" resultType="com.xm.service.dto.DayDataDTO">
-        SELECT TOTALNUM as totalNum,TO_CHAR(DATADATE,'YYYY-MM-DD') as dataDate
+        SELECT TOTALNUM as totalNum,DATADATE as dataDate
         FROM FREEZEWATEREVERYDAYDATA
         WHERE Type=#{waterType,jdbcType=VARCHAR}
         AND DATADATE IN

@@ -1,9 +1,11 @@
 package com.xm.service.apiimpl.pc.fmcs.gas.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.RandomUtils;
 import com.xm.service.constant.Constant;
 import com.xm.service.dto.BaseRetDTO;
+import org.joda.time.DateTime;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -78,7 +80,14 @@ public class NatgasRealTimeData {
         }
 
         public String getPeriodDate() {
-            return periodDate;
+            int minute = new DateTime(dataFactDate).getMinuteOfHour();
+            String showTime = DateUtils.getStrDate(dataFactDate,"HH:");
+            if (minute>=0 && minute<30){
+                showTime=showTime+"00";
+            }else {
+                showTime=showTime+"30";
+            }
+            return showTime;
         }
 
         public void setPeriodDate(String periodDate) {
@@ -86,7 +95,7 @@ public class NatgasRealTimeData {
         }
 
         public String getDataDate() {
-            return dataDate;
+            return DateUtils.getStrDate(dataFactDate,"HH:mm");
         }
 
         public void setDataDate(String dataDate) {

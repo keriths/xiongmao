@@ -138,7 +138,7 @@ public class Constant {
     /**
      *大宗气气体类型
      */
-    public static final List<String> gasNamelist = Lists.newArrayList("GN2","PN2","GO2","PO2","PAr","PHe","PH2");
+    public static final List<String> gasNamelist = Lists.newArrayList("GN2","PN2","GO2","PO2","PAR","PHE","PH2");
     /**
      *大宗气气体类型
      */

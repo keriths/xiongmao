@@ -2,6 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.fmcs.ElecEveryHourDataDAO" >
 
+    <select id="queryDayDataByDateList" parameterType="map" resultType="com.xm.service.dto.DayDataDTO">
+        SELECT TOTALNUM as totalNum,DATADATE as dataDate
+        FROM ELECEVERYHOURDATA
+        WHERE  DATADATE IN
+        <foreach collection="queryDays" item="queryDate" open="(" separator="," close=")">
+            #{queryDate,jdbcType=DATE}
+        </foreach>
+        AND PLACE=#{place,jdbcType=VARCHAR}
+        and TotalNum is not null
+        and TotalNum != -2147483648
+    </select>
+
+
     <!--查询某个区域每小时、每天、每月用电统计数据-->
     <select id="queryElectricityPlaceDate" resultType="com.xm.service.apiimpl.pc.fmcs.electricity.dto.ElectricityPlaceDate" parameterType="Map">
         select

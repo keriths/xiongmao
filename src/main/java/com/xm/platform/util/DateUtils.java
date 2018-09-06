@@ -316,6 +316,20 @@ public class DateUtils {
             queryDays.add(DateUtils.getBeforMonthStartDay(2));
             queryDays.add(DateUtils.getBeforMonthStartDay(1));
             queryDays.add(DateUtils.getBeforDayStartDay(0));
+        }else if (dateType.equals(Constant.hour)){
+            queryDays.add(DateUtils.getBeforHourStartDay(12));
+            queryDays.add(DateUtils.getBeforHourStartDay(11));
+            queryDays.add(DateUtils.getBeforHourStartDay(10));
+            queryDays.add(DateUtils.getBeforHourStartDay(9));
+            queryDays.add(DateUtils.getBeforHourStartDay(8));
+            queryDays.add(DateUtils.getBeforHourStartDay(7));
+            queryDays.add(DateUtils.getBeforHourStartDay(6));
+            queryDays.add(DateUtils.getBeforHourStartDay(5));
+            queryDays.add(DateUtils.getBeforHourStartDay(4));
+            queryDays.add(DateUtils.getBeforHourStartDay(3));
+            queryDays.add(DateUtils.getBeforHourStartDay(2));
+            queryDays.add(DateUtils.getBeforHourStartDay(1));
+            queryDays.add(DateUtils.getBeforHourStartDay(0));
         }
         return queryDays;
     }

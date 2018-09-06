@@ -1,7 +1,9 @@
 package com.xm.service.apiimpl.pc.fmcs.water.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.RandomUtils;
+import org.joda.time.DateTime;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -57,13 +59,25 @@ public class FreezeWaterRealTimeData {
             return speed;
         }
 
+        public String getPeriodDate() {
+            int minute = new DateTime(dataFactDate).getMinuteOfHour();
+            String showTime = DateUtils.getStrDate(dataFactDate, "HH:");
+            if (minute>=0 && minute<30){
+                showTime=showTime+"00";
+            }else {
+                showTime=showTime+"30";
+            }
+            return showTime;
+        }
+        public String getDataDate() {
+            return DateUtils.getStrDate(dataFactDate,"HH:mm");
+        }
+
         public void setSpeed(BigDecimal speed) {
             this.speed = speed;
         }
 
-        public String getDataDate() {
-            return dataDate;
-        }
+
 
         public void setDataDate(String dataDate) {
             this.dataDate = dataDate;
@@ -77,9 +91,7 @@ public class FreezeWaterRealTimeData {
             this.waterType = waterType;
         }
 
-        public String getPeriodDate() {
-            return periodDate;
-        }
+
 
         public void setPeriodDate(String periodDate) {
             this.periodDate = periodDate;
