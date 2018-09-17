@@ -11,6 +11,9 @@ import com.xm.service.apiimpl.pc.integrateData.humidity.dto.HumitureDataDTO;
 import com.xm.service.apiimpl.pc.integrateData.humidity.dto.WaterElectricityCollectDataDTO;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.fmcs.*;
+import com.xm.service.dto.TwoDaysDataDTO;
+import com.xm.service.dto.TwoDaysGasDataDTO;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -46,34 +49,52 @@ public class HumidityServiceImpl {
         WaterElectricityCollectDataDTO resultDto = new WaterElectricityCollectDataDTO();
         try {
 
-            Date todayStart = DateUtils.getBeforDayStartDay(0);
-            Date todayEnd = DateUtils.getBeforDayEndDay(0);
-            Date curMonthStart = DateUtils.getBeforMonthStartDay(0);
-            Date curMonthEnd = DateUtils.getBeforMonthEndDay(0);
+            Date dayBeforDate = DateUtils.getBeforDayStartDay(1);
+            Date dayAfterDate = DateUtils.getBeforDayStartDay(0);
+            Date monthBeforDate = DateUtils.getBeforMonthStartDay(0);
+            Date monthAfterDate = DateUtils.getBeforDayStartDay(0);
+//
+//            Date todayStart = DateUtils.getBeforDayStartDay(0);
+//            Date todayEnd = DateUtils.getBeforDayEndDay(0);
+//            Date curMonthStart = DateUtils.getBeforMonthStartDay(0);
+//            Date curMonthEnd = DateUtils.getBeforMonthEndDay(0);
 
-            List<WaterElectricityCollectDataDTO.WaterElectricityCollectData> tapWaterDayDataList = tapWaterEveryDayDataDAO.queryTapWaterByDate(todayStart,todayEnd);
-            List<WaterElectricityCollectDataDTO.WaterElectricityCollectData> tapWaterMonthDataList = tapWaterEveryDayDataDAO.queryTapWaterByDate(curMonthStart,curMonthEnd);
+            List<TwoDaysDataDTO> tapWaterDayDataList = tapWaterEveryDayDataDAO.queryTwoDaysTapWaterByQueryData(dayBeforDate, dayAfterDate);
+            List<TwoDaysDataDTO> tapWaterMonthDataList = tapWaterEveryDayDataDAO.queryTwoDaysTapWaterByQueryData(monthBeforDate, monthAfterDate);
 
-            List<WaterElectricityCollectDataDTO.WaterElectricityCollectData> pureWaterDayDataList = pureWaterEveryDayDataDAO.queryPureWaterByDate(todayStart,todayEnd);
-            List<WaterElectricityCollectDataDTO.WaterElectricityCollectData> pureWaterMonthDataList = pureWaterEveryDayDataDAO.queryPureWaterByDate(curMonthStart,curMonthEnd);
+            List<TwoDaysDataDTO> pureWaterDayDataList = pureWaterEveryDayDataDAO.queryTwoDaysPureWaterByQueryData(dayBeforDate,dayAfterDate);
+            List<TwoDaysDataDTO> pureWaterMonthDataList = pureWaterEveryDayDataDAO.queryTwoDaysPureWaterByQueryData(monthBeforDate, monthAfterDate);
 
-            List<WaterElectricityCollectDataDTO.WaterElectricityCollectData> freezeWaterDayDataList = freezeWaterEveryDayDataDAO.queryFreezeWaterByDate(todayStart,todayEnd);
-            List<WaterElectricityCollectDataDTO.WaterElectricityCollectData> freezeWaterMonthDataList = freezeWaterEveryDayDataDAO.queryFreezeWaterByDate(curMonthStart,curMonthEnd);
-
-            List<WaterElectricityCollectDataDTO.WaterElectricityCollectData> electDayDataList = elecEveryHourDataDAO.queryElectricityByDate(todayStart,todayEnd);
-            List<WaterElectricityCollectDataDTO.WaterElectricityCollectData> electMonthDataList = elecEveryHourDataDAO.queryElectricityByDate(curMonthStart,curMonthEnd);
-
-            tapWaterDayDataList = Lists.newArrayList(new WaterElectricityCollectDataDTO.WaterElectricityCollectData(40,60));
-            pureWaterDayDataList = Lists.newArrayList(new WaterElectricityCollectDataDTO.WaterElectricityCollectData(40,60));
-            freezeWaterDayDataList = Lists.newArrayList(new WaterElectricityCollectDataDTO.WaterElectricityCollectData(40,60));
-
-            tapWaterMonthDataList = Lists.newArrayList(new WaterElectricityCollectDataDTO.WaterElectricityCollectData(1800,2000));
-            pureWaterMonthDataList = Lists.newArrayList(new WaterElectricityCollectDataDTO.WaterElectricityCollectData(1800,2000));
-            freezeWaterMonthDataList = Lists.newArrayList(new WaterElectricityCollectDataDTO.WaterElectricityCollectData(1800,2000));
+            List<TwoDaysDataDTO> freezeWaterDayDataList = freezeWaterEveryDayDataDAO.queryTwoDaysFreezeWaterByQueryData(dayBeforDate, dayAfterDate);
+            List<TwoDaysDataDTO> freezeWaterMonthDataList = freezeWaterEveryDayDataDAO.queryTwoDaysFreezeWaterByQueryData(monthBeforDate, monthAfterDate);
 
 
-            electDayDataList = Lists.newArrayList(new WaterElectricityCollectDataDTO.WaterElectricityCollectData(350,400));
-            electMonthDataList = Lists.newArrayList(new WaterElectricityCollectDataDTO.WaterElectricityCollectData(7500,9000));
+            Date elecdayBeforDate = DateUtils.getBeforDayStartDay(0);
+            Date elecdayAfterDate = DateUtils.getBeforHourStartDay(1);
+            if (new DateTime().hourOfDay().get()==0){
+                elecdayBeforDate = DateUtils.getBeforDayStartDay(0);
+                elecdayAfterDate = DateUtils.getBeforHourStartDay(0);
+            }
+            Date elecmonthBeforDate = DateUtils.getBeforMonthStartDay(0);
+            Date elecmonthAfterDate = DateUtils.getBeforHourStartDay(1);
+            if (new DateTime().hourOfDay().get()==0 && new DateTime().dayOfMonth().get()==1){
+                elecmonthBeforDate = DateUtils.getBeforMonthStartDay(0);
+                elecmonthAfterDate = DateUtils.getBeforHourStartDay(0);
+            }
+            List<TwoDaysDataDTO> electDayDataList = elecEveryHourDataDAO.queryTwoDaysElectricityByQueryData(elecdayBeforDate, elecdayAfterDate);
+            List<TwoDaysDataDTO> electMonthDataList = elecEveryHourDataDAO.queryTwoDaysElectricityByQueryData(elecmonthBeforDate, elecmonthAfterDate);
+
+//            tapWaterDayDataList = Lists.newArrayList(new WaterElectricityCollectDataDTO.WaterElectricityCollectData(40,60));
+//            pureWaterDayDataList = Lists.newArrayList(new WaterElectricityCollectDataDTO.WaterElectricityCollectData(40,60));
+//            freezeWaterDayDataList = Lists.newArrayList(new WaterElectricityCollectDataDTO.WaterElectricityCollectData(40,60));
+
+//            tapWaterMonthDataList = Lists.newArrayList(new WaterElectricityCollectDataDTO.WaterElectricityCollectData(1800,2000));
+//            pureWaterMonthDataList = Lists.newArrayList(new WaterElectricityCollectDataDTO.WaterElectricityCollectData(1800,2000));
+//            freezeWaterMonthDataList = Lists.newArrayList(new WaterElectricityCollectDataDTO.WaterElectricityCollectData(1800,2000));
+
+//
+//            electDayDataList = Lists.newArrayList(new WaterElectricityCollectDataDTO.WaterElectricityCollectData(350,400));
+//            electMonthDataList = Lists.newArrayList(new WaterElectricityCollectDataDTO.WaterElectricityCollectData(7500,9000));
 
             resultDto.setTapWaterDayDataList(tapWaterDayDataList);
             resultDto.setTapWaterMonthDataList(tapWaterMonthDataList);
@@ -96,20 +117,25 @@ public class HumidityServiceImpl {
     public GasCollectDataDTO lineCollectRetDTO(){
         GasCollectDataDTO resultDto = new GasCollectDataDTO();
         try {
-            Date todayStart = DateUtils.getBeforDayStartDay(0);
-            Date todayEnd = DateUtils.getBeforDayEndDay(0);
-            Date curMonthStart = DateUtils.getBeforMonthStartDay(0);
-            Date curMonthEnd = DateUtils.getBeforMonthEndDay(0);
-            List<GasCollectDataDTO.GasCollectData> bigGasDayDataList = bigGasEveryDayDataDAO.queryBigGasByDateAndGasNameList(Constant.gasNamelist,todayStart,todayEnd);
-            bigGasDayDataList = Constant.gasNamelist.stream().map(gasName -> new GasCollectDataDTO.GasCollectData(gasName,3600,5000)).collect(Collectors.toList());
-            List<GasCollectDataDTO.GasCollectData> bigGasMonthDataList = bigGasEveryDayDataDAO.queryBigGasByDateAndGasNameList(Constant.gasNamelist,curMonthStart,curMonthEnd);
-            bigGasMonthDataList = Constant.gasNamelist.stream().map(gasName -> new GasCollectDataDTO.GasCollectData(gasName,80000,90000)).collect(Collectors.toList());
+            Date dayBeforDate = DateUtils.getBeforDayStartDay(1);
+            Date dayAfterDate = DateUtils.getBeforDayStartDay(0);
+            Date monthBeforDate = DateUtils.getBeforMonthStartDay(0);
+            Date monthAfterDate = DateUtils.getBeforDayStartDay(0);
+//
+//            Date todayStart = DateUtils.getBeforDayStartDay(0);
+//            Date todayEnd = DateUtils.getBeforDayEndDay(0);
+//            Date curMonthStart = DateUtils.getBeforMonthStartDay(0);
+//            Date curMonthEnd = DateUtils.getBeforMonthEndDay(0);
+            List<TwoDaysGasDataDTO> bigGasDayDataList = bigGasEveryDayDataDAO.queryTwoDaysBigGasByQueryData(Constant.gasNamelist, dayBeforDate, dayAfterDate);
+//            bigGasDayDataList = Constant.gasNamelist.stream().map(gasName -> new GasCollectDataDTO.GasCollectData(gasName,3600,5000)).collect(Collectors.toList());
+            List<TwoDaysGasDataDTO> bigGasMonthDataList = bigGasEveryDayDataDAO.queryTwoDaysBigGasByQueryData(Constant.gasNamelist, monthBeforDate, monthAfterDate);
+//            bigGasMonthDataList = Constant.gasNamelist.stream().map(gasName -> new GasCollectDataDTO.GasCollectData(gasName,80000,90000)).collect(Collectors.toList());
 
-            List<GasCollectDataDTO.GasCollectData> natGasDayDataList = natgasEveryDayDataDAO.queryNatGasByDateAndGasNameList(Constant.gasTypelist,todayStart,todayEnd);
-            natGasDayDataList = Constant.gasTypelist.stream().map(gasName -> new GasCollectDataDTO.GasCollectData(gasName,300,350)).collect(Collectors.toList());
+            List<TwoDaysGasDataDTO> natGasDayDataList = natgasEveryDayDataDAO.queryTwoDaysNatGasByQueryData(Constant.gasTypelist, dayBeforDate, dayAfterDate);
+//            natGasDayDataList = Constant.gasTypelist.stream().map(gasName -> new GasCollectDataDTO.GasCollectData(gasName,300,350)).collect(Collectors.toList());
 
-            List<GasCollectDataDTO.GasCollectData> natGasMonthDataList = natgasEveryDayDataDAO.queryNatGasByDateAndGasNameList(Constant.gasTypelist,curMonthStart,curMonthEnd);
-            natGasMonthDataList = Constant.gasTypelist.stream().map(gasName -> new GasCollectDataDTO.GasCollectData(gasName,6000,7000)).collect(Collectors.toList());
+            List<TwoDaysGasDataDTO> natGasMonthDataList = natgasEveryDayDataDAO.queryTwoDaysNatGasByQueryData(Constant.gasTypelist, monthBeforDate, monthAfterDate);
+//            natGasMonthDataList = Constant.gasTypelist.stream().map(gasName -> new GasCollectDataDTO.GasCollectData(gasName,6000,7000)).collect(Collectors.toList());
 
             resultDto.setBigGasDayCollectDataList(bigGasDayDataList);
             resultDto.setBigGasMonthCollectDataList(bigGasMonthDataList);

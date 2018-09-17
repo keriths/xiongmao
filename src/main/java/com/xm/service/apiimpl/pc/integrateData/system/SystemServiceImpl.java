@@ -78,13 +78,13 @@ public class SystemServiceImpl {
         PcwDataDTO resultDto = new PcwDataDTO();
         try {
             List<PcwDataDTO.PcwData> pcwDataList = pcwHumitureDataDAO.queryPcwData(Constant.pcwEquipmentList);
-            pcwDataList = Constant.pcwEquipmentList.stream().map(pcw -> {
-                PcwDataDTO.PcwData data = new PcwDataDTO.PcwData();
-                data.setSystem(pcw);
-                data.setTemperature(RandomUtils.randomFloat(14,18));
-                data.setPressure(RandomUtils.randomFloat(5,7));
-                return data;
-            }).collect(Collectors.toList());
+//            pcwDataList = Constant.pcwEquipmentList.stream().map(pcw -> {
+//                PcwDataDTO.PcwData data = new PcwDataDTO.PcwData();
+//                data.setSystem(pcw);
+//                data.setTemperature(RandomUtils.randomFloat(14,18));
+//                data.setPressure(RandomUtils.randomFloat(5,7));
+//                return data;
+//            }).collect(Collectors.toList());
             resultDto.setPcwDataList(pcwDataList);
             return resultDto;
         }catch (Exception e){
@@ -130,12 +130,12 @@ public class SystemServiceImpl {
         WwtDataDTO resultDto = new WwtDataDTO();
         try {
             List<WwtDataDTO.WwtData> wwtDataList = wwtbDataDAO.queryWwtData(Constant.wwtbDataCodeList);
-            wwtDataList = Constant.wwtbDataCodeList.stream().map(wwt -> {
-                WwtDataDTO.WwtData d = new WwtDataDTO.WwtData();
-                d.setCode(wwt);
-                d.setValue(RandomUtils.randomFloat(1,50));
-                return d;
-            }).collect(Collectors.toList());
+//            wwtDataList = Constant.wwtbDataCodeList.stream().map(wwt -> {
+//                WwtDataDTO.WwtData d = new WwtDataDTO.WwtData();
+//                d.setCode(wwt);
+//                d.setValue(RandomUtils.randomFloat(1,50));
+//                return d;
+//            }).collect(Collectors.toList());
             resultDto.setWwtDataList(wwtDataList);
             return resultDto;
         }catch (Exception e){

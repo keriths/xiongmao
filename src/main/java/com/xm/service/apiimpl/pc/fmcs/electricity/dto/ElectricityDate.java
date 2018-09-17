@@ -21,13 +21,14 @@ public class ElectricityDate {
     private String dataDate;
 
     public static class ElectricityDetailDate{
+        boolean showDemoData = false;
         public ElectricityDetailDate(String placeType,String dateType,Date today,Date tomorrow,BigDecimal todayNum,BigDecimal tomorrowNum){
             this.today = today;
             this.tomorrow = tomorrow;
             this.todayNum = todayNum;
             this.tomorrowNum = tomorrowNum;
             this.dateType = dateType;
-            this.placeType = placeType;
+            this.place = placeType;
         }
         @ApiResultFieldDesc(desc = "查询类型")
         private String dateType;
@@ -50,7 +51,7 @@ public class ElectricityDate {
                 }
                 return totalNum;
             }
-            if (Constant.showDemoData){
+            if (showDemoData){
                 totalNum = RandomUtils.randomIntBigDecimal(1500,2000);
             }else {
                 totalNum=new BigDecimal(0);
@@ -67,20 +68,25 @@ public class ElectricityDate {
             if (dateType.equals(Constant.month)){
                 return DateUtils.getStrDate(today,"MM月");
             }
+            if (dateType.equals(Constant.hour)){
+                return DateUtils.getStrDate(today,"HH:mm");
+            }
             return dataDate;
         }
         public ElectricityDetailDate(){}
         public ElectricityDetailDate(String dataDate,String placeType){
 
             this.dataDate=dataDate;
-            this.placeType=placeType;
+            this.place=placeType;
         }
         public String key(){
-            return dataDate+" "+placeType;
+            return getDataDate()+"_"+getPlace();
         }
 
+//        @ApiResultFieldDesc(desc = "区域类型，如(4A,4B)")
+//        private String placeType;
         @ApiResultFieldDesc(desc = "区域类型，如(4A,4B)")
-        private String placeType;
+        private String place;
         /*@ApiResultFieldDesc(desc = "地点,如(4A-ARRAY,4E-纯水站)")
         private String place;*/
         @ApiResultFieldDesc(desc = "当前时间使用总量")
@@ -89,32 +95,17 @@ public class ElectricityDate {
         private String dataDate;
 
 
-        public String getPlaceType() {
-            return placeType;
+        public String getPlace() {
+            return place;
         }
 
-        public void setPlaceType(String placeType) {
-            this.placeType = placeType;
+        public void setPlace(String place) {
+            this.place = place;
         }
-
-//        public BigDecimal getTotalNum() {
-//            if (totalNum==null){
-//                if (Constant.showDemoData){
-//                    totalNum = RandomUtils.randomIntBigDecimal(1600, 1900);
-//                }else {
-//                    totalNum=new BigDecimal(0);
-//                }
-//            }
-//            return totalNum;
-//        }
 
         public void setTotalNum(BigDecimal totalNum) {
             this.totalNum = totalNum;
         }
-
-//        public String getDataDate() {
-//            return dataDate;
-//        }
 
         public void setDataDate(String dataDate) {
             this.dataDate = dataDate;

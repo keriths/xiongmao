@@ -12,6 +12,7 @@ import java.util.Date;
  * Created by luokaiming on 2017/12/22.
  */
 public class ElectricityPlaceDate {
+    boolean showDemoData = false;
     public ElectricityPlaceDate(){}
     public ElectricityPlaceDate(String dataDate){
         this.dataDate=dataDate;
@@ -45,7 +46,7 @@ public class ElectricityPlaceDate {
             }
             return totalNum;
         }
-        if (Constant.showDemoData){
+        if (showDemoData){
             totalNum = RandomUtils.randomIntBigDecimal(1600, 1900);
         }else {
             totalNum=new BigDecimal(0);
@@ -86,7 +87,7 @@ public class ElectricityPlaceDate {
 
 //    public BigDecimal getTotalNum() {
 //        if (totalNum==null){
-//            if (Constant.showDemoData){
+//            if (showDemoData){
 //                totalNum = RandomUtils.randomIntBigDecimal(1600, 1900);
 //            }else {
 //                totalNum=new BigDecimal(0);

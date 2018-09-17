@@ -12,7 +12,7 @@ import java.util.Map;
  * Created by fanshuai on 17/11/19.
  */
 public class Constant {
-    public static final boolean showDemoData=true;
+    public static final boolean showDemoData=false;
 
     public static final String hour="hour";
     public static final String day="day";
@@ -175,11 +175,11 @@ public class Constant {
     /**
      * 气体地点
      */
-    public static final List<String> PlaceTypeList = Lists.newArrayList("4A/4B-工厂", "4M食堂");
+    public static final List<String> PlaceTypeList = Lists.newArrayList("4A4B工厂", "4M食堂");
     /**
      * 气体类型
      */
-    public static final List<String> GasTypeList = Lists.newArrayList("蒸汽", "天然气","4A/4B-工厂天然气","4M食堂天然气");
+    public static final List<String> GasTypeList = Lists.newArrayList("蒸汽", "天然气","4A4B工厂天然气","4M食堂天然气");
     /**
      * 纯水类型
      */
@@ -245,7 +245,7 @@ public class Constant {
     /**
      * 电的区域类型
      */
-    public static final List<String> electricityPlaceTypeList = Lists.newArrayList("4A","4B","其他");
+    public static final List<String> electricityPlaceTypeList = Lists.newArrayList("4A","4B","其它");
 
 
     /**

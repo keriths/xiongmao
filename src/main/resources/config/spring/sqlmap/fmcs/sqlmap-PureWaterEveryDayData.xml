@@ -32,18 +32,46 @@
 
 
 
-    <select id="queryPureWaterByDate" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.humidity.dto.WaterElectricityCollectDataDTO$WaterElectricityCollectData">
+    <!--<select id="queryPureWaterByDate" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.humidity.dto.WaterElectricityCollectDataDTO$WaterElectricityCollectData">-->
+        <!--SELECT-->
+        <!--sum(TOTALNUM) as totalNum-->
+        <!--FROM-->
+        <!--PUREWATEREVERYDAYDATA-->
+        <!--WHERE-->
+        <!--<![CDATA[-->
+          <!--DATADATE >= #{startDate}-->
+          <!--and DATADATE <= #{endDate}-->
+        <!--]]>-->
+        <!--and TotalNum is not null-->
+        <!--and TotalNum != -2147483648-->
+    <!--</select>-->
+
+    <select id="queryTwoDaysPureWaterByQueryData"  parameterType="map" resultType="com.xm.service.dto.TwoDaysDataDTO">
         SELECT
-        sum(TOTALNUM) as totalNum
+        beforTotalNum,
+        beforDataDate,
+        afterTotalNum,
+        afterDataDate
+        FROM (
+        SELECT
+        sum(TOTALNUM) as beforTotalNum,DATADATE as beforDataDate
         FROM
         PUREWATEREVERYDAYDATA
-        WHERE
-        <![CDATA[
-          DATADATE >= #{startDate}
-          and DATADATE <= #{endDate}
-        ]]>
+        WHERE DATADATE = #{beforDate,jdbcType=DATE}
         and TotalNum is not null
         and TotalNum != -2147483648
+        group by DATADATE
+        ) a
+        join (
+        SELECT
+        sum(TOTALNUM) as afterTotalNum,DATADATE as afterDataDate
+        FROM
+        PUREWATEREVERYDAYDATA
+        WHERE DATADATE = #{afterDate,jdbcType=DATE}
+        and TotalNum is not null
+        and TotalNum != -2147483648
+        group by DATADATE
+        ) b on 1=1
     </select>
 
     <select id="queryDayDataByDateList" parameterType="map" resultType="com.xm.service.dto.DayDataDTO">

@@ -3,6 +3,7 @@ package com.xm.service.dao.fmcs;
 import com.xm.service.apiimpl.pc.fmcs.gas.dto.BigGasStatisticsDateRetDTO;
 import com.xm.service.apiimpl.pc.integrateData.humidity.dto.GasCollectDataDTO;
 import com.xm.service.dto.DayDataDTO;
+import com.xm.service.dto.TwoDaysGasDataDTO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -36,10 +37,11 @@ public interface GasEveryDayDataDAO {
 //
 //    void updateData(Map<String, Object> mapData);
 
-    List<GasCollectDataDTO.GasCollectData> queryBigGasByDateAndGasNameList(
-            @Param("gasNameList") List<String> gasNameList,
-            @Param("startDate")Date startDate,
-            @Param("endDate")Date endDate);
+//    List<GasCollectDataDTO.GasCollectData> queryBigGasByDateAndGasNameList(
+//            @Param("gasNameList") List<String> gasNameList,
+//            @Param("startDate")Date startDate,
+//            @Param("endDate")Date endDate);
 
+    List<TwoDaysGasDataDTO> queryTwoDaysBigGasByQueryData(@Param("gasNameList") List<String> gasNameList,@Param("beforDate") Date beforDate,@Param("afterDate") Date afterDate);
     List<DayDataDTO> queryBigGasEveryDayDataByDateList(@Param("gasName")String gasName,@Param("queryDays") List<Date> queryDays);
 }

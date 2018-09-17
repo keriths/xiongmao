@@ -30,8 +30,6 @@
              group by key
         ) b on  a.key = b.keyb and a.DATADATE = b.DATADATEb
          WHERE KEY like '%-${key}-%' and val = '${status}' and VAL is not null and VAL != -2147483648
-
-        select count(*) from EXHAUSTBDATA where KEY like '%-${key}-%' and val = '${status}' group by val
     </select>
 
 

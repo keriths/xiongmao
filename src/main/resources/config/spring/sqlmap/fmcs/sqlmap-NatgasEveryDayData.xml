@@ -60,22 +60,59 @@
             <!--DATADATE = #{DATADATE}-->
     <!--</update>-->
 
-    <select id="queryNatGasByDateAndGasNameList" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.humidity.dto.GasCollectDataDTO$GasCollectData">
+    <!--<select id="queryNatGasByDateAndGasNameList" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.humidity.dto.GasCollectDataDTO$GasCollectData">-->
+        <!--SELECT-->
+        <!--GASTYPE as gasType,-->
+        <!--sum(TOTALNUM) as totalNum-->
+        <!--FROM-->
+        <!--NatgasEveryDayData-->
+        <!--WHERE-->
+        <!--GASTYPE IN-->
+        <!--<foreach collection="gasTypeList" item="gasType" open="(" separator="," close=")" >-->
+            <!--#{gasType}-->
+        <!--</foreach>-->
+        <!--<![CDATA[-->
+          <!--and DATADATE >= #{startDate}-->
+          <!--and DATADATE <= #{endDate}-->
+        <!--]]>-->
+        <!--GROUP BY GASTYPE-->
+    <!--</select>-->
+    <select id="queryTwoDaysNatGasByQueryData"   parameterType="map" resultType="com.xm.service.dto.TwoDaysGasDataDTO">
+        SELECT
+        a.gasType,
+        beforTotalNum,
+        beforDataDate,
+        afterTotalNum,
+        afterDataDate
+        FROM (
         SELECT
         GASTYPE as gasType,
-        sum(TOTALNUM) as totalNum
+        sum(TOTALNUM) as beforTotalNum,DATADATE as beforDataDate
         FROM
         NatgasEveryDayData
-        WHERE
-        GASTYPE IN
+        WHERE DATADATE = #{beforDate,jdbcType=DATE}
+        and GASTYPE IN
         <foreach collection="gasTypeList" item="gasType" open="(" separator="," close=")" >
             #{gasType}
         </foreach>
-        <![CDATA[
-          and DATADATE >= #{startDate}
-          and DATADATE <= #{endDate}
-        ]]>
-        GROUP BY GASTYPE
+        and TotalNum is not null
+        and TotalNum != -2147483648
+        group by DATADATE,GASTYPE
+        ) a
+        join (
+        SELECT
+        GASTYPE as gasType,
+        sum(TOTALNUM) as afterTotalNum,DATADATE as afterDataDate
+        FROM
+        NatgasEveryDayData
+        WHERE DATADATE = #{afterDate,jdbcType=DATE}
+        and GASTYPE IN
+        <foreach collection="gasTypeList" item="gasType" open="(" separator="," close=")" >
+            #{gasType}
+        </foreach>
+        and TotalNum is not null
+        and TotalNum != -2147483648
+        group by DATADATE,GASTYPE
+        ) b on a.gasType=b.gasType
     </select>
-
 </mapper>

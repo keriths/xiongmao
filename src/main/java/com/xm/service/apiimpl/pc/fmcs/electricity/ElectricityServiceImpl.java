@@ -78,7 +78,7 @@ public class ElectricityServiceImpl {
                     new IQueryDayDataList() {
                         @Override
                         public List<DayDataDTO> queryFreezeWaterByDateList(String place, List<Date> queryDays) {
-                            return elecEveryHourDataDAO.queryDayDataByDateList(place,queryDays);
+                            return elecEveryHourDataDAO.queryDayDataByDateListByPlace(place,queryDays);
                         }
                     }, new ITransferData<ElectricityPlaceDate>() {
                         @Override
@@ -121,12 +121,12 @@ public class ElectricityServiceImpl {
                 dateList = DateUtils.getMonthStrList(beginDate,endDate);
             }
             List<ElectricityDate.ElectricityDetailDate> detailDataList = new ArrayList<>();
-            for (String place:Constant.electricityPlaceTypeList){
-                List<ElectricityDate.ElectricityDetailDate> electricityPlaceDateList = DayDataQueryTools.queryDayStatics(place, dateType,
+            for (String placet:Constant.electricityPlaceTypeList){
+                List<ElectricityDate.ElectricityDetailDate> electricityPlaceDateList = DayDataQueryTools.queryDayStatics(placet, dateType,
                         new IQueryDayDataList() {
                             @Override
-                            public List<DayDataDTO> queryFreezeWaterByDateList(String place, List<Date> queryDays) {
-                                return elecEveryHourDataDAO.queryDayDataByDateList(place,queryDays);
+                            public List<DayDataDTO> queryFreezeWaterByDateList(String placeType, List<Date> queryDays) {
+                                return elecEveryHourDataDAO.queryDayDataByDateListByPlaceType(placeType, queryDays);
                             }
                         }, new ITransferData<ElectricityDate.ElectricityDetailDate>() {
                             @Override
@@ -145,7 +145,7 @@ public class ElectricityServiceImpl {
 
                 List<ElectricityDate.ElectricityDetailDate> electricityDetailDateList=new ArrayList<ElectricityDate.ElectricityDetailDate>();
                 for (String placeType:Constant.electricityPlaceTypeList){
-                    String key = date+" "+placeType;
+                    String key = date+"_"+placeType;
                     ElectricityDate.ElectricityDetailDate detailData=dataMap.get(key);
                     if(detailData==null){
                         detailData=new ElectricityDate.ElectricityDetailDate(date,placeType);

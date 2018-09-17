@@ -1,69 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.fmcs.FreezeWaterEveryDayDataDAO" >
-
-    <!--<select id="freezeWaterEveryDayData" resultType="com.xm.service.apiimpl.pc.fmcs.water.dto.FreezeWaterEveryDayData" parameterType="Map">-->
+    <!--<select id="queryFreezeWaterByDate" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.humidity.dto.WaterElectricityCollectDataDTO$WaterElectricityCollectData">-->
         <!--SELECT-->
-            <!--SUM(TotalNum) as totalNum,-->
-            <!--<if test="dateType=='month'.toString()">/*按月*/-->
-                <!--TO_CHAR(DataDate,'MM')||'月'-->
-            <!--</if>-->
-            <!--<if test="dateType=='day'.toString()">/*按天*/-->
-                <!--TO_CHAR(DataDate,'mm/dd')-->
-            <!--</if>-->
-            <!--as dataDate-->
-        <!--FROM FreezeWaterEveryDayData-->
+        <!--sum(TOTALNUM) as totalNum-->
+        <!--FROM-->
+        <!--FREEZEWATEREVERYDAYDATA-->
         <!--WHERE-->
-            <!--<![CDATA[-->
-               <!--DataDate >= #{beginDate}-->
-              <!--and DataDate <= #{endDate}-->
-            <!--]]>-->
-            <!--<if test="waterType!=null and waterType!=''">-->
-                <!--AND Type=#{waterType,jdbcType=VARCHAR}-->
-            <!--</if>-->
-        <!--GROUP BY-->
-            <!--<if test="dateType=='month'.toString()">/*按月*/-->
-                <!--TO_CHAR(DataDate,'MM')||'月'-->
-            <!--</if>-->
-            <!--<if test="dateType=='day'.toString()">-->
-                <!--TO_CHAR(DataDate,'mm/dd')-->
-            <!--</if>-->
+        <!--<![CDATA[-->
+          <!--DATADATE >= #{startDate}-->
+          <!--and DATADATE <= #{endDate}-->
+        <!--]]>-->
+        <!--and TotalNum is not null-->
+        <!--and TotalNum != -2147483648-->
     <!--</select>-->
-
-
-
-    <!--<select id="loadByPrimaryKey" parameterType="map" resultType="map">-->
-        <!--SELECT * from FREEZEWATEREVERYDAYDATA-->
-        <!--where-->
-        <!--TYPE = #{TYPE} and-->
-        <!--DATADATE = #{DATADATE}-->
-    <!--</select>-->
-    <!--<insert id="addData" parameterType="map">-->
-        <!--INSERT INTO  FREEZEWATEREVERYDAYDATA-->
-        <!--(TOTALNUM, TYPE,  DATADATE,   CREATEDATE) VALUES-->
-        <!--(#{TOTALNUM},#{TYPE},#{DATADATE},sysdate)-->
-    <!--</insert>-->
-    <!--<update id="updateData" parameterType="map">-->
-        <!--UPDATE FREEZEWATEREVERYDAYDATA SET-->
-        <!--TOTALNUM = #{TOTALNUM} ,-->
-        <!--CREATEDATE = sysdate-->
-        <!--WHERE-->
-        <!--TYPE = #{TYPE} and-->
-        <!--DATADATE = #{DATADATE}-->
-    <!--</update>-->
-
-    <select id="queryFreezeWaterByDate" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.humidity.dto.WaterElectricityCollectDataDTO$WaterElectricityCollectData">
+    <select id="queryTwoDaysFreezeWaterByQueryData" parameterType="map" resultType="com.xm.service.dto.TwoDaysDataDTO">
         SELECT
-        sum(TOTALNUM) as totalNum
-        FROM
-        FREEZEWATEREVERYDAYDATA
-        WHERE
-        <![CDATA[
-          DATADATE >= #{startDate}
-          and DATADATE <= #{endDate}
-        ]]>
-        and TotalNum is not null
-        and TotalNum != -2147483648
+            beforTotalNum,
+            beforDataDate,
+            afterTotalNum,
+            afterDataDate
+        FROM (
+            SELECT
+            sum(TOTALNUM) as beforTotalNum,DATADATE as beforDataDate
+            FROM
+            FREEZEWATEREVERYDAYDATA
+            WHERE DATADATE = #{beforDate,jdbcType=DATE}
+            and TotalNum is not null
+            and TotalNum != -2147483648
+            group by DATADATE
+        ) a
+        join (
+            SELECT
+            sum(TOTALNUM) as afterTotalNum,DATADATE as afterDataDate
+            FROM
+            FREEZEWATEREVERYDAYDATA
+            WHERE DATADATE = #{afterDate,jdbcType=DATE}
+            and TotalNum is not null
+            and TotalNum != -2147483648
+            group by DATADATE
+        ) b on 1=1
     </select>
 
     <select id="queryDayDataByDateList" parameterType="map" resultType="com.xm.service.dto.DayDataDTO">
