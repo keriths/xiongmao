@@ -2,6 +2,7 @@ package com.xm.service.apiimpl.pc.fmcs.upw.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.ReturnDataUtils;
+import com.xm.platform.util.StringUtils;
 import com.xm.service.constant.Constant;
 
 import java.util.Date;
@@ -30,7 +31,7 @@ public class SyncUpwaData {
     }
 
     public String getValue() {
-        return value;
+        return StringUtils.twoPoint(value);
     }
 
     public void setValue(String value) {

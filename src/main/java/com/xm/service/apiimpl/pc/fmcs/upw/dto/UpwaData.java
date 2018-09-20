@@ -2,6 +2,7 @@ package com.xm.service.apiimpl.pc.fmcs.upw.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.ReturnDataUtils;
+import com.xm.platform.util.StringUtils;
 import com.xm.service.constant.Constant;
 
 /**
@@ -39,15 +40,7 @@ public class UpwaData {
     }
 
     public String getValue() {
-        if (value==null){
-            if (getDataType()!=null && getDemoData()!=null && Constant.showDemoData){
-                return ReturnDataUtils.demoData(dataType,demoData).toString();
-            }else{
-                return "0";
-            }
-        }else{
-            return value;
-        }
+        return StringUtils.twoPoint(value);
     }
 
     public void setValue(String value) {
@@ -87,7 +80,7 @@ public class UpwaData {
     }
 
     public String getUnit() {
-        return unit;
+        return "";
     }
 
     public void setUnit(String unit) {

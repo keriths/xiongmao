@@ -2,6 +2,7 @@ package com.xm.test;
 
 import com.alibaba.fastjson.JSON;
 import com.sun.deploy.util.ReflectionUtil;
+import com.xm.platform.util.StringUtils;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.GenericArrayType;
@@ -9,15 +10,34 @@ import java.lang.reflect.Method;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by fanshuai on 17/10/24.
  */
 public class JsonTest {
    public static void main(String[] args){
+        System.out.println(StringUtils.twoPoint("0.12345"));
+       System.out.println(StringUtils.twoPoint("12340.12345"));
+       System.out.println(StringUtils.twoPoint("12340.12"));
+       System.out.println(StringUtils.twoPoint("12340.1"));
+       System.out.println(StringUtils.twoPoint("12340"));
+       System.out.println(StringUtils.twoPoint("12340."));
+       Map<String,String> map = new HashMap<>();
+       map.put("Array洁净室in","1,2,3");
+       map.put("Array洁净室out","1,2,3");
+       map.put("CF洁净室in","4,5,6");
+       map.put("CF洁净室out","4,5,6");
+       Map<String,String> map4a = new HashMap<>();
+       map4a.put("4A自动化办公室","7,8,9");
+       map4a.put("技术办公室","7,8,9");
+       Map<String,Map> allMap = new HashMap<>();
+       allMap.put("洁净室",map);
+       allMap.put("4A",map4a);
+        System.out.println(JSON.toJSONString(allMap));
+       System.out.println();
+       System.out.println();
+       System.out.println();
        try {
            Date obj = new Date();
            String jsonStr = JSON.toJSONString(obj);

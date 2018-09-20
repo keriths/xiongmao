@@ -102,6 +102,7 @@ public class EquipmentStatusServiceImpl {
     //同步数据使用的接口
     public void equipmentStatusUpdate(String msgContext){
         try {
+//            LogUtils.info("TibcoLog",msgContext);
             Document document= Jsoup.parse(msgContext);
             String MESSAGENAME = document.getElementsByTag("MESSAGENAME").text();
             if (!"EQStateReport".equals(MESSAGENAME)){
@@ -112,9 +113,13 @@ public class EquipmentStatusServiceImpl {
             String factoryName = document.getElementsByTag("ORGNAME").text();
             String eqptId = document.getElementsByTag("EQPTID").text();
             String eqptState = document.getElementsByTag("EQPTSTATE").text();
+            String state = document.getElementsByTag("STATE").text();
             String eqptType = document.getElementsByTag("EQPTTYPE").text();
             if (!StringUtils.hasText(eqptId)){
                 eqptId = document.getElementsByTag("PORTID").text();
+            }
+            if (!StringUtils.hasText(eqptState)){
+                eqptState = state;
             }
             if ( !StringUtils.hasText(factoryName) || !StringUtils.hasText(eqptId) || !StringUtils.hasText(eqptState)){
 //                LogUtils.info(Tibrvlisten.class,"receivednullmsg :"+msgContext);

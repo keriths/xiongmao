@@ -2,6 +2,7 @@ package com.xm.service.apiimpl.pc.fmcs.wwt.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.ReturnDataUtils;
+import com.xm.platform.util.StringUtils;
 import com.xm.service.constant.Constant;
 
 import java.math.BigDecimal;
@@ -42,15 +43,15 @@ public class WwtaData {
     }
 
     public String getValue() {
-        if (value==null){
-            if (getDataType()!=null && getDemoData()!=null && Constant.showDemoData){
-                return ReturnDataUtils.demoData(dataType,demoData).toString();
-            }else{
-                return "0";
-            }
-        }else{
-            return value;
-        }
+//        if (value==null){
+//            if (getDataType()!=null && getDemoData()!=null && Constant.showDemoData){
+//                return ReturnDataUtils.demoData(dataType,demoData).toString();
+//            }else{
+//                return "0";
+//            }
+//        }else{
+            return StringUtils.twoPoint(value);
+//        }
     }
 
     public void setValue(String value) {
