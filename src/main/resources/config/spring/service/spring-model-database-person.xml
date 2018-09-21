@@ -37,5 +37,8 @@
         <property name="sqlSessionTemplateBeanName" value="personSqlSessionTemplate" />
     </bean>
 
+    <bean id="personService" class="com.xm.service.apiimpl.pc.person.PersonService">
+        <property name="historyDAO" ref="historyDAO"></property>
+    </bean>
 
 </beans>

@@ -16,6 +16,7 @@
                                     #{factoryCardId}
                                 </foreach>
                     AND TimeStamp > #{beforDate}
+                    and a.Param3 is not null
                 GROUP BY a.Param3
                 HAVING COUNT(*) % 2 = 1
             )
@@ -30,6 +31,7 @@
                             #{id}
                         </foreach>
             AND TimeStamp > #{beforDate}
+            and a.Param3 is not null
         GROUP BY a.Param3
         HAVING COUNT(*) % 2 = 1
     </select>
@@ -49,7 +51,8 @@
                                     </foreach>
                       )
                     AND TimeStamp > #{beforDate}
-                GROUP BY param3
+                    and a.Param3 is not null
+        GROUP BY param3
             ) b
             ON a.RecordID = b.maxRecordId
                 AND Link1 IN <foreach collection="inIds" item="inid" open="(" separator="," close=")">
@@ -74,7 +77,7 @@
         <!--<foreach collection="portList" item="port" open="(" separator="," close=")">-->
             <!--#{port}-->
         <!--</foreach>-->
-        <!----and Link1 in (426)-->
+        <!--and Link1 in (426)-->
         <!--AND-->
         <!--(-->
             <!--(-->

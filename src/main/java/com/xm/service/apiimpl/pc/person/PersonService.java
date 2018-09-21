@@ -23,7 +23,6 @@ import java.util.*;
  */
 @ApiServiceDoc(name = "人员系统(完成)")
 public class PersonService {
-    @Resource(name = "historyDAO")
     HistoryDAO historyDAO;
     private static Map<String,List<Integer>> mapFactoryGatWayCardIds = new HashMap<>();
     private static Map<String,Map<String,Map<String,List<Integer>>>> mapJieJinshiJianXiuShi = new HashMap<>();
@@ -33,7 +32,7 @@ public class PersonService {
     static {
         mapFactoryGatWayCardIds.put("工厂入口卡ID",Lists.newArrayList(1,2,3,4));
         Map map4c = new HashMap<>();
-        map4c.put("动力办公室",Lists.newArrayList(1,2,3));
+        map4c.put("动力办公室",Lists.newArrayList(1, 2, 3));
         map4c.put("4H值班室",Lists.newArrayList(1,2,3));
         map4a4b4c.put("4C",map4c);
 
@@ -139,66 +138,6 @@ public class PersonService {
         System.out.println(JSON.toJSONString(mapCanTing));
         System.out.println(JSON.toJSONString(map4a4b4c));
         System.out.println(JSON.toJSONString(mapFactoryGatWayCardIds));
-        map4a4b4c = jsonToMap("{\n" +
-                "\t\"4A\": {\n" +
-                "\t\t\"阵列制造办公室\": [3065, 3009, 3072, 3080, 3070],\n" +
-                "\t\t\"自动化办公室\": [1, 2, 3],\n" +
-                "\t\t\"生产办公室(阵列)\": [3228],\n" +
-                "\t\t\"阵列培训室\": [3019, 3099],\n" +
-                "\t\t\"一工厂第二会议室\": [3023],\n" +
-                "\t\t\"一工厂第三会议室\": [3024],\n" +
-                "\t\t\"一工厂第一会议室\": [3033],\n" +
-                "\t\t\"阵列会议室1\": [3108],\n" +
-                "\t\t\"阵列会议室3\": [3094],\n" +
-                "\t\t\"阵列会议室2\": [3100]\n" +
-                "\t},\n" +
-                "\t\"4B\": {\n" +
-                "\t\t\"信息技术办公室\": [3691, 3696, 3695],\n" +
-                "\t\t\"信息技术值班室\": [294, 295],\n" +
-                "\t\t\"产品研发实验室\": [3773],\n" +
-                "\t\t\"产品研发办公室\": [3815, 3676],\n" +
-                "\t\t\"产品研发制图室\": [3744, 3759],\n" +
-                "\t\t\"PQA实验室\": [1092],\n" +
-                "\t\t\"IQC实验室\": [1, 2, 3],\n" +
-                "\t\t\"仓储办公室\": [668],\n" +
-                "\t\t\"FAE实验室\": [943],\n" +
-                "\t\t\"生产办公室(彩膜)\": [6260, 6251],\n" +
-                "\t\t\"彩膜制造办公室\": [3866, 3876, 3873],\n" +
-                "\t\t\"品质整合办公室\": [3847, 3856],\n" +
-                "\t\t\"技术部办公室\": [3860, 3865],\n" +
-                "\t\t\"质量管理办公室\": [3926, 3929],\n" +
-                "\t\t\"安全环保办公室\": [3921],\n" +
-                "\t\t\"运营管理办公室\": [3915, 3919],\n" +
-                "\t\t\"总务工程办公室\": [3913, 3908],\n" +
-                "\t\t\"人力资源办公室\": [3898, 3900],\n" +
-                "\t\t\"销售管理办公室\": [3889, 3893],\n" +
-                "\t\t\"资材办公室\": [3887],\n" +
-                "\t\t\"彩膜培训室\": [3887],\n" +
-                "\t\t\"成盒制造办公室\": [2616, 2633, 2651],\n" +
-                "\t\t\"生产部办公室\": [6251, 6260],\n" +
-                "\t\t\"制程技术办公室\": [2607, 2615, 2597, 2598],\n" +
-                "\t\t\"生产部培训室\": [3887],\n" +
-                "\t\t\"生产部会议室\": [3887],\n" +
-                "\t\t\"第一会议室\": [3887],\n" +
-                "\t\t\"第二会议室\": [3887],\n" +
-                "\t\t\"第三会议室\": [3887],\n" +
-                "\t\t\"第四会议室\": [3887],\n" +
-                "\t\t\"第五会议室\": [3887],\n" +
-                "\t\t\"生产办公室(成盒)\": [6088],\n" +
-                "\t\t\"财务办公室\": [2606],\n" +
-                "\t\t\"行政法务办公室\": [3967, 3970],\n" +
-                "\t\t\"第六会议室\": [3887],\n" +
-                "\t\t\"第七会议室\": [3887],\n" +
-                "\t\t\"第八会议室\": [3887]\n" +
-                "\t},\n" +
-                "\t\"4C\": {\n" +
-                "\t\t\"动力运行办公室\": [3065],\n" +
-                "\t\t\"4H值班室\": [5110],\n" +
-                "\t\t\" 4G值班室\": [226],\n" +
-                "\t\t\"4E值班室\": [4204],\n" +
-                "\t\t\"4F值班室\": [3926]\n" +
-                "\t}\n" +
-                "}");
 //        Object o1 = JSON.toJavaObject(o,map4a4b4c.getClass());
 //        System.out.println(o);
     }
@@ -625,4 +564,13 @@ public class PersonService {
 //            this.visitorNum = visitorNum;
 //        }
 //    }
+
+
+    public HistoryDAO getHistoryDAO() {
+        return historyDAO;
+    }
+
+    public void setHistoryDAO(HistoryDAO historyDAO) {
+        this.historyDAO = historyDAO;
+    }
 }
