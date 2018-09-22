@@ -11,7 +11,7 @@ import java.math.BigDecimal;
  * Created by wangshuna on 2017/12/26.
  */
 public class EquipmentThroughputData {
-    boolean showDemoData=true;
+    boolean showDemoData=false;
     public EquipmentThroughputData(){
 
     }

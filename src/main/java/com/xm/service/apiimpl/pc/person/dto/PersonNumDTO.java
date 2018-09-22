@@ -12,6 +12,8 @@ public class PersonNumDTO {
     private Integer yuanGongNum;
     @ApiResultFieldDesc(desc = "厂商人数")
     private Integer changShangNum;
+    @ApiResultFieldDesc(desc = "访客人数")
+    private Integer visitorNum;
 
     public Integer getYuanGongNum() {
         return yuanGongNum;
@@ -35,5 +37,13 @@ public class PersonNumDTO {
 
     public void setArea(String area) {
         this.area = area;
+    }
+
+    public Integer getVisitorNum() {
+        return visitorNum;
+    }
+
+    public void setVisitorNum(Integer visitorNum) {
+        this.visitorNum = visitorNum;
     }
 }
