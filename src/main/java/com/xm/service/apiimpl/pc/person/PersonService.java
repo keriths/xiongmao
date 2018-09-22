@@ -257,7 +257,7 @@ public class PersonService {
             return ret;
         }
     }
-    @ApiMethodDoc(apiCode = "personInWorkCanTing",name = "汇总数据")
+    @ApiMethodDoc(apiCode = "personInWorkAll",name = "汇总数据")
     public PersonInWorkRet personInWorkAll(){
         PersonInWorkRet ret = new PersonInWorkRet();
         try {
@@ -271,8 +271,8 @@ public class PersonService {
             }
             PersonNumDTO personNumDTO = new PersonNumDTO();
             personNumDTO.setArea("园区");
-            personNumDTOMap.put("园区",personNumDTO);
-            setPersonNum(personNumDTO,historyDTOList);
+            personNumDTOMap.put("园区", personNumDTO);
+            setPersonNum(personNumDTO, historyDTOList);
             personNumDTO.setVisitorNum(0);
             ret.setPersonNumDTOMap(personNumDTOMap);
             return ret;
