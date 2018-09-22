@@ -2,6 +2,7 @@ package com.xm.service.apiimpl.pc.fmcs.cda.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.ReturnDataUtils;
+import com.xm.platform.util.StringUtils;
 import com.xm.service.constant.Constant;
 
 
@@ -43,7 +44,7 @@ public class CdaData {
                 }
             }
         }
-        return val;
+        return StringUtils.twoPoint(val);
     }
 
     public void setVal(String val) {
