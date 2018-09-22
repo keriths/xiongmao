@@ -43,7 +43,10 @@ public class UpwbData {
     }
 
     public BigDecimal getStatus() {
-        return status;
+        if (status==null){
+            return null;
+        }
+        return status.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
     public void setStatus(BigDecimal status) {
@@ -51,7 +54,10 @@ public class UpwbData {
     }
 
     public BigDecimal getTemperature() {
-        return temperature;
+        if (temperature==null){
+            return null;
+        }
+        return temperature.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
     public void setTemperature(BigDecimal temperature) {
@@ -59,7 +65,10 @@ public class UpwbData {
     }
 
     public BigDecimal getResistivity() {
-        return resistivity;
+        if (resistivity==null){
+            return null;
+        }
+        return resistivity.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
     public void setResistivity(BigDecimal resistivity) {
@@ -75,7 +84,10 @@ public class UpwbData {
     }
 
     public BigDecimal getParticle() {
-        return particle;
+        if (particle==null){
+            return null;
+        }
+        return particle.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
     public void setParticle(BigDecimal particle) {
@@ -83,7 +95,10 @@ public class UpwbData {
     }
 
     public BigDecimal getToc() {
-        return toc;
+        if (toc==null){
+            return null;
+        }
+        return toc.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
     public void setToc(BigDecimal toc) {
