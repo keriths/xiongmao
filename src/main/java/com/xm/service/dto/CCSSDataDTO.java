@@ -30,7 +30,10 @@ public class CCSSDataDTO implements Serializable{
     }
 
     public BigDecimal getRunStatusNum() {
-        return runStatusNum;
+        if (runStatusNum==null){
+            return runStatusNum;
+        }
+        return runStatusNum.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
     public void setRunStatusNum(BigDecimal runStatusNum) {
@@ -38,7 +41,10 @@ public class CCSSDataDTO implements Serializable{
     }
 
     public BigDecimal getErrorStatusNum() {
-        return errorStatusNum;
+        if (errorStatusNum==null){
+            return null;
+        }
+        return errorStatusNum.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
     public void setErrorStatusNum(BigDecimal errorStatusNum) {

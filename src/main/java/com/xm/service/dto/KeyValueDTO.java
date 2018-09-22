@@ -1,6 +1,7 @@
 package com.xm.service.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.StringUtils;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -27,7 +28,7 @@ public class KeyValueDTO implements Serializable{
     }
 
     public String getVal() {
-        return val;
+        return StringUtils.twoPoint(val);
     }
 
     public void setVal(String val) {
