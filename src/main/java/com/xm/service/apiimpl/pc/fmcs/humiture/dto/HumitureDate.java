@@ -75,7 +75,7 @@ public class HumitureDate {
                     temperature=new BigDecimal(0);
                 }
             }
-            return temperature;
+            return temperature.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setTemperature(BigDecimal temperature) {
@@ -90,7 +90,7 @@ public class HumitureDate {
                     humidity=new BigDecimal(0);
                 }
             }
-            return humidity;
+            return humidity.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setHumidity(BigDecimal humidity) {
@@ -105,7 +105,7 @@ public class HumitureDate {
                     cleanliness=new BigDecimal(0);
                 }
             }
-            return cleanliness;
+            return cleanliness.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setCleanliness(BigDecimal cleanliness) {
