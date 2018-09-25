@@ -79,7 +79,7 @@ public class PersonService {
 
         mapJieJinshiJianXiuShi = jsonToMap("{\n" +
                 "\t\"洁净室\": {\n" +
-                "\t\t\"ARRAY\": {\n" +
+                "\t\t\"Array\": {\n" +
                 "\t\t\t\"in\": [7551, 7554, 7558, 7561],\n" +
                 "\t\t\t\"out\": [7552, 7555, 7559, 7562]\n" +
                 "\t\t},\n" +
@@ -87,7 +87,7 @@ public class PersonService {
                 "\t\t\t\"in\": [7594, 7588, 7585, 7591],\n" +
                 "\t\t\t\"out\": [7595, 7592, 7589, 7586]\n" +
                 "\t\t},\n" +
-                "\t\t\"Cell\": {\n" +
+                "\t\t\"CELL\": {\n" +
                 "\t\t\t\"in\": [7618, 7621, 7624, 7627],\n" +
                 "\t\t\t\"out\": [7619, 7622, 7625, 7628]\n" +
                 "\t\t},\n" +
