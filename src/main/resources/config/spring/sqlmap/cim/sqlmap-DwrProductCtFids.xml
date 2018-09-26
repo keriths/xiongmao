@@ -5,7 +5,7 @@
     <select id="cycleTimeShow" resultType="com.xm.service.apiimpl.pc.cim.cycletime.dto.CycleTimeData$CycleTimeDetailData" parameterType="Map">
         select
             sum(NVL(CT_TARGET,0)) as plan,
-            sum(NVL(TOTAL_CT,0))/sum(NVL(TOTAL_GLS_QTY,999999999))/24 as actual,
+            sum(NVL(TOTAL_CT,0))/24 as actual,
             decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) as factory,
             <if test="dateType=='month'.toString()">/*按月*/
                 TO_CHAR(PERIODDATE,'MM')||'月'
