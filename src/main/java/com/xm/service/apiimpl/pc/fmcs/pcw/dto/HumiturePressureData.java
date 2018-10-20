@@ -80,7 +80,7 @@ public class HumiturePressureData {
                     temperature=new BigDecimal(0);
                 }
             }
-            return temperature;
+            return temperature.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setTemperature(BigDecimal temperature) {
@@ -96,7 +96,7 @@ public class HumiturePressureData {
                     pressure=new BigDecimal(0);
                 }
             }
-            return pressure;
+            return pressure.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setPressure(BigDecimal pressure) {

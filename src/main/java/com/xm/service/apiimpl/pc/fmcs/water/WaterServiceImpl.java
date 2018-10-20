@@ -9,6 +9,7 @@ import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
+import com.xm.platform.util.RandomUtils;
 import com.xm.service.apiimpl.pc.fmcs.gas.dto.NatgasRealTimeData;
 import com.xm.service.apiimpl.pc.fmcs.water.dto.*;
 import com.xm.service.apiimpl.pc.integrateData.humidity.dto.WaterElectricityCollectDataDTO;
@@ -58,10 +59,11 @@ public class WaterServiceImpl {
             if (showDemoData){
                 if (CollectionUtils.isEmpty(dataList)){
                     dataList = new ArrayList<>();
-                    for (int i = 20;i>0;i--){
+                    for (int i = 90;i>0;i--,i--,i--){
                         TapWaterRealTimeData.TapWaterRealTimeDetailData data = new TapWaterRealTimeData.TapWaterRealTimeDetailData();
                         dataList.add(data);
                         data.setDataFactDate(new DateTime().plusMinutes(i).toDate());
+                        data.setSpeed(RandomUtils.randomIntBigDecimal(100,200));
                     }
                 }
             }

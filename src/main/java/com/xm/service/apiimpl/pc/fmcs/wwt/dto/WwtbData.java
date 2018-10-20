@@ -97,7 +97,7 @@ public class WwtbData {
                     }
                 }
             }
-            return value;
+            return value==null?null:value.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setValue(BigDecimal value) {
