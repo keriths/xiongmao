@@ -17,6 +17,7 @@ import com.xm.service.dao.fmcs.*;
 import com.xm.service.dto.DayDataDTO;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -42,7 +43,7 @@ public class WaterServiceImpl {
     private PureWaterEveryDayDataDAO pureWaterEveryDayDataDAO;
     @Resource
     private PureWaterRealTimeDataDAO pureWaterRealTimeDataDAO;
-
+    private boolean showDemoData = true;
 
     /**
      * 市政府自来水实时数据
@@ -54,6 +55,16 @@ public class WaterServiceImpl {
             Date endDate = new Date();
             Date beginDate = DateUtils.getBeforHourStartDay(2);
             List<TapWaterRealTimeData.TapWaterRealTimeDetailData> dataList = tapWaterRealTimeDataDAO.tapWaterRealTimeData(beginDate, endDate);
+            if (showDemoData){
+                if (CollectionUtils.isEmpty(dataList)){
+                    dataList = new ArrayList<>();
+                    for (int i = 20;i>0;i--){
+                        TapWaterRealTimeData.TapWaterRealTimeDetailData data = new TapWaterRealTimeData.TapWaterRealTimeDetailData();
+                        dataList.add(data);
+                        data.setDataFactDate(new DateTime().plusMinutes(i).toDate());
+                    }
+                }
+            }
             Map<String,List<TapWaterRealTimeData.TapWaterRealTimeDetailData>> periodDateDataListMap = new LinkedHashMap<>();
             for (TapWaterRealTimeData.TapWaterRealTimeDetailData natgasTimeDetailData : dataList){
                 String periodDate = natgasTimeDetailData.getPeriodDate();
