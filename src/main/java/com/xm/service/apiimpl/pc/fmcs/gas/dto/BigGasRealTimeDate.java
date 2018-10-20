@@ -88,7 +88,7 @@ public class BigGasRealTimeDate {
                     speed=new BigDecimal(0);
                 }
             }
-            return speed;
+            return speed.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setSpeed(BigDecimal speed) {
