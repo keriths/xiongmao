@@ -31,7 +31,10 @@ public class PcwDataDTO extends BaseRetDTO{
         }
 
         public BigDecimal getTemperature() {
-            return temperature;
+            if (temperature==null){
+                return null;
+            }
+            return temperature.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setTemperature(BigDecimal temperature) {
@@ -39,7 +42,10 @@ public class PcwDataDTO extends BaseRetDTO{
         }
 
         public BigDecimal getPressure() {
-            return pressure;
+            if (pressure==null){
+                return null;
+            }
+            return pressure.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setPressure(BigDecimal pressure) {

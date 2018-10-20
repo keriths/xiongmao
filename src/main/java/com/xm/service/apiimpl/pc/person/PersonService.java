@@ -14,9 +14,15 @@ import com.xm.service.apiimpl.pc.person.dto.HistoryDTO;
 import com.xm.service.apiimpl.pc.person.dto.PersonInWorkRet;
 import com.xm.service.apiimpl.pc.person.dto.PersonNumDTO;
 import com.xm.service.dao.person.HistoryDAO;
+import com.xm.web.api.action.MonitorUtils;
+import org.springframework.util.LinkedCaseInsensitiveMap;
 
 import javax.annotation.Resource;
 import java.util.*;
+import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Created by fanshuai on 18/6/17.
@@ -30,153 +36,129 @@ public class PersonService {
     private static Map<String,List<Integer>> mapCanTing = new HashMap<>();
     private static Map<String,Map<String,List<Integer>>> map4a4b4c = new HashMap<>();
     static {
-        mapFactoryGatWayCardIds.put("工厂入口卡ID",Lists.newArrayList(1,2,3,4));
-//        Map map4c = new HashMap<>();
-//        map4c.put("动力办公室",Lists.newArrayList(1, 2, 3));
-//        map4c.put("4H值班室",Lists.newArrayList(1,2,3));
-//        map4a4b4c.put("4C",map4c);
-//
-//        Map map4b = new HashMap<>();
-//        map4b.put("生产办公室(成盒)",Lists.newArrayList(1,2,3));
-//        map4b.put("财务办公室",Lists.newArrayList(1,2,3));
-//        map4a4b4c.put("4B",map4b);
-//
-//        Map map4a = new HashMap<>();
-//        map4a.put("自动化办公室",Lists.newArrayList(1,2,3));
-//        map4a.put("阵列制造办公室",Lists.newArrayList(1,2,3));
-//        map4a4b4c.put("4A",map4a);
-
-
-//        mapCanTing.put("餐厅",Lists.newArrayList(1,2,3));
-//
-//        Map mapBanGongQu = new HashMap<>();
-//        mapBanGongQu.put("4A",Lists.newArrayList(1, 2, 3));
-//        mapBanGongQu.put("4B行政办公区",Lists.newArrayList(1, 2, 3));
-//        mapBanGongQu.put("4B工厂办公区",Lists.newArrayList(1, 2, 3));
-//        mapBanGongQu.put("4C",Lists.newArrayList(1, 2, 3));
-//        mapBanGongXu.put("办公区",mapBanGongQu);
-
-//        Map mapJianXiuShi = new HashMap<>();
-//        mapJianXiuShi.put("Array",MapUtils.newMap("in",Lists.newArrayList(1,2,3),"out",Lists.newArrayList(1,2,3)));
-//        mapJianXiuShi.put("CF",MapUtils.newMap("in",Lists.newArrayList(1,2,3),"out",Lists.newArrayList(1,2,3)));
-//        mapJieJinshiJianXiuShi.put("检修室", mapJianXiuShi);
-//
-//        Map<String,Map<String,List<Integer>>> mapJieJinShi = new HashMap<>();
-//        mapJieJinShi.put("Array",MapUtils.newMap("in",Lists.newArrayList(1,2,3),"out",Lists.newArrayList(1,2,3)));
-//        mapJieJinShi.put("CF",MapUtils.newMap("in",Lists.newArrayList(1,2,3),"out",Lists.newArrayList(1,2,3)));
-//        mapJieJinShi.put("CELL",MapUtils.newMap("in",Lists.newArrayList(1,2,3),"out",Lists.newArrayList(1,2,3)));
-//        mapJieJinShi.put("SL-OC",MapUtils.newMap("in",Lists.newArrayList(1,2,3),"out",Lists.newArrayList(1,2,3)));
-//        mapJieJinshiJianXiuShi.put("洁净室", mapJieJinShi);
-
-        mapBanGongXu = jsonToMap("{\n" +
-                "\t\"办公区\": {\n" +
-                "\t\t\"4A\": [3065, 3009, 3072, 3080, 3070, 3228, 3099, 3109, 3023, 3024, 3033, 3108, 3100, 3094, 4627],\n" +
-                "\t\t\"4B行政办公区\": [3691, 3696, 3695, 294, 295, 3773, 3815, 3676, 3744, 3759, 6251, 6260, 3866, 3876, 3973, 3847, 3856, 3860, 3865, 3926, 3929, 3921, 3915, 3919, 3913, 3908, 3898, 3900, 3889, 3893, 3887, 2626, 2633, 2651, 2607, 2615, 2597, 2598, 2606, 3967, 3970],\n" +
-                "\t\t\"4B工厂办公区\": [1092, 668, 943],\n" +
-                "\t\t\"4C\": [1, 2, 3]\n" +
+        mapFactoryGatWayCardIds.put("工厂入口in",Lists.newArrayList(10,12,14,16,18,20));
+        mapFactoryGatWayCardIds.put("工厂入口out",Lists.newArrayList(9,11,13,15,17,19));
+        map4a4b4c = jsonToMap("{\n" +
+                "\t\"4A\": {\n" +
+                "\t\t\"阵列培训室\": [5115, 5123],\n" +
+                "\t\t\"一工厂第一会议室\": [5048],\n" +
+                "\t\t\"阵列会议室2\": [5106],\n" +
+                "\t\t\"阵列制造办公室\": [5077, 5022, 5086, 5091, 5085],\n" +
+                "\t\t\"阵列会议室3\": [5114],\n" +
+                "\t\t\"阵列会议室1\": [5124],\n" +
+                "\t\t\"一工厂第三会议室\": [5040],\n" +
+                "\t\t\"自动化办公室\": [6508],\n" +
+                "\t\t\"生产办公室(阵列)\": [5212],\n" +
+                "\t\t\"一工厂第二会议室\": [5039]\n" +
+                "\t},\n" +
+                "\t\"4B\": {\n" +
+                "\t\t\"第五会议室\": [738, 746],\n" +
+                "\t\t\"第八会议室\": [815],\n" +
+                "\t\t\"质量管理办公室\": [465, 473],\n" +
+                "\t\t\"生产部会议室\": [3887],\n" +
+                "\t\t\"总务工程办公室\": [429, 411],\n" +
+                "\t\t\"销售管理办公室\": [356, 366],\n" +
+                "\t\t\"产品研发实验室\": [199],\n" +
+                "\t\t\"生产办公室(彩膜)\": [3909, 3918],\n" +
+                "\t\t\"第二会议室\": [684, 693],\n" +
+                "\t\t\"财务办公室\": [807],\n" +
+                "\t\t\"PQA实验室\": [2996],\n" +
+                "\t\t\"行政法务办公室\": [928, 937],\n" +
+                "\t\t\"运营管理办公室\": [437, 447],\n" +
+                "\t\t\"第一会议室\": [665, 656, 637],\n" +
+                "\t\t\"彩膜培训室\": [3138],\n" +
+                "\t\t\"第六会议室\": [965],\n" +
+                "\t\t\"产品研发办公室\": [233, 43],\n" +
+                "\t\t\"FAE实验室\": [2958],\n" +
+                "\t\t\"生产办公室(成盒)\": [6088],\n" +
+                "\t\t\"技术部办公室\": [287, 295],\n" +
+                "\t\t\"信息技术值班室\": [3010, 3011],\n" +
+                "\t\t\"人力资源办公室\": [384, 392],\n" +
+                "\t\t\"成盒制造办公室\": [567, 580, 598],\n" +
+                "\t\t\"信息技术办公室\": [72, 81, 80],\n" +
+                "\t\t\"产品研发制图室\": [162, 181],\n" +
+                "\t\t\"品质整合办公室\": [3847, 3856],\n" +
+                "\t\t\"IQC实验室\": [1, 2, 3],\n" +
+                "\t\t\"生产部培训室\": [3887],\n" +
+                "\t\t\"资材办公室\": [348],\n" +
+                "\t\t\"制程技术办公室\": [558, 566, 548, 549],\n" +
+                "\t\t\"第四会议室\": [719, 737],\n" +
+                "\t\t\"安全环保办公室\": [455],\n" +
+                "\t\t\"仓储办公室\": [2641],\n" +
+                "\t\t\"彩膜制造办公室\": [296, 323, 313],\n" +
+                "\t\t\"生产部办公室\": [3909, 3918],\n" +
+                "\t\t\"第三会议室\": [702, 710],\n" +
+                "\t\t\"第七会议室\": [1045]\n" +
+                "\t},\n" +
+                "\t\"4C\": {\n" +
+                "\t\t\"4E值班室\": [1757],\n" +
+                "\t\t\"4H值班室\": [1280],\n" +
+                "\t\t\"4G值班室\": [1191],\n" +
+                "\t\t\"4F值班室\": [3926],\n" +
+                "\t\t\"动力运行办公室\": [3065]\n" +
                 "\t}\n" +
                 "}");
 
         mapJieJinshiJianXiuShi = jsonToMap("{\n" +
                 "\t\"洁净室\": {\n" +
                 "\t\t\"Array\": {\n" +
-                "\t\t\t\"in\": [7551, 7554, 7558, 7561],\n" +
-                "\t\t\t\"out\": [7552, 7555, 7559, 7562]\n" +
+                "\t\t\t\"in\": [6325, 6328, 6331, 6334, 6337, 6340, 6343, 6346],\n" +
+                "\t\t\t\"out\": [6326, 6329, 6332, 6335, 6338, 6341, 6344, 6347]\n" +
                 "\t\t},\n" +
                 "\t\t\"CF\": {\n" +
-                "\t\t\t\"in\": [7594, 7588, 7585, 7591],\n" +
-                "\t\t\t\"out\": [7595, 7592, 7589, 7586]\n" +
+                "\t\t\t\"in\": [6364, 6361, 6358, 6352],\n" +
+                "\t\t\t\"out\": [6365, 6362, 6359, 6353]\n" +
                 "\t\t},\n" +
                 "\t\t\"CELL\": {\n" +
-                "\t\t\t\"in\": [7618, 7621, 7624, 7627],\n" +
-                "\t\t\t\"out\": [7619, 7622, 7625, 7628]\n" +
+                "\t\t\t\"in\": [6394, 6397, 6400, 6403],\n" +
+                "\t\t\t\"out\": [6395, 6398, 6401, 6404]\n" +
                 "\t\t},\n" +
                 "\t\t\"SL-OC\": {\n" +
-                "\t\t\t\"in\": [7614, 7611, 7608, 7605, 7602, 7599],\n" +
-                "\t\t\t\"out\": [7615, 7612, 7609, 7606, 7603, 7600]\n" +
+                "\t\t\t\"in\": [6390, 6387, 6384, 6381, 6378, 6375],\n" +
+                "\t\t\t\"out\": [6391, 6388, 6385, 6382, 6379, 6376]\n" +
                 "\t\t}\n" +
                 "\t},\n" +
                 "\t\"检修室\": {\n" +
                 "\t\t\"Array\": {\n" +
-                "\t\t\t\"in\": [7551, 7554, 7558, 7561],\n" +
-                "\t\t\t\"out\": [7552, 7555, 7559, 7562]\n" +
+                "\t\t\t\"in\": [4315, 4318],\n" +
+                "\t\t\t\"out\": [4316, 4319]\n" +
                 "\t\t},\n" +
                 "\t\t\"CF\": {\n" +
-                "\t\t\t\"in\": [7578, 7581],\n" +
-                "\t\t\t\"out\": [7579, 7582]\n" +
+                "\t\t\t\"in\": [6367, 6370],\n" +
+                "\t\t\t\"out\": [6368, 6371]\n" +
                 "\t\t}\n" +
                 "\t}\n" +
                 "}");
-        map4a4b4c = jsonToMap("{\n" +
-                "\t\"4A\": {\n" +
-                "\t\t\"阵列培训室\": [3019, 3099],\n" +
-                "\t\t\"一工厂第一会议室\": [3033],\n" +
-                "\t\t\"阵列会议室2\": [3100],\n" +
-                "\t\t\"阵列制造办公室\": [3065, 3009, 3072, 3080, 3070],\n" +
-                "\t\t\"阵列会议室3\": [3094],\n" +
-                "\t\t\"阵列会议室1\": [3108],\n" +
-                "\t\t\"一工厂第三会议室\": [3024],\n" +
-                "\t\t\"自动化办公室\": [4627],\n" +
-                "\t\t\"生产办公室(阵列)\": [3228],\n" +
-                "\t\t\"一工厂第二会议室\": [3023]\n" +
-                "\t},\n" +
-                "\t\"4B\": {\n" +
-                "\t\t\"第五会议室\": [2778, 2786],\n" +
-                "\t\t\"第八会议室\": [2856],\n" +
-                "\t\t\"质量管理办公室\": [3926, 3929],\n" +
-                "\t\t\"生产部会议室\": [3887],\n" +
-                "\t\t\"总务工程办公室\": [3913, 3908],\n" +
-                "\t\t\"销售管理办公室\": [3889, 3893],\n" +
-                "\t\t\"产品研发实验室\": [3773],\n" +
-                "\t\t\"生产办公室(彩膜)\": [6260, 6251],\n" +
-                "\t\t\"第二会议室\": [2724, 2733],\n" +
-                "\t\t\"财务办公室\": [2606],\n" +
-                "\t\t\"PQA实验室\": [1092],\n" +
-                "\t\t\"行政法务办公室\": [3967, 3970],\n" +
-                "\t\t\"运营管理办公室\": [3915, 3919],\n" +
-                "\t\t\"第一会议室\": [2709, 2701, 2685],\n" +
-                "\t\t\"彩膜培训室\": [1266],\n" +
-                "\t\t\"第六会议室\": [3981],\n" +
-                "\t\t\"产品研发办公室\": [3815, 3676],\n" +
-                "\t\t\"FAE实验室\": [943],\n" +
-                "\t\t\"生产办公室(成盒)\": [6088],\n" +
-                "\t\t\"技术部办公室\": [3860, 3865],\n" +
-                "\t\t\"信息技术值班室\": [294, 295],\n" +
-                "\t\t\"人力资源办公室\": [3898, 3900],\n" +
-                "\t\t\"成盒制造办公室\": [2616, 2633, 2651],\n" +
-                "\t\t\"信息技术办公室\": [3691, 3696, 3695],\n" +
-                "\t\t\"产品研发制图室\": [3744, 3759],\n" +
-                "\t\t\"品质整合办公室\": [3847, 3856],\n" +
-                "\t\t\"IQC实验室\": [1, 2, 3],\n" +
-                "\t\t\"生产部培训室\": [3887],\n" +
-                "\t\t\"资材办公室\": [3887],\n" +
-                "\t\t\"制程技术办公室\": [2607, 2615, 2597, 2598],\n" +
-                "\t\t\"第四会议室\": [2759, 2777],\n" +
-                "\t\t\"安全环保办公室\": [3921],\n" +
-                "\t\t\"仓储办公室\": [668],\n" +
-                "\t\t\"彩膜制造办公室\": [3866, 3876, 3873],\n" +
-                "\t\t\"生产部办公室\": [6251, 6260],\n" +
-                "\t\t\"第三会议室\": [2742, 2750],\n" +
-                "\t\t\"第七会议室\": [4011]\n" +
-                "\t},\n" +
-                "\t\"4C\": {\n" +
-                "\t\t\"4E值班室\": [4204],\n" +
-                "\t\t\"4H值班室\": [5110],\n" +
-                "\t\t\"4G值班室\": [226],\n" +
-                "\t\t\"4F值班室\": [3926],\n" +
-                "\t\t\"动力运行办公室\": [3065]\n" +
+
+        mapBanGongXu = jsonToMap("{\n" +
+                "\t\"办公区\": {\n" +
+                "\t\t\"4A\": [5077, 5022, 5086, 5091, 5085, 5212, 5115, 5123, 5039, 5040, 5048, 5124, 5106, 5114, 6508],\n" +
+                "\t\t\"4B行政办公区\": [72, 81, 80, 199, 233, 43, 162, 181, 3909, 3918, 296, 323, 313, 268, 277, 287, 295, 465, 473, 455, 437, 447, 429, 411, 384, 392, 356, 366, 348, 3138, 567, 580, 598, 558, 566, 548, 549, 665, 656, 637, 684, 693, 702, 710, 719, 737, 738, 746, 807, 928, 937, 965, 1045, 815, 3010],\n" +
+                "\t\t\"4B工厂办公区\": [2996, 2641, 2958, 3909, 3918],\n" +
+                "\t\t\"4C\": [1280, 1191, 1757]\n" +
                 "\t}\n" +
                 "}");
+
+
+
         mapCanTing = jsonToMap("{\n" +
-                "\t\"食堂\": [7364, 7370, 1355, 1243, 1325, 1307, 1356]\n" +
+                "\t\"食堂\": [1586, 1592, 3221, 3110, 3191, 3172, 3222]\n" +
                 "}");
+
+
     }
     public static void main(String [] args){
+        System.out.println();System.out.println();
         System.out.println(JSON.toJSONString(mapJieJinshiJianXiuShi));
+        System.out.println();System.out.println();
         System.out.println(JSON.toJSONString(mapBanGongXu));
+        System.out.println();System.out.println();
         System.out.println(JSON.toJSONString(mapCanTing));
+        System.out.println();System.out.println();
         System.out.println(JSON.toJSONString(map4a4b4c));
+        System.out.println();System.out.println();
         System.out.println(JSON.toJSONString(mapFactoryGatWayCardIds));
+        System.out.println();System.out.println();
 //        Object o1 = JSON.toJavaObject(o,map4a4b4c.getClass());
 //        System.out.println(o);
     }
@@ -215,7 +197,7 @@ public class PersonService {
         }
         return l;
     }
-
+    ExecutorService threadPool = Executors.newFixedThreadPool(100);
     @ApiMethodDoc(apiCode = "personInWork4A4B4C",name = "4A4B4C 数据")
     public PersonInWorkRet personInWork4A4B4C(@ApiParamDoc(desc = "区域，请填写4A,4B,4C")String area){
         PersonInWorkRet ret = new PersonInWorkRet();
@@ -223,31 +205,52 @@ public class PersonService {
             Date todayStartDay = DateUtils.getBeforDayStartDay(0);
             Map<String,List<Integer>> areas =  map4a4b4c.get(area);
             List<Integer> allCardIds = new ArrayList<>();
-            Map<String,PersonNumDTO> personNumDTOMap = new HashMap<>();
+            Map<String,PersonNumDTO> personNumDTOMap = new LinkedHashMap<>();
+            List<Future> tList = new ArrayList<>();
             for (Map.Entry<String,List<Integer>> entry : areas.entrySet()){
-                List<HistoryDTO> historyDTOList = null;
-                try {
-                    historyDTOList = historyDAO.querySigleIdCards(entry.getValue(), todayStartDay);
-                }catch (Exception e){
+                Thread t = new Thread(){
+                    @Override
+                    public void run() {
+                        List<HistoryDTO> historyDTOList = null;
+                        try {
+                            long t1 = System.currentTimeMillis();
+                            historyDTOList = historyDAO.querySigleIdCards(entry.getValue(), todayStartDay);
+                            long t2 = System.currentTimeMillis();
+                            MonitorUtils.doMonitor("queryPerson"+entry.getValue(),t2-t1);
+                        }catch (Exception e){
 
-                }
+                        }
 
-                PersonNumDTO personNumDTO = new PersonNumDTO();
-                personNumDTO.setArea(entry.getKey());
-                personNumDTOMap.put(entry.getKey(),personNumDTO);
-                setPersonNum(personNumDTO,historyDTOList);
+                        PersonNumDTO personNumDTO = new PersonNumDTO();
+                        personNumDTO.setArea(entry.getKey());
+                        setPersonNum(personNumDTO,historyDTOList);
+                        personNumDTOMap.put(entry.getKey(), personNumDTO);
+                    }
+                };
+                Future f = threadPool.submit(t);
+                tList.add(f);
                 allCardIds.addAll(entry.getValue());
             }
-            List<HistoryDTO> historyDTOList = null;
-            try {
-                historyDTOList = historyDAO.selectFactoryPublicAreaInfos(mapFactoryGatWayCardIds.get("工厂入口卡ID"), allCardIds, todayStartDay);
-            }catch (Exception e){
+            Thread tt = new Thread(){
+                @Override
+                public void run() {
+                    List<HistoryDTO> historyDTOList = null;
+                    try {
+//                        historyDTOList = historyDAO.selectFactoryPublicAreaInfos(mapFactoryGatWayCardIds.get("工厂入口in"),mapFactoryGatWayCardIds.get("工厂入口out"), allCardIds, todayStartDay);
+                    }catch (Exception e){
 
+                    }
+                    PersonNumDTO personNumDTO = new PersonNumDTO();
+                    personNumDTO.setArea("公共区域");
+                    personNumDTOMap.put("公共区域",personNumDTO);
+                    setPersonNum(personNumDTO, historyDTOList);
+                }
+            };
+            Future f = threadPool.submit(tt);
+            tList.add(f);
+            for (Future t : tList){
+                t.get();
             }
-            PersonNumDTO personNumDTO = new PersonNumDTO();
-            personNumDTO.setArea("公共区域");
-            personNumDTOMap.put("公共区域",personNumDTO);
-            setPersonNum(personNumDTO,historyDTOList);
             ret.setPersonNumDTOMap(personNumDTOMap);
             return ret;
         }catch (Exception e){
@@ -265,7 +268,7 @@ public class PersonService {
             Date todayStartDay = DateUtils.getBeforDayStartDay(0);
             List<HistoryDTO> historyDTOList = null;
             try {
-                historyDTOList = historyDAO.querySigleIdCards(mapFactoryGatWayCardIds.get("工厂入口卡ID"), todayStartDay);
+                historyDTOList = historyDAO.queryLaeastInOutCards(mapFactoryGatWayCardIds.get("工厂入口in"),mapFactoryGatWayCardIds.get("工厂入口out"), todayStartDay);
             }catch (Exception e){
                 LogUtils.error(getClass(), e);
             }
@@ -378,7 +381,7 @@ public class PersonService {
         Integer changShangNum = 0;
         if (historyDTOList!=null){
             for (HistoryDTO historyDTO : historyDTOList){
-                if (isYuanGongCard(historyDTO.getParam3())){
+                if (isYuanGongCard(historyDTO)){
                     yuanGongNum++;
                 }else {
                     changShangNum++;
@@ -388,16 +391,14 @@ public class PersonService {
         personNum.setYuanGongNum(yuanGongNum);
         personNum.setChangShangNum(changShangNum);
     }
-    private boolean isYuanGongCard(String param3){
-        if (param3==null){
+    private boolean isYuanGongCard(HistoryDTO historyDTO){
+        if (historyDTO==null){
             return false;
         }
-        try {
-            Long.parseLong(param3);
-            return true;
-        }catch (Exception e){
+        if (historyDTO.getNote1()==null){
             return false;
         }
+        return historyDTO.getNote1().startsWith("PD");
     }
 //
 //    private static Map<String,PersonInWorkData> cacheFactoryTimeData = new HashMap<>();

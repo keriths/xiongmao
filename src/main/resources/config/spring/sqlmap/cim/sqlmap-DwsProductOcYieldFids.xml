@@ -12,22 +12,31 @@
               sum(OEI_OUTPUT_JUDGE37)
             )
             /
-            (
+            decode(
               (
-                sum(ABI_OUTPUT_PA)+
-                sum(MBI_OUTPUT)
+                sum(nvl(ABI_OUTPUT_PA,0))+
+                sum(nvl(MBI_OUTPUT,0))
+              )
+              ,0,999999999,
+              (
+                sum(nvl(ABI_OUTPUT_PA,0))+
+                sum(nvl(MBI_OUTPUT,0))
               )
             )
             +
             (
-              sum(MBI_OUTPUT_PD)+
-              sum(OEI_OUTPUT_JUDGE37)
+              sum(nvl(MBI_OUTPUT_PD,0))+
+              sum(nvl(OEI_OUTPUT_JUDGE37,0))
             )
             /
+            decode(
             (
-              sum(ABI_OUTPUT_PA)+
-              sum(MBI_OUTPUT)
-            )
+              sum(nvl(ABI_OUTPUT_PA,0))+
+              sum(nvl(MBI_OUTPUT,0))
+            ),0,999999999,(
+              sum(nvl(ABI_OUTPUT_PA,0))+
+              sum(nvl(MBI_OUTPUT,0))
+            ))
             +
               sum(nvl(ACTUAL_REPAIR_YIELD_D,0))
           )
@@ -46,7 +55,7 @@
               sum(OEI_OUTPUT_JUDGE29)+
               sum(OEI_OUTPUT_JUDGE37)+
               sum(OEI_OUTPUT_JUDGE39)
-            )/sum(OEI_OUTPUT)
+            )/decode(sum(nvl(OEI_OUTPUT,0)),0,999999999,sum(nvl(OEI_OUTPUT,0)))
             +
             (
               sum(OEI_OUTPUT_B)+
@@ -54,7 +63,7 @@
               sum(OEI_OUTPUT_AM)-
               sum(OEI_OUTPUT_JUDGE37)-
               sum(OEI_OUTPUT_JUDGE39)
-            )/sum(OEI_OUTPUT)
+            )/decode(sum(nvl(OEI_OUTPUT,0)),0,999999999,sum(nvl(OEI_OUTPUT,0)))
             +
             sum(nvl(ACTUAL_REPAIR_YIELD_D,0))
           ))*100

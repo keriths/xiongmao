@@ -71,7 +71,9 @@ public class EquipmentStatusDataRetDTO extends BaseRetDTO{
                 failNum = failNum.add(BigDecimal.ONE);
                 eqptTotalNum = eqptTotalNum.add(BigDecimal.ONE);
             }
-            if ("RUN".equals(data.getVal()) || "WAT".equals(data.getVal())){
+            if ("RUN".equals(data.getVal())
+                    || "WAT".equals(data.getVal())
+                    ){
                 oeeNum=oeeNum.add(BigDecimal.ONE);
                 eqptTotalNum = eqptTotalNum.add(BigDecimal.ONE);
             }

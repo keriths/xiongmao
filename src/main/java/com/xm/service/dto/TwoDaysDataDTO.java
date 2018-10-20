@@ -55,14 +55,14 @@ public class TwoDaysDataDTO implements Serializable{
 
     public BigDecimal getTotalNum() {
         if (totalNum!=null){
-            return totalNum;
+            return totalNum.setScale(0,BigDecimal.ROUND_HALF_UP);
         }
         if (afterTotalNum!=null && beforTotalNum!=null){
             totalNum = afterTotalNum.subtract(beforTotalNum);
             while (totalNum.intValue()<0){
                 totalNum = totalNum.add(new BigDecimal("1000000000"));
             }
-            return totalNum;
+            return totalNum.setScale(0,BigDecimal.ROUND_HALF_UP);
         }
         return BigDecimal.ZERO;
     }

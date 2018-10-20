@@ -28,7 +28,7 @@ public class WwtDataDTO extends BaseRetDTO{
         }
 
         public BigDecimal getValue() {
-            return value;
+            return value==null?null:value.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setValue(BigDecimal value) {

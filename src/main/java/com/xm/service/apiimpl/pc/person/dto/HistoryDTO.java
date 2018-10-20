@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class HistoryDTO implements Serializable{
     private String param3;
     private String link1;
+    private String note1;
     private Integer num;
 
     public String getParam3() {
@@ -32,5 +33,13 @@ public class HistoryDTO implements Serializable{
 
     public void setNum(Integer num) {
         this.num = num;
+    }
+
+    public String getNote1() {
+        return note1;
+    }
+
+    public void setNote1(String note1) {
+        this.note1 = note1;
     }
 }

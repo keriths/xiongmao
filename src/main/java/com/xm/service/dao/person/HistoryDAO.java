@@ -37,7 +37,7 @@ public interface HistoryDAO {
      * @param beforDate      日期
      * @return
      */
-    public List<HistoryDTO> selectFactoryPublicAreaInfos(@Param("factoryCardIds")List<Integer> factoryCardIds, @Param("cardIds")List<Integer> cardIds,@Param("beforDate")Date beforDate);
+    public List<HistoryDTO> selectFactoryPublicAreaInfos(@Param("factoryInCardIds")List<Integer> factoryInCardIds,@Param("factoryOutCardIds")List<Integer> factoryOutCardIds, @Param("cardIds")List<Integer> cardIds,@Param("beforDate")Date beforDate);
 
 
 //    public List<PersonService.HistoryData> queryLatestData(@Param("portList")List<Integer> portList,@Param("startTime") Date startTime,@Param("endTime") Date endTime) ;

@@ -3,6 +3,7 @@ package com.xm.service.apiimpl.pc.fmcs.pv;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.LogUtils;
+import com.xm.platform.util.StringUtils;
 import com.xm.service.dao.fmcs.MAUSystemDataDAO;
 import com.xm.service.dto.KeyValueDTO;
 import com.xm.service.dto.KeyValueRetDTO;
@@ -24,6 +25,9 @@ public class PVService {
         KeyValueRetDTO resultDto = new KeyValueRetDTO();
         try {
             List<KeyValueDTO> valueList = mauSystemDataDAO.queryPVDatas();
+            for (KeyValueDTO keyValueDTO : valueList){
+                keyValueDTO.setVal(StringUtils.retainPoint(keyValueDTO.getVal(),0));
+            }
             resultDto.setValueList(valueList);
             return resultDto;
         }catch (Exception e){

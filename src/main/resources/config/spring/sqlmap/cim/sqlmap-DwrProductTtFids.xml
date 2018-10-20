@@ -21,7 +21,7 @@
             (
                 (
                     tt.FACTORY IN ( 'ARRAY','CELL','CF','SL')
-                    and tt.PRODUCTTYPE IN ('CS','MP','CM')
+                    and tt.PRODUCTTYPE IN ('CS','MP','CM','DM')
                 )
                 OR
                 (
@@ -54,7 +54,7 @@
             (
                 (
                     tt.FACTORY IN ( 'ARRAY','CELL','CF','SL')
-                    and tt.PRODUCTTYPE IN ('CS','MP','CM')
+                    and tt.PRODUCTTYPE IN ('CS','MP','CM','DM')
                 )
                 OR
                 (

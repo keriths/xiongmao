@@ -35,7 +35,10 @@ public class HumitureDataDTO extends BaseRetDTO{
         }
 
         public BigDecimal getTemperature() {
-            return temperature;
+            if (temperature==null){
+                return null;
+            }
+            return temperature.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setTemperature(BigDecimal temperature) {
@@ -43,7 +46,10 @@ public class HumitureDataDTO extends BaseRetDTO{
         }
 
         public BigDecimal getHumidity() {
-            return humidity;
+            if (humidity==null){
+                return null;
+            }
+            return humidity.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setHumidity(BigDecimal humidity) {
@@ -51,7 +57,10 @@ public class HumitureDataDTO extends BaseRetDTO{
         }
 
         public BigDecimal getCleanliness() {
-            return cleanliness;
+            if (cleanliness==null){
+                return null;
+            }
+            return cleanliness.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setCleanliness(BigDecimal cleanliness) {
