@@ -21,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collector;
@@ -138,13 +139,42 @@ public class RealTimeStatusServiceImpl {
             Date todayEnd = DateUtils.getBeforDayEndDay(1);
             Date curMonthStart = DateUtils.getBeforMonthStartDay(0);
             Date curMonthEnd = DateUtils.getBeforMonthEndDay(0);
-            List<ProductLineDetailData> dayDataList = dwsProductLineYieldFidsDAO.queryTotalProductLineByDateAndFactoryList(factoryList,todayStart,todayEnd,productTypeList);
-            List<ProductLineDetailData> monthDataList = dwsProductLineYieldFidsDAO.queryTotalProductLineByDateAndFactoryList(factoryList,curMonthStart,curMonthEnd,productTypeList);
+            List<ProductLineDetailData> dayDataList = dwsProductLineYieldFidsDAO.queryTotalProductLineByDateAndFactoryList(Lists.newArrayList("ARRAY", "CELL", "CF", "SL"), todayStart, todayEnd, productTypeList);
+            //查询产品的良品率
             if (CollectionUtils.isEmpty(dayDataList)){
                 dayDataList = factoryList.stream().map(factory -> new ProductLineDetailData(DateUtils.getStrDate(todayStart,"MM/dd"),factory)).collect(Collectors.toList());
             }
+            for (ProductLineDetailData productLineDetailData : dayDataList){
+                if (productLineDetailData.getFactory().equals("SL-OC")){
+                    ProductOcDetailData productDayGoodRateData = dwsProductOcYieldFidsDAO.queryProductsGoodRate(Constant.productList,todayStart, todayEnd);
+                    BigDecimal factoryInline = productLineDetailData.getInLine()==null?BigDecimal.ZERO:productLineDetailData.getInLine();
+                    BigDecimal productInline = productDayGoodRateData==null?BigDecimal.ZERO:productDayGoodRateData.getInLine()==null?BigDecimal.ZERO:productDayGoodRateData.getInLine();
+                    if (BigDecimal.ZERO.equals(factoryInline)){
+                        productLineDetailData.setInLine(productInline);
+                    }else if (!BigDecimal.ZERO.equals(productInline)){
+                        productLineDetailData.setInLine(factoryInline.multiply(productInline).divide(new BigDecimal("100")));
+                    }
+                    productLineDetailData.setFactoryInline(factoryInline);
+                    productLineDetailData.setProductInline(productInline);
+                }
+            }
+            List<ProductLineDetailData> monthDataList = dwsProductLineYieldFidsDAO.queryTotalProductLineByDateAndFactoryList(Lists.newArrayList("ARRAY","CELL","CF","SL"),curMonthStart,curMonthEnd,productTypeList);
             if (CollectionUtils.isEmpty(monthDataList)){
                 monthDataList = factoryList.stream().map(factory -> new ProductLineDetailData(DateUtils.getStrDate(curMonthStart,"yyyy/MM"), factory)).collect(Collectors.toList());
+            }
+            for (ProductLineDetailData productLineDetailData : monthDataList){
+                if (productLineDetailData.getFactory().equals("SL-OC")){
+                    ProductOcDetailData productMonthGoodRateData = dwsProductOcYieldFidsDAO.queryProductsGoodRate(Constant.productList,curMonthStart,curMonthEnd);
+                    BigDecimal factoryInline = productLineDetailData.getInLine()==null?BigDecimal.ZERO:productLineDetailData.getInLine();
+                    BigDecimal productInline = productMonthGoodRateData==null?BigDecimal.ZERO:productMonthGoodRateData.getInLine()==null?BigDecimal.ZERO:productMonthGoodRateData.getInLine();
+                    if (BigDecimal.ZERO.equals(factoryInline)){
+                        productLineDetailData.setInLine(productInline);
+                    }else if (!BigDecimal.ZERO.equals(productInline)){
+                        productLineDetailData.setInLine(factoryInline.multiply(productInline).divide(new BigDecimal("100")));
+                    }
+                    productLineDetailData.setFactoryInline(factoryInline);
+                    productLineDetailData.setProductInline(productInline);
+                }
             }
             resultDto.setProductLineCollectDayDataList(dayDataList);
             resultDto.setProductLineCollectMonthDataList(monthDataList);
@@ -161,20 +191,122 @@ public class RealTimeStatusServiceImpl {
     public ProductOcData ocCollectRetDTO(){
         ProductOcData resultDto = new ProductOcData();
         try {
-            List<String> productNameList=new ArrayList<String>();
-            Map<String,String> dataMap=Constant.outProductIdNameMap;
-            Iterator<Map.Entry<String, String>> it = dataMap.entrySet().iterator();
-            while (it.hasNext()) {
-                Map.Entry<String, String> entry = it.next();
-                productNameList.add(entry.getKey());
-            }
-            List<String> productTypeList=Constant.productTypeTestList;
+//            List<String> productNameList=new ArrayList<String>();
+//            Map<String,String> dataMap=Constant.outProductIdNameMap;
+//            Iterator<Map.Entry<String, String>> it = dataMap.entrySet().iterator();
+//            while (it.hasNext()) {
+//                Map.Entry<String, String> entry = it.next();
+//                productNameList.add(entry.getKey());
+//            }
+//            List<String> productTypeList=Constant.productTypeTestList;
             Date todayStart = DateUtils.getBeforDayStartDay(1);
             Date todayEnd = DateUtils.getBeforDayEndDay(1);
+            List<ProductOcDetailData> dayDataList = new ArrayList<>();//dwsProductOcYieldFidsDAO.queryTotalProductLineOCByDateAndProductList(todayStart,todayEnd);
+            for (Map.Entry<String,List<String>> entry : Constant.productMap.entrySet()){
+                ProductOcDetailData productOcDetailData = new ProductOcDetailData();
+                productOcDetailData.setProductName(entry.getKey());
+                dayDataList.add(productOcDetailData);
+                ProductOcDetailData productDayGoodRateDate = dwsProductOcYieldFidsDAO.queryProductsGoodRate(entry.getValue(),todayStart,todayEnd);
+                BigDecimal productInline = productDayGoodRateDate!=null?productDayGoodRateDate.getInLine()!=null?productDayGoodRateDate.getInLine():BigDecimal.ZERO:BigDecimal.ZERO;
+                //查询array cell sl
+                BigDecimal arrayInLine = BigDecimal.ZERO;
+                BigDecimal cellInLine = BigDecimal.ZERO;
+                BigDecimal slInLine = BigDecimal.ZERO;
+                List<ProductLineDetailData> productLineDetailDatas = dwsProductLineYieldFidsDAO.queryFactoryProductGoodRate(Lists.newArrayList("ARRAY", "CELL", "SL"), entry.getValue(), todayStart, todayEnd);
+                if (!CollectionUtils.isEmpty(productLineDetailDatas)){
+                    for (ProductLineDetailData p : productLineDetailDatas){
+                        if (p.getFactory().equals("ARRAY")){
+                            arrayInLine = p.getInLine()!=null?p.getInLine():BigDecimal.ZERO;
+                        }
+                        if (p.getFactory().equals("CELL")){
+                            cellInLine = p.getInLine()!=null?p.getInLine():BigDecimal.ZERO;
+                        }
+                        if (p.getFactory().equals("SL-OC")){
+                            slInLine = p.getInLine()!=null?p.getInLine():BigDecimal.ZERO;
+                        }
+                    }
+                }
+                if (BigDecimal.ZERO.equals(productInline)
+                        &&BigDecimal.ZERO.equals(arrayInLine)
+                        &&BigDecimal.ZERO.equals(cellInLine)
+                        &&BigDecimal.ZERO.equals(slInLine)){
+                    productOcDetailData.setInLine(BigDecimal.ZERO);
+                }else {
+                    BigDecimal inLine = new BigDecimal("100");
+                    if (!BigDecimal.ZERO.equals(productInline)){
+                        inLine = inLine.multiply(productInline).divide(new BigDecimal("100"));
+                    }
+                    if (!BigDecimal.ZERO.equals(arrayInLine)){
+                        inLine = inLine.multiply(arrayInLine).divide(new BigDecimal("100"));
+                    }
+                    if (!BigDecimal.ZERO.equals(cellInLine)){
+                        inLine = inLine.multiply(cellInLine).divide(new BigDecimal("100"));
+                    }
+                    if (!BigDecimal.ZERO.equals(slInLine)){
+                        inLine = inLine.multiply(slInLine).divide(new BigDecimal("100"));
+                    }
+                    productOcDetailData.setInLine(inLine);
+                }
+                productOcDetailData.setProductInline(productInline);
+                productOcDetailData.setArrayInline(arrayInLine);
+                productOcDetailData.setCellInline(cellInLine);
+                productOcDetailData.setSlInline(slInLine);
+            }
+
+            List<ProductOcDetailData> monthDataList = new ArrayList<>(); //dwsProductOcYieldFidsDAO.queryTotalProductLineOCByDateAndProductList(curMonthStart,curMonthEnd);
             Date curMonthStart = DateUtils.getBeforMonthStartDay(0);
             Date curMonthEnd = DateUtils.getBeforMonthEndDay(0);
-            List<ProductOcDetailData> dayDataList = dwsProductOcYieldFidsDAO.queryTotalProductLineOCByDateAndProductList(productNameList,todayStart,todayEnd,productTypeList);
-            List<ProductOcDetailData> monthDataList = dwsProductOcYieldFidsDAO.queryTotalProductLineOCByDateAndProductList(productNameList,curMonthStart,curMonthEnd,productTypeList);
+            for (Map.Entry<String,List<String>> entry : Constant.productMap.entrySet()){
+                ProductOcDetailData productOcDetailData = new ProductOcDetailData();
+                productOcDetailData.setProductName(entry.getKey());
+                monthDataList.add(productOcDetailData);
+                ProductOcDetailData productDayGoodRateDate = dwsProductOcYieldFidsDAO.queryProductsGoodRate(entry.getValue(),curMonthStart,curMonthEnd);
+                BigDecimal productInline = productDayGoodRateDate!=null?productDayGoodRateDate.getInLine()!=null?productDayGoodRateDate.getInLine():BigDecimal.ZERO:BigDecimal.ZERO;
+                //查询array cell sl
+                BigDecimal arrayInLine = BigDecimal.ZERO;
+                BigDecimal cellInLine = BigDecimal.ZERO;
+                BigDecimal slInLine = BigDecimal.ZERO;
+                List<ProductLineDetailData> productLineDetailDatas = dwsProductLineYieldFidsDAO.queryFactoryProductGoodRate(Lists.newArrayList("ARRAY", "CELL", "SL"), entry.getValue(), curMonthStart, curMonthEnd);
+                if (!CollectionUtils.isEmpty(productLineDetailDatas)){
+                    for (ProductLineDetailData p : productLineDetailDatas){
+                        if (p.getFactory().equals("ARRAY")){
+                            arrayInLine = p.getInLine()!=null?p.getInLine():BigDecimal.ZERO;
+                        }
+                        if (p.getFactory().equals("CELL")){
+                            cellInLine = p.getInLine()!=null?p.getInLine():BigDecimal.ZERO;
+                        }
+                        if (p.getFactory().equals("SL-OC")){
+                            slInLine = p.getInLine()!=null?p.getInLine():BigDecimal.ZERO;
+                        }
+                    }
+                }
+                if (BigDecimal.ZERO.equals(productInline)
+                        &&BigDecimal.ZERO.equals(arrayInLine)
+                        &&BigDecimal.ZERO.equals(cellInLine)
+                        &&BigDecimal.ZERO.equals(slInLine)){
+                    productOcDetailData.setInLine(BigDecimal.ZERO);
+                }else {
+                    BigDecimal inLine = new BigDecimal("100");
+                    if (!BigDecimal.ZERO.equals(productInline)){
+                        inLine = inLine.multiply(productInline).divide(new BigDecimal("100"));
+                    }
+                    if (!BigDecimal.ZERO.equals(arrayInLine)){
+                        inLine = inLine.multiply(arrayInLine).divide(new BigDecimal("100"));
+                    }
+                    if (!BigDecimal.ZERO.equals(cellInLine)){
+                        inLine = inLine.multiply(cellInLine).divide(new BigDecimal("100"));
+                    }
+                    if (!BigDecimal.ZERO.equals(slInLine)){
+                        inLine = inLine.multiply(slInLine).divide(new BigDecimal("100"));
+                    }
+                    productOcDetailData.setInLine(inLine);
+                }
+                productOcDetailData.setProductInline(productInline);
+                productOcDetailData.setArrayInline(arrayInLine);
+                productOcDetailData.setCellInline(cellInLine);
+                productOcDetailData.setSlInline(slInLine);
+            }
+
             if (CollectionUtils.isEmpty(dayDataList)){
                 dayDataList = Lists.newArrayList(new ProductOcDetailData("50","20180705"));
             }

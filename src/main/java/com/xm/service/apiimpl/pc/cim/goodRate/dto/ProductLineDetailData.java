@@ -114,7 +114,7 @@ public class ProductLineDetailData {
 
     public BigDecimal getInLine() {
         if (inLine!=null){
-            return inLine.floatValue()>100?new BigDecimal("100"):inLine;
+            return inLine.floatValue()>100?new BigDecimal("100"):inLine.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
         if (factory==null){
             return inLine = BigDecimal.ZERO;
@@ -124,16 +124,40 @@ public class ProductLineDetailData {
                 return inLine=new BigDecimal(0);
             }
             inLine = getOutputPnl().divide(getInputPnl().add(getOutputPnl()),5, RoundingMode.HALF_UP).multiply(new BigDecimal("100")).setScale(2, RoundingMode.HALF_UP);
-            return inLine.floatValue()>100?new BigDecimal("100"):inLine;
+            return inLine.floatValue()>100?new BigDecimal("100"):inLine.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
         if (getOutputGls().add(getScrapGls()).equals(BigDecimal.ZERO)){
             return inLine = BigDecimal.ZERO;
         }
         inLine = getOutputGls().divide(getOutputGls().add(getScrapGls()),5, RoundingMode.HALF_UP).multiply(new BigDecimal("100")).setScale(2, RoundingMode.HALF_UP);
-        return (inLine.floatValue()>100)?new BigDecimal("100"):inLine;
+        return (inLine.floatValue()>100)?new BigDecimal("100"):inLine.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
     public BigDecimal getTargetInLine() {
         return ReturnDataUtils.targetData(getFactory(), null, getPeriodDate());
+    }
+
+    public void setInLine(BigDecimal inLine) {
+        this.inLine = inLine;
+    }
+
+
+    BigDecimal factoryInline = null;
+    BigDecimal productInline = null;
+
+    public BigDecimal getFactoryInline() {
+        return factoryInline;
+    }
+
+    public void setFactoryInline(BigDecimal factoryInline) {
+        this.factoryInline = factoryInline;
+    }
+
+    public BigDecimal getProductInline() {
+        return productInline;
+    }
+
+    public void setProductInline(BigDecimal productInline) {
+        this.productInline = productInline;
     }
 }

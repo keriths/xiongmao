@@ -19,8 +19,7 @@ public interface DwsProductOcYieldFidsDAO {
                                                                  @Param("productIdList") List<String> productIdList,
                                                                  @Param("dateType")String dateType,
                                                                  @Param("beginDate") Date beginDate,
-                                                                 @Param("endDate") Date endDate,
-                                                                 @Param("productTypeList")List<String> productTypeList);
+                                                                 @Param("endDate") Date endDate);
     Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
 
     void addData(Map<String, Object> mapData);
@@ -38,8 +37,11 @@ public interface DwsProductOcYieldFidsDAO {
 //    void updateTargetData(Map<String, Object> mapData);
 
     List<ProductOcDetailData> queryTotalProductLineOCByDateAndProductList(
+            @Param("startDate")Date startDate,
+            @Param("endDate")Date endDate);
+
+    ProductOcDetailData queryProductsGoodRate(
             @Param("productNameList") List<String> productNameList,
             @Param("startDate")Date startDate,
-            @Param("endDate")Date endDate,
-            @Param("productTypeList")List<String> productTypeList);
+            @Param("endDate")Date endDate);
 }

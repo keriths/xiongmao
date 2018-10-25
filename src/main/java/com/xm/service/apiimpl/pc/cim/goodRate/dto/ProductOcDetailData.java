@@ -143,4 +143,47 @@ public class ProductOcDetailData {
     public void setIobOutPutSum(BigDecimal iobOutPutSum) {
         this.iobOutPutSum = iobOutPutSum;
     }
+
+    public void setInLine(BigDecimal inLine) {
+        this.inLine = inLine;
+    }
+
+
+
+    BigDecimal productInline = null;
+    BigDecimal arrayInline = null;
+    BigDecimal cellInline = null;
+    BigDecimal slInline = null;
+
+    public BigDecimal getProductInline() {
+        return productInline;
+    }
+
+    public void setProductInline(BigDecimal productInline) {
+        this.productInline = productInline;
+    }
+
+    public BigDecimal getArrayInline() {
+        return arrayInline;
+    }
+
+    public void setArrayInline(BigDecimal arrayInline) {
+        this.arrayInline = arrayInline;
+    }
+
+    public BigDecimal getCellInline() {
+        return cellInline;
+    }
+
+    public void setCellInline(BigDecimal cellInline) {
+        this.cellInline = cellInline;
+    }
+
+    public BigDecimal getSlInline() {
+        return slInline;
+    }
+
+    public void setSlInline(BigDecimal slInline) {
+        this.slInline = slInline;
+    }
 }

@@ -3,10 +3,7 @@ package com.xm.service.constant;
 import com.google.common.collect.Lists;
 import com.xm.platform.util.MapUtils;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by fanshuai on 17/11/19.
@@ -256,11 +253,11 @@ public class Constant {
     /**
      * 产出数横坐标产品
      */
-    public static final Map<String,String> outProductIdNameMap = MapUtils.newMap(
-            "50","50",
-            "55","55",
-            "60","60",
-            "65","65");
+//    public static final Map<String,String> outProductIdNameMap = MapUtils.newMap(
+//            "50","50",
+//            "55","55",
+//            "60","60",
+//            "65","65");
 
 
 //    public static final Map<String,List<String>> eqpIdMap = MapUtils.newMap(
@@ -323,10 +320,13 @@ public class Constant {
     public static final List<String> productTypeTestList = Lists.newArrayList("DM");
 
 
+    public static final List<String> productList = new ArrayList<>();
     public static Map<String,List<String>> productMap = new HashMap<>();
     static {
         productMap.put("50", Lists.newArrayList("C41A","D41A","A1CC495PU1L01","D0NL495PU1L01"));
         productMap.put("58", Lists.newArrayList("C51A","D51A","D52A","D53A","A1CC575PU1L01","A1CC575PU3L01"));
+        productList.addAll(productMap.get("50"));
+        productList.addAll(productMap.get("58"));
     }
 
 }

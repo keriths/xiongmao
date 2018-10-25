@@ -126,6 +126,23 @@
         'C51A','58','D51A','58','A1CC575PU1L01','58','A1CC575PU3L01','58',PRODUCTID)
     </select>
 
+    <select id="queryProductsGoodRate" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcDetailData">
+        SELECT
+        <include refid="inline"/> as inLine
+        FROM
+        DWS_PRODUCT_OC_YIELD_FIDS
+        WHERE
+        PRODUCTID IN (
+          <foreach collection="productNameList" item="product" separator=",">
+              #{product}
+          </foreach>
+        )
+        and PRODUCTTYPE NOT IN ('DM')
+        <![CDATA[
+          and PERIODDATE >= #{startDate}
+          and PERIODDATE <= #{endDate}
+        ]]>
+    </select>
 
 
     <select id="loadByPrimaryKey" parameterType="map" resultType="map">

@@ -10,6 +10,8 @@
                             #{id}
                         </foreach>
             AND a.TimeStamp > #{beforDate}
+            and a.Param1 in (1,2,3,4,5,8,120,124)
+            and a.Type1 = 9
             AND a.Param3 IN (
 
 
@@ -29,6 +31,8 @@
                               )
                         AND TimeStamp > #{beforDate}
                         and Param3 is not null
+                        and Param1 in (1,2,3,4,5,8,120,124)
+                        and Type1 = 9
                         GROUP BY param3
                     ) b
                     ON a.RecordID = b.maxRecordId
@@ -50,6 +54,8 @@
                         </foreach>
             AND a.TimeStamp > #{beforDate}
             and a.Param3 is not null
+            and a.Param1 in (1,2,3,4,5,8,120,124)
+            and a.Type1 = 9
         GROUP BY a.Param3,c.Note1
         HAVING COUNT(*) % 2 = 1
     </select>
@@ -70,6 +76,8 @@
                       )
                     AND TimeStamp > #{beforDate}
                     and Param3 is not null
+                    and Param1 in (1,2,3,4,5,8,120,124)
+                    and Type1 = 9
                     GROUP BY param3
             ) b
             ON a.RecordID = b.maxRecordId
@@ -79,60 +87,4 @@
         join [WIN-PAK PRO].[dbo].[CardHolder] c on a.Link3 = c.RecordID
     </select>
 
-    <!--<select id="queryLatestData" parameterType="map" resultType="com.xm.service.apiimpl.pc.person.PersonService$HistoryData">-->
-        <!--SELECT-->
-          <!--History.Param3 as param3,-->
-          <!--MAX(History.GenTime) as latestTime-->
-        <!--FROM [WIN-PAK PRO].[dbo].History-->
-        <!--LEFT JOIN [WIN-PAK PRO].[dbo].HWIndependentDevices ON History.Link1 = HWIndependentDevices.DeviceID-->
-        <!--LEFT JOIN [WIN-PAK PRO].[dbo].CardHolder ON History.Link3 = CardHolder.RecordID-->
-        <!--LEFT JOIN [WIN-PAK PRO].[dbo].Operator ON History.Link4 = Operator.RecordID-->
-        <!--WHERE-->
-        <!--<![CDATA[-->
-        <!--History.GenTime > #{startTime}-->
-        <!--and History.GenTime <= #{endTime}-->
-        <!--]]>-->
-        <!--and Link1 in-->
-        <!--<foreach collection="portList" item="port" open="(" separator="," close=")">-->
-            <!--#{port}-->
-        <!--</foreach>-->
-        <!--and Link1 in (426)-->
-        <!--AND-->
-        <!--(-->
-            <!--(-->
-              <!--History.Type1 = 9 AND-->
-              <!--History.Param1 IN-->
-                <!--(1, 30, 2, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 3, 26, 4, 32, 5, 6, 8, 125, 127, 128, 129, 132, 133, 134, 136, 138, 33, 210, 211, 212, 214, 217, 218, 219, 223, 224, 225, 25, 27, 28, 29, 31, 124, 34, 35, 36, 37, 38)-->
-            <!--)-->
-          <!--OR (-->
-                <!--History.Type1 = 21-->
-                <!--AND History.Param1 IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39)-->
-            <!--)-->
-          <!--OR (-->
-                <!--History.Type1 = 13-->
-                <!--AND History.Param1 IN (1, 30, 2, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 3, 26, 4, 32, 5, 6, 8, 125, 127, 128, 129, 132, 133, 134, 136, 138, 33, 210, 211, 212, 214, 217, 218, 219, 223, 224, 225, 25, 27, 28, 29, 31, 124, 34, 35, 36, 37, 38)-->
-          <!--)-->
-          <!--OR (-->
-                <!--History.Type1 = 22-->
-                <!--AND History.Param1 IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39)-->
-          <!--)-->
-          <!--OR (-->
-                <!--History.Type1 = 14-->
-                <!--AND History.Param1 IN (1, 30, 2, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 3, 26, 4, 32, 5, 6, 8, 125, 127, 128, 129, 132, 133, 134, 136, 138, 33, 210, 211, 212, 214, 217, 218, 219, 223, 224, 225, 25, 27, 28, 29, 31, 124, 34, 35, 36, 37, 38)-->
-          <!--)-->
-          <!--OR (-->
-                <!--History.Type1 = 23-->
-                <!--AND History.Param1 IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39)-->
-          <!--)-->
-          <!--OR (-->
-                <!--History.Type1 = 15-->
-                <!--AND History.Param1 IN (1, 30, 2, 110, 111, 112, 113, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 3, 26, 4, 32, 5, 6, 8, 125, 127, 128, 129, 132, 133, 134, 136, 138, 33, 210, 211, 212, 214, 217, 218, 219, 223, 224, 225, 25, 27, 28, 29, 31, 124, 34, 35, 36, 37, 38)-->
-          <!--)-->
-          <!--OR (-->
-                <!--History.Type1 = 24-->
-                <!--AND History.Param1 IN (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39)-->
-          <!--)-->
-        <!--)-->
-        <!--group by History.Param3-->
-    <!--</select>-->
 </mapper>
