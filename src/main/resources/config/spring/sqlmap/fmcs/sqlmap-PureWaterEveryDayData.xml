@@ -54,7 +54,7 @@
         afterDataDate
         FROM (
         SELECT
-        sum(TOTALNUM) as beforTotalNum,DATADATE as beforDataDate
+        max(TOTALNUM) as beforTotalNum,DATADATE as beforDataDate
         FROM
         PUREWATEREVERYDAYDATA
         WHERE DATADATE = #{beforDate,jdbcType=DATE}
@@ -64,7 +64,7 @@
         ) a
         join (
         SELECT
-        sum(TOTALNUM) as afterTotalNum,DATADATE as afterDataDate
+        max(TOTALNUM) as afterTotalNum,DATADATE as afterDataDate
         FROM
         PUREWATEREVERYDAYDATA
         WHERE DATADATE = #{afterDate,jdbcType=DATE}

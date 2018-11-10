@@ -22,7 +22,7 @@
             afterDataDate
         FROM (
             SELECT
-            sum(TOTALNUM) as beforTotalNum,DATADATE as beforDataDate
+            max(TOTALNUM) as beforTotalNum,DATADATE as beforDataDate
             FROM
             FREEZEWATEREVERYDAYDATA
             WHERE DATADATE = #{beforDate,jdbcType=DATE}
@@ -32,7 +32,7 @@
         ) a
         join (
             SELECT
-            sum(TOTALNUM) as afterTotalNum,DATADATE as afterDataDate
+            max(TOTALNUM) as afterTotalNum,DATADATE as afterDataDate
             FROM
             FREEZEWATEREVERYDAYDATA
             WHERE DATADATE = #{afterDate,jdbcType=DATE}

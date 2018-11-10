@@ -15,7 +15,7 @@
     </select>
 
     <select id="queryDayDataByDateListByPlaceType" parameterType="map" resultType="com.xm.service.dto.DayDataDTO">
-        SELECT sum(TOTALNUM) as totalNum,DATADATE as dataDate
+        SELECT max(TOTALNUM) as totalNum,DATADATE as dataDate
         FROM ELECEVERYHOURDATA
         WHERE  DATADATE IN
         <foreach collection="queryDays" item="queryDate" open="(" separator="," close=")">
@@ -119,7 +119,7 @@
             afterDataDate
         FROM (
             SELECT
-            sum(TOTALNUM) as beforTotalNum,DATADATE as beforDataDate
+            max(TOTALNUM) as beforTotalNum,DATADATE as beforDataDate
             FROM
             ELECEVERYHOURDATA
             WHERE DATADATE = #{beforDate,jdbcType=DATE}
@@ -129,7 +129,7 @@
         ) a
         join (
             SELECT
-            sum(TOTALNUM) as afterTotalNum,DATADATE as afterDataDate
+            max(TOTALNUM) as afterTotalNum,DATADATE as afterDataDate
             FROM
             ELECEVERYHOURDATA
             WHERE DATADATE = #{afterDate,jdbcType=DATE}

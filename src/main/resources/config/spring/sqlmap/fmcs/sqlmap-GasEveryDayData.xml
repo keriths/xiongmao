@@ -95,7 +95,7 @@
         FROM (
         SELECT
         GASNAME as gasName,
-        sum(TOTALNUM) as beforTotalNum,DATADATE as beforDataDate
+        max(TOTALNUM) as beforTotalNum,DATADATE as beforDataDate
         FROM
         GASEVERYDAYDATA
         WHERE DATADATE = #{beforDate,jdbcType=DATE}
@@ -110,7 +110,7 @@
         join (
         SELECT
         GASNAME as gasName,
-        sum(TOTALNUM) as afterTotalNum,DATADATE as afterDataDate
+        max(TOTALNUM) as afterTotalNum,DATADATE as afterDataDate
         FROM
         GASEVERYDAYDATA
         WHERE DATADATE = #{afterDate,jdbcType=DATE}

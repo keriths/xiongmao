@@ -87,7 +87,7 @@
         FROM (
         SELECT
         GASTYPE as gasType,
-        sum(TOTALNUM) as beforTotalNum,DATADATE as beforDataDate
+        max(TOTALNUM) as beforTotalNum,DATADATE as beforDataDate
         FROM
         NatgasEveryDayData
         WHERE DATADATE = #{beforDate,jdbcType=DATE}
@@ -102,7 +102,7 @@
         join (
         SELECT
         GASTYPE as gasType,
-        sum(TOTALNUM) as afterTotalNum,DATADATE as afterDataDate
+        max(TOTALNUM) as afterTotalNum,DATADATE as afterDataDate
         FROM
         NatgasEveryDayData
         WHERE DATADATE = #{afterDate,jdbcType=DATE}
