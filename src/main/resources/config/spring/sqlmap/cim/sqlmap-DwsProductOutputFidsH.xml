@@ -2,6 +2,13 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.cim.DwsProductOutputFidsHDAO" >
 
+    <select id="queryOutPutH"  resultType="com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentThroughputData" parameterType="Map">
+        select decode(SHOP_ID,'SL/OC','SL-OC',SHOP_ID) as  factory,HOUR||':00' as dataDate,sum(PROCESS_COUNT)  as amount from FMC_PROCESS_COUNT_24
+        where SHOP_ID = #{factory}
+        group by SHOP_ID,HOUR
+        order by SHOP_ID,HOUR
+    </select>
+
     <select id="queryThroughputData" resultType="com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentThroughputData" parameterType="Map">
         select
             decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) as factory,

@@ -18,6 +18,7 @@ public interface DwsProductOutputFidsHDAO {
                                                       @Param("endDate") Date endDate,
                                                       @Param("productTypeList")List<String> productTypeList);
 
+    List<EquipmentThroughputData>  queryOutPutH(@Param("factory") String factory);
 
 
     Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
