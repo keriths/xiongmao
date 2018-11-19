@@ -3,8 +3,9 @@
 <mapper namespace="com.xm.service.dao.cim.DwsProductOutputFidsHDAO" >
 
     <select id="queryOutPutH"  resultType="com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentThroughputData" parameterType="Map">
-        select decode(SHOP_ID,'SL/OC','SL-OC',SHOP_ID) as  factory,HOUR||':00' as dataDate,sum(PROCESS_COUNT)  as amount from FMC_PROCESS_COUNT_24
+        select decode(SHOP_ID,'SL/OC','SL-OC',SHOP_ID) as  factory,HOUR||':00' as dataDate,sum(PROCESS_COUNT)/1000  as amount from FMC_PROCESS_COUNT_24
         where SHOP_ID = #{factory}
+        and INTERFACE_TIME = (select max(INTERFACE_TIME) from FMC_PROCESS_COUNT_24)
         group by SHOP_ID,HOUR
         order by SHOP_ID,HOUR
     </select>

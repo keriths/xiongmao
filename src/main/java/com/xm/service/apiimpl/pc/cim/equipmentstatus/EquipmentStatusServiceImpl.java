@@ -12,6 +12,7 @@ import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.service.dao.cim.DwsProductOutputFidsHDAO;
+import org.joda.time.DateTime;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.springframework.stereotype.Service;
@@ -75,8 +76,16 @@ public class EquipmentStatusServiceImpl {
             }
             List<String> factoryList = factoryMap.get(factory);
             List<String> dateList = null;
-            Date beginDate = DateUtils.getBeforHourStartDay(11);
-            Date endDate = new Date();
+            DateTime d = new DateTime();
+            Date beginDate = null;
+            Date endDate = null;
+            if (d.minuteOfHour().get()>10){
+                beginDate = DateUtils.getBeforHourStartDay(11);
+                endDate = new Date();
+            }else {
+                beginDate = DateUtils.getBeforHourStartDay(12);
+                endDate = DateUtils.getBeforHourStartDay(1);
+            }
             dateList = DateUtils.getHourStrList(beginDate,endDate);
 //            List<EquipmentThroughputData> dataList= dwsProductOutputFidsHDAO.queryThroughputData(null,factoryList,beginDate,endDate,null);
             String queryFactory = factory;
