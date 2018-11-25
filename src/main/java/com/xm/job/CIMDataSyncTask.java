@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.xm.platform.util.LogUtils;
 import com.xm.service.dao.cim.*;
 import com.xm.service.dao.factory.cim.*;
-import com.xm.service.dao.login.StoreDAO;
 import org.joda.time.DateTime;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -40,9 +39,9 @@ public class CIMDataSyncTask {
     //---------------在制品------------
     @Resource
     private DwrWipGlsFidsDAO dwrWipGlsFidsDAO;
-
-    @Resource
-    private StoreDAO storeDAO;
+//
+//    @Resource
+//    private StoreDAO storeDAO;
 
     //---------------良品率------------
     @Resource

@@ -15,7 +15,7 @@
         <property name="user" value="${factory.cim.database.username}"/>
         <property name="password" value="${factory.cim.database.password}"/>
         <property name="maxPoolSize" value="50"/>
-        <property name="minPoolSize" value="15"/>
+        <property name="minPoolSize" value="20"/>
         <property name="initialPoolSize" value="20"/>
     </bean>
 

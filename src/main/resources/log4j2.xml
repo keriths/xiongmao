@@ -82,7 +82,7 @@
             <appender-ref ref="TibcoLog"/>
             <appender-ref ref="Console"/>
         </logger>
-        <root level="INFO">
+        <root level="DEBUG">
             <appender-ref ref="Console"/>
             <appender-ref ref="RollingFileInfo"/>
             <appender-ref ref="RollingFileWarn"/>

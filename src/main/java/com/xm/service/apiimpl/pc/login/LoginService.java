@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 
-@Service("loginService")
+//@Service("loginService")
 public class LoginService {
 
     @Resource(name = "userBaseInfoDAO")

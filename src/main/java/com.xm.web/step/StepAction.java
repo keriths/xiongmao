@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by wanghsuna on 2018/2/7.
  */
-@Controller
+//@Controller
 public class StepAction {
 
     @Resource

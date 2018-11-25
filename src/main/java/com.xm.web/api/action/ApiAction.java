@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -29,7 +30,10 @@ public class ApiAction {
 //    public String testXmlAction(){
 //        return "system started <br><a href='/api/doc.html'>接口文档</a>";
 //    }
-
+    @RequestMapping(value = "/")
+    public ModelAndView index(){
+        return new ModelAndView("redirect:/index.html");
+    }
     @RequestMapping(value = "/manage/serviceNameList")
     @ResponseBody
     public Object getServiceNameList(){

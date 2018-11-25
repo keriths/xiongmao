@@ -17,7 +17,7 @@ import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.List;
 
-@Controller
+//@Controller
 public class StoreAction {
     @Resource
     private StoreDAO storeDAO;

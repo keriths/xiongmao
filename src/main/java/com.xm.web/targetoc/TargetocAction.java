@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * Created by wangshuna on 2018/2/9.
  */
-@Controller
+//@Controller
 public class TargetocAction {
 
     @Resource
