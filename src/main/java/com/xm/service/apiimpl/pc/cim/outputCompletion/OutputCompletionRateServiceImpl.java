@@ -6,12 +6,14 @@ import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
+import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.CompletionRetDTO;
 import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCompletionData;
 import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCompletionRetDTO;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DwsProductOutputFidsDAO;
 import com.xm.platform.util.DateUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -98,9 +100,9 @@ public class OutputCompletionRateServiceImpl {
             }else {
                 productIdList.addAll(productMap.get(productId));
             }
-            List<String> productTypeList=Constant.productTypeTestList;
+            List<String> factoryList=Lists.newArrayList("SL","OC");
 
-            List<OutputCompletionData.DataList> dataList=outputcompletionDAO.OutputCompletionRate(productIdList,dateType,beginDate,endDate,productTypeList);
+            List<OutputCompletionData.DataList> dataList=outputcompletionDAO.OutputCompletionRate(productIdList,dateType,beginDate,endDate,factoryList);
 
             Map<String,OutputCompletionData.DataList> dataMap=MapUtils.listToMap(dataList,"key");
 
@@ -132,4 +134,112 @@ public class OutputCompletionRateServiceImpl {
 
     }
 
+    @ApiMethodDoc(apiCode = "CIM_outputCompletionRateForFactory" , name = "投入达成率接口（完成-工厂数据已验证）")
+    public CompletionRetDTO outputCompletionRateForFactory(
+            @ApiParamDoc(desc = "产品类型：如55,为空时是全部") String productId,
+            @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType,
+            @ApiParamDoc(desc = "工厂,ARRAY,CELL,SL-OC") String factory){
+        CompletionRetDTO retDto = new CompletionRetDTO();
+        Map<String,List<String>> factoryMap = new HashMap<>();
+        factoryMap.put("ARRAY", Lists.newArrayList("ARRAY"));
+        factoryMap.put("CELL", Lists.newArrayList("CELL"));
+        factoryMap.put("SL-OC", Lists.newArrayList("SL", "OC"));
+        try {
+            //50 和 58
+            if (!Constant.dateTypeList.contains(dateType)){
+                retDto.setSuccess(false);
+                retDto.setErrorMsg("dateType参数错误,请传入【" + Constant.dateTypeList + "】");
+                return retDto;
+            }
+//            if (!StringUtils.isEmpty(productId) && !Constant.productIdNameMap.containsKey(productId)){
+//                retDto.setSuccess(false);
+//                retDto.setErrorMsg("dateType参数错误,请传入【" + Constant.productIdNameMap.keySet() + "】");
+//                return retDto;
+//            }
+            List<String> dateList = null;
+            Date startTime = null;
+            Date endTime = new Date();
+            int planMin=9500;
+            int planMax=11000;
+            int actualMin=8500;
+            int actualMax=10000;
+            if (dateType.equals(Constant.day)){
+                if (productId==null){
+                    planMin=9500;
+                    planMax=11000;
+                    actualMin=9000;
+                    actualMax=9800;
+                }else {
+                    planMin=4200;
+                    planMax=4500;
+                    actualMin=4100;
+                    actualMax=4400;
+                }
+                startTime = DateUtils.getBeforDayStartDay(7);
+                endTime = DateUtils.getBeforDayEndDay(1);
+                dateList = DateUtils.getDayStrList(startTime,endTime);
+            }else if (dateType.equals(Constant.month)){
+                if (productId==null){
+                    planMin=110000;
+                    planMax=125000;
+                    actualMin=100000;
+                    actualMax=110000;
+                }else {
+                    planMin=45000;
+                    planMax=47000;
+                    actualMin=44000;
+                    actualMax=45000;
+                }
+                startTime = DateUtils.getBeforMonthStartDay(11);
+                dateList = DateUtils.getMonthStrList(startTime,endTime);
+            }else if (dateType.equals(Constant.quarter)){
+                if (productId==null){
+                    planMin=500000;
+                    planMax=550000;
+                    actualMin=450000;
+                    actualMax=500000;
+                }else {
+                    planMin=250000;
+                    planMax=280000;
+                    actualMin=240000;
+                    actualMax=250000;
+                }
+                startTime = DateUtils.getBeforQuarterStartDay(3);
+                dateList = DateUtils.getQuarterStrList(startTime,endTime);
+            }
+            final List<String> productIdList = new ArrayList<>();
+            if (productId==null){
+                productMap.entrySet().stream().forEach(entry -> productIdList.addAll(entry.getValue()));
+            }else {
+                productIdList.addAll(productMap.get(productId));
+            }
+
+            List<String> factoryList = Lists.newArrayList("ARRAY");
+            if (factory!=null){
+                factoryList = factoryMap.get(factory);
+            }
+            if (CollectionUtils.isEmpty(factoryList)){
+                retDto.setSuccess(false);
+                retDto.setErrorMsg("factory参数错误,请传入【" + factoryMap.keySet() + "】");
+                return retDto;
+            }
+            List<CompletionRetDTO.CompletionData> dbValueList = outputcompletionDAO.queryOutputCompletionRate(productIdList, dateType, startTime, endTime, factoryList);
+            Map<String,CompletionRetDTO.CompletionData> dbValueMap = MapUtils.listToMap(dbValueList,"getDateTime");
+            List<CompletionRetDTO.CompletionData> completionDataList = new ArrayList<CompletionRetDTO.CompletionData>();
+            for (String dateStr:dateList){
+                CompletionRetDTO.CompletionData inputValue = dbValueMap.get(dateStr);
+                if (inputValue==null){
+                    inputValue=new CompletionRetDTO.CompletionData(dateStr,planMin,planMax,actualMin,actualMax);
+                }
+                completionDataList.add(inputValue);
+            }
+            retDto.setCompletionDataList(completionDataList);
+            return retDto;
+        }catch (Exception e){
+            LogUtils.error(getClass(), e);
+            retDto.setSuccess(false);
+            retDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
+            return retDto;
+        }
+    }
 }

@@ -39,7 +39,21 @@
               FACTORY = 'OC'
               and PRODUCTTYPE IN ('ZP21','ZP24','ZP10')
             )
+            OR
+            (
+                FACTORY = 'ARRAY'
+                and PRODUCTTYPE IN ('CS','CM','MP')
+            )
+            OR
+            (
+                FACTORY = 'CELL'
+                and PRODUCTTYPE IN ('CS','CM','MP')
+            )
         )
+        AND FACTORY IN
+        <foreach collection="factoryList" open="(" separator="," close=")" item="factory">
+            #{factory}
+        </foreach>
         and PRODUCTID in
         <foreach collection="productIdList" item="productId" open="(" separator="," close=")">
             #{productId}
@@ -57,7 +71,68 @@
             FACTORY
     </select>
 
+    <select id="queryOutputCompletionRate" resultType="com.xm.service.apiimpl.pc.cim.outputCompletion.dto.CompletionRetDTO$CompletionData" parameterType="Map">
+        select
+        sum(PLAN_OUTPUT_PNL_QTY) as plan,
+        sum(ACTUAL_OUTPUT_PNL_QTY) as actual,
+        <if test="dateType=='month'.toString()">/*按月*/
+            TO_CHAR(PERIODDATE,'MM')||'月'
+        </if>
+        <if test="dateType=='quarter'.toString()">/*按季度*/
+            TO_CHAR(PERIODDATE,'yyyy') ||'年' || TO_CHAR(PERIODDATE,'q') ||'季度'
+        </if>
+        <if test="dateType=='day'.toString()">/*按天*/
+            TO_CHAR(PERIODDATE,'mm/dd')
+        </if>
+        as dateTime
+        from DWS_PRODUCT_OUTPUT_FIDS
+        WHERE
+        <![CDATA[
+               PERIODDATE >= #{beginDate}
+              and PERIODDATE <= #{endDate}
+             ]]>
+        and
+        (
+        (
+        FACTORY = 'SL'
+        and PRODUCTTYPE IN ('CS','MP','CM')
+        )
+        OR
+        (
+        FACTORY = 'OC'
+        and PRODUCTTYPE IN ('ZP21','ZP24','ZP10')
+        )
+        OR
+        (
+        FACTORY = 'ARRAY'
+        and PRODUCTTYPE IN ('CS','CM','MP')
+        )
+        OR
+        (
+        FACTORY = 'CELL'
+        and PRODUCTTYPE IN ('CS','CM','MP')
+        )
+        )
+        AND FACTORY IN
+        <foreach collection="factoryList" open="(" separator="," close=")" item="factory">
+            #{factory}
+        </foreach>
+        and PRODUCTID in
+        <foreach collection="productIdList" item="productId" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
+        GROUP BY
+        <if test="dateType=='month'.toString()">/*按月*/
+            TO_CHAR(PERIODDATE,'MM')||'月'
+        </if>
+        <if test="dateType=='quarter'.toString()">
+            TO_CHAR(PERIODDATE,'yyyy') ||'年' || TO_CHAR(PERIODDATE,'q') ||'季度'
+        </if>
+        <if test="dateType=='day'.toString()">
+            TO_CHAR(PERIODDATE,'mm/dd')
+        </if>
 
+    </select>
 
     <select id="queryTotalOutputByDateAndProductIdList" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto.OutputCollectDataRetDTO$CollectDataList">
         SELECT

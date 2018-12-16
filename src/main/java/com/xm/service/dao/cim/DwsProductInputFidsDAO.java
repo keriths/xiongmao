@@ -18,7 +18,7 @@ public interface DwsProductInputFidsDAO {
             @Param("dateType")String dateType,
             @Param("beginDate")Date beginDate,
             @Param("endDate")Date endDate,
-            @Param("productTypeList")List<String> productTypeList
+            @Param("factoryList")List<String> factoryList
             );
 
         Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);

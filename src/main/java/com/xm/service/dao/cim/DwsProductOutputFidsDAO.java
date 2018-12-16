@@ -1,5 +1,6 @@
 package com.xm.service.dao.cim;
 
+import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.CompletionRetDTO;
 import com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto.OutputCollectDataRetDTO;
 import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCompletionData;
 import org.apache.ibatis.annotations.Param;
@@ -22,7 +23,13 @@ public interface DwsProductOutputFidsDAO {
                                                          @Param("dateType")String dateType,
                                                          @Param("beginDate")Date beginDate,
                                                          @Param("endDate")Date endDate,
-                                                         @Param("productTypeList")List<String> productTypeList);
+                                                         @Param("factoryList")List<String> factoryList);
+
+    List<CompletionRetDTO.CompletionData> queryOutputCompletionRate(@Param("productIdList")List<String> productIdList,
+                                                                    @Param("dateType")String dateType,
+                                                                    @Param("beginDate")Date beginDate,
+                                                                    @Param("endDate")Date endDate,
+                                                                    @Param("factoryList")List<String> factoryList);
 
     Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
 

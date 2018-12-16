@@ -12,6 +12,7 @@ import com.xm.service.dao.cim.DwsProductInputFidsDAO;
 import com.xm.platform.util.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -38,8 +39,15 @@ public static Map<String,List<String>> productMap = new HashMap<>();
     private DwsProductInputFidsDAO dwsProductInputFidsDAO;
 
     @ApiMethodDoc(apiCode = "CIM_inputCompletionRate" , name = "投入达成率接口（完成-工厂数据已验证）")
-    public InputCompletionRetDTO inputCompletionRate(@ApiParamDoc(desc = "产品类型：如55,为空时是全部") String productId, @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
+    public InputCompletionRetDTO inputCompletionRate(
+            @ApiParamDoc(desc = "产品类型：如55,为空时是全部") String productId,
+            @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType,
+            @ApiParamDoc(desc = "工厂,ARRAY,CELL,SL-OC") String factory){
         InputCompletionRetDTO retDto = new InputCompletionRetDTO();
+        Map<String,List<String>> factoryMap = new HashMap<>();
+        factoryMap.put("ARRAY", Lists.newArrayList("ARRAY"));
+        factoryMap.put("CELL", Lists.newArrayList("CELL"));
+        factoryMap.put("SL-OC", Lists.newArrayList("SL", "OC"));
         try {
             //50 和 58
             if (!Constant.dateTypeList.contains(dateType)){
@@ -109,9 +117,17 @@ public static Map<String,List<String>> productMap = new HashMap<>();
             }else {
                 productIdList.addAll(productMap.get(productId));
             }
-            List<String> productTypeList=Lists.newArrayList("CS","CM","MP");
 
-            List<InputCompletionRetDTO.InputCompletionData> dbValueList = dwsProductInputFidsDAO.queryInputInfo(productIdList, dateType, startTime, endTime,productTypeList);
+            List<String> factoryList = Lists.newArrayList("ARRAY");
+            if (factory!=null){
+                factoryList = factoryMap.get(factory);
+            }
+            if (CollectionUtils.isEmpty(factoryList)){
+                retDto.setSuccess(false);
+                retDto.setErrorMsg("factory参数错误,请传入【" + factoryMap.keySet() + "】");
+                return retDto;
+            }
+            List<InputCompletionRetDTO.InputCompletionData> dbValueList = dwsProductInputFidsDAO.queryInputInfo(productIdList, dateType, startTime, endTime,factoryList);
             Map<String,InputCompletionRetDTO.InputCompletionData> dbValueMap = MapUtils.listToMap(dbValueList,"getDateTime");
             List<InputCompletionRetDTO.InputCompletionData> completionDataList = new ArrayList<InputCompletionRetDTO.InputCompletionData>();
             for (String dateStr:dateList){

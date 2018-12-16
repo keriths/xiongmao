@@ -23,8 +23,32 @@
             PERIODDATE >= #{beginDate}
             and PERIODDATE <= #{endDate}
             ]]>
-            and FACTORY = 'ARRAY'
-            and PRODUCTTYPE IN ('CS','CM','MP')
+            and
+            (
+                (
+                    FACTORY = 'SL'
+                    and PRODUCTTYPE IN ('CS','MP','CM')
+                )
+                OR
+                (
+                    FACTORY = 'OC'
+                    and PRODUCTTYPE IN ('ZP21','ZP24','ZP10')
+                )
+                OR
+                (
+                    FACTORY = 'ARRAY'
+                    and PRODUCTTYPE IN ('CS','CM','MP')
+                )
+                OR
+                (
+                    FACTORY = 'CELL'
+                    and PRODUCTTYPE IN ('CS','CM','MP')
+                )
+            )
+            AND FACTORY IN
+            <foreach collection="factoryList" open="(" separator="," close=")" item="factory">
+                #{factory}
+            </foreach>
             and PRODUCTID IN
             <foreach collection="productIdList" open="(" separator="," close=")" item="productId">
                 #{productId}
