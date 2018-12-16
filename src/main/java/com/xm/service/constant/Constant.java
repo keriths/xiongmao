@@ -97,7 +97,7 @@ public class Constant {
      */
     public static final Map<String,List<String>> factoryEQPStatusListMap = MapUtils.newMap(
             "ARRAY", Lists.newArrayList("PHOTO", "PVD", "CVD", "WET", "DRY"),
-            "CELL", Lists.newArrayList("PI", "FDV", "ODF", "HSW", "KOL"),
+            "CELL", Lists.newArrayList("PI", "FDV", "ODF", "HSW", "KOL","IJS"),
             "CF", Lists.newArrayList("BM", "ITO", "PS", "RGB", "RML"),
             "SL-OC", Lists.newArrayList("MBD","POL","OLB","MLR","OEI")
     );

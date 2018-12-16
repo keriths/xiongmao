@@ -134,7 +134,7 @@ public class OutputCompletionRateServiceImpl {
 
     }
 
-    @ApiMethodDoc(apiCode = "CIM_outputCompletionRateForFactory" , name = "投入达成率接口（完成-工厂数据已验证）")
+    @ApiMethodDoc(apiCode = "CIM_outputCompletionRateForFactory" , name = "产出达成率接口--查询工厂的数据新加的19-12-16")
     public CompletionRetDTO outputCompletionRateForFactory(
             @ApiParamDoc(desc = "产品类型：如55,为空时是全部") String productId,
             @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType,
