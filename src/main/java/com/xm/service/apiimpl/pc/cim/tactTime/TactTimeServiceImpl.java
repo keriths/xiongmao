@@ -1,5 +1,6 @@
 package com.xm.service.apiimpl.pc.cim.tactTime;
 
+import com.google.common.collect.Lists;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
@@ -11,6 +12,7 @@ import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DwrProductTtFidsDAO;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.MapUtils;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -37,7 +39,7 @@ public class TactTimeServiceImpl {
     public TactTimeProductTimeListRetDTO tactTimeProductTimeList(@ApiParamDoc(desc = "厂别：如ARRAY") String factory, @ApiParamDoc(desc = "产品类型：如PHOTO、PVD") String productId){
         TactTimeProductTimeListRetDTO retDto=new TactTimeProductTimeListRetDTO();
         try {
-            List<String> groupList = Constant.factoryProductIdListMap.get(factory);
+            List<String> groupList = dwrProductTtFidsDAO.queryBigEqpTypeByFactory(factory);// Constant.factoryProductIdListMap.get(factory);
             if (groupList==null){
                 retDto.setSuccess(false);
                 retDto.setErrorMsg("factory参数错误,请传入【" + Constant.factoryProductIdListMap.keySet() + "】");
@@ -49,22 +51,23 @@ public class TactTimeServiceImpl {
                 return retDto;
             }
             List<String> factoryList = Constant.factoryMap.get(factory);
+            String eqListStr = dwrProductTtFidsDAO.queryEqListStr(factory,productId);
+            List<String> eqpIdList = Lists.newArrayList(eqListStr.split(","));
             Date startTime = DateUtils.getBeforDayStartDay(12);
             Date endTime = DateUtils.getBeforDayEndDay(1);
-            List<String> hourList = DateUtils.getDayStrList(startTime, endTime);
+            List<String> dayList = DateUtils.getDayStrList(startTime, endTime);
 
-            List<String> productTypeList=Constant.productTypeTestList;
 
-            List<TactTimeProductTimeListRetDTO.TactTimeProductDetail> dbQueryList = dwrProductTtFidsDAO.queryTactTimeListByProductIdAndTime(factoryList, productId, startTime, endTime,productTypeList);
+            List<TactTimeProductTimeListRetDTO.TactTimeProductDetail> dbQueryList = dwrProductTtFidsDAO.queryTactTimeListByEqpIdList(factoryList, eqpIdList,productId, startTime, endTime);
             Map<String,TactTimeProductTimeListRetDTO.TactTimeProductDetail> dbQueryMap = MapUtils.listToMap(dbQueryList,"getPeriodDate");
             List<TactTimeProductTimeListRetDTO.TactTimeProductDetail> tactTimeProductDetailList = new ArrayList<TactTimeProductTimeListRetDTO.TactTimeProductDetail>();
-            for (String hour:hourList){
+            for (String day:dayList){
                 TactTimeProductTimeListRetDTO.TactTimeProductDetail detail = null;
                 if (!CollectionUtils.isEmpty(dbQueryMap)){
-                    detail = dbQueryMap.get(hour);
+                    detail = dbQueryMap.get(day);
                 }
                 if (detail==null){
-                    detail = new TactTimeProductTimeListRetDTO.TactTimeProductDetail(hour);
+                    detail = new TactTimeProductTimeListRetDTO.TactTimeProductDetail(day);
                 }
                 tactTimeProductDetailList.add(detail);
             }
@@ -83,24 +86,35 @@ public class TactTimeServiceImpl {
         TactTimeMonthAvgRetDTO retDto = new TactTimeMonthAvgRetDTO();
         try {
             List<String> factoryList = Constant.factoryMap.get(factory);
-            List<String> groupNameList = Constant.factoryProductIdListMap.get(factory);
+            List<String> groupNameList = dwrProductTtFidsDAO.queryBigEqpTypeByFactory(factory);// Constant.factoryProductIdListMap.get(factory);
             if (CollectionUtils.isEmpty(groupNameList)){
                 retDto.setSuccess(false);
                 retDto.setErrorMsg("factory参数错误,请传入【" + Constant.factoryProductIdListMap.keySet() + "】");
                 return retDto;
             }
+
             Date beginDate = DateUtils.getBeforMonthStartDay(0);
             Date endDate = new Date();
-
-            List<String> productTypeList=Constant.productTypeTestList;
-
-            List<TactTimeMonthAvgDataDTO> tactTimeMonthAvgDataDTOList = dwrProductTtFidsDAO.queryMonthAvg(factoryList, groupNameList, beginDate, endDate,productTypeList);
-            if (CollectionUtils.isEmpty(tactTimeMonthAvgDataDTOList)){
-                //如果当月数据为空，取上个月的数据,上个月的取不到，不继续取
+            if (new DateTime().getDayOfMonth()>1){
                 beginDate = DateUtils.getBeforMonthStartDay(1);
                 endDate = DateUtils.getBeforMonthEndDay(1);
-                tactTimeMonthAvgDataDTOList = dwrProductTtFidsDAO.queryMonthAvg(factoryList, groupNameList, beginDate, endDate,productTypeList);
             }
+//            List<String> productTypeList=Constant.productTypeTestList;
+            List<TactTimeMonthAvgDataDTO> tactTimeMonthAvgDataDTOList = new ArrayList<>();// dwrProductTtFidsDAO.queryMonthAvgByEqpIdList(factoryList, , beginDate, endDate,productTypeList);
+            for (String productId:groupNameList){
+                String eqpIdListStr = dwrProductTtFidsDAO.queryEqListStr(factory,productId);
+                List<String> eqpIdList = Lists.newArrayList(eqpIdListStr.split(","));
+                List<TactTimeMonthAvgDataDTO> oneProductList =  dwrProductTtFidsDAO.queryMonthAvgByEqpIdList(factoryList, eqpIdList, productId, beginDate, endDate);
+                if (oneProductList!=null){
+                    tactTimeMonthAvgDataDTOList.addAll(oneProductList);
+                }
+            }
+//            if (CollectionUtils.isEmpty(tactTimeMonthAvgDataDTOList)){
+//                //如果当月数据为空，取上个月的数据,上个月的取不到，不继续取
+//                beginDate = DateUtils.getBeforMonthStartDay(1);
+//                endDate = DateUtils.getBeforMonthEndDay(1);
+//                tactTimeMonthAvgDataDTOList = dwrProductTtFidsDAO.queryMonthAvg(factoryList, groupNameList, beginDate, endDate,productTypeList);
+//            }
             Map<String,TactTimeMonthAvgDataDTO> avgDataDTOMap = MapUtils.listToMap(tactTimeMonthAvgDataDTOList, "getProductId");
             List<TactTimeMonthAvgDataDTO> avgDataDTOList = new ArrayList<TactTimeMonthAvgDataDTO>();
             for (String productId:groupNameList){

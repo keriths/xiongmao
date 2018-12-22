@@ -12,6 +12,8 @@ import java.math.BigDecimal;
  */
 public class TactTimeMonthAvgDataDTO implements Serializable{
     boolean showDemoData=false;
+    private BigDecimal sumTotalTT;
+    private BigDecimal sumTotalGlsQty;
     @ApiResultFieldDesc(desc = "目标值")
     private BigDecimal target;
     @ApiResultFieldDesc(desc = "实际值")
@@ -42,15 +44,20 @@ public class TactTimeMonthAvgDataDTO implements Serializable{
     }
 
     public BigDecimal getActual() {
-        //为空时给个默认值
-        if (actual==null){
-            if (showDemoData){
-                return new BigDecimal(RandomUtils.randomInt(120,140));
-            }else {
-                return new BigDecimal("0");
-            }
+        if (sumTotalGlsQty==null || sumTotalGlsQty.floatValue()==0){
+            return BigDecimal.ZERO;
         }
-        return actual.setScale(0,BigDecimal.ROUND_HALF_UP);
+        return sumTotalGlsQty.divide(sumTotalGlsQty,2,BigDecimal.ROUND_HALF_UP);
+//
+//        //为空时给个默认值
+//        if (actual==null){
+//            if (showDemoData){
+//                return new BigDecimal(RandomUtils.randomInt(120,140));
+//            }else {
+//                return new BigDecimal("0");
+//            }
+//        }
+//        return actual.setScale(0,BigDecimal.ROUND_HALF_UP);
     }
 
     public void setActual(BigDecimal actual) {

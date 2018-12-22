@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.cim.DwrProductTtFidsDAO" >
+    <select id="queryBigEqpTypeByFactory" parameterType="map" resultType="java.lang.String">
+        SELECT BIG_EQP_TYPE FROM dwr_tt_master where factory = #{factory}
+    </select>
+    <select id="queryEqListStr" parameterType="map" resultType="java.lang.String">
+        SELECT EQ_LIST from dwr_tt_master  where factory = #{factory} and BIG_EQP_TYPE =#{bigEqpType}
+    </select>
+
+    <select id="queryMonthAvgByEqpIdList" resultType="com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeMonthAvgDataDTO" parameterType="map">
+        select
+        sum(nvl(TOTAL_TT,0)) as sumTotalTT,
+        sum(nvl(TOTAL_GLS_QTY,0)) as sumTotalGlsQty,
+        avg(TT_TARGET) as target,
+        '${productId}' as productId
+        from DWR_PRODUCT_TT_FIDS tt
+        WHERE
+        tt.FACTORY IN
+        <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+            #{factory}
+        </foreach>
+        and tt.EQP_ID IN
+        <foreach collection="eqpIdList" item="eqpId" open="(" separator="," close=")">
+            #{eqpId}
+        </foreach>
+        <![CDATA[
+          and PERIODDATE >= #{beginDate}
+          and PERIODDATE <= #{endDate}
+          ]]>
+        group by '${productId}'
+    </select>
+
+
     <select id="queryMonthAvg" resultType="com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeMonthAvgDataDTO" parameterType="map">
         select
             avg(TT_TARGET) as target,
@@ -34,6 +65,32 @@
           and PERIODDATE <= #{endDate}
           ]]>
         group by gg.BIG_EQP_TYPE
+    </select>
+
+    <select id="queryTactTimeListByEqpIdList" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeProductTimeListRetDTO$TactTimeProductDetail">
+        SELECT
+        sum(nvl(TOTAL_TT,0)) as sumTotalTT,
+        sum(nvl(TOTAL_GLS_QTY,0)) as sumTotalGlsQty,
+        avg(NVL(TT_TARGET,0)) as target,
+        to_char(PERIODDATE,'MM/DD') as periodDate,
+        '${productId}' as PRODUCTID
+        FROM
+        DWR_PRODUCT_TT_FIDS tt
+        WHERE
+        tt.FACTORY IN
+        <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+            #{factory}
+        </foreach>
+        and tt.EQP_ID IN
+        <foreach collection="eqpIdList" item="eqpId" open="(" separator="," close=")">
+            #{eqpId}
+        </foreach>
+
+        <![CDATA[
+            and PERIODDATE >= #{beginDate}
+            and PERIODDATE <= #{endDate}
+            ]]>
+        group by '${productId}',to_char(PERIODDATE,'MM/DD')
     </select>
 
     <select id="queryTactTimeListByProductIdAndTime" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeProductTimeListRetDTO$TactTimeProductDetail">

@@ -14,6 +14,24 @@ import java.util.Map;
  */
 @Repository("dwrProductTtFidsDAO")
 public interface DwrProductTtFidsDAO {
+    List<String> queryBigEqpTypeByFactory(@Param("factory")String factory);
+    String queryEqListStr(@Param("factory")String factory,@Param("bigEqpType")String bigEqpType);
+
+    List<TactTimeMonthAvgDataDTO> queryMonthAvgByEqpIdList(
+            @Param("factoryList")List<String> factoryList,
+            @Param("eqpIdList")List<String> eqpIdList,
+            @Param("productId")String productId,
+            @Param("beginDate")Date beginDate,
+            @Param("endDate")Date endDate);
+
+    List<TactTimeProductTimeListRetDTO.TactTimeProductDetail> queryTactTimeListByEqpIdList(
+            @Param("factoryList") List<String> factoryList,
+            @Param("eqpIdList") List<String> eqpIdList,
+            @Param("productId") String productId,
+            @Param("beginDate")Date beginDate,
+            @Param("endDate")Date endDate);
+
+    @Deprecated
     List<TactTimeMonthAvgDataDTO> queryMonthAvg(
             @Param("factoryList") List<String> factoryList,
             @Param("productIdList")List<String> productIdList,
@@ -22,6 +40,7 @@ public interface DwrProductTtFidsDAO {
             @Param("productTypeList")List<String> productTypeList
     );
 
+    @Deprecated
     List<TactTimeProductTimeListRetDTO.TactTimeProductDetail> queryTactTimeListByProductIdAndTime(
             @Param("factoryList") List<String> factoryList,
             @Param("productId")String productId,
@@ -35,4 +54,7 @@ public interface DwrProductTtFidsDAO {
     void addData(Map<String, Object> mapData);
 
     void updateData(Map<String, Object> mapData);
+
+
+
 }

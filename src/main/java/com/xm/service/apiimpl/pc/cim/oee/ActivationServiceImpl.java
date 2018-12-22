@@ -61,7 +61,7 @@ public class ActivationServiceImpl {
             Date endDate = DateUtils.getBeforHourEndDay(1);
             String beginDateStr = DateUtils.getStrDate(beginDate, "yyyy-MM-dd HH:mm:ss");
             String endDateStr =DateUtils.getStrDate( endDate,"yyyy-MM-dd HH:mm:ss");
-            List<String> hourList = DateUtils.getHourStrList(beginDate, endDate);
+            List<String> dayList = DateUtils.getDayStrList(beginDate, endDate);
             long t1  = System.currentTimeMillis();
             List<String> eqpIdList = getEqpIdList(factory,bigEqpType);
             List<ActivationStatusDate.StatusNumberList> activationNumList = activationDAO.queryActivationStatusNumByDay(factoryList, eqpIdList, bigEqpType,beginDateStr, endDateStr);
@@ -78,15 +78,15 @@ public class ActivationServiceImpl {
 //            }
             Map<String, ActivationStatusDate.StatusNumberList> queryMap = MapUtils.listToMap(activationNumList, "key");
             List<ActivationStatusDate> dtList = new ArrayList<ActivationStatusDate>();
-            for (String hour:hourList) {
+            for (String dayStr:dayList) {
                 ActivationStatusDate activationStatusDate= new ActivationStatusDate();
-                activationStatusDate.setPeriodDate(hour);
+                activationStatusDate.setPeriodDate(dayStr);
                 List<ActivationStatusDate.StatusNumberList> list = new ArrayList<ActivationStatusDate.StatusNumberList>();
                 for (String status : Constant.statusList) {
-                    String key = status + " " + hour;
+                    String key = status + " " + dayStr;
                     ActivationStatusDate.StatusNumberList statusNumber = queryMap.get(key);
                     if (statusNumber == null) {
-                        statusNumber = new ActivationStatusDate.StatusNumberList(status,hour);
+                        statusNumber = new ActivationStatusDate.StatusNumberList(status,dayStr);
                     }
                     list.add(statusNumber);
                 }

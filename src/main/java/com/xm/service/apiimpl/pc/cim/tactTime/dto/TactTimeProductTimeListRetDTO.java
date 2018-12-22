@@ -32,6 +32,10 @@ public class TactTimeProductTimeListRetDTO extends BaseRetDTO{
         public TactTimeProductDetail(String periodDate){
             this.periodDate = periodDate;
         }
+        @ApiResultFieldDesc(desc = "sumTotalTT")
+        private BigDecimal sumTotalTT;
+        @ApiResultFieldDesc(desc = "sumTotalGlsQty")
+        private BigDecimal sumTotalGlsQty;
         @ApiResultFieldDesc(desc = "目标")
         private BigDecimal target;
         @ApiResultFieldDesc(desc = "实际")
@@ -57,14 +61,35 @@ public class TactTimeProductTimeListRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getTotal() {
-            if (total==null){
-                if (showDemoData){
-                    return new BigDecimal(RandomUtils.randomInt(120,140));
-                }else {
-                    return new BigDecimal("0");
-                }
+            if (sumTotalGlsQty==null || sumTotalGlsQty.floatValue()==0){
+                return BigDecimal.ZERO;
             }
-            return total.setScale(0,BigDecimal.ROUND_HALF_UP);
+            return sumTotalTT.divide(sumTotalGlsQty,2,BigDecimal.ROUND_HALF_UP);
+//
+//            if (total==null){
+//                if (showDemoData){
+//                    return new BigDecimal(RandomUtils.randomInt(120,140));
+//                }else {
+//                    return new BigDecimal("0");
+//                }
+//            }
+//            return total.setScale(0,BigDecimal.ROUND_HALF_UP);
+        }
+
+        public BigDecimal getSumTotalTT() {
+            return sumTotalTT;
+        }
+
+        public void setSumTotalTT(BigDecimal sumTotalTT) {
+            this.sumTotalTT = sumTotalTT;
+        }
+
+        public BigDecimal getSumTotalGlsQty() {
+            return sumTotalGlsQty;
+        }
+
+        public void setSumTotalGlsQty(BigDecimal sumTotalGlsQty) {
+            this.sumTotalGlsQty = sumTotalGlsQty;
         }
 
         public void setTotal(BigDecimal total) {
