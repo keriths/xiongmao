@@ -1,5 +1,6 @@
 package com.xm.service.apiimpl.pc.cim.oee;
 
+import com.google.common.collect.Lists;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
@@ -42,7 +43,7 @@ public class ActivationServiceImpl {
                 factory = factory.toUpperCase();
             }
             List<String> factoryList = Constant.factoryMap.get(factory);
-            List<String> showEqpIdList = Constant.factoryEQPStatusListMap.get(factory);
+            List<String> showEqpIdList = activationDAO.queryBigEqpTypes(factory);
             if (CollectionUtils.isEmpty(factoryList)) {
                 actType.setSuccess(false);
                 actType.setErrorMsg("factory参数错误,请传入【" + Constant.factoryMap.keySet() + "】");
@@ -53,16 +54,17 @@ public class ActivationServiceImpl {
                 actType.setErrorMsg("eqpId参数错误,请传入【" + showEqpIdList + "】");
                 return actType;
             }
-
+            String bigEqpType = eqpId;
 //            List<String> eqpIdList=Constant.eqpIdMap.get(eqpId);
 
             Date beginDate = DateUtils.getBeforHourStartDay(12);
             Date endDate = DateUtils.getBeforHourEndDay(1);
-            String beginDateStr = DateUtils.getStrDate(beginDate,"yyyy-MM-dd HH:mm:ss");
+            String beginDateStr = DateUtils.getStrDate(beginDate, "yyyy-MM-dd HH:mm:ss");
             String endDateStr =DateUtils.getStrDate( endDate,"yyyy-MM-dd HH:mm:ss");
-            List<String> hourList = DateUtils.getHourStrList(beginDate,endDate);
+            List<String> hourList = DateUtils.getHourStrList(beginDate, endDate);
             long t1  = System.currentTimeMillis();
-            List<ActivationStatusDate.StatusNumberList> activationNumList = activationDAO.queryActivationStatusNum(factoryList, eqpId, beginDateStr,endDateStr);
+            List<String> eqpIdList = getEqpIdList(factory,bigEqpType);
+            List<ActivationStatusDate.StatusNumberList> activationNumList = activationDAO.queryActivationStatusNumByDay(factoryList, eqpIdList, bigEqpType,beginDateStr, endDateStr);
             long t2 = System.currentTimeMillis();
             LogUtils.info(this.getClass(),"queryActivationStatusNum_usetime["+(t2-t1)+"毫秒factoryList["+factoryList+"]eqpId["+eqpId+"]beginDateStr["+beginDateStr+"]endDateStr["+endDateStr+"]");
 //            long t3 = System.currentTimeMillis();
@@ -107,7 +109,8 @@ public class ActivationServiceImpl {
        ActivationEQPIdListRetDTO actType = new ActivationEQPIdListRetDTO();
         try {
             List<String> factoryList = Constant.factoryMap.get(factory);
-            List<String> showEqpIdList = Constant.factoryEQPStatusListMap.get(factory);
+            List<String> showEqpIdList = activationDAO.queryBigEqpTypes(factory);
+
             if (CollectionUtils.isEmpty(showEqpIdList)) {
                 actType.setSuccess(false);
                 actType.setErrorMsg("factory参数错误,请传入【" + Constant.factoryEQPStatusListMap.keySet() + "】");
@@ -115,16 +118,16 @@ public class ActivationServiceImpl {
             }
 //            Date beginDate = DateUtils.getBeforDayStartDay(0);
 //            Date endDate = new Date();
-            Date beginDate = DateUtils.getBeforDayStartDay(1);
-            Date endDate = DateUtils.getBeforDayEndDay(1);
+            Date beginDate = DateUtils.getBeforMonthStartDay(0);
+            Date endDate = new Date();
             List<ActivationDate> dateList = new ArrayList<ActivationDate>();
 
             for (String groupName: showEqpIdList){
                 ActivationDate activationDate=new ActivationDate();
                 activationDate.setEqpId(groupName);
 
-
-                List<ActivationDate.StatusDateList> activationIdList = getStatusDateLists(factoryList, beginDate, endDate, groupName);
+                List<String> eqpIdList = getEqpIdList(factory,groupName);
+                List<ActivationDate.StatusDateList> activationIdList = getStatusDateLists(factoryList, beginDate, endDate, eqpIdList);
                 Map<String, ActivationDate.StatusDateList> queryMap = MapUtils.listToMap(activationIdList, "key");
 
                 List<ActivationDate.StatusDateList> dtList = new ArrayList<ActivationDate.StatusDateList>();
@@ -148,14 +151,19 @@ public class ActivationServiceImpl {
             actType.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
             return actType;
         }
-
+    }
+    private List<String> getEqpIdList(String factory,String groupName){
+        String eqpIdStr = activationDAO.queryEqpIdStr(factory,groupName);
+        String [] eqpIdArray = eqpIdStr.split(",");
+        List<String> eqpIdList = Lists.newArrayList(eqpIdArray);
+        return eqpIdList;
     }
 
-    private List<ActivationDate.StatusDateList> getStatusDateLists(List<String> factoryList, Date beginDate, Date endDate, String groupName) {
+    private List<ActivationDate.StatusDateList> getStatusDateLists(List<String> factoryList, Date beginDate, Date endDate, List<String> eqpIdList) {
         long t1 = System.currentTimeMillis();
-        List<ActivationDate.StatusDateList> ret =activationDAO.queryActivationEQPId(factoryList, groupName, DateUtils.getStrDate(beginDate, "yyyy-MM-dd HH:mm:ss") ,DateUtils.getStrDate(endDate,"yyyy-MM-dd HH:mm:ss") );
+        List<ActivationDate.StatusDateList> ret =activationDAO.queryActivationByEQPIdListAndFactory(factoryList, eqpIdList, DateUtils.getStrDate(beginDate, "yyyy-MM-dd HH:mm:ss"), DateUtils.getStrDate(endDate, "yyyy-MM-dd HH:mm:ss"));
         long t2 = System.currentTimeMillis();
-        LogUtils.info(this.getClass(),"queryActivationEQPId_usetime["+(t2-t1)+"]factoryList["+factoryList+"]groupName["+groupName+"]beginDateStr["+DateUtils.getStrDate(beginDate, "yyyy-MM-dd HH:mm:ss")+"]endDateStr["+DateUtils.getStrDate(endDate,"yyyy-MM-dd HH:mm:ss") +"]");
+        LogUtils.info(this.getClass(),"queryActivationEQPId_usetime["+(t2-t1)+"]factoryList["+factoryList+"]groupName["+eqpIdList+"]beginDateStr["+DateUtils.getStrDate(beginDate, "yyyy-MM-dd HH:mm:ss")+"]endDateStr["+DateUtils.getStrDate(endDate,"yyyy-MM-dd HH:mm:ss") +"]");
 //        if (CollectionUtils.isEmpty(ret)){
 //            return ret;
 //        }

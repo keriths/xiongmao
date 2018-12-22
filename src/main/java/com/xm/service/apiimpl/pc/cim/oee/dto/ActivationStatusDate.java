@@ -2,11 +2,9 @@ package com.xm.service.apiimpl.pc.cim.oee.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.RandomUtils;
-import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.List;
 
 /**
@@ -22,7 +20,7 @@ public class ActivationStatusDate implements Serializable {
     private String periodDate;
 
     @ApiResultFieldDesc(desc = "目标值")
-    private BigDecimal total;
+    private BigDecimal total = new BigDecimal("100");
     @ApiResultFieldDesc(desc = "稼动率小数")
     private BigDecimal activation;
 
@@ -33,7 +31,8 @@ public class ActivationStatusDate implements Serializable {
             this.status = status;
             this.periodDate = periodDate;
         }
-
+        @ApiResultFieldDesc(desc = "查询出来的累计数据")
+        private BigDecimal sumStatusDuration;
         public String key(){
             return status + " " + periodDate;
         }
@@ -46,12 +45,12 @@ public class ActivationStatusDate implements Serializable {
         private String eqpId;
         @ApiResultFieldDesc(desc = "EQP状态,如RUN,TRB,WAIT,MAN,MNT")
         private String status;
-        @ApiResultFieldDesc(desc = "EQP状态累计时间")
+        @ApiResultFieldDesc(desc = "EQP状态累计时间,现在改成百分比了")
         private BigDecimal statusNum = BigDecimal.ZERO;
 
-        public BigDecimal getOriginalStatusNum(){
-            return statusNum!=null?statusNum:BigDecimal.ZERO;
-        }
+//        public BigDecimal getOriginalStatusNum(){
+//            return statusNum!=null?statusNum:BigDecimal.ZERO;
+//        }
 
         public String getFactory() {
             return factory;
@@ -110,7 +109,13 @@ public class ActivationStatusDate implements Serializable {
             this.periodDate = periodDate;
         }
 
+        public BigDecimal getSumStatusDuration() {
+            return sumStatusDuration;
+        }
 
+        public void setSumStatusDuration(BigDecimal sumStatusDuration) {
+            this.sumStatusDuration = sumStatusDuration;
+        }
     }
 
     public List<StatusNumberList> getStatusNumberLists() {
@@ -119,18 +124,27 @@ public class ActivationStatusDate implements Serializable {
 
     public void setStatusNumberLists(List<StatusNumberList> statusNumberLists) {
         this.statusNumberLists = statusNumberLists;
-        total = new BigDecimal("60");
-        BigDecimal listTotal = new BigDecimal("0");
+        BigDecimal totalSumStatusDuration = new BigDecimal("0");
         for (StatusNumberList statusNumberList:statusNumberLists){
-            listTotal = listTotal.add(statusNumberList.getOriginalStatusNum());
+            totalSumStatusDuration = totalSumStatusDuration.add(statusNumberList.getSumStatusDuration());
         }
-        if (listTotal.intValue()==0){
-            total = BigDecimal.ZERO;
-            return;
-        }
+
+        BigDecimal totalRate = new BigDecimal("0");
+        int i = 0;
         for (StatusNumberList statusNumberList:statusNumberLists){
-            BigDecimal hourNum = statusNumberList.getOriginalStatusNum().multiply(total).divide(listTotal,2,BigDecimal.ROUND_HALF_UP);
-            statusNumberList.setStatusNum(hourNum);
+            if (totalSumStatusDuration.floatValue()==0){
+                statusNumberList.setStatusNum(new BigDecimal("0"));
+                continue;
+            }
+            i++;
+            if (i==statusNumberLists.size()){
+                statusNumberList.setStatusNum(new BigDecimal("1").subtract(totalRate));
+            }else {
+                BigDecimal hourNum = statusNumberList.getSumStatusDuration().multiply(new BigDecimal("100")).divide(totalSumStatusDuration, 2, BigDecimal.ROUND_HALF_UP);
+                statusNumberList.setStatusNum(hourNum);
+
+                totalRate = totalRate.add(hourNum);
+            }
         }
     }
 
@@ -143,16 +157,7 @@ public class ActivationStatusDate implements Serializable {
     }
 
     public BigDecimal getTotal() {
-        if (total!=null){
-            return total;
-        }
-        BigDecimal total=new BigDecimal(0);
-        if(!CollectionUtils.isEmpty(statusNumberLists)) {
-            for (StatusNumberList s : statusNumberLists) {
-                total = total.add((s.getOriginalStatusNum()));
-            }
-        }
-        return total.setScale(2,BigDecimal.ROUND_HALF_UP);
+        return total;
     }
 
     public void setTotal(BigDecimal total) {
@@ -163,18 +168,19 @@ public class ActivationStatusDate implements Serializable {
         if (activation!=null){
             return activation;
         }
-        BigDecimal all=getTotal();
-        if(all.compareTo(new BigDecimal(0))==0){//等于0
-            activation=new BigDecimal(0);
-            return activation;
-        }
+//        BigDecimal all=getTotal();
+//        if(all.compareTo(new BigDecimal(0))==0){//等于0
+//            activation=new BigDecimal(0);
+//            return activation;
+//        }
         BigDecimal activationNum=new BigDecimal("0");
         for (StatusNumberList a : statusNumberLists) {
             if("RUN".equals(a.getStatus()) ){
                 activationNum = activationNum.add((a.getStatusNum()));
             }
         }
-        activation = activationNum.multiply(new BigDecimal("100")).divide(all,1, RoundingMode.HALF_UP);
+//        activation = activationNum.multiply(new BigDecimal("100")).divide(all,1, RoundingMode.HALF_UP);
+        activation = activationNum;
         return activation;
 
     }

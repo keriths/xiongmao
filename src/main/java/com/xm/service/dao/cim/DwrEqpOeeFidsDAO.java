@@ -26,7 +26,14 @@ public interface DwrEqpOeeFidsDAO {
             @Param("groupName") String groupName,
             @Param("beginDateStr")String beginDate,
             @Param("endDateStr")String endDate
+    );
 
+    List<ActivationStatusDate.StatusNumberList> queryActivationStatusNumByDay(
+            @Param("factoryList") List<String> factoryList,
+            @Param("eqpIdList") List<String> eqpIdList,
+            @Param("bigEqpType")String bigEqpType,
+            @Param("beginDateStr")String beginDate,
+            @Param("endDateStr")String endDate
     );
 
     List<ActivationDate.StatusDateList> queryActivationEQPId(
@@ -35,6 +42,14 @@ public interface DwrEqpOeeFidsDAO {
             @Param("beginDateStr")String beginDate,
             @Param("endDateStr")String endDate
     );
+
+    List<ActivationDate.StatusDateList> queryActivationByEQPIdListAndFactory(
+            @Param("factoryList") List<String> factoryList,
+            @Param("eqpIdList") List<String> eqpIdList,
+            @Param("beginDateStr")String beginDate,
+            @Param("endDateStr")String endDate
+    );
+
     int queryActivationEQPId_eqpidNum(
             @Param("factoryList") List<String> factoryList,
             @Param("groupName") String groupName,
@@ -46,4 +61,7 @@ public interface DwrEqpOeeFidsDAO {
     void addData(Map<String, Object> mapData);
 
     void updateData(Map<String, Object> mapData);
+
+    String queryEqpIdStr(@Param("factory")String factory, @Param("groupName")String groupName);
+    List<String> queryBigEqpTypes(@Param("factory")String factory);
 }

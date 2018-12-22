@@ -1,26 +1,35 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.cim.DwrEqpOeeFidsDAO" >
-    <!--<select id="queryActivationEQPId_eqpidNum" parameterType="map" resultType="int">-->
-        <!--SELECT-->
-<!--        OEE.FACTORY,-->
-<!--         GG.GROUPNAME,-->
-        <!--COUNT(DISTINCT OEE.EQP_ID) AS eqpCount-->
-        <!--FROM-->
-        <!--DWR_EQP_OEE_FIDS OEE-->
-        <!--join FACTORY_GROUP_EQP_MAPPING GG on GG.EQP_ID = OEE.EQP_ID-->
-        <!--WHERE-->
-        <!--OEE.FACTORY IN-->
-        <!--<foreach collection="factoryList" item="factory" open="(" separator="," close=")">-->
-            <!--'${factory}'-->
-        <!--</foreach>-->
-        <!--AND GG.GROUPNAME = '${groupName}'-->
-        <!--<![CDATA[-->
-              <!--and PERIODDATE >= to_date('${beginDateStr}','yyyy-mm-dd hh24:mi:ss')-->
-              <!--and PERIODDATE <=to_date('${endDateStr}','yyyy-mm-dd hh24:mi:ss')-->
-              <!--]]>-->
-        <!--GROUP BY GG.GROUPNAME-->
-    <!--</select>-->
+    <select id="queryEqpIdStr" parameterType="map" resultType="java.lang.String">
+        select EQ_LIST from DWR_OEE_MASTER
+        WHERE factory = #{factory} and BIG_EQP_TYPE = #{groupName}
+    </select>
+    <select id="queryBigEqpTypes" parameterType="map" resultType="java.lang.String">
+        SELECT BIG_EQP_TYPE from DWR_OEE_MASTER WHERE factory = #{factory}
+    </select>
+    <select id="queryActivationByEQPIdListAndFactory" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.oee.dto.ActivationDate$StatusDateList">
+        SELECT
+        EQP_STATUS as status,
+        sum(NVL(STATUS_DURATION,0)) as statusNum
+        FROM
+        DWR_EQP_OEE_FIDS OEE
+        WHERE
+        OEE.FACTORY IN
+        <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+            #{factory}
+        </foreach>
+        AND OEE.EQP_ID in
+        <foreach collection="eqpIdList" item="eqpId" open="(" separator="," close=")">
+            #{eqpId}
+        </foreach>
+        <![CDATA[
+          and PERIODDATE >= to_date('${beginDateStr}','yyyy-mm-dd hh24:mi:ss')
+          and PERIODDATE <= to_date('${endDateStr}','yyyy-mm-dd hh24:mi:ss')
+          ]]>
+        GROUP BY EQP_STATUS
+    </select>
+
     <select id="queryActivationEQPId" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.oee.dto.ActivationDate$StatusDateList">
         SELECT
         EQP_STATUS as status,
@@ -72,13 +81,38 @@
                       <!--]]>-->
         <!--GROUP BY  gg2.GROUPNAME-->
     <!--</select>-->
+    <select id="queryActivationStatusNumByDay" parameterType="map " resultType="com.xm.service.apiimpl.pc.cim.oee.dto.ActivationStatusDate$StatusNumberList">
+      SELECT
+        decode(oee.FACTORY,'SL','SL-OC','OC','SL-OC',oee.FACTORY) as factory,
+        '${bigEqpType}' as eqpId,
+        to_char(PERIODDATE,'MM/DD') as periodDate,
+        EQP_STATUS as status,
+        sum(NVL(STATUS_DURATION,0)) as sumStatusDuration
+        FROM
+        DWR_EQP_OEE_FIDS oee
+        WHERE
+        oee.FACTORY IN
+        <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+            '${factory}'
+        </foreach>
+        AND OEE.EQP_ID in
+        <foreach collection="eqpIdList" item="eqpId" open="(" separator="," close=")">
+            #{eqpId}
+        </foreach>
+        <![CDATA[
+          and PERIODDATE >= to_date('${beginDateStr}','yyyy-mm-dd hh24:mi:ss')
+          and PERIODDATE <= to_date('${endDateStr}','yyyy-mm-dd hh24:mi:ss')
+          ]]>
+        GROUP BY decode(oee.FACTORY,'SL','SL-OC','OC','SL-OC',oee.FACTORY) ,  ,EQP_STATUS,
+        to_char(PERIODDATE,'MM/DD')
+    </select>
     <select id="queryActivationStatusNum" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.oee.dto.ActivationStatusDate$StatusNumberList">
         SELECT
         decode(oee.FACTORY,'SL','SL-OC','OC','SL-OC',oee.FACTORY) as factory,
         gg.BIG_EQP_TYPE as eqpId,
         to_char(PERIODDATE,'HH24')||':00' as periodDate,
         EQP_STATUS as status,
-        sum(NVL(STATUS_DURATION,0)) as statusNum
+        sum(NVL(STATUS_DURATION,0)) as sumStatusDuration
         FROM
         DWR_EQP_OEE_FIDS oee
         join DWR_EQPTYPE_MASTER_FIDS gg on gg.EQP_TYPE = oee.EQP_TYPE
