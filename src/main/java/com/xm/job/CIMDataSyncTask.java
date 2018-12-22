@@ -137,7 +137,7 @@ public class CIMDataSyncTask {
     }
     @Scheduled(fixedRate = 1000*60*60*24)
     public void ProductLineGoodRateDataSync(){
-        int syncDayNums = 5;
+        int syncDayNums = 10;
         syncDWS_PRODUCT_LINE_YIELD_FIDS(syncDayNums);
     }
     @Scheduled(fixedRate = 1000*60*60*24)
@@ -455,13 +455,12 @@ public class CIMDataSyncTask {
                         //添加
                         dwsProductLineYieldFidsDAO.addData(mapData);
                     }else {
-//                        if (notEquals(data.get("OUTPUT_GLS_QTY"),mapData.get("OUTPUT_GLS_QTY"))||
-//                                notEquals(data.get("SCRAP_GLS_QTY"),mapData.get("SCRAP_GLS_QTY"))||
-//                                notEquals(data.get("INPUT_PNL_QTY"),mapData.get("INPUT_PNL_QTY"))||
-//                                notEquals(data.get("OUTPUT_PNL_QTY"),mapData.get("OUTPUT_PNL_QTY"))){
-//                            dwsProductLineYieldFidsDAO.updateData(mapData);
-//                        }
-                        //更新
+                        if (notEquals(data.get("OUTPUT_GLS_QTY"),mapData.get("OUTPUT_GLS_QTY"))||
+                                notEquals(data.get("SCRAP_GLS_QTY"),mapData.get("SCRAP_GLS_QTY"))||
+                                notEquals(data.get("INPUT_PNL_QTY"),mapData.get("INPUT_PNL_QTY"))||
+                                notEquals(data.get("OUTPUT_PNL_QTY"),mapData.get("OUTPUT_PNL_QTY"))){
+                            dwsProductLineYieldFidsDAO.updateData(mapData);
+                        }
 //                        dwsProductLineYieldFidsDAO.updateData(mapData);
                     }
                 }catch (Exception e){
