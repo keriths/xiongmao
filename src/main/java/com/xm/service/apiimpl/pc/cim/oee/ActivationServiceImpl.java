@@ -57,7 +57,7 @@ public class ActivationServiceImpl {
             String bigEqpType = eqpId;
 //            List<String> eqpIdList=Constant.eqpIdMap.get(eqpId);
 
-            Date beginDate = DateUtils.getBeforHourStartDay(12);
+            Date beginDate = DateUtils.getBeforHourStartDay(7);
             Date endDate = DateUtils.getBeforHourEndDay(1);
             String beginDateStr = DateUtils.getStrDate(beginDate, "yyyy-MM-dd HH:mm:ss");
             String endDateStr =DateUtils.getStrDate( endDate,"yyyy-MM-dd HH:mm:ss");
