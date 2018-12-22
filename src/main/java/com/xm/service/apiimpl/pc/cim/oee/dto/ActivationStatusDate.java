@@ -126,7 +126,7 @@ public class ActivationStatusDate implements Serializable {
         this.statusNumberLists = statusNumberLists;
         BigDecimal totalSumStatusDuration = new BigDecimal("0");
         for (StatusNumberList statusNumberList:statusNumberLists){
-            totalSumStatusDuration = totalSumStatusDuration.add(statusNumberList.getSumStatusDuration());
+            totalSumStatusDuration = totalSumStatusDuration.add(statusNumberList.getSumStatusDuration()==null?BigDecimal.ZERO:statusNumberList.getSumStatusDuration());
         }
 
         BigDecimal totalRate = new BigDecimal("0");

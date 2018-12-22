@@ -81,7 +81,7 @@
                       <!--]]>-->
         <!--GROUP BY  gg2.GROUPNAME-->
     <!--</select>-->
-    <select id="queryActivationStatusNumByDay" parameterType="map " resultType="com.xm.service.apiimpl.pc.cim.oee.dto.ActivationStatusDate$StatusNumberList">
+    <select id="queryActivationStatusNumByDay" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.oee.dto.ActivationStatusDate$StatusNumberList">
       SELECT
         decode(oee.FACTORY,'SL','SL-OC','OC','SL-OC',oee.FACTORY) as factory,
         '${bigEqpType}' as eqpId,
@@ -103,7 +103,7 @@
           and PERIODDATE >= to_date('${beginDateStr}','yyyy-mm-dd hh24:mi:ss')
           and PERIODDATE <= to_date('${endDateStr}','yyyy-mm-dd hh24:mi:ss')
           ]]>
-        GROUP BY decode(oee.FACTORY,'SL','SL-OC','OC','SL-OC',oee.FACTORY) ,  ,EQP_STATUS,
+        GROUP BY decode(oee.FACTORY,'SL','SL-OC','OC','SL-OC',oee.FACTORY) ,EQP_STATUS,
         to_char(PERIODDATE,'MM/DD')
     </select>
     <select id="queryActivationStatusNum" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.oee.dto.ActivationStatusDate$StatusNumberList">
