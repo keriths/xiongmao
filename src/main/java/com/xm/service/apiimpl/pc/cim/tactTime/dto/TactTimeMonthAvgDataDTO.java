@@ -44,10 +44,10 @@ public class TactTimeMonthAvgDataDTO implements Serializable{
     }
 
     public BigDecimal getActual() {
-        if (sumTotalGlsQty==null || sumTotalGlsQty.floatValue()==0){
+        if (sumTotalTT==null || sumTotalGlsQty.floatValue()==0){
             return BigDecimal.ZERO;
         }
-        return sumTotalGlsQty.divide(sumTotalGlsQty,2,BigDecimal.ROUND_HALF_UP);
+        return sumTotalTT.divide(sumTotalGlsQty,2,BigDecimal.ROUND_HALF_UP);
 //
 //        //为空时给个默认值
 //        if (actual==null){
