@@ -162,7 +162,7 @@ public class CIMDataSyncTask {
     }
     @Scheduled(fixedRate = 1000*60*60*24)
     public void OeeDataSync(){
-        int syncDayNums = 5;
+        int syncDayNums = 10;
         syncDWR_EQP_OEE_FIDS(syncDayNums);
     }
     @Scheduled(fixedRate = 1000*60*60*24)
