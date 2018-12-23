@@ -21,9 +21,7 @@
     <context:annotation-config />
     <task:annotation-driven scheduler="myScheduler"/><!--定时器开关-->
     <task:scheduler id="myScheduler" pool-size="10"/>
-    <!--<import resource="spring-model-database-cim.xml"/>-->
-    <!--<import resource="spring-model-database-fmcs.xml"/>-->
-    <!--<import resource="spring-model-database-user.xml"/>-->
+
     <import resource="spring-model-database-local.xml"/>
     <import resource="spring-model-database-factory-cim.xml"/>
 
