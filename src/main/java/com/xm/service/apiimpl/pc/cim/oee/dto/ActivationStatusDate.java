@@ -138,7 +138,7 @@ public class ActivationStatusDate implements Serializable {
             }
             i++;
             if (i==statusNumberLists.size()){
-                statusNumberList.setStatusNum(new BigDecimal("1").subtract(totalRate));
+                statusNumberList.setStatusNum(new BigDecimal("100").subtract(totalRate));
             }else {
                 BigDecimal hourNum = statusNumberList.getSumStatusDuration().multiply(new BigDecimal("100")).divide(totalSumStatusDuration, 2, BigDecimal.ROUND_HALF_UP);
                 statusNumberList.setStatusNum(hourNum);
