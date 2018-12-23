@@ -110,6 +110,9 @@ public class ActivationStatusDate implements Serializable {
         }
 
         public BigDecimal getSumStatusDuration() {
+            if (sumStatusDuration==null){
+                return BigDecimal.ZERO;
+            }
             return sumStatusDuration;
         }
 
