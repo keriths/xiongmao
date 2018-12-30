@@ -68,7 +68,7 @@ public class InputCompletionRetDTO extends BaseRetDTO{
                 }
 
             }
-            return plan;
+            return plan.setScale(1,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setPlan(BigDecimal plan) {
@@ -85,7 +85,7 @@ public class InputCompletionRetDTO extends BaseRetDTO{
                 }
 
             }
-            return actual;
+            return actual.setScale(1,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setActual(BigDecimal actual) {

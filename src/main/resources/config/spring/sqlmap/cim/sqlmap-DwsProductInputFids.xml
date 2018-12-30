@@ -4,8 +4,8 @@
 
     <select id="queryInputInfo" resultType="com.xm.service.apiimpl.pc.cim.inputCompletion.dto.InputCompletionRetDTO$InputCompletionData" parameterType="map">
         select
-            sum(PLAN_INPUT_GLS_QTY) as plan,
-            sum(ACTUAL_INPUT_GLS_QTY) as actual,
+            sum(PLAN_INPUT_GLS_QTY)/1000 as plan,
+            sum(ACTUAL_INPUT_GLS_QTY)/1000 as actual,
             <if test="dateType=='day'.toString()">
                 to_char(PERIODDATE,'MM/DD')
             </if>
@@ -50,11 +50,12 @@
             <foreach collection="factoryList" open="(" separator="," close=")" item="factory">
                 #{factory}
             </foreach>
+          <if test="productIdList != null">
             and PRODUCTID IN
             <foreach collection="productIdList" open="(" separator="," close=")" item="productId">
                 #{productId}
             </foreach>
-
+          </if>
         group by
             <if test="dateType=='day'.toString()">
                 to_char(PERIODDATE,'MM/DD')

@@ -69,7 +69,7 @@ public class CompletionRetDTO extends BaseRetDTO{
                 }
 
             }
-            return plan;
+            return plan.setScale(1,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setPlan(BigDecimal plan) {
@@ -86,7 +86,7 @@ public class CompletionRetDTO extends BaseRetDTO{
                 }
 
             }
-            return actual;
+            return actual.setScale(1,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setActual(BigDecimal actual) {
@@ -125,7 +125,10 @@ public class CompletionRetDTO extends BaseRetDTO{
         }
 
         public BigDecimal getWip() {
-            return wip;
+            if (wip==null){
+                wip = BigDecimal.ZERO;
+            }
+            return wip.setScale(1,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setWip(BigDecimal wip) {

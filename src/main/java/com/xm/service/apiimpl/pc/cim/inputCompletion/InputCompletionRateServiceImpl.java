@@ -94,7 +94,8 @@ public static Map<String,List<String>> productMap = new HashMap<>();
                     actualMin=44000;
                     actualMax=45000;
                 }
-                startTime = DateUtils.getBeforMonthStartDay(11);
+                startTime = DateUtils.getBeforMonthStartDay(6);
+                endTime = DateUtils.getBeforMonthEndDay(1);
                 dateList = DateUtils.getMonthStrList(startTime,endTime);
             }else if (dateType.equals(Constant.quarter)){
                 if (productId==null){
@@ -111,13 +112,15 @@ public static Map<String,List<String>> productMap = new HashMap<>();
                 startTime = DateUtils.getBeforQuarterStartDay(3);
                 dateList = DateUtils.getQuarterStrList(startTime,endTime);
             }
-            final List<String> productIdList = new ArrayList<>();
-            if (productId==null){
-                productMap.entrySet().stream().forEach(entry -> productIdList.addAll(entry.getValue()));
-            }else {
+            final List<String> productIdList = null;
+            if (productId!=null){
                 productIdList.addAll(productMap.get(productId));
+                if (CollectionUtils.isEmpty(productIdList)){
+                    retDto.setSuccess(false);
+                    retDto.setErrorMsg("productId参数错误,请传入【" + productMap.keySet() + "】");
+                    return retDto;
+                }
             }
-
             List<String> factoryList = Lists.newArrayList("ARRAY");
             if (factory!=null){
                 factoryList = factoryMap.get(factory);

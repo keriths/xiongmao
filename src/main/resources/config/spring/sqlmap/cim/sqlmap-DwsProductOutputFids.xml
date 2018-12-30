@@ -73,8 +73,8 @@
 
     <select id="queryOutputCompletionRate" resultType="com.xm.service.apiimpl.pc.cim.outputCompletion.dto.CompletionRetDTO$CompletionData" parameterType="Map">
         select
-        sum(PLAN_OUTPUT_PNL_QTY) as plan,
-        sum(ACTUAL_OUTPUT_PNL_QTY) as actual,
+        sum(PLAN_OUTPUT_PNL_QTY)/1000 as plan,
+        sum(ACTUAL_OUTPUT_PNL_QTY)/1000 as actual,
         <if test="dateType=='month'.toString()">/*按月*/
             TO_CHAR(PERIODDATE,'MM')||'月'
         </if>

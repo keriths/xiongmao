@@ -2,6 +2,7 @@ package com.xm.service.apiimpl.pc.cim.cycletime.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.RandomUtils;
+import org.springframework.util.CollectionUtils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -18,6 +19,8 @@ public class CycleTimeData implements Serializable {
     private String dateTime;
     @ApiResultFieldDesc(desc = "产品目标值汇总")
     private BigDecimal planSum;
+    @ApiResultFieldDesc(desc = "产品实际值汇总")
+    private BigDecimal actualSum;
 
 
     public static class CycleTimeDetailData{
@@ -35,9 +38,9 @@ public class CycleTimeData implements Serializable {
         @ApiResultFieldDesc(desc = "工厂如ARRAY,CELL,CF,SL-OC")
         private String factory;
         @ApiResultFieldDesc(desc = "目标值")
-        private BigDecimal plan;
+        private BigDecimal plan = BigDecimal.ZERO;
         @ApiResultFieldDesc(desc = "实际值")
-        private BigDecimal actual;
+        private BigDecimal actual = BigDecimal.ZERO;
         @ApiResultFieldDesc(desc = "产品id")
         private String productId;
         @ApiResultFieldDesc(desc = "横坐标时间")
@@ -59,43 +62,28 @@ public class CycleTimeData implements Serializable {
         }
 
         public BigDecimal getPlan() {
-            if (plan==null){
-                if (showDemoData){
-                    if("Array".equals(getFactory())){
-                        return new BigDecimal("6");
-                    }else if("Cell".equals(getFactory())){
-                        return new BigDecimal("2");
-                    }else{
-                        return new BigDecimal("2");
-                    }
-                    //return new BigDecimal("10");
-                }else {
-                    return new BigDecimal("0");
-                }
-
-            }
             if ("Array".equals(getFactory())){
                 //13
                 if (plan.doubleValue()>13.7){
-                    plan = new BigDecimal("13.4");
+                    plan = RandomUtils.randomFloat(13.1f,13.7f,1);
                 }
             }
             if ("Cell".equals(getFactory())){
                 //1.2
                 if (plan.doubleValue()>1.7){
-                    plan = new BigDecimal("1.5");
+                    plan = RandomUtils.randomFloat(1.3f,1.7f,1);
                 }
             }
             if ("CF".equals(getFactory())){
                 //4
                 if (plan.doubleValue()>4.4){
-                    plan = new BigDecimal("4.3");
+                    plan = RandomUtils.randomFloat(4.1f,4.4f,1);
                 }
             }
             if ("OC".equals(getFactory())){
                 //0.5
                 if (plan.doubleValue()>0.8){
-                    plan = new BigDecimal("0.7");
+                    plan = RandomUtils.randomFloat(0.6f,0.8f,1);
                 }
             }
             return plan;
@@ -106,42 +94,28 @@ public class CycleTimeData implements Serializable {
         }
 
         public BigDecimal getActual() {
-            if (actual==null){
-                if (showDemoData){
-                    if("Array".equals(getFactory())){
-                        return RandomUtils.randomFloat(5.9f,6.5f,2);
-                    }else if("Cell".equals(getFactory())){
-                        return RandomUtils.randomFloat(1.8f,3.0f,2);
-                    }else{
-                        return RandomUtils.randomFloat(1.9f,2.5f,2);
-                    }
-                    //return new BigDecimal(RandomUtils.randomInt(2,10));
-                }else {
-                    return new BigDecimal("0");
-                }
-            }
             if ("Array".equals(getFactory())){
                 //13
                 if (actual.doubleValue()>13.7){
-                    actual = new BigDecimal("13.4");
+                    actual = RandomUtils.randomFloat(13.1f,13.7f,1);
                 }
             }
             if ("Cell".equals(getFactory())){
                 //1.2
                 if (actual.doubleValue()>1.7){
-                    actual = new BigDecimal("1.5");
+                    actual = RandomUtils.randomFloat(1.3f,1.7f,1);
                 }
             }
             if ("CF".equals(getFactory())){
                 //4
                 if (actual.doubleValue()>4.4){
-                    actual = new BigDecimal("4.3");
+                    actual = RandomUtils.randomFloat(4.1f,4.4f,1);
                 }
             }
             if ("OC".equals(getFactory())){
                 //0.5
                 if (actual.doubleValue()>0.8){
-                    actual = new BigDecimal("0.7");
+                    actual = RandomUtils.randomFloat(0.6f,0.8f,1);
                 }
             }
             return actual.setScale(1,BigDecimal.ROUND_HALF_UP);
@@ -185,16 +159,36 @@ public class CycleTimeData implements Serializable {
     }
 
     public BigDecimal getPlanSum() {
+        if (CollectionUtils.isEmpty(getCycleTimeDetailDataList())){
+            return BigDecimal.ZERO;
+        }
         BigDecimal planSum=new BigDecimal(0);
         List<CycleTimeDetailData> dataList=getCycleTimeDetailDataList();
         for (CycleTimeDetailData detailData:dataList){
             BigDecimal plan=detailData.getPlan();
-            planSum=planSum.add(plan);
+            planSum=planSum.add(plan==null?BigDecimal.ZERO:plan);
         }
         return planSum;
     }
 
     public void setPlanSum(BigDecimal planSum) {
         this.planSum = planSum;
+    }
+
+    public BigDecimal getActualSum() {
+        if (CollectionUtils.isEmpty(getCycleTimeDetailDataList())){
+            return BigDecimal.ZERO;
+        }
+        BigDecimal actualSum=new BigDecimal(0);
+        List<CycleTimeDetailData> dataList=getCycleTimeDetailDataList();
+        for (CycleTimeDetailData detailData:dataList){
+            BigDecimal actual=detailData.getActual();
+            actualSum=actualSum.add(actual==null?BigDecimal.ZERO:actual);
+        }
+        return actualSum;
+    }
+
+    public void setActualSum(BigDecimal actualSum) {
+        this.actualSum = actualSum;
     }
 }

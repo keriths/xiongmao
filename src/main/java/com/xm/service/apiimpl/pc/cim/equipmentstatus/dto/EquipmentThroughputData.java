@@ -43,7 +43,7 @@ public class EquipmentThroughputData {
             }
             //return new BigDecimal("0");
         }
-        return amount.setScale(2,BigDecimal.ROUND_HALF_UP);
+        return amount.setScale(1,BigDecimal.ROUND_HALF_UP);
     }
 
     public void setAmount(BigDecimal amount) {

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.cim.DwrWipGlsFidsDAO" >
 
-    <select id="bigEqpTypeList" parameterType="map" resultType="java.lang.String">
+    <select id="queryBigEqpTypeListByFactory" parameterType="map" resultType="java.lang.String">
       SELECT distinct big_eqp_type
       FROM
       dwr_wip_master
@@ -11,7 +11,7 @@
 
     <select id="queryInProcessDataList" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodinprocess.dto.InProcessDataRetDTO$InProcessData">
         SELECT d.big_eqp_type as bigEqpType,
-          SUM(t.wip_gls_qty) as wipGlsQty
+          SUM(t.wip_gls_qty)/1000 as wipGlsQty
         FROM dwr_wip_gls_fids t
             INNER JOIN dwr_wip_master d ON t.stepid = d.op_no and t.factory = d.factory
         WHERE t.factory IN
@@ -33,7 +33,7 @@
 
     <select id="queryOutPutWipData" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.outputCompletion.dto.CompletionRetDTO$CompletionData">
         SELECT
-            sum(WIP_GLS_QTY) as wip,
+            sum(WIP_GLS_QTY)/1000 as wip,
             TO_CHAR(PERIODDATE,'MM')||'月' as dateTime
         FROM DWR_WIP_GLS_FIDS
         WHERE

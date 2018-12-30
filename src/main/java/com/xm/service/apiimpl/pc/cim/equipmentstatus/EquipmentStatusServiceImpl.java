@@ -79,9 +79,9 @@ public class EquipmentStatusServiceImpl {
             DateTime d = new DateTime();
             Date beginDate = null;
             Date endDate = null;
-            if (d.minuteOfHour().get()>10){
-                beginDate = DateUtils.getBeforHourStartDay(11);
-                endDate = new Date();
+            if (d.minuteOfHour().get()<=10){
+                beginDate = DateUtils.getBeforHourStartDay(13);
+                endDate = DateUtils.getBeforHourEndDay(2);
             }else {
                 beginDate = DateUtils.getBeforHourStartDay(12);
                 endDate = DateUtils.getBeforHourStartDay(1);
