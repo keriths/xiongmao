@@ -50,6 +50,9 @@ public class CompletionRetDTO extends BaseRetDTO{
         @ApiResultFieldDesc(desc = "实际")
         private BigDecimal actual;
 
+        @ApiResultFieldDesc(desc = "wip")
+        private BigDecimal wip;
+
         @ApiResultFieldDesc(desc = "达成率小数")
         private BigDecimal completionRate;
 
@@ -119,6 +122,14 @@ public class CompletionRetDTO extends BaseRetDTO{
 
         public void setDateTime(String dateTime) {
             this.dateTime = dateTime;
+        }
+
+        public BigDecimal getWip() {
+            return wip;
+        }
+
+        public void setWip(BigDecimal wip) {
+            this.wip = wip;
         }
     }
 

@@ -27,7 +27,7 @@ public interface DwsProductInputFidsDAO {
 
         void updateData(Map<String, Object> mapData);
 
-    Date getMaxPERIODDATE();
-
-    Date getMaxPeriodDateByTableName(@Param("tableName")String tableName);
+//    Date getMaxPERIODDATE();
+//
+//    Date getMaxPeriodDateByTableName(@Param("tableName")String tableName);
 }

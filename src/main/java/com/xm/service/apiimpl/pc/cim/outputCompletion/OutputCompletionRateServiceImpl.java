@@ -10,12 +10,14 @@ import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.CompletionRetDTO;
 import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCompletionData;
 import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCompletionRetDTO;
 import com.xm.service.constant.Constant;
+import com.xm.service.dao.cim.DwrWipGlsFidsDAO;
 import com.xm.service.dao.cim.DwsProductOutputFidsDAO;
 import com.xm.platform.util.DateUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -31,6 +33,9 @@ public class OutputCompletionRateServiceImpl {
     }
     @Resource
     private DwsProductOutputFidsDAO outputcompletionDAO;
+
+    @Resource
+    private DwrWipGlsFidsDAO dwrWipGlsFidsDAO;
 
     @ApiMethodDoc(apiCode = "CIM_outputCompletionRate" , name = "产出达成率接口（完成-工厂数据已验证）")
     public OutputCompletionRetDTO outputCompletionRate(@ApiParamDoc(desc = "产品类型：如55不传时是全部，就是汇总的") String productId, @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
@@ -190,7 +195,8 @@ public class OutputCompletionRateServiceImpl {
                     actualMin=44000;
                     actualMax=45000;
                 }
-                startTime = DateUtils.getBeforMonthStartDay(11);
+                startTime = DateUtils.getBeforMonthStartDay(6);
+                endTime = DateUtils.getBeforMonthEndDay(1);
                 dateList = DateUtils.getMonthStrList(startTime,endTime);
             }else if (dateType.equals(Constant.quarter)){
                 if (productId==null){
@@ -223,13 +229,23 @@ public class OutputCompletionRateServiceImpl {
                 retDto.setErrorMsg("factory参数错误,请传入【" + factoryMap.keySet() + "】");
                 return retDto;
             }
+            Map<String,CompletionRetDTO.CompletionData> wipDatasMap = null;
             List<CompletionRetDTO.CompletionData> dbValueList = outputcompletionDAO.queryOutputCompletionRate(productIdList, dateType, startTime, endTime, factoryList);
+            if (dateType.equals(Constant.month)){
+                List<Date> wip288Datas = DateUtils.getEveryMonthDays(startTime,endTime);
+                List<CompletionRetDTO.CompletionData>  wipDatas = dwrWipGlsFidsDAO.queryOutPutWipData(factoryList, wip288Datas);
+                wipDatasMap = MapUtils.listToMap(wipDatas,"getDateTime");
+            }
             Map<String,CompletionRetDTO.CompletionData> dbValueMap = MapUtils.listToMap(dbValueList,"getDateTime");
             List<CompletionRetDTO.CompletionData> completionDataList = new ArrayList<CompletionRetDTO.CompletionData>();
             for (String dateStr:dateList){
                 CompletionRetDTO.CompletionData inputValue = dbValueMap.get(dateStr);
                 if (inputValue==null){
                     inputValue=new CompletionRetDTO.CompletionData(dateStr,planMin,planMax,actualMin,actualMax);
+                }
+                if (dateType.equals(Constant.month) && wipDatasMap!=null) {
+                    CompletionRetDTO.CompletionData wipData = wipDatasMap.get(dateStr);
+                    inputValue.setWip(wipData==null? BigDecimal.ZERO:wipData.getWip());
                 }
                 completionDataList.add(inputValue);
             }

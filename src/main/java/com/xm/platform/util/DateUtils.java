@@ -120,6 +120,27 @@ public class DateUtils {
         dayStrStrList.add(format.format(end));
         return dayStrStrList;
     }
+    public static List<Date> getEveryMonthDays(Date begin,Date end){
+        DateTime beginTime = new DateTime(begin);
+        DateTime endTime = new DateTime(end);
+        begin = beginTime.dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue().toDate();
+        end =     endTime.dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue().toDate();
+        if (end.before(begin)){
+            return null;
+        }
+//        List<String> dayStrStrList = new ArrayList<String>();
+//        SimpleDateFormat format = new SimpleDateFormat("MM月");
+        DateTime minDateTime = new DateTime(begin);
+        List<Date> dates = new ArrayList<>();
+        while (minDateTime.toDate().before(end)){
+//            dayStrStrList.add(format.format(minDateTime.toDate()));
+            dates.add(new DateTime(minDateTime).millisOfDay().withMinimumValue().withDayOfMonth(28).withHourOfDay(8).toDate());
+            minDateTime = minDateTime.plusMonths(1).toDateTime();
+        }
+//        dayStrStrList.add(format.format(end));
+        dates.add(new DateTime(end).millisOfDay().withMinimumValue().withDayOfMonth(28).withHourOfDay(8).toDate());
+        return dates;
+    }
     public static String getQuarterStr(Date day){
         DateTime d = new DateTime(day);
 

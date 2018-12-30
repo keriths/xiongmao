@@ -32,7 +32,7 @@
                 OR
                 (
                     FACTORY = 'OC'
-                    and PRODUCTTYPE IN ('ZP21','ZP24','ZP10')
+                    and PRODUCTTYPE IN ('ZP20','ZP24','ZP10')
                 )
                 OR
                 (
@@ -43,6 +43,7 @@
                 (
                     FACTORY = 'CELL'
                     and PRODUCTTYPE IN ('CS','CM','MP')
+                    and PRODUCTID LIKE 'D%'
                 )
             )
             AND FACTORY IN
@@ -66,12 +67,12 @@
             </if>
     </select>
 
-    <select id="getMaxPERIODDATE" resultType="java.util.Date">
-        SELECT max(PERIODDATE) from DWS_PRODUCT_INPUT_FIDS
-    </select>
-    <select id="getMaxPeriodDateByTableName" resultType="java.util.Date" parameterType="map">
-        SELECT max(PERIODDATE) from ${tableName}
-    </select>
+    <!--<select id="getMaxPERIODDATE" resultType="java.util.Date">-->
+        <!--SELECT max(PERIODDATE) from DWS_PRODUCT_INPUT_FIDS-->
+    <!--</select>-->
+    <!--<select id="getMaxPeriodDateByTableName" resultType="java.util.Date" parameterType="map">-->
+        <!--SELECT max(PERIODDATE) from ${tableName}-->
+    <!--</select>-->
 
     <select id="loadByPrimaryKey" parameterType="map" resultType="map">
         SELECT * from DWS_PRODUCT_INPUT_FIDS

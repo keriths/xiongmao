@@ -4,6 +4,7 @@ import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.service.apiimpl.pc.cim.goodinprocess.dto.GoodInProcessFtRetDTO;
 import com.xm.service.apiimpl.pc.cim.goodinprocess.dto.GoodInProcessWipDataDTO;
 import com.xm.service.apiimpl.pc.cim.goodinprocess.dto.GoodInProcessWipRetDTO;
+import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.CompletionRetDTO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,8 @@ import java.util.Map;
  */
 @Repository("dwrWipGlsFidsDAO")
 public interface DwrWipGlsFidsDAO {
+
+    List<CompletionRetDTO.CompletionData> queryOutPutWipData(@Param("factorys")List<String> factoryList,@Param("periodDates")List<Date> periodDates);
 
     List<GoodInProcessFtRetDTO.GoodInProcessFtDate> queryGoodInProcessFtDate(
 
