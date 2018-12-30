@@ -14,19 +14,19 @@ package com.xm.service.dao.cim;
  */
 @Repository("activationDAO")
 public interface DwrEqpOeeFidsDAO {
-    int queryActivationStatusNum_dqpidNum(
-            @Param("factoryList") List<String> factoryList,
-            @Param("groupName") String groupName,
-            @Param("beginDateStr")String beginDate,
-            @Param("endDateStr")String endDate
-
-    );
-    List<ActivationStatusDate.StatusNumberList> queryActivationStatusNum(
-            @Param("factoryList") List<String> factoryList,
-            @Param("groupName") String groupName,
-            @Param("beginDateStr")String beginDate,
-            @Param("endDateStr")String endDate
-    );
+//    int queryActivationStatusNum_dqpidNum(
+//            @Param("factoryList") List<String> factoryList,
+//            @Param("groupName") String groupName,
+//            @Param("beginDateStr")String beginDate,
+//            @Param("endDateStr")String endDate
+//
+//    );
+//    List<ActivationStatusDate.StatusNumberList> queryActivationStatusNum(
+//            @Param("factoryList") List<String> factoryList,
+//            @Param("groupName") String groupName,
+//            @Param("beginDateStr")String beginDate,
+//            @Param("endDateStr")String endDate
+//    );
 
     List<ActivationStatusDate.StatusNumberList> queryActivationStatusNumByDay(
             @Param("factoryList") List<String> factoryList,
@@ -36,12 +36,12 @@ public interface DwrEqpOeeFidsDAO {
             @Param("endDateStr")String endDate
     );
 
-    List<ActivationDate.StatusDateList> queryActivationEQPId(
-            @Param("factoryList") List<String> factoryList,
-            @Param("groupName") String groupName,
-            @Param("beginDateStr")String beginDate,
-            @Param("endDateStr")String endDate
-    );
+//    List<ActivationDate.StatusDateList> queryActivationEQPId(
+//            @Param("factoryList") List<String> factoryList,
+//            @Param("groupName") String groupName,
+//            @Param("beginDateStr")String beginDate,
+//            @Param("endDateStr")String endDate
+//    );
 
     List<ActivationDate.StatusDateList> queryActivationByEQPIdListAndFactory(
             @Param("factoryList") List<String> factoryList,
@@ -50,12 +50,12 @@ public interface DwrEqpOeeFidsDAO {
             @Param("endDateStr")String endDate
     );
 
-    int queryActivationEQPId_eqpidNum(
-            @Param("factoryList") List<String> factoryList,
-            @Param("groupName") String groupName,
-            @Param("beginDateStr")String beginDate,
-            @Param("endDateStr")String endDate
-    );
+//    int queryActivationEQPId_eqpidNum(
+//            @Param("factoryList") List<String> factoryList,
+//            @Param("groupName") String groupName,
+//            @Param("beginDateStr")String beginDate,
+//            @Param("endDateStr")String endDate
+//    );
     Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
 
     void addData(Map<String, Object> mapData);

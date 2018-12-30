@@ -42,13 +42,23 @@ public class ActivationDate implements Serializable{
         private String status;
         @ApiResultFieldDesc(desc = "EQP类型,如PHOTO,PVD,CVD,WET,DE")
         private String eqpId;
-        @ApiResultFieldDesc(desc = "EQP状态累计时间")
-        private BigDecimal statusNum;
+        @ApiResultFieldDesc(desc = "EQP状态累计时间,换成百分比了")
+        private BigDecimal statusNum = BigDecimal.ZERO;
+        @ApiResultFieldDesc(desc = "运行时间")
+        private BigDecimal statusDuration = BigDecimal.ZERO;
         @ApiResultFieldDesc(desc = "时间小时")
         private String periodDate;
 
-        public BigDecimal getOriginalStatusNum(){
-            return statusNum!=null?statusNum:BigDecimal.ZERO;
+//        public BigDecimal getOriginalStatusNum(){
+//            return statusNum!=null?statusNum:BigDecimal.ZERO;
+//        }
+
+        public BigDecimal getStatusDuration() {
+            return statusDuration;
+        }
+
+        public void setStatusDuration(BigDecimal statusDuration) {
+            this.statusDuration = statusDuration;
         }
 
         public String getFactory() {
@@ -117,7 +127,7 @@ public class ActivationDate implements Serializable{
         }
         if(!CollectionUtils.isEmpty(statusDateList)) {
             for (StatusDateList s : statusDateList) {
-                total = total.add(s.getOriginalStatusNum());
+                total = total.add(s.getStatusDuration());
             }
         }
         return total.setScale(2,BigDecimal.ROUND_HALF_UP);
@@ -131,11 +141,6 @@ public class ActivationDate implements Serializable{
         if (activation!=null){
             return activation;
         }
-        BigDecimal all=getTotal();
-        if (all.intValue()==0){
-            activation=BigDecimal.ZERO;
-            return activation;
-        }
         BigDecimal activationNum=new BigDecimal("0");
         for (StatusDateList a : statusDateList) {
             //activationNum = activationNum.add(new BigDecimal(a.getStatusNum()));
@@ -143,7 +148,7 @@ public class ActivationDate implements Serializable{
                 activationNum = activationNum.add((a.getStatusNum()));
             }
         }
-        activation = activationNum.multiply(new BigDecimal("100")).divide(all,1, RoundingMode.HALF_UP);
+        activation = activationNum;
         return activation;
     }
 
@@ -161,17 +166,24 @@ public class ActivationDate implements Serializable{
 
     public void setStatusDateList(List<StatusDateList> statusDateList) {
         this.statusDateList = statusDateList;
-        total = new BigDecimal("24");
-        BigDecimal listTotal = new BigDecimal("0");
+//        total = new BigDecimal("24");
+        BigDecimal totalStatusDuration = new BigDecimal("0");
         for (StatusDateList statusDateList1 : statusDateList){
-            listTotal = listTotal.add(statusDateList1.getOriginalStatusNum());
+            totalStatusDuration = totalStatusDuration.add(statusDateList1.getStatusDuration());
         }
-        if (listTotal.intValue() == 0){
-            total = BigDecimal.ZERO;
+        if (totalStatusDuration.intValue() == 0){
             return;
         }
-        for (StatusDateList statusDateList1 : statusDateList){
-            statusDateList1.setStatusNum(statusDateList1.getOriginalStatusNum().multiply(total).divide(listTotal,2,BigDecimal.ROUND_HALF_UP));
+        BigDecimal totalRate = BigDecimal.ZERO;
+        int i =0;
+        for (StatusDateList statusData : statusDateList){
+            i++;
+            if (i==statusDateList.size()){
+                statusData.setStatusNum(new BigDecimal("100").subtract(totalRate));
+            }else {
+                statusData.setStatusNum(statusData.getStatusDuration().multiply(new BigDecimal("100")).divide(totalStatusDuration, 2, BigDecimal.ROUND_HALF_UP));
+                totalRate = totalRate.add(statusData.getStatusNum());
+            }
         }
     }
 
