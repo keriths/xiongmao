@@ -12,7 +12,9 @@ import java.math.BigDecimal;
  */
 public class TactTimeMonthAvgDataDTO implements Serializable{
     boolean showDemoData=false;
+    @ApiResultFieldDesc(desc = "sumTotalTT")
     private BigDecimal sumTotalTT;
+    @ApiResultFieldDesc(desc = "sumTotalGlsQty")
     private BigDecimal sumTotalGlsQty;
     @ApiResultFieldDesc(desc = "目标值")
     private BigDecimal target;
