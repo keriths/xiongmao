@@ -2,6 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.cim.DwrWipGlsFidsDAO" >
 
+    <select id="bigEqpTypeList" parameterType="map" resultType="java.lang.String">
+      SELECT distinct big_eqp_type
+      FROM
+      dwr_wip_master
+      WHERE factory = #{factory}
+    </select>
+
+    <select id="queryInProcessDataList" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodinprocess.dto.InProcessDataRetDTO$InProcessData">
+        SELECT d.big_eqp_type as bigEqpType,
+          SUM(t.wip_gls_qty) as wipGlsQty
+        FROM dwr_wip_gls_fids t
+            INNER JOIN dwr_wip_master d ON t.stepid = d.op_no and t.factory = d.factory
+        WHERE t.factory IN
+          <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+              #{factory}
+          </foreach>
+            AND t.producttype IN ('CS', 'CM', 'MP')
+            AND d.big_eqp_type in
+            <foreach collection="bigEqpTypeList" item="bigEqpType" open="(" separator="," close=")">
+                #{bigEqpType}
+            </foreach>
+            <![CDATA[
+            AND t.perioddate >= #{beginDate}
+            and t.perioddate <= #{endDate}
+            ]]>
+        group by d.big_eqp_type
+    </select>
+
+
     <select id="queryOutPutWipData" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.outputCompletion.dto.CompletionRetDTO$CompletionData">
         SELECT
             sum(WIP_GLS_QTY) as wip,

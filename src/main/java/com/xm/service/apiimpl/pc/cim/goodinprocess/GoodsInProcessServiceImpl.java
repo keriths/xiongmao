@@ -1,5 +1,6 @@
 package com.xm.service.apiimpl.pc.cim.goodinprocess;
 
+import com.google.common.collect.Lists;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
@@ -9,6 +10,7 @@ import com.xm.platform.util.MapUtils;
 import com.xm.service.apiimpl.pc.cim.goodinprocess.dto.GoodInProcessFtRetDTO;
 import com.xm.service.apiimpl.pc.cim.goodinprocess.dto.GoodInProcessWipDataDTO;
 import com.xm.service.apiimpl.pc.cim.goodinprocess.dto.GoodInProcessWipRetDTO;
+import com.xm.service.apiimpl.pc.cim.goodinprocess.dto.InProcessDataRetDTO;
 import com.xm.service.apiimpl.pc.step.dto.StepRetDTO;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DwrWipGlsFidsDAO;
@@ -18,10 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by fanshuai on 17/10/24.
@@ -32,6 +31,50 @@ import java.util.Map;
 public class GoodsInProcessServiceImpl {
     @Resource(name="dwrWipGlsFidsDAO")
     private DwrWipGlsFidsDAO dwrWipGlsFidsDAO;
+
+    @ApiMethodDoc(apiCode = "CIM_goodInProcessData" , name = "每个工厂的在制品数据，新加的，2018-12-29")
+    public InProcessDataRetDTO queryInProcessData(@ApiParamDoc(desc = "厂别,如ARRAY,CELL,CF,SL-OC") String factory){
+        InProcessDataRetDTO resultDto = new InProcessDataRetDTO();
+        try {
+            Map<String,List<String>> factoryMap = new HashMap<>();
+            factoryMap.put("ARRAY",Lists.newArrayList("ARRAY"));
+            factoryMap.put("CELL",Lists.newArrayList("CELL"));
+            factoryMap.put("CF",Lists.newArrayList("CF"));
+            factoryMap.put("SL-OC",Lists.newArrayList("SL","OC"));
+            List<String> factoryList = factoryMap.get(factory);
+            if (factoryList==null){
+                resultDto.setSuccess(false);
+                resultDto.setErrorMsg("参数错误，请输入"+factoryMap.keySet());
+                return resultDto;
+            }
+            List<String> bigEqpTypeList = dwrWipGlsFidsDAO.queryBigEqpTypeListByFactory(factory);
+            if (CollectionUtils.isEmpty(bigEqpTypeList)){
+                resultDto.setSuccess(false);
+                resultDto.setErrorMsg("参数错误，根据"+factory+"未查询到bigEqpTypeList");
+                return resultDto;
+            }
+            Date beginDate = DateUtils.getBeforDayStartDay(1);
+            Date endDate = DateUtils.getBeforDayEndDay(1);
+            List<InProcessDataRetDTO.InProcessData> inProcessDatas = dwrWipGlsFidsDAO.queryInProcessDataList(factoryList,bigEqpTypeList,beginDate,endDate);
+            Map<String,InProcessDataRetDTO.InProcessData> mapData = MapUtils.listToMap(inProcessDatas,"getBigEqpType");
+            List<InProcessDataRetDTO.InProcessData> listData = new ArrayList<>();
+            for (String bigEqpType:bigEqpTypeList){
+                InProcessDataRetDTO.InProcessData inProcessData = mapData.get(bigEqpType);
+                if (inProcessData==null){
+                    inProcessData = new InProcessDataRetDTO.InProcessData();
+                    inProcessData.setBigEqpType(bigEqpType);
+                }
+                listData.add(inProcessData);
+            }
+            resultDto.setInProcessDataList(listData);
+            return resultDto;
+        }catch (Exception e){
+            LogUtils.error(this.getClass(),"queryInProcessWip eclipse",e);
+            resultDto.setSuccess(false);
+            resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
+            return resultDto;
+        }
+    }
 
     @ApiMethodDoc(apiCode = "CIM_goodInProcessFt" , name = "每个厂别的在制品接口（完成-工厂数据已验证）")
     public GoodInProcessFtRetDTO goodInProcessFtRetDTO(@ApiParamDoc(desc = "厂别,如ARRAY,CELL,CF,SL-OC") String factory){
