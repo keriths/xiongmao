@@ -148,7 +148,7 @@ public class OutputCompletionRateServiceImpl {
         Map<String,List<String>> factoryMap = new HashMap<>();
         factoryMap.put("ARRAY", Lists.newArrayList("ARRAY"));
         factoryMap.put("CELL", Lists.newArrayList("CELL"));
-        factoryMap.put("SL-OC", Lists.newArrayList("SL", "OC"));
+        factoryMap.put("SL-OC", Lists.newArrayList("OC"));
         try {
             //50 和 58
             if (!Constant.dateTypeList.contains(dateType)){

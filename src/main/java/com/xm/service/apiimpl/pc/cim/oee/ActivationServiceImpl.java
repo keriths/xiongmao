@@ -5,6 +5,7 @@ import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.DateUtils;
+import com.xm.platform.util.LocalCacheUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
 import com.xm.service.apiimpl.pc.cim.oee.dto.ActivationDate;
@@ -13,6 +14,8 @@ import com.xm.service.apiimpl.pc.cim.oee.dto.ActivationEQPStatusListRetDTO;
 import com.xm.service.apiimpl.pc.cim.oee.dto.ActivationStatusDate;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DwrEqpOeeFidsDAO;
+import org.joda.time.DateTime;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -36,8 +39,15 @@ public class ActivationServiceImpl {
 
 
     @ApiMethodDoc(apiCode = "CIM_ActivationStatusNum",name="EQP类型的状态值显示（完成-工厂数据已验证）")
-    public ActivationEQPStatusListRetDTO activationStatusNumList(@ApiParamDoc(desc = "厂别：ARRAY,CELL") String factory, @ApiParamDoc(desc = "EQP类型，如PHOTO PVD") String eqpId){
+    public ActivationEQPStatusListRetDTO activationStatusNumList(
+            @ApiParamDoc(desc = "厂别：ARRAY,CELL") String factory,
+            @ApiParamDoc(desc = "EQP类型，如PHOTO PVD") String eqpId){
         ActivationEQPStatusListRetDTO actType = new ActivationEQPStatusListRetDTO();
+        String cacheKey = "apiCode(CIM_ActivationStatusNum)_factory("+factory+")"+"_"+"eqpId("+eqpId+")";
+        ActivationEQPStatusListRetDTO cacheValue =(ActivationEQPStatusListRetDTO) LocalCacheUtils.getCacheValue(cacheKey);
+        if (cacheValue!=null){
+            return cacheValue;
+        }
         try {
             if (factory!=null){
                 factory = factory.toUpperCase();
@@ -56,9 +66,9 @@ public class ActivationServiceImpl {
             }
             String bigEqpType = eqpId;
 //            List<String> eqpIdList=Constant.eqpIdMap.get(eqpId);
-
-            Date beginDate = DateUtils.getBeforHourStartDay(7);
-            Date endDate = DateUtils.getBeforHourEndDay(1);
+            Date nowTime = new Date();
+            Date beginDate = DateUtils.getBeforDayStartDay(7);
+            Date endDate = DateUtils.getBeforDayEndDay(1);
             String beginDateStr = DateUtils.getStrDate(beginDate, "yyyy-MM-dd HH:mm:ss");
             String endDateStr =DateUtils.getStrDate( endDate,"yyyy-MM-dd HH:mm:ss");
             List<String> dayList = DateUtils.getDayStrList(beginDate, endDate);
@@ -94,6 +104,11 @@ public class ActivationServiceImpl {
                 dtList.add(activationStatusDate);
             }
             actType.setActivationStatusDateList(dtList);
+            if (new DateTime(nowTime).getHourOfDay()<2){
+                LocalCacheUtils.setCacheValue(cacheKey,actType,new DateTime(nowTime).withMillisOfDay(0).withHourOfDay(3).toDate());
+            }else {
+                LocalCacheUtils.setCacheValue(cacheKey,actType,new DateTime(nowTime).plusDays(1).withMillisOfDay(0).toDate());
+            }
             return actType;
         }catch (Exception e){
             LogUtils.error(getClass(), e);
@@ -106,6 +121,11 @@ public class ActivationServiceImpl {
 
    @ApiMethodDoc(apiCode = "CIM_ActivationEQPId",name="重点设备稼动显示（完成-工厂数据已验证）")
     public ActivationEQPIdListRetDTO activationIdList(@ApiParamDoc(desc = "厂别：ARRAY,CELL") String factory){
+       String cacheKey = "apiCode(CIM_ActivationEQPId)_factory("+factory+")";
+       ActivationEQPIdListRetDTO cacheValue =(ActivationEQPIdListRetDTO) LocalCacheUtils.getCacheValue(cacheKey);
+       if (cacheValue!=null){
+           return cacheValue;
+       }
        ActivationEQPIdListRetDTO actType = new ActivationEQPIdListRetDTO();
         try {
             List<String> factoryList = Constant.factoryMap.get(factory);
@@ -118,8 +138,8 @@ public class ActivationServiceImpl {
             }
 //            Date beginDate = DateUtils.getBeforDayStartDay(0);
 //            Date endDate = new Date();
-            Date beginDate = DateUtils.getBeforMonthStartDay(0);
-            Date endDate = new Date();
+            Date beginDate = DateUtils.getBeforMonthStartDay(1);
+            Date endDate = DateUtils.getBeforMonthEndDay(1);
             List<ActivationDate> dateList = new ArrayList<ActivationDate>();
 
             for (String groupName: showEqpIdList){
@@ -143,8 +163,12 @@ public class ActivationServiceImpl {
                 dateList.add(activationDate);
             }
             actType.setActivationDateList(dateList);
+            if (new DateTime().getDayOfMonth()==1){
+                LocalCacheUtils.setCacheValue(cacheKey,actType,new DateTime().plusDays(1).withMillisOfDay(0).toDate());
+            }else {
+                LocalCacheUtils.setCacheValue(cacheKey,actType,new DateTime().plusMonths(1).withDayOfMonth(1).withMillisOfDay(0).toDate());
+            }
             return actType;
-
         }catch (Exception e){
             LogUtils.error(getClass(), e);
             actType.setSuccess(false);

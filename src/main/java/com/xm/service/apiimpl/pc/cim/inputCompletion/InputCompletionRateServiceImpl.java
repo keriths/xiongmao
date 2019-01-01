@@ -47,7 +47,7 @@ public static Map<String,List<String>> productMap = new HashMap<>();
         Map<String,List<String>> factoryMap = new HashMap<>();
         factoryMap.put("ARRAY", Lists.newArrayList("ARRAY"));
         factoryMap.put("CELL", Lists.newArrayList("CELL"));
-        factoryMap.put("SL-OC", Lists.newArrayList("SL", "OC"));
+        factoryMap.put("SL-OC", Lists.newArrayList("SL"));
         try {
             //50 和 58
             if (!Constant.dateTypeList.contains(dateType)){

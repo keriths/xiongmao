@@ -147,7 +147,7 @@ public class CIMDataSyncTask {
     }
     @Scheduled(fixedRate = 1000*60*60*24)
     public void InputCompletionDataSync(){
-        int syncDayNums = 5;
+        int syncDayNums = 500;
         syncDWS_PRODUCT_INPUT_FIDS(syncDayNums);
     }
     @Scheduled(fixedRate = 1000*60*60*24)
