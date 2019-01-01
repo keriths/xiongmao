@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.xm.platform.apidoc.ApiManager;
 import com.xm.platform.apidoc.ApiMethod;
 import com.xm.platform.apidoc.ApiParam;
+import com.xm.platform.util.AutoInvokeUtils;
+import com.xm.platform.util.LocalCacheUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.web.api.vo.ApiMethodParamVO;
 import com.xm.web.api.vo.ApiMethodVO;
@@ -68,15 +70,27 @@ public class ApiAction {
     public Object processServiceMethod(String apiCode){
         ApiMethod apiMethod = ApiManager.getApiMethod(apiCode);
         Object[] param = getParamObjects(apiMethod);
+        long t1 = System.currentTimeMillis();
         try {
-            long t1 = System.currentTimeMillis();
+            String key = apiCode+"_";
+            if (param!=null && param.length>0){
+                for (Object obj : param){
+                    key+="["+obj.toString()+"]";
+                }
+            }
+            Object cacheObj =  LocalCacheUtils.getCacheValue(key);
+            if (cacheObj!=null){
+                return cacheObj;
+            }
+            AutoInvokeUtils.addInvoke(key,apiMethod,param);
             Object obj = apiMethod.getMethod().invoke(apiMethod.getServiceObj(),param);
-            long t2 = System.currentTimeMillis();
-            MonitorUtils.doMonitor(apiCode,t2-t1);
             return obj;
         } catch (Exception e) {
             LogUtils.error(getClass(), e);
             return e;
+        }finally {
+            long t2 = System.currentTimeMillis();
+            MonitorUtils.doMonitor(apiCode,t2-t1);
         }
     }
 
