@@ -43,11 +43,11 @@ public class ActivationServiceImpl {
             @ApiParamDoc(desc = "厂别：ARRAY,CELL") String factory,
             @ApiParamDoc(desc = "EQP类型，如PHOTO PVD") String eqpId){
         ActivationEQPStatusListRetDTO actType = new ActivationEQPStatusListRetDTO();
-        String cacheKey = "apiCode(CIM_ActivationStatusNum)_factory("+factory+")"+"_"+"eqpId("+eqpId+")";
-        ActivationEQPStatusListRetDTO cacheValue =(ActivationEQPStatusListRetDTO) LocalCacheUtils.getCacheValue(cacheKey);
-        if (cacheValue!=null){
-            return cacheValue;
-        }
+//        String cacheKey = "apiCode(CIM_ActivationStatusNum)_factory("+factory+")"+"_"+"eqpId("+eqpId+")";
+//        ActivationEQPStatusListRetDTO cacheValue =(ActivationEQPStatusListRetDTO) LocalCacheUtils.getCacheValue(cacheKey);
+//        if (cacheValue!=null){
+//            return cacheValue;
+//        }
         try {
             if (factory!=null){
                 factory = factory.toUpperCase();
@@ -104,11 +104,11 @@ public class ActivationServiceImpl {
                 dtList.add(activationStatusDate);
             }
             actType.setActivationStatusDateList(dtList);
-            if (new DateTime(nowTime).getHourOfDay()<2){
-                LocalCacheUtils.setCacheValue(cacheKey,actType,new DateTime(nowTime).withMillisOfDay(0).withHourOfDay(3).toDate());
-            }else {
-                LocalCacheUtils.setCacheValue(cacheKey,actType,new DateTime(nowTime).plusDays(1).withMillisOfDay(0).toDate());
-            }
+//            if (new DateTime(nowTime).getHourOfDay()<2){
+//                LocalCacheUtils.setCacheValue(cacheKey,actType,new DateTime(nowTime).withMillisOfDay(0).withHourOfDay(3).toDate());
+//            }else {
+//                LocalCacheUtils.setCacheValue(cacheKey,actType,new DateTime(nowTime).plusDays(1).withMillisOfDay(0).toDate());
+//            }
             return actType;
         }catch (Exception e){
             LogUtils.error(getClass(), e);
@@ -121,11 +121,11 @@ public class ActivationServiceImpl {
 
    @ApiMethodDoc(apiCode = "CIM_ActivationEQPId",name="重点设备稼动显示（完成-工厂数据已验证）")
     public ActivationEQPIdListRetDTO activationIdList(@ApiParamDoc(desc = "厂别：ARRAY,CELL") String factory){
-       String cacheKey = "apiCode(CIM_ActivationEQPId)_factory("+factory+")";
-       ActivationEQPIdListRetDTO cacheValue =(ActivationEQPIdListRetDTO) LocalCacheUtils.getCacheValue(cacheKey);
-       if (cacheValue!=null){
-           return cacheValue;
-       }
+//       String cacheKey = "apiCode(CIM_ActivationEQPId)_factory("+factory+")";
+//       ActivationEQPIdListRetDTO cacheValue =(ActivationEQPIdListRetDTO) LocalCacheUtils.getCacheValue(cacheKey);
+//       if (cacheValue!=null){
+//           return cacheValue;
+//       }
        ActivationEQPIdListRetDTO actType = new ActivationEQPIdListRetDTO();
         try {
             List<String> factoryList = Constant.factoryMap.get(factory);
@@ -163,11 +163,11 @@ public class ActivationServiceImpl {
                 dateList.add(activationDate);
             }
             actType.setActivationDateList(dateList);
-            if (new DateTime().getDayOfMonth()==1){
-                LocalCacheUtils.setCacheValue(cacheKey,actType,new DateTime().plusDays(1).withMillisOfDay(0).toDate());
-            }else {
-                LocalCacheUtils.setCacheValue(cacheKey,actType,new DateTime().plusMonths(1).withDayOfMonth(1).withMillisOfDay(0).toDate());
-            }
+//            if (new DateTime().getDayOfMonth()==1){
+//                LocalCacheUtils.setCacheValue(cacheKey,actType,new DateTime().plusDays(1).withMillisOfDay(0).toDate());
+//            }else {
+//                LocalCacheUtils.setCacheValue(cacheKey,actType,new DateTime().plusMonths(1).withDayOfMonth(1).withMillisOfDay(0).toDate());
+//            }
             return actType;
         }catch (Exception e){
             LogUtils.error(getClass(), e);

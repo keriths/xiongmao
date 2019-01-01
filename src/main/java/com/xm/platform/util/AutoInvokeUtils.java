@@ -23,15 +23,17 @@ public class AutoInvokeUtils {
         new Thread(){
             @Override
             public void run() {
-                try {
-                    invokeAllMethod();
-                }catch (Exception e){
-                    e.printStackTrace();
-                }
-                try {
-                    Thread.sleep(5000l);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
+                while (true){
+                    try {
+                        invokeAllMethod();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    try {
+                        Thread.sleep(5000l);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }.start();
