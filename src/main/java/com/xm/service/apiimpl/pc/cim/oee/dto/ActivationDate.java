@@ -125,11 +125,13 @@ public class ActivationDate implements Serializable{
         if (total!=null){
             return total;
         }
+        BigDecimal t = new BigDecimal(0);
         if(!CollectionUtils.isEmpty(statusDateList)) {
             for (StatusDateList s : statusDateList) {
-                total = total.add(s.getStatusDuration());
+                t = t.add(s.getStatusDuration());
             }
         }
+        total = t;
         return total.setScale(2,BigDecimal.ROUND_HALF_UP);
     }
 
