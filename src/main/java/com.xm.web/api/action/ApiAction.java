@@ -75,7 +75,7 @@ public class ApiAction {
             String key = apiCode+"_";
             if (param!=null && param.length>0){
                 for (Object obj : param){
-                    key+="["+obj.toString()+"]";
+                    key+="["+(obj==null?"":obj.toString())+"]";
                 }
             }
             Object cacheObj =  LocalCacheUtils.getCacheValue(key);
