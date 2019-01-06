@@ -49,7 +49,7 @@ public class TactTimeMonthAvgDataDTO implements Serializable{
         if (sumTotalTT==null || sumTotalGlsQty.floatValue()==0){
             return BigDecimal.ZERO;
         }
-        return sumTotalTT.divide(sumTotalGlsQty,2,BigDecimal.ROUND_HALF_UP);
+        return sumTotalTT.divide(sumTotalGlsQty,0,BigDecimal.ROUND_HALF_UP);
 //
 //        //为空时给个默认值
 //        if (actual==null){

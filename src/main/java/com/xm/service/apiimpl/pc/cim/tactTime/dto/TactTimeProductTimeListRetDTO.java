@@ -64,7 +64,7 @@ public class TactTimeProductTimeListRetDTO extends BaseRetDTO{
             if (sumTotalGlsQty==null || sumTotalGlsQty.floatValue()==0){
                 return BigDecimal.ZERO;
             }
-            return sumTotalTT.divide(sumTotalGlsQty,2,BigDecimal.ROUND_HALF_UP);
+            return sumTotalTT.divide(sumTotalGlsQty,0,BigDecimal.ROUND_HALF_UP);
 //
 //            if (total==null){
 //                if (showDemoData){
