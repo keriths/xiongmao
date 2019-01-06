@@ -70,14 +70,14 @@
         <!--<logger name="org.hibernate" level="INFO">-->
         <!--</logger>-->
 
-        <logger name="org.apache.ibatis" level="INFO" additivity="false">
-            <appender-ref ref="sql"/>
-            <appender-ref ref="Console"/>
-        </logger>
-        <logger name="java.sql" level="INFO" additivity="false">
-            <appender-ref ref="sql"/>
-            <appender-ref ref="Console"/>
-        </logger>
+        <!--<logger name="org.apache.ibatis" level="INFO" additivity="false">-->
+            <!--<appender-ref ref="sql"/>-->
+            <!--<appender-ref ref="Console"/>-->
+        <!--</logger>-->
+        <!--<logger name="java.sql" level="INFO" additivity="false">-->
+            <!--<appender-ref ref="sql"/>-->
+            <!--<appender-ref ref="Console"/>-->
+        <!--</logger>-->
         <logger name="com.xm.job.Tibrvlisten" level="INFO" additivity="false">
             <appender-ref ref="TibcoLog"/>
             <appender-ref ref="Console"/>
