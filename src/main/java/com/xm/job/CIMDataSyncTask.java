@@ -177,7 +177,7 @@ public class CIMDataSyncTask {
      */
     private void syncDWS_PRODUCT_INPUT_FIDS(int syncDayNums) {
         String tableName="DWS_PRODUCT_INPUT_FIDS";
-        LogUtils.info(this.getClass(), "beginSyncInPut[" + tableName + "]---");
+//        LogUtils.info(this.getClass(), "beginSyncInPut[" + tableName + "]---");
         long t1 = System.currentTimeMillis();
         int offset = 0;
         int limit = 10000;
@@ -191,7 +191,7 @@ public class CIMDataSyncTask {
                     String orderby = "FACTORY , PRODUCTTYPE , PRODUCTID";
                     mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
                     long t22 = System.currentTimeMillis();
-                    LogUtils.info(this.getClass(),"同步投入达成率[DWS_PRODUCT_INPUT_FIDS]查询数据用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
+                    //LogUtils.info(this.getClass(),"同步投入达成率[DWS_PRODUCT_INPUT_FIDS]查询数据用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
                 }catch (Exception e){
                     LogUtils.error(this.getClass(),"同步投入达成率[DWS_PRODUCT_INPUT_FIDS]offset["+offset+"]limit["+limit+"]查询数据 exception",e);
                     try {
@@ -225,12 +225,12 @@ public class CIMDataSyncTask {
                 offset = offset+mapDataList.size();
             }
             long t2 = System.currentTimeMillis();
-            LogUtils.info(this.getClass(),"同步投入达成率[DWS_PRODUCT_INPUT_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
+            //LogUtils.info(this.getClass(),"同步投入达成率[DWS_PRODUCT_INPUT_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
         }catch (Exception e){
             long t2 = System.currentTimeMillis();
             LogUtils.error(this.getClass(), "同步投入达成率[DWS_PRODUCT_INPUT_FIDS]数据出现异常，用时" + ((t2 - t1) / 1000) + "秒一共同步[" + offset + "]条数据",e);
         }
-        LogUtils.info(this.getClass(),"endSyncInPut["+tableName+"]---");
+        //LogUtils.info(this.getClass(),"endSyncInPut["+tableName+"]---");
     }
 
     public boolean notEquals(Object o1,Object o2){
@@ -243,7 +243,7 @@ public class CIMDataSyncTask {
 
     private void syncDWS_PRODUCT_OUTPUT_FIDS(int syncDayNums) {
         String tableName="DWS_PRODUCT_OUTPUT_FIDS";
-        LogUtils.info(this.getClass(), "beginSyncOutPut[" + tableName + "]---");
+        //LogUtils.info(this.getClass(), "beginSyncOutPut[" + tableName + "]---");
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
@@ -257,7 +257,7 @@ public class CIMDataSyncTask {
                     String orderby = "FACTORY , PRODUCTTYPE , PRODUCTID";
                     mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
                     long t22 = System.currentTimeMillis();
-                    LogUtils.info(this.getClass(),"同步产出达成率[DWS_PRODUCT_OUTPUT_FIDS]查询用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
+                    //LogUtils.info(this.getClass(),"同步产出达成率[DWS_PRODUCT_OUTPUT_FIDS]查询用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
                 }catch (Exception e){
                     LogUtils.error(this.getClass(),"同步产出达成率[DWS_PRODUCT_OUTPUT_FIDS]查询offset["+offset+"]limit["+limit+"] exception",e);
                     try {
@@ -292,19 +292,19 @@ public class CIMDataSyncTask {
                 offset = offset+mapDataList.size();
             }
             long t2 = System.currentTimeMillis();
-            LogUtils.info(this.getClass(),"同步产出达成率[DWS_PRODUCT_OUTPUT_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
+            //LogUtils.info(this.getClass(),"同步产出达成率[DWS_PRODUCT_OUTPUT_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
         }catch (Exception e){
             long t2 = System.currentTimeMillis();
             LogUtils.error(this.getClass(), "同步产出达成率[DWS_PRODUCT_OUTPUT_FIDS]数据出现异常，用时" + ((t2 - t1) / 1000) + "秒一共同步[" + offset + "]条数据", e);
         }
-        LogUtils.info(this.getClass(), "endSyncOutPut[" + tableName + "]---");
+        //LogUtils.info(this.getClass(), "endSyncOutPut[" + tableName + "]---");
     }
 
 
 
     private void syncDWS_PRODUCT_OUTPUT_FIDS_H(int syncDayNums) {
         String tableName="DWS_PRODUCT_OUTPUT_FIDS_H";
-        LogUtils.info(this.getClass(), "beginSyncOutPutH[" + tableName + "]---");
+        //LogUtils.info(this.getClass(), "beginSyncOutPutH[" + tableName + "]---");
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
@@ -318,7 +318,7 @@ public class CIMDataSyncTask {
                     String orderby = "FACTORY , PRODUCTTYPE , PRODUCTID";
                     mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
                     long t22 = System.currentTimeMillis();
-                    LogUtils.info(this.getClass(),"同步过货量推移[DWS_PRODUCT_OUTPUT_FIDS_H]查询用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
+                    //LogUtils.info(this.getClass(),"同步过货量推移[DWS_PRODUCT_OUTPUT_FIDS_H]查询用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
                 }catch (Exception e){
                     LogUtils.error(this.getClass(),"同步过货量推移[DWS_PRODUCT_OUTPUT_FIDS_H]查询offset["+offset+"]limit["+limit+"] exception",e);
                     try {
@@ -351,18 +351,18 @@ public class CIMDataSyncTask {
                 offset = offset+mapDataList.size();
             }
             long t2 = System.currentTimeMillis();
-            LogUtils.info(this.getClass(),"同步过货量推移[DWS_PRODUCT_OUTPUT_FIDS_H]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
+            //LogUtils.info(this.getClass(),"同步过货量推移[DWS_PRODUCT_OUTPUT_FIDS_H]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
         }catch (Exception e){
             long t2 = System.currentTimeMillis();
             LogUtils.error(this.getClass(), "同步过货量推移[DWS_PRODUCT_OUTPUT_FIDS_H]数据出现异常，用时" + ((t2 - t1) / 1000) + "秒一共同步[" + offset + "]条数据", e);
         }
-        LogUtils.info(this.getClass(), "endSyncOutPutH[" + tableName + "]---");
+        //LogUtils.info(this.getClass(), "endSyncOutPutH[" + tableName + "]---");
     }
 
 
     private void syncDWR_WIP_GLS_FIDS(int syncDayNums) {
         String tableName="DWR_WIP_GLS_FIDS";
-        LogUtils.info(this.getClass(), "beginSyncWip[" + tableName + "]---");
+        //LogUtils.info(this.getClass(), "beginSyncWip[" + tableName + "]---");
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
@@ -377,7 +377,7 @@ public class CIMDataSyncTask {
                 String orderby = "FACTORY , PRODUCTTYPE , STEPID , PRODUCTID";
                 mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
                 long t22 = System.currentTimeMillis();
-                LogUtils.info(this.getClass(), "同步在制品[DWR_WIP_GLS_FIDS]querySyncData 用时" + (t22 - t11) + "毫秒参数offset" + offset + " limit" + limit);
+                //LogUtils.info(this.getClass(), "同步在制品[DWR_WIP_GLS_FIDS]querySyncData 用时" + (t22 - t11) + "毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
                 LogUtils.error(this.getClass(),"同步在制品[DWR_WIP_GLS_FIDS]offset["+offset+"]limit["+limit+"]querySyncData exception",e);
                 try {
@@ -393,16 +393,16 @@ public class CIMDataSyncTask {
             }
             for (Map<String,Object> mapData : mapDataList){
                 try {
-                    LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_mapData"+mapData);
+                    //LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_mapData"+mapData);
                     Map<String,Object> data = dwrWipGlsFidsDAO.loadByPrimaryKey(mapData);
-                    LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_data"+data);
+                    //LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_data"+data);
                     if (data==null){
                            //添加  添加时把在库容量上限下限读出来一起同步
-                        LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_save_mapData"+mapData);
+                        //LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_save_mapData"+mapData);
                         dwrWipGlsFidsDAO.addData(mapData);
                         insertNum++;
                     }else {
-                        LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_update_mapData"+mapData);
+                        //LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_update_mapData"+mapData);
                         updateNum++;
                         if (notEquals(data.get("WIP_GLS_QTY"),mapData.get("WIP_GLS_QTY"))){
                             dwrWipGlsFidsDAO.updateData(mapData);
@@ -415,14 +415,14 @@ public class CIMDataSyncTask {
             offset = offset+limit;
         }
         long t2 = System.currentTimeMillis();
-        LogUtils.info(this.getClass(),"同步在制品[DWR_WIP_GLS_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+insertNum+"]条数据,更新["+updateNum+"]条数据");
-        LogUtils.info(this.getClass(),"endSyncWip["+tableName+"]---");
+        //LogUtils.info(this.getClass(),"同步在制品[DWR_WIP_GLS_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+insertNum+"]条数据,更新["+updateNum+"]条数据");
+        //LogUtils.info(this.getClass(),"endSyncWip["+tableName+"]---");
     }
 
 
     private void syncDWS_PRODUCT_LINE_YIELD_FIDS(int syncDayNums) {
         String tableName="DWS_PRODUCT_LINE_YIELD_FIDS";
-        LogUtils.info(this.getClass(), "beginSyncLine[" + tableName + "]---");
+        //LogUtils.info(this.getClass(), "beginSyncLine[" + tableName + "]---");
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
@@ -435,7 +435,7 @@ public class CIMDataSyncTask {
                 String orderby = "FACTORY , PRODUCTTYPE , PRODUCTID";
                 mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
                 long t22 = System.currentTimeMillis();
-                LogUtils.info(this.getClass(),"同步良品率[DWS_PRODUCT_LINE_YIELD_FIDS]querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
+                //LogUtils.info(this.getClass(),"同步良品率[DWS_PRODUCT_LINE_YIELD_FIDS]querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
                 LogUtils.error(this.getClass(),"同步良品率[DWS_PRODUCT_LINE_YIELD_FIDS]offset["+offset+"]limit["+limit+"]querySyncData exception",e);
                 try {
@@ -470,15 +470,15 @@ public class CIMDataSyncTask {
             offset = offset+mapDataList.size();
         }
         long t2 = System.currentTimeMillis();
-        LogUtils.info(this.getClass(),"同步良品率[DWS_PRODUCT_LINE_YIELD_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
-        LogUtils.info(this.getClass(), "endSyncLine[" + tableName + "]---");
+        //LogUtils.info(this.getClass(),"同步良品率[DWS_PRODUCT_LINE_YIELD_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
+        //LogUtils.info(this.getClass(), "endSyncLine[" + tableName + "]---");
     }
 
 
 
     private void syncDWS_PRODUCT_OC_YIELD_FIDS(int syncDayNums) {
         String tableName="DWS_PRODUCT_OC_YIELD_FIDS";
-        LogUtils.info(this.getClass(), "beginSyncOC[" + tableName + "]---");
+        //LogUtils.info(this.getClass(), "beginSyncOC[" + tableName + "]---");
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
@@ -492,7 +492,7 @@ public class CIMDataSyncTask {
                 String orderby = "FACTORY , PRODUCTTYPE , PRODUCTID";
                 mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
                 long t22 = System.currentTimeMillis();
-                LogUtils.info(this.getClass(),"同步良品率[DWS_PRODUCT_OC_YIELD_FIDS]querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
+                //LogUtils.info(this.getClass(),"同步良品率[DWS_PRODUCT_OC_YIELD_FIDS]querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
                 LogUtils.error(this.getClass(),"同步良品率[DWS_PRODUCT_OC_YIELD_FIDS]offset["+offset+"]limit["+limit+"]querySyncData exception",e);
                 try {
@@ -549,8 +549,8 @@ public class CIMDataSyncTask {
         }
 
         long t2 = System.currentTimeMillis();
-        LogUtils.info(this.getClass(),"同步良品率[DWS_PRODUCT_OC_YIELD_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
-        LogUtils.info(this.getClass(),"endSyncOC["+tableName+"]---");
+        //LogUtils.info(this.getClass(),"同步良品率[DWS_PRODUCT_OC_YIELD_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
+        //LogUtils.info(this.getClass(),"endSyncOC["+tableName+"]---");
     }
 
 
@@ -561,7 +561,7 @@ public class CIMDataSyncTask {
 
     private void syncDWR_PRODUCT_CT_FIDS(int syncDayNums) {
         String tableName="DWR_PRODUCT_CT_FIDS";
-        LogUtils.info(this.getClass(), "beginSyncCycleTime[" + tableName + "]---");
+        //LogUtils.info(this.getClass(), "beginSyncCycleTime[" + tableName + "]---");
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
@@ -574,7 +574,7 @@ public class CIMDataSyncTask {
                 String orderby = "FACTORY , PRODUCTTYPE , PRODUCTID";
                 mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
                 long t22 = System.currentTimeMillis();
-                LogUtils.info(this.getClass(),"同步CycleTime[DWR_PRODUCT_CT_FIDS]querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
+                //LogUtils.info(this.getClass(),"同步CycleTime[DWR_PRODUCT_CT_FIDS]querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
                 LogUtils.error(this.getClass(),"同步CycleTime[DWR_PRODUCT_CT_FIDS]offset["+offset+"]limit["+limit+"]querySyncData exception",e);
                 try {
@@ -609,8 +609,8 @@ public class CIMDataSyncTask {
             offset = offset+limit;
         }
         long t2 = System.currentTimeMillis();
-        LogUtils.info(this.getClass(),"同步CycleTime[DWR_PRODUCT_CT_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
-        LogUtils.info(this.getClass(),"endSyncCycleTime["+tableName+"]---");
+        //LogUtils.info(this.getClass(),"同步CycleTime[DWR_PRODUCT_CT_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
+        //LogUtils.info(this.getClass(),"endSyncCycleTime["+tableName+"]---");
     }
 
     private static ExecutorService oeeThreadPool = Executors.newFixedThreadPool(30);
@@ -618,7 +618,7 @@ public class CIMDataSyncTask {
 
     private void syncDWR_EQP_OEE_FIDS(int syncDayNums) {
         String tableName="DWR_EQP_OEE_FIDS";
-        LogUtils.info(this.getClass(), "beginSyncOEE[" + tableName + "]---");
+        //LogUtils.info(this.getClass(), "beginSyncOEE[" + tableName + "]---");
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
@@ -632,7 +632,7 @@ public class CIMDataSyncTask {
                 String orderby = "FACTORY ,EQP_ID, EQP_TYPE,EQP_STATUS";
                 mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
                 long t22 = System.currentTimeMillis();
-                LogUtils.info(this.getClass(),"同步稼动率[DWR_EQP_OEE_FIDS]querySyncData用时"+(t22-t111)+"毫秒参数offset" + offset + " limit" + limit);
+                //LogUtils.info(this.getClass(),"同步稼动率[DWR_EQP_OEE_FIDS]querySyncData用时"+(t22-t111)+"毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
                 LogUtils.error(this.getClass(),"同步稼动率[DWR_EQP_OEE_FIDS]offset["+offset+"]limit["+limit+"]querySyncData exception",e);
                 try {
@@ -643,7 +643,7 @@ public class CIMDataSyncTask {
                 continue;
             }
             if (CollectionUtils.isEmpty(mapDataList)){
-                LogUtils.info(this.getClass(),"emptySyncOEE["+tableName+"]---");
+                //LogUtils.info(this.getClass(),"emptySyncOEE["+tableName+"]---");
                 break;
             }
             long t3 = System.currentTimeMillis();
@@ -655,13 +655,13 @@ public class CIMDataSyncTask {
                     long t7 = System.currentTimeMillis();
                     Map<String, Object> data = dwrEqpOeeFidsDAO.loadByPrimaryKey(mapData);
                     long t8 = System.currentTimeMillis();
-                    LogUtils.info(this.getClass(), "同步稼动率[DWR_EQP_OEE_FIDS]数据单条查询loadByPrimaryKey用时["+(t8-t7)+"]");
+                    //LogUtils.info(this.getClass(), "同步稼动率[DWR_EQP_OEE_FIDS]数据单条查询loadByPrimaryKey用时["+(t8-t7)+"]");
                     if (data == null) {
                         //添加
                         long t9 = System.currentTimeMillis();
                         dwrEqpOeeFidsDAO.addData(mapData);
                         long t10 = System.currentTimeMillis();
-                        LogUtils.info(this.getClass(), "同步稼动率[DWR_EQP_OEE_FIDS]数据单条插入addData用时["+(t10-t9)+"]");
+                        //LogUtils.info(this.getClass(), "同步稼动率[DWR_EQP_OEE_FIDS]数据单条插入addData用时["+(t10-t9)+"]");
                     } else {
                         //更新
                         if (notEquals(data.get("STATUS_DURATION"), mapData.get("STATUS_DURATION")) ||
@@ -670,29 +670,29 @@ public class CIMDataSyncTask {
                             long t11 = System.currentTimeMillis();
                             dwrEqpOeeFidsDAO.updateData(mapData);
                             long t12 = System.currentTimeMillis();
-                            LogUtils.info(this.getClass(), "同步稼动率[DWR_EQP_OEE_FIDS]数据单条更新updateData用时["+(t12-t11)+"]");
+                            //LogUtils.info(this.getClass(), "同步稼动率[DWR_EQP_OEE_FIDS]数据单条更新updateData用时["+(t12-t11)+"]");
                         }
                     }
                 } catch (Exception e) {
                     LogUtils.error(this.getClass(), "同步稼动率[DWR_EQP_OEE_FIDS]数据单条处理失败原数据[" + JSON.toJSONString(mapData) + "]", e);
                 }
                 long t6 = System.currentTimeMillis();
-                LogUtils.info(this.getClass(), "同步稼动率[DWR_EQP_OEE_FIDS]数据单条处理用时[" + (t6 - t5) + "]");
+                //LogUtils.info(this.getClass(), "同步稼动率[DWR_EQP_OEE_FIDS]数据单条处理用时[" + (t6 - t5) + "]");
             });
             offset = offset+limit;
             long t4 = System.currentTimeMillis();
-            LogUtils.info(this.getClass(),"同步稼动率[DWR_EQP_OEE_FIDS]批次处理结束 保存用时"+(t4-t3)+"毫秒 总用时"+(t4-t1)+"参数offset" + offset + " limit" + limit);
+            //LogUtils.info(this.getClass(),"同步稼动率[DWR_EQP_OEE_FIDS]批次处理结束 保存用时"+(t4-t3)+"毫秒 总用时"+(t4-t1)+"参数offset" + offset + " limit" + limit);
         }
         long t2 = System.currentTimeMillis();
-        LogUtils.info(this.getClass(),"同步稼动率[DWR_EQP_OEE_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
-        LogUtils.info(this.getClass(), "endSyncOEE[" + tableName + "]---");
+        //LogUtils.info(this.getClass(),"同步稼动率[DWR_EQP_OEE_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
+        //LogUtils.info(this.getClass(), "endSyncOEE[" + tableName + "]---");
     }
 
 
 
     private void syncDWR_PRODUCT_TT_FIDS(int syncDayNums) {
         String tableName="DWR_PRODUCT_TT_FIDS";
-        LogUtils.info(this.getClass(), "beginSyncTactTime[" + tableName + "]---");
+        //LogUtils.info(this.getClass(), "beginSyncTactTime[" + tableName + "]---");
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
@@ -706,7 +706,7 @@ public class CIMDataSyncTask {
                 String orderby = "FACTORY,PRODUCTID, PRODUCTTYPE,EQP_ID,EQP_TYPE";
                 mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
                 long t22 = System.currentTimeMillis();
-                LogUtils.info(this.getClass(),"同步TactTime[DWR_PRODUCT_TT_FIDS]querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
+                //LogUtils.info(this.getClass(),"同步TactTime[DWR_PRODUCT_TT_FIDS]querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
                 LogUtils.error(this.getClass(),"同步TactTime[DWR_PRODUCT_TT_FIDS]offset["+offset+"]limit["+limit+"]querySyncData exception",e);
                 try {
@@ -742,8 +742,8 @@ public class CIMDataSyncTask {
             offset = offset+limit;
         }
         long t2 = System.currentTimeMillis();
-        LogUtils.info(this.getClass(),"同步TactTime[DWR_PRODUCT_TT_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
-        LogUtils.info(this.getClass(),"endSyncTactTime["+tableName+"]---");
+        //LogUtils.info(this.getClass(),"同步TactTime[DWR_PRODUCT_TT_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
+        //LogUtils.info(this.getClass(),"endSyncTactTime["+tableName+"]---");
     }
 
 }

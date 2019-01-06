@@ -48,7 +48,7 @@ public class Tibrvlisten implements TibrvMsgCallback
                         try
                         {
                             new TibrvListener(Tibrv.defaultQueue(), callback,transport,subject,null);
-                            LogUtils.info(Tibrvlisten.class,"Listening on: "+subject);
+                            //LogUtils.info(Tibrvlisten.class,"Listening on: "+subject);
                         }
                         catch (TibrvException e)
                         {
@@ -57,7 +57,7 @@ public class Tibrvlisten implements TibrvMsgCallback
                         }
                     }
                 }
-                LogUtils.info(Tibrvlisten.class,"Tibrvlisten init ....... successed");
+                //LogUtils.info(Tibrvlisten.class,"Tibrvlisten init ....... successed");
                 // dispatch Tibrv events
                 while(true)
                 {
@@ -83,7 +83,7 @@ public class Tibrvlisten implements TibrvMsgCallback
     public void onMsg(TibrvListener listener, TibrvMsg msg)
     {
         String msgData = msg.toString();
-//        LogUtils.info(Tibrvlisten.class,msgData);
+//        //LogUtils.info(Tibrvlisten.class,msgData);
         equipmentStatusService.equipmentStatusUpdate(msgData);
 
 //        System.out.println((new Date()).toString()+
