@@ -15,6 +15,7 @@ import com.xm.service.apiimpl.pc.cim.oee.dto.ActivationEQPIdListRetDTO;
 import com.xm.service.apiimpl.pc.cim.tactTime.TactTimeServiceImpl;
 import com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeMonthAvgRetDTO;
 import com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto.*;
+import com.xm.service.apiimpl.pc.product.ProductServiceImpl;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.*;
 import org.springframework.stereotype.Service;
@@ -98,25 +99,33 @@ public class RealTimeStatusServiceImpl {
         }
     }
 
+    private List<OutputCollectDataRetDTO.CollectDataList> queryTotalOutputByDateAndProductIdList(Date start,Date end){
+        List<OutputCollectDataRetDTO.CollectDataList> dataLists = new ArrayList<>();
+        Map<String,List<String>> productProductIdMap = productService.allProductProductIdMap();
+        for (Map.Entry<String,List<String>> entry : productProductIdMap.entrySet()){
+            OutputCollectDataRetDTO.CollectDataList collectData = outputcompletionDAO.queryTotalOutputByDateAndProductIdList(start,end,entry.getValue());
+            if (collectData!=null){
+                collectData.setProductName(entry.getKey());
+            }else{
+                collectData = new OutputCollectDataRetDTO.CollectDataList();
+                collectData.setOutputNum(BigDecimal.ZERO);
+                collectData.setProductName(entry.getKey());
+            }
+            dataLists.add(collectData);
+        }
+        return dataLists;
+    }
+
     @ApiMethodDoc(apiCode = "CIM_outputCollectData" , name = "产能")
     public OutputCollectDataRetDTO outCollectRetDTO(){
         OutputCollectDataRetDTO resultDto = new OutputCollectDataRetDTO();
         try {
-            List<String> productTypeList=Constant.productTypeTestList;
             Date todayStart = DateUtils.getBeforDayStartDay(1);
             Date todayEnd = DateUtils.getBeforDayEndDay(1);
             Date curMonthStart = DateUtils.getBeforMonthStartDay(0);
             Date curMonthEnd = DateUtils.getBeforMonthEndDay(0);
-            List<OutputCollectDataRetDTO.CollectDataList> dayDataList = outputcompletionDAO.queryTotalOutputByDateAndProductIdList(todayStart,todayEnd,productTypeList);
-            List<OutputCollectDataRetDTO.CollectDataList> monthDataList = outputcompletionDAO.queryTotalOutputByDateAndProductIdList(curMonthStart,curMonthEnd,productTypeList);
-//            List<OutputCollectDataRetDTO.CollectDataList> dayDataList = outputcompletionDAO.outputDayData(productIdList);
-//            List<OutputCollectDataRetDTO.CollectDataList> monthDataList = outputcompletionDAO.outputMonthData(productIdList);
-            if (CollectionUtils.isEmpty(dayDataList)){
-                dayDataList = Lists.newArrayList("50","58").stream().map(product -> new OutputCollectDataRetDTO.CollectDataList(product,DateUtils.getStrDate(todayEnd,"MM/dd"))).collect(Collectors.toList());
-            }
-            if (CollectionUtils.isEmpty(monthDataList)){
-                monthDataList = Lists.newArrayList("50","58").stream().map(product -> new OutputCollectDataRetDTO.CollectDataList(product,DateUtils.getStrDate(curMonthEnd,"yyyy/MM"))).collect(Collectors.toList());
-            }
+            List<OutputCollectDataRetDTO.CollectDataList> dayDataList = queryTotalOutputByDateAndProductIdList(todayStart, todayEnd);
+            List<OutputCollectDataRetDTO.CollectDataList> monthDataList = queryTotalOutputByDateAndProductIdList(curMonthStart,curMonthEnd);
             resultDto.setCollectDayDataRetDTOList(dayDataList);
             resultDto.setCollectMonthDataRetDTOList(monthDataList);
             return resultDto;
@@ -134,19 +143,18 @@ public class RealTimeStatusServiceImpl {
         ProductLineData resultDto = new ProductLineData();
         try {
             List<String> factoryList = Constant.allSingleFactoryLists;
-            List<String> productTypeList=Constant.productTypeTestList;
             Date todayStart = DateUtils.getBeforDayStartDay(1);
             Date todayEnd = DateUtils.getBeforDayEndDay(1);
             Date curMonthStart = DateUtils.getBeforMonthStartDay(0);
             Date curMonthEnd = DateUtils.getBeforMonthEndDay(0);
-            List<ProductLineDetailData> dayDataList = dwsProductLineYieldFidsDAO.queryTotalProductLineByDateAndFactoryList(Lists.newArrayList("ARRAY", "CELL", "CF", "SL"), todayStart, todayEnd, productTypeList);
+            List<ProductLineDetailData> dayDataList = dwsProductLineYieldFidsDAO.queryTotalProductLineByDateAndFactoryList(Lists.newArrayList("ARRAY", "CELL", "CF", "SL"), todayStart, todayEnd, null);
             //查询产品的良品率
             if (CollectionUtils.isEmpty(dayDataList)){
                 dayDataList = factoryList.stream().map(factory -> new ProductLineDetailData(DateUtils.getStrDate(todayStart,"MM/dd"),factory)).collect(Collectors.toList());
             }
             for (ProductLineDetailData productLineDetailData : dayDataList){
                 if (productLineDetailData.getFactory().equals("SL-OC")){
-                    ProductOcDetailData productDayGoodRateData = dwsProductOcYieldFidsDAO.queryProductsGoodRate(Constant.productList,todayStart, todayEnd);
+                    ProductOcDetailData productDayGoodRateData = dwsProductOcYieldFidsDAO.queryProductsGoodRate(productService.queryAllProductIdList(),todayStart, todayEnd);
                     BigDecimal factoryInline = productLineDetailData.getInLine()==null?BigDecimal.ZERO:productLineDetailData.getInLine();
                     BigDecimal productInline = productDayGoodRateData==null?BigDecimal.ZERO:productDayGoodRateData.getInLine()==null?BigDecimal.ZERO:productDayGoodRateData.getInLine();
                     if (BigDecimal.ZERO.equals(factoryInline)){
@@ -158,13 +166,13 @@ public class RealTimeStatusServiceImpl {
                     productLineDetailData.setProductInline(productInline);
                 }
             }
-            List<ProductLineDetailData> monthDataList = dwsProductLineYieldFidsDAO.queryTotalProductLineByDateAndFactoryList(Lists.newArrayList("ARRAY","CELL","CF","SL"),curMonthStart,curMonthEnd,productTypeList);
+            List<ProductLineDetailData> monthDataList = dwsProductLineYieldFidsDAO.queryTotalProductLineByDateAndFactoryList(Lists.newArrayList("ARRAY","CELL","CF","SL"),curMonthStart,curMonthEnd,null);
             if (CollectionUtils.isEmpty(monthDataList)){
                 monthDataList = factoryList.stream().map(factory -> new ProductLineDetailData(DateUtils.getStrDate(curMonthStart,"yyyy/MM"), factory)).collect(Collectors.toList());
             }
             for (ProductLineDetailData productLineDetailData : monthDataList){
                 if (productLineDetailData.getFactory().equals("SL-OC")){
-                    ProductOcDetailData productMonthGoodRateData = dwsProductOcYieldFidsDAO.queryProductsGoodRate(Constant.productList,curMonthStart,curMonthEnd);
+                    ProductOcDetailData productMonthGoodRateData = dwsProductOcYieldFidsDAO.queryProductsGoodRate(productService.queryAllProductIdList(),curMonthStart,curMonthEnd);
                     BigDecimal factoryInline = productLineDetailData.getInLine()==null?BigDecimal.ZERO:productLineDetailData.getInLine();
                     BigDecimal productInline = productMonthGoodRateData==null?BigDecimal.ZERO:productMonthGoodRateData.getInLine()==null?BigDecimal.ZERO:productMonthGoodRateData.getInLine();
                     if (BigDecimal.ZERO.equals(factoryInline)){
@@ -186,25 +194,19 @@ public class RealTimeStatusServiceImpl {
             return resultDto;
         }
     }
+    @Resource
+    ProductServiceImpl productService;
     //这个只取50的
     @ApiMethodDoc(apiCode = "CIM_ocCollectData" , name = "指定产品的良品率")
     public ProductOcData ocCollectRetDTO(){
         ProductOcData resultDto = new ProductOcData();
         try {
-//            List<String> productNameList=new ArrayList<String>();
-//            Map<String,String> dataMap=Constant.outProductIdNameMap;
-//            Iterator<Map.Entry<String, String>> it = dataMap.entrySet().iterator();
-//            while (it.hasNext()) {
-//                Map.Entry<String, String> entry = it.next();
-//                productNameList.add(entry.getKey());
-//            }
-//            List<String> productTypeList=Constant.productTypeTestList;
             Date todayStart = DateUtils.getBeforDayStartDay(1);
             Date todayEnd = DateUtils.getBeforDayEndDay(1);
             List<ProductOcDetailData> dayDataList = new ArrayList<>();//dwsProductOcYieldFidsDAO.queryTotalProductLineOCByDateAndProductList(todayStart,todayEnd);
-            for (Map.Entry<String,List<String>> entry : Constant.productMap.entrySet()){
+            for (Map.Entry<String,List<String>> entry : productService.allProductProductIdMap().entrySet()){
                 ProductOcDetailData productOcDetailData = new ProductOcDetailData();
-                productOcDetailData.setProductName(entry.getKey());
+                productOcDetailData.setProductName(productService.getProductName(entry.getKey()));
                 dayDataList.add(productOcDetailData);
                 ProductOcDetailData productDayGoodRateDate = dwsProductOcYieldFidsDAO.queryProductsGoodRate(entry.getValue(),todayStart,todayEnd);
                 BigDecimal productInline = productDayGoodRateDate!=null?productDayGoodRateDate.getInLine()!=null?productDayGoodRateDate.getInLine():BigDecimal.ZERO:BigDecimal.ZERO;
@@ -256,9 +258,9 @@ public class RealTimeStatusServiceImpl {
             List<ProductOcDetailData> monthDataList = new ArrayList<>(); //dwsProductOcYieldFidsDAO.queryTotalProductLineOCByDateAndProductList(curMonthStart,curMonthEnd);
             Date curMonthStart = DateUtils.getBeforMonthStartDay(0);
             Date curMonthEnd = DateUtils.getBeforMonthEndDay(0);
-            for (Map.Entry<String,List<String>> entry : Constant.productMap.entrySet()){
+            for (Map.Entry<String,List<String>> entry : productService.allProductProductIdMap().entrySet()){
                 ProductOcDetailData productOcDetailData = new ProductOcDetailData();
-                productOcDetailData.setProductName(entry.getKey());
+                productOcDetailData.setProductName(productService.getProductName(entry.getKey()));
                 monthDataList.add(productOcDetailData);
                 ProductOcDetailData productDayGoodRateDate = dwsProductOcYieldFidsDAO.queryProductsGoodRate(entry.getValue(),curMonthStart,curMonthEnd);
                 BigDecimal productInline = productDayGoodRateDate!=null?productDayGoodRateDate.getInLine()!=null?productDayGoodRateDate.getInLine():BigDecimal.ZERO:BigDecimal.ZERO;

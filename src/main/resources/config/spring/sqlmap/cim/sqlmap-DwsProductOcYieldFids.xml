@@ -108,23 +108,23 @@
 
 
 
-    <select id="queryTotalProductLineOCByDateAndProductList" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcDetailData">
-        SELECT
-        decode(PRODUCTID,'C41A','50', 'D41A','50','A1CC495PU1L01','50','D0NL495PU1L01','50',
-        'C51A','58','D51A','58','A1CC575PU1L01','58','A1CC575PU3L01','58',PRODUCTID) as productName,
-        <include refid="inline"/> as inLine
-        FROM
-        DWS_PRODUCT_OC_YIELD_FIDS
-        WHERE
-        PRODUCTID IN ('C41A', 'D41A','A1CC495PU1L01','D0NL495PU1L01', 'C51A','D51A','A1CC575PU1L01','A1CC575PU3L01')
-        and PRODUCTTYPE NOT IN ('DM')
-        <![CDATA[
-          and PERIODDATE >= #{startDate}
-          and PERIODDATE <= #{endDate}
-        ]]>
-        GROUP BY decode(PRODUCTID,'C41A','50', 'D41A','50','A1CC495PU1L01','50','D0NL495PU1L01','50',
-        'C51A','58','D51A','58','A1CC575PU1L01','58','A1CC575PU3L01','58',PRODUCTID)
-    </select>
+    <!--<select id="queryTotalProductLineOCByDateAndProductList" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcDetailData">-->
+        <!--SELECT-->
+        <!--decode(PRODUCTID,'C41A','50', 'D41A','50','A1CC495PU1L01','50','D0NL495PU1L01','50',-->
+        <!--'C51A','58','D51A','58','A1CC575PU1L01','58','A1CC575PU3L01','58',PRODUCTID) as productName,-->
+        <!--<include refid="inline"/> as inLine-->
+        <!--FROM-->
+        <!--DWS_PRODUCT_OC_YIELD_FIDS-->
+        <!--WHERE-->
+        <!--PRODUCTID IN ('C41A', 'D41A','A1CC495PU1L01','D0NL495PU1L01', 'C51A','D51A','A1CC575PU1L01','A1CC575PU3L01')-->
+        <!--and PRODUCTTYPE NOT IN ('DM')-->
+        <!--<![CDATA[-->
+          <!--and PERIODDATE >= #{startDate}-->
+          <!--and PERIODDATE <= #{endDate}-->
+        <!--]]>-->
+        <!--GROUP BY decode(PRODUCTID,'C41A','50', 'D41A','50','A1CC495PU1L01','50','D0NL495PU1L01','50',-->
+        <!--'C51A','58','D51A','58','A1CC575PU1L01','58','A1CC575PU3L01','58',PRODUCTID)-->
+    <!--</select>-->
 
     <select id="queryProductsGoodRate" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcDetailData">
         SELECT

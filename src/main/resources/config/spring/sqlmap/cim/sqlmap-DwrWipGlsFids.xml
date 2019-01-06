@@ -18,7 +18,28 @@
           <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
               #{factory}
           </foreach>
-            AND t.producttype IN ('CS', 'CM', 'MP')
+        and
+        (
+        (
+        FACTORY = 'SL'
+        and PRODUCTTYPE IN ('CS','MP','CM')
+        )
+        OR
+        (
+        FACTORY = 'OC'
+        and PRODUCTTYPE IN ('ZP21','ZP24','ZP10')
+        )
+        OR
+        (
+        FACTORY = 'ARRAY'
+        and PRODUCTTYPE IN ('CS','CM','MP')
+        )
+        OR
+        (
+        FACTORY = 'CELL'
+        and PRODUCTTYPE IN ('CS','CM','MP')
+        )
+        )
             AND d.big_eqp_type in
             <foreach collection="bigEqpTypeList" item="bigEqpType" open="(" separator="," close=")">
                 #{bigEqpType}
@@ -28,6 +49,41 @@
             and t.perioddate <= #{endDate}
             ]]>
         group by d.big_eqp_type
+    </select>
+    <select id="queryInProcessTotal" parameterType="map" resultType="java.math.BigDecimal">
+        SELECT
+          SUM(t.wip_gls_qty)/1000 as wipGlsQty
+        FROM dwr_wip_gls_fids t
+        WHERE t.factory IN
+        <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+            #{factory}
+        </foreach>
+        and
+        (
+        (
+        FACTORY = 'SL'
+        and PRODUCTTYPE IN ('CS','MP','CM')
+        )
+        OR
+        (
+        FACTORY = 'OC'
+        and PRODUCTTYPE IN ('ZP21','ZP24','ZP10')
+        )
+        OR
+        (
+        FACTORY = 'ARRAY'
+        and PRODUCTTYPE IN ('CS','CM','MP')
+        )
+        OR
+        (
+        FACTORY = 'CELL'
+        and PRODUCTTYPE IN ('CS','CM','MP')
+        )
+        )
+        <![CDATA[
+            AND t.perioddate >= #{beginDate}
+            and t.perioddate <= #{endDate}
+            ]]>
     </select>
 
 

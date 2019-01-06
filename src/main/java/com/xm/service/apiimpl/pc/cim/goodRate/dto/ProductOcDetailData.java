@@ -43,9 +43,6 @@ public class ProductOcDetailData {
 
 
     public String getProductName() {
-        if (Constant.productIdNameMap.get(productName)!=null){
-            return Constant.productIdNameMap.get(productName);
-        }
         return productName;
     }
 

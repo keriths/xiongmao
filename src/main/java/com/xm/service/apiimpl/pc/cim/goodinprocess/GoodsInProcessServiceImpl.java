@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -56,6 +57,7 @@ public class GoodsInProcessServiceImpl {
             Date beginDate = DateUtils.getBeforDayStartDay(1);
             Date endDate = DateUtils.getBeforDayEndDay(1);
             List<InProcessDataRetDTO.InProcessData> inProcessDatas = dwrWipGlsFidsDAO.queryInProcessDataList(factoryList,bigEqpTypeList,beginDate,endDate);
+            BigDecimal total = dwrWipGlsFidsDAO.queryInProcessTotal(factoryList,beginDate,endDate);
             Map<String,InProcessDataRetDTO.InProcessData> mapData = MapUtils.listToMap(inProcessDatas,"getBigEqpType");
             List<InProcessDataRetDTO.InProcessData> listData = new ArrayList<>();
             for (String bigEqpType:bigEqpTypeList){
@@ -67,6 +69,7 @@ public class GoodsInProcessServiceImpl {
                 listData.add(inProcessData);
             }
             resultDto.setInProcessDataList(listData);
+            resultDto.setTotal(total);
             return resultDto;
         }catch (Exception e){
             LogUtils.error(this.getClass(),"queryInProcessWip eclipse",e);
@@ -94,14 +97,13 @@ public class GoodsInProcessServiceImpl {
             Date beginDate = DateUtils .getBeforHourStartDay(0);
             Date endDate = new Date();
 
-            List<String> productTypeList=Constant.productTypeTestList;
 
-            List<GoodInProcessFtRetDTO.GoodInProcessFtDate> queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factoryList,stepIdLists,beginDate,endDate,productTypeList);
+            List<GoodInProcessFtRetDTO.GoodInProcessFtDate> queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factoryList,stepIdLists,beginDate,endDate,null);
             if (CollectionUtils.isEmpty(queryFtdate)){
                 //如果这一小时数据还没有出来，取上一小时的数据
                 beginDate = DateUtils.getBeforHourStartDay(1);
                 endDate = DateUtils.getBeforHourEndDay(1);
-                queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factoryList,stepIdLists,beginDate,endDate,productTypeList);
+                queryFtdate = dwrWipGlsFidsDAO.queryGoodInProcessFtDate(factoryList,stepIdLists,beginDate,endDate,null);
             }
             Map<String,GoodInProcessFtRetDTO.GoodInProcessFtDate> queryMap = MapUtils.listToMap(queryFtdate,"getStepIdKey");
             List<GoodInProcessFtRetDTO.GoodInProcessFtDate> list = new ArrayList<GoodInProcessFtRetDTO.GoodInProcessFtDate>();
@@ -171,9 +173,8 @@ public class GoodsInProcessServiceImpl {
                 dateList = DateUtils.getHourStrList(beginDate,endDate);
 //            }
 
-            List<String> productTypeList=Constant.productTypeTestList;
             //List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.factoryLists,Constant.stepIdLists, beginDate, endDate);
-            List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.allSingleFactoryLists,beginDate, endDate,productTypeList);
+            List<GoodInProcessWipDataDTO.GoodInProcessWipDetailData> wipDetailDataList = dwrWipGlsFidsDAO.queryGoodInProcessWip(Constant.allSingleFactoryLists,beginDate, endDate,null);
 //            wipDetailDataList = new ArrayList<>();
             Map<String, GoodInProcessWipDataDTO.GoodInProcessWipDetailData> dataMap = MapUtils.listToMap(wipDetailDataList, "key");
             List<GoodInProcessWipDataDTO> dataDTOList = new ArrayList<GoodInProcessWipDataDTO>();

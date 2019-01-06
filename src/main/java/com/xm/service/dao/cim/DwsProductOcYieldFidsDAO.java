@@ -28,7 +28,7 @@ public interface DwsProductOcYieldFidsDAO {
 
     /**
      * 单个目标良品率
-     * @param mapData
+     * @param
      */
     /*Map<String,Object> loadTargetByPrimaryKey(Map<String, Object> mapData);
 
@@ -36,9 +36,9 @@ public interface DwsProductOcYieldFidsDAO {
 
 //    void updateTargetData(Map<String, Object> mapData);
 
-    List<ProductOcDetailData> queryTotalProductLineOCByDateAndProductList(
-            @Param("startDate")Date startDate,
-            @Param("endDate")Date endDate);
+//    List<ProductOcDetailData> queryTotalProductLineOCByDateAndProductList(
+//            @Param("startDate")Date startDate,
+//            @Param("endDate")Date endDate);
 
     ProductOcDetailData queryProductsGoodRate(
             @Param("productNameList") List<String> productNameList,

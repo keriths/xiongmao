@@ -135,34 +135,63 @@
 
     </select>
 
+    <!--<select id="queryTotalOutputByDateAndProductIdList" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto.OutputCollectDataRetDTO$CollectDataList">-->
+        <!--SELECT-->
+        <!--decode(PRODUCTID,'C41A','50', 'D41A','50','A1CC495PU1L01','50','D0NL495PU1L01','50',-->
+        <!--'C51A','58','D51A','58','A1CC575PU1L01','58','A1CC575PU3L01','58',PRODUCTID) as productName,-->
+        <!--sum(ACTUAL_OUTPUT_PNL_QTY) as outputNum-->
+        <!--FROM-->
+        <!--DWS_PRODUCT_OUTPUT_FIDS-->
+        <!--WHERE-->
+        <!--PRODUCTID IN ('D41A','A1CC495PU1L01','D51A','D52A','D53A','A1CC575PU1L01','A1CC575PU3L01','A1CC575PU2L01')-->
+        <!--and FACTORY = 'OC'-->
+        <!--and-->
+        <!--(-->
+            <!--(-->
+            <!--FACTORY = 'SL'-->
+            <!--and PRODUCTTYPE IN ('CS','MP','CM')-->
+            <!--)-->
+          <!--OR-->
+            <!--(-->
+            <!--FACTORY = 'OC'-->
+            <!--and PRODUCTTYPE IN ('ZP21','ZP24','ZP10')-->
+            <!--)-->
+        <!--)-->
+        <!--<![CDATA[-->
+          <!--and PERIODDATE >= #{startDate}-->
+          <!--and PERIODDATE <= #{endDate}-->
+        <!--]]>-->
+        <!--GROUP BY decode(PRODUCTID,'C41A','50', 'D41A','50','A1CC495PU1L01','50','D0NL495PU1L01','50',-->
+        <!--'C51A','58','D51A','58','A1CC575PU1L01','58','A1CC575PU3L01','58',PRODUCTID)-->
+    <!--</select>-->
+
     <select id="queryTotalOutputByDateAndProductIdList" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto.OutputCollectDataRetDTO$CollectDataList">
         SELECT
-        decode(PRODUCTID,'C41A','50', 'D41A','50','A1CC495PU1L01','50','D0NL495PU1L01','50',
-        'C51A','58','D51A','58','A1CC575PU1L01','58','A1CC575PU3L01','58',PRODUCTID) as productName,
-        sum(ACTUAL_OUTPUT_PNL_QTY) as outputNum
+          sum(ACTUAL_OUTPUT_PNL_QTY) as outputNum
         FROM
-        DWS_PRODUCT_OUTPUT_FIDS
+          DWS_PRODUCT_OUTPUT_FIDS
         WHERE
-        PRODUCTID IN ('D41A','A1CC495PU1L01','D51A','D52A','D53A','A1CC575PU1L01','A1CC575PU3L01','A1CC575PU2L01')
+        PRODUCTID IN
+        <foreach collection="productIdList" item="productId" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
         and FACTORY = 'OC'
         and
         (
             (
-            FACTORY = 'SL'
-            and PRODUCTTYPE IN ('CS','MP','CM')
+                FACTORY = 'SL'
+                and PRODUCTTYPE IN ('CS','MP','CM')
             )
-          OR
+        OR
             (
-            FACTORY = 'OC'
-            and PRODUCTTYPE IN ('ZP21','ZP24','ZP10')
+                FACTORY = 'OC'
+                and PRODUCTTYPE IN ('ZP21','ZP24','ZP10')
             )
         )
         <![CDATA[
           and PERIODDATE >= #{startDate}
           and PERIODDATE <= #{endDate}
         ]]>
-        GROUP BY decode(PRODUCTID,'C41A','50', 'D41A','50','A1CC495PU1L01','50','D0NL495PU1L01','50',
-        'C51A','58','D51A','58','A1CC575PU1L01','58','A1CC575PU3L01','58',PRODUCTID)
     </select>
 
 

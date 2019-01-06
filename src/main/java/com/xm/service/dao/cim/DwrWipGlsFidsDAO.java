@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -26,7 +27,9 @@ public interface DwrWipGlsFidsDAO {
             @Param("bigEqpTypeList")List<String> bigEqpTypeList,
             @Param("beginDate")Date beginDate,
             @Param("endDate")Date endDate);
-
+    BigDecimal queryInProcessTotal( @Param("factoryList")List<String> factoryList,
+                                    @Param("beginDate")Date beginDate,
+                                    @Param("endDate")Date endDate);
     List<CompletionRetDTO.CompletionData> queryOutPutWipData(@Param("factorys")List<String> factoryList,@Param("periodDates")List<Date> periodDates);
 
     List<GoodInProcessFtRetDTO.GoodInProcessFtDate> queryGoodInProcessFtDate(

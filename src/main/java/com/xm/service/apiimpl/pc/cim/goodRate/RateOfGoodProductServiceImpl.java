@@ -8,6 +8,7 @@ import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
 import com.xm.service.apiimpl.pc.cim.goodRate.dto.*;
+import com.xm.service.apiimpl.pc.product.ProductServiceImpl;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DwsProductLineYieldFidsDAO;
 import com.xm.service.dao.cim.DwsProductOcYieldFidsDAO;
@@ -32,7 +33,8 @@ public class RateOfGoodProductServiceImpl {
     private DwsProductLineYieldFidsDAO dwsProductLineYieldFidsDAO;
     @Resource(name = "dwsProductOcYieldFidsDAO")
     private DwsProductOcYieldFidsDAO dwsProductOcYieldFidsDAO;
-
+    @Resource
+    ProductServiceImpl productService;
     @ApiMethodDoc(apiCode = "CIM_ProductLineYield",name = "指定工厂良品率显示接口（完成-工厂数据已验证）")
     public ProductLineDataRetDTO productLineDataRetDTO(@ApiParamDoc(desc = "厂别ARRAY,CELL,CF,SL-OC(必填)")String factory,
                                                        @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
@@ -72,10 +74,7 @@ public class RateOfGoodProductServiceImpl {
                 List<ProductLineDetailData> detailDataList=dwsProductLineYieldFidsDAO.queryProductLineData(Lists.newArrayList("SL"),dateType,beginDate,endDate);
                 Map<String,ProductLineDetailData> dataMap= MapUtils.listToMap(detailDataList,"getPeriodDate");
                 //继续取产品的
-                List<String> allProductIdList = new ArrayList<>();
-                for (Map.Entry<String,List<String>>  productMapEntry : Constant.productMap.entrySet()){
-                    allProductIdList.addAll(productMapEntry.getValue());
-                }
+                List<String> allProductIdList = productService.queryAllProductIdList();
                 List<ProductOcDetailData> productGodRageDataList = dwsProductOcYieldFidsDAO.queryProductOcData(allProductIdList,dateType,beginDate,endDate);
                 Map<String,ProductOcDetailData> productGodRateDataMap= MapUtils.listToMap(productGodRageDataList, "getPeriodDate");
 
@@ -145,10 +144,10 @@ public class RateOfGoodProductServiceImpl {
                                                      @ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType){
         ProductOcDataRetDTO resultDto=new ProductOcDataRetDTO();
         try {
-            List<String> productIdList = Constant.productMap.get(productName);
+            List<String> productIdList = productService.getProductIdByProduct(productName);
             if (CollectionUtils.isEmpty(productIdList)){
                 resultDto.setSuccess(false);
-                resultDto.setErrorMsg("productName参数错误,请传入【" + Constant.productMap.keySet()+ "】");
+                resultDto.setErrorMsg("productName参数错误,请传入【DWS_PRODUCT_MASTER中配置的】");
                 return resultDto;
             }
             if (!Constant.dateTypeList.contains(dateType)){

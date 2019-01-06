@@ -1,6 +1,5 @@
 package com.xm.service.apiimpl.pc.cim.cycletime;
 
-import com.google.common.collect.Lists;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
@@ -9,11 +8,11 @@ import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
 import com.xm.service.apiimpl.pc.cim.cycletime.dto.CycleTimeData;
 import com.xm.service.apiimpl.pc.cim.cycletime.dto.CycleTimeRetDTO;
+import com.xm.service.apiimpl.pc.product.ProductServiceImpl;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DwrProductCtFidsDAO;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -24,22 +23,20 @@ import java.util.*;
 @Service("CycleTimeService")
 @ApiServiceDoc(name = "CIM6_Cycle_Time(完成)")
 public class CycleTimeServiceImpl {
-//    private static Map<String,List<String>> productMap = new LinkedHashMap<>();
-//    static {
-//        productMap.put("50", Lists.newArrayList("C41A","D41A"));
-//        productMap.put("58", Lists.newArrayList("C51A","D51A"));
-//    }
     @Resource
     private DwrProductCtFidsDAO dwrProductCtFidsDAO;
+
+    @Resource
+    private ProductServiceImpl productService;
 
     @ApiMethodDoc(apiCode = "CIM_CycleTime",name = "Cycle Time 显示数据接口(完成)")
     public CycleTimeRetDTO cycleTime(@ApiParamDoc(desc = "统计时间类型天day月month季度quarter(必填)")String dateType,@ApiParamDoc(desc = "产品如55，50(必填)")String productId){
         CycleTimeRetDTO resultDto=new CycleTimeRetDTO();
         try {
-            List<String> productIdList = Constant.productMap.get(productId);
+            List<String> productIdList = productService.getProductIdByProduct(productId);
             if (CollectionUtils.isEmpty(productIdList)){
                 resultDto.setSuccess(false);
-                resultDto.setErrorMsg("productId参数错误,请传入【" + Constant.productMap.keySet() + "】");
+                resultDto.setErrorMsg("productId参数错误,请传入【DWS_PRODUCT_MASTER表中配置的】");
                 return resultDto;
             }
             if (!Constant.dateTypeList.contains(dateType)){
@@ -61,9 +58,9 @@ public class CycleTimeServiceImpl {
                 dateList = DateUtils.getQuarterStrList(beginDate,endDate);
             }
 
-            List<String> productTypeList=Constant.productTypeTestList;
 
-            List<CycleTimeData.CycleTimeDetailData> detailDataList=dwrProductCtFidsDAO.cycleTimeShow(productIdList,dateType,beginDate,endDate,productTypeList);
+
+            List<CycleTimeData.CycleTimeDetailData> detailDataList=dwrProductCtFidsDAO.cycleTimeShow(productIdList,dateType,beginDate,endDate,null);
             Map<String,CycleTimeData.CycleTimeDetailData> dataMap= MapUtils.listToMap(detailDataList,"key");
             List<CycleTimeData> dataList=new ArrayList<CycleTimeData>();
             for(String date:dateList){
