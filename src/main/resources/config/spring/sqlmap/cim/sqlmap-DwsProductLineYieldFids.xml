@@ -48,7 +48,7 @@
         OR
         (
         FACTORY in ('OC')
-        and PRODUCTTYPE  IN ('ZP21','ZP24','ZP10')
+        and PRODUCTTYPE  IN ('ZP20','ZP24','ZP10')
         AND PRODUCTID IN ('A1CC495PU1L01','A1CC575PU1L01','A1CC575PU2L01','A1CC575PU3L01')
         )
         OR
@@ -116,7 +116,7 @@
                     OR
                     (
                         FACTORY in ('OC')
-                        and PRODUCTTYPE  IN ('ZP21','ZP24','ZP10')
+                        and PRODUCTTYPE  IN ('ZP20','ZP24','ZP10')
                         AND PRODUCTID IN ('A1CC495PU1L01','A1CC575PU1L01','A1CC575PU2L01','A1CC575PU3L01')
                     )
                     OR
@@ -230,7 +230,7 @@
         OR
         (
         FACTORY in ('OC')
-        and PRODUCTTYPE  IN ('ZP21','ZP24','ZP10')
+        and PRODUCTTYPE  IN ('ZP20','ZP24','ZP10')
         AND PRODUCTID IN ('A1CC495PU1L01','A1CC575PU1L01','A1CC575PU2L01','A1CC575PU3L01')
         )
         )
@@ -277,7 +277,7 @@
         OR
         (
         FACTORY in ('OC')
-        and PRODUCTTYPE  IN ('ZP21','ZP24','ZP10')
+        and PRODUCTTYPE  IN ('ZP20','ZP24','ZP10')
         AND PRODUCTID IN ('A1CC495PU1L01','A1CC575PU1L01','A1CC575PU2L01','A1CC575PU3L01')
         )
         )

@@ -37,7 +37,7 @@
             OR
             (
               FACTORY = 'OC'
-              and PRODUCTTYPE IN ('ZP21','ZP24','ZP10')
+              and PRODUCTTYPE IN ('ZP20','ZP24','ZP10')
             )
             OR
             (
@@ -185,7 +185,7 @@
         OR
             (
                 FACTORY = 'OC'
-                and PRODUCTTYPE IN ('ZP21','ZP24','ZP10')
+                and PRODUCTTYPE IN ('ZP20','ZP24','ZP10')
             )
         )
         <![CDATA[
