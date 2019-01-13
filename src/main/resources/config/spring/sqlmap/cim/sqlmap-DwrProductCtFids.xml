@@ -4,11 +4,11 @@
 
     <select id="ctLimit" parameterType="map" resultType="com.xm.service.dto.CTLimitDTO">
         SELECT
-          shop_name as shopName,
-          limit_val as limitVal,
-          min_val as minVal,
-          max_val as maxVal,
-         from DWR_CT_LIMIT where IS_ENABLED = 1
+shop_name as shopName,
+LIMITVAL as limitVal,
+min_val as minVal,
+max_val as maxVal
+from DWR_CT_LIMIT where IS_ENABLED = 1
     </select>
 
     <select id="cycleTimeShow" resultType="com.xm.service.apiimpl.pc.cim.cycletime.dto.CycleTimeData$CycleTimeDetailData" parameterType="Map">
