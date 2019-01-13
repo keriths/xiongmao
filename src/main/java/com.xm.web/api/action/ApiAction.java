@@ -69,8 +69,8 @@ public class ApiAction {
 
     @RequestMapping(value = "/manage/processServiceMethod")
     @ResponseBody
-    public Object processServiceMethod(String apiCode){
-        getResponse().setHeader("Access-Control-Allow-Origin", "*");
+    public Object processServiceMethod(String apiCode,HttpServletResponse res){
+        res.setHeader("Access-Control-Allow-Origin", "*");
         ApiMethod apiMethod = ApiManager.getApiMethod(apiCode);
         Object[] param = getParamObjects(apiMethod);
         long t1 = System.currentTimeMillis();
@@ -125,9 +125,9 @@ public class ApiAction {
     public static HttpServletRequest getRequest(){
         return ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
     }
-    public static HttpServletResponse getResponse(){
-        return  ((ServletWebRequest)RequestContextHolder.getRequestAttributes()).getResponse();
-    }
+//    public static HttpServletResponse getResponse(){
+//        return  ((ServletWebRequest)RequestContextHolder.getRequestAttributes()).getResponse();
+//    }
     @RequestMapping(value = "/manage/serviceMethod")
     @ResponseBody
     public ApiMethodVO getServiceMethod(String apiCode){

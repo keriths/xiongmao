@@ -7,6 +7,7 @@ import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
 import com.xm.service.apiimpl.pc.cim.inputCompletion.dto.InputCompletionRetDTO;
+import com.xm.service.apiimpl.pc.product.ProductServiceImpl;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DwsProductInputFidsDAO;
 import com.xm.platform.util.DateUtils;
@@ -24,17 +25,9 @@ import java.util.*;
 @Service("InputCompletionRateService")
 @ApiServiceDoc(name = "CIM2_投入达成率（完成-工厂数据已验证）")
 public class InputCompletionRateServiceImpl{
-//    public static Map<String,List<String>> productMap = new HashMap<>();
-//    static {
-//        productMap.put("50", Lists.newArrayList( "D41A"));
-//        productMap.put("58", Lists.newArrayList("D51A"));
-//    }
-public static Map<String,List<String>> productMap = new HashMap<>();
-    static {
-        productMap.put("50", Lists.newArrayList("D41A"));
-        productMap.put("58", Lists.newArrayList("D51A","D52A","D53A"));
-    }
 
+    @Resource
+    private ProductServiceImpl productService;
     @Resource
     private DwsProductInputFidsDAO dwsProductInputFidsDAO;
 
@@ -112,16 +105,17 @@ public static Map<String,List<String>> productMap = new HashMap<>();
                 startTime = DateUtils.getBeforQuarterStartDay(3);
                 dateList = DateUtils.getQuarterStrList(startTime,endTime);
             }
-            final List<String> productIdList = null;
+            List<String> productIdList = null;
             if (productId!=null){
-                productIdList.addAll(productMap.get(productId));
+                productIdList = new ArrayList<>();
+                productIdList.addAll(productService.getProductIdByProduct(productId));
                 if (CollectionUtils.isEmpty(productIdList)){
                     retDto.setSuccess(false);
-                    retDto.setErrorMsg("productId参数错误,请传入【" + productMap.keySet() + "】");
+                    retDto.setErrorMsg("productId参数错误,请根据传入【配置的产品关系】");
                     return retDto;
                 }
             }
-            List<String> factoryList = Lists.newArrayList("ARRAY");
+            List<String> factoryList = new ArrayList<>();
             if (factory!=null){
                 factoryList = factoryMap.get(factory);
             }

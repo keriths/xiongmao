@@ -25,7 +25,7 @@ public interface DwsProductOutputFidsDAO {
                                                          @Param("endDate")Date endDate,
                                                          @Param("factoryList")List<String> factoryList);
 
-    List<CompletionRetDTO.CompletionData> queryOutputCompletionRate(@Param("productIdList")List<String> productIdList,
+    List<CompletionRetDTO.CompletionData> queryOutputCompletionRate(
                                                                     @Param("dateType")String dateType,
                                                                     @Param("beginDate")Date beginDate,
                                                                     @Param("endDate")Date endDate,
