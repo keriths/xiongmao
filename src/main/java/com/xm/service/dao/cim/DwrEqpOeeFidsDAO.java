@@ -28,6 +28,15 @@ public interface DwrEqpOeeFidsDAO {
 //            @Param("endDateStr")String endDate
 //    );
 
+    List<String> maxStatusEqpIdList(
+            @Param("factoryList") List<String> factoryList,
+            @Param("eqpIdList") List<String> eqpIdList,
+            @Param("bigEqpType")String bigEqpType,
+            @Param("beginDateStr")String beginDate,
+            @Param("endDateStr")String endDate,
+            @Param("status")String status
+    );
+
     List<ActivationStatusDate.StatusNumberList> queryActivationStatusNumByDay(
             @Param("factoryList") List<String> factoryList,
             @Param("eqpIdList") List<String> eqpIdList,

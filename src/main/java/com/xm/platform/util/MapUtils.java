@@ -28,6 +28,9 @@ public class MapUtils {
 
     public static <K,V> Map<K,V> listToMap(List<V> listValue,String getMethodName) {
         try {
+            if (CollectionUtils.isEmpty(listValue)){
+                return new HashMap<>();
+            }
             Map<K,V> mapValue = new HashMap<K, V>();
             if (CollectionUtils.isEmpty(listValue)){
                 return mapValue;

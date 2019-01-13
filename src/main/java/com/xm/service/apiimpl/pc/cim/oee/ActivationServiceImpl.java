@@ -73,8 +73,9 @@ public class ActivationServiceImpl {
             String endDateStr =DateUtils.getStrDate( endDate,"yyyy-MM-dd HH:mm:ss");
             List<String> dayList = DateUtils.getDayStrList(beginDate, endDate);
             long t1  = System.currentTimeMillis();
-            List<String> eqpIdList = getEqpIdList(factory,bigEqpType);
-            List<ActivationStatusDate.StatusNumberList> activationNumList = activationDAO.queryActivationStatusNumByDay(factoryList, eqpIdList, bigEqpType,beginDateStr, endDateStr);
+            List<String> eqpIdList = getEqpIdList(factory, bigEqpType);
+            String maxEqpIdList =getMaxEqpId(factoryList,eqpIdList,beginDate, endDate);
+            List<ActivationStatusDate.StatusNumberList> activationNumList = activationDAO.queryActivationStatusNumByDay(factoryList, Lists.newArrayList(maxEqpIdList), bigEqpType,beginDateStr, endDateStr);
             long t2 = System.currentTimeMillis();
             LogUtils.info(this.getClass(),"queryActivationStatusNum_usetime["+(t2-t1)+"毫秒factoryList["+factoryList+"]eqpId["+eqpId+"]beginDateStr["+beginDateStr+"]endDateStr["+endDateStr+"]");
 //            long t3 = System.currentTimeMillis();
@@ -185,7 +186,8 @@ public class ActivationServiceImpl {
 
     private List<ActivationDate.StatusDateList> getStatusDateLists(List<String> factoryList, Date beginDate, Date endDate, List<String> eqpIdList) {
         long t1 = System.currentTimeMillis();
-        List<ActivationDate.StatusDateList> ret =activationDAO.queryActivationByEQPIdListAndFactory(factoryList, eqpIdList, DateUtils.getStrDate(beginDate, "yyyy-MM-dd HH:mm:ss"), DateUtils.getStrDate(endDate, "yyyy-MM-dd HH:mm:ss"));
+        String maxEqpId = getMaxEqpId(factoryList, eqpIdList,beginDate, endDate);
+        List<ActivationDate.StatusDateList> ret =activationDAO.queryActivationByEQPIdListAndFactory(factoryList, Lists.newArrayList(maxEqpId), DateUtils.getStrDate(beginDate, "yyyy-MM-dd HH:mm:ss"), DateUtils.getStrDate(endDate, "yyyy-MM-dd HH:mm:ss"));
         long t2 = System.currentTimeMillis();
         LogUtils.info(this.getClass(),"queryActivationEQPId_usetime["+(t2-t1)+"]factoryList["+factoryList+"]groupName["+eqpIdList+"]beginDateStr["+DateUtils.getStrDate(beginDate, "yyyy-MM-dd HH:mm:ss")+"]endDateStr["+DateUtils.getStrDate(endDate,"yyyy-MM-dd HH:mm:ss") +"]");
 //        if (CollectionUtils.isEmpty(ret)){
@@ -199,6 +201,22 @@ public class ActivationServiceImpl {
 //            statusDateList.setStatusNum(statusNum.divide(new BigDecimal(eqpCount),5,BigDecimal.ROUND_HALF_UP));
 //        }
         return ret;
+    }
+
+    private String getMaxEqpId(List<String> factoryList, List<String> eqpIdList,Date beginDate, Date endDate) {
+        String maxEqpId = "";
+        List<String> maxEqpIdList = activationDAO.maxStatusEqpIdList(factoryList, eqpIdList, "", DateUtils.getStrDate(beginDate, "yyyy-MM-dd HH:mm:ss"), DateUtils.getStrDate(endDate, "yyyy-MM-dd HH:mm:ss"), "RUN");
+        if(!CollectionUtils.isEmpty(maxEqpIdList)){
+            if (maxEqpIdList.size()==1){
+                maxEqpId = maxEqpIdList.get(0);
+            }else {
+                maxEqpIdList = activationDAO.maxStatusEqpIdList(factoryList, eqpIdList, "", DateUtils.getStrDate(beginDate, "yyyy-MM-dd HH:mm:ss"), DateUtils.getStrDate(endDate, "yyyy-MM-dd HH:mm:ss"), "WAT");
+                if (!CollectionUtils.isEmpty(maxEqpIdList)){
+                    maxEqpId = maxEqpIdList.get(0);
+                }
+            }
+        }
+        return maxEqpId;
     }
 
 }

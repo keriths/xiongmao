@@ -1,6 +1,7 @@
 package com.xm.service.dao.cim;
 
 import com.xm.service.apiimpl.pc.cim.cycletime.dto.CycleTimeData;
+import com.xm.service.dto.CTLimitDTO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +14,8 @@ import java.util.Map;
  */
 @Repository("dwrProductCtFidsDAO")
 public interface DwrProductCtFidsDAO {
+
+    List<CTLimitDTO> ctLimit();
 
     /**
      * Cycle_Time显示

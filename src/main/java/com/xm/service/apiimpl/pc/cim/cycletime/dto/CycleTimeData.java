@@ -62,29 +62,8 @@ public class CycleTimeData implements Serializable {
         }
 
         public BigDecimal getPlan() {
-            if ("Array".equals(getFactory())){
-                //13
-                if (plan.doubleValue()>13.7){
-                    plan = RandomUtils.randomFloat(13.1f,13.7f,1);
-                }
-            }
-            if ("Cell".equals(getFactory())){
-                //1.2
-                if (plan.doubleValue()>1.7){
-                    plan = RandomUtils.randomFloat(1.3f,1.7f,1);
-                }
-            }
-            if ("CF".equals(getFactory())){
-                //4
-                if (plan.doubleValue()>4.4){
-                    plan = RandomUtils.randomFloat(4.1f,4.4f,1);
-                }
-            }
-            if ("OC".equals(getFactory())){
-                //0.5
-                if (plan.doubleValue()>0.8){
-                    plan = RandomUtils.randomFloat(0.6f,0.8f,1);
-                }
+            if (plan==null){
+                plan = BigDecimal.ZERO;
             }
             return plan;
         }
@@ -94,29 +73,8 @@ public class CycleTimeData implements Serializable {
         }
 
         public BigDecimal getActual() {
-            if ("Array".equals(getFactory())){
-                //13
-                if (actual.doubleValue()>13.7){
-                    actual = RandomUtils.randomFloat(13.1f,13.7f,1);
-                }
-            }
-            if ("Cell".equals(getFactory())){
-                //1.2
-                if (actual.doubleValue()>1.7){
-                    actual = RandomUtils.randomFloat(1.3f,1.7f,1);
-                }
-            }
-            if ("CF".equals(getFactory())){
-                //4
-                if (actual.doubleValue()>4.4){
-                    actual = RandomUtils.randomFloat(4.1f,4.4f,1);
-                }
-            }
-            if ("OC".equals(getFactory())){
-                //0.5
-                if (actual.doubleValue()>0.8){
-                    actual = RandomUtils.randomFloat(0.6f,0.8f,1);
-                }
+            if (actual==null){
+                actual = BigDecimal.ZERO;
             }
             return actual.setScale(1,BigDecimal.ROUND_HALF_UP);
         }

@@ -60,9 +60,9 @@
     <!--</select>-->
     <select id="queryTwoDaysTapWaterByQueryData"  parameterType="map" resultType="com.xm.service.dto.TwoDaysDataDTO">
         SELECT
-        beforTotalNum,
+        beforTotalNum/1000,
         beforDataDate,
-        afterTotalNum,
+        afterTotalNum/1000,
         afterDataDate
         FROM (
         SELECT
@@ -88,7 +88,7 @@
 
 
     <select id="queryDayDataByDateList" parameterType="map" resultType="com.xm.service.dto.DayDataDTO">
-        SELECT TOTALNUM as totalNum,DATADATE as dataDate
+        SELECT TOTALNUM/1000 as totalNum,DATADATE as dataDate
         FROM TAPWATEREVERYDAYDATA
         WHERE  DATADATE IN
         <foreach collection="queryDateList" item="queryDate" open="(" separator="," close=")">

@@ -104,7 +104,12 @@ public class TactTimeServiceImpl {
             for (String productId:groupNameList){
                 String eqpIdListStr = dwrProductTtFidsDAO.queryEqListStr(factory,productId);
                 List<String> eqpIdList = Lists.newArrayList(eqpIdListStr.split(","));
-                List<TactTimeMonthAvgDataDTO> oneProductList =  dwrProductTtFidsDAO.queryMonthAvgByEqpIdList(factoryList, eqpIdList, productId, beginDate, endDate);
+                List<Map<String,String>> mapList = dwrProductTtFidsDAO.queryMinEqpIdData(factoryList,eqpIdList,productId,beginDate,endDate);
+                String minEqpId = "";
+                if (!CollectionUtils.isEmpty(mapList)){
+                    minEqpId = mapList.get(0).get("EQP_ID");
+                }
+                List<TactTimeMonthAvgDataDTO> oneProductList =  dwrProductTtFidsDAO.queryMonthAvgByEqpIdList(factoryList, Lists.newArrayList(minEqpId), productId, beginDate, endDate);
                 if (oneProductList!=null){
                     tactTimeMonthAvgDataDTOList.addAll(oneProductList);
                 }

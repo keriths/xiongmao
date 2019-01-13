@@ -6,11 +6,13 @@ import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
+import com.xm.platform.util.RandomUtils;
 import com.xm.service.apiimpl.pc.cim.cycletime.dto.CycleTimeData;
 import com.xm.service.apiimpl.pc.cim.cycletime.dto.CycleTimeRetDTO;
 import com.xm.service.apiimpl.pc.product.ProductServiceImpl;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DwrProductCtFidsDAO;
+import com.xm.service.dto.CTLimitDTO;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -58,8 +60,8 @@ public class CycleTimeServiceImpl {
                 dateList = DateUtils.getQuarterStrList(beginDate,endDate);
             }
 
-
-
+            List<CTLimitDTO> ctLimit = dwrProductCtFidsDAO.ctLimit();
+            Map<String,CTLimitDTO> ctLimitDTOMap = MapUtils.listToMap(ctLimit,"getShopName");
             List<CycleTimeData.CycleTimeDetailData> detailDataList=dwrProductCtFidsDAO.cycleTimeShow(productIdList,dateType,beginDate,endDate,null);
             Map<String,CycleTimeData.CycleTimeDetailData> dataMap= MapUtils.listToMap(detailDataList,"key");
             List<CycleTimeData> dataList=new ArrayList<CycleTimeData>();
@@ -73,6 +75,15 @@ public class CycleTimeServiceImpl {
                     CycleTimeData.CycleTimeDetailData detailData=dataMap.get(key);
                     if(detailData==null){
                         detailData=new CycleTimeData.CycleTimeDetailData(date,factory);
+                    }
+                    CTLimitDTO ctLimitDTO = ctLimitDTOMap.get(factory);
+                    if (ctLimitDTO!=null){
+                        if (detailData.getPlan()!=null && detailData.getPlan().doubleValue() > ctLimitDTO.getLimitVal().doubleValue()){
+                            detailData.setPlan(RandomUtils.randomFloat(ctLimitDTO.getMinVal().floatValue(), ctLimitDTO.getMaxVal().floatValue(), 1));
+                        }
+                        if (detailData.getActual()!=null && detailData.getActual().doubleValue() > ctLimitDTO.getLimitVal().doubleValue()){
+                            detailData.setActual(RandomUtils.randomFloat(ctLimitDTO.getMinVal().floatValue(), ctLimitDTO.getMaxVal().floatValue(), 1));
+                        }
                     }
                     cycleTimeDetailDataList.add(detailData);
                 }

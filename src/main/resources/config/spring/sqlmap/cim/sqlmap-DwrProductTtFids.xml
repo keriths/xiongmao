@@ -66,6 +66,41 @@
           <!--]]>-->
         <!--group by gg.BIG_EQP_TYPE-->
     <!--</select>-->
+    <select id="queryMinEqpIdData" parameterType="map" resultType="map">
+        select stt/sqty as r,EQP_ID from (
+
+            select sum(TOTAL_TT) as stt , sum(TOTAL_GLS_QTY) as sqty,EQP_ID from
+            DWR_PRODUCT_TT_FIDS
+            where FACTORY IN
+                <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+                    #{factory}
+                </foreach>
+            and  EQP_ID IN
+                <foreach collection="eqpIdList" item="eqpId" open="(" separator="," close=")">
+                    #{eqpId}
+                </foreach>
+            <![CDATA[
+            and PERIODDATE >= #{beginDate}
+            and PERIODDATE <= #{endDate}
+            ]]>
+            and
+            (
+                (
+                    FACTORY IN ( 'ARRAY','CELL','CF','SL')
+                    and PRODUCTTYPE IN ('CS','MP','CM')
+                )
+              OR
+                (
+                    FACTORY = 'OC'
+                    and PRODUCTTYPE IN ('ZP21','ZP24','ZP10')
+                )
+            )
+            group by EQP_ID
+
+        )
+        where sqty != 0 and stt !=0
+        order by r
+    </select>
 
     <select id="queryTactTimeListByEqpIdList" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeProductTimeListRetDTO$TactTimeProductDetail">
         SELECT
@@ -85,7 +120,18 @@
         <foreach collection="eqpIdList" item="eqpId" open="(" separator="," close=")">
             #{eqpId}
         </foreach>
-
+        and
+        (
+            (
+                FACTORY IN ( 'ARRAY','CELL','CF','SL')
+                and PRODUCTTYPE IN ('CS','MP','CM')
+            )
+            OR
+            (
+                FACTORY = 'OC'
+                and PRODUCTTYPE IN ('ZP21','ZP24','ZP10')
+            )
+        )
         <![CDATA[
             and PERIODDATE >= #{beginDate}
             and PERIODDATE <= #{endDate}

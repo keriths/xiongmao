@@ -17,6 +17,14 @@ public interface DwrProductTtFidsDAO {
     List<String> queryBigEqpTypeByFactory(@Param("factory")String factory);
     String queryEqListStr(@Param("factory")String factory,@Param("bigEqpType")String bigEqpType);
 
+    List<Map<String,String>> queryMinEqpIdData(
+            @Param("factoryList")List<String> factoryList,
+            @Param("eqpIdList")List<String> eqpIdList,
+            @Param("productId")String productId,
+            @Param("beginDate")Date beginDate,
+            @Param("endDate")Date endDate
+    );
+
     List<TactTimeMonthAvgDataDTO> queryMonthAvgByEqpIdList(
             @Param("factoryList")List<String> factoryList,
             @Param("eqpIdList")List<String> eqpIdList,

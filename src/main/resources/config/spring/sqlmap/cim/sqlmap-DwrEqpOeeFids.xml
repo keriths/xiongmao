@@ -81,6 +81,48 @@
                       <!--]]>-->
         <!--GROUP BY  gg2.GROUPNAME-->
     <!--</select>-->
+    <select id="maxStatusEqpIdList" parameterType="map" resultType="string">
+        SELECT eqp_id
+        FROM (
+            SELECT eqp_id, SUM(STATUS_DURATION) AS mvalue
+            FROM DWR_EQP_OEE_FIDS
+            WHERE EQP_STATUS = #{status}
+                AND FACTORY IN
+                    <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+                        '${factory}'
+                    </foreach>
+                AND EQP_ID in
+                    <foreach collection="eqpIdList" item="eqpId" open="(" separator="," close=")">
+                        #{eqpId}
+                    </foreach>
+                <![CDATA[
+                        and PERIODDATE >= to_date('${beginDateStr}','yyyy-mm-dd hh24:mi:ss')
+                        and PERIODDATE <= to_date('${endDateStr}','yyyy-mm-dd hh24:mi:ss')
+                ]]>
+            GROUP BY eqp_id
+        ) a
+        WHERE a.mvalue = (
+            SELECT MAX(mvalue) AS maxValue
+            FROM (
+                SELECT eqp_id, SUM(STATUS_DURATION) AS mvalue
+                FROM DWR_EQP_OEE_FIDS
+                WHERE EQP_STATUS = #{status}
+                    AND FACTORY IN
+                        <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+                            '${factory}'
+                        </foreach>
+                    AND EQP_ID in
+                        <foreach collection="eqpIdList" item="eqpId" open="(" separator="," close=")">
+                            #{eqpId}
+                        </foreach>
+                        <![CDATA[
+                          and PERIODDATE >= to_date('${beginDateStr}','yyyy-mm-dd hh24:mi:ss')
+                          and PERIODDATE <= to_date('${endDateStr}','yyyy-mm-dd hh24:mi:ss')
+                          ]]>
+                GROUP BY eqp_id
+            )
+        )
+    </select>
     <select id="queryActivationStatusNumByDay" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.oee.dto.ActivationStatusDate$StatusNumberList">
       SELECT
         decode(oee.FACTORY,'SL','SL-OC','OC','SL-OC',oee.FACTORY) as factory,
