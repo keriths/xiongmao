@@ -66,11 +66,11 @@ public class RealTimeStatusServiceImpl {
                     factoryEquiStatusNumCollectDTO.failNum = factoryEquiStatusNumCollectDTO.failNum+equipmentData.getCount();
                     factoryEquiStatusNumCollectDTO.totalNum = factoryEquiStatusNumCollectDTO.totalNum+equipmentData.getCount();
                 }
-                if ("RUN".equals(equipmentData.getVal())){
+                if ("RUN".equals(equipmentData.getVal()) || "MAN".equals(equipmentData.getVal()) || "WAT".equals(equipmentData.getVal())){
                     factoryEquiStatusNumCollectDTO.oeeNum = factoryEquiStatusNumCollectDTO.oeeNum+equipmentData.getCount();
                     factoryEquiStatusNumCollectDTO.totalNum = factoryEquiStatusNumCollectDTO.totalNum+equipmentData.getCount();
                 }
-                if ("MAN".equals(equipmentData.getVal()) || "MNT".equals(equipmentData.getVal())){
+                if ("MNT".equals(equipmentData.getVal())){
                     factoryEquiStatusNumCollectDTO.pmNum = factoryEquiStatusNumCollectDTO.pmNum+equipmentData.getCount();
                     factoryEquiStatusNumCollectDTO.totalNum = factoryEquiStatusNumCollectDTO.totalNum+equipmentData.getCount();
                 }

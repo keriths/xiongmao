@@ -1,5 +1,6 @@
 package com.xm.service.apiimpl.pc.cim.goodRate;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
@@ -136,6 +137,53 @@ public class RateOfGoodProductServiceImpl {
         }
 
     }
+
+    @ApiMethodDoc(apiCode = "CIM_ProductGoodRateNew",name = "新的综合良品率的接口")
+    public ProductGoodRateRetDTO productGoodRate(@ApiParamDoc(desc = "产品：如50,为空时是全部")String product,@ApiParamDoc(desc = "统计时间类型天day月month(必填)")String dateType){
+        ProductGoodRateRetDTO resultDto = new ProductGoodRateRetDTO();
+        try {
+            List<String> productIdList = Lists.newArrayList("ALL");
+            if (!Strings.isNullOrEmpty(product)){
+                productIdList = productService.getProductIdByProduct(product);
+            }
+            Date beginDate = null;
+            Date endDate = null;
+            List<String> dataxList = null;
+            if (Constant.day.equals(dateType)){
+                beginDate = DateUtils.getBeforDayStartDay(10);
+                endDate = DateUtils.getBeforDayEndDay(1);
+                dataxList = DateUtils.getDayStrList(beginDate,endDate);
+            }else if (Constant.month.equals(dateType)){
+                beginDate = DateUtils.getBeforMonthStartDay(12);
+                endDate = DateUtils.getBeforMonthEndDay(1);
+                dataxList = DateUtils.getMonthStrList(beginDate, endDate);
+            }else {
+                resultDto.setSuccess(false);
+                resultDto.setErrorMsg("dateType参数错误,请传入【" + Constant.dateTypeList + "】");
+                return resultDto;
+            }
+            List<ProductGoodRateRetDTO.ProductGoodRateDTO> productGoodRateDTOList = dwsProductOcYieldFidsDAO.queryProductGoodRate(productIdList, beginDate, endDate, dateType);
+            Map<String,ProductGoodRateRetDTO.ProductGoodRateDTO> productGoodRateDTOListMap = MapUtils.listToMap(productGoodRateDTOList,"getDatax");
+            List<ProductGoodRateRetDTO.ProductGoodRateDTO> retList = new ArrayList<>();
+            for (String datax : dataxList){
+                ProductGoodRateRetDTO.ProductGoodRateDTO productGoodRateDTO = productGoodRateDTOListMap.get(datax);
+                if (productGoodRateDTO==null){
+                    productGoodRateDTO = new ProductGoodRateRetDTO.ProductGoodRateDTO();
+                    productGoodRateDTO.setDateType(dateType);
+                    productGoodRateDTO.setDatax(datax);
+                }
+                retList.add(productGoodRateDTO);
+            }
+            resultDto.setGoodRateDTOList(retList);
+            return resultDto;
+        }catch (Exception e){
+            resultDto.setSuccess(false);
+            resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
+            return resultDto;
+        }
+    }
+
+
 
 
     @ApiMethodDoc(apiCode = "CIM_ProductOcYield",name = "指定产品良品率显示接口（完成-工厂数据已验证）")

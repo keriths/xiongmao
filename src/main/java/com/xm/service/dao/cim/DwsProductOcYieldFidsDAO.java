@@ -1,5 +1,6 @@
 package com.xm.service.dao.cim;
 
+import com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductGoodRateRetDTO;
 import com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcData;
 import com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcDetailData;
 import org.apache.ibatis.annotations.Param;
@@ -44,4 +45,9 @@ public interface DwsProductOcYieldFidsDAO {
             @Param("productNameList") List<String> productNameList,
             @Param("startDate")Date startDate,
             @Param("endDate")Date endDate);
+
+    List<ProductGoodRateRetDTO.ProductGoodRateDTO> queryProductGoodRate(@Param("productIdList")List<String> productIdList,
+                                                                        @Param("beginDate")Date beginDate,
+                                                                        @Param("endDate")Date endDate,
+                                                                        @Param("dateType") String dateType);
 }
