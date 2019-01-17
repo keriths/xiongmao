@@ -32,21 +32,21 @@ public class TapWaterEveryDayData {
     private BigDecimal tomorrowNum;
     public BigDecimal getTotalNum() {
         if (totalNum!=null){
-            return totalNum;
+            return totalNum.setScale(1,BigDecimal.ROUND_HALF_UP);
         }
         if (todayNum!=null && tomorrowNum!=null){
             totalNum = tomorrowNum.subtract(todayNum);
             while (totalNum.intValue()<0){
                 totalNum = totalNum.add(new BigDecimal("1000000000"));
             }
-            return totalNum;
+            return totalNum.setScale(1,BigDecimal.ROUND_HALF_UP);
         }
         if (Constant.showDemoData){
             totalNum = RandomUtils.randomIntBigDecimal(1500,2000);
         }else {
             totalNum=new BigDecimal(0);
         }
-        return totalNum;
+        return totalNum.setScale(1,BigDecimal.ROUND_HALF_UP);
     }
     public String getDataDate() {
         if (dataDate!=null){

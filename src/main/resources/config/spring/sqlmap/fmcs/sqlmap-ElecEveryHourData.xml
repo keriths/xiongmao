@@ -3,7 +3,7 @@
 <mapper namespace="com.xm.service.dao.fmcs.ElecEveryHourDataDAO" >
 
     <select id="queryDayDataByDateListByPlace" parameterType="map" resultType="com.xm.service.dto.DayDataDTO">
-        SELECT TOTALNUM/10000 as totalNum,DATADATE as dataDate
+        SELECT TOTALNUM as totalNum,DATADATE as dataDate
         FROM ELECEVERYHOURDATA
         WHERE  DATADATE IN
         <foreach collection="queryDays" item="queryDate" open="(" separator="," close=")">
@@ -15,7 +15,7 @@
     </select>
 
     <select id="queryDayDataByDateListByPlaceType" parameterType="map" resultType="com.xm.service.dto.DayDataDTO">
-        SELECT max(TOTALNUM)/10000 as totalNum,DATADATE as dataDate
+        SELECT max(TOTALNUM) as totalNum,DATADATE as dataDate
         FROM ELECEVERYHOURDATA
         WHERE  DATADATE IN
         <foreach collection="queryDays" item="queryDate" open="(" separator="," close=")">
@@ -113,9 +113,9 @@
     <!--</select>-->
     <select id="queryTwoDaysElectricityByQueryData" parameterType="map" resultType="com.xm.service.dto.TwoDaysDataDTO">
         SELECT
-            beforTotalNum/10000,
+            beforTotalNum,
             beforDataDate,
-            afterTotalNum/10000,
+            afterTotalNum,
             afterDataDate
         FROM (
             SELECT
