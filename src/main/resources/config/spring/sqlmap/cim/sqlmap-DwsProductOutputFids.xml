@@ -111,7 +111,7 @@
             (
                 FACTORY = 'CELL'
                 and PRODUCTTYPE IN ('CS','CM','MP')
-                and PRODUCTID LIKE 'D%'
+                and (PRODUCTID LIKE 'D%' or PRODUCTID LIKE 'C%')
             )
         )
         AND FACTORY IN

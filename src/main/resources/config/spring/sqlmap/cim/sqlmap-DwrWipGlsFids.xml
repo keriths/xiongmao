@@ -38,6 +38,12 @@
             (
                 t.FACTORY = 'CELL'
                 and t.PRODUCTTYPE IN ('CS','CM','MP')
+                and (PRODUCTID LIKE 'D%' or PRODUCTID LIKE 'C%')
+            )
+            OR
+            (
+            t.FACTORY = 'CF'
+            and t.PRODUCTTYPE IN ('CS','MP','CM')
             )
         )
             AND d.big_eqp_type in
@@ -78,6 +84,12 @@
         (
         FACTORY = 'CELL'
         and PRODUCTTYPE IN ('CS','CM','MP')
+        and (PRODUCTID LIKE 'D%' or PRODUCTID LIKE 'C%')
+        )
+        OR
+        (
+        t.FACTORY = 'CF'
+        and t.PRODUCTTYPE IN ('CS','MP','CM')
         )
         )
         <![CDATA[
@@ -117,8 +129,13 @@
             (
                 FACTORY = 'CELL'
                 and PRODUCTTYPE IN ('CS','CM','MP')
-                and PRODUCTID LIKE 'D%'
+                and (PRODUCTID LIKE 'D%' or PRODUCTID LIKE 'C%')
             )
+        OR
+        (
+        t.FACTORY = 'CF'
+        and t.PRODUCTTYPE IN ('CS','MP','CM')
+        )
         )
         and FACTORY in
         <foreach collection="factorys" item="factory" open="(" separator="," close=")">
@@ -145,13 +162,19 @@
         and
         (
         (
-        FACTORY IN ( 'ARRAY','CELL','CF','SL')
+        FACTORY IN ( 'ARRAY','CF','SL')
         and PRODUCTTYPE IN ('CS','MP','CM')
         )
         OR
         (
         FACTORY = 'OC'
         and PRODUCTTYPE IN ('ZP20','ZP24','ZP10')
+        )
+        OR
+        (
+        FACTORY = 'CELL'
+        and PRODUCTTYPE IN ('CS','CM','MP')
+        and (PRODUCTID LIKE 'D%' or PRODUCTID LIKE 'C%')
         )
         )
         AND STEPID IN
@@ -183,7 +206,7 @@
             and
             (
                 (
-                    FACTORY in ('ARRAY','CELL','SL')
+                    FACTORY in ('ARRAY','SL')
                     and PRODUCTTYPE  IN ('CS','MP','CM')
                     AND PRODUCTID IN ('D41A','D51A','D52A','D53A')
                 )
@@ -198,6 +221,12 @@
                     FACTORY in ('OC')
                     and PRODUCTTYPE  IN ('ZP20','ZP24','ZP10')
                     AND PRODUCTID IN ('A1CC495PU1L01','A1CC575PU1L01','A1CC575PU2L01','A1CC575PU3L01')
+                )
+                OR
+                (
+                 FACTORY = 'CELL'
+                and PRODUCTTYPE IN ('CS','CM','MP')
+                and (PRODUCTID LIKE 'D%' or PRODUCTID LIKE 'C%')
                 )
             )
             <![CDATA[
