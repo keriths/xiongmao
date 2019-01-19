@@ -39,6 +39,9 @@ public class PureWaterEveryDayData {
             while (totalNum.intValue()<0){
                 totalNum = totalNum.add(new BigDecimal("1000000000"));
             }
+            if (dateType.equals(Constant.day) || dateType.equals(Constant.month)){
+                totalNum = totalNum.divide(new BigDecimal("1000"),1,BigDecimal.ROUND_HALF_UP);
+            }
             return totalNum.setScale(1,BigDecimal.ROUND_HALF_UP);
         }
         if (Constant.showDemoData){

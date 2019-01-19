@@ -132,10 +132,10 @@
                 and (PRODUCTID LIKE 'D%' or PRODUCTID LIKE 'C%')
             )
         OR
-        (
-        t.FACTORY = 'CF'
-        and t.PRODUCTTYPE IN ('CS','MP','CM')
-        )
+            (
+                FACTORY = 'CF'
+                and PRODUCTTYPE IN ('CS','MP','CM')
+            )
         )
         and FACTORY in
         <foreach collection="factorys" item="factory" open="(" separator="," close=")">
