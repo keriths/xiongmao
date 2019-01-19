@@ -58,7 +58,7 @@
     </select>
     <select id="queryInProcessTotal" parameterType="map" resultType="java.math.BigDecimal">
         SELECT
-          SUM(t.wip_gls_qty)/1000 as wipGlsQty
+          SUM(t.wip_gls_qty) as wipGlsQty
         FROM dwr_wip_gls_fids t
         WHERE t.factory IN
         <foreach collection="factoryList" item="factory" open="(" separator="," close=")">

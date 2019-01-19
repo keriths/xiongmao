@@ -55,6 +55,7 @@ public class WaterServiceImpl {
         try {
             Date endDate = new Date();
             Date beginDate = DateUtils.getBeforHourStartDay(2);
+            beginDate = new DateTime().plusMillis(-30*5).toDate();
             List<TapWaterRealTimeData.TapWaterRealTimeDetailData> dataList = tapWaterRealTimeDataDAO.tapWaterRealTimeData(beginDate, endDate);
             if (showDemoData){
                 if (CollectionUtils.isEmpty(dataList)){
@@ -147,6 +148,7 @@ public class WaterServiceImpl {
             }
             Date endDate = new Date();
             Date beginDate = DateUtils.getBeforHourStartDay(2);
+            beginDate = new DateTime().plusMillis(-30*5).toDate();
             List<PureWaterRealTimeData.PureWaterRealTimeDetailData> dataList = pureWaterRealTimeDataDAO.pureWaterRealTimeData(waterType,beginDate, endDate);
             Map<String,List<PureWaterRealTimeData.PureWaterRealTimeDetailData>> periodDateDataListMap = new LinkedHashMap<>();
             for (PureWaterRealTimeData.PureWaterRealTimeDetailData pureWaterRealTimeDetailData : dataList){
@@ -227,6 +229,7 @@ public class WaterServiceImpl {
             }
             Date endDate = new Date();
             Date beginDate = DateUtils.getBeforHourStartDay(2);
+            beginDate = new DateTime().plusMillis(-30*5).toDate();
             List<FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData> dataList = freezeWaterRealTimeDataDAO.freezeWaterRealTimeData(beginDate, endDate,waterType);
             Map<String,List<FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData>> periodDateDataListMap = new LinkedHashMap<>();
             for (FreezeWaterRealTimeData.FreezeWaterRealTimeDetailData pureWaterRealTimeDetailData : dataList){

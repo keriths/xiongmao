@@ -56,6 +56,7 @@ public class WWTServiceImpl {
             }
             Date endDate = new Date();
             Date beginDate = DateUtils.getBeforHourStartDay(2);
+            beginDate = new DateTime().plusMillis(-30*5).toDate();
             List<WwtbData.WwtbDetailData> dataList = wwtbDataDAO.queryWwtbDataList(code,beginDate,endDate);
             Map<String,List<WwtbData.WwtbDetailData>> periodDateDataListMap = new LinkedHashMap<>();
             for (WwtbData.WwtbDetailData natgasTimeDetailData : dataList){

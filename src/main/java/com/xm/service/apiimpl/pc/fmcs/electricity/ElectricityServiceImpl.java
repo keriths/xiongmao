@@ -112,11 +112,11 @@ public class ElectricityServiceImpl {
             Date endDate = new Date();
             if (dateType.equals(Constant.hour)){
                 beginDate = DateUtils.getBeforHourStartDay(14);
-                endDate = DateUtils.getBeforHourStartDay(0);
+                endDate = DateUtils.getBeforHourStartDay(1);
                 dateList = DateUtils.getHourStrList(beginDate,endDate);
             }else if (dateType.equals(Constant.day)){
                 beginDate = DateUtils.getBeforDayStartDay(12);
-                endDate = DateUtils.getBeforDayStartDay(0);
+                endDate = DateUtils.getBeforDayStartDay(1);
                 dateList = DateUtils.getDayStrList(beginDate,endDate);
             }else if (dateType.equals(Constant.month)){
                 beginDate = DateUtils.getBeforMonthStartDay(11);
