@@ -310,7 +310,7 @@ public class DateUtils {
     public static List<Date> getQueryDates(String dateType) {
         List<Date> queryDays = new ArrayList<>();
         if (dateType.equals(Constant.day)) {
-            queryDays.add(DateUtils.getBeforDayStartDay(13));
+//            queryDays.add(DateUtils.getBeforDayStartDay(13));
             queryDays.add(DateUtils.getBeforDayStartDay(12));
             queryDays.add(DateUtils.getBeforDayStartDay(11));
             queryDays.add(DateUtils.getBeforDayStartDay(10));
@@ -323,7 +323,7 @@ public class DateUtils {
             queryDays.add(DateUtils.getBeforDayStartDay(3));
             queryDays.add(DateUtils.getBeforDayStartDay(2));
             queryDays.add(DateUtils.getBeforDayStartDay(1));
-//            queryDays.add(DateUtils.getBeforDayStartDay(0));
+            queryDays.add(DateUtils.getBeforDayStartDay(0));
         }else if (dateType.equals(Constant.month)){
 //            queryDays.add(DateUtils.getBeforMonthStartDay(12));
             queryDays.add(DateUtils.getBeforMonthStartDay(11));
@@ -340,7 +340,7 @@ public class DateUtils {
             queryDays.add(DateUtils.getBeforMonthStartDay(0));
             queryDays.add(DateUtils.getBeforDayStartDay(0));
         }else if (dateType.equals(Constant.hour)){
-            queryDays.add(DateUtils.getBeforHourStartDay(15));
+//            queryDays.add(DateUtils.getBeforHourStartDay(15));
             queryDays.add(DateUtils.getBeforHourStartDay(14));
             queryDays.add(DateUtils.getBeforHourStartDay(13));
             queryDays.add(DateUtils.getBeforHourStartDay(12));
@@ -355,7 +355,7 @@ public class DateUtils {
             queryDays.add(DateUtils.getBeforHourStartDay(3));
             queryDays.add(DateUtils.getBeforHourStartDay(2));
             queryDays.add(DateUtils.getBeforHourStartDay(1));
-//            queryDays.add(DateUtils.getBeforHourStartDay(0));
+            queryDays.add(DateUtils.getBeforHourStartDay(0));
         }
         return queryDays;
     }
