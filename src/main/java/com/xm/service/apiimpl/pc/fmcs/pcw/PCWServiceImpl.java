@@ -57,7 +57,7 @@ public class PCWServiceImpl {
             }
             Date endDate = new Date();
             Date beginDate = DateUtils.getBeforHourStartDay(2);
-            beginDate = new DateTime().plusMillis(-30*5).toDate();
+            beginDate = new DateTime().plusMinutes(-30*5).toDate();
             List<HumiturePressureData.HumiturePressureRealTimeDate> dataList = pcwHumitureDataDAO.queryPcwRealTimeDate(system, beginDate, endDate);
             Map<String,List<HumiturePressureData.HumiturePressureRealTimeDate>> periodDateDataListMap = new LinkedHashMap<>();
             for (HumiturePressureData.HumiturePressureRealTimeDate natgasTimeDetailData : dataList){

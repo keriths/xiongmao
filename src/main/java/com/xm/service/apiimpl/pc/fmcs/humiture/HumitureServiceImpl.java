@@ -40,7 +40,7 @@ public class HumitureServiceImpl {
         try {
             Date endDate = new Date();
             Date beginDate = DateUtils.getBeforHourStartDay(2);
-            beginDate = new DateTime().plusMillis(-30*5).toDate();
+            beginDate = new DateTime().plusMinutes(-30*5).toDate();
             List<HumitureRealTimeDate.HumitureRealTimeDetailData> dataList = humitureRealTimeDataDAO.queryHumiture(factory, beginDate, endDate);
             Map<String,List<HumitureRealTimeDate.HumitureRealTimeDetailData>> periodDateDataListMap = new LinkedHashMap<>();
             for (HumitureRealTimeDate.HumitureRealTimeDetailData natgasTimeDetailData : dataList){

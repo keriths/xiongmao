@@ -52,7 +52,7 @@ public class GasServiceImpl {
             }
             Date endDate = new Date();
             Date beginDate = DateUtils.getBeforHourStartDay(2);
-            beginDate = new DateTime().plusMillis(-30*5).toDate();
+            beginDate = new DateTime().plusMinutes(-30 * 5).toDate();
             List<NatgasRealTimeData.NatgasTimeDetailData> dataList = natgasRealTimeDataDAO.queryGasRealTimeData(gasType,beginDate, endDate);
             Map<String,List<NatgasRealTimeData.NatgasTimeDetailData>> periodDateDataListMap = new LinkedHashMap<>();
             for (NatgasRealTimeData.NatgasTimeDetailData natgasTimeDetailData : dataList){
@@ -191,7 +191,7 @@ public class GasServiceImpl {
             }
             Date endDate = new Date();
             Date beginDate = DateUtils.getBeforHourStartDay(2);
-            beginDate = new DateTime().plusMillis(-30*5).toDate();
+            beginDate = new DateTime().plusMinutes(-30*5).toDate();
             List<BigGasRealTimeDate.GasRealTimeDate> dataList = gasRealTimeDataDAO.queryBigGasRealTimeDate(gasName,beginDate, endDate);
             Map<String,List<BigGasRealTimeDate.GasRealTimeDate>> periodDateDataListMap = new LinkedHashMap<>();
             for (BigGasRealTimeDate.GasRealTimeDate natgasTimeDetailData : dataList){
