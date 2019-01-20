@@ -21,7 +21,7 @@ public class InProcessDataRetDTO extends BaseRetDTO{
         if (total==null){
             total=BigDecimal.ZERO;
         }
-        return total.setScale(1,BigDecimal.ROUND_HALF_UP);
+        return total;
     }
 
     public void setTotal(BigDecimal total) {
@@ -47,7 +47,7 @@ public class InProcessDataRetDTO extends BaseRetDTO{
             if (wipGlsQty==null){
                 wipGlsQty=BigDecimal.ZERO;
             }
-            return wipGlsQty.setScale(1,BigDecimal.ROUND_HALF_UP);
+            return wipGlsQty.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setWipGlsQty(BigDecimal wipGlsQty) {
