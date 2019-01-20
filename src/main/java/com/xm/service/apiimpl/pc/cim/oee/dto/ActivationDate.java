@@ -7,6 +7,7 @@ import org.springframework.util.CollectionUtils;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -178,6 +179,12 @@ public class ActivationDate implements Serializable{
         }
         BigDecimal totalRate = BigDecimal.ZERO;
         int i =0;
+        statusDateList.sort(new Comparator<StatusDateList>() {
+            @Override
+            public int compare(StatusDateList o1, StatusDateList o2) {
+                return o1.getStatusDuration().compareTo(o2.getStatusDuration());
+            }
+        });
         for (StatusDateList statusData : statusDateList){
             i++;
             if (i==statusDateList.size()){

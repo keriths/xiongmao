@@ -5,6 +5,7 @@ import com.xm.platform.util.RandomUtils;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Comparator;
 import java.util.List;
 
 /**
@@ -134,6 +135,12 @@ public class ActivationStatusDate implements Serializable {
 
         BigDecimal totalRate = new BigDecimal("0");
         int i = 0;
+        statusNumberLists.sort(new Comparator<StatusNumberList>() {
+            @Override
+            public int compare(StatusNumberList o1, StatusNumberList o2) {
+                return o1.getSumStatusDuration().compareTo(o2.getSumStatusDuration());
+            }
+        });
         for (StatusNumberList statusNumberList:statusNumberLists){
             if (totalSumStatusDuration.floatValue()==0){
                 statusNumberList.setStatusNum(new BigDecimal("0"));
