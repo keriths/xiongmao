@@ -34,7 +34,16 @@ public class TactTimeServiceImpl {
     private DwrProductTtFidsDAO dwrProductTtFidsDAO;
 
 
-
+    private String getMinEqpId(List<String> factoryList, List<String> eqpIdList,Date beginDate, Date endDate) {
+        if (CollectionUtils.isEmpty(eqpIdList)){
+            return "";
+        }
+        List<Map<String,String>> mapList = dwrProductTtFidsDAO.queryMinEqpIdData(factoryList,eqpIdList,null,beginDate,endDate);
+        if (CollectionUtils.isEmpty(mapList)){
+            return eqpIdList.get(0);
+        }
+        return mapList.get(0).get("EQP_ID");
+    }
     @ApiMethodDoc(apiCode = "Tact_time_Query",name = "特定厂别特定产品类型设备Tact_time(完成)")
     public TactTimeProductTimeListRetDTO tactTimeProductTimeList(@ApiParamDoc(desc = "厂别：如ARRAY") String factory, @ApiParamDoc(desc = "产品类型：如PHOTO、PVD") String productId){
         TactTimeProductTimeListRetDTO retDto=new TactTimeProductTimeListRetDTO();
@@ -58,7 +67,18 @@ public class TactTimeServiceImpl {
             List<String> dayList = DateUtils.getDayStrList(startTime, endTime);
 
 
-            List<TactTimeProductTimeListRetDTO.TactTimeProductDetail> dbQueryList = dwrProductTtFidsDAO.queryTactTimeListByEqpIdList(factoryList, eqpIdList,productId, startTime, endTime);
+            List<TactTimeProductTimeListRetDTO.TactTimeProductDetail> dbQueryList = new ArrayList<>(); //dwrProductTtFidsDAO.queryTactTimeListByEqpIdList(factoryList, eqpIdList,productId, startTime, endTime);
+            Date starDate = startTime;
+            while (starDate.before(endTime)){
+                Date sDate = starDate;
+                Date eDate = new DateTime(sDate).millisOfDay().withMaximumValue().toDate();
+                String minEqpIdList =getMinEqpId(factoryList, eqpIdList, sDate, eDate);
+                List<TactTimeProductTimeListRetDTO.TactTimeProductDetail> todayList =dwrProductTtFidsDAO.queryTactTimeListByEqpIdList(factoryList, Lists.newArrayList(minEqpIdList), productId, sDate, eDate);// activationDAO.queryActivationStatusNumByDay(factoryList, Lists.newArrayList(maxEqpIdList), bigEqpType,beginDateStr, endDateStr);
+                if (!CollectionUtils.isEmpty(todayList)){
+                    dbQueryList.addAll(todayList);
+                }
+                starDate = new DateTime(sDate).plusDays(1).toDate();
+            }
             Map<String,TactTimeProductTimeListRetDTO.TactTimeProductDetail> dbQueryMap = MapUtils.listToMap(dbQueryList,"getPeriodDate");
             List<TactTimeProductTimeListRetDTO.TactTimeProductDetail> tactTimeProductDetailList = new ArrayList<TactTimeProductTimeListRetDTO.TactTimeProductDetail>();
             for (String day:dayList){
@@ -104,11 +124,7 @@ public class TactTimeServiceImpl {
             for (String productId:groupNameList){
                 String eqpIdListStr = dwrProductTtFidsDAO.queryEqListStr(factory,productId);
                 List<String> eqpIdList = Lists.newArrayList(eqpIdListStr.split(","));
-                List<Map<String,String>> mapList = dwrProductTtFidsDAO.queryMinEqpIdData(factoryList,eqpIdList,productId,beginDate,endDate);
-                String minEqpId = "";
-                if (!CollectionUtils.isEmpty(mapList)){
-                    minEqpId = mapList.get(0).get("EQP_ID");
-                }
+                String minEqpId = getMinEqpId(factoryList,eqpIdList,beginDate,endDate);
                 List<TactTimeMonthAvgDataDTO> oneProductList =  dwrProductTtFidsDAO.queryMonthAvgByEqpIdList(factoryList, Lists.newArrayList(minEqpId), productId, beginDate, endDate);
                 if (oneProductList!=null){
                     tactTimeMonthAvgDataDTOList.addAll(oneProductList);
