@@ -1,8 +1,5 @@
 package com.xm.service.dao.fmcs;
 
-import com.xm.service.apiimpl.pc.fmcs.electricity.dto.ElectricityDate;
-import com.xm.service.apiimpl.pc.fmcs.electricity.dto.ElectricityPlaceDate;
-import com.xm.service.apiimpl.pc.integrateData.humidity.dto.WaterElectricityCollectDataDTO;
 import com.xm.service.dto.DayDataDTO;
 import com.xm.service.dto.TwoDaysDataDTO;
 import org.apache.ibatis.annotations.Param;
@@ -10,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by wangshuna on 2017/11/30.
@@ -56,4 +52,6 @@ public interface ElecEveryHourDataDAO {
     List<DayDataDTO> queryDayDataByDateListByPlaceType(@Param("place")String place, @Param("queryDays")List<Date> queryDays);
 
     List<TwoDaysDataDTO> queryTwoDaysElectricityByQueryData(@Param("beforDate") Date beforDate,@Param("afterDate") Date afterDate);
+
+    List<String> queryPlaceByPlaceType(@Param("placeType")String placeType);
 }

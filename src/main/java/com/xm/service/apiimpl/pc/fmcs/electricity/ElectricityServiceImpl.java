@@ -17,13 +17,11 @@ import com.xm.service.constant.Constant;
 import com.xm.service.dao.fmcs.ElecEveryHourDataDAO;
 import com.xm.service.dto.DayDataDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by fanshuai on 17/10/24.
@@ -123,19 +121,62 @@ public class ElectricityServiceImpl {
                 dateList = DateUtils.getMonthStrList(beginDate,endDate);
             }
             List<ElectricityDate.ElectricityDetailDate> detailDataList = new ArrayList<>();
-            for (String placet:Constant.electricityPlaceTypeList){
-                List<ElectricityDate.ElectricityDetailDate> electricityPlaceDateList = DayDataQueryTools.queryDayStatics(placet, dateType,
-                        new IQueryDayDataList() {
-                            @Override
-                            public List<DayDataDTO> queryFreezeWaterByDateList(String placeType, List<Date> queryDays) {
-                                return elecEveryHourDataDAO.queryDayDataByDateListByPlaceType(placeType, queryDays);
+            for (String placeType:Constant.electricityPlaceTypeList){
+                List<String> placeList = elecEveryHourDataDAO.queryPlaceByPlaceType(placeType);
+                Map<String,List<ElectricityPlaceDate>> dayPlaceListDataMap = new HashMap<>();
+                for (String place : placeList){
+                    List<ElectricityPlaceDate> electricityPlaceDateList = DayDataQueryTools.queryDayStatics(place, dateType,
+                            new IQueryDayDataList() {
+                                @Override
+                                public List<DayDataDTO> queryFreezeWaterByDateList(String place, List<Date> queryDays) {
+                                    return elecEveryHourDataDAO.queryDayDataByDateListByPlace(place,queryDays);
+                                }
+                            }, new ITransferData<ElectricityPlaceDate>() {
+                                @Override
+                                public ElectricityPlaceDate queryFreezeWaterByDateList(String place, String dateType, Date today, Date tomorrow, BigDecimal todayNum, BigDecimal tomorrowNum) {
+                                    return new ElectricityPlaceDate(place,dateType,today,tomorrow,todayNum,tomorrowNum);
+                                }
+                            });
+//                    Map<String,ElectricityPlaceDate> dayPlaceDataMap = MapUtils.listToMap(electricityPlaceDateList, "getDataDate");
+                    if (!CollectionUtils.isEmpty(electricityPlaceDateList)){
+                        for (ElectricityPlaceDate electricityPlaceDate : electricityPlaceDateList){
+                            String dataDate = electricityPlaceDate.getDataDate();
+                            List<ElectricityPlaceDate> dayPlaceListData = dayPlaceListDataMap.get(dataDate);
+                            if (dayPlaceListData==null){
+                                dayPlaceListData = new ArrayList<>();
+                                dayPlaceListDataMap.put(dataDate,dayPlaceListData);
                             }
-                        }, new ITransferData<ElectricityDate.ElectricityDetailDate>() {
-                            @Override
-                            public ElectricityDate.ElectricityDetailDate queryFreezeWaterByDateList(String place, String dateType, Date today, Date tomorrow, BigDecimal todayNum, BigDecimal tomorrowNum) {
-                                return new ElectricityDate.ElectricityDetailDate(place,dateType,today,tomorrow,todayNum,tomorrowNum);
-                            }
-                        });
+                            dayPlaceListData.add(electricityPlaceDate);
+                        }
+                    }
+                }
+                List<ElectricityDate.ElectricityDetailDate> electricityPlaceDateList = new ArrayList<>();
+                for (Map.Entry<String,List<ElectricityPlaceDate>> entry : dayPlaceListDataMap.entrySet()){
+                    String dataDate = entry.getKey();
+                    List<ElectricityPlaceDate> dayPlaceListData = entry.getValue();
+                    ElectricityDate.ElectricityDetailDate placeTypeDayData = new ElectricityDate.ElectricityDetailDate();
+                    placeTypeDayData.setPlace(placeType);
+                    placeTypeDayData.setDataDate(dataDate);
+                    BigDecimal totalNum = new BigDecimal("0");
+                    for (ElectricityPlaceDate dayPlaceData : dayPlaceListData){
+                        totalNum = totalNum.add(dayPlaceData.getTotalNum());
+                    }
+                    placeTypeDayData.setTotalNum(totalNum);
+                    electricityPlaceDateList.add(placeTypeDayData);
+                }
+
+//                List<ElectricityDate.ElectricityDetailDate> electricityPlaceDateList = DayDataQueryTools.queryDayStatics(placeType, dateType,
+//                        new IQueryDayDataList() {
+//                            @Override
+//                            public List<DayDataDTO> queryFreezeWaterByDateList(String placeType, List<Date> queryDays) {
+//                                return elecEveryHourDataDAO.queryDayDataByDateListByPlaceType(placeType, queryDays);
+//                            }
+//                        }, new ITransferData<ElectricityDate.ElectricityDetailDate>() {
+//                            @Override
+//                            public ElectricityDate.ElectricityDetailDate queryFreezeWaterByDateList(String place, String dateType, Date today, Date tomorrow, BigDecimal todayNum, BigDecimal tomorrowNum) {
+//                                return new ElectricityDate.ElectricityDetailDate(place,dateType,today,tomorrow,todayNum,tomorrowNum);
+//                            }
+//                        });
                 detailDataList.addAll(electricityPlaceDateList);
             }
 //            List<ElectricityDate.ElectricityDetailDate> detailDataList=elecEveryHourDataDAO.queryElectricityDate(dateType,beginDate,endDate);
