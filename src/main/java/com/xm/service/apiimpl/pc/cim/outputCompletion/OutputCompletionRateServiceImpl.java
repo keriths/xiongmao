@@ -212,8 +212,13 @@ public class OutputCompletionRateServiceImpl {
             Map<String,CompletionRetDTO.CompletionData> wipDatasMap = null;
             List<CompletionRetDTO.CompletionData> dbValueList = outputcompletionDAO.queryOutputCompletionRate( dateType, startTime, endTime, factoryList);
             if (dateType.equals(Constant.month)){
-                List<Date> wip288Datas = DateUtils.getEveryMonthDays(startTime,endTime);
-                List<CompletionRetDTO.CompletionData>  wipDatas = dwrWipGlsFidsDAO.queryOutPutWipData(factoryList, wip288Datas);
+                List<String> factorys = new ArrayList<>();
+                factorys.addAll(factoryList);
+                if ("SL-OC".equals(factory)){
+                    factorys.add("SL");
+                }
+                List<Date> wip288Datas = DateUtils.getEveryMonthDays(startTime, endTime);
+                List<CompletionRetDTO.CompletionData>  wipDatas = dwrWipGlsFidsDAO.queryOutPutWipData(factorys, wip288Datas);
                 wipDatasMap = MapUtils.listToMap(wipDatas,"getDateTime");
             }
             Map<String,CompletionRetDTO.CompletionData> dbValueMap = MapUtils.listToMap(dbValueList,"getDateTime");
