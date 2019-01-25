@@ -14,5 +14,13 @@ import java.util.Map;
  */
 @Repository("factoryDwsProductInputFidsDAO")
 public interface FactoryDwsProductInputFidsDAO {
-    List<Map<String,Object>> queryLatestDataByDataAndTableName(@Param("offset")int offset,@Param("limit")int limit,@Param("minPeriodDate")Date maxPeriodDate,@Param("tableName") String tableName,@Param("orderby") String  orderby);
+    List<Map<String,Object>> queryLatestDataByDataAndTableName(@Param("offset")int offset,
+                                                               @Param("limit")int limit,
+                                                               @Param("minPeriodDate")Date minPeriodDate,
+                                                               @Param("endDate")Date endDate,
+                                                               @Param("tableName") String tableName,
+                                                               @Param("orderby") String  orderby);
+    List<Map<String,Object>> queryLatestDataByDataAndTableNameNotPaged(@Param("minPeriodDate")Date minPeriodDate,
+                                                                       @Param("endDate")Date endDate,
+                                                                       @Param("tableName") String tableName);
 }

@@ -23,6 +23,7 @@ import java.util.concurrent.Executors;
  */
 @Component
 public class CIMDataSyncTask {
+    boolean notUsePaged = true;
     //---------------投入达成率------------
     @Resource
     private FactoryDwsProductInputFidsDAO factoryDwsProductInputFidsDAO;
@@ -72,166 +73,260 @@ public class CIMDataSyncTask {
 //        }
 //        return maxPeriodDate;
 //    }
-    private List<Map<String,Object>> queryLatestDataByDataAndTableName(int offset,int limit,Date maxPeriodDate,String tableName,String orderby){
-        List<Map<String,Object>> mapDataList = factoryDwsProductInputFidsDAO.queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
+    private List<Map<String,Object>> queryLatestDataByDataAndTableName(int offset,int limit,Date minPeriodDate,String tableName,String orderby){
+        return queryLatestDataByBgeinEndDateAndTableName(offset,limit,minPeriodDate,new Date(),tableName,orderby);
+    }
+    private List<Map<String,Object>> queryLatestDataByBgeinEndDateAndTableName(int offset,int limit,Date minPeriodDate,Date endDate,String tableName,String orderby){
+        List<Map<String,Object>> mapDataList = factoryDwsProductInputFidsDAO.queryLatestDataByDataAndTableName(offset,limit,minPeriodDate,endDate,tableName,orderby);
+        return mapDataList;
+    }
+    private List<Map<String,Object>> queryLatestDataByBgeinEndDateAndTableNameNotPaged(Date minPeriodDate,Date endDate,String tableName){
+        List<Map<String,Object>> mapDataList = factoryDwsProductInputFidsDAO.queryLatestDataByDataAndTableNameNotPaged(minPeriodDate, endDate, tableName);
         return mapDataList;
     }
 
-
-    @Scheduled(fixedRate = 1000*60*5)
+    //产出达成率
+//    @Scheduled(fixedRate = 1000*60*5)
+    @Scheduled(cron = "0 31/55 * * * *")
     public void OutputCompletionDataSyncOneDay(){
         int syncDayNums = 1;
-        syncDWS_PRODUCT_OUTPUT_FIDS(syncDayNums);
+        Date now = new Date();
+        for (int i = 0;i<=syncDayNums;i++){
+            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            syncDWS_PRODUCT_OUTPUT_FIDS(beginDate,endDate);
+        }
     }
-    @Scheduled(fixedRate = 1000*60*5)
+//    @Scheduled(fixedRate = 1000*60*60*24)
+@Scheduled(cron = "0 10 8 * * *")
+    public void OutputCompletionDataSync(){
+        int syncDayNums = 4;
+        Date now = new Date();
+        for (int i = 0;i<=syncDayNums;i++){
+            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            syncDWS_PRODUCT_OUTPUT_FIDS(beginDate,endDate);
+        }
+    }
+
+    //投入达成率
+//    @Scheduled(fixedRate = 1000*60*5)
+    @Scheduled(cron = "0 31/55 * * * *")
     public void InputCompletionDataSyncOneDay(){
         int syncDayNums = 1;
-        syncDWS_PRODUCT_INPUT_FIDS(syncDayNums);
+//        syncDWS_PRODUCT_INPUT_FIDS(syncDayNums);
+        Date now = new Date();
+        for (int i = 0;i<=syncDayNums;i++){
+            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            syncDWS_PRODUCT_INPUT_FIDS(beginDate, endDate);
+        }
     }
-    @Scheduled(fixedRate = 1000*60*5)
+//    @Scheduled(fixedRate = 1000*60*60*24)
+@Scheduled(cron = "0 10 8 * * *")
+    public void InputCompletionDataSync(){
+        int syncDayNums = 4;
+        Date now = new Date();
+        for (int i = 0;i<=syncDayNums;i++){
+            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            syncDWS_PRODUCT_INPUT_FIDS(beginDate,endDate);
+        }
+    }
+
+
+//    @Scheduled(fixedRate = 1000*60*5)
+    @Scheduled(cron = "0 31/55 * * * *")
     public void ProductOcGoodRateDataSyncOneDay(){
         int syncDayNums = 1;
-        syncDWS_PRODUCT_OC_YIELD_FIDS(syncDayNums);
+//        syncDWS_PRODUCT_OC_YIELD_FIDS(syncDayNums);
+        Date now = new Date();
+        for (int i = 0;i<=syncDayNums;i++){
+            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            syncDWS_PRODUCT_OC_YIELD_FIDS(beginDate, endDate);
+        }
     }
-    @Scheduled(fixedRate = 1000*60*5)
+//    @Scheduled(fixedRate = 1000*60*60*24)
+@Scheduled(cron = "0 10 8 * * *")
+    public void ProductOcGoodRateDataSync(){
+        int syncDayNums =4;
+//        syncDWS_PRODUCT_OC_YIELD_FIDS(syncDayNums);
+        Date now = new Date();
+        for (int i = 0;i<=syncDayNums;i++){
+            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            syncDWS_PRODUCT_OC_YIELD_FIDS(beginDate,endDate);
+        }
+    }
+
+
+
+//    @Scheduled(fixedRate = 1000*60*5)
+    @Scheduled(cron = "0 31/55 * * * *")
     public void CycleTimeDataSyncOneDay(){
         int syncDayNums = 1;
-        syncDWR_PRODUCT_CT_FIDS(syncDayNums);
+//        syncDWR_PRODUCT_CT_FIDS(syncDayNums);
+        Date now = new Date();
+        for (int i = 0;i<=syncDayNums;i++){
+            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            syncDWR_PRODUCT_CT_FIDS(beginDate, endDate);
+        }
     }
-    @Scheduled(fixedRate = 1000*60*5)
+//    @Scheduled(fixedRate = 1000*60*60*24)
+@Scheduled(cron = "0 10 8 * * *")
+    public void CycleTimeDataSync(){
+        int syncDayNums = 4;
+//        syncDWR_PRODUCT_CT_FIDS(syncDayNums);
+        Date now = new Date();
+        for (int i = 0;i<=syncDayNums;i++){
+            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            syncDWR_PRODUCT_CT_FIDS(beginDate,endDate);
+        }
+    }
+
+
+//    @Scheduled(fixedRate = 1000*60*5)
+    @Scheduled(cron = "0 35/59 * * * *")
     public void OeeDataSyncOneDay(){
         int syncDayNums = 1;
-        syncDWR_EQP_OEE_FIDS(syncDayNums);
+//        syncDWR_EQP_OEE_FIDS(syncDayNums);
+        Date now = new Date();
+        for (int i = 0;i<=syncDayNums;i++){
+            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            syncDWR_EQP_OEE_FIDS(beginDate, endDate);
+        }
     }
-    @Scheduled(fixedRate = 1000*60*5)
+//    @Scheduled(fixedRate = 1000*60*60*24)
+    @Scheduled(cron = "0 10 8 * * *")
+    public void OeeDataSync(){
+        int syncDayNums = 4;
+//        syncDWR_EQP_OEE_FIDS(syncDayNums);
+        Date now = new Date();
+        for (int i = 0;i<=syncDayNums;i++){
+            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            syncDWR_EQP_OEE_FIDS(beginDate,endDate);
+        }
+    }
+
+
+
+//    @Scheduled(fixedRate = 1000*60*5)
+    @Scheduled(cron = "0 35/59 * * * *")
     public void TactTimeDataSyncOneDay(){
         int syncDayNums = 1;
-        syncDWR_PRODUCT_TT_FIDS(syncDayNums);
+//        syncDWR_PRODUCT_TT_FIDS(syncDayNums);
+        Date now = new Date();
+        for (int i = 0;i<=syncDayNums;i++){
+            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            syncDWR_PRODUCT_TT_FIDS(beginDate, endDate);
+        }
     }
-    @Scheduled(fixedRate = 1000*60*5)
+//    @Scheduled(fixedRate = 1000*60*60*24)
+    @Scheduled(cron = "0 10 8 * * *")
+    public void TactTimeDataSync(){
+        int syncDayNums = 4;
+//        syncDWR_PRODUCT_TT_FIDS(syncDayNums);
+        Date now = new Date();
+        for (int i = 0;i<=syncDayNums;i++){
+            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            syncDWR_PRODUCT_TT_FIDS(beginDate,endDate);
+        }
+    }
+
+
+
+//    @Scheduled(fixedRate = 1000*60*5)
+    @Scheduled(cron = "0 35/59 * * * *")
     public void ProductLineGoodRateDataSyncOneDay(){
         int syncDayNums = 1;
-        syncDWS_PRODUCT_LINE_YIELD_FIDS(syncDayNums);
+//        syncDWS_PRODUCT_LINE_YIELD_FIDS(syncDayNums);
+        Date now = new Date();
+        for (int i = 0;i<=syncDayNums;i++){
+            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            syncDWS_PRODUCT_LINE_YIELD_FIDS(beginDate,endDate);
+        }
     }
-    @Scheduled(fixedRate = 1000*60*5)
-    public void GoodInProcessDataSyncOneDay(){
-        int syncDayNums = 1;
-        syncDWR_WIP_GLS_FIDS(syncDayNums);
-    }
-    @Scheduled(fixedRate = 1000*60*5)
-    public void OutputCompletionHDataSyncOneDay(){
-        int syncDayNums = 1;
-        syncDWS_PRODUCT_OUTPUT_FIDS_H(syncDayNums);
-    }
-
-
-    @Scheduled(fixedRate = 1000*60*60*24)
-    public void OutputCompletionHDataSync(){
-        int syncDayNums = 5;
-        syncDWS_PRODUCT_OUTPUT_FIDS_H(syncDayNums);
-    }
-    @Scheduled(fixedRate = 1000*60*60*24)
-    public void GoodInProcessDataSync(){
-        int syncDayNums = 5;
-        syncDWR_WIP_GLS_FIDS(syncDayNums);
-    }
-    @Scheduled(fixedRate = 1000*60*60*24)
+//    @Scheduled(fixedRate = 1000*60*60*24)
+    @Scheduled(cron = "0 10 8 * * *")
     public void ProductLineGoodRateDataSync(){
         int syncDayNums = 10;
-        syncDWS_PRODUCT_LINE_YIELD_FIDS(syncDayNums);
-    }
-    @Scheduled(fixedRate = 1000*60*60*24)
-    public void OutputCompletionDataSync(){
-        int syncDayNums = 5;
-        syncDWS_PRODUCT_OUTPUT_FIDS(syncDayNums);
-    }
-    @Scheduled(fixedRate = 1000*60*60*24)
-    public void InputCompletionDataSync(){
-        int syncDayNums = 500;
-        syncDWS_PRODUCT_INPUT_FIDS(syncDayNums);
-    }
-    @Scheduled(fixedRate = 1000*60*60*24)
-    public void ProductOcGoodRateDataSync(){
-        int syncDayNums =5;
-        syncDWS_PRODUCT_OC_YIELD_FIDS(syncDayNums);
-    }
-    @Scheduled(fixedRate = 1000*60*60*24)
-    public void CycleTimeDataSync(){
-        int syncDayNums = 5;
-        syncDWR_PRODUCT_CT_FIDS(syncDayNums);
-    }
-    @Scheduled(fixedRate = 1000*60*60*24)
-    public void OeeDataSync(){
-        int syncDayNums = 10;
-        syncDWR_EQP_OEE_FIDS(syncDayNums);
-    }
-    @Scheduled(fixedRate = 1000*60*60*24)
-    public void TactTimeDataSync(){
-        int syncDayNums = 5;
-        syncDWR_PRODUCT_TT_FIDS(syncDayNums);
+//        syncDWS_PRODUCT_LINE_YIELD_FIDS(syncDayNums);
+        Date now = new Date();
+        for (int i = 0;i<=syncDayNums;i++){
+            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            syncDWS_PRODUCT_LINE_YIELD_FIDS(beginDate,endDate);
+        }
     }
 
-    /**
-     * 同步投入达成率
-     * @param syncDayNums
-     */
-    private void syncDWS_PRODUCT_INPUT_FIDS(int syncDayNums) {
-        String tableName="DWS_PRODUCT_INPUT_FIDS";
-//        LogUtils.info(this.getClass(), "beginSyncInPut[" + tableName + "]---");
-        long t1 = System.currentTimeMillis();
-        int offset = 0;
-        int limit = 10000;
-        try {
-//            Date maxPeriodDate = getmaxPeriodDate(tableName);
-            Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
-            while (true){
-                List<Map<String,Object>> mapDataList;
-                try {
-                    long t11 = System.currentTimeMillis();
-                    String orderby = "FACTORY , PRODUCTTYPE , PRODUCTID";
-                    mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
-                    long t22 = System.currentTimeMillis();
-                    //LogUtils.info(this.getClass(),"同步投入达成率[DWS_PRODUCT_INPUT_FIDS]查询数据用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
-                }catch (Exception e){
-                    LogUtils.error(this.getClass(),"同步投入达成率[DWS_PRODUCT_INPUT_FIDS]offset["+offset+"]limit["+limit+"]查询数据 exception",e);
-                    try {
-                        Thread.sleep(100l);
-                    } catch (InterruptedException e1) {
-                        LogUtils.error(this.getClass(),e1);
-                    }
-                    continue;
-                }
-                if (CollectionUtils.isEmpty(mapDataList)){
-                    break;
-                }
-                for (Map<String,Object> mapData : mapDataList){
-                    try {
-                        Map<String,Object> data = dwsProductInputFidsDAO.loadByPrimaryKey(mapData);
-                        if (data==null){
-                            //添加
-                            dwsProductInputFidsDAO.addData(mapData);
-                        }else {
-                            //更新
-                            if (notEquals(data.get("PLAN_INPUT_GLS_QTY"),mapData.get("PLAN_INPUT_GLS_QTY")) ||
-                                    notEquals(data.get("ACTUAL_INPUT_GLS_QTY"),mapData.get("ACTUAL_INPUT_GLS_QTY"))
-                                    ){
-                                dwsProductInputFidsDAO.updateData(mapData);
-                            }
-                        }
-                    }catch (Exception e){
-                        LogUtils.error(this.getClass(),"同步投入达成率[DWS_PRODUCT_INPUT_FIDS]数据单条处理失败原数据["+ JSON.toJSONString(mapData)+"]",e);
-                    }
-                }
-                offset = offset+mapDataList.size();
-            }
-            long t2 = System.currentTimeMillis();
-            //LogUtils.info(this.getClass(),"同步投入达成率[DWS_PRODUCT_INPUT_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
-        }catch (Exception e){
-            long t2 = System.currentTimeMillis();
-            LogUtils.error(this.getClass(), "同步投入达成率[DWS_PRODUCT_INPUT_FIDS]数据出现异常，用时" + ((t2 - t1) / 1000) + "秒一共同步[" + offset + "]条数据",e);
+
+
+//    @Scheduled(fixedRate = 1000*60*5)
+    @Scheduled(cron = "0 35/59 * * * *")
+    public void GoodInProcessDataSyncOneDay(){
+        int syncDayNums = 1;
+//        syncDWR_WIP_GLS_FIDS(syncDayNums);
+        Date now = new Date();
+        for (int i = 0;i<=syncDayNums;i++){
+            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            syncDWR_WIP_GLS_FIDS(beginDate,endDate);
         }
-        //LogUtils.info(this.getClass(),"endSyncInPut["+tableName+"]---");
     }
+//    @Scheduled(fixedRate = 1000*60*60*24)
+    @Scheduled(cron = "0 10 8 * * *")
+    public void GoodInProcessDataSync(){
+        int syncDayNums = 4;
+//        syncDWR_WIP_GLS_FIDS(syncDayNums);
+        Date now = new Date();
+        for (int i = 0;i<=syncDayNums;i++){
+            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            syncDWR_WIP_GLS_FIDS(beginDate,endDate);
+        }
+    }
+
+
+
+//    @Scheduled(fixedRate = 1000*60*5)
+    @Scheduled(cron = "0 35/59 * * * *")
+    public void OutputCompletionHDataSyncOneDay(){
+        int syncDayNums = 1;
+//        syncDWS_PRODUCT_OUTPUT_FIDS_H(syncDayNums);
+        Date now = new Date();
+        for (int i = 0;i<=syncDayNums;i++){
+            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            syncDWS_PRODUCT_OUTPUT_FIDS_H(beginDate,endDate);
+        }
+    }
+//    @Scheduled(fixedRate = 1000*60*60*24)
+    @Scheduled(cron = "0 10 8 * * *")
+    public void OutputCompletionHDataSync(){
+        int syncDayNums = 4;
+//        syncDWS_PRODUCT_OUTPUT_FIDS_H(syncDayNums);
+        Date now = new Date();
+        for (int i = 0;i<=syncDayNums;i++){
+            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            syncDWS_PRODUCT_OUTPUT_FIDS_H(beginDate,endDate);
+        }
+    }
+
+
+
+
+
+
+
 
     public boolean notEquals(Object o1,Object o2){
         if (o1==null){
@@ -241,7 +336,7 @@ public class CIMDataSyncTask {
         }
     }
 
-    private void syncDWS_PRODUCT_OUTPUT_FIDS(int syncDayNums) {
+    private void syncDWS_PRODUCT_OUTPUT_FIDS(Date beginDate,Date endDate) {
         String tableName="DWS_PRODUCT_OUTPUT_FIDS";
         //LogUtils.info(this.getClass(), "beginSyncOutPut[" + tableName + "]---");
         int offset = 0;
@@ -249,13 +344,16 @@ public class CIMDataSyncTask {
         long t1 = System.currentTimeMillis();
         try {
 //            Date maxPeriodDate = getmaxPeriodDate(tableName);
-            Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
             while (true){
                 List<Map<String,Object>> mapDataList;
                 try {
                     long t11 = System.currentTimeMillis();
                     String orderby = "FACTORY , PRODUCTTYPE , PRODUCTID";
-                    mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
+                    if (notUsePaged){
+                        mapDataList = queryLatestDataByBgeinEndDateAndTableNameNotPaged(beginDate,endDate,tableName);
+                    }else {
+                        mapDataList = queryLatestDataByBgeinEndDateAndTableName(offset, limit, beginDate, endDate, tableName, orderby);
+                    }
                     long t22 = System.currentTimeMillis();
                     //LogUtils.info(this.getClass(),"同步产出达成率[DWS_PRODUCT_OUTPUT_FIDS]查询用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
                 }catch (Exception e){
@@ -290,6 +388,9 @@ public class CIMDataSyncTask {
                     }
                 }
                 offset = offset+mapDataList.size();
+                if (notUsePaged) {
+                    break;
+                }
             }
             long t2 = System.currentTimeMillis();
             //LogUtils.info(this.getClass(),"同步产出达成率[DWS_PRODUCT_OUTPUT_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
@@ -300,9 +401,7 @@ public class CIMDataSyncTask {
         //LogUtils.info(this.getClass(), "endSyncOutPut[" + tableName + "]---");
     }
 
-
-
-    private void syncDWS_PRODUCT_OUTPUT_FIDS_H(int syncDayNums) {
+    private void syncDWS_PRODUCT_OUTPUT_FIDS_H(Date beginDate,Date endDate) {
         String tableName="DWS_PRODUCT_OUTPUT_FIDS_H";
         //LogUtils.info(this.getClass(), "beginSyncOutPutH[" + tableName + "]---");
         int offset = 0;
@@ -310,13 +409,17 @@ public class CIMDataSyncTask {
         long t1 = System.currentTimeMillis();
         try {
 //            Date maxPeriodDate = getmaxPeriodDate(tableName);
-            Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
+//            Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
             while (true){
                 List<Map<String,Object>> mapDataList;
                 try {
                     long t11 = System.currentTimeMillis();
                     String orderby = "FACTORY , PRODUCTTYPE , PRODUCTID";
-                    mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
+                    if (notUsePaged){
+                        mapDataList = queryLatestDataByBgeinEndDateAndTableNameNotPaged(beginDate,endDate,tableName);
+                    }else {
+                        mapDataList = queryLatestDataByBgeinEndDateAndTableName(offset, limit, beginDate, endDate, tableName, orderby);
+                    }
                     long t22 = System.currentTimeMillis();
                     //LogUtils.info(this.getClass(),"同步过货量推移[DWS_PRODUCT_OUTPUT_FIDS_H]查询用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
                 }catch (Exception e){
@@ -349,6 +452,9 @@ public class CIMDataSyncTask {
                     }
                 }
                 offset = offset+mapDataList.size();
+                if (notUsePaged){
+                    break;
+                }
             }
             long t2 = System.currentTimeMillis();
             //LogUtils.info(this.getClass(),"同步过货量推移[DWS_PRODUCT_OUTPUT_FIDS_H]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
@@ -360,14 +466,83 @@ public class CIMDataSyncTask {
     }
 
 
-    private void syncDWR_WIP_GLS_FIDS(int syncDayNums) {
+
+    /**
+     * 同步投入达成率
+     * @param
+     */
+    private void syncDWS_PRODUCT_INPUT_FIDS(Date beginDate,Date endDate) {
+        String tableName="DWS_PRODUCT_INPUT_FIDS";
+//        LogUtils.info(this.getClass(), "beginSyncInPut[" + tableName + "]---");
+        long t1 = System.currentTimeMillis();
+        int offset = 0;
+        int limit = 10000;
+        try {
+            while (true){
+                List<Map<String,Object>> mapDataList;
+                try {
+                    long t11 = System.currentTimeMillis();
+                    String orderby = "FACTORY , PRODUCTTYPE , PRODUCTID";
+                    if (notUsePaged){
+                        mapDataList = queryLatestDataByBgeinEndDateAndTableNameNotPaged(beginDate,endDate,tableName);
+                    }else {
+                        mapDataList = queryLatestDataByBgeinEndDateAndTableName(offset, limit, beginDate, endDate, tableName, orderby);
+                    }
+                    long t22 = System.currentTimeMillis();
+                    //LogUtils.info(this.getClass(),"同步投入达成率[DWS_PRODUCT_INPUT_FIDS]查询数据用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
+                }catch (Exception e){
+                    LogUtils.error(this.getClass(),"同步投入达成率[DWS_PRODUCT_INPUT_FIDS]offset["+offset+"]limit["+limit+"]查询数据 exception",e);
+                    try {
+                        Thread.sleep(100l);
+                    } catch (InterruptedException e1) {
+                        LogUtils.error(this.getClass(),e1);
+                    }
+                    continue;
+                }
+                if (CollectionUtils.isEmpty(mapDataList)){
+                    break;
+                }
+                for (Map<String,Object> mapData : mapDataList){
+                    try {
+                        Map<String,Object> data = dwsProductInputFidsDAO.loadByPrimaryKey(mapData);
+                        if (data==null){
+                            //添加
+                            dwsProductInputFidsDAO.addData(mapData);
+                        }else {
+                            //更新
+                            if (notEquals(data.get("PLAN_INPUT_GLS_QTY"),mapData.get("PLAN_INPUT_GLS_QTY")) ||
+                                    notEquals(data.get("ACTUAL_INPUT_GLS_QTY"),mapData.get("ACTUAL_INPUT_GLS_QTY"))
+                                    ){
+                                dwsProductInputFidsDAO.updateData(mapData);
+                            }
+                        }
+                    }catch (Exception e){
+                        LogUtils.error(this.getClass(),"同步投入达成率[DWS_PRODUCT_INPUT_FIDS]数据单条处理失败原数据["+ JSON.toJSONString(mapData)+"]",e);
+                    }
+                }
+                offset = offset+mapDataList.size();
+                if (notUsePaged){
+                    break;
+                }
+            }
+            long t2 = System.currentTimeMillis();
+            //LogUtils.info(this.getClass(),"同步投入达成率[DWS_PRODUCT_INPUT_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
+        }catch (Exception e){
+            long t2 = System.currentTimeMillis();
+            LogUtils.error(this.getClass(), "同步投入达成率[DWS_PRODUCT_INPUT_FIDS]数据出现异常，用时" + ((t2 - t1) / 1000) + "秒一共同步[" + offset + "]条数据",e);
+        }
+        //LogUtils.info(this.getClass(),"endSyncInPut["+tableName+"]---");
+    }
+
+
+    private void syncDWR_WIP_GLS_FIDS(Date beginDate,Date endDate) {
         String tableName="DWR_WIP_GLS_FIDS";
         //LogUtils.info(this.getClass(), "beginSyncWip[" + tableName + "]---");
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
 //        Date maxPeriodDate = getmaxPeriodDate(tableName);
-        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
+//        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
         int insertNum = 0;
         int updateNum = 0;
         while (true){
@@ -375,7 +550,11 @@ public class CIMDataSyncTask {
             try {
                 long t11 = System.currentTimeMillis();
                 String orderby = "FACTORY , PRODUCTTYPE , STEPID , PRODUCTID";
-                mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
+                if (notUsePaged){
+                    mapDataList = queryLatestDataByBgeinEndDateAndTableNameNotPaged(beginDate,endDate,tableName);
+                }else {
+                    mapDataList = queryLatestDataByBgeinEndDateAndTableName(offset, limit, beginDate, endDate, tableName, orderby);
+                }
                 long t22 = System.currentTimeMillis();
                 //LogUtils.info(this.getClass(), "同步在制品[DWR_WIP_GLS_FIDS]querySyncData 用时" + (t22 - t11) + "毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
@@ -413,6 +592,9 @@ public class CIMDataSyncTask {
                 }
             }
             offset = offset+limit;
+            if (notUsePaged){
+                break;
+            }
         }
         long t2 = System.currentTimeMillis();
         //LogUtils.info(this.getClass(),"同步在制品[DWR_WIP_GLS_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+insertNum+"]条数据,更新["+updateNum+"]条数据");
@@ -420,20 +602,24 @@ public class CIMDataSyncTask {
     }
 
 
-    private void syncDWS_PRODUCT_LINE_YIELD_FIDS(int syncDayNums) {
+    private void syncDWS_PRODUCT_LINE_YIELD_FIDS(Date beginDate,Date endDate) {
         String tableName="DWS_PRODUCT_LINE_YIELD_FIDS";
         //LogUtils.info(this.getClass(), "beginSyncLine[" + tableName + "]---");
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
 //        Date maxPeriodDate = getmaxPeriodDate(tableName);
-        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
+//        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
         while (true){
             List<Map<String,Object>> mapDataList;
             try {
                 long t11 = System.currentTimeMillis();
                 String orderby = "FACTORY , PRODUCTTYPE , PRODUCTID";
-                mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
+                if (notUsePaged){
+                    mapDataList = queryLatestDataByBgeinEndDateAndTableNameNotPaged(beginDate,endDate,tableName);
+                }else {
+                    mapDataList = queryLatestDataByBgeinEndDateAndTableName(offset, limit, beginDate, endDate, tableName, orderby);
+                }
                 long t22 = System.currentTimeMillis();
                 //LogUtils.info(this.getClass(),"同步良品率[DWS_PRODUCT_LINE_YIELD_FIDS]querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
@@ -468,6 +654,9 @@ public class CIMDataSyncTask {
                 }
             }
             offset = offset+mapDataList.size();
+            if (notUsePaged){
+                break;
+            }
         }
         long t2 = System.currentTimeMillis();
         //LogUtils.info(this.getClass(),"同步良品率[DWS_PRODUCT_LINE_YIELD_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
@@ -476,21 +665,25 @@ public class CIMDataSyncTask {
 
 
 
-    private void syncDWS_PRODUCT_OC_YIELD_FIDS(int syncDayNums) {
+    private void syncDWS_PRODUCT_OC_YIELD_FIDS(Date beginDate,Date endDate) {
         String tableName="DWS_PRODUCT_OC_YIELD_FIDS";
         //LogUtils.info(this.getClass(), "beginSyncOC[" + tableName + "]---");
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
 //        Date maxPeriodDate = getmaxPeriodDate(tableName);
-        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
+//        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
         while (true){
 
             List<Map<String,Object>> mapDataList ;
             try {
                 long t11 = System.currentTimeMillis();
                 String orderby = "FACTORY , PRODUCTTYPE , PRODUCTID";
-                mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
+                if (notUsePaged){
+                    mapDataList = queryLatestDataByBgeinEndDateAndTableNameNotPaged(beginDate,endDate,tableName);
+                }else {
+                    mapDataList = queryLatestDataByBgeinEndDateAndTableName(offset, limit, beginDate, endDate, tableName, orderby);
+                }
                 long t22 = System.currentTimeMillis();
                 //LogUtils.info(this.getClass(),"同步良品率[DWS_PRODUCT_OC_YIELD_FIDS]querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
@@ -546,6 +739,9 @@ public class CIMDataSyncTask {
                 }
             }
             offset = offset+limit;
+            if (notUsePaged){
+                break;
+            }
         }
 
         long t2 = System.currentTimeMillis();
@@ -559,20 +755,24 @@ public class CIMDataSyncTask {
 
 
 
-    private void syncDWR_PRODUCT_CT_FIDS(int syncDayNums) {
+    private void syncDWR_PRODUCT_CT_FIDS(Date beginDate,Date endDate) {
         String tableName="DWR_PRODUCT_CT_FIDS";
         //LogUtils.info(this.getClass(), "beginSyncCycleTime[" + tableName + "]---");
         int offset = 0;
         int limit = 10000;
         long t1 = System.currentTimeMillis();
 //        Date maxPeriodDate = getmaxPeriodDate(tableName);
-        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
+//        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
         while (true){
             List<Map<String,Object>> mapDataList;
             try {
                 long t11 = System.currentTimeMillis();
                 String orderby = "FACTORY , PRODUCTTYPE , PRODUCTID";
-                mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
+                if (notUsePaged){
+                    mapDataList = queryLatestDataByBgeinEndDateAndTableNameNotPaged(beginDate,endDate,tableName);
+                }else {
+                    mapDataList = queryLatestDataByBgeinEndDateAndTableName(offset, limit, beginDate, endDate, tableName, orderby);
+                }
                 long t22 = System.currentTimeMillis();
                 //LogUtils.info(this.getClass(),"同步CycleTime[DWR_PRODUCT_CT_FIDS]querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
@@ -607,6 +807,9 @@ public class CIMDataSyncTask {
                 }
             }
             offset = offset+limit;
+            if (notUsePaged){
+                break;
+            }
         }
         long t2 = System.currentTimeMillis();
         //LogUtils.info(this.getClass(),"同步CycleTime[DWR_PRODUCT_CT_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");
@@ -616,7 +819,7 @@ public class CIMDataSyncTask {
     private static ExecutorService oeeThreadPool = Executors.newFixedThreadPool(30);
 
 
-    private void syncDWR_EQP_OEE_FIDS(int syncDayNums) {
+    private void syncDWR_EQP_OEE_FIDS(Date beginDate,Date endDate) {
         String tableName="DWR_EQP_OEE_FIDS";
         //LogUtils.info(this.getClass(), "beginSyncOEE[" + tableName + "]---");
         int offset = 0;
@@ -624,13 +827,17 @@ public class CIMDataSyncTask {
         long t1 = System.currentTimeMillis();
 
 //        Date maxPeriodDate = getmaxPeriodDate(tableName);
-        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
+//        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
         while (true){
             long t111 = System.currentTimeMillis();
             List<Map<String,Object>> mapDataList;
             try {
                 String orderby = "FACTORY ,EQP_ID, EQP_TYPE,EQP_STATUS";
-                mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
+                if (notUsePaged){
+                    mapDataList = queryLatestDataByBgeinEndDateAndTableNameNotPaged(beginDate,endDate,tableName);
+                }else {
+                    mapDataList = queryLatestDataByBgeinEndDateAndTableName(offset, limit, beginDate, endDate, tableName, orderby);
+                }
                 long t22 = System.currentTimeMillis();
                 //LogUtils.info(this.getClass(),"同步稼动率[DWR_EQP_OEE_FIDS]querySyncData用时"+(t22-t111)+"毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
@@ -680,6 +887,9 @@ public class CIMDataSyncTask {
                 //LogUtils.info(this.getClass(), "同步稼动率[DWR_EQP_OEE_FIDS]数据单条处理用时[" + (t6 - t5) + "]");
             });
             offset = offset+limit;
+            if (notUsePaged){
+                break;
+            }
             long t4 = System.currentTimeMillis();
             //LogUtils.info(this.getClass(),"同步稼动率[DWR_EQP_OEE_FIDS]批次处理结束 保存用时"+(t4-t3)+"毫秒 总用时"+(t4-t1)+"参数offset" + offset + " limit" + limit);
         }
@@ -690,7 +900,7 @@ public class CIMDataSyncTask {
 
 
 
-    private void syncDWR_PRODUCT_TT_FIDS(int syncDayNums) {
+    private void syncDWR_PRODUCT_TT_FIDS(Date beginDate,Date endDate) {
         String tableName="DWR_PRODUCT_TT_FIDS";
         //LogUtils.info(this.getClass(), "beginSyncTactTime[" + tableName + "]---");
         int offset = 0;
@@ -698,13 +908,17 @@ public class CIMDataSyncTask {
         long t1 = System.currentTimeMillis();
 
 //        Date maxPeriodDate = getmaxPeriodDate(tableName);
-        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
+//        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
         while (true){
             List<Map<String,Object>> mapDataList;
             try {
                 long t11 = System.currentTimeMillis();
                 String orderby = "FACTORY,PRODUCTID, PRODUCTTYPE,EQP_ID,EQP_TYPE";
-                mapDataList = queryLatestDataByDataAndTableName(offset,limit,maxPeriodDate,tableName,orderby);
+                if (notUsePaged){
+                    mapDataList = queryLatestDataByBgeinEndDateAndTableNameNotPaged(beginDate,endDate,tableName);
+                }else {
+                    mapDataList = queryLatestDataByBgeinEndDateAndTableName(offset, limit, beginDate, endDate, tableName, orderby);
+                }
                 long t22 = System.currentTimeMillis();
                 //LogUtils.info(this.getClass(),"同步TactTime[DWR_PRODUCT_TT_FIDS]querySyncData用时"+(t22-t11)+"毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
@@ -740,6 +954,9 @@ public class CIMDataSyncTask {
                 }
             }
             offset = offset+limit;
+            if (notUsePaged){
+                break;
+            }
         }
         long t2 = System.currentTimeMillis();
         //LogUtils.info(this.getClass(),"同步TactTime[DWR_PRODUCT_TT_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+offset+"]条数据");

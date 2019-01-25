@@ -10,10 +10,21 @@
             select t.*
               from ${tableName} t
               where PERIODDATE >= #{minPeriodDate}
+              and PERIODDATE < #{endDate}
               order by  t.PERIODDATE , ${orderby}
             ) a
             where rownum <= #{offset}+#{limit}
         ) where rn > #{offset}
+        ]]>
+    </select>
+    <select id="queryLatestDataByDataAndTableNameNotPaged" parameterType="map" resultType="map">
+        <![CDATA[
+
+            select t.*
+              from ${tableName} t
+              where PERIODDATE >= #{minPeriodDate}
+              and PERIODDATE < #{endDate}
+
         ]]>
     </select>
 </mapper>
