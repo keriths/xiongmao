@@ -72,8 +72,8 @@ public class TactTimeServiceImpl {
             while (starDate.before(endTime)){
                 Date sDate = starDate;
                 Date eDate = new DateTime(sDate).millisOfDay().withMaximumValue().toDate();
-                String minEqpIdList =getMinEqpId(factoryList, eqpIdList, sDate, eDate);
-                List<TactTimeProductTimeListRetDTO.TactTimeProductDetail> todayList =dwrProductTtFidsDAO.queryTactTimeListByEqpIdList(factoryList, Lists.newArrayList(minEqpIdList), productId, sDate, eDate);// activationDAO.queryActivationStatusNumByDay(factoryList, Lists.newArrayList(maxEqpIdList), bigEqpType,beginDateStr, endDateStr);
+//                String minEqpIdList =getMinEqpId(factoryList, eqpIdList, sDate, eDate);
+                List<TactTimeProductTimeListRetDTO.TactTimeProductDetail> todayList =dwrProductTtFidsDAO.queryTactTimeListByEqpIdList(factoryList, eqpIdList, productId, sDate, eDate);// activationDAO.queryActivationStatusNumByDay(factoryList, Lists.newArrayList(maxEqpIdList), bigEqpType,beginDateStr, endDateStr);
                 if (!CollectionUtils.isEmpty(todayList)){
                     dbQueryList.addAll(todayList);
                 }
@@ -124,8 +124,8 @@ public class TactTimeServiceImpl {
             for (String productId:groupNameList){
                 String eqpIdListStr = dwrProductTtFidsDAO.queryEqListStr(factory,productId);
                 List<String> eqpIdList = Lists.newArrayList(eqpIdListStr.split(","));
-                String minEqpId = getMinEqpId(factoryList,eqpIdList,beginDate,endDate);
-                List<TactTimeMonthAvgDataDTO> oneProductList =  dwrProductTtFidsDAO.queryMonthAvgByEqpIdList(factoryList, Lists.newArrayList(minEqpId), productId, beginDate, endDate);
+//                String minEqpId = getMinEqpId(factoryList,eqpIdList,beginDate,endDate);
+                List<TactTimeMonthAvgDataDTO> oneProductList =  dwrProductTtFidsDAO.queryMonthAvgByEqpIdList(factoryList, eqpIdList, productId, beginDate, endDate);
                 if (oneProductList!=null){
                     tactTimeMonthAvgDataDTOList.addAll(oneProductList);
                 }
