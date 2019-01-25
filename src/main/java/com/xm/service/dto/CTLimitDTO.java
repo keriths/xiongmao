@@ -11,6 +11,15 @@ public class CTLimitDTO  implements Serializable{
     private BigDecimal limitVal;
     private BigDecimal minVal;
     private BigDecimal maxVal;
+    private BigDecimal limitMinVal;
+
+    public BigDecimal getLimitMinVal() {
+        return limitMinVal;
+    }
+
+    public void setLimitMinVal(BigDecimal limitMinVal) {
+        this.limitMinVal = limitMinVal;
+    }
 
     public String getShopName() {
         return shopName;

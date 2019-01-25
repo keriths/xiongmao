@@ -78,10 +78,14 @@ public class CycleTimeServiceImpl {
                     }
                     CTLimitDTO ctLimitDTO = ctLimitDTOMap.get(factory);
                     if (ctLimitDTO!=null){
-                        if (detailData.getPlan()!=null && detailData.getPlan().doubleValue() > ctLimitDTO.getLimitVal().doubleValue()){
+                        if (detailData.getPlan()!=null && (detailData.getPlan().doubleValue() > ctLimitDTO.getLimitVal().doubleValue() ||
+                                detailData.getPlan().doubleValue() < ctLimitDTO.getLimitMinVal().doubleValue() ) ){
                             detailData.setPlan(RandomUtils.randomFloat(ctLimitDTO.getMinVal().floatValue(), ctLimitDTO.getMaxVal().floatValue(), 1));
                         }
-                        if (detailData.getActual()!=null && detailData.getActual().doubleValue() > ctLimitDTO.getLimitVal().doubleValue()){
+                        if (detailData.getActual()!=null && (
+                                detailData.getActual().doubleValue() > ctLimitDTO.getLimitVal().doubleValue() ||
+                                        detailData.getActual().doubleValue() < ctLimitDTO.getLimitMinVal().doubleValue()
+                                ) ){
                             detailData.setActual(RandomUtils.randomFloat(ctLimitDTO.getMinVal().floatValue(), ctLimitDTO.getMaxVal().floatValue(), 1));
                         }
                     }
