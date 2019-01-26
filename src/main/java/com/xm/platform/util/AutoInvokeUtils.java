@@ -1,9 +1,11 @@
 package com.xm.platform.util;
 
+import com.xm.platform.annotations.NotAutoRunMethod;
 import com.xm.platform.apidoc.ApiMethod;
-import org.apache.ibatis.annotations.Param;
 
+import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -49,6 +51,11 @@ public class AutoInvokeUtils {
             try {
                 InvokeContext invokeContext = invokeContextMap.get(key);
                 ApiMethod apiMethod = invokeContext.getApiMethod();
+                Method method = apiMethod.getMethod();
+                Annotation notAutoRunMethod = method.getAnnotation(NotAutoRunMethod.class);
+                if (notAutoRunMethod!=null){
+                    continue;
+                }
                 Object obj = apiMethod.getMethod().invoke(apiMethod.getServiceObj(),invokeContext.getParam());
                 int minute=(int)(runAllOnceUseTime/1000/60)+1;
                 LocalCacheUtils.setCacheValue(key,obj,minute);

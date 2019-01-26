@@ -3,6 +3,7 @@ package com.xm.service.apiimpl.pc.product;
 import com.xm.job.CIMDataSyncTask;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
+import com.xm.platform.annotations.NotAutoRunMethod;
 import com.xm.service.apiimpl.pc.product.dto.ProductRetDTO;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DWS_PRODUCT_MASTERDAO;
@@ -24,6 +25,7 @@ public class ProductServiceImpl {
     @Resource
     private CIMDataSyncTask cimDataSyncTask;
     @ApiMethodDoc(apiCode = "syncData",name ="同步数据" )
+    @NotAutoRunMethod
     public BaseRetDTO syncData(String method){
         BaseRetDTO baseRetDTO = new BaseRetDTO();
         try {

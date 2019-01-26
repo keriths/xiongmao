@@ -1,6 +1,7 @@
 package com.xm.job;
 
 import com.alibaba.fastjson.JSON;
+import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.service.dao.cim.*;
 import com.xm.service.dao.factory.cim.*;
@@ -81,8 +82,17 @@ public class CIMDataSyncTask {
         return mapDataList;
     }
     private List<Map<String,Object>> queryLatestDataByBgeinEndDateAndTableNameNotPaged(Date minPeriodDate,Date endDate,String tableName){
-        List<Map<String,Object>> mapDataList = factoryDwsProductInputFidsDAO.queryLatestDataByDataAndTableNameNotPaged(minPeriodDate, endDate, tableName);
-        return mapDataList;
+        long t1 = System.currentTimeMillis();
+        try {
+            List<Map<String,Object>> mapDataList = factoryDwsProductInputFidsDAO.queryLatestDataByDataAndTableNameNotPaged(minPeriodDate, endDate, tableName);
+            long t2 = System.currentTimeMillis();
+            LogUtils.info(this.getClass(), "syncTabledata[" + tableName + "]beginDate[" + DateUtils.getStrDate(minPeriodDate, "yyyy-MM-dd HH:mm:ss") + "]endDate[" + DateUtils.getStrDate(endDate, "yyyy-MM-dd HH:mm:ss") + "]用时[" + (t2 - t1) + "]毫秒 数据量["+(mapDataList==null?0:mapDataList.size())+"]条");
+            return mapDataList;
+        }catch (Exception e){
+            long t2 = System.currentTimeMillis();
+            LogUtils.error(this.getClass(), "syncTabledata[" + tableName + "]beginDate[" + DateUtils.getStrDate(minPeriodDate, "yyyy-MM-dd HH:mm:ss") + "]endDate[" + DateUtils.getStrDate(endDate, "yyyy-MM-dd HH:mm:ss") + "]用时[" + (t2 - t1) + "]毫秒 出现异常",e);
+            return null;
+        }
     }
 
     //产出达成率
@@ -151,37 +161,37 @@ public class CIMDataSyncTask {
 
 
 //    @Scheduled(fixedRate = 1000*60*5)
-    @Scheduled(cron = "0 31,55 * * * *")
-    public void ProductOcGoodRateDataSyncOneDay(){
-        String methodName = "ProductOcGoodRateDataSyncOneDay";
-        long seqpid = System.currentTimeMillis();
-        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
-        int syncDayNums = 1;
-//        syncDWS_PRODUCT_OC_YIELD_FIDS(syncDayNums);
-        Date now = new Date();
-        for (int i = 0;i<=syncDayNums;i++){
-            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
-            syncDWS_PRODUCT_OC_YIELD_FIDS(beginDate, endDate);
-        }
-        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
-    }
+//    @Scheduled(cron = "0 31,55 * * * *")
+//    public void ProductOcGoodRateDataSyncOneDay(){
+//        String methodName = "ProductOcGoodRateDataSyncOneDay";
+//        long seqpid = System.currentTimeMillis();
+//        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
+//        int syncDayNums = 1;
+////        syncDWS_PRODUCT_OC_YIELD_FIDS(syncDayNums);
+//        Date now = new Date();
+//        for (int i = 0;i<=syncDayNums;i++){
+//            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+//            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+//            syncDWS_PRODUCT_OC_YIELD_FIDS(beginDate, endDate);
+//        }
+//        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
+//    }
 //    @Scheduled(fixedRate = 1000*60*60*24)
-@Scheduled(cron = "0 10 8 * * *")
-    public void ProductOcGoodRateDataSync(){
-        String methodName = "ProductOcGoodRateDataSync";
-        long seqpid = System.currentTimeMillis();
-        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
-        int syncDayNums =4;
-//        syncDWS_PRODUCT_OC_YIELD_FIDS(syncDayNums);
-        Date now = new Date();
-        for (int i = 0;i<=syncDayNums;i++){
-            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
-            syncDWS_PRODUCT_OC_YIELD_FIDS(beginDate,endDate);
-        }
-        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
-    }
+//@Scheduled(cron = "0 10 8 * * *")
+//    public void ProductOcGoodRateDataSync(){
+//        String methodName = "ProductOcGoodRateDataSync";
+//        long seqpid = System.currentTimeMillis();
+//        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
+//        int syncDayNums =4;
+////        syncDWS_PRODUCT_OC_YIELD_FIDS(syncDayNums);
+//        Date now = new Date();
+//        for (int i = 0;i<=syncDayNums;i++){
+//            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+//            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+//            syncDWS_PRODUCT_OC_YIELD_FIDS(beginDate,endDate);
+//        }
+//        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
+//    }
 
 
 
@@ -264,8 +274,8 @@ public class CIMDataSyncTask {
 //        syncDWR_PRODUCT_TT_FIDS(syncDayNums);
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
-            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            Date beginDate = new DateTime(now).plusDays(-i).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-i).millisOfDay().withMaximumValue().toDate();
             syncDWR_PRODUCT_TT_FIDS(beginDate, endDate);
         }
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
@@ -280,8 +290,8 @@ public class CIMDataSyncTask {
 //        syncDWR_PRODUCT_TT_FIDS(syncDayNums);
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
-            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            Date beginDate = new DateTime(now).plusDays(-i).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-i).millisOfDay().withMaximumValue().toDate();
             syncDWR_PRODUCT_TT_FIDS(beginDate,endDate);
         }
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
@@ -299,8 +309,8 @@ public class CIMDataSyncTask {
 //        syncDWS_PRODUCT_LINE_YIELD_FIDS(syncDayNums);
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
-            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            Date beginDate = new DateTime(now).plusDays(-i).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-i).millisOfDay().withMaximumValue().toDate();
             syncDWS_PRODUCT_LINE_YIELD_FIDS(beginDate,endDate);
         }
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
@@ -315,8 +325,8 @@ public class CIMDataSyncTask {
 //        syncDWS_PRODUCT_LINE_YIELD_FIDS(syncDayNums);
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
-            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            Date beginDate = new DateTime(now).plusDays(-i).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-i).millisOfDay().withMaximumValue().toDate();
             syncDWS_PRODUCT_LINE_YIELD_FIDS(beginDate,endDate);
         }
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
@@ -334,8 +344,8 @@ public class CIMDataSyncTask {
 //        syncDWR_WIP_GLS_FIDS(syncDayNums);
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
-            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            Date beginDate = new DateTime(now).plusDays(-i).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-i).millisOfDay().withMaximumValue().toDate();
             syncDWR_WIP_GLS_FIDS(beginDate,endDate);
         }
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
@@ -350,8 +360,8 @@ public class CIMDataSyncTask {
 //        syncDWR_WIP_GLS_FIDS(syncDayNums);
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
-            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            Date beginDate = new DateTime(now).plusDays(-i).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-i).millisOfDay().withMaximumValue().toDate();
             syncDWR_WIP_GLS_FIDS(beginDate,endDate);
         }
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
@@ -360,37 +370,37 @@ public class CIMDataSyncTask {
 
 
 //    @Scheduled(fixedRate = 1000*60*5)
-    @Scheduled(cron = "0 31,55 * * * *")
-    public void OutputCompletionHDataSyncOneDay(){
-        String methodName = "OutputCompletionHDataSyncOneDay";
-        long seqpid = System.currentTimeMillis();
-        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
-        int syncDayNums = 1;
-//        syncDWS_PRODUCT_OUTPUT_FIDS_H(syncDayNums);
-        Date now = new Date();
-        for (int i = 0;i<=syncDayNums;i++){
-            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
-            syncDWS_PRODUCT_OUTPUT_FIDS_H(beginDate,endDate);
-        }
-        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
-    }
+//    @Scheduled(cron = "0 31,55 * * * *")
+//    public void OutputCompletionHDataSyncOneDay(){
+//        String methodName = "OutputCompletionHDataSyncOneDay";
+//        long seqpid = System.currentTimeMillis();
+//        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
+//        int syncDayNums = 1;
+////        syncDWS_PRODUCT_OUTPUT_FIDS_H(syncDayNums);
+//        Date now = new Date();
+//        for (int i = 0;i<=syncDayNums;i++){
+//            Date beginDate = new DateTime(now).plusDays(-i).millisOfDay().withMinimumValue().toDate();
+//            Date endDate   = new DateTime(now).plusDays(-i).millisOfDay().withMaximumValue().toDate();
+//            syncDWS_PRODUCT_OUTPUT_FIDS_H(beginDate,endDate);
+//        }
+//        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
+//    }
 //    @Scheduled(fixedRate = 1000*60*60*24)
-    @Scheduled(cron = "0 10 8 * * *")
-    public void OutputCompletionHDataSync(){
-        String methodName = "OutputCompletionHDataSync";
-        long seqpid = System.currentTimeMillis();
-        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
-        int syncDayNums = 4;
-//        syncDWS_PRODUCT_OUTPUT_FIDS_H(syncDayNums);
-        Date now = new Date();
-        for (int i = 0;i<=syncDayNums;i++){
-            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
-            syncDWS_PRODUCT_OUTPUT_FIDS_H(beginDate,endDate);
-        }
-        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
-    }
+//    @Scheduled(cron = "0 10 8 * * *")
+//    public void OutputCompletionHDataSync(){
+//        String methodName = "OutputCompletionHDataSync";
+//        long seqpid = System.currentTimeMillis();
+//        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
+//        int syncDayNums = 4;
+////        syncDWS_PRODUCT_OUTPUT_FIDS_H(syncDayNums);
+//        Date now = new Date();
+//        for (int i = 0;i<=syncDayNums;i++){
+//            Date beginDate = new DateTime(now).plusDays(-i).millisOfDay().withMinimumValue().toDate();
+//            Date endDate   = new DateTime(now).plusDays(-i).millisOfDay().withMaximumValue().toDate();
+//            syncDWS_PRODUCT_OUTPUT_FIDS_H(beginDate,endDate);
+//        }
+//        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
+//    }
 
 
 
@@ -480,7 +490,7 @@ public class CIMDataSyncTask {
         long t1 = System.currentTimeMillis();
         try {
 //            Date maxPeriodDate = getmaxPeriodDate(tableName);
-//            Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
+//            Date maxPeriodDate = new DateTime().plusDays(-i).toDate();
             while (true){
                 List<Map<String,Object>> mapDataList;
                 try {
@@ -613,7 +623,7 @@ public class CIMDataSyncTask {
         int limit = 10000;
         long t1 = System.currentTimeMillis();
 //        Date maxPeriodDate = getmaxPeriodDate(tableName);
-//        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
+//        Date maxPeriodDate = new DateTime().plusDays(-i).toDate();
         int insertNum = 0;
         int updateNum = 0;
         while (true){
@@ -680,7 +690,7 @@ public class CIMDataSyncTask {
         int limit = 10000;
         long t1 = System.currentTimeMillis();
 //        Date maxPeriodDate = getmaxPeriodDate(tableName);
-//        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
+//        Date maxPeriodDate = new DateTime().plusDays(-i).toDate();
         while (true){
             List<Map<String,Object>> mapDataList;
             try {
@@ -743,7 +753,7 @@ public class CIMDataSyncTask {
         int limit = 10000;
         long t1 = System.currentTimeMillis();
 //        Date maxPeriodDate = getmaxPeriodDate(tableName);
-//        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
+//        Date maxPeriodDate = new DateTime().plusDays(-i).toDate();
         while (true){
 
             List<Map<String,Object>> mapDataList ;
@@ -833,7 +843,7 @@ public class CIMDataSyncTask {
         int limit = 10000;
         long t1 = System.currentTimeMillis();
 //        Date maxPeriodDate = getmaxPeriodDate(tableName);
-//        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
+//        Date maxPeriodDate = new DateTime().plusDays(-i).toDate();
         while (true){
             List<Map<String,Object>> mapDataList;
             try {
@@ -898,7 +908,7 @@ public class CIMDataSyncTask {
         long t1 = System.currentTimeMillis();
 
 //        Date maxPeriodDate = getmaxPeriodDate(tableName);
-//        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
+//        Date maxPeriodDate = new DateTime().plusDays(-i).toDate();
         while (true){
             long t111 = System.currentTimeMillis();
             List<Map<String,Object>> mapDataList;
@@ -979,7 +989,7 @@ public class CIMDataSyncTask {
         long t1 = System.currentTimeMillis();
 
 //        Date maxPeriodDate = getmaxPeriodDate(tableName);
-//        Date maxPeriodDate = new DateTime().plusDays(-syncDayNums).toDate();
+//        Date maxPeriodDate = new DateTime().plusDays(-i).toDate();
         while (true){
             List<Map<String,Object>> mapDataList;
             try {
