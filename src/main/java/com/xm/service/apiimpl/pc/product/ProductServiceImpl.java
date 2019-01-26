@@ -1,13 +1,16 @@
 package com.xm.service.apiimpl.pc.product;
 
+import com.xm.job.CIMDataSyncTask;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.service.apiimpl.pc.product.dto.ProductRetDTO;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DWS_PRODUCT_MASTERDAO;
+import com.xm.service.dto.BaseRetDTO;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.lang.reflect.Method;
 import java.util.*;
 
 /**
@@ -18,6 +21,30 @@ import java.util.*;
 public class ProductServiceImpl {
     @Resource(name = "DWS_PRODUCT_MASTERDAO")
     private DWS_PRODUCT_MASTERDAO dws_product_masterdao;
+    @Resource
+    private CIMDataSyncTask cimDataSyncTask;
+    @ApiMethodDoc(apiCode = "syncData",name ="同步数据" )
+    public BaseRetDTO syncData(String method){
+        BaseRetDTO baseRetDTO = new BaseRetDTO();
+        try {
+            Method m = cimDataSyncTask.getClass().getDeclaredMethod(method);
+            if (m!=null){
+                m.invoke(cimDataSyncTask);
+                baseRetDTO.setSuccess(true);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            String methodnames = "";
+            Method[] methods = cimDataSyncTask.getClass().getDeclaredMethods();
+            for (Method m : methods){
+                methodnames+="["+m.getName()+"]";
+            }
+            baseRetDTO.setSuccess(false);
+            baseRetDTO.setErrorMsg("allMethodNaes="+methodnames+" errorMsg = "+e.getMessage());
+        }
+        return baseRetDTO;
+    }
+
     @ApiMethodDoc(apiCode = "ProductList",name ="产品列表" )
     public ProductRetDTO queryProduct(){
         ProductRetDTO dto=new ProductRetDTO();

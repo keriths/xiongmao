@@ -87,8 +87,10 @@ public class CIMDataSyncTask {
 
     //产出达成率
 //    @Scheduled(fixedRate = 1000*60*5)
-    @Scheduled(cron = "0 31/55 * * * *")
+    @Scheduled(cron = "0 31,55 * * * *")
     public void OutputCompletionDataSyncOneDay(){
+        long seqpid = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"syncMethod=OutputCompletionDataSyncOneDay["+seqpid+"]________begin");
         int syncDayNums = 1;
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
@@ -96,10 +98,14 @@ public class CIMDataSyncTask {
             Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
             syncDWS_PRODUCT_OUTPUT_FIDS(beginDate,endDate);
         }
+        LogUtils.info(this.getClass(),"syncMethod=OutputCompletionDataSyncOneDay["+seqpid+"]________end");
     }
 //    @Scheduled(fixedRate = 1000*60*60*24)
 @Scheduled(cron = "0 10 8 * * *")
     public void OutputCompletionDataSync(){
+    String methodName = "OutputCompletionDataSync";
+        long seqpid = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
         int syncDayNums = 4;
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
@@ -107,12 +113,16 @@ public class CIMDataSyncTask {
             Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
             syncDWS_PRODUCT_OUTPUT_FIDS(beginDate,endDate);
         }
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
     }
 
     //投入达成率
 //    @Scheduled(fixedRate = 1000*60*5)
-    @Scheduled(cron = "0 31/55 * * * *")
+    @Scheduled(cron = "0 31,55 * * * *")
     public void InputCompletionDataSyncOneDay(){
+        String methodName = "InputCompletionDataSyncOneDay";
+        long seqpid = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
         int syncDayNums = 1;
 //        syncDWS_PRODUCT_INPUT_FIDS(syncDayNums);
         Date now = new Date();
@@ -121,10 +131,14 @@ public class CIMDataSyncTask {
             Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
             syncDWS_PRODUCT_INPUT_FIDS(beginDate, endDate);
         }
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
     }
 //    @Scheduled(fixedRate = 1000*60*60*24)
-@Scheduled(cron = "0 10 8 * * *")
+    @Scheduled(cron = "0 10 8 * * *")
     public void InputCompletionDataSync(){
+        String methodName = "InputCompletionDataSync";
+        long seqpid = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
         int syncDayNums = 4;
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
@@ -132,12 +146,16 @@ public class CIMDataSyncTask {
             Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
             syncDWS_PRODUCT_INPUT_FIDS(beginDate,endDate);
         }
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
     }
 
 
 //    @Scheduled(fixedRate = 1000*60*5)
-    @Scheduled(cron = "0 31/55 * * * *")
+    @Scheduled(cron = "0 31,55 * * * *")
     public void ProductOcGoodRateDataSyncOneDay(){
+        String methodName = "ProductOcGoodRateDataSyncOneDay";
+        long seqpid = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
         int syncDayNums = 1;
 //        syncDWS_PRODUCT_OC_YIELD_FIDS(syncDayNums);
         Date now = new Date();
@@ -146,10 +164,14 @@ public class CIMDataSyncTask {
             Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
             syncDWS_PRODUCT_OC_YIELD_FIDS(beginDate, endDate);
         }
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
     }
 //    @Scheduled(fixedRate = 1000*60*60*24)
 @Scheduled(cron = "0 10 8 * * *")
     public void ProductOcGoodRateDataSync(){
+        String methodName = "ProductOcGoodRateDataSync";
+        long seqpid = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
         int syncDayNums =4;
 //        syncDWS_PRODUCT_OC_YIELD_FIDS(syncDayNums);
         Date now = new Date();
@@ -158,13 +180,17 @@ public class CIMDataSyncTask {
             Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
             syncDWS_PRODUCT_OC_YIELD_FIDS(beginDate,endDate);
         }
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
     }
 
 
 
 //    @Scheduled(fixedRate = 1000*60*5)
-    @Scheduled(cron = "0 31/55 * * * *")
+    @Scheduled(cron = "0 31,55 * * * *")
     public void CycleTimeDataSyncOneDay(){
+        String methodName = "CycleTimeDataSyncOneDay";
+        long seqpid = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
         int syncDayNums = 1;
 //        syncDWR_PRODUCT_CT_FIDS(syncDayNums);
         Date now = new Date();
@@ -173,10 +199,14 @@ public class CIMDataSyncTask {
             Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
             syncDWR_PRODUCT_CT_FIDS(beginDate, endDate);
         }
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
     }
 //    @Scheduled(fixedRate = 1000*60*60*24)
 @Scheduled(cron = "0 10 8 * * *")
     public void CycleTimeDataSync(){
+        String methodName = "CycleTimeDataSync";
+        long seqpid = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
         int syncDayNums = 4;
 //        syncDWR_PRODUCT_CT_FIDS(syncDayNums);
         Date now = new Date();
@@ -185,12 +215,16 @@ public class CIMDataSyncTask {
             Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
             syncDWR_PRODUCT_CT_FIDS(beginDate,endDate);
         }
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
     }
 
 
 //    @Scheduled(fixedRate = 1000*60*5)
-    @Scheduled(cron = "0 35/59 * * * *")
+    @Scheduled(cron = "0 31,55 * * * *")
     public void OeeDataSyncOneDay(){
+        String methodName = "OeeDataSyncOneDay";
+        long seqpid = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
         int syncDayNums = 1;
 //        syncDWR_EQP_OEE_FIDS(syncDayNums);
         Date now = new Date();
@@ -199,10 +233,14 @@ public class CIMDataSyncTask {
             Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
             syncDWR_EQP_OEE_FIDS(beginDate, endDate);
         }
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
     }
 //    @Scheduled(fixedRate = 1000*60*60*24)
     @Scheduled(cron = "0 10 8 * * *")
     public void OeeDataSync(){
+        String methodName = "OeeDataSync";
+        long seqpid = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
         int syncDayNums = 4;
 //        syncDWR_EQP_OEE_FIDS(syncDayNums);
         Date now = new Date();
@@ -211,13 +249,17 @@ public class CIMDataSyncTask {
             Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
             syncDWR_EQP_OEE_FIDS(beginDate,endDate);
         }
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
     }
 
 
 
 //    @Scheduled(fixedRate = 1000*60*5)
-    @Scheduled(cron = "0 35/59 * * * *")
+    @Scheduled(cron = "0 31,55 * * * *")
     public void TactTimeDataSyncOneDay(){
+        String methodName = "TactTimeDataSyncOneDay";
+        long seqpid = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
         int syncDayNums = 1;
 //        syncDWR_PRODUCT_TT_FIDS(syncDayNums);
         Date now = new Date();
@@ -226,10 +268,14 @@ public class CIMDataSyncTask {
             Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
             syncDWR_PRODUCT_TT_FIDS(beginDate, endDate);
         }
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
     }
 //    @Scheduled(fixedRate = 1000*60*60*24)
     @Scheduled(cron = "0 10 8 * * *")
     public void TactTimeDataSync(){
+        String methodName = "TactTimeDataSync";
+        long seqpid = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
         int syncDayNums = 4;
 //        syncDWR_PRODUCT_TT_FIDS(syncDayNums);
         Date now = new Date();
@@ -238,13 +284,17 @@ public class CIMDataSyncTask {
             Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
             syncDWR_PRODUCT_TT_FIDS(beginDate,endDate);
         }
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
     }
 
 
 
 //    @Scheduled(fixedRate = 1000*60*5)
-    @Scheduled(cron = "0 35/59 * * * *")
+    @Scheduled(cron = "0 31,55 * * * *")
     public void ProductLineGoodRateDataSyncOneDay(){
+        String methodName = "ProductLineGoodRateDataSyncOneDay";
+        long seqpid = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
         int syncDayNums = 1;
 //        syncDWS_PRODUCT_LINE_YIELD_FIDS(syncDayNums);
         Date now = new Date();
@@ -253,10 +303,14 @@ public class CIMDataSyncTask {
             Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
             syncDWS_PRODUCT_LINE_YIELD_FIDS(beginDate,endDate);
         }
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
     }
 //    @Scheduled(fixedRate = 1000*60*60*24)
     @Scheduled(cron = "0 10 8 * * *")
     public void ProductLineGoodRateDataSync(){
+        String methodName = "ProductLineGoodRateDataSync";
+        long seqpid = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
         int syncDayNums = 10;
 //        syncDWS_PRODUCT_LINE_YIELD_FIDS(syncDayNums);
         Date now = new Date();
@@ -265,13 +319,17 @@ public class CIMDataSyncTask {
             Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
             syncDWS_PRODUCT_LINE_YIELD_FIDS(beginDate,endDate);
         }
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
     }
 
 
 
 //    @Scheduled(fixedRate = 1000*60*5)
-    @Scheduled(cron = "0 35/59 * * * *")
+    @Scheduled(cron = "0 31,55 * * * *")
     public void GoodInProcessDataSyncOneDay(){
+        String methodName = "GoodInProcessDataSyncOneDay";
+        long seqpid = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
         int syncDayNums = 1;
 //        syncDWR_WIP_GLS_FIDS(syncDayNums);
         Date now = new Date();
@@ -280,10 +338,14 @@ public class CIMDataSyncTask {
             Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
             syncDWR_WIP_GLS_FIDS(beginDate,endDate);
         }
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
     }
 //    @Scheduled(fixedRate = 1000*60*60*24)
     @Scheduled(cron = "0 10 8 * * *")
     public void GoodInProcessDataSync(){
+        String methodName = "GoodInProcessDataSync";
+        long seqpid = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
         int syncDayNums = 4;
 //        syncDWR_WIP_GLS_FIDS(syncDayNums);
         Date now = new Date();
@@ -292,13 +354,17 @@ public class CIMDataSyncTask {
             Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
             syncDWR_WIP_GLS_FIDS(beginDate,endDate);
         }
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
     }
 
 
 
 //    @Scheduled(fixedRate = 1000*60*5)
-    @Scheduled(cron = "0 35/59 * * * *")
+    @Scheduled(cron = "0 31,55 * * * *")
     public void OutputCompletionHDataSyncOneDay(){
+        String methodName = "OutputCompletionHDataSyncOneDay";
+        long seqpid = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
         int syncDayNums = 1;
 //        syncDWS_PRODUCT_OUTPUT_FIDS_H(syncDayNums);
         Date now = new Date();
@@ -307,10 +373,14 @@ public class CIMDataSyncTask {
             Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
             syncDWS_PRODUCT_OUTPUT_FIDS_H(beginDate,endDate);
         }
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
     }
 //    @Scheduled(fixedRate = 1000*60*60*24)
     @Scheduled(cron = "0 10 8 * * *")
     public void OutputCompletionHDataSync(){
+        String methodName = "OutputCompletionHDataSync";
+        long seqpid = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
         int syncDayNums = 4;
 //        syncDWS_PRODUCT_OUTPUT_FIDS_H(syncDayNums);
         Date now = new Date();
@@ -319,6 +389,7 @@ public class CIMDataSyncTask {
             Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
             syncDWS_PRODUCT_OUTPUT_FIDS_H(beginDate,endDate);
         }
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
     }
 
 
