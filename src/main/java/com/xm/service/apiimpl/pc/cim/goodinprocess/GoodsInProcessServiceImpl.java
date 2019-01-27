@@ -54,12 +54,12 @@ public class GoodsInProcessServiceImpl {
                 resultDto.setErrorMsg("参数错误，根据"+factory+"未查询到bigEqpTypeList");
                 return resultDto;
             }
-            Date beginDate = DateUtils.getBeforHourStartDay(0);
-            Date endDate = DateUtils.getBeforHourEndDay(0);
-            if (new DateTime().minuteOfHour().get()<30){
-                beginDate = DateUtils.getBeforHourStartDay(1);
-                endDate = DateUtils.getBeforHourEndDay(1);
-            }
+            Date beginDate = DateUtils.getBeforHourStartDay(1);
+            Date endDate = DateUtils.getBeforHourEndDay(1);
+//            if (new DateTime().minuteOfHour().get()<30){
+//                beginDate = DateUtils.getBeforHourStartDay(1);
+//                endDate = DateUtils.getBeforHourEndDay(1);
+//            }
             List<InProcessDataRetDTO.InProcessData> inProcessDatas = dwrWipGlsFidsDAO.queryInProcessDataList(factoryList,bigEqpTypeList,beginDate,endDate);
             BigDecimal total = dwrWipGlsFidsDAO.queryInProcessTotal(factoryList,beginDate,endDate);
             Map<String,InProcessDataRetDTO.InProcessData> mapData = MapUtils.listToMap(inProcessDatas,"getBigEqpType");

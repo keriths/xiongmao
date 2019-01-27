@@ -335,7 +335,7 @@ public class CIMDataSyncTask {
 
 
 //    @Scheduled(fixedRate = 1000*60*5)
-    @Scheduled(cron = "0 31,55 * * * *")
+    @Scheduled(cron = "0 25,31,55 * * * *")
     public void GoodInProcessDataSyncOneDay(){
         String methodName = "GoodInProcessDataSyncOneDay";
         long seqpid = System.currentTimeMillis();

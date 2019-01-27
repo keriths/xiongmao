@@ -20,7 +20,7 @@ import java.util.concurrent.Future;
  */
 public class AutoInvokeUtils {
     private static long runAllOnceUseTime = 1000*60*5;
-    private static ExecutorService t = Executors.newFixedThreadPool(30);
+    private static ExecutorService t = Executors.newFixedThreadPool(2);
     private static final Map<String,InvokeContext> invokeContextMap = new ConcurrentHashMap<>();
     public static void addInvoke(String key,ApiMethod apiMethod,Object[] param){
         invokeContextMap.put(key,new InvokeContext(apiMethod,param));

@@ -74,8 +74,8 @@ public class ApiAction {
         ApiMethod apiMethod = ApiManager.getApiMethod(apiCode);
         Object[] param = getParamObjects(apiMethod);
         long t1 = System.currentTimeMillis();
+        String key = apiCode+"_";
         try {
-            String key = apiCode+"_";
             if (param!=null && param.length>0){
                 for (Object obj : param){
                     key+="["+(obj==null?"":obj.toString())+"]";
@@ -93,7 +93,7 @@ public class ApiAction {
             return e;
         }finally {
             long t2 = System.currentTimeMillis();
-            MonitorUtils.doMonitor(apiCode,t2-t1);
+            MonitorUtils.doMonitor(key,t2-t1);
         }
     }
 
