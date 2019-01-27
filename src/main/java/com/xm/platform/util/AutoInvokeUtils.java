@@ -11,12 +11,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 
 /**
  * Created by fanshuai on 19/1/1.
  */
 public class AutoInvokeUtils {
     private static long runAllOnceUseTime = 1000*60*5;
+    private static ExecutorService t = Executors.newFixedThreadPool(30);
     private static final Map<String,InvokeContext> invokeContextMap = new ConcurrentHashMap<>();
     public static void addInvoke(String key,ApiMethod apiMethod,Object[] param){
         invokeContextMap.put(key,new InvokeContext(apiMethod,param));
@@ -32,7 +36,7 @@ public class AutoInvokeUtils {
                         e.printStackTrace();
                     }
                     try {
-                        Thread.sleep(5000l);
+                        Thread.sleep(1000l);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -47,22 +51,38 @@ public class AutoInvokeUtils {
         for (String key:keySet){
             keyList.add(key);
         }
+        List<Future> futureList = new ArrayList<>();
         for (String key : keyList){
             try {
-                InvokeContext invokeContext = invokeContextMap.get(key);
-                ApiMethod apiMethod = invokeContext.getApiMethod();
-                Method method = apiMethod.getMethod();
-                Annotation notAutoRunMethod = method.getAnnotation(NotAutoRunMethod.class);
-                if (notAutoRunMethod!=null){
-                    continue;
-                }
-                Object obj = apiMethod.getMethod().invoke(apiMethod.getServiceObj(),invokeContext.getParam());
-                int minute=(int)(runAllOnceUseTime/1000/60)+1;
-                LocalCacheUtils.setCacheValue(key,obj,minute);
-            } catch (IllegalAccessException e) {
+                Future f = t.submit(new Thread() {
+                    @Override
+                    public void run() {
+                        try {
+                            InvokeContext invokeContext = invokeContextMap.get(key);
+                            ApiMethod apiMethod = invokeContext.getApiMethod();
+                            Method method = apiMethod.getMethod();
+                            Annotation notAutoRunMethod = method.getAnnotation(NotAutoRunMethod.class);
+                            if (notAutoRunMethod!=null){
+                                return;
+                            }
+                            Object obj = apiMethod.getMethod().invoke(apiMethod.getServiceObj(),invokeContext.getParam());
+                            int minute=(int)(runAllOnceUseTime/1000/60)+9999999;
+                            LocalCacheUtils.setCacheValue(key, obj, minute);
+                        }catch (Exception e){
+
+                        }
+                    }
+                });
+                futureList.add(f);
+            } catch (Exception e) {
                 e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
+            }
+        }
+        for (Future f : futureList){
+            try {
+                f.get();
+            }catch (Exception e){
+
             }
         }
         long t2 = System.currentTimeMillis();
