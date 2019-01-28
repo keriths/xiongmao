@@ -19,6 +19,7 @@ public class HumitureRealTimeDate {
     private String periodDate;
 
     public static class HumitureRealTimeDetailData implements Serializable {
+        public boolean showDemoData = true;
         public HumitureRealTimeDetailData(){}
         public HumitureRealTimeDetailData(String periodDate,String secondDate){
             this.periodDate = periodDate;
@@ -108,7 +109,7 @@ public class HumitureRealTimeDate {
 
         public BigDecimal getCleanliness() {
             if (cleanliness==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
                     cleanliness= RandomUtils.speed(25f, secondDate, 1,0.01f);
                     //cleanliness = RandomUtils.randomFloat(30.00f,60.00f);
                 }else {

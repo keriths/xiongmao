@@ -54,12 +54,12 @@
             (
                 (
                     tt.FACTORY IN ( 'ARRAY','CELL','CF','SL')
-                    and tt.PRODUCTTYPE IN ('CS','MP','CM')
+                    and tt.PRODUCTTYPE IN ('MP','CM')
                 )
                 OR
                 (
                     tt.FACTORY = 'OC'
-                    and tt.PRODUCTTYPE IN ('ZP21','ZP24','ZP10')
+                    and tt.PRODUCTTYPE IN ('ZP20','ZP24','ZP10')
                 )
             )
             and gg.BIG_EQP_TYPE=#{productId}
