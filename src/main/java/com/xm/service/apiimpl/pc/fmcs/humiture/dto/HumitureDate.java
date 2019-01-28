@@ -96,10 +96,46 @@ public class HumitureDate {
         public void setHumidity(BigDecimal humidity) {
             this.humidity = humidity;
         }
-
+        boolean showDemoData = true;
         public BigDecimal getCleanliness() {
             if (cleanliness==null){
-                if (Constant.showDemoData){
+                if (showDemoData){
+                    if ("SL".equals(factory)){
+                        cleanliness = new BigDecimal(RandomUtils.randomInt(55555,55556));
+                    }
+                    if ("ARRAY".equals(factory)){
+                        if ("PHOTO/WET".equals(place)){
+                            cleanliness = new BigDecimal(RandomUtils.randomInt(550,551));
+                        }
+                        if ("PVD/CVD/DRY".equals(place)){
+                            cleanliness = new BigDecimal(RandomUtils.randomInt(2555,2556));
+                        }
+                        if ("TEST".equals(place)){
+                            cleanliness = new BigDecimal(RandomUtils.randomInt(2558,2559));
+                        }
+                    }
+                    if ("CF".equals(factory)){
+                        if ("ITO".equals(place)){
+                            cleanliness = new BigDecimal(RandomUtils.randomInt(550,551));
+                        }
+                        if ("PHOTO".equals(place)){
+                            cleanliness = new BigDecimal(RandomUtils.randomInt(550,551));
+                        }
+                        if ("TEST".equals(place)){
+                            cleanliness = new BigDecimal(RandomUtils.randomInt(2558,2559));
+                        }
+                    }
+                    if ("CELL".equals(factory)){
+                        if ("PT".equals(place)){
+                            cleanliness = new BigDecimal(RandomUtils.randomInt(7,8));
+                        }
+                        if ("ODF".equals(place)){
+                            cleanliness = new BigDecimal(RandomUtils.randomInt(2558,2559));
+                        }
+                        if ("FDV".equals(place)){
+                            cleanliness = new BigDecimal(RandomUtils.randomInt(7,8));
+                        }
+                    }
                     cleanliness = RandomUtils.randomFloat(30.00f,60.00f);
                 }else {
                     cleanliness=new BigDecimal(0);
