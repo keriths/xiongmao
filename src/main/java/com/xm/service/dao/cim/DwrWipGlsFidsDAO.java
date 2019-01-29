@@ -51,6 +51,21 @@ public interface DwrWipGlsFidsDAO {
 
     void updateData(Map<String, Object> mapData);
 
+
+
+    Map<String,Object> loadByPrimaryKey_day(Map<String, Object> mapData);
+
+    void addData_day(Map<String, Object> mapData);
+
+    void updateData_day(Map<String, Object> mapData);
+
+
+
+    Map<String,Object> loadByPrimaryKey_mon(Map<String, Object> mapData);
+
+    void addData_mon(Map<String, Object> mapData);
+
+    void updateData_mon(Map<String, Object> mapData);
     /**
      * 在库量
      * @param mapData

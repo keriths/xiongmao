@@ -298,4 +298,79 @@
                 PRODUCTTYPE is null
             </if>
     </update>
+
+
+
+
+
+
+
+    <select id="loadByPrimaryKey_day" parameterType="map" resultType="map">
+        SELECT * from DWS_PRODUCT_OC_YIELD_DAY
+        where
+        YIELD_TYPE = #{YIELD_TYPE,jdbcType=VARCHAR} and
+        PRODUCTID = #{PRODUCTID,jdbcType=VARCHAR} and
+        PERIODDATE = #{PERIODDATE,jdbcType=DATE}
+    </select>
+    <insert id="addData_day" parameterType="map">
+        INSERT INTO  DWS_PRODUCT_OC_YIELD_DAY
+        (
+        YIELD_TYPE,
+        PRODUCTID,
+        PERIODDATE,
+        YIELD_VAL,
+        INTERFACE_TIME
+        ) VALUES
+        (
+        #{YIELD_TYPE,jdbcType=VARCHAR},
+        #{PRODUCTID,jdbcType=DATE},
+        #{PERIODDATE,jdbcType=VARCHAR},
+        #{YIELD_VAL,jdbcType=VARCHAR},
+        sysdate
+        )
+    </insert>
+    <update id="updateData_day" parameterType="map">
+        UPDATE DWS_PRODUCT_OC_YIELD_DAY SET
+        YIELD_VAL = #{YIELD_VAL,jdbcType=DOUBLE} ,
+        INTERFACE_TIME = sysdate
+        WHERE
+        YIELD_TYPE = #{YIELD_TYPE,jdbcType=VARCHAR} and
+        PRODUCTID = #{PRODUCTID,jdbcType=VARCHAR} and
+        PERIODDATE = #{PERIODDATE,jdbcType=DATE}
+    </update>
+
+
+    <select id="loadByPrimaryKey_mon" parameterType="map" resultType="map">
+        SELECT * from DWS_PRODUCT_OC_YIELD_MON
+        where
+        YIELD_TYPE = #{YIELD_TYPE,jdbcType=VARCHAR} and
+        PRODUCTID = #{PRODUCTID,jdbcType=VARCHAR} and
+        PERIODDATE = #{PERIODDATE,jdbcType=DATE}
+    </select>
+    <insert id="addData_mon" parameterType="map">
+        INSERT INTO  DWS_PRODUCT_OC_YIELD_MON
+        (
+        YIELD_TYPE,
+        PRODUCTID,
+        PERIODDATE,
+        YIELD_VAL,
+        INTERFACE_TIME
+        ) VALUES
+        (
+        #{YIELD_TYPE,jdbcType=VARCHAR},
+        #{PRODUCTID,jdbcType=DATE},
+        #{PERIODDATE,jdbcType=VARCHAR},
+        #{YIELD_VAL,jdbcType=VARCHAR},
+        sysdate
+        )
+    </insert>
+    <update id="updateData_mon" parameterType="map">
+        UPDATE DWS_PRODUCT_OC_YIELD_MON SET
+        YIELD_VAL = #{YIELD_VAL,jdbcType=DOUBLE} ,
+        INTERFACE_TIME = sysdate
+        WHERE
+        YIELD_TYPE = #{YIELD_TYPE,jdbcType=VARCHAR} and
+        PRODUCTID = #{PRODUCTID,jdbcType=VARCHAR} and
+        PERIODDATE = #{PERIODDATE,jdbcType=DATE}
+    </update>
 </mapper>

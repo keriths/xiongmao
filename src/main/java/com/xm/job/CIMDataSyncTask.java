@@ -780,18 +780,18 @@ public class CIMDataSyncTask {
             for (Map<String,Object> mapData : mapDataList){
                 try {
                     //LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_mapData"+mapData);
-                    Map<String,Object> data = dwrWipGlsFidsDAO.loadByPrimaryKey(mapData);
+                    Map<String,Object> data = dwrWipGlsFidsDAO.loadByPrimaryKey_day(mapData);
                     //LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_data"+data);
                     if (data==null){
                         //添加  添加时把在库容量上限下限读出来一起同步
                         //LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_save_mapData"+mapData);
-                        dwrWipGlsFidsDAO.addData(mapData);
+                        dwrWipGlsFidsDAO.addData_day(mapData);
                         insertNum++;
                     }else {
                         //LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_update_mapData"+mapData);
                         updateNum++;
                         if (notEquals(data.get("YIELD_VAL"),mapData.get("YIELD_VAL"))){
-                            dwrWipGlsFidsDAO.updateData(mapData);
+                            dwrWipGlsFidsDAO.updateData_day(mapData);
                         }
                     }
                 }catch (Exception e){
@@ -845,18 +845,18 @@ public class CIMDataSyncTask {
             for (Map<String,Object> mapData : mapDataList){
                 try {
                     //LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_mapData"+mapData);
-                    Map<String,Object> data = dwrWipGlsFidsDAO.loadByPrimaryKey(mapData);
+                    Map<String,Object> data = dwrWipGlsFidsDAO.loadByPrimaryKey_mon(mapData);
                     //LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_data"+data);
                     if (data==null){
                         //添加  添加时把在库容量上限下限读出来一起同步
                         //LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_save_mapData"+mapData);
-                        dwrWipGlsFidsDAO.addData(mapData);
+                        dwrWipGlsFidsDAO.addData_mon(mapData);
                         insertNum++;
                     }else {
                         //LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_update_mapData"+mapData);
                         updateNum++;
                         if (notEquals(data.get("YIELD_VAL"),mapData.get("YIELD_VAL"))){
-                            dwrWipGlsFidsDAO.updateData(mapData);
+                            dwrWipGlsFidsDAO.updateData_mon(mapData);
                         }
                     }
                 }catch (Exception e){
