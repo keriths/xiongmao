@@ -70,8 +70,7 @@ public class RateOfGoodProductServiceImpl {
                 dateList = DateUtils.getQuarterStrList(beginDate,endDate);
             }
 
-
-            if ("SL-OC".equals(factory)){
+            if ("SL-OC-不特殊算了".equals(factory)){
                 List<ProductLineDetailData> detailDataList=dwsProductLineYieldFidsDAO.queryProductLineData(Lists.newArrayList("SL"),dateType,beginDate,endDate);
                 Map<String,ProductLineDetailData> dataMap= MapUtils.listToMap(detailDataList,"getPeriodDate");
                 //继续取产品的

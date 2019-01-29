@@ -41,6 +41,12 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
         private BigDecimal yield;
 
         public BigDecimal getSlYield() {
+            if (slYield==null || slYield.doubleValue()<80){
+                return new BigDecimal("80");
+            }
+            if (slYield.doubleValue()>100){
+                return new BigDecimal("100");
+            }
             return slYield;
         }
 
@@ -49,6 +55,12 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
         }
 
         public BigDecimal getYieldPlanSA() {
+            if (yieldPlanSA==null || yieldPlanSA.doubleValue()<80){
+                return new BigDecimal("80");
+            }
+            if (yieldPlanSA.doubleValue()>100){
+                return new BigDecimal("100");
+            }
             return yieldPlanSA;
         }
 
@@ -57,6 +69,12 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
         }
 
         public BigDecimal getYieldActualSA() {
+            if (yieldActualSA==null || yieldActualSA.doubleValue()<80){
+                return new BigDecimal("80");
+            }
+            if (yieldActualSA.doubleValue()>100){
+                return new BigDecimal("100");
+            }
             return yieldActualSA;
         }
 
@@ -65,6 +83,12 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
         }
 
         public BigDecimal getYield() {
+            if (yield==null || yield.doubleValue()<80){
+                return new BigDecimal("80");
+            }
+            if (yield.doubleValue()>100){
+                return new BigDecimal("100");
+            }
             return yield;
         }
 

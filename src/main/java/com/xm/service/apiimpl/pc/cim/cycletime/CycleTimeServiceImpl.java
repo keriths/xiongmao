@@ -50,7 +50,8 @@ public class CycleTimeServiceImpl {
             Date beginDate = null;
             Date endDate = new Date();
             if (dateType.equals(Constant.day)){
-                beginDate = DateUtils.getBeforDayStartDay(13);
+                beginDate = DateUtils.getBeforDayStartDay(14);
+                endDate =  DateUtils.getBeforDayStartDay(1);
                 dateList = DateUtils.getDayStrList(beginDate,endDate);
             }else if (dateType.equals(Constant.month)){
                 beginDate = DateUtils.getBeforMonthStartDay(11);
