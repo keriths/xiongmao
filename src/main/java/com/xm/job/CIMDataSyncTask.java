@@ -104,8 +104,8 @@ public class CIMDataSyncTask {
         int syncDayNums = 1;
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
-            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            Date beginDate = new DateTime(now).plusDays(-i).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-i).millisOfDay().withMaximumValue().toDate();
             syncDWS_PRODUCT_OUTPUT_FIDS(beginDate,endDate);
         }
         LogUtils.info(this.getClass(),"syncMethod=OutputCompletionDataSyncOneDay["+seqpid+"]________end");
@@ -119,8 +119,8 @@ public class CIMDataSyncTask {
         int syncDayNums = 4;
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
-            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            Date beginDate = new DateTime(now).plusDays(-i).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-i).millisOfDay().withMaximumValue().toDate();
             syncDWS_PRODUCT_OUTPUT_FIDS(beginDate,endDate);
         }
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
@@ -137,8 +137,8 @@ public class CIMDataSyncTask {
 //        syncDWS_PRODUCT_INPUT_FIDS(syncDayNums);
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
-            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            Date beginDate = new DateTime(now).plusDays(-i).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-i).millisOfDay().withMaximumValue().toDate();
             syncDWS_PRODUCT_INPUT_FIDS(beginDate, endDate);
         }
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
@@ -152,8 +152,8 @@ public class CIMDataSyncTask {
         int syncDayNums = 4;
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
-            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            Date beginDate = new DateTime(now).plusDays(-i).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-i).millisOfDay().withMaximumValue().toDate();
             syncDWS_PRODUCT_INPUT_FIDS(beginDate,endDate);
         }
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
@@ -169,8 +169,8 @@ public class CIMDataSyncTask {
 //        syncDWS_PRODUCT_INPUT_FIDS(syncDayNums);
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
-            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            Date beginDate = new DateTime(now).plusDays(-i).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-i).millisOfDay().withMaximumValue().toDate();
             syncDWS_PRODUCT_OC_YIELD_DAY(beginDate, endDate);
         }
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
@@ -184,8 +184,8 @@ public class CIMDataSyncTask {
         int syncDayNums = 40;
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
-            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            Date beginDate = new DateTime(now).plusDays(-i).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-i).millisOfDay().withMaximumValue().toDate();
             syncDWS_PRODUCT_OC_YIELD_DAY(beginDate, endDate);
         }
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
@@ -200,8 +200,8 @@ public class CIMDataSyncTask {
 //        syncDWS_PRODUCT_INPUT_FIDS(syncDayNums);
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
-            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            Date beginDate = new DateTime(now).plusDays(-i).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-i).millisOfDay().withMaximumValue().toDate();
             syncDWS_PRODUCT_OC_YIELD_MON(beginDate, endDate);
         }
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
@@ -215,8 +215,8 @@ public class CIMDataSyncTask {
         int syncDayNums = 400;
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
-            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            Date beginDate = new DateTime(now).plusDays(-i).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-i).millisOfDay().withMaximumValue().toDate();
             syncDWS_PRODUCT_OC_YIELD_MON(beginDate, endDate);
         }
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
@@ -231,8 +231,8 @@ public class CIMDataSyncTask {
 ////        syncDWS_PRODUCT_OC_YIELD_FIDS(syncDayNums);
 //        Date now = new Date();
 //        for (int i = 0;i<=syncDayNums;i++){
-//            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-//            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+//            Date beginDate = new DateTime(now).plusDays(-i).millisOfDay().withMinimumValue().toDate();
+//            Date endDate   = new DateTime(now).plusDays(-i).millisOfDay().withMaximumValue().toDate();
 //            syncDWS_PRODUCT_OC_YIELD_FIDS(beginDate, endDate);
 //        }
 //        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
@@ -247,8 +247,8 @@ public class CIMDataSyncTask {
 ////        syncDWS_PRODUCT_OC_YIELD_FIDS(syncDayNums);
 //        Date now = new Date();
 //        for (int i = 0;i<=syncDayNums;i++){
-//            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-//            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+//            Date beginDate = new DateTime(now).plusDays(-i).millisOfDay().withMinimumValue().toDate();
+//            Date endDate   = new DateTime(now).plusDays(-i).millisOfDay().withMaximumValue().toDate();
 //            syncDWS_PRODUCT_OC_YIELD_FIDS(beginDate,endDate);
 //        }
 //        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
@@ -266,8 +266,8 @@ public class CIMDataSyncTask {
 //        syncDWR_PRODUCT_CT_FIDS(syncDayNums);
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
-            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            Date beginDate = new DateTime(now).plusDays(-i).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-i).millisOfDay().withMaximumValue().toDate();
             syncDWR_PRODUCT_CT_FIDS(beginDate, endDate);
         }
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
@@ -282,8 +282,8 @@ public class CIMDataSyncTask {
 //        syncDWR_PRODUCT_CT_FIDS(syncDayNums);
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
-            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            Date beginDate = new DateTime(now).plusDays(-i).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-i).millisOfDay().withMaximumValue().toDate();
             syncDWR_PRODUCT_CT_FIDS(beginDate,endDate);
         }
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
@@ -300,8 +300,8 @@ public class CIMDataSyncTask {
 //        syncDWR_EQP_OEE_FIDS(syncDayNums);
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
-            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            Date beginDate = new DateTime(now).plusDays(-i).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-i).millisOfDay().withMaximumValue().toDate();
             syncDWR_EQP_OEE_FIDS(beginDate, endDate);
         }
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
@@ -316,8 +316,8 @@ public class CIMDataSyncTask {
 //        syncDWR_EQP_OEE_FIDS(syncDayNums);
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
-            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
-            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            Date beginDate = new DateTime(now).plusDays(-i).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-i).millisOfDay().withMaximumValue().toDate();
             syncDWR_EQP_OEE_FIDS(beginDate,endDate);
         }
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
