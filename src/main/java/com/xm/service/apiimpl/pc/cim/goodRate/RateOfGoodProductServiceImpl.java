@@ -170,6 +170,12 @@ public class RateOfGoodProductServiceImpl {
                     productGoodRateDTO = new ProductGoodRateRetDTO.ProductGoodRateDTO();
                     productGoodRateDTO.setDateType(dateType);
                     productGoodRateDTO.setDatax(datax);
+                }else {
+                    if (productGoodRateDTO.yieldPlanSA==null){
+                        //查询上一条plan
+                        BigDecimal plansa = dwsProductOcYieldFidsDAO.queryProductGoodRateLeastPlanSA(productIdList, productGoodRateDTO.getPerioddate(), dateType);
+                        productGoodRateDTO.setYieldPlanSA(plansa);
+                    }
                 }
                 retList.add(productGoodRateDTO);
             }

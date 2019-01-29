@@ -125,8 +125,41 @@
         <!--GROUP BY decode(PRODUCTID,'C41A','50', 'D41A','50','A1CC495PU1L01','50','D0NL495PU1L01','50',-->
         <!--'C51A','58','D51A','58','A1CC575PU1L01','58','A1CC575PU3L01','58',PRODUCTID)-->
     <!--</select>-->
+    <select id="queryProductGoodRateLeastPlanSA" parameterType="map" resultType="java.math.BigDecimal">
+        SELECT plansa * 100 AS planSA
+        FROM (
+          SELECT
+            PERIODDATE, MAX(YIELDPLANSA) AS plansa
+          FROM
+            <if test="dateType == 'day'">
+                view_DWS_PRODUCT_OC_YIELD_DAY
+            </if>
+            <if test="dateType == 'month'">
+                view_DWS_PRODUCT_OC_YIELD_MON
+            </if>
+        WHERE
+            <![CDATA[
+              PERIODDATE <= #{maxDate}
+            ]]>
+            and PRODUCTID in
+            <foreach collection="productIdList" item="productId" open="(" separator="," close=")">
+                #{productId}
+            </foreach>
+            AND YIELDPLANSA IS NOT NULL
+            GROUP BY PERIODDATE
+            ORDER BY PERIODDATE DESC
+        ) a
+        <![CDATA[
+        WHERE rownum <= 1
+        ]]>
+    </select>
     <select id="queryProductGoodRate" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductGoodRateRetDTO$ProductGoodRateDTO">
-        select  PERIODDATE as perioddate, slYield * 100 as slYield, yieldPlanSA * 100 as yieldPlanSA, yieldActualSA * 100 as yieldActualSA,'${dateType}' as dateType , yield*100 as yield
+        select  PERIODDATE as perioddate,
+            '${dateType}' as dateType ,
+            MAX(slYield) * 100 as slYield,
+            MAX(yieldPlanSA) * 100 as yieldPlanSA,
+            MAX(yieldActualSA) * 100 as yieldActualSA,
+            MAX(yield)*100 as yield
         from
         <if test="dateType == 'day'">
             view_DWS_PRODUCT_OC_YIELD_DAY
@@ -134,7 +167,6 @@
         <if test="dateType == 'month'">
             view_DWS_PRODUCT_OC_YIELD_MON
         </if>
-        view_DWS_PRODUCT_OC_YIELD_day
         where PRODUCTID in
         <foreach collection="productIdList" item="productId" open="(" separator="," close=")">
             #{productId}
@@ -143,6 +175,7 @@
         and PERIODDATE >= #{beginDate}
         AND PERIODDATE <= #{endDate}
 ]]>
+        group by PERIODDATE
     </select>
     <select id="queryProductsGoodRate" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcDetailData">
         SELECT

@@ -34,7 +34,7 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
         @ApiResultFieldDesc(desc="SL点灯良率")
         private BigDecimal slYield;
         @ApiResultFieldDesc(desc="综合良率计划(S+A)")
-        private BigDecimal yieldPlanSA;
+        public BigDecimal yieldPlanSA;
         @ApiResultFieldDesc(desc="综合良率实际(S+A)")
         private BigDecimal yieldActualSA;
         @ApiResultFieldDesc(desc="综合良率")

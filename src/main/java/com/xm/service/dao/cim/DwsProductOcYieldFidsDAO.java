@@ -6,6 +6,7 @@ import com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductOcDetailData;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -50,4 +51,6 @@ public interface DwsProductOcYieldFidsDAO {
                                                                         @Param("beginDate")Date beginDate,
                                                                         @Param("endDate")Date endDate,
                                                                         @Param("dateType") String dateType);
+
+    BigDecimal queryProductGoodRateLeastPlanSA(@Param("productIdList")List<String> productIdList,@Param("maxDate") Date maxDate,@Param("dateType") String dateType);
 }

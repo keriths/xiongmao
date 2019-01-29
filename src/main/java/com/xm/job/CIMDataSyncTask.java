@@ -160,7 +160,7 @@ public class CIMDataSyncTask {
     }
 
 
-    @Scheduled(cron = "0 31,55 * * * *")
+    @Scheduled(cron = "0 24,25,26,27,31,55 * * * *")
     public void syncDWS_PRODUCT_OC_YIELD_DAYOneDay(){
         String methodName = "InputCompletionDataSyncOneDay";
         long seqpid = System.currentTimeMillis();
@@ -191,7 +191,7 @@ public class CIMDataSyncTask {
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
     }
 
-    @Scheduled(cron = "0 31,55 * * * *")
+    @Scheduled(cron = "0 24,25,26,27,31,55 * * * *")
     public void syncDWS_PRODUCT_OC_YIELD_MONOneDay(){
         String methodName = "InputCompletionDataSyncOneDay";
         long seqpid = System.currentTimeMillis();
