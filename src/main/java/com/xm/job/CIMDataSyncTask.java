@@ -160,7 +160,7 @@ public class CIMDataSyncTask {
     }
 
 
-    @Scheduled(cron = "0 24,25,26,27,31,55 * * * *")
+    @Scheduled(cron = "0 31,55 * * * *")
     public void syncDWS_PRODUCT_OC_YIELD_DAYOneDay(){
         String methodName = "InputCompletionDataSyncOneDay";
         long seqpid = System.currentTimeMillis();
@@ -181,7 +181,7 @@ public class CIMDataSyncTask {
         String methodName = "InputCompletionDataSync";
         long seqpid = System.currentTimeMillis();
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
-        int syncDayNums = 4;
+        int syncDayNums = 40;
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
             Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
@@ -191,7 +191,7 @@ public class CIMDataSyncTask {
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
     }
 
-    @Scheduled(cron = "0 24,25,26,27,31,55 * * * *")
+    @Scheduled(cron = "0 31,55 * * * *")
     public void syncDWS_PRODUCT_OC_YIELD_MONOneDay(){
         String methodName = "InputCompletionDataSyncOneDay";
         long seqpid = System.currentTimeMillis();
@@ -212,7 +212,7 @@ public class CIMDataSyncTask {
         String methodName = "InputCompletionDataSync";
         long seqpid = System.currentTimeMillis();
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
-        int syncDayNums = 4;
+        int syncDayNums = 400;
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
             Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
