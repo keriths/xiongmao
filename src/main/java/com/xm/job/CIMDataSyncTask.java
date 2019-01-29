@@ -212,7 +212,7 @@ public class CIMDataSyncTask {
         String methodName = "InputCompletionDataSync";
         long seqpid = System.currentTimeMillis();
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
-        int syncDayNums = 4;
+        int syncDayNums = 400;
         Date now = new Date();
         for (int i = 0;i<=syncDayNums;i++){
             Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
