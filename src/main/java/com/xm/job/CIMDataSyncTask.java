@@ -162,7 +162,7 @@ public class CIMDataSyncTask {
 
     @Scheduled(cron = "0 31,55 * * * *")
     public void syncDWS_PRODUCT_OC_YIELD_DAYOneDay(){
-        String methodName = "InputCompletionDataSyncOneDay";
+        String methodName = "syncDWS_PRODUCT_OC_YIELD_DAYOneDay";
         long seqpid = System.currentTimeMillis();
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
         int syncDayNums = 1;
@@ -178,7 +178,7 @@ public class CIMDataSyncTask {
     //    @Scheduled(fixedRate = 1000*60*60*24)
     @Scheduled(cron = "0 10 8 * * *")
     public void syncDWS_PRODUCT_OC_YIELD_DAY_all(){
-        String methodName = "InputCompletionDataSync";
+        String methodName = "syncDWS_PRODUCT_OC_YIELD_DAY_all";
         long seqpid = System.currentTimeMillis();
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
         int syncDayNums = 40;
@@ -193,7 +193,7 @@ public class CIMDataSyncTask {
 
     @Scheduled(cron = "0 31,55 * * * *")
     public void syncDWS_PRODUCT_OC_YIELD_MONOneDay(){
-        String methodName = "InputCompletionDataSyncOneDay";
+        String methodName = "syncDWS_PRODUCT_OC_YIELD_MONOneDay";
         long seqpid = System.currentTimeMillis();
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
         int syncDayNums = 1;
@@ -209,7 +209,7 @@ public class CIMDataSyncTask {
     //    @Scheduled(fixedRate = 1000*60*60*24)
     @Scheduled(cron = "0 10 8 * * *")
     public void syncDWS_PRODUCT_OC_YIELD_MON_all(){
-        String methodName = "InputCompletionDataSync";
+        String methodName = "syncDWS_PRODUCT_OC_YIELD_MON_all";
         long seqpid = System.currentTimeMillis();
         LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
         int syncDayNums = 400;
