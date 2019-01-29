@@ -38,7 +38,6 @@
             (
                 t.FACTORY = 'CELL'
                 and t.PRODUCTTYPE IN ('CS','CM','MP')
-                and (PRODUCTID LIKE 'D%' or PRODUCTID LIKE 'C%')
             )
             OR
             (
@@ -84,7 +83,6 @@
         (
         FACTORY = 'CELL'
         and PRODUCTTYPE IN ('CS','CM','MP')
-        and (PRODUCTID LIKE 'D%' or PRODUCTID LIKE 'C%')
         )
         OR
         (
@@ -129,7 +127,6 @@
             (
                 FACTORY = 'CELL'
                 and PRODUCTTYPE IN ('CS','CM','MP')
-                and (PRODUCTID LIKE 'D%' or PRODUCTID LIKE 'C%')
             )
         OR
             (
@@ -174,7 +171,6 @@
         (
         FACTORY = 'CELL'
         and PRODUCTTYPE IN ('CS','CM','MP')
-        and (PRODUCTID LIKE 'D%' or PRODUCTID LIKE 'C%')
         )
         )
         AND STEPID IN
@@ -226,7 +222,6 @@
                 (
                  FACTORY = 'CELL'
                 and PRODUCTTYPE IN ('CS','CM','MP')
-                and (PRODUCTID LIKE 'D%' or PRODUCTID LIKE 'C%')
                 )
             )
             <![CDATA[
