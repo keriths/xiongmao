@@ -160,6 +160,67 @@ public class CIMDataSyncTask {
     }
 
 
+    @Scheduled(cron = "0 31,55 * * * *")
+    public void syncDWS_PRODUCT_OC_YIELD_DAYOneDay(){
+        String methodName = "InputCompletionDataSyncOneDay";
+        long seqpid = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
+        int syncDayNums = 1;
+//        syncDWS_PRODUCT_INPUT_FIDS(syncDayNums);
+        Date now = new Date();
+        for (int i = 0;i<=syncDayNums;i++){
+            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            syncDWS_PRODUCT_OC_YIELD_DAY(beginDate, endDate);
+        }
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
+    }
+    //    @Scheduled(fixedRate = 1000*60*60*24)
+    @Scheduled(cron = "0 10 8 * * *")
+    public void syncDWS_PRODUCT_OC_YIELD_DAY_all(){
+        String methodName = "InputCompletionDataSync";
+        long seqpid = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
+        int syncDayNums = 4;
+        Date now = new Date();
+        for (int i = 0;i<=syncDayNums;i++){
+            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            syncDWS_PRODUCT_OC_YIELD_DAY(beginDate, endDate);
+        }
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
+    }
+
+    @Scheduled(cron = "0 31,55 * * * *")
+    public void syncDWS_PRODUCT_OC_YIELD_MONOneDay(){
+        String methodName = "InputCompletionDataSyncOneDay";
+        long seqpid = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
+        int syncDayNums = 1;
+//        syncDWS_PRODUCT_INPUT_FIDS(syncDayNums);
+        Date now = new Date();
+        for (int i = 0;i<=syncDayNums;i++){
+            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            syncDWS_PRODUCT_OC_YIELD_MON(beginDate, endDate);
+        }
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
+    }
+    //    @Scheduled(fixedRate = 1000*60*60*24)
+    @Scheduled(cron = "0 10 8 * * *")
+    public void syncDWS_PRODUCT_OC_YIELD_MON_all(){
+        String methodName = "InputCompletionDataSync";
+        long seqpid = System.currentTimeMillis();
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________begin");
+        int syncDayNums = 4;
+        Date now = new Date();
+        for (int i = 0;i<=syncDayNums;i++){
+            Date beginDate = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMinimumValue().toDate();
+            Date endDate   = new DateTime(now).plusDays(-syncDayNums).millisOfDay().withMaximumValue().toDate();
+            syncDWS_PRODUCT_OC_YIELD_MON(beginDate, endDate);
+        }
+        LogUtils.info(this.getClass(),"syncMethod="+methodName+"["+seqpid+"]________end");
+    }
 //    @Scheduled(fixedRate = 1000*60*5)
 //    @Scheduled(cron = "0 31,55 * * * *")
 //    public void ProductOcGoodRateDataSyncOneDay(){
@@ -670,6 +731,136 @@ public class CIMDataSyncTask {
                     }
                 }catch (Exception e){
                     LogUtils.error(this.getClass(),"同步在制品[DWR_WIP_GLS_FIDS]数据单条处理失败原数据["+ JSON.toJSONString(mapData)+"]",e);
+                }
+            }
+            offset = offset+limit;
+            if (notUsePaged){
+                break;
+            }
+        }
+        long t2 = System.currentTimeMillis();
+        //LogUtils.info(this.getClass(),"同步在制品[DWR_WIP_GLS_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+insertNum+"]条数据,更新["+updateNum+"]条数据");
+        //LogUtils.info(this.getClass(),"endSyncWip["+tableName+"]---");
+    }
+    private void syncDWS_PRODUCT_OC_YIELD_DAY(Date beginDate,Date endDate) {
+        String tableName="DWS_PRODUCT_OC_YIELD_DAY";
+        //LogUtils.info(this.getClass(), "beginSyncWip[" + tableName + "]---");
+        int offset = 0;
+        int limit = 10000;
+        long t1 = System.currentTimeMillis();
+//        Date maxPeriodDate = getmaxPeriodDate(tableName);
+//        Date maxPeriodDate = new DateTime().plusDays(-i).toDate();
+        int insertNum = 0;
+        int updateNum = 0;
+        while (true){
+            List<Map<String,Object>> mapDataList;
+            try {
+                long t11 = System.currentTimeMillis();
+                String orderby = " YIELD_TYPE , PRODUCTID ";
+                if (notUsePaged){
+                    mapDataList = queryLatestDataByBgeinEndDateAndTableNameNotPaged(beginDate,endDate,tableName);
+                }else {
+                    mapDataList = queryLatestDataByBgeinEndDateAndTableName(offset, limit, beginDate, endDate, tableName, orderby);
+                }
+                long t22 = System.currentTimeMillis();
+                //LogUtils.info(this.getClass(), "同步在制品[DWR_WIP_GLS_FIDS]querySyncData 用时" + (t22 - t11) + "毫秒参数offset" + offset + " limit" + limit);
+            }catch (Exception e){
+                LogUtils.error(this.getClass(),"同步良品率[DWS_PRODUCT_OC_YIELD_DAY]offset["+offset+"]limit["+limit+"]querySyncData exception",e);
+                try {
+                    Thread.sleep(100l);
+                } catch (InterruptedException e1) {
+                    LogUtils.error(this.getClass(), e1);
+                }
+                continue;
+            }
+
+            if (CollectionUtils.isEmpty(mapDataList)){
+                break;
+            }
+            for (Map<String,Object> mapData : mapDataList){
+                try {
+                    //LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_mapData"+mapData);
+                    Map<String,Object> data = dwrWipGlsFidsDAO.loadByPrimaryKey(mapData);
+                    //LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_data"+data);
+                    if (data==null){
+                        //添加  添加时把在库容量上限下限读出来一起同步
+                        //LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_save_mapData"+mapData);
+                        dwrWipGlsFidsDAO.addData(mapData);
+                        insertNum++;
+                    }else {
+                        //LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_update_mapData"+mapData);
+                        updateNum++;
+                        if (notEquals(data.get("YIELD_VAL"),mapData.get("YIELD_VAL"))){
+                            dwrWipGlsFidsDAO.updateData(mapData);
+                        }
+                    }
+                }catch (Exception e){
+                    LogUtils.error(this.getClass(),"同步良品率[DWS_PRODUCT_OC_YIELD_DAY]数据单条处理失败原数据["+ JSON.toJSONString(mapData)+"]",e);
+                }
+            }
+            offset = offset+limit;
+            if (notUsePaged){
+                break;
+            }
+        }
+        long t2 = System.currentTimeMillis();
+        //LogUtils.info(this.getClass(),"同步在制品[DWR_WIP_GLS_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+insertNum+"]条数据,更新["+updateNum+"]条数据");
+        //LogUtils.info(this.getClass(),"endSyncWip["+tableName+"]---");
+    }
+    private void syncDWS_PRODUCT_OC_YIELD_MON(Date beginDate,Date endDate) {
+        String tableName="DWS_PRODUCT_OC_YIELD_MON";
+        //LogUtils.info(this.getClass(), "beginSyncWip[" + tableName + "]---");
+        int offset = 0;
+        int limit = 10000;
+        long t1 = System.currentTimeMillis();
+//        Date maxPeriodDate = getmaxPeriodDate(tableName);
+//        Date maxPeriodDate = new DateTime().plusDays(-i).toDate();
+        int insertNum = 0;
+        int updateNum = 0;
+        while (true){
+            List<Map<String,Object>> mapDataList;
+            try {
+                long t11 = System.currentTimeMillis();
+                String orderby = " YIELD_TYPE , PRODUCTID ";
+                if (notUsePaged){
+                    mapDataList = queryLatestDataByBgeinEndDateAndTableNameNotPaged(beginDate,endDate,tableName);
+                }else {
+                    mapDataList = queryLatestDataByBgeinEndDateAndTableName(offset, limit, beginDate, endDate, tableName, orderby);
+                }
+                long t22 = System.currentTimeMillis();
+                //LogUtils.info(this.getClass(), "同步在制品[DWR_WIP_GLS_FIDS]querySyncData 用时" + (t22 - t11) + "毫秒参数offset" + offset + " limit" + limit);
+            }catch (Exception e){
+                LogUtils.error(this.getClass(),"同步良品率[DWS_PRODUCT_OC_YIELD_MON]offset["+offset+"]limit["+limit+"]querySyncData exception",e);
+                try {
+                    Thread.sleep(100l);
+                } catch (InterruptedException e1) {
+                    LogUtils.error(this.getClass(), e1);
+                }
+                continue;
+            }
+
+            if (CollectionUtils.isEmpty(mapDataList)){
+                break;
+            }
+            for (Map<String,Object> mapData : mapDataList){
+                try {
+                    //LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_mapData"+mapData);
+                    Map<String,Object> data = dwrWipGlsFidsDAO.loadByPrimaryKey(mapData);
+                    //LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_data"+data);
+                    if (data==null){
+                        //添加  添加时把在库容量上限下限读出来一起同步
+                        //LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_save_mapData"+mapData);
+                        dwrWipGlsFidsDAO.addData(mapData);
+                        insertNum++;
+                    }else {
+                        //LogUtils.info(this.getClass(),"DWR_WIP_GLS_FIDS_update_mapData"+mapData);
+                        updateNum++;
+                        if (notEquals(data.get("YIELD_VAL"),mapData.get("YIELD_VAL"))){
+                            dwrWipGlsFidsDAO.updateData(mapData);
+                        }
+                    }
+                }catch (Exception e){
+                    LogUtils.error(this.getClass(),"同步良品率[DWS_PRODUCT_OC_YIELD_MON]数据单条处理失败原数据["+ JSON.toJSONString(mapData)+"]",e);
                 }
             }
             offset = offset+limit;
