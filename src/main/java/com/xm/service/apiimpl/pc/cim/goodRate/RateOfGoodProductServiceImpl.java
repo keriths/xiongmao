@@ -64,6 +64,7 @@ public class RateOfGoodProductServiceImpl {
                 dateList = DateUtils.getDayStrList(beginDate,endDate);
             }else if (dateType.equals(Constant.month)){
                 beginDate = DateUtils.getBeforMonthStartDay(11);
+                endDate = DateUtils.getBeforMonthEndDay(1);
                 dateList = DateUtils.getMonthStrList(beginDate,endDate);
             }
             List<ProductLineDetailData> ProductDetailDataList = getFactoryGoodRate(factory, dateType, dateList, beginDate, endDate);
@@ -179,8 +180,8 @@ public class RateOfGoodProductServiceImpl {
                 productGoodRateDTO.setSl(slVal);
                 productGoodRateDTO.setSlsa(slsaVal);
                 //计算综合良率
-                BigDecimal yield = (arrayVal==null?BigDecimal.ZERO:arrayVal).multiply((cellVal==null?BigDecimal.ZERO:cellVal)).multiply((slVal==null?BigDecimal.ZERO:slVal)).divide(new BigDecimal("1000000"),2,BigDecimal.ROUND_HALF_UP);
-                BigDecimal yieldActualSA = (arrayVal==null?BigDecimal.ZERO:arrayVal).multiply((cellVal == null ? BigDecimal.ZERO : cellVal)).multiply((slsaVal == null ? BigDecimal.ZERO : slsaVal)).divide(new BigDecimal("1000000"), 2, BigDecimal.ROUND_HALF_UP);
+                BigDecimal yield = (arrayVal==null?BigDecimal.ZERO:arrayVal).multiply((cellVal==null?BigDecimal.ZERO:cellVal)).multiply((slVal==null?BigDecimal.ZERO:slVal)).divide(new BigDecimal("10000"),2,BigDecimal.ROUND_HALF_UP);
+                BigDecimal yieldActualSA = (arrayVal==null?BigDecimal.ZERO:arrayVal).multiply((cellVal == null ? BigDecimal.ZERO : cellVal)).multiply((slsaVal == null ? BigDecimal.ZERO : slsaVal)).divide(new BigDecimal("10000"), 2, BigDecimal.ROUND_HALF_UP);
                 productGoodRateDTO.setYield(yield);
                 productGoodRateDTO.setYieldPlanSA(planVal);
                 productGoodRateDTO.setYieldActualSA(yieldActualSA);
