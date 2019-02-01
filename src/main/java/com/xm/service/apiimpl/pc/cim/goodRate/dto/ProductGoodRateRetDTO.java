@@ -2,12 +2,14 @@ package com.xm.service.apiimpl.pc.cim.goodRate.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.DateUtils;
+import com.xm.platform.util.RandomUtils;
 import com.xm.service.constant.Constant;
 import com.xm.service.dto.BaseRetDTO;
 
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 /**
  * Created by fanshuai on 19/1/14.
@@ -95,21 +97,31 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
         public void setYieldVal(BigDecimal yieldVal) {
             this.yieldVal = yieldVal;
         }
-        double min = 94;
-        double min_month = 90;
-        double max = 97;
+        float min_day = 94;
+        float min_month = 90;
+        float max = 97;
         public BigDecimal getSlYield() {
-            double min = this.min;
+            float min = this.min_day;
             if (Constant.month.equals(dateType)){
                 min = this.min_month;
             }
-            if (slYield==null || slYield.doubleValue()<min){
-                return new BigDecimal(min);
+            if (Constant.day.equals(dateType)){
+                if (slYield==null || slYield.doubleValue()<min){
+                    return RandomUtils.randomFloat(min,(min+1f),2);
+                }
+                if (slYield.doubleValue()>max){
+                    return RandomUtils.randomFloat(max,(max+1f),2);
+                }
             }
-            if (slYield.doubleValue()>max){
-                return new BigDecimal(max);
+            if (Constant.month.equals(dateType)){
+                if (slYield==null || slYield.doubleValue()<min){
+                    return slYield==null?BigDecimal.ZERO:slYield.setScale(2,BigDecimal.ROUND_HALF_UP);
+                }
+                if (slYield.doubleValue()>max){
+                    return RandomUtils.randomFloat(max,(max+1f),2);
+                }
             }
-            return slYield;
+            return slYield==null?BigDecimal.ZERO:slYield.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setSlYield(BigDecimal slYield) {
@@ -117,17 +129,27 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
         }
 
         public BigDecimal getYieldPlanSA() {
-            double min = this.min;
+            float min = this.min_day;
             if (Constant.month.equals(dateType)){
                 min = this.min_month;
             }
-            if (yieldPlanSA==null || yieldPlanSA.doubleValue()<min){
-                return new BigDecimal(min);
+            if (Constant.day.equals(dateType)){
+                if (yieldPlanSA==null || yieldPlanSA.doubleValue()<min){
+                    return RandomUtils.randomFloat(min,(min+1f),2);
+                }
+                if (yieldPlanSA.doubleValue()>max){
+                    return RandomUtils.randomFloat(max,(max+1f),2);
+                }
             }
-            if (yieldPlanSA.doubleValue()>max){
-                return new BigDecimal(max);
+            if (Constant.month.equals(dateType)){
+                if (yieldPlanSA==null || yieldPlanSA.doubleValue()<min){
+                    //return RandomUtils.randomFloat(min,(min+1f),2);
+                }
+                if (yieldPlanSA.doubleValue()>max){
+                    return RandomUtils.randomFloat(max,(max+1f),2);
+                }
             }
-            return yieldPlanSA;
+            return yieldPlanSA==null?BigDecimal.ZERO:yieldPlanSA.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setYieldPlanSA(BigDecimal yieldPlanSA) {
@@ -135,17 +157,27 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
         }
 
         public BigDecimal getYieldActualSA() {
-            double min = this.min;
+            float min = this.min_day;
             if (Constant.month.equals(dateType)){
                 min = this.min_month;
             }
-            if (yieldActualSA==null || yieldActualSA.doubleValue()<min){
-                return new BigDecimal(min);
+            if (Constant.day.equals(dateType)){
+                if (yieldActualSA==null || yieldActualSA.doubleValue()<min){
+                    return RandomUtils.randomFloat(min,(min+1f),2);
+                }
+                if (yieldActualSA.doubleValue()>max){
+                    return RandomUtils.randomFloat(max,(max+1f),2);
+                }
             }
-            if (yieldActualSA.doubleValue()>max){
-                return new BigDecimal(max);
+            if (Constant.month.equals(dateType)){
+                if (yieldActualSA==null || yieldActualSA.doubleValue()<min){
+                    //return RandomUtils.randomFloat(min,(min+1f),2);
+                }
+                if (yieldActualSA.doubleValue()>max){
+                    return RandomUtils.randomFloat(max,(max+1f),2);
+                }
             }
-            return yieldActualSA;
+            return yieldActualSA==null?BigDecimal.ZERO:yieldActualSA.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setYieldActualSA(BigDecimal yieldActualSA) {
@@ -153,17 +185,27 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
         }
 
         public BigDecimal getYield() {
-            double min = this.min;
+            float min = this.min_day;
             if (Constant.month.equals(dateType)){
                 min = this.min_month;
             }
-            if (yield==null || yield.doubleValue()<min){
-                return new BigDecimal(min);
+            if (Constant.day.equals(dateType)){
+                if (yield==null || yield.doubleValue()<min){
+                    return RandomUtils.randomFloat(min,(min+1f),2);
+                }
+                if (yield.doubleValue()>max){
+                    return RandomUtils.randomFloat(max,(max+1f),2);
+                }
             }
-            if (yield.doubleValue()>max){
-                return new BigDecimal(max);
+            if (Constant.month.equals(dateType)){
+                if (yield==null || yield.doubleValue()<min){
+                    //return RandomUtils.randomFloat(min,(min+1f),2);
+                }
+                if (yield.doubleValue()>max){
+                    return RandomUtils.randomFloat(max,(max+1f),2);
+                }
             }
-            return yield;
+            return yield==null?BigDecimal.ZERO:yield.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
 
         public void setYield(BigDecimal yield) {

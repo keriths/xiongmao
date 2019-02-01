@@ -85,28 +85,37 @@ public class HumidityServiceImpl {
             }
 
             List<String> placeList = elecEveryHourDataDAO.elecPlaceList();
-            List<TwoDaysDataDTO> electDayDataList = new ArrayList<>();
-            List<TwoDaysDataDTO> electMonthDataList = new ArrayList<>();
+
+
             BigDecimal dayTotal =  new BigDecimal("0");
             BigDecimal monthTotal =  new BigDecimal("0");
+            List<TwoDaysDataDTO> dayDetailList = new ArrayList<>();
+            List<TwoDaysDataDTO> monthDetailList = new ArrayList<>();
+
             for (String place : placeList){
                 List<TwoDaysDataDTO> elePlaceDayDatas = elecEveryHourDataDAO.queryTwoDaysElectricityByQueryData(place,elecdayBeforDate, elecdayAfterDate);
                 if (!CollectionUtils.isEmpty(elePlaceDayDatas)){
                     dayTotal = dayTotal.add(elePlaceDayDatas.get(0).getTotalNum());
+                    dayDetailList.add(elePlaceDayDatas.get(0));
                 }
                 List<TwoDaysDataDTO> electPlaceMonthDatas = elecEveryHourDataDAO.queryTwoDaysElectricityByQueryData(place,elecmonthBeforDate, elecmonthAfterDate);
                 if (!CollectionUtils.isEmpty(electPlaceMonthDatas)){
                     monthTotal = monthTotal.add(electPlaceMonthDatas.get(0).getTotalNum());
+                    monthDetailList.add(electPlaceMonthDatas.get(0));
                 }
             }
+            List<TwoDaysDataDTO> electDayDataList = new ArrayList<>();
             TwoDaysDataDTO day = new TwoDaysDataDTO();
             day.setTotalNum(dayTotal);
             day.setBeforDataDate(elecdayBeforDate);
+            day.setDetailList(dayDetailList);
             electDayDataList.add(day);
 
+            List<TwoDaysDataDTO> electMonthDataList = new ArrayList<>();
             TwoDaysDataDTO month = new TwoDaysDataDTO();
             month.setTotalNum(monthTotal);
             month.setBeforDataDate(elecmonthBeforDate);
+            month.setDetailList(monthDetailList);
             electMonthDataList.add(month);
 
 //            tapWaterDayDataList = Lists.newArrayList(new WaterElectricityCollectDataDTO.WaterElectricityCollectData(40,60));

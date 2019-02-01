@@ -137,6 +137,7 @@
             FROM
             ELECEVERYHOURDATA
             WHERE DATADATE = #{afterDate,jdbcType=DATE}
+            and PLACE = #{place}
             and TotalNum is not null
             and TotalNum != -2147483648
             group by DATADATE
