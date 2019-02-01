@@ -154,7 +154,7 @@
     </select>
 
     <select id="querySLFactoryGoodRage" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductLineDetailData">
-        select 'SL' as factory,
+        select 'SL-OC' as factory,
         max(YIELD_VAL)*100 as inLine,
         <if test="dateType=='month'.toString()">/*按月*/
             TO_CHAR(PERIODDATE,'MM')||'月'

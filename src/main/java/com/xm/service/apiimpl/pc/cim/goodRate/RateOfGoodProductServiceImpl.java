@@ -76,7 +76,7 @@ public class RateOfGoodProductServiceImpl {
             return resultDto;
         }
     }
-    private List<ProductLineDetailData> getFactoryGoodRate(String factory, String dateType, List<String> dateList, Date beginDate, Date endDate) {
+    public List<ProductLineDetailData> getFactoryGoodRate(String factory, String dateType, List<String> dateList, Date beginDate, Date endDate) {
         List<String> factoryList = Constant.factoryMap.get(factory);
         List<ProductLineDetailData> detailDataList = null;
         if (factory.equals("SL-OC")){
@@ -179,8 +179,8 @@ public class RateOfGoodProductServiceImpl {
                 productGoodRateDTO.setSl(slVal);
                 productGoodRateDTO.setSlsa(slsaVal);
                 //计算综合良率
-                BigDecimal yield = (arrayVal==null?BigDecimal.ZERO:arrayVal).multiply((cellVal==null?BigDecimal.ZERO:cellVal)).multiply((slVal==null?BigDecimal.ZERO:slVal));
-                BigDecimal yieldActualSA = (arrayVal==null?BigDecimal.ZERO:arrayVal).multiply((cellVal == null ? BigDecimal.ZERO : cellVal)).multiply((slsaVal==null?BigDecimal.ZERO:slsaVal));
+                BigDecimal yield = (arrayVal==null?BigDecimal.ZERO:arrayVal).multiply((cellVal==null?BigDecimal.ZERO:cellVal)).multiply((slVal==null?BigDecimal.ZERO:slVal)).divide(new BigDecimal("1000000"),2,BigDecimal.ROUND_HALF_UP);
+                BigDecimal yieldActualSA = (arrayVal==null?BigDecimal.ZERO:arrayVal).multiply((cellVal == null ? BigDecimal.ZERO : cellVal)).multiply((slsaVal == null ? BigDecimal.ZERO : slsaVal)).divide(new BigDecimal("1000000"), 2, BigDecimal.ROUND_HALF_UP);
                 productGoodRateDTO.setYield(yield);
                 productGoodRateDTO.setYieldPlanSA(planVal);
                 productGoodRateDTO.setYieldActualSA(yieldActualSA);

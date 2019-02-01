@@ -39,7 +39,7 @@ public class ProductServiceImpl {
             String methodnames = "";
             Method[] methods = cimDataSyncTask.getClass().getDeclaredMethods();
             for (Method m : methods){
-                methodnames+="["+m.getName()+"]";
+                methodnames+="["+m.getName()+"("+m.getParameterTypes().length+")]";
             }
             baseRetDTO.setSuccess(false);
             baseRetDTO.setErrorMsg("allMethodNaes="+methodnames+" errorMsg = "+e.getMessage());
