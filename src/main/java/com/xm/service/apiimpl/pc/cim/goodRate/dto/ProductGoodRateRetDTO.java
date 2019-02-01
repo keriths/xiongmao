@@ -31,21 +31,77 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
         private String dateType;
         @ApiResultFieldDesc(desc="日期")
         private Date perioddate;
-        @ApiResultFieldDesc(desc="SL点灯良率")
+        @ApiResultFieldDesc(desc="SL点灯良率--1")
         private BigDecimal slYield;
-        @ApiResultFieldDesc(desc="综合良率计划(S+A)")
+        @ApiResultFieldDesc(desc="综合良率计划(S+A)--4")
         public BigDecimal yieldPlanSA;
-        @ApiResultFieldDesc(desc="综合良率实际(S+A)")
+        @ApiResultFieldDesc(desc="综合良率实际(S+A)--3")
         private BigDecimal yieldActualSA;
-        @ApiResultFieldDesc(desc="综合良率")
+        @ApiResultFieldDesc(desc="综合良率 --2")
         private BigDecimal yield;
+        @ApiResultFieldDesc(desc="表中的数据")
+        private BigDecimal yieldVal;
+
+        private BigDecimal array;
+        private BigDecimal cell;
+        private BigDecimal plan;
+        private BigDecimal sl;
+        private BigDecimal slsa;
+
+        public BigDecimal getArray() {
+            return array;
+        }
+
+        public void setArray(BigDecimal array) {
+            this.array = array;
+        }
+
+        public BigDecimal getCell() {
+            return cell;
+        }
+
+        public void setCell(BigDecimal cell) {
+            this.cell = cell;
+        }
+
+        public BigDecimal getPlan() {
+            return plan;
+        }
+
+        public void setPlan(BigDecimal plan) {
+            this.plan = plan;
+        }
+
+        public BigDecimal getSl() {
+            return sl;
+        }
+
+        public void setSl(BigDecimal sl) {
+            this.sl = sl;
+        }
+
+        public BigDecimal getSlsa() {
+            return slsa;
+        }
+
+        public void setSlsa(BigDecimal slsa) {
+            this.slsa = slsa;
+        }
+
+        public BigDecimal getYieldVal() {
+            return yieldVal;
+        }
+
+        public void setYieldVal(BigDecimal yieldVal) {
+            this.yieldVal = yieldVal;
+        }
 
         public BigDecimal getSlYield() {
-            if (slYield==null || slYield.doubleValue()<80){
-                return new BigDecimal("80");
+            if (slYield==null || slYield.doubleValue()<94){
+                return new BigDecimal("94");
             }
-            if (slYield.doubleValue()>100){
-                return new BigDecimal("100");
+            if (slYield.doubleValue()>97){
+                return new BigDecimal("97");
             }
             return slYield;
         }
@@ -55,11 +111,11 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
         }
 
         public BigDecimal getYieldPlanSA() {
-            if (yieldPlanSA==null || yieldPlanSA.doubleValue()<80){
-                return new BigDecimal("80");
+            if (yieldPlanSA==null || yieldPlanSA.doubleValue()<94){
+                return new BigDecimal("94");
             }
-            if (yieldPlanSA.doubleValue()>100){
-                return new BigDecimal("100");
+            if (yieldPlanSA.doubleValue()>97){
+                return new BigDecimal("97");
             }
             return yieldPlanSA;
         }
@@ -69,11 +125,11 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
         }
 
         public BigDecimal getYieldActualSA() {
-            if (yieldActualSA==null || yieldActualSA.doubleValue()<80){
-                return new BigDecimal("80");
+            if (yieldActualSA==null || yieldActualSA.doubleValue()<94){
+                return new BigDecimal("94");
             }
-            if (yieldActualSA.doubleValue()>100){
-                return new BigDecimal("100");
+            if (yieldActualSA.doubleValue()>97){
+                return new BigDecimal("97");
             }
             return yieldActualSA;
         }
@@ -83,11 +139,11 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
         }
 
         public BigDecimal getYield() {
-            if (yield==null || yield.doubleValue()<80){
-                return new BigDecimal("80");
+            if (yield==null || yield.doubleValue()<94){
+                return new BigDecimal("94");
             }
-            if (yield.doubleValue()>100){
-                return new BigDecimal("100");
+            if (yield.doubleValue()>97){
+                return new BigDecimal("97");
             }
             return yield;
         }

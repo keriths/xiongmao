@@ -47,10 +47,5 @@ public interface DwsProductOcYieldFidsDAO {
             @Param("startDate")Date startDate,
             @Param("endDate")Date endDate);
 
-    List<ProductGoodRateRetDTO.ProductGoodRateDTO> queryProductGoodRate(@Param("productIdList")List<String> productIdList,
-                                                                        @Param("beginDate")Date beginDate,
-                                                                        @Param("endDate")Date endDate,
-                                                                        @Param("dateType") String dateType);
 
-    BigDecimal queryProductGoodRateLeastPlanSA(@Param("productIdList")List<String> productIdList,@Param("maxDate") Date maxDate,@Param("dateType") String dateType);
 }
