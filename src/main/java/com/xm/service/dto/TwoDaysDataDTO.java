@@ -21,6 +21,10 @@ public class TwoDaysDataDTO implements Serializable{
     @ApiResultFieldDesc(desc = "时间")
     private String dataDate;
 
+    public void setTotalNum(BigDecimal totalNum) {
+        this.totalNum = totalNum;
+    }
+
     public BigDecimal getBeforTotalNum() {
         return beforTotalNum;
     }

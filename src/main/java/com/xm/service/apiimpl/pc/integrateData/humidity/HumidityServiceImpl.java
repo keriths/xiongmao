@@ -15,8 +15,10 @@ import com.xm.service.dto.TwoDaysDataDTO;
 import com.xm.service.dto.TwoDaysGasDataDTO;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -81,8 +83,31 @@ public class HumidityServiceImpl {
                 elecmonthBeforDate = DateUtils.getBeforMonthStartDay(0);
                 elecmonthAfterDate = DateUtils.getBeforHourStartDay(0);
             }
-            List<TwoDaysDataDTO> electDayDataList = elecEveryHourDataDAO.queryTwoDaysElectricityByQueryData(elecdayBeforDate, elecdayAfterDate);
-            List<TwoDaysDataDTO> electMonthDataList = elecEveryHourDataDAO.queryTwoDaysElectricityByQueryData(elecmonthBeforDate, elecmonthAfterDate);
+
+            List<String> placeList = elecEveryHourDataDAO.elecPlaceList();
+            List<TwoDaysDataDTO> electDayDataList = new ArrayList<>();
+            List<TwoDaysDataDTO> electMonthDataList = new ArrayList<>();
+            BigDecimal dayTotal =  new BigDecimal("0");
+            BigDecimal monthTotal =  new BigDecimal("0");
+            for (String place : placeList){
+                List<TwoDaysDataDTO> elePlaceDayDatas = elecEveryHourDataDAO.queryTwoDaysElectricityByQueryData(place,elecdayBeforDate, elecdayAfterDate);
+                if (!CollectionUtils.isEmpty(elePlaceDayDatas)){
+                    dayTotal = dayTotal.add(elePlaceDayDatas.get(0).getTotalNum());
+                }
+                List<TwoDaysDataDTO> electPlaceMonthDatas = elecEveryHourDataDAO.queryTwoDaysElectricityByQueryData(place,elecmonthBeforDate, elecmonthAfterDate);
+                if (!CollectionUtils.isEmpty(electPlaceMonthDatas)){
+                    monthTotal = monthTotal.add(electPlaceMonthDatas.get(0).getTotalNum());
+                }
+            }
+            TwoDaysDataDTO day = new TwoDaysDataDTO();
+            day.setTotalNum(dayTotal);
+            day.setBeforDataDate(elecdayBeforDate);
+            electDayDataList.add(day);
+
+            TwoDaysDataDTO month = new TwoDaysDataDTO();
+            month.setTotalNum(monthTotal);
+            month.setBeforDataDate(elecmonthBeforDate);
+            electMonthDataList.add(month);
 
 //            tapWaterDayDataList = Lists.newArrayList(new WaterElectricityCollectDataDTO.WaterElectricityCollectData(40,60));
 //            pureWaterDayDataList = Lists.newArrayList(new WaterElectricityCollectDataDTO.WaterElectricityCollectData(40,60));

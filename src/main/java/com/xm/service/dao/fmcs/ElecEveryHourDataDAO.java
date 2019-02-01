@@ -13,6 +13,7 @@ import java.util.List;
  */
 @Repository("elecEveryHourDataDAO")
 public interface ElecEveryHourDataDAO {
+    List<String> elecPlaceList();
 //    /**
 //     * 查询某个区域下用电统计
 //     * @param place
@@ -51,7 +52,7 @@ public interface ElecEveryHourDataDAO {
 
     List<DayDataDTO> queryDayDataByDateListByPlaceType(@Param("place")String place, @Param("queryDays")List<Date> queryDays);
 
-    List<TwoDaysDataDTO> queryTwoDaysElectricityByQueryData(@Param("beforDate") Date beforDate,@Param("afterDate") Date afterDate);
+    List<TwoDaysDataDTO> queryTwoDaysElectricityByQueryData(@Param("place") String place, @Param("beforDate") Date beforDate,@Param("afterDate") Date afterDate);
 
     List<String> queryPlaceByPlaceType(@Param("placeType")String placeType);
 }
