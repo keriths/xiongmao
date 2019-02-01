@@ -18,10 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * Created by fanshuai on 17/10/24.
@@ -33,6 +31,13 @@ public class TactTimeServiceImpl {
     @Resource
     private DwrProductTtFidsDAO dwrProductTtFidsDAO;
 
+    private static Map<String,Integer> factoryToFactoryId = new HashMap<>();
+    static {
+        factoryToFactoryId.put("ARRAY",10);
+        factoryToFactoryId.put("CF",11);
+        factoryToFactoryId.put("CELL",12);
+        factoryToFactoryId.put("SL-OC",13);
+    }
 
     private String getMinEqpId(List<String> factoryList, List<String> eqpIdList,Date beginDate, Date endDate) {
         if (CollectionUtils.isEmpty(eqpIdList)){
@@ -45,7 +50,8 @@ public class TactTimeServiceImpl {
         return mapList.get(0).get("EQP_ID");
     }
     @ApiMethodDoc(apiCode = "Tact_time_Query",name = "特定厂别特定产品类型设备Tact_time(完成)")
-    public TactTimeProductTimeListRetDTO tactTimeProductTimeList(@ApiParamDoc(desc = "厂别：如ARRAY") String factory, @ApiParamDoc(desc = "产品类型：如PHOTO、PVD") String productId){
+    public TactTimeProductTimeListRetDTO tactTimeProductTimeList(@ApiParamDoc(desc = "厂别：如ARRAY") String factory,
+                                                                 @ApiParamDoc(desc = "产品类型：如PHOTO、PVD") String productId){
         TactTimeProductTimeListRetDTO retDto=new TactTimeProductTimeListRetDTO();
         try {
             List<String> groupList = dwrProductTtFidsDAO.queryBigEqpTypeByFactory(factory);// Constant.factoryProductIdListMap.get(factory);
@@ -74,7 +80,11 @@ public class TactTimeServiceImpl {
                 Date eDate = new DateTime(sDate).millisOfDay().withMaximumValue().toDate();
 //                String minEqpIdList =getMinEqpId(factoryList, eqpIdList, sDate, eDate);
                 List<TactTimeProductTimeListRetDTO.TactTimeProductDetail> todayList =dwrProductTtFidsDAO.queryTactTimeListByEqpIdList(factoryList, eqpIdList, productId, sDate, eDate);// activationDAO.queryActivationStatusNumByDay(factoryList, Lists.newArrayList(maxEqpIdList), bigEqpType,beginDateStr, endDateStr);
+                BigDecimal target=dwrProductTtFidsDAO.queryTactTimeTarget(factoryToFactoryId.get(factory), productId, sDate, eDate);
                 if (!CollectionUtils.isEmpty(todayList)){
+                    for (TactTimeProductTimeListRetDTO.TactTimeProductDetail tactTimeProductDetail : todayList){
+                        tactTimeProductDetail.setTarget(target);
+                    }
                     dbQueryList.addAll(todayList);
                 }
                 starDate = new DateTime(sDate).plusDays(1).toDate();
@@ -126,7 +136,11 @@ public class TactTimeServiceImpl {
                 List<String> eqpIdList = Lists.newArrayList(eqpIdListStr.split(","));
 //                String minEqpId = getMinEqpId(factoryList,eqpIdList,beginDate,endDate);
                 List<TactTimeMonthAvgDataDTO> oneProductList =  dwrProductTtFidsDAO.queryMonthAvgByEqpIdList(factoryList, eqpIdList, productId, beginDate, endDate);
+                BigDecimal target=dwrProductTtFidsDAO.queryTactTimeTarget(factoryToFactoryId.get(factory), productId, beginDate, endDate);
                 if (oneProductList!=null){
+                    for (TactTimeMonthAvgDataDTO tactTimeMonthAvgDataDTO : oneProductList){
+                        tactTimeMonthAvgDataDTO.setTarget(target);
+                    }
                     tactTimeMonthAvgDataDTOList.addAll(oneProductList);
                 }
             }

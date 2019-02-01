@@ -102,6 +102,16 @@
         order by r
     </select>
 
+    <select id="queryTactTimeTarget" parameterType="map" resultType="java.math.BigDecimal">
+        select avg(TARGET_VAL) from DWR_TT_TARGET
+        where FACTORY = #{factory}
+        and BIG_EQP_TYPE = #{bigType}
+        <![CDATA[
+        and PERIODDATE >= #{beginDate}
+        and PERIODDATE <= #{endDate}
+        ]]>
+    </select>
+
     <select id="queryTactTimeListByEqpIdList" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeProductTimeListRetDTO$TactTimeProductDetail">
         SELECT
         sum(nvl(TOTAL_TT,0)) as sumTotalTT,

@@ -5,6 +5,7 @@ import com.xm.service.apiimpl.pc.cim.tactTime.dto.TactTimeProductTimeListRetDTO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -57,6 +58,10 @@ public interface DwrProductTtFidsDAO {
 //            @Param("productTypeList")List<String> productTypeList
 //    );
 
+    BigDecimal queryTactTimeTarget(@Param("factory")Integer factory,
+                                   @Param("bigType")String bigType,
+                                   @Param("beginDate")Date beginDate,
+                                   @Param("endDate")Date endDate);
     Map<String,Object> loadByPrimaryKey(Map<String, Object> mapData);
 
     void addData(Map<String, Object> mapData);
