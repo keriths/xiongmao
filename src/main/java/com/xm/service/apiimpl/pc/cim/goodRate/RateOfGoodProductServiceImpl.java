@@ -15,7 +15,6 @@ import com.xm.service.dao.cim.DwsProductLineYieldFidsDAO;
 import com.xm.service.dao.cim.DwsProductOcYieldFidsDAO;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-import sun.jvm.hotspot.debugger.linux.sparc.LinuxSPARCThreadContext;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;

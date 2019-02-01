@@ -49,6 +49,7 @@ public class EquipmentStatusServiceImpl {
                 return resultDto;
             }
             List<EquipmentStatusData> queryList = dwrEquipmentStatusFidsDAO.queryStatusData(factoryList);
+            resultDto.setFactory(factory);
             resultDto.setEquipmentStatusDataList(queryList);
             return resultDto;
         }catch (Exception e){

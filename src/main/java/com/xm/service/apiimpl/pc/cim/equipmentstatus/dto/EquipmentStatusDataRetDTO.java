@@ -15,6 +15,7 @@ import java.util.List;
  */
 public class EquipmentStatusDataRetDTO extends BaseRetDTO{
 
+    private String factory;
     @ApiResultFieldDesc(desc = "返回数据列表")
     List<EquipmentStatusData> equipmentStatusDataList;
     @ApiResultFieldDesc(desc = "设备总数")
@@ -27,6 +28,14 @@ public class EquipmentStatusDataRetDTO extends BaseRetDTO{
     BigDecimal failNum;
     @ApiResultFieldDesc(desc = "AMHS连接状态 1 0")
     Integer amhs = 1;
+
+    public String getFactory() {
+        return factory;
+    }
+
+    public void setFactory(String factory) {
+        this.factory = factory;
+    }
 
     public List<EquipmentStatusData> getEquipmentStatusDataList() {
         return equipmentStatusDataList;
@@ -70,14 +79,15 @@ public class EquipmentStatusDataRetDTO extends BaseRetDTO{
             if ("TRB".equals(data.getVal())){
                 failNum = failNum.add(BigDecimal.ONE);
                 eqptTotalNum = eqptTotalNum.add(BigDecimal.ONE);
-            }
-            if ("RUN".equals(data.getVal()) || "WAT".equals(data.getVal()) || "MAN".equals(data.getVal())
+            }else if ("RUN".equals(data.getVal()) || "WAT".equals(data.getVal()) || "MAN".equals(data.getVal())
                     ){
                 oeeNum=oeeNum.add(BigDecimal.ONE);
                 eqptTotalNum = eqptTotalNum.add(BigDecimal.ONE);
-            }
-            if ("MNT".equals(data.getVal())){
+            }else if ("MNT".equals(data.getVal())){
                 pmNum=pmNum.add(BigDecimal.ONE);
+                eqptTotalNum = eqptTotalNum.add(BigDecimal.ONE);
+            }else if ("SL-OC".equals(factory)){
+                oeeNum=oeeNum.add(BigDecimal.ONE);
                 eqptTotalNum = eqptTotalNum.add(BigDecimal.ONE);
             }
         }
