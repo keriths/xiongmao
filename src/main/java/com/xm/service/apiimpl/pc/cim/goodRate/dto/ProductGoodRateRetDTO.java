@@ -95,13 +95,19 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
         public void setYieldVal(BigDecimal yieldVal) {
             this.yieldVal = yieldVal;
         }
-
+        double min = 94;
+        double min_month = 90;
+        double max = 97;
         public BigDecimal getSlYield() {
-            if (slYield==null || slYield.doubleValue()<94){
-                return new BigDecimal("94");
+            double min = this.min;
+            if (Constant.month.equals(dateType)){
+                min = this.min_month;
             }
-            if (slYield.doubleValue()>97){
-                return new BigDecimal("97");
+            if (slYield==null || slYield.doubleValue()<min){
+                return new BigDecimal(min);
+            }
+            if (slYield.doubleValue()>max){
+                return new BigDecimal(max);
             }
             return slYield;
         }
@@ -111,11 +117,15 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
         }
 
         public BigDecimal getYieldPlanSA() {
-            if (yieldPlanSA==null || yieldPlanSA.doubleValue()<94){
-                return new BigDecimal("94");
+            double min = this.min;
+            if (Constant.month.equals(dateType)){
+                min = this.min_month;
             }
-            if (yieldPlanSA.doubleValue()>97){
-                return new BigDecimal("97");
+            if (yieldPlanSA==null || yieldPlanSA.doubleValue()<min){
+                return new BigDecimal(min);
+            }
+            if (yieldPlanSA.doubleValue()>max){
+                return new BigDecimal(max);
             }
             return yieldPlanSA;
         }
@@ -125,11 +135,15 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
         }
 
         public BigDecimal getYieldActualSA() {
-            if (yieldActualSA==null || yieldActualSA.doubleValue()<94){
-                return new BigDecimal("94");
+            double min = this.min;
+            if (Constant.month.equals(dateType)){
+                min = this.min_month;
             }
-            if (yieldActualSA.doubleValue()>97){
-                return new BigDecimal("97");
+            if (yieldActualSA==null || yieldActualSA.doubleValue()<min){
+                return new BigDecimal(min);
+            }
+            if (yieldActualSA.doubleValue()>max){
+                return new BigDecimal(max);
             }
             return yieldActualSA;
         }
@@ -139,11 +153,15 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
         }
 
         public BigDecimal getYield() {
-            if (yield==null || yield.doubleValue()<94){
-                return new BigDecimal("94");
+            double min = this.min;
+            if (Constant.month.equals(dateType)){
+                min = this.min_month;
             }
-            if (yield.doubleValue()>97){
-                return new BigDecimal("97");
+            if (yield==null || yield.doubleValue()<min){
+                return new BigDecimal(min);
+            }
+            if (yield.doubleValue()>max){
+                return new BigDecimal(max);
             }
             return yield;
         }
