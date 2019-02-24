@@ -6,6 +6,7 @@ import com.xm.service.apiimpl.pc.cim.outputCompletion.dto.OutputCompletionData;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,15 @@ import java.util.Map;
  */
 @Repository("outputcompletionDAO")
 public interface DwsProductOutputFidsDAO {
+
+    BigDecimal queryDayOutputTarget( @Param("sDate")Date beginDate,
+                                     @Param("eDate")Date endDate,
+                                     @Param("factory")String factory);
+
+    BigDecimal queryMonthOutputTarget( @Param("sDate")Date beginDate,
+                                       @Param("eDate")Date endDate,
+                                       @Param("factory")String factory);
+
     /**
      * 产出达成率
      * @return

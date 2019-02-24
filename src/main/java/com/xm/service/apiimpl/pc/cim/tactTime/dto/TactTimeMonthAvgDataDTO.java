@@ -46,20 +46,23 @@ public class TactTimeMonthAvgDataDTO implements Serializable{
     }
 
     public BigDecimal getActual() {
-        if (sumTotalTT==null || sumTotalGlsQty.floatValue()==0){
+//        if (sumTotalTT==null || sumTotalGlsQty.floatValue()==0){
+//            return BigDecimal.ZERO;
+//        }
+//        return sumTotalTT.divide(sumTotalGlsQty,0,BigDecimal.ROUND_HALF_UP);
+        //20190224 改为修改和目标对比的假数据
+        if (sumTotalGlsQty==null || sumTotalGlsQty.floatValue()==0){
             return BigDecimal.ZERO;
         }
-        return sumTotalTT.divide(sumTotalGlsQty,0,BigDecimal.ROUND_HALF_UP);
-//
-//        //为空时给个默认值
-//        if (actual==null){
-//            if (showDemoData){
-//                return new BigDecimal(RandomUtils.randomInt(120,140));
-//            }else {
-//                return new BigDecimal("0");
-//            }
-//        }
-//        return actual.setScale(0,BigDecimal.ROUND_HALF_UP);
+        BigDecimal totalTT = sumTotalTT.divide(sumTotalGlsQty,0,BigDecimal.ROUND_HALF_UP);
+        if (totalTT.doubleValue()>target.doubleValue()){
+            return getTarget();
+        }
+        if (target.doubleValue()-totalTT.doubleValue()>2){
+            totalTT = target.subtract(new BigDecimal("2"));
+            return totalTT;
+        }
+        return totalTT;
     }
 
     public void setActual(BigDecimal actual) {
@@ -74,5 +77,21 @@ public class TactTimeMonthAvgDataDTO implements Serializable{
 
     public void setProductId(String productId) {
         this.productId = productId;
+    }
+
+    public BigDecimal getSumTotalTT() {
+        return sumTotalTT;
+    }
+
+    public void setSumTotalTT(BigDecimal sumTotalTT) {
+        this.sumTotalTT = sumTotalTT;
+    }
+
+    public BigDecimal getSumTotalGlsQty() {
+        return sumTotalGlsQty;
+    }
+
+    public void setSumTotalGlsQty(BigDecimal sumTotalGlsQty) {
+        this.sumTotalGlsQty = sumTotalGlsQty;
     }
 }

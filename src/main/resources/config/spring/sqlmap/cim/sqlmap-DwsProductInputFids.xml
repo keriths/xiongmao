@@ -2,6 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.cim.DwsProductInputFidsDAO" >
 
+    <select id="queryDayInputTarget" parameterType="map" resultType="java.math.BigDecimal">
+        select TARGET_VAL from
+        DWR_INPUT_TARGET_DAY
+        where FACTORY = #{factory}
+        <![CDATA[
+        and PERIODDATE >= #{sDate}
+        and PERIODDATE <= #{eDate}
+        ]]>
+        and rownum=1
+    </select>
+    <select id="queryDayMonthTarget" parameterType="map" resultType="java.math.BigDecimal">
+        select TARGET_VAL from
+        DWR_INPUT_TARGET_MON
+        where FACTORY = #{factory}
+        <![CDATA[
+        and PERIODDATE >= #{sDate}
+        and PERIODDATE <= #{eDate}
+        ]]>
+        and rownum=1
+    </select>
     <select id="queryInputInfo" resultType="com.xm.service.apiimpl.pc.cim.inputCompletion.dto.InputCompletionRetDTO$InputCompletionData" parameterType="map">
         select
             sum(PLAN_INPUT_GLS_QTY)/1000 as plan,

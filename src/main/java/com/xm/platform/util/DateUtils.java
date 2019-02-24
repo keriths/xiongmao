@@ -359,4 +359,43 @@ public class DateUtils {
         }
         return queryDays;
     }
+
+    public static List<Date> getDayStrObjList(Date begin, Date end) {
+        DateTime beginTime = new DateTime(begin);
+        DateTime endTime = new DateTime(end);
+        begin = beginTime.millisOfDay().withMinimumValue().toDate();
+        end = endTime.millisOfDay().withMinimumValue().toDate();
+        if (end.before(begin)){
+            return null;
+        }
+        List<Date> dayStrStrObjList = new ArrayList<Date>();
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd");
+//        DateTime minDateTime = beginTime.millisOfDay().withMinimumValue();
+        DateTime minDateTime = new DateTime(begin);
+        while (minDateTime.toDate().before(end)){
+            dayStrStrObjList.add((minDateTime.toDate()));
+            minDateTime = minDateTime.plusDays(1).toDateTime();
+        }
+        dayStrStrObjList.add((end));
+        return dayStrStrObjList;
+    }
+
+    public static List<Date> getMonthStrObjList(Date begin, Date end) {
+        DateTime beginTime = new DateTime(begin);
+        DateTime endTime = new DateTime(end);
+        begin = beginTime.dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue().toDate();
+        end =     endTime.dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue().toDate();
+        if (end.before(begin)){
+            return null;
+        }
+        List<Date> dayStrStrList = new ArrayList<Date>();
+        SimpleDateFormat format = new SimpleDateFormat("MM月");
+        DateTime minDateTime = new DateTime(begin);
+        while (minDateTime.toDate().before(end)){
+            dayStrStrList.add((minDateTime.toDate()));
+            minDateTime = minDateTime.plusMonths(1).toDateTime();
+        }
+        dayStrStrList.add((end));
+        return dayStrStrList;
+    }
 }

@@ -11,12 +11,14 @@ import com.xm.service.apiimpl.pc.product.ProductServiceImpl;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DwsProductInputFidsDAO;
 import com.xm.platform.util.DateUtils;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -41,6 +43,10 @@ public class InputCompletionRateServiceImpl{
         factoryMap.put("ARRAY", Lists.newArrayList("ARRAY"));
         factoryMap.put("CELL", Lists.newArrayList("CELL"));
         factoryMap.put("SL-OC", Lists.newArrayList("SL"));
+        Map<String,String> factoryNumMap = new HashMap<>();
+        factoryNumMap.put("ARRAY", "10");
+        factoryNumMap.put("CELL", "12");
+        factoryNumMap.put("SL-OC", "13");
         try {
             //50 和 58
             if (!Constant.dateTypeList.contains(dateType)){
@@ -54,6 +60,7 @@ public class InputCompletionRateServiceImpl{
 //                return retDto;
 //            }
             List<String> dateList = null;
+            List<Date> dateObjList = null;
             Date startTime = null;
             Date endTime = new Date();
              int planMin=9500;
@@ -61,49 +68,15 @@ public class InputCompletionRateServiceImpl{
              int actualMin=8500;
              int actualMax=10000;
             if (dateType.equals(Constant.day)){
-                if (productId==null){
-                    planMin=9500;
-                    planMax=11000;
-                    actualMin=9000;
-                    actualMax=9800;
-                }else {
-                    planMin=4200;
-                    planMax=4500;
-                    actualMin=4100;
-                    actualMax=4400;
-                }
                 startTime = DateUtils.getBeforDayStartDay(7);
                 endTime = DateUtils.getBeforDayEndDay(1);
                 dateList = DateUtils.getDayStrList(startTime,endTime);
+                dateObjList = DateUtils.getDayStrObjList(startTime, endTime);
             }else if (dateType.equals(Constant.month)){
-                if (productId==null){
-                    planMin=110000;
-                    planMax=125000;
-                    actualMin=100000;
-                    actualMax=110000;
-                }else {
-                    planMin=45000;
-                    planMax=47000;
-                    actualMin=44000;
-                    actualMax=45000;
-                }
                 startTime = DateUtils.getBeforMonthStartDay(6);
                 endTime = DateUtils.getBeforMonthEndDay(1);
                 dateList = DateUtils.getMonthStrList(startTime,endTime);
-            }else if (dateType.equals(Constant.quarter)){
-                if (productId==null){
-                    planMin=500000;
-                    planMax=550000;
-                    actualMin=450000;
-                    actualMax=500000;
-                }else {
-                    planMin=250000;
-                    planMax=280000;
-                    actualMin=240000;
-                    actualMax=250000;
-                }
-                startTime = DateUtils.getBeforQuarterStartDay(3);
-                dateList = DateUtils.getQuarterStrList(startTime,endTime);
+                dateObjList = DateUtils.getMonthStrObjList(startTime, endTime);
             }
             List<String> productIdList = null;
             if (productId!=null){
@@ -127,10 +100,24 @@ public class InputCompletionRateServiceImpl{
             List<InputCompletionRetDTO.InputCompletionData> dbValueList = dwsProductInputFidsDAO.queryInputInfo(productIdList, dateType, startTime, endTime,factoryList);
             Map<String,InputCompletionRetDTO.InputCompletionData> dbValueMap = MapUtils.listToMap(dbValueList,"getDateTime");
             List<InputCompletionRetDTO.InputCompletionData> completionDataList = new ArrayList<InputCompletionRetDTO.InputCompletionData>();
-            for (String dateStr:dateList){
+            for (int i = 0;i<dateList.size();i++){
+                String dateStr = dateList.get(i);
                 InputCompletionRetDTO.InputCompletionData inputValue = dbValueMap.get(dateStr);
                 if (inputValue==null){
                     inputValue=new InputCompletionRetDTO.InputCompletionData(dateStr,planMin,planMax,actualMin,actualMax);
+                }
+                //取计划值
+                Date dateStrObj = dateObjList.get(i);
+                if (dateType.equals(Constant.day)){
+                    Date sdate = new DateTime(dateStrObj).millisOfDay().withMinimumValue().toDate();
+                    Date edate = new DateTime(dateStrObj).millisOfDay().withMaximumValue().toDate();
+                    BigDecimal target = dwsProductInputFidsDAO.queryDayInputTarget(sdate, endTime,factoryNumMap.get(factory) );
+                    inputValue.setPlan(target);
+                }else if (dateType.equals(Constant.month)){
+                    Date sdate = new DateTime(dateStrObj).dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue().toDate();
+                    Date edate = new DateTime(dateStrObj).dayOfMonth().withMaximumValue().millisOfDay().withMaximumValue().toDate();
+                    BigDecimal target = dwsProductInputFidsDAO.queryMonthInputTarget(sdate, endTime,factoryNumMap.get(factory) );
+                    inputValue.setPlan(target);
                 }
                 completionDataList.add(inputValue);
             }

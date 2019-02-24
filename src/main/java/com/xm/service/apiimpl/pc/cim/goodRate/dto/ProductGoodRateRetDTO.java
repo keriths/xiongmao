@@ -129,26 +129,26 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
         }
 
         public BigDecimal getYieldPlanSA() {
-            float min = this.min_day;
-            if (Constant.month.equals(dateType)){
-                min = this.min_month;
-            }
-            if (Constant.day.equals(dateType)){
-                if (yieldPlanSA==null || yieldPlanSA.doubleValue()<min){
-                    return RandomUtils.randomFloat(min,(min+1f),2);
-                }
-                if (yieldPlanSA.doubleValue()>max){
-                    return RandomUtils.randomFloat(max,(max+1f),2);
-                }
-            }
-            if (Constant.month.equals(dateType)){
-                if (yieldPlanSA==null || yieldPlanSA.doubleValue()<min){
-                    //return RandomUtils.randomFloat(min,(min+1f),2);
-                }
-                if (yieldPlanSA.doubleValue()>max){
-                    return RandomUtils.randomFloat(max,(max+1f),2);
-                }
-            }
+//            float min = this.min_day;
+//            if (Constant.month.equals(dateType)){
+//                min = this.min_month;
+//            }
+//            if (Constant.day.equals(dateType)){
+//                if (yieldPlanSA==null || yieldPlanSA.doubleValue()<min){
+//                    return RandomUtils.randomFloat(min,(min+1f),2);
+//                }
+//                if (yieldPlanSA.doubleValue()>max){
+//                    return RandomUtils.randomFloat(max,(max+1f),2);
+//                }
+//            }
+//            if (Constant.month.equals(dateType)){
+//                if (yieldPlanSA==null || yieldPlanSA.doubleValue()<min){
+//                    return yieldPlanSA==null?BigDecimal.ZERO:yieldPlanSA.setScale(2,BigDecimal.ROUND_HALF_UP);
+//                }
+//                if (yieldPlanSA!=null && yieldPlanSA.doubleValue()>max){
+//                    return RandomUtils.randomFloat(max,(max+1f),2);
+//                }
+//            }
             return yieldPlanSA==null?BigDecimal.ZERO:yieldPlanSA.setScale(2,BigDecimal.ROUND_HALF_UP);
         }
 
@@ -171,9 +171,9 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
             }
             if (Constant.month.equals(dateType)){
                 if (yieldActualSA==null || yieldActualSA.doubleValue()<min){
-                    //return RandomUtils.randomFloat(min,(min+1f),2);
+                    return yieldActualSA==null?BigDecimal.ZERO:yieldActualSA.setScale(2,BigDecimal.ROUND_HALF_UP);
                 }
-                if (yieldActualSA.doubleValue()>max){
+                if (yieldActualSA!=null && yieldActualSA.doubleValue()>max){
                     return RandomUtils.randomFloat(max,(max+1f),2);
                 }
             }
@@ -199,9 +199,9 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
             }
             if (Constant.month.equals(dateType)){
                 if (yield==null || yield.doubleValue()<min){
-                    //return RandomUtils.randomFloat(min,(min+1f),2);
+                    return yield==null?BigDecimal.ZERO:yield.setScale(2,BigDecimal.ROUND_HALF_UP);
                 }
-                if (yield.doubleValue()>max){
+                if (yield!=null && yield.doubleValue()>max){
                     return RandomUtils.randomFloat(max,(max+1f),2);
                 }
             }

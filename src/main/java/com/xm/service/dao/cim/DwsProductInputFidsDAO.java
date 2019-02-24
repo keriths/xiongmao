@@ -4,6 +4,7 @@ import com.xm.service.apiimpl.pc.cim.inputCompletion.dto.InputCompletionRetDTO;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,12 @@ import java.util.Map;
  */
 @Repository("dwsProductInputFidsDAO")
 public interface DwsProductInputFidsDAO {
+    BigDecimal queryDayInputTarget( @Param("sDate")Date beginDate,
+                                    @Param("eDate")Date endDate,
+                                    @Param("factory")String factory);
+    BigDecimal queryMonthInputTarget( @Param("sDate")Date beginDate,
+                         @Param("eDate")Date endDate,
+                         @Param("factory")String factory);
     List<InputCompletionRetDTO.InputCompletionData> queryInputInfo(
             @Param("productIdList")List<String> productIdList,
             @Param("dateType")String dateType,

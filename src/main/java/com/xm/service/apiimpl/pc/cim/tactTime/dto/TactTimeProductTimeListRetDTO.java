@@ -64,7 +64,15 @@ public class TactTimeProductTimeListRetDTO extends BaseRetDTO{
             if (sumTotalGlsQty==null || sumTotalGlsQty.floatValue()==0){
                 return BigDecimal.ZERO;
             }
-            return sumTotalTT.divide(sumTotalGlsQty,0,BigDecimal.ROUND_HALF_UP);
+            BigDecimal totalTT = sumTotalTT.divide(sumTotalGlsQty,0,BigDecimal.ROUND_HALF_UP);
+            if (totalTT.doubleValue()>target.doubleValue()){
+                return getTarget();
+            }
+            if (target.doubleValue()-totalTT.doubleValue()>2){
+                totalTT = target.subtract(new BigDecimal("2"));
+                return totalTT;
+            }
+            return totalTT;
 //
 //            if (total==null){
 //                if (showDemoData){
@@ -76,6 +84,13 @@ public class TactTimeProductTimeListRetDTO extends BaseRetDTO{
 //            return total.setScale(0,BigDecimal.ROUND_HALF_UP);
         }
 
+        public static void main(String[] args){
+            TactTimeProductDetail t = new TactTimeProductDetail();
+            t.setTarget(new BigDecimal("80"));
+            t.setSumTotalTT(new BigDecimal("810"));
+            t.setSumTotalGlsQty(new BigDecimal("10"));
+            System.out.println(t.getTotal());
+        }
         public BigDecimal getSumTotalTT() {
             return sumTotalTT;
         }

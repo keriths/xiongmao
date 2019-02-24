@@ -125,10 +125,10 @@ public class TactTimeServiceImpl {
 
             Date beginDate = DateUtils.getBeforMonthStartDay(0);
             Date endDate = new Date();
-            if (new DateTime().getDayOfMonth()<=1){
+            //if (new DateTime().getDayOfMonth()<=1){
                 beginDate = DateUtils.getBeforMonthStartDay(1);
                 endDate = DateUtils.getBeforMonthEndDay(1);
-            }
+            //}
 
             List<TactTimeMonthAvgDataDTO> tactTimeMonthAvgDataDTOList = new ArrayList<>();// dwrProductTtFidsDAO.queryMonthAvgByEqpIdList(factoryList, , beginDate, endDate,productTypeList);
             for (String productId:groupNameList){

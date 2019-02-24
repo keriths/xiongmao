@@ -7,6 +7,27 @@
         <result column="ACTUAL_OUTPUT_PNL_QTY" property="actual" jdbcType="DOUBLE"></result>
         <result column="PERIODDATE" property="periodDate" jdbcType="VARCHAR"></result>
     </resultMap>
+
+    <select id="queryDayOutputTarget" parameterType="map" resultType="java.math.BigDecimal">
+        select TARGET_VAL from
+        DWR_OUTPUT_TARGET_DAY
+        where FACTORY = #{factory}
+        <![CDATA[
+        and PERIODDATE >= #{sDate}
+        and PERIODDATE <= #{eDate}
+        ]]>
+        and rownum=1
+    </select>
+    <select id="queryMonthOutputTarget" parameterType="map" resultType="java.math.BigDecimal">
+        select TARGET_VAL from
+        DWR_OUTPUT_TARGET_MON
+        where FACTORY = #{factory}
+        <![CDATA[
+        and PERIODDATE >= #{sDate}
+        and PERIODDATE <= #{eDate}
+        ]]>
+        and rownum=1
+    </select>
     
     <select id="OutputCompletionRate" resultMap="BaseResultMap" parameterType="Map">
         select

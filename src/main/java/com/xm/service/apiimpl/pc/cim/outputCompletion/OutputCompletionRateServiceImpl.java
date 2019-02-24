@@ -14,6 +14,7 @@ import com.xm.service.constant.Constant;
 import com.xm.service.dao.cim.DwrWipGlsFidsDAO;
 import com.xm.service.dao.cim.DwsProductOutputFidsDAO;
 import com.xm.platform.util.DateUtils;
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -156,6 +157,10 @@ public class OutputCompletionRateServiceImpl {
         factoryMap.put("ARRAY", Lists.newArrayList("ARRAY"));
         factoryMap.put("CELL", Lists.newArrayList("CELL"));
         factoryMap.put("SL-OC", Lists.newArrayList("OC"));
+        Map<String,String> factoryNumMap = new HashMap<>();
+        factoryNumMap.put("ARRAY", "10");
+        factoryNumMap.put("CELL", "12");
+        factoryNumMap.put("SL-OC", "13");
         try {
             //50 和 58
             if (!Constant.dateTypeList.contains(dateType)){
@@ -170,34 +175,17 @@ public class OutputCompletionRateServiceImpl {
             int planMax=11000;
             int actualMin=8500;
             int actualMax=10000;
+            List<Date> dateObjList = null;
             if (dateType.equals(Constant.day)){
-
-                    planMin=9500;
-                    planMax=11000;
-                    actualMin=9000;
-                    actualMax=9800;
                 startTime = DateUtils.getBeforDayStartDay(7);
                 endTime = DateUtils.getBeforDayEndDay(1);
                 dateList = DateUtils.getDayStrList(startTime,endTime);
+                dateObjList = DateUtils.getDayStrObjList(startTime, endTime);
             }else if (dateType.equals(Constant.month)){
-
-                    planMin=110000;
-                    planMax=125000;
-                    actualMin=100000;
-                    actualMax=110000;
-
                 startTime = DateUtils.getBeforMonthStartDay(6);
                 endTime = DateUtils.getBeforMonthEndDay(1);
                 dateList = DateUtils.getMonthStrList(startTime,endTime);
-            }else if (dateType.equals(Constant.quarter)){
-
-                    planMin=500000;
-                    planMax=550000;
-                    actualMin=450000;
-                    actualMax=500000;
-
-                startTime = DateUtils.getBeforQuarterStartDay(3);
-                dateList = DateUtils.getQuarterStrList(startTime,endTime);
+                dateObjList = DateUtils.getMonthStrObjList(startTime, endTime);
             }
 
             List<String> factoryList = null;
@@ -223,7 +211,8 @@ public class OutputCompletionRateServiceImpl {
             }
             Map<String,CompletionRetDTO.CompletionData> dbValueMap = MapUtils.listToMap(dbValueList,"getDateTime");
             List<CompletionRetDTO.CompletionData> completionDataList = new ArrayList<CompletionRetDTO.CompletionData>();
-            for (String dateStr:dateList){
+            for (int i = 0;i<dateList.size();i++){
+                String dateStr = dateList.get(i);
                 CompletionRetDTO.CompletionData inputValue = dbValueMap.get(dateStr);
                 if (inputValue==null){
                     inputValue=new CompletionRetDTO.CompletionData(dateStr,planMin,planMax,actualMin,actualMax);
@@ -231,6 +220,19 @@ public class OutputCompletionRateServiceImpl {
                 if (dateType.equals(Constant.month) && wipDatasMap!=null) {
                     CompletionRetDTO.CompletionData wipData = wipDatasMap.get(dateStr);
                     inputValue.setWip(wipData==null? BigDecimal.ZERO:wipData.getWip());
+                }
+//取计划值
+                Date dateStrObj = dateObjList.get(i);
+                if (dateType.equals(Constant.day)){
+                    Date sdate = new DateTime(dateStrObj).millisOfDay().withMinimumValue().toDate();
+                    Date edate = new DateTime(dateStrObj).millisOfDay().withMaximumValue().toDate();
+                    BigDecimal target = outputcompletionDAO.queryDayOutputTarget(sdate, endTime, factoryNumMap.get(factory));
+                    inputValue.setPlan(target);
+                }else if (dateType.equals(Constant.month)){
+                    Date sdate = new DateTime(dateStrObj).dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue().toDate();
+                    Date edate = new DateTime(dateStrObj).dayOfMonth().withMaximumValue().millisOfDay().withMaximumValue().toDate();
+                    BigDecimal target = outputcompletionDAO.queryMonthOutputTarget(sdate, endTime, factoryNumMap.get(factory));
+                    inputValue.setPlan(target);
                 }
                 completionDataList.add(inputValue);
             }
