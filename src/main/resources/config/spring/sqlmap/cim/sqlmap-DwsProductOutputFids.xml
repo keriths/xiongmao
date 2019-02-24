@@ -9,7 +9,7 @@
     </resultMap>
 
     <select id="queryDayOutputTarget" parameterType="map" resultType="java.math.BigDecimal">
-        select TARGET_VAL from
+        select TARGET_VAL/1000 from
         DWR_OUTPUT_TARGET_DAY
         where FACTORY = #{factory}
         <![CDATA[
@@ -19,7 +19,7 @@
         and rownum=1
     </select>
     <select id="queryMonthOutputTarget" parameterType="map" resultType="java.math.BigDecimal">
-        select TARGET_VAL from
+        select TARGET_VAL/1000 from
         DWR_OUTPUT_TARGET_MON
         where FACTORY = #{factory}
         <![CDATA[

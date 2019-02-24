@@ -3,7 +3,7 @@
 <mapper namespace="com.xm.service.dao.cim.DwsProductInputFidsDAO" >
 
     <select id="queryDayInputTarget" parameterType="map" resultType="java.math.BigDecimal">
-        select TARGET_VAL from
+        select TARGET_VAL/1000 from
         DWR_INPUT_TARGET_DAY
         where FACTORY = #{factory}
         <![CDATA[
@@ -13,7 +13,7 @@
         and rownum=1
     </select>
     <select id="queryMonthInputTarget" parameterType="map" resultType="java.math.BigDecimal">
-        select TARGET_VAL from
+        select TARGET_VAL/1000 from
         DWR_INPUT_TARGET_MON
         where FACTORY = #{factory}
         <![CDATA[
