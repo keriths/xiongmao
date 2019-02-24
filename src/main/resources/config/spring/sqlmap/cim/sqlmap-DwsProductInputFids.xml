@@ -12,7 +12,7 @@
         ]]>
         and rownum=1
     </select>
-    <select id="queryDayMonthTarget" parameterType="map" resultType="java.math.BigDecimal">
+    <select id="queryMonthInputTarget" parameterType="map" resultType="java.math.BigDecimal">
         select TARGET_VAL from
         DWR_INPUT_TARGET_MON
         where FACTORY = #{factory}
