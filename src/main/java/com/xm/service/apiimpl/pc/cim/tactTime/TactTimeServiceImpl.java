@@ -83,7 +83,7 @@ public class TactTimeServiceImpl {
                 BigDecimal target=dwrProductTtFidsDAO.queryTactTimeTarget(factoryToFactoryId.get(factory), productId, sDate, eDate);
                 if (!CollectionUtils.isEmpty(todayList)){
                     for (TactTimeProductTimeListRetDTO.TactTimeProductDetail tactTimeProductDetail : todayList){
-                        tactTimeProductDetail.setTarget(target);
+                        tactTimeProductDetail.setTarget(target==null?BigDecimal.ZERO:target);
                     }
                     dbQueryList.addAll(todayList);
                 }
