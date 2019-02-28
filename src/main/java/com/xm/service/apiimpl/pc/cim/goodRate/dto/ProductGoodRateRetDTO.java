@@ -106,11 +106,11 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
                 min = this.min_month;
             }
             if (Constant.day.equals(dateType)){
-                if (slYield==null || slYield.doubleValue()<min){
-                    return RandomUtils.randomFloat(min,(min+1f),2);
+                if (slYield==null || slYield.doubleValue()<96){
+                    return RandomUtils.randomFloat(96,97,2);
                 }
-                if (slYield.doubleValue()>max){
-                    return RandomUtils.randomFloat(max,(max+1f),2);
+                if (slYield.doubleValue()>98){
+                    return RandomUtils.randomFloat(97,98,2);
                 }
             }
             if (Constant.month.equals(dateType)){
@@ -162,11 +162,11 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
                 min = this.min_month;
             }
             if (Constant.day.equals(dateType)){
-                if (yieldActualSA==null || yieldActualSA.doubleValue()<min){
-                    return RandomUtils.randomFloat(min,(min+1f),2);
+                if (yieldActualSA==null || yieldActualSA.doubleValue()<94){
+                    return RandomUtils.randomFloat(94,95,2);
                 }
-                if (yieldActualSA.doubleValue()>max){
-                    return RandomUtils.randomFloat(max,(max+1f),2);
+                if (yieldActualSA.doubleValue()>96){
+                    return RandomUtils.randomFloat(95,96,2);
                 }
             }
             if (Constant.month.equals(dateType)){
