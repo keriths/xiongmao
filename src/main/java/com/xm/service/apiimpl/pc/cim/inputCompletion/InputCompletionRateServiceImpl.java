@@ -111,12 +111,12 @@ public class InputCompletionRateServiceImpl{
                 if (dateType.equals(Constant.day)){
                     Date sdate = new DateTime(dateStrObj).millisOfDay().withMinimumValue().toDate();
                     Date edate = new DateTime(dateStrObj).millisOfDay().withMaximumValue().toDate();
-                    BigDecimal target = dwsProductInputFidsDAO.queryDayInputTarget(sdate, endTime,factoryNumMap.get(factory) );
+                    BigDecimal target = dwsProductInputFidsDAO.queryDayInputTarget(sdate, edate,factoryNumMap.get(factory) );
                     inputValue.setPlan(target);
                 }else if (dateType.equals(Constant.month)){
                     Date sdate = new DateTime(dateStrObj).dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue().toDate();
                     Date edate = new DateTime(dateStrObj).dayOfMonth().withMaximumValue().millisOfDay().withMaximumValue().toDate();
-                    BigDecimal target = dwsProductInputFidsDAO.queryMonthInputTarget(sdate, endTime,factoryNumMap.get(factory) );
+                    BigDecimal target = dwsProductInputFidsDAO.queryMonthInputTarget(sdate, edate,factoryNumMap.get(factory) );
                     inputValue.setPlan(target);
                 }
                 completionDataList.add(inputValue);

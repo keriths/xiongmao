@@ -226,12 +226,12 @@ public class OutputCompletionRateServiceImpl {
                 if (dateType.equals(Constant.day)){
                     Date sdate = new DateTime(dateStrObj).millisOfDay().withMinimumValue().toDate();
                     Date edate = new DateTime(dateStrObj).millisOfDay().withMaximumValue().toDate();
-                    BigDecimal target = outputcompletionDAO.queryDayOutputTarget(sdate, endTime, factoryNumMap.get(factory));
+                    BigDecimal target = outputcompletionDAO.queryDayOutputTarget(sdate, edate, factoryNumMap.get(factory));
                     inputValue.setPlan(target);
                 }else if (dateType.equals(Constant.month)){
                     Date sdate = new DateTime(dateStrObj).dayOfMonth().withMinimumValue().millisOfDay().withMinimumValue().toDate();
                     Date edate = new DateTime(dateStrObj).dayOfMonth().withMaximumValue().millisOfDay().withMaximumValue().toDate();
-                    BigDecimal target = outputcompletionDAO.queryMonthOutputTarget(sdate, endTime, factoryNumMap.get(factory));
+                    BigDecimal target = outputcompletionDAO.queryMonthOutputTarget(sdate, edate, factoryNumMap.get(factory));
                     inputValue.setPlan(target);
                 }
                 completionDataList.add(inputValue);
