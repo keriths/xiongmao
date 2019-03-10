@@ -190,11 +190,11 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
                 min = this.min_month;
             }
             if (Constant.day.equals(dateType)){
-                if (yield==null || yield.doubleValue()<min){
-                    return RandomUtils.randomFloat(min,(min+1f),2);
+                if (yield==null || yield.doubleValue()<96){
+                    return RandomUtils.randomFloat(96,97,2);
                 }
-                if (yield.doubleValue()>max){
-                    return RandomUtils.randomFloat(max,(max+1f),2);
+                if (yield.doubleValue()>98){
+                    return RandomUtils.randomFloat(97,98,2);
                 }
             }
             if (Constant.month.equals(dateType)){
