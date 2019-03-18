@@ -31,9 +31,9 @@
         <property name="jdbcUrl" value="${local.cim.database.url}"/>
         <property name="user" value="${local.cim.database.username}"/>
         <property name="password" value="${local.cim.database.password}"/>
-        <property name="maxPoolSize" value="50"/>
-        <property name="minPoolSize" value="20"/>
-        <property name="initialPoolSize" value="20"/>
+        <property name="maxPoolSize" value="10"/>
+        <property name="minPoolSize" value="2"/>
+        <property name="initialPoolSize" value="2"/>
     </bean>
 
 
@@ -56,9 +56,9 @@
         <property name="jdbcUrl" value="${local.fmcs.database.url}"/>
         <property name="user" value="${local.fmcs.database.username}"/>
         <property name="password" value="${local.fmcs.database.password}"/>
-        <property name="maxPoolSize" value="50"/>
-        <property name="minPoolSize" value="20"/>
-        <property name="initialPoolSize" value="20"/>
+        <property name="maxPoolSize" value="10"/>
+        <property name="minPoolSize" value="2"/>
+        <property name="initialPoolSize" value="2"/>
     </bean>
     <!--<bean id="localFmcsDataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">-->
         <!--<property name="driverClassName"><value>oracle.jdbc.OracleDriver</value></property>-->

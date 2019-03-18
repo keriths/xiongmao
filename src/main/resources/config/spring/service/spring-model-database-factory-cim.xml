@@ -14,9 +14,9 @@
         <property name="jdbcUrl" value="${factory.cim.database.url}"/>
         <property name="user" value="${factory.cim.database.username}"/>
         <property name="password" value="${factory.cim.database.password}"/>
-        <property name="maxPoolSize" value="50"/>
-        <property name="minPoolSize" value="20"/>
-        <property name="initialPoolSize" value="20"/>
+        <property name="maxPoolSize" value="10"/>
+        <property name="minPoolSize" value="2"/>
+        <property name="initialPoolSize" value="2"/>
     </bean>
 
     <bean id="factoryCimSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
