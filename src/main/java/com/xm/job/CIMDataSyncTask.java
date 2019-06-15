@@ -763,7 +763,6 @@ public class CIMDataSyncTask {
                     mapDataList = queryLatestDataByBgeinEndDateAndTableName(offset, limit, beginDate, endDate, tableName, orderby);
                 }
                 long t22 = System.currentTimeMillis();
-                //LogUtils.info(this.getClass(), "同步在制品[DWR_WIP_GLS_FIDS]querySyncData 用时" + (t22 - t11) + "毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
                 LogUtils.error(this.getClass(),"同步良品率[DWS_PRODUCT_OC_YIELD_DAY]offset["+offset+"]limit["+limit+"]querySyncData exception",e);
                 try {
@@ -804,8 +803,6 @@ public class CIMDataSyncTask {
             }
         }
         long t2 = System.currentTimeMillis();
-        //LogUtils.info(this.getClass(),"同步在制品[DWR_WIP_GLS_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+insertNum+"]条数据,更新["+updateNum+"]条数据");
-        //LogUtils.info(this.getClass(),"endSyncWip["+tableName+"]---");
     }
     private void syncDWS_PRODUCT_OC_YIELD_MON(Date beginDate,Date endDate) {
         String tableName="DWS_PRODUCT_OC_YIELD_MON";
@@ -828,7 +825,6 @@ public class CIMDataSyncTask {
                     mapDataList = queryLatestDataByBgeinEndDateAndTableName(offset, limit, beginDate, endDate, tableName, orderby);
                 }
                 long t22 = System.currentTimeMillis();
-                //LogUtils.info(this.getClass(), "同步在制品[DWR_WIP_GLS_FIDS]querySyncData 用时" + (t22 - t11) + "毫秒参数offset" + offset + " limit" + limit);
             }catch (Exception e){
                 LogUtils.error(this.getClass(),"同步良品率[DWS_PRODUCT_OC_YIELD_MON]offset["+offset+"]limit["+limit+"]querySyncData exception",e);
                 try {
@@ -869,8 +865,6 @@ public class CIMDataSyncTask {
             }
         }
         long t2 = System.currentTimeMillis();
-        //LogUtils.info(this.getClass(),"同步在制品[DWR_WIP_GLS_FIDS]数据用时"+((t2-t1)/1000)+"秒一共同步["+insertNum+"]条数据,更新["+updateNum+"]条数据");
-        //LogUtils.info(this.getClass(),"endSyncWip["+tableName+"]---");
     }
 
 
