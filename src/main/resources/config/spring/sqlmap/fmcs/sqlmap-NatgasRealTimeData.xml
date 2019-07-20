@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.fmcs.NatgasRealTimeDataDAO" >
+
+    <select id="queryGasRealTimeData" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.gas.dto.NatgasRealTimeData$NatgasTimeDetailData">
+        <![CDATA[
+
+            SELECT
+                GasType as gasType,
+                Speed as speed,
+                datadate as dataFactDate
+            FROM NatgasRealTimeData
+            WHERE
+                Speed is not NULL
+                and Speed != -2147483648
+                and DataDate >= #{beginDate}
+                and DataDate <= #{endDate}
+                AND GasType=#{gasType,jdbcType=VARCHAR}
+            ORDER by dataFactDate
+
+
+      ]]>
+    </select>
+
+
+</mapper>

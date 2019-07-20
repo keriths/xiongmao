@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.fmcs.HumitureRealTimeDataDAO" >
+
+    <select id="queryHumiture" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumitureRealTimeDate$HumitureRealTimeDetailData">
+        <![CDATA[
+
+        select
+            FACTORY as factory,
+            TEMPERATURE as temperature,
+            HUMIDITY as humidity,
+            CLEANLINESS as cleanliness,
+            datadate as dataFactDate
+        from HUMITUREREALTIMEDATA
+        WHERE
+            TEMPERATURE is not NULL
+            and HUMIDITY is not NULL
+            and CLEANLINESS is not NULL
+             and TEMPERATURE != -2147483648
+             and HUMIDITY != -2147483648
+             and CLEANLINESS != -2147483648
+                      and  DATADATE >= #{beginDate}
+                      and DATADATE <= #{endDate}
+
+                AND FACTORY=#{factory,jdbcType=VARCHAR}
+                order by dataFactDate
+
+      ]]>
+    </select>
+
+    <select id="queryData" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.humidity.dto.HumitureDataDTO$HumitureData">
+        select
+            a.FACTORY,
+            a.TEMPERATURE,
+            a.HUMIDITY,
+            a.CLEANLINESS
+        from HUMITUREREALTIMEDATA a
+            inner join (
+                select
+                    max(DATADATE) as DATADATE,
+                    FACTORY as factory
+                from
+                    HUMITUREREALTIMEDATA
+                where
+                    TEMPERATURE is not NULL
+                    and HUMIDITY is not NULL
+                    and CLEANLINESS is not NULL
+                    and TEMPERATURE != -2147483648
+                    and HUMIDITY != -2147483648
+                    and CLEANLINESS != -2147483648
+                group by
+                    FACTORY
+                    ) b
+            on a.DATADATE = b.DATADATE
+            and a.FACTORY = b.FACTORY
+        where
+            TEMPERATURE is not NULL
+            and HUMIDITY is not NULL
+            and CLEANLINESS is not NULL
+            and TEMPERATURE != -2147483648
+            and HUMIDITY != -2147483648
+            and CLEANLINESS != -2147483648
+    </select>
+</mapper>

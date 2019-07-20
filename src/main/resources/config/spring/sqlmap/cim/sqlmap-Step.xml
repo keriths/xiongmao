@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.login.StepDAO" >
+    <select id="queryStep" resultType="com.xm.service.apiimpl.pc.step.dto.StepRetDTO$StepRetDataDTO" parameterType="map">
+        SELECT
+            FACTORY as factory,
+            STEPID as stepId
+        FROM
+            STEP
+    </select>
+
+    <select id="queryStepByFactory" resultType="com.xm.service.apiimpl.pc.step.dto.StepRetDTO$StepRetDataDTO" parameterType="map">
+        SELECT
+            FACTORY as factory,
+            STEPID as stepId
+        FROM
+          STEP
+        WHERE
+            FACTORY=#{factory} AND
+            STEPID=#{stepId}
+    </select>
+
+    <update id="updateStep"  parameterType="map">
+        UPDATE STEP SET
+            STEPID = #{stepId}
+        WHERE
+            FACTORY = #{factory}
+    </update>
+
+    <insert id="addStep" parameterType="map">
+        INSERT INTO  STEP
+        (FACTORY,   STEPID) VALUES
+        (#{factory},#{stepId})
+    </insert>
+
+    <delete id="deleteStep">
+        DELETE
+        FROM
+          STEP
+        WHERE
+            FACTORY=#{factory} AND
+            STEPID=#{stepId}
+    </delete>
+
+    <select id="queryStepId" resultType="com.xm.service.apiimpl.pc.step.dto.StepRetDTO$StepRetDataDTO" parameterType="map">
+        SELECT
+            FACTORY as factory,
+            STEPID as stepId
+        FROM
+          STEP
+        WHERE
+            FACTORY=#{factory}
+    </select>
+
+</mapper>

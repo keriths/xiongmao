@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.fmcs.WwtbDataDAO" >
+
+    <select id="queryWwtbDataList" resultType="com.xm.service.apiimpl.pc.fmcs.wwt.dto.WwtbData$WwtbDetailData" parameterType="Map">
+        <![CDATA[
+
+        SELECT
+            Value as value,
+            DataDate as dataFactDate
+        FROM WWTBDATA
+        WHERE
+            Value is not null
+            and Value != -2147483648
+              and DataDate >= #{beginDate}
+              and DataDate <= #{endDate}
+                AND CODE =#{code,jdbcType=VARCHAR}
+          order by dataFactDate
+
+           ]]>
+    </select>
+
+    <select id="queryWwtData" resultType="com.xm.service.apiimpl.pc.integrateData.system.dto.WwtDataDTO$WwtData" parameterType="Map">
+        select
+            a.CODE,
+            a.VALUE
+        from WWTBDATA a
+            inner join (
+                select
+                    max(DATADATE) as DATADATE,
+                    CODE as code
+                from
+                    WWTBDATA
+                WHERE Value is not null
+                  and Value != -2147483648
+                group by
+                    CODE
+                ) b
+            on a.DATADATE = b.DATADATE
+            and a.CODE = b.CODE
+        where
+        a.CODE IN
+        <foreach collection="codeList" item="code" open="(" separator="," close=")" >
+            #{code}
+        </foreach>
+        and Value is not null
+        and Value != -2147483648
+    </select>
+
+</mapper>

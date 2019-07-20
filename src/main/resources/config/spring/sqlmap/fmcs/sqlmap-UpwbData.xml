@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.fmcs.UpwbDataDAO" >
+
+    <select id="queryUpwbDataList" resultType="com.xm.service.apiimpl.pc.fmcs.upw.dto.UpwbData" parameterType="Map">
+        SELECT
+            CODE AS code,
+            1  AS status,
+            case when TEMPERATURE=-2147483648 then null else TEMPERATURE end   AS temperature,
+            case when RESISTIVITY =-2147483648 then null else RESISTIVITY end   AS resistivity,
+            case when PARTICLE =-2147483648 then null else PARTICLE end   AS particle,
+            case when TOC =-2147483648 then null else TOC end  AS toc ,
+            DATADATE AS DataDate
+        FROM UPWBDATA a
+        join (
+          SELECT CODE as CODEb,max(DATADATE) as DATADATEb
+          FROM UPWBDATA
+          GROUP BY CODE
+        ) b on a.CODE = b.CODEb and a.DATADATE = b.DATADATEb
+    </select>
+
+</mapper>

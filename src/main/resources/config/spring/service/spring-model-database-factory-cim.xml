@@ -1,0 +1,36 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="
+    http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context-3.0.xsd
+    http://www.springframework.org/schema/mvc
+    http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+    <bean id="factoryCimDataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="oracle.jdbc.driver.OracleDriver"/>
+        <property name="jdbcUrl" value="${factory.cim.database.url}"/>
+        <property name="user" value="${factory.cim.database.username}"/>
+        <property name="password" value="${factory.cim.database.password}"/>
+        <property name="maxPoolSize" value="10"/>
+        <property name="minPoolSize" value="2"/>
+        <property name="initialPoolSize" value="2"/>
+    </bean>
+
+    <bean id="factoryCimSqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="configLocation" value="classpath:config/spring/sqlmap/factory/cim/mybatis-config.xml"></property>
+        <property name="mapperLocations" value="classpath:config/spring/sqlmap/factory/cim/sqlmap-*.xml"></property>
+        <property name="dataSource" ref="factoryCimDataSource" />
+    </bean>
+    <bean id="factoryCimSqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="factoryCimSqlSessionFactory" />
+    </bean>
+    <bean id="factoryCimMapperConfig" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.xm.service.dao.factory.cim" />
+        <property name="sqlSessionFactoryBeanName" value="factoryCimSqlSessionFactory" />
+        <property name="sqlSessionTemplateBeanName" value="factoryCimSqlSessionTemplate" />
+    </bean>
+
+</beans>

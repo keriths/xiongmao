@@ -1,0 +1,198 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>test</title>
+    <meta name="description" content="description" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Language" content="zh-cn" />
+    <meta name="robots" content="all" />
+    <meta name="author" content="test" />
+    <meta name="Copyright" content="test" />
+    <style type="text/css">
+            /*.serviceName a:link ul{display: none}*/
+            /* 已被访问的链接 */
+            /*.serviceName a:visited ul{display: none}*/
+            /*a:visited ul{display: none}*/
+            /* 鼠标指针移动到链接上 */
+            /*.serviceName a:hover ul{display: block}*/
+            /*a:hover ul{display: none}*/
+            /* 正在被点击的链接 */
+            /*.serviceName a:active ul{display: none}*/
+            body{padding: 0px;margin: 0px;}
+            #top{width: 100%;padding: 0px;margin: 0px;height: 5px;}
+            #left{line-height: 20px;font-size: 16px;margin-right: 2px;margin-left: 2px;}
+            #right{}
+            .paramLabel{font-size: 18px;padding-top: 1px;margin-top: 1px;line-height: 22px;margin-left: 2px;}
+            .paramInput{width: 90%;height: 23px;border: 1px solid #ccc;font-size: 18px;margin-left: 2px;}
+            .processBtn{width: 60px;height: 30px;margin: 2px 1px 2px 2px ;font-size: 18px;}
+            #response{height: 150px;width: 90%}
+            .docTable{border: 1px solid #ccc;line-height: 20px;}
+            .docTable tr td{border: 1px solid #ccc}
+            .resultTypeNameTr{background: #cccccc}
+        </style>
+        <script type="text/javascript" src="/js/jquery.min.js"></script>
+    </head>
+    <body>
+        <div id="top">
+
+        </div>
+        <div id="left" style="width: 40%;border: 1px solid #ccc;float: left">
+            <ul id="serviceUl">
+                <li >
+                    <a class="serviceName">接口</a>
+                    <ul name="serviceMethodUl" style="display: none">
+                        <li class="serviceMethodLi">
+                            方法
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <!--接口文档-->
+        <div id="right" style="width: 50%;float: left">
+            <div id="apiDetailDoc">
+            </div>
+            <div  style="border: 1px solid #ccc;">
+
+                <form id="testForm" action="">
+                    <div>
+                        <div class="paramLabel">接口编码<br/>apiCode:</div>
+                        <input class="paramInput" id="apiCodeLabel" readonly name="apiCode"/> </label>
+                    </div>
+                    <div id="paramsDiv">
+                    </div>
+                    <div>
+                        <button type="button" id="processTestForm" class="processBtn">提交</button>
+                    </div>
+                    <div>
+                        <div>
+                            返回：
+                        </div>
+                        <div>
+                            <textarea id="response"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+
+        <script type="text/javascript">
+            $.ajax({
+                url:"/manage/serviceNameList",
+                dataType: 'json',
+                success:function(data, textStatus, jqXHR){
+                    var serviceUl = $("#serviceUl");
+                    var html = "";
+                    $(data).each(function(i,val){
+                        html = html+"<li><a class='serviceName'>"+val+"</a></li>";
+                    });
+                    serviceUl.html(html);
+                }
+            });
+            function html2Escape(sHtml) {
+                return sHtml.replace(/[<>&"]/g,function(c){return {'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c];});
+            }
+            var initApiDetailDoc = function(data){
+                var apiDocTableHtml="<table class='docTable' cellpadding='0' cellspacing='0'>";
+                apiDocTableHtml=apiDocTableHtml+"<tr class='apiDescTR'>";
+                apiDocTableHtml=apiDocTableHtml+"<td>接口描述：</td>";
+                apiDocTableHtml=apiDocTableHtml+"<td colspan='2'>"+data.methodDesc+"</td>";
+                apiDocTableHtml=apiDocTableHtml+"</tr>";
+                apiDocTableHtml=apiDocTableHtml+"<tr class='apiCodeTr'>";
+                apiDocTableHtml=apiDocTableHtml+"<td>接口编码：</td>";
+                apiDocTableHtml=apiDocTableHtml+"<td colspan='2'>"+data.apiCode+"</td>";
+                apiDocTableHtml=apiDocTableHtml+"</tr>";
+                apiDocTableHtml=apiDocTableHtml+"<tr><td colspan='3'>入参:</td></tr>";
+                apiDocTableHtml=apiDocTableHtml+"<tr class='paramTitleTr'><td>名称</td><td>类型</td><td>描述</td></tr>";
+                $(data.paramList).each(function(i,v){
+                    apiDocTableHtml=apiDocTableHtml+"<tr class='paramItemTr'><td>"+ v.paramName+"</td><td>"+ v.paramTypeName+"</td><td>"+ v.paramDesc+"</td></tr>";
+                });
+                apiDocTableHtml=apiDocTableHtml+"<tr><td colspan='3'></td></tr>";
+                apiDocTableHtml=apiDocTableHtml+"<tr class='resultTr'><td>返回：</td><td colspan='2'>"+data.apiMethodResultType.resultTypeSingleName+"</td></tr>";
+                if(data.apiMethodResultType.typeFieldDetailLinkedHashMap!=null){
+                    $.each(data.apiMethodResultType.typeFieldDetailLinkedHashMap,function(k,v){
+                        apiDocTableHtml=apiDocTableHtml+"<tr class='resultTypeNameTr'><td colspan='3'>"+ v.typeSingleName.replace("<","&lt").replace(">","&gt")+"</td></tr>";
+                        apiDocTableHtml=apiDocTableHtml+"<tr class='resultTypeFieldTitleTr'><td>名称</td><td>类型</td><td>描述</td></tr>";
+                        $(v.fieldDetailList).each(function(index,val){
+                            apiDocTableHtml=apiDocTableHtml+"<tr class='resultTypeFieldTr'><td>"+val.fieldName+"</td><td>"+html2Escape(val.fieldTypeSingleName)+"</td><td>"+val.fieldDesc+"</td></tr>";
+                        });
+                    });
+                }
+                apiDocTableHtml=apiDocTableHtml+"</table>";
+                $("#apiDetailDoc").html(apiDocTableHtml);
+            }
+            var initApiProcessForm = function(data){
+                var paramsDivHtml = "";
+                var paramList = data.paramList;
+                if(paramList!=null){
+                    $(paramList).each(function(index,param){
+                        paramsDivHtml = paramsDivHtml +
+                        "<div>" +
+                        "<div class='paramLabel'>"+"参数描述("+param.paramDesc+")类型("+param.paramTypeName+")<br/>"+param.paramName+":</div>"
+                        +"<input class='paramInput' name='"+param.paramName+"'>"
+                        "</div>";
+                    });
+                }
+                $("#paramsDiv").html(paramsDivHtml);
+                $("#response").val("");
+            }
+            $("#serviceUl").on("click",".serviceMethodLi",function(){
+                var _serviceMethodLi = $(this);
+                var apiCode = _serviceMethodLi.attr("apiCode");
+                $("#apiCodeLabel").val(apiCode);
+                $.ajax({
+                    url: "/manage/serviceMethod?apiCode=" + apiCode,
+                    dataType: 'json',
+                    success: function (data, textStatus, jqXHR) {
+                        initApiDetailDoc(data);
+                        initApiProcessForm(data);
+                    }
+                });
+            });
+            $("#serviceUl").on("click",".serviceName",function(){
+                var _serviceNameA = $(this);
+                var _serviceMethodUl = $(this).parent().find("UL[name='serviceMethodUl']");
+                if(_serviceMethodUl.length==0){
+                    //加载
+                    $.ajax({
+                        url:"/manage/serviceMethodList?serviceName="+$(this).text(),
+                        dataType: 'json',
+                        success:function(data, textStatus, jqXHR){
+                            var serviceUl = $("#serviceUl");
+                            var html = "<ul name='serviceMethodUl' isHide='1'>";
+                            $(data).each(function(i,val){
+                                html = html+"<li class='serviceMethodLi' apiCode='"+val.apiCode+"'>"+val.methodDesc+"</li>";
+                            });
+                            html = html+"</ul>"
+                            _serviceNameA.after(html);
+                        }
+                    });
+                }else{
+                    var isHide = _serviceMethodUl.attr("isHide");
+                    if(isHide==null || isHide == 0){
+                        _serviceMethodUl.attr("isHide",1);
+                        _serviceMethodUl.show();
+                    }else{
+                        _serviceMethodUl.attr("isHide",0);
+                        _serviceMethodUl.hide();
+                    }
+                }
+            });
+            $("#processTestForm").click(function(){
+                $("#response").val("");
+                $.ajax({
+                    url:"/manage/processServiceMethod",
+                    data:$('#testForm').serialize(),
+                    success: function (data, textStatus, jqXHR){
+                        $("#response").val(data);
+                    },
+                    error:function(XMLHttpRequest, textStatus, errorThrown){
+                        $("#response").val(errorThrown);
+                    }
+                })
+            });
+        </script>
+    </body>
+</html>

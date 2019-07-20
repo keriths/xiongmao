@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.fmcs.PCWHumitureDataDAO" >
+
+    <select id="queryPcwRealTimeDate" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.pcw.dto.HumiturePressureData$HumiturePressureRealTimeDate">
+        <![CDATA[
+
+        select
+            SYSTEM as system,
+            TEMPERATURE as temperature,
+            PRESSURE as pressure,
+            datadate as dataFactDate
+        from PCWHUMITUREDATA
+        WHERE
+            TEMPERATURE is not NULL
+            and PRESSURE is not NULL
+            and TEMPERATURE != -2147483648
+            and PRESSURE != -2147483648
+                      and DATADATE >= #{beginDate}
+                      and DATADATE <= #{endDate}
+                AND SYSTEM=#{system,jdbcType=VARCHAR}
+          order by dataFactDate
+
+        ]]>
+    </select>
+
+    <select id="queryPcwData" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.system.dto.PcwDataDTO$PcwData">
+        select
+            a.SYSTEM,
+            a.TEMPERATURE,
+            a.PRESSURE
+        from PCWHUMITUREDATA a
+            inner join (
+                select
+                    max(DATADATE) as DATADATE,
+                    SYSTEM as system
+                from
+                    PCWHUMITUREDATA
+                where
+                    TEMPERATURE is not NULL
+                    and PRESSURE is not NULL
+                    and TEMPERATURE != -2147483648
+                    and PRESSURE != -2147483648
+                group by
+                    SYSTEM
+                ) b
+            on a.DATADATE = b.DATADATE
+            and a.SYSTEM = b.SYSTEM
+        where
+            TEMPERATURE is not NULL
+            and PRESSURE is not NULL
+            and TEMPERATURE != -2147483648
+            and PRESSURE != -2147483648
+            and a.SYSTEM IN
+            <foreach collection="systemList" item="system" open="(" separator="," close=")" >
+                #{system}
+            </foreach>
+    </select>
+
+</mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.fmcs.PCWDataDAO" >
+
+    <select id="queryPCWData" resultType="com.xm.service.apiimpl.pc.fmcs.pcw.dto.PcwEquipmentData" parameterType="Map">
+        select
+            KEY as key,
+            VAL as val,
+            KEYDESC as keyDesc,
+            DATATYPE as dataType,
+            DEMODATA as demoData,
+            DATADATE as dataDate,
+            UNIT as unit
+            from PCWDATA a
+            join (
+              SELECT
+                key as keyb,
+                max(DATADATE) as DATADATEb
+              from
+                PCWDATA
+              WHERE
+                val is not null
+                and key is not null
+                and val != '-2147483648'
+              GROUP by key
+            ) b
+            on a.key = b.keyb
+            and a.DATADATE = b.DATADATEb
+    </select>
+
+    <!--根据key查询-->
+    <select id="queryStatusByKey" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.pcw.dto.SyncPcwEquipmentData">
+        select
+            KEY as key,
+            VAL as val,
+            KEYDESC as keyDesc,
+            DATATYPE as dataType,
+            DEMODATA as demoData,
+            DATADATE as dataDate
+        from PCWDATA
+        WHERE
+            KEY=#{key}
+    </select>
+
+    <update id="updateStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.pcw.dto.SyncPcwEquipmentData">
+        UPDATE PCWDATA
+            SET PCWDATA.KEY=#{key},
+            PCWDATA.VAL=#{val},
+            DATADATE=#{dataDate},
+            UPDATEDATE=sysdate
+        WHERE
+          PCWDATA.KEY=#{key}
+    </update>
+
+    <insert id="insertStatusData" parameterType="com.xm.service.apiimpl.pc.fmcs.pcw.dto.SyncPcwEquipmentData">
+        INSERT INTO PCWDATA(KEY,VAL,DATADATE,UPDATEDATE) VALUES (#{key},#{val},#{dataDate},sysdate)
+    </insert>
+
+</mapper>

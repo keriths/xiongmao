@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.login.UserBaseInfoDAO" >
+    <select id="queryUserDTO" resultType="com.xm.service.apiimpl.pc.login.dto.UserDTO" parameterType="map">
+        SELECT
+          USERID as userId,
+          NAME as name,
+          PASSWORD as password,
+          TOKEN as token,
+          LOGINTIME as loginTime,
+          REALNAME as realName
+        FROM
+          USERS
+        WHERE
+           NAME=#{name}
+          and PASSWORD=#{password}
+    </select>
+
+    <select id="queryUserDTOByToken" resultType="com.xm.service.apiimpl.pc.login.dto.UserDTO" parameterType="map">
+        SELECT
+          USERID as userId,
+          NAME as name,
+          PASSWORD as password,
+          TOKEN as token,
+          LOGINTIME as loginTime,
+          REALNAME as realName
+        FROM
+          USERS
+        WHERE
+           TOKEN=#{token} AND
+        <![CDATA[
+          LOGINTIME < sysdate+1
+         ]]>
+    </select>
+
+    <update id="updateLoginToken"  parameterType="map">
+        UPDATE USERS SET
+          TOKEN = #{token},
+          LOGINTIME = sysdate
+        WHERE
+          USERID = #{userId}
+    </update>
+
+</mapper>

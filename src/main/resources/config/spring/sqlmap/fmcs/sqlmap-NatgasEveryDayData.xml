@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.fmcs.NatgasEveryDayDataDAO" >
+
+    <select id="queryNatgasEveryDayDataByDateList" parameterType="map" resultType="com.xm.service.dto.DayDataDTO">
+        SELECT TotalNum as totalNum,DATADATE as dataDate
+        FROM NatgasEveryDayData
+        WHERE GasType=#{gasType,jdbcType=VARCHAR}
+        AND DATADATE IN
+        <foreach collection="queryDateList" item="queryDate" open="(" separator="," close=")">
+            #{queryDate,jdbcType=DATE}
+        </foreach>
+        and TotalNum is not null
+        and TotalNum != -2147483648
+    </select>
+
+    <!--<select id="queryGsaStatisticsData" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.gas.dto.NatgasStatisticsDataRetDTO$GsaStatisticsData">-->
+        <!--SELECT-->
+            <!--SUM (TotalNum) as totalNum,-->
+            <!--<if test="dateType=='month'.toString()">/*按月*/-->
+                <!--TO_CHAR(DataDate,'MM')||'月'-->
+            <!--</if>-->
+            <!--<if test="dateType=='day'.toString()">/*按天*/-->
+                <!--TO_CHAR(DataDate,'mm/dd')-->
+            <!--</if>-->
+            <!--as periodDate-->
+        <!--FROM NatgasEveryDayData-->
+        <!--WHERE-->
+            <!--<![CDATA[-->
+               <!--DataDate >= #{beginDate}-->
+              <!--and DataDate <= #{endDate}-->
+            <!--]]>-->
+            <!--AND GasType=#{gasType,jdbcType=VARCHAR}-->
+        <!--GROUP BY-->
+            <!--<if test="dateType=='month'.toString()">/*按月*/-->
+                <!--TO_CHAR(DataDate,'MM')||'月'-->
+            <!--</if>-->
+            <!--<if test="dateType=='day'.toString()">-->
+                <!--TO_CHAR(DataDate,'mm/dd')-->
+            <!--</if>-->
+    <!--</select>-->
+
+
+    <!--<select id="loadByPrimaryKey" parameterType="map" resultType="map">-->
+        <!--SELECT * from NatgasEveryDayData-->
+        <!--where GASTYPE = #{GASTYPE} and-->
+        <!--DATADATE = #{DATADATE}-->
+    <!--</select>-->
+    <!--<insert id="addData" parameterType="map">-->
+        <!--INSERT INTO  NatgasEveryDayData-->
+        <!--(GASTYPE,   TOTALNUM,   DATADATE,   CREATEDATE) VALUES-->
+        <!--(#{GASTYPE},#{TOTALNUM},#{DATADATE},sysdate)-->
+    <!--</insert>-->
+    <!--<update id="updateData" parameterType="map">-->
+        <!--UPDATE NatgasEveryDayData SET-->
+            <!--TOTALNUM = #{TOTALNUM} ,-->
+            <!--CREATEDATE = sysdate-->
+        <!--WHERE-->
+            <!--GASTYPE = #{GASTYPE} and-->
+            <!--DATADATE = #{DATADATE}-->
+    <!--</update>-->
+
+    <!--<select id="queryNatGasByDateAndGasNameList" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.humidity.dto.GasCollectDataDTO$GasCollectData">-->
+        <!--SELECT-->
+        <!--GASTYPE as gasType,-->
+        <!--sum(TOTALNUM) as totalNum-->
+        <!--FROM-->
+        <!--NatgasEveryDayData-->
+        <!--WHERE-->
+        <!--GASTYPE IN-->
+        <!--<foreach collection="gasTypeList" item="gasType" open="(" separator="," close=")" >-->
+            <!--#{gasType}-->
+        <!--</foreach>-->
+        <!--<![CDATA[-->
+          <!--and DATADATE >= #{startDate}-->
+          <!--and DATADATE <= #{endDate}-->
+        <!--]]>-->
+        <!--GROUP BY GASTYPE-->
+    <!--</select>-->
+    <select id="queryTwoDaysNatGasByQueryData"   parameterType="map" resultType="com.xm.service.dto.TwoDaysGasDataDTO">
+        SELECT
+        a.gasType,
+        beforTotalNum,
+        beforDataDate,
+        afterTotalNum,
+        afterDataDate
+        FROM (
+        SELECT
+        GASTYPE as gasType,
+        max(TOTALNUM) as beforTotalNum,DATADATE as beforDataDate
+        FROM
+        NatgasEveryDayData
+        WHERE DATADATE = #{beforDate,jdbcType=DATE}
+        and GASTYPE IN
+        <foreach collection="gasTypeList" item="gasType" open="(" separator="," close=")" >
+            #{gasType}
+        </foreach>
+        and TotalNum is not null
+        and TotalNum != -2147483648
+        group by DATADATE,GASTYPE
+        ) a
+        join (
+        SELECT
+        GASTYPE as gasType,
+        max(TOTALNUM) as afterTotalNum,DATADATE as afterDataDate
+        FROM
+        NatgasEveryDayData
+        WHERE DATADATE = #{afterDate,jdbcType=DATE}
+        and GASTYPE IN
+        <foreach collection="gasTypeList" item="gasType" open="(" separator="," close=")" >
+            #{gasType}
+        </foreach>
+        and TotalNum is not null
+        and TotalNum != -2147483648
+        group by DATADATE,GASTYPE
+        ) b on a.gasType=b.gasType
+    </select>
+</mapper>

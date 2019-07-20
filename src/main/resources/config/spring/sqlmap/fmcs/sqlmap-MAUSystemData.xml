@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.fmcs.MAUSystemDataDAO" >
+
+    <select id="queryMAUSystemData" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.mau.dto.MauSystemData">
+        select
+            SYSTEMNAME as systemName,
+            STATUS as status,
+            avg(TEMPERATURE) as temperature,
+            avg(DEWPOINT) as dewPoint
+        from MAUSYSTEMDATA
+        WHERE
+            <if test="systemType!=null and systemType!=''">
+                SYSTEMTYPE=#{systemType,jdbcType=VARCHAR}
+            </if>
+        GROUP BY
+            SYSTEMNAME,STATUS
+    </select>
+
+    <select id="queryPVDatas" parameterType="map" resultType="com.xm.service.dto.KeyValueDTO">
+      SELECT
+        KEY as key,
+        VALUE as val,
+        KEYDESC as keyDesc,
+        DATADATE as dataDate
+      FROM PV_01 a
+      join (
+        SELECT
+          KEY as keyb,
+          max(DATADATE) as DATADATEb
+        FROM PV_01
+        WHERE
+          VALUE is not null
+          and VALUE != '-2147483648'
+        GROUP by KEY
+      ) b on a.KEY = b.KEYb and a.DATADATE = b.DATADATEb
+      where
+          VALUE is not null
+          and VALUE != '-2147483648'
+
+    </select>
+    <select id="querySPGDatas" parameterType="map" resultType="com.xm.service.dto.KeyValueDTO">
+        SELECT
+            KEY as key,
+            VALUE as val,
+            KEYDESC as keyDesc,
+            DATADATE as dataDate
+        FROM SPG_01 a
+        join (
+            SELECT
+                KEY as keyb,
+                max(DATADATE) as DATADATEb
+            FROM SPG_01
+            WHERE
+                VALUE is not null
+                and VALUE != '-2147483648'
+            GROUP by KEY
+        ) b on a.KEY = b.KEYb and a.DATADATE = b.DATADATEb
+        where
+            VALUE is not null
+            and VALUE != '-2147483648'
+    </select>
+    <select id="queryCCSS02Datas"  parameterType="map" resultType="com.xm.service.dto.KeyValueDTO">
+        SELECT
+            KEY as key,
+            VALUE as val,
+            KEYDESC as keyDesc,
+            DATADATE as dataDate
+        FROM CCSS_IGZO_02 a
+        join (
+            SELECT
+                KEY as keyb,
+                max(DATADATE) as DATADATEb
+            FROM CCSS_IGZO_02
+            WHERE
+                VALUE is not null
+                and VALUE != '-2147483648'
+            GROUP by KEY
+        ) b on a.KEY = b.KEYb and a.DATADATE = b.DATADATEb
+        where
+        VALUE is not null
+        and VALUE != '-2147483648'
+
+    </select>
+    <select id="queryCCSSDatas" parameterType="map" resultType="com.xm.service.dto.CCSSDataDTO" >
+        SELECT
+            KEY as key,
+            RUN_STATUS_NUM as runStatusNum,
+            ERROR_STATUS_NUM as errorStatusNum,
+            KEYDESC as keyDesc,
+            DATADATE as dataDate
+        FROM CCSS_IGZO_01 a
+        join (
+            SELECT
+                KEY as keyb,
+                max(DATADATE) as DATADATEb
+            FROM CCSS_IGZO_01
+            WHERE
+                RUN_STATUS_NUM is not null
+                and RUN_STATUS_NUM != '-2147483648'
+                and ERROR_STATUS_NUM is not null
+                and ERROR_STATUS_NUM != '-2147483648'
+            GROUP by KEY
+        ) b on a.KEY = b.KEYb and a.DATADATE = b.DATADATEb
+        where
+            RUN_STATUS_NUM is not null
+            and RUN_STATUS_NUM != '-2147483648'
+            and ERROR_STATUS_NUM is not null
+            and ERROR_STATUS_NUM != '-2147483648'
+    </select>
+
+    <select id="queryMAUData" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.system.dto.MauRcuCollectDataDTO$MauRcuCollectData">
+        select
+        SYSTEMTYPE as systemType,
+        avg(TEMPERATURE) as temperature,
+        avg(DEWPOINT) as dewPoint
+        from MAUSYSTEMDATA
+        WHERE
+        SYSTEMTYPE IN
+        <foreach collection="systemTypeList" item="systemType" open="(" separator="," close=")" >
+            #{systemType}
+        </foreach>
+        GROUP BY
+        SYSTEMTYPE
+    </select>
+
+</mapper>

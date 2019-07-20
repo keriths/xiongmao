@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.cim.DWS_PRODUCT_MASTERDAO" >
+    <select id="queryProductList" parameterType="map" resultType="map">
+      SELECT DISTINCT PRODUCT,PRODUCTNAME FROM DWS_PRODUCT_MASTER
+    </select>
+    <select id="queryProductIdList" parameterType="map" resultType="java.lang.String">
+      SELECT DISTINCT PRODUCTID FROM DWS_PRODUCT_MASTER WHERE FACTORY=#{factory} AND PRODUCT=#{product}
+    </select>
+    <select id="queryProductIdListByProduct" parameterType="map" resultType="java.lang.String" >
+      SELECT DISTINCT PRODUCTID FROM DWS_PRODUCT_MASTER WHERE PRODUCT=#{product}
+    </select>
+    <select id="queryAllProductIdList"  parameterType="map" resultType="java.lang.String" >
+          SELECT DISTINCT PRODUCTID FROM DWS_PRODUCT_MASTER
+    </select>
+</mapper>

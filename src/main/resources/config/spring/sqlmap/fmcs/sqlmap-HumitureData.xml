@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.fmcs.HumitureDataDAO" >
+
+    <select id="queryFactoryHumiture" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.humiture.dto.HumitureDate$HtPeDate">
+        select
+            a.FACTORY,
+            a.PLACE,
+            a.EQUIPMENT,
+            a.TEMPERATURE,
+            a.HUMIDITY,
+            a.CLEANLINESS
+        from HUMITUREDATA a
+        join (
+          select
+              FACTORY as FACTORYb,
+              PLACE as PLACEb,
+              EQUIPMENT as EQUIPMENTb,
+              max(DATADATE) as DATADATEb
+            from HUMITUREDATA
+            WHERE
+                TEMPERATURE is not NULL
+                and HUMIDITY is not NULL
+                and CLEANLINESS is not NULL
+                and TEMPERATURE != -2147483648
+                and HUMIDITY != -2147483648
+                and CLEANLINESS != -2147483648
+            group by FACTORY,PLACE,EQUIPMENT
+        )
+        b
+        on
+          a.FACTORY = b.FACTORYb
+          and a.PLACE = b.PLACEb
+          and a.EQUIPMENT = b.EQUIPMENTb
+          and a.DATADATE = b.DATADATEb
+        where
+            TEMPERATURE is not NULL
+            and HUMIDITY is not NULL
+            and CLEANLINESS is not NULL
+            and TEMPERATURE != -2147483648
+            and HUMIDITY != -2147483648
+            and CLEANLINESS != -2147483648
+            <if test="factory!=null and factory!=''">
+                and a.FACTORY=#{factory,jdbcType=VARCHAR}
+            </if>
+    </select>
+
+
+</mapper>

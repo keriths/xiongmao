@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.fmcs.ExhaustADataDAO" >
+
+    <select id="queryExhaustAData" resultType="com.xm.service.apiimpl.pc.fmcs.exhaust.dto.ExhaustAData" parameterType="Map">
+        select
+            NAME as name,
+            HZ as hz,
+            STATUS as status,
+            FANSTATUS as fanStatus,
+            TEMPERATUREONE as temperatureOne,
+            TEMPERATURETWO as temperatureTwo,
+            ELECTRICITY as electricity,
+            FREQUENCYFEEDBACK as frequencyFeedback,
+            FREQUENCYHAND as frequencyHand,
+            DATADATE as dataDate
+        from EXHAUSTADATA
+        WHERE
+            <if test="name!=null and name!=''">
+                NAME=#{name,jdbcType=VARCHAR}
+            </if>
+    </select>
+
+
+    <select id="loadByPrimaryName" parameterType="map" resultType="com.xm.service.apiimpl.pc.fmcs.exhaust.dto.SyncExhaustAData">
+        SELECT * from EXHAUSTADATA
+        where
+        NAME = #{name}
+    </select>
+    <insert id="addData" parameterType="com.xm.service.apiimpl.pc.fmcs.exhaust.dto.SyncExhaustAData">
+        INSERT INTO  EXHAUSTADATA
+        (NAME, HZ,  STATUS,   TEMPERATUREONE,TEMPERATURETWO,ELECTRICITY,FREQUENCYFEEDBACK,FREQUENCYHAND,DATADATE,FANSTATUS,UPDATEDATE) VALUES
+        (#{name},#{hz},#{status},#{temperatureOne},#{temperatureTwo},#{electricity},#{frequencyFeedback},#{frequencyHand},#{dataDate},#{fanStatus},sysdate)
+    </insert>
+    <update id="updateData" parameterType="com.xm.service.apiimpl.pc.fmcs.exhaust.dto.ExhaustAData">
+        UPDATE EXHAUSTADATA SET
+            <if test="hz!=null and hz!=''">
+                HZ=#{hz},
+            </if>
+            <if test="status!=null and status!=''">
+                STATUS=#{status},
+            </if>
+            <if test="temperatureOne!=null and temperatureOne!=''">
+                TEMPERATUREONE=#{temperatureOne},
+            </if>
+            <if test="temperatureTwo!=null and temperatureTwo!=''">
+                TEMPERATURETWO=#{temperatureTwo},
+            </if>
+            <if test="electricity!=null and electricity!=''">
+                ELECTRICITY=#{electricity},
+            </if>
+            <if test="frequencyFeedback!=null and frequencyFeedback!=''">
+                FREQUENCYFEEDBACK=#{frequencyFeedback},
+            </if>
+            <if test="frequencyHand!=null and frequencyHand!=''">
+                FREQUENCYHAND=#{frequencyHand},
+            </if>
+            <if test="dataDate!=null and dataDate!=''">
+                DATADATE=#{dataDate},
+            </if>
+            <if test="fanStatus!=null and fanStatus!=''">
+                FANSTATUS=#{fanStatus},
+            </if>
+            UPDATEDATE = sysdate
+        WHERE
+            NAME = #{name}
+    </update>
+
+</mapper>

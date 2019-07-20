@@ -1,0 +1,59 @@
+package com.xm.service.apiimpl.pc.fmcs.cda;
+
+import com.xm.platform.annotations.ApiMethodDoc;
+import com.xm.platform.annotations.ApiServiceDoc;
+import com.xm.platform.util.LogUtils;
+import com.xm.service.apiimpl.pc.fmcs.cda.dto.CdaData;
+import com.xm.service.apiimpl.pc.fmcs.cda.dto.CdaDataRetDTO;
+import com.xm.service.dao.fmcs.CDADataDAO;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
+
+/**
+ * Created by fanshuai on 17/10/24.
+ */
+@Service("CDAService")
+@ApiServiceDoc(name = "FMCS06_空压系统(CDA)")
+public class CDAServiceImpl {
+
+    @Resource(name="cdaDataDAO")
+    private CDADataDAO cdaDataDAO;
+
+
+    @ApiMethodDoc(apiCode = "FMCS_CDAData",name = "空压系统数据接口")
+    public CdaDataRetDTO cdaDataDataRetDto(){
+        CdaDataRetDTO resultDto = new CdaDataRetDTO();
+        try {
+            List<CdaData> queryList = cdaDataDAO.queryCdaData();
+            resultDto.setCdaDataList(queryList);
+            return resultDto;
+        }catch (Exception e){
+            LogUtils.error(getClass(), e);
+            resultDto.setSuccess(false);
+            resultDto.setErrorMsg("请求异常,异常信息【" + e.getMessage() + "】");
+            return resultDto;
+        }
+    }
+
+
+//    @ApiMethodDoc(apiCode = "FMCS_SyncCdaData",name = "同步设备实时状态")
+//    public void syncCdaData(){
+//        try {
+//            List<SyncCdaData> queryList = factoryCdaDataDAO.queryCdaData();
+//            for(SyncCdaData cdaData:queryList){
+//                SyncCdaData data=cdaDataDAO.queryStatusByKey(cdaData.getKey());
+//                if(data==null){
+//                    cdaDataDAO.insertStatusData(cdaData);
+//                }else {
+//                    cdaDataDAO.updateStatusData(cdaData);
+//                }
+//            }
+//
+//        }catch (Exception e) {
+//            LogUtils.error(this.getClass(), e);
+//        }
+//    }
+
+}

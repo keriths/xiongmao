@@ -1,0 +1,376 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.cim.DwsProductLineYieldFidsDAO" >
+
+    <select id="queryProductGoodRate" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductGoodRateRetDTO$ProductGoodRateDTO">
+        select  PERIODDATE as perioddate,
+        '${dateType}' as dateType ,
+        MAX(slYield) * 100 as slYield,
+        MAX(yieldPlanSA) * 100 as yieldPlanSA,
+        MAX(yieldActualSA) * 100 as yieldActualSA,
+        MAX(yield)*100 as yield
+        from
+        <if test="dateType == 'day'">
+            view_DWS_PRODUCT_OC_YIELD_DAY
+        </if>
+        <if test="dateType == 'month'">
+            view_DWS_PRODUCT_OC_YIELD_MON
+        </if>
+        where PRODUCTID in
+        <foreach collection="productIdList" item="productId" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
+        <![CDATA[
+        and PERIODDATE >= #{beginDate}
+        AND PERIODDATE <= #{endDate}
+]]>
+        group by PERIODDATE
+    </select>
+    <select id="queryProductGoodRateLeastPlanSA" parameterType="map" resultType="java.math.BigDecimal">
+        SELECT plansa * 100 AS planSA
+        FROM (
+        SELECT
+        PERIODDATE, MAX(YIELDPLANSA) AS plansa
+        FROM
+        <if test="dateType == 'day'">
+            view_DWS_PRODUCT_OC_YIELD_DAY
+        </if>
+        <if test="dateType == 'month'">
+            view_DWS_PRODUCT_OC_YIELD_MON
+        </if>
+        WHERE
+        <![CDATA[
+              PERIODDATE <= #{maxDate}
+            ]]>
+        and PRODUCTID in
+        <foreach collection="productIdList" item="productId" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
+        AND YIELDPLANSA IS NOT NULL
+        GROUP BY PERIODDATE
+        ORDER BY PERIODDATE DESC
+        ) a
+        <![CDATA[
+        WHERE rownum <= 1
+        ]]>
+    </select>
+
+
+    <select id="queryFactoryProductGodRateData"  resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductLineDetailData" parameterType="Map">
+        select
+            decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) as factory,
+            sum(OUTPUT_GLS_QTY) as outputGls,
+            sum(SCRAP_GLS_QTY) as scrapGls,
+            sum(INPUT_PNL_QTY) as inputPnl,
+            sum(OUTPUT_PNL_QTY) as outputPnl,
+            <if test="dateType=='month'.toString()">/*按月*/
+                TO_CHAR(PERIODDATE,'MM')||'月'
+            </if>
+            <if test="dateType=='quarter'.toString()">/*按季度*/
+                TO_CHAR(PERIODDATE,'yyyy') ||'年' || TO_CHAR(PERIODDATE,'q') ||'季度'
+            </if>
+            <if test="dateType=='day'.toString()">/*按天*/
+                TO_CHAR(PERIODDATE,'mm/dd')
+            </if>
+            as periodDate
+        from DWS_PRODUCT_LINE_YIELD_FIDS
+        WHERE
+            <![CDATA[
+                PERIODDATE >= #{beginDate}
+                and PERIODDATE <= #{endDate}
+            ]]>
+            AND FACTORY IN
+                <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+                    #{factory}
+                </foreach>
+            and PRODUCTID IN
+                <foreach collection="productIdList" item="productId" open="(" separator="," close=")">
+                    #{productId}
+                </foreach>
+        and
+        (
+        (
+        FACTORY in ('ARRAY','CELL')
+        and PRODUCTTYPE  IN ('CS','MP','CM')
+        AND PRODUCTID IN ('D41A','D51A','D52A','D53A')
+        )
+        OR
+        (
+        FACTORY IN ('CF')
+        and PRODUCTTYPE  IN ('CS','MP','CM')
+        AND PRODUCTID IN ('C41A','C51A','C52A')
+        )
+        OR
+        (
+        FACTORY in ('OC')
+        and PRODUCTTYPE  IN ('ZP20','ZP24','ZP10')
+        AND PRODUCTID IN ('A1CC495PU1L01','A1CC575PU1L01','A1CC575PU2L01','A1CC575PU3L01')
+        )
+        OR
+        (
+        FACTORY in ('SL')
+        and PRODUCTTYPE  IN ('CS','MP','CM')
+        AND PRODUCTID IN ('D41A','D51A','D52A','D53A')
+        )
+        )
+
+
+        GROUP BY
+        <if test="dateType=='month'.toString()">/*按月*/
+            TO_CHAR(PERIODDATE,'MM')||'月',
+        </if>
+        <if test="dateType=='quarter'.toString()">
+            TO_CHAR(PERIODDATE,'yyyy') ||'年' || TO_CHAR(PERIODDATE,'q') ||'季度',
+        </if>
+        <if test="dateType=='day'.toString()">
+            TO_CHAR(PERIODDATE,'mm/dd'),
+        </if>
+        decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY)
+    </select>
+
+    <select id="queryProductGoodRateByYieldType"  parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductGoodRateRetDTO$ProductGoodRateDTO">
+        select
+            '${dateType}' as dateType ,
+            max(YIELD_VAL)*100 as yieldVal,
+            PERIODDATE as perioddate
+        from
+        <if test="dateType=='day'.toString()">
+            DWS_PRODUCT_OC_YIELD_DAY
+        </if>
+        <if test="dateType=='month'.toString()">
+            DWS_PRODUCT_OC_YIELD_MON
+        </if>
+        where
+            YIELD_TYPE = #{YIELD_TYPE}
+            and PRODUCTID in
+            <foreach collection="productIdList" item="productId" open="(" separator="," close=")">
+                #{productId}
+            </foreach>
+            <![CDATA[
+                and PERIODDATE >= #{beginDate}
+                and PERIODDATE <= #{endDate}
+            ]]>
+        group by PERIODDATE
+    </select>
+
+    <select id="querySLFactoryGoodRage" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductLineDetailData">
+        select 'SL-OC' as factory,
+        max(YIELD_VAL)*100 as inLine,
+        <if test="dateType=='month'.toString()">/*按月*/
+            TO_CHAR(PERIODDATE,'MM')||'月'
+        </if>
+        <if test="dateType=='day'.toString()">/*按天*/
+            TO_CHAR(PERIODDATE,'mm/dd')
+        </if>
+        as periodDate
+        from
+        <if test="dateType=='day'.toString()">
+            DWS_PRODUCT_OC_YIELD_DAY
+        </if>
+        <if test="dateType=='month'.toString()">
+            DWS_PRODUCT_OC_YIELD_MON
+        </if>
+        where YIELD_TYPE = 1 and PRODUCTID = 'ALL'
+        <![CDATA[
+                and PERIODDATE >= #{beginDate}
+                and PERIODDATE <= #{endDate}
+            ]]>
+        GROUP BY
+        <if test="dateType=='month'.toString()">/*按月*/
+            TO_CHAR(PERIODDATE,'MM')||'月'
+        </if>
+        <if test="dateType=='day'.toString()">
+            TO_CHAR(PERIODDATE,'mm/dd')
+        </if>
+    </select>
+
+    <select id="queryProductLineData" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductLineDetailData" parameterType="Map">
+        select
+            decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) as factory,
+            sum(OUTPUT_GLS_QTY) as outputGls,
+            sum(SCRAP_GLS_QTY) as scrapGls,
+            sum(INPUT_PNL_QTY) as inputPnl,
+            sum(OUTPUT_PNL_QTY) as outputPnl,
+            <if test="dateType=='month'.toString()">/*按月*/
+                TO_CHAR(PERIODDATE,'MM')||'月'
+            </if>
+            <if test="dateType=='quarter'.toString()">/*按季度*/
+                TO_CHAR(PERIODDATE,'yyyy') ||'年' || TO_CHAR(PERIODDATE,'q') ||'季度'
+            </if>
+            <if test="dateType=='day'.toString()">/*按天*/
+                TO_CHAR(PERIODDATE,'mm/dd')
+            </if>
+            as periodDate
+        from DWS_PRODUCT_LINE_YIELD_FIDS
+        WHERE
+            <![CDATA[
+                PERIODDATE >= #{beginDate}
+                and PERIODDATE <= #{endDate}
+            ]]>
+            AND FACTORY IN
+            <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+                #{factory}
+            </foreach>
+              and
+                (
+                    (
+                        FACTORY in ('ARRAY','CELL')
+                        and PRODUCTTYPE  IN ('CS','MP','CM')
+
+                    )
+                    OR
+                    (
+                        FACTORY IN ('CF')
+                        and PRODUCTTYPE  IN ('CS','MP','CM')
+
+                    )
+                    OR
+                    (
+                        FACTORY in ('SL')
+                        and PRODUCTTYPE  IN ('CS','MP','CM')
+                    )
+                )
+        GROUP BY
+            <if test="dateType=='month'.toString()">/*按月*/
+                TO_CHAR(PERIODDATE,'MM')||'月',
+            </if>
+            <if test="dateType=='quarter'.toString()">
+                TO_CHAR(PERIODDATE,'yyyy') ||'年' || TO_CHAR(PERIODDATE,'q') ||'季度',
+            </if>
+            <if test="dateType=='day'.toString()">
+                TO_CHAR(PERIODDATE,'mm/dd'),
+            </if>
+            decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY)
+    </select>
+
+    <select id="loadByPrimaryKey" parameterType="map" resultType="map">
+        SELECT * from DWS_PRODUCT_LINE_YIELD_FIDS
+        where
+            FACTORY = #{FACTORY,jdbcType=VARCHAR} and
+            PERIODDATE = #{PERIODDATE,jdbcType=DATE} and
+            PRODUCTID = #{PRODUCTID,jdbcType=VARCHAR} and
+            <if test="PRODUCTTYPE != null">
+                PRODUCTTYPE = #{PRODUCTTYPE,jdbcType=VARCHAR}
+            </if>
+            <if test="PRODUCTTYPE == null">
+                PRODUCTTYPE is null
+            </if>
+    </select>
+    <insert id="addData" parameterType="map">
+        INSERT INTO  DWS_PRODUCT_LINE_YIELD_FIDS
+        (
+            FACTORY,
+            PERIODDATE,
+            PRODUCTID,
+            OUTPUT_GLS_QTY,
+            SCRAP_GLS_QTY,
+            INPUT_PNL_QTY,
+            OUTPUT_PNL_QTY,
+            INTERFACE_TIME,
+            PRODUCTTYPE
+        ) VALUES
+        (
+            #{FACTORY,jdbcType=VARCHAR},
+            #{PERIODDATE,jdbcType=DATE},
+            #{PRODUCTID,jdbcType=VARCHAR},
+            #{OUTPUT_GLS_QTY,jdbcType=DOUBLE},
+            #{SCRAP_GLS_QTY,jdbcType=DOUBLE},
+            #{INPUT_PNL_QTY,jdbcType=DOUBLE},
+            #{OUTPUT_PNL_QTY,jdbcType=DOUBLE},
+            sysdate,
+            #{PRODUCTTYPE,jdbcType=VARCHAR}
+        )
+    </insert>
+    <update id="updateData" parameterType="map">
+        UPDATE DWS_PRODUCT_LINE_YIELD_FIDS SET
+        OUTPUT_GLS_QTY = #{OUTPUT_GLS_QTY,jdbcType=DOUBLE} ,
+        SCRAP_GLS_QTY = #{SCRAP_GLS_QTY,jdbcType=DOUBLE} ,
+        INPUT_PNL_QTY = #{INPUT_PNL_QTY,jdbcType=DOUBLE},
+        OUTPUT_PNL_QTY = #{OUTPUT_PNL_QTY,jdbcType=DOUBLE} ,
+        INTERFACE_TIME = sysdate
+        WHERE
+            FACTORY = #{FACTORY,jdbcType=VARCHAR} and
+            PERIODDATE = #{PERIODDATE,jdbcType=DATE} and
+            PRODUCTID = #{PRODUCTID,jdbcType=VARCHAR} and
+            <if test="PRODUCTTYPE != null">
+                PRODUCTTYPE = #{PRODUCTTYPE,jdbcType=VARCHAR}
+            </if>
+            <if test="PRODUCTTYPE == null">
+                PRODUCTTYPE is null
+            </if>
+    </update>
+
+
+
+    <select id="queryTotalProductLineByDateAndFactoryList" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductLineDetailData">
+        SELECT
+        decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) as factory,
+        sum(OUTPUT_GLS_QTY) as outputGls,
+        sum(SCRAP_GLS_QTY) as scrapGls,
+        sum(INPUT_PNL_QTY) as inputPnl,
+        sum(OUTPUT_PNL_QTY) as outputPnl
+        FROM
+        DWS_PRODUCT_LINE_YIELD_FIDS
+        WHERE
+        FACTORY IN
+        <foreach collection="factoryList" item="factory" open="(" separator="," close=")" >
+            #{factory}
+        </foreach>
+        and
+        (
+        (
+        FACTORY in ('ARRAY','CELL','SL')
+        and PRODUCTTYPE  IN ('CS','MP','CM')
+        )
+        OR
+        (
+        FACTORY IN ('CF')
+        and PRODUCTTYPE  IN ('CS','MP','CM')
+        )
+        )
+        <![CDATA[
+          and PERIODDATE >= #{startDate}
+          and PERIODDATE <= #{endDate}
+        ]]>
+        GROUP BY decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY)
+    </select>
+
+
+
+    <select id="queryFactoryProductGoodRate" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.goodRate.dto.ProductLineDetailData">
+        SELECT
+        decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) as factory,
+        sum(OUTPUT_GLS_QTY) as outputGls,
+        sum(SCRAP_GLS_QTY) as scrapGls,
+        sum(INPUT_PNL_QTY) as inputPnl,
+        sum(OUTPUT_PNL_QTY) as outputPnl
+        FROM
+        DWS_PRODUCT_LINE_YIELD_FIDS
+        WHERE
+        FACTORY IN
+        <foreach collection="factoryList" item="factory" open="(" separator="," close=")" >
+            #{factory}
+        </foreach>
+        and PRODUCTID IN
+        <foreach collection="productIdList" item="productId" open="(" separator="," close=")">
+            #{productId}
+        </foreach>
+        and
+        (
+        (
+        FACTORY in ('ARRAY','CELL','SL')
+        and PRODUCTTYPE  IN ('CS','MP','CM')
+        )
+        OR
+        (
+        FACTORY IN ('CF')
+        and PRODUCTTYPE  IN ('CS','MP','CM')
+        )
+        )
+        <![CDATA[
+          and PERIODDATE >= #{startDate}
+          and PERIODDATE <= #{endDate}
+        ]]>
+        GROUP BY decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY)
+    </select>
+</mapper>

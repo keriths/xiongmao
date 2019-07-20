@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.sap.PanelProductLineCostDAO" >
+
+    <select id="queryPanelProductLineCostByYearMonth" parameterType="map" resultType="com.xm.service.apiimpl.pc.sap.PanelSalesIncomeAndCost.dto.PanelSalesIncomeCostData">
+        select
+        YEAR　as Year,
+        MONTH as Month,
+        ZROWID as ZROWID,
+        VALUE01 as VALUE01,
+        VALUE02 as VALUE02
+
+        from ET_PROFIT_REP
+        WHERE YEAR = #{Year} and MONTH = #{Month}
+    </select>
+
+    <insert id="addData" parameterType="map">
+        INSERT INTO  ET_PROFIT_REP
+        (
+        YEAR,
+        MONTH,
+        ZROWID,
+        VALUE01,
+        VALUE02
+
+        ) VALUES
+        (
+        #{Year,jdbcType=VARCHAR},
+        #{Month,jdbcType=VARCHAR},
+        #{ZROWID,jdbcType=CHAR},
+        #{VALUE01,jdbcType=DEC},
+        #{VALUE02,jdbcType=DEC}
+        )
+    </insert>
+    <update id="updateData" parameterType="map">
+        UPDATE ET_PROFIT_REP SET
+        VALUE01=#{VALUE01,jdbcType=DEC} ,
+        VALUE02=#{VALUE02,jdbcType=DEC}
+
+        WHERE
+        YEAR = #{Year,jdbcType=VARCHAR} and
+        MONTH = #{Month,jdbcType=VARCHAR} and
+        ZROWID= #{ZROWID,jdbcType=CHAR}
+    </update>
+    <select id="getData" parameterType="map" resultType="map">
+        select * from ET_PROFIT_REP
+        WHERE YEAR = #{Year} and MONTH = #{Month}
+    </select>
+
+    <select id="queryPanelProductLineCostByYear" parameterType="map" resultType="com.xm.service.apiimpl.pc.sap.PanelSalesIncomeAndCost.dto.PanelSalesIncomeCostData">
+        select
+        YEAR　as Year,
+        MONTH as Month,
+        ZROWID as ZROWID,
+        VALUE01 as VALUE01,
+        VALUE02 as VALUE02
+        from ET_PROFIT_REP
+        WHERE YEAR = #{Year}
+    </select>
+
+
+</mapper>

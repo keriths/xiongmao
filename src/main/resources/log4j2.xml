@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--设置log4j2的自身log级别为warn-->
+<configuration status="warn">
+
+    <appenders>
+        <console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="[%d{yyyy-MM-dd  HH:mm:ss:SSS}][%p] - %l - %m%n"/>
+        </console>
+
+        <RollingFile name="RollingFileInfo" fileName="/data/logs/xiongmao/info.log"
+                     filePattern="/data/logs/xiongmao/$${date:yyyyMM}/info-%d{yyyy-MM-dd}-%i.log">
+            <Filters>
+                <ThresholdFilter level="INFO"/>
+                <ThresholdFilter level="WARN" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </Filters>
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="RollingFileWarn" fileName="/data/logs/xiongmao/warn.log"
+                     filePattern="/data/logs/xiongmao/$${date:yyyyMM}/warn-%d{yyyy-MM-dd}-%i.log">
+            <Filters>
+                <ThresholdFilter level="WARN"/>
+                <ThresholdFilter level="ERROR" onMatch="DENY" onMismatch="NEUTRAL"/>
+            </Filters>
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="RollingFileError" fileName="/data/logs/xiongmao/error.log"
+                     filePattern="/data/logs/xiongmao/$${date:yyyyMM}/error-%d{yyyy-MM-dd}-%i.log">
+            <ThresholdFilter level="ERROR"/>
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+        </RollingFile>
+
+        <RollingFile name="TibcoLog" fileName="/data/logs/xiongmao/tibco.log"
+                     filePattern="/data/logs/xiongmao/$${date:yyyyMM}/tibco-%d{yyyy-MM-dd}-%i.log">
+            <ThresholdFilter level="INFO"/>
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+        </RollingFile>
+        <RollingFile name="sql" fileName="/data/logs/xiongmao/sql.log"
+                     filePattern="/data/logs/xiongmao/$${date:yyyyMM}/sql-%d{yyyy-MM-dd}-%i.log">
+            <ThresholdFilter level="INFO"/>
+            <PatternLayout pattern="[%d{yyyy-MM-dd HH:mm:ss:SSS}] [%p] - %l - %m%n"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy/>
+                <SizeBasedTriggeringPolicy size="100 MB"/>
+            </Policies>
+        </RollingFile>
+    </appenders>
+
+    <loggers>
+        <!--过滤掉spring和hibernate的一些无用的debug信息-->
+        <!--<logger name="org.springframework" level="INFO">-->
+        <!--</logger>-->
+        <!--<logger name="org.hibernate" level="INFO">-->
+        <!--</logger>-->
+
+        <!--<logger name="org.apache.ibatis" level="INFO" additivity="false">-->
+            <!--<appender-ref ref="sql"/>-->
+            <!--<appender-ref ref="Console"/>-->
+        <!--</logger>-->
+        <!--<logger name="java.sql" level="INFO" additivity="false">-->
+            <!--<appender-ref ref="sql"/>-->
+            <!--<appender-ref ref="Console"/>-->
+        <!--</logger>-->
+        <logger name="com.xm.job.Tibrvlisten" level="INFO" additivity="false">
+            <appender-ref ref="TibcoLog"/>
+            <appender-ref ref="Console"/>
+        </logger>
+        <root level="INFO">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="RollingFileInfo"/>
+            <appender-ref ref="RollingFileWarn"/>
+            <appender-ref ref="RollingFileError"/>
+        </root>
+    </loggers>
+
+</configuration>

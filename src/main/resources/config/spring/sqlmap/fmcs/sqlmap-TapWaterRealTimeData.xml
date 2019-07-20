@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.fmcs.TapWaterRealTimeDataDAO" >
+
+    <select id="tapWaterRealTimeData" resultType="com.xm.service.apiimpl.pc.fmcs.water.dto.TapWaterRealTimeData$TapWaterRealTimeDetailData" parameterType="Map">
+        <![CDATA[
+
+        SELECT
+          datadate as dataFactDate,
+          Speed as speed
+        FROM TapWaterRealTimeData
+        WHERE
+          Speed is not null
+          and speed != -2147483648
+          and DataDate >= #{beginDate}
+          and DataDate <= #{endDate}
+        order by dataFactDate
+
+         ]]>
+    </select>
+
+</mapper>

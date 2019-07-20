@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.cim.DwrEquipmentStatusFidsDAO" >
+
+    <select id="queryStatusData" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentStatusData">
+        select
+            decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) as factory,
+            KEY as key,
+            VAL as val,
+            KEYDESC as keyDesc,
+            DATATYPE as dataType,
+            DEMODATA as demoData,
+            DATADATE as dataDate
+        from DWR_EQUIPMENT_STATUS_FIDS
+        where FACTORY IN
+        <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+            #{factory}
+        </foreach>
+    </select>
+
+    <!--根据key查询-->
+    <select id="queryStatusByKey" parameterType="map" resultType="com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentStatusData">
+        select
+            FACTORY as factory,
+            KEY as key,
+            VAL as val,
+            KEYDESC as keyDesc,
+            DATATYPE as dataType,
+            DEMODATA as demoData,
+            DATADATE as dataDate
+        from DWR_EQUIPMENT_STATUS_FIDS
+        WHERE
+          KEY=#{key} AND
+          FACTORY=#{factory}
+    </select>
+
+    <update id="updateStatusData" parameterType="com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentStatusData">
+        UPDATE DWR_EQUIPMENT_STATUS_FIDS
+        SET DWR_EQUIPMENT_STATUS_FIDS.FACTORY=#{factory},
+             DWR_EQUIPMENT_STATUS_FIDS.KEY=#{key},
+             DWR_EQUIPMENT_STATUS_FIDS.VAL=#{val},
+             DATADATE=sysdate
+        WHERE
+          DWR_EQUIPMENT_STATUS_FIDS.FACTORY=#{factory} AND
+          DWR_EQUIPMENT_STATUS_FIDS.KEY=#{key}
+    </update>
+
+    <insert id="insertStatusData" parameterType="com.xm.service.apiimpl.pc.cim.equipmentstatus.dto.EquipmentStatusData">
+        INSERT INTO DWR_EQUIPMENT_STATUS_FIDS(FACTORY,KEY,VAL,DATADATE) VALUES (#{factory},#{key},#{val},sysdate)
+    </insert>
+
+    <select id="queryStatus" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.realTimeStatus.dto.EquipmentDataDto$EquipmentData">
+        select
+            decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY) as factory,
+            VAL as val,
+            count(*) as count
+        from
+            DWR_EQUIPMENT_STATUS_FIDS
+        WHERE
+            FACTORY in
+            <foreach collection="factoryList" item="factory" open="(" separator="," close=")">
+              #{factory}
+            </foreach>
+        group by
+            decode(FACTORY,'SL','SL-OC','OC','SL-OC',FACTORY),VAL
+    </select>
+</mapper>

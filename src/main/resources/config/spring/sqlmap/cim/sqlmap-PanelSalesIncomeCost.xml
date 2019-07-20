@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.sap.PanelSalesIncomeCostDAO">
+
+    <select id="getPanelSalesIncomeCostData" parameterType="map"
+            resultType="com.xm.service.apiimpl.pc.sap.PanelSalesIncomeAndCost.dto.PanelSalesIncomeCostData">
+        select * from ET_SRCB_REP
+        WHERE YEAR = #{Year} and MONTH = #{Month} and CPBM = #{CPBM}
+    </select>
+
+    <select id="getPanelSalesIncomeCostDataByYear" parameterType="map"
+            resultType="com.xm.service.apiimpl.pc.sap.PanelSalesIncomeAndCost.dto.PanelSalesIncomeCostData">
+        select * from ET_SRCB_REP
+        WHERE YEAR = #{Year}
+    </select>
+
+    <select id="getPanelSalesIncomeCostDataByYearAndMonth" parameterType="map"
+            resultType="com.xm.service.apiimpl.pc.sap.PanelSalesIncomeAndCost.dto.PanelSalesIncomeCostData">
+        select * from ET_SRCB_REP
+        WHERE YEAR = #{Year} and MONTH = #{Month}
+    </select>
+
+    <select id="getPanelSalesIncomeCostYearDataByYear" parameterType="map"
+            resultType="com.xm.service.apiimpl.pc.sap.PanelSalesIncomeAndCost.dto.PanelSalesIncomeCostData">
+        <![CDATA[
+        select * from (
+        select
+        YEAR　as YEAR,
+        MONTH as MONTH,
+        SUM(DDL01) as DDL01,
+        SUM(DDL02) as DDL02,
+        SUM(DDE01) as DDE01,
+        SUM(DDE02) as DDE02,
+        SUM(XSL01) as XSL01,
+        SUM(XSL02) as XSL02,
+        SUM(XSL03) as XSL03,
+        SUM(XSL04) as XSL04,
+        SUM(CKL01) as CKL01,
+        SUM(CKL02) as CKL02,
+        SUM(KCL01) as KCL01,
+        SUM(KCL02) as KCL02,
+        SUM(KCL03) as KCL03,
+        SUM(KCL04) as KCL04,
+        SUM(KCZE01) as KCZE01,
+        SUM(KCZE02) as KCZE02,
+        SUM(XSSR01) as XSSR01,
+        SUM(XSSR02) as XSSR02,
+        SUM(CCL01) as CCL01,
+        SUM(CKSR01) as CKSR01,
+        SUM(CKSR02) as CKSR02
+        from ET_SRCB_REP
+        GROUP BY MONTH
+         ORDER BY YEAR DESC
+        )
+        WHERE rownum <= 12
+         ]]>
+    </select>
+
+    <insert id="addData" parameterType="map">
+        INSERT INTO ET_PROFIT_REP
+        (
+        YEAR, MONTH, CPBM, DDL01, DDL02, DDE01, DDE02, XSL01, XSL02, XSL03, XSL04, CKL01, CKL02, KCL01,KCL02, KCL03,
+        KCL04, KCZE01, KCZE02, XSSR01, XSSR02, CCL01, CKSR01, CKSR02
+        ) VALUES
+        (
+        #{Year,jdbcType=VARCHAR},
+        #{Month,jdbcType=VARCHAR},
+        #{CPBM,jdbcType=CHAR},
+        #{DDL01,jdbcType=DEC},
+        #{DDL02,jdbcType=DEC},
+        #{DDE01,jdbcType=DEC},
+        #{DDE02,jdbcType=DEC},
+        #{XSL01,jdbcType=DEC},
+        #{XSL02,jdbcType=DEC},
+        #{XSL03,jdbcType=DEC},
+        #{XSL04,jdbcType=DEC},
+        #{CKL01,jdbcType=DEC},
+        #{CKL02,jdbcType=DEC},
+        #{KCL01,jdbcType=DEC},
+        #{KCL02,jdbcType=DEC},
+        #{KCL03,jdbcType=DEC},
+        #{KCL04,jdbcType=DEC},
+        #{KCZE01,jdbcType=DEC},
+        #{KCZE02,jdbcType=DEC},
+        #{XSSR01,jdbcType=DEC},
+        #{XSSR02,jdbcType=DEC},
+        #{CCL01,jdbcType=DEC},
+        #{CKSR01,jdbcType=DEC},
+        #{CKSR02,jdbcType=DEC}
+        )
+    </insert>
+    <update id="updateData" parameterType="map">
+        UPDATE ET_PROFIT_REP SET
+        DDL01= #{DDL01,jdbcType=DEC},
+        DDL02= #{DDL02,jdbcType=DEC},
+        DDE01= #{DDE01,jdbcType=DEC},
+        DDE02= #{DDE02,jdbcType=DEC},
+        XSL01= #{XSL01,jdbcType=DEC},
+        XSL02= #{XSL02,jdbcType=DEC},
+        XSL03= #{XSL03,jdbcType=DEC},
+        XSL04= #{XSL04,jdbcType=DEC},
+        CKL01= #{CKL01,jdbcType=DEC},
+        CKL02= #{CKL02,jdbcType=DEC},
+        KCL01=#{KCL01,jdbcType=DEC},
+        KCL02= #{KCL02,jdbcType=DEC},
+        KCL03= #{KCL03,jdbcType=DEC},
+        KCL04= #{KCL04,jdbcType=DEC},
+        KCZE01= #{KCZE01,jdbcType=DEC},
+        KCZE02= #{KCZE02,jdbcType=DEC},
+        XSSR01= #{XSSR01,jdbcType=DEC},
+        XSSR02= #{XSSR02,jdbcType=DEC},
+        CCL01= #{CCL01,jdbcType=DEC},
+        CKSR01= #{CKSR01,jdbcType=DEC},
+        CKSR02= #{CKSR02,jdbcType=DEC}
+
+        WHERE
+        YEAR = #{Year,jdbcType=VARCHAR} and
+        MONTH = #{Month,jdbcType=VARCHAR} and
+        CPBM= #{CPBM,jdbcType=CHAR}
+    </update>
+    <select id="getOneData" parameterType="map" resultType="map">
+        select * from ET_SRCB_REP
+        WHERE YEAR = #{Year} and MONTH = #{Month} and CPBM = #{CPBM}
+    </select>
+</mapper>

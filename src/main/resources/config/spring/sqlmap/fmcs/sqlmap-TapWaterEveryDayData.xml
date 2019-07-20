@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xm.service.dao.fmcs.TapWaterEveryDayDataDAO" >
+
+    <!--<select id="tapWaterEveryDayData" resultType="com.xm.service.apiimpl.pc.fmcs.water.dto.TapWaterEveryDayData" parameterType="Map">-->
+        <!--SELECT-->
+            <!--SUM(TotalNum) as totalNum,-->
+            <!--<if test="dateType=='month'.toString()">/*按月*/-->
+                <!--TO_CHAR(DataDate,'MM')||'月'-->
+            <!--</if>-->
+            <!--<if test="dateType=='day'.toString()">/*按天*/-->
+                <!--TO_CHAR(DataDate,'mm/dd')-->
+            <!--</if>-->
+            <!--as dataDate-->
+        <!--FROM TapWaterEveryDayData-->
+        <!--WHERE-->
+            <!--<![CDATA[-->
+               <!--DataDate >= #{beginDate}-->
+              <!--and DataDate <= #{endDate}-->
+            <!--]]>-->
+        <!--GROUP BY-->
+            <!--<if test="dateType=='month'.toString()">/*按月*/-->
+                <!--TO_CHAR(DataDate,'MM')||'月'-->
+            <!--</if>-->
+            <!--<if test="dateType=='day'.toString()">-->
+                <!--TO_CHAR(DataDate,'mm/dd')-->
+            <!--</if>-->
+    <!--</select>-->
+
+
+
+    <!--<select id="loadByPrimaryKey" parameterType="map" resultType="map">-->
+        <!--SELECT * from TAPWATEREVERYDAYDATA-->
+        <!--where-->
+        <!--DATADATE = #{DATADATE}-->
+    <!--</select>-->
+    <!--<insert id="addData" parameterType="map">-->
+        <!--INSERT INTO  TAPWATEREVERYDAYDATA-->
+        <!--(TOTALNUM,   DATADATE,   CREATEDATE) VALUES-->
+        <!--(#{TOTALNUM},#{DATADATE},sysdate)-->
+    <!--</insert>-->
+    <!--<update id="updateData" parameterType="map">-->
+        <!--UPDATE TAPWATEREVERYDAYDATA SET-->
+        <!--TOTALNUM = #{TOTALNUM} ,-->
+        <!--CREATEDATE = sysdate-->
+        <!--WHERE-->
+        <!--DATADATE = #{DATADATE}-->
+    <!--</update>-->
+
+    <!--<select id="queryTapWaterByDate" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.humidity.dto.WaterElectricityCollectDataDTO$WaterElectricityCollectData">-->
+        <!--SELECT-->
+        <!--sum(TOTALNUM) as totalNum-->
+        <!--FROM-->
+        <!--TAPWATEREVERYDAYDATA-->
+        <!--WHERE-->
+        <!--<![CDATA[-->
+          <!--DATADATE >= #{startDate}-->
+          <!--and DATADATE <= #{endDate}-->
+        <!--]]>-->
+    <!--</select>-->
+    <select id="queryTwoDaysTapWaterByQueryData"  parameterType="map" resultType="com.xm.service.dto.TwoDaysDataDTO">
+        SELECT
+        beforTotalNum,
+        beforDataDate,
+        afterTotalNum,
+        afterDataDate
+        FROM (
+        SELECT
+        max(TOTALNUM) as beforTotalNum,DATADATE as beforDataDate
+        FROM
+        TAPWATEREVERYDAYDATA
+        WHERE DATADATE = #{beforDate,jdbcType=DATE}
+        and TotalNum is not null
+        and TotalNum != -2147483648
+        group by DATADATE
+        ) a
+        join (
+        SELECT
+        max(TOTALNUM) as afterTotalNum,DATADATE as afterDataDate
+        FROM
+        TAPWATEREVERYDAYDATA
+        WHERE DATADATE = #{afterDate,jdbcType=DATE}
+        and TotalNum is not null
+        and TotalNum != -2147483648
+        group by DATADATE
+        ) b on 1=1
+    </select>
+
+
+    <select id="queryDayDataByDateList" parameterType="map" resultType="com.xm.service.dto.DayDataDTO">
+        SELECT TOTALNUM as totalNum,DATADATE as dataDate
+        FROM TAPWATEREVERYDAYDATA
+        WHERE  DATADATE IN
+        <foreach collection="queryDateList" item="queryDate" open="(" separator="," close=")">
+            #{queryDate,jdbcType=DATE}
+        </foreach>
+        and TotalNum is not null
+        and TotalNum != -2147483648
+    </select>
+
+</mapper>

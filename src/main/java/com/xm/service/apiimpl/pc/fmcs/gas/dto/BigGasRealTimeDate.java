@@ -1,0 +1,138 @@
+package com.xm.service.apiimpl.pc.fmcs.gas.dto;
+
+import com.xm.platform.annotations.ApiResultFieldDesc;
+import com.xm.platform.util.DateUtils;
+import com.xm.platform.util.RandomUtils;
+import org.joda.time.DateTime;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * Created by wanghsuna on 2017/12/4.
+ */
+public class BigGasRealTimeDate {
+
+    @ApiResultFieldDesc(desc = "大宗气体实时数据列表")
+    private List<GasRealTimeDate> gasRealTimeDateList;
+    @ApiResultFieldDesc(desc = "横坐标时间")
+    private String periodDate;
+
+    public static class GasRealTimeDate implements Serializable{
+
+        boolean showDemoData = false;
+        private Date dataFactDate;
+        public Date getDataFactDate() {
+            return dataFactDate;
+        }
+
+        public void setDataFactDate(Date dataFactDate) {
+            this.dataFactDate = dataFactDate;
+        }
+        public GasRealTimeDate(){
+
+        }
+        public GasRealTimeDate(String periodDate,String secondDate){
+            this.periodDate = periodDate;
+            this.secondDate = secondDate;
+        }
+
+        public GasRealTimeDate(String periodDate,String secondDate,String gasName){
+            this.periodDate = periodDate;
+            this.secondDate = secondDate;
+            this.gasName = gasName;
+        }
+
+        /*public String key(){
+            return periodDate+" "+secondDate;
+        }*/
+
+        @ApiResultFieldDesc(desc = "气体名称")
+        private String gasName;
+        @ApiResultFieldDesc(desc = "流量")
+        private BigDecimal speed;
+        @ApiResultFieldDesc(desc = "横坐标时间")
+        private String periodDate;
+        @ApiResultFieldDesc(desc = "数据更新时间")
+        private String secondDate;
+
+        public String getGasName() {
+            return gasName;
+        }
+
+        public void setGasName(String gasName) {
+            this.gasName = gasName;
+        }
+
+        public BigDecimal getSpeed() {
+            if (speed==null){
+                if (showDemoData){
+                    if("GN2".equals(getGasName())){
+                        speed = RandomUtils.speed(36000f,secondDate,0,0.02f);
+                    }else if ("PHe".equals(getGasName())){
+                        speed =RandomUtils.speed(0.1f, secondDate, 3, 0.03f);//RandomUtils.randomFloat(0.1f,0.25f));
+                    }else if ("PN2".equals(getGasName()) || "PO2".equals(getGasName())){
+//                        speed = (RandomUtils.randomIntBigDecimal(10,20));
+                        speed =RandomUtils.speed (14f,secondDate,1,0.02f);
+                    }else if ("PAr".equals(getGasName()) || "PH2".equals(getGasName())){
+//                        speed = (RandomUtils.randomFloat(2f,10f));
+                        speed =RandomUtils.speed (7f,secondDate,2,0.02f);
+                    }else {
+//                        speed = (RandomUtils.randomIntBigDecimal(80,160));
+                        speed = RandomUtils.speed (150f,secondDate,1,0.02f);
+                    }
+
+                }else {
+                    speed=new BigDecimal(0);
+                }
+            }
+            return speed.setScale(2,BigDecimal.ROUND_HALF_UP);
+        }
+
+        public void setSpeed(BigDecimal speed) {
+            this.speed = speed;
+        }
+
+        public String getPeriodDate() {
+            int minute = new DateTime(dataFactDate).getMinuteOfHour();
+            String showTime = DateUtils.getStrDate(dataFactDate, "HH:");
+            if (minute>=0 && minute<30){
+                showTime=showTime+"00";
+            }else {
+                showTime=showTime+"30";
+            }
+            return showTime;
+        }
+        public String getSecondDate() {
+            return DateUtils.getStrDate(dataFactDate,"HH:mm");
+        }
+
+        public void setPeriodDate(String periodDate) {
+            this.periodDate = periodDate;
+        }
+
+
+
+        public void setSecondDate(String secondDate) {
+            this.secondDate = secondDate;
+        }
+    }
+
+    public List<GasRealTimeDate> getGasRealTimeDateList() {
+        return gasRealTimeDateList;
+    }
+
+    public void setGasRealTimeDateList(List<GasRealTimeDate> gasRealTimeDateList) {
+        this.gasRealTimeDateList = gasRealTimeDateList;
+    }
+
+    public String getPeriodDate() {
+        return periodDate;
+    }
+
+    public void setPeriodDate(String periodDate) {
+        this.periodDate = periodDate;
+    }
+}
