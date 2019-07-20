@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xm.service.dao.sap.PanelSalesIncomeCostDAO">
+<mapper namespace="com.xm.service.dao.cim.PanelSalesIncomeCostDAO">
 
     <select id="getPanelSalesIncomeCostData" parameterType="map"
             resultType="com.xm.service.apiimpl.pc.sap.PanelSalesIncomeAndCost.dto.PanelSalesIncomeCostData">

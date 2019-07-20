@@ -2,20 +2,16 @@ package com.xm.job;
 
 import com.xm.platform.util.LogUtils;
 import com.xm.webservice.client.*;
-import javafx.beans.binding.ObjectExpression;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 import javax.xml.ws.Holder;
 import java.lang.reflect.Field;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
-import com.xm.service.apiimpl.pc.sap.*;
-import com.xm.service.dao.sap.PanelProductLineCostDAO;
-import com.xm.service.dao.sap.PanelSalesIncomeCostDAO;
+import com.xm.service.dao.cim.PanelProductLineCostDAO;
+import com.xm.service.dao.cim.PanelSalesIncomeCostDAO;
 
 /**
  * Created by fanshuai on 18/1/19.

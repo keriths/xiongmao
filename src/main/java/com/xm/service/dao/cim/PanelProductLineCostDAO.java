@@ -1,4 +1,4 @@
-package com.xm.service.dao.sap;
+package com.xm.service.dao.cim;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;

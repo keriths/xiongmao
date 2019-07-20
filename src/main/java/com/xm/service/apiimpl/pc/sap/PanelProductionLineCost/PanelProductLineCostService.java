@@ -4,13 +4,9 @@ package com.xm.service.apiimpl.pc.sap.PanelProductionLineCost;
 import com.xm.platform.annotations.ApiMethodDoc;
 import com.xm.platform.annotations.ApiParamDoc;
 import com.xm.platform.annotations.ApiServiceDoc;
-import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
-import com.xm.platform.util.MapUtils;
-import com.xm.platform.util.RandomUtils;
-import com.xm.service.constant.Constant;
 
-import com.xm.service.dao.sap.PanelProductLineCostDAO;
+import com.xm.service.dao.cim.PanelProductLineCostDAO;
 
 
 import org.springframework.stereotype.Service;
@@ -21,7 +17,6 @@ import java.util.*;
 
 
 import com.xm.service.apiimpl.pc.sap.PanelProductionLineCost.dto.*;
-import com.xm.webservice.client.*;
 
 import javax.xml.ws.*;
 
