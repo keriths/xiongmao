@@ -24,7 +24,7 @@ public class JsonTest {
        System.out.println(StringUtils.twoPoint("12340"));
        System.out.println(StringUtils.twoPoint("12340."));
        Map<String,String> map = new HashMap<>();
-       map.put("Array洁净室in","1,2,3");
+       map.put("Array洁净室in","1,2,3 ");
        map.put("Array洁净室out","1,2,3");
        map.put("CF洁净室in","4,5,6");
        map.put("CF洁净室out","4,5,6");
