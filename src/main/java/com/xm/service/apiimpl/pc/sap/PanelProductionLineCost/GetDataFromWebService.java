@@ -1,47 +1,41 @@
-package com.xm.job;
+package com.xm.service.apiimpl.pc.sap.PanelProductionLineCost;
 
+import com.xm.platform.annotations.ApiMethodDoc;
+import com.xm.platform.annotations.ApiParamDoc;
+import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.LogUtils;
-import com.xm.webservice.client.*;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-
-import javax.annotation.Resource;
-import javax.xml.ws.Holder;
-import java.lang.reflect.Field;
-import java.util.*;
-
+import com.xm.service.apiimpl.pc.sap.PanelProductionLineCost.dto.PanelProductLineCostDTO;
 import com.xm.service.dao.cim.PanelProductLineCostDAO;
 import com.xm.service.dao.cim.PanelSalesIncomeCostDAO;
+import com.xm.webservice.client.*;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import javax.xml.ws.BindingProvider;
-/**
- * Created by fanshuai on 18/1/19.
- */
-@Component
-public class SAPDataSyncTask {
+import javax.xml.ws.Holder;
+import java.lang.reflect.Field;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Service("GetDataFromWebService")
+@ApiServiceDoc(name = "SAP数据手动采集")
+public class GetDataFromWebService {
+
     @Resource(name = "panelProductLineCostDAO")
     private PanelProductLineCostDAO panelProductLineCostDAO;
     @Resource(name = "panelSalesIncomeCostDAO")
     private PanelSalesIncomeCostDAO panelSalesIncomeCostDAO;
 
-    @Scheduled(cron = "0 0 8,15,23 * * *")
-    public void SendWebservice() {
+    @ApiMethodDoc(apiCode = "SAP_GETDATABYMANUAL", name = "手动从Webservice采集数据")
+    public PanelProductLineCostDTO getdatabymanualfromweb(
+            @ApiParamDoc(desc = "年份") String _year,
+            @ApiParamDoc(desc = "月份  两位") String _month
+    ) {
+        PanelProductLineCostDTO resultDTO = new PanelProductLineCostDTO();
 
-        Calendar now = Calendar.getInstance();
-
-        String year = String.valueOf(now.get(Calendar.YEAR));
-
-        String month = "";
-
-        if (now.get(Calendar.MONTH) + 1 >= 10) {
-            month = String.valueOf(now.get(Calendar.MONTH) + 1);
-        } else {
-            month = "0" + String.valueOf(now.get(Calendar.MONTH) + 1);
-        }
-
-
-        ZHBTPROFIT zhbtprofit=new ZHBTPROFIT();
-        ZHBTSRCB zhbtsrcb=new ZHBTSRCB();
+        ZHBTPROFIT zhbtprofit = new ZHBTPROFIT();
+        ZHBTSRCB zhbtsrcb = new ZHBTSRCB();
         try {
             Holder<ZHBTPROFIT> zhbtprofitholder = new Holder<ZHBTPROFIT>();
             Holder<ZHBTSRCB> zhbtsrcbholder = new Holder<ZHBTSRCB>();
@@ -50,20 +44,21 @@ public class SAPDataSyncTask {
 
 
 
-
-
-            zhbsendresult2.zhbSENDRESULT2(year, month, zhbtprofitholder, zhbtsrcbholder);
+            zhbsendresult2.zhbSENDRESULT2(_year, _month, zhbtprofitholder, zhbtsrcbholder);
             zhbtprofit = zhbtprofitholder.value;
             zhbtsrcb = zhbtsrcbholder.value;
         } catch (Exception ex) {
 
             LogUtils.error(this.getClass(), ex.getMessage());
         }
-        CheckProductlineCostDATA(zhbtprofit,year,month);
+        CheckProductlineCostDATA(zhbtprofit, _year, _month);
 
-        CheckSaleIncomeCostDATA(zhbtsrcb,year,month);
+        CheckSaleIncomeCostDATA(zhbtsrcb, _year, _month);
 
+
+        return resultDTO;
     }
+
 
     void CheckProductlineCostDATA(ZHBTPROFIT zhbtprofit, String _year, String _month) {
         List<ZHBSPROFIT> zhbsprofitList = zhbtprofit.getItem();
@@ -150,4 +145,6 @@ public class SAPDataSyncTask {
         }
         return map;
     }
+
+
 }

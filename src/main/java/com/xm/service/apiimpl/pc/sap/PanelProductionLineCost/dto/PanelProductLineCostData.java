@@ -17,7 +17,7 @@ public class PanelProductLineCostData {
     @ApiResultFieldDesc(desc = "月")
     public String Month;
     @ApiResultFieldDesc(desc = "产品rowid,不同的id对应不同的费用项目")
-    public int ZROWID;
+    public String ZROWID;
     @ApiResultFieldDesc(desc = "今年本月数据")
     public BigDecimal VALUE01;
     @ApiResultFieldDesc(desc = "去年同期数据")

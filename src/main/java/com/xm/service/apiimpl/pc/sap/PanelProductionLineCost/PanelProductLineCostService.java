@@ -33,7 +33,7 @@ public class PanelProductLineCostService {
     @ApiMethodDoc(apiCode = "SAP_PanelProductLineCostByYearMonth", name = "面板产线成本费用月度数据采集单月数据")
     public PanelProductLineCostDTO getPanelProductLineCostByYearMonth(
             @ApiParamDoc(desc = "年份") String _year,
-            @ApiParamDoc(desc = "月份") String _month
+            @ApiParamDoc(desc = "月份  两位") String _month
     ) {
         PanelProductLineCostDTO resultDTO = new PanelProductLineCostDTO();
 
@@ -93,5 +93,8 @@ public class PanelProductLineCostService {
         return PanelProductLineCostDataList;
 
     }
+
+
+
 }
 

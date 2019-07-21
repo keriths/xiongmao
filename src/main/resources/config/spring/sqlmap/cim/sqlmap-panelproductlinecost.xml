@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xm.service.dao.cim.PanelProductLineCostDAO" >
 
-    <select id="queryPanelProductLineCostByYearMonth" parameterType="map" resultType="com.xm.service.apiimpl.pc.sap.PanelSalesIncomeAndCost.dto.PanelSalesIncomeCostData">
+    <select id="queryPanelProductLineCostByYearMonth" parameterType="map" resultType="com.xm.service.apiimpl.pc.sap.PanelProductionLineCost.dto.PanelProductLineCostData">
         select
         YEAR　as Year,
         MONTH as Month,
@@ -47,7 +47,7 @@
         WHERE YEAR = #{Year} and MONTH = #{Month}
     </select>
 
-    <select id="queryPanelProductLineCostByYear" parameterType="map" resultType="com.xm.service.apiimpl.pc.sap.PanelSalesIncomeAndCost.dto.PanelSalesIncomeCostData">
+    <select id="queryPanelProductLineCostByYear" parameterType="map" resultType="com.xm.service.apiimpl.pc.sap.PanelProductionLineCost.dto.PanelProductLineCostData">
         select
         YEAR　as Year,
         MONTH as Month,

@@ -49,9 +49,9 @@
         SUM(CKSR01) as CKSR01,
         SUM(CKSR02) as CKSR02
         from ET_SRCB_REP
-        GROUP BY MONTH
-         ORDER BY YEAR DESC
-        )
+        GROUP BY (YEAR,MONTH)
+         ORDER BY YEAR,MONTH DESC
+        ) T
         WHERE rownum <= 12
          ]]>
     </select>
