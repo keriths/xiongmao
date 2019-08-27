@@ -57,7 +57,7 @@
     </select>
 
     <insert id="addData" parameterType="map">
-        INSERT INTO ET_PROFIT_REP
+        INSERT INTO ET_SRCB_REP
         (
         YEAR, MONTH, CPBM, DDL01, DDL02, DDE01, DDE02, XSL01, XSL02, XSL03, XSL04, CKL01, CKL02, KCL01,KCL02, KCL03,
         KCL04, KCZE01, KCZE02, XSSR01, XSSR02, CCL01, CKSR01, CKSR02
@@ -65,61 +65,62 @@
         (
         #{Year,jdbcType=VARCHAR},
         #{Month,jdbcType=VARCHAR},
-        #{CPBM,jdbcType=CHAR},
-        #{DDL01,jdbcType=DEC},
-        #{DDL02,jdbcType=DEC},
-        #{DDE01,jdbcType=DEC},
-        #{DDE02,jdbcType=DEC},
-        #{XSL01,jdbcType=DEC},
-        #{XSL02,jdbcType=DEC},
-        #{XSL03,jdbcType=DEC},
-        #{XSL04,jdbcType=DEC},
-        #{CKL01,jdbcType=DEC},
-        #{CKL02,jdbcType=DEC},
-        #{KCL01,jdbcType=DEC},
-        #{KCL02,jdbcType=DEC},
-        #{KCL03,jdbcType=DEC},
-        #{KCL04,jdbcType=DEC},
-        #{KCZE01,jdbcType=DEC},
-        #{KCZE02,jdbcType=DEC},
-        #{XSSR01,jdbcType=DEC},
-        #{XSSR02,jdbcType=DEC},
-        #{CCL01,jdbcType=DEC},
-        #{CKSR01,jdbcType=DEC},
-        #{CKSR02,jdbcType=DEC}
+        #{cpbm,jdbcType=CHAR},
+        #{ddl01,jdbcType=DECIMAL},
+        #{ddl02,jdbcType=DECIMAL},
+        #{dde01,jdbcType=DECIMAL},
+        #{dde02,jdbcType=DECIMAL},
+        #{xsl01,jdbcType=DECIMAL},
+        #{xsl02,jdbcType=DECIMAL},
+        #{xsl03,jdbcType=DECIMAL},
+        #{xsl04,jdbcType=DECIMAL},
+        #{ckl01,jdbcType=DECIMAL},
+        #{ckl02,jdbcType=DECIMAL},
+        #{kcl01,jdbcType=DECIMAL},
+        #{kcl02,jdbcType=DECIMAL},
+        #{kcl03,jdbcType=DECIMAL},
+        #{kcl04,jdbcType=DECIMAL},
+        #{kcze01,jdbcType=DECIMAL},
+        #{kcze02,jdbcType=DECIMAL},
+        #{xssr01,jdbcType=DECIMAL},
+        #{xssr02,jdbcType=DECIMAL},
+        #{ccl01,jdbcType=DECIMAL},
+        #{cksr01,jdbcType=DECIMAL},
+        #{cksr02,jdbcType=DECIMAL}
         )
     </insert>
     <update id="updateData" parameterType="map">
-        UPDATE ET_PROFIT_REP SET
-        DDL01= #{DDL01,jdbcType=DEC},
-        DDL02= #{DDL02,jdbcType=DEC},
-        DDE01= #{DDE01,jdbcType=DEC},
-        DDE02= #{DDE02,jdbcType=DEC},
-        XSL01= #{XSL01,jdbcType=DEC},
-        XSL02= #{XSL02,jdbcType=DEC},
-        XSL03= #{XSL03,jdbcType=DEC},
-        XSL04= #{XSL04,jdbcType=DEC},
-        CKL01= #{CKL01,jdbcType=DEC},
-        CKL02= #{CKL02,jdbcType=DEC},
-        KCL01=#{KCL01,jdbcType=DEC},
-        KCL02= #{KCL02,jdbcType=DEC},
-        KCL03= #{KCL03,jdbcType=DEC},
-        KCL04= #{KCL04,jdbcType=DEC},
-        KCZE01= #{KCZE01,jdbcType=DEC},
-        KCZE02= #{KCZE02,jdbcType=DEC},
-        XSSR01= #{XSSR01,jdbcType=DEC},
-        XSSR02= #{XSSR02,jdbcType=DEC},
-        CCL01= #{CCL01,jdbcType=DEC},
-        CKSR01= #{CKSR01,jdbcType=DEC},
-        CKSR02= #{CKSR02,jdbcType=DEC}
+        UPDATE ET_SRCB_REP SET
+        DDL01= #{ddl01,jdbcType=DECIMAL},
+        DDL02= #{ddl02,jdbcType=DECIMAL},
+        DDE01= #{dde01,jdbcType=DECIMAL},
+        DDE02= #{dde02,jdbcType=DECIMAL},
+        XSL01= #{xsl01,jdbcType=DECIMAL},
+        XSL02= #{xsl02,jdbcType=DECIMAL},
+        XSL03= #{xsl03,jdbcType=DECIMAL},
+        XSL04= #{xsl04,jdbcType=DECIMAL},
+        CKL01= #{ckl01,jdbcType=DECIMAL},
+        CKL02= #{ckl02,jdbcType=DECIMAL},
+        KCL01= #{kcl01,jdbcType=DECIMAL},
+        KCL02= #{kcl02,jdbcType=DECIMAL},
+        KCL03= #{kcl03,jdbcType=DECIMAL},
+        KCL04= #{kcl04,jdbcType=DECIMAL},
+        KCZE01= #{kcze01,jdbcType=DECIMAL},
+        KCZE02= #{kcze02,jdbcType=DECIMAL},
+        XSSR01= #{xssr01,jdbcType=DECIMAL},
+        XSSR02= #{xssr02,jdbcType=DECIMAL},
+        CCL01= #{ccl01,jdbcType=DECIMAL},
+        CKSR01= #{cksr01,jdbcType=DECIMAL},
+        CKSR02= #{cksr02,jdbcType=DECIMAL}
 
         WHERE
         YEAR = #{Year,jdbcType=VARCHAR} and
         MONTH = #{Month,jdbcType=VARCHAR} and
-        CPBM= #{CPBM,jdbcType=CHAR}
+        CPBM= #{cpbm,jdbcType=CHAR}
     </update>
     <select id="getOneData" parameterType="map" resultType="map">
-        select * from ET_SRCB_REP
-        WHERE YEAR = #{Year} and MONTH = #{Month} and CPBM = #{CPBM}
+        select *
+        from ET_SRCB_REP
+        WHERE  YEAR = #{Year} and MONTH = #{Month} and CPBM = #{CPBM}
     </select>
 </mapper>

@@ -7,7 +7,7 @@ import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.RandomUtils;
 import com.xm.service.apiimpl.pc.fmcs.cda.CDAServiceImpl;
-import com.xm.service.apiimpl.pc.fmcs.cda.dto.CdaDataRetDTO;;
+import com.xm.service.apiimpl.pc.fmcs.cda.dto.CdaDataRetDTO;
 import com.xm.service.apiimpl.pc.fmcs.upw.UPWServiceImpl;
 import com.xm.service.apiimpl.pc.fmcs.upw.dto.UpwbDataRetDTO;
 import com.xm.service.apiimpl.pc.integrateData.system.dto.*;

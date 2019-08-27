@@ -27,20 +27,20 @@
         (
         #{Year,jdbcType=VARCHAR},
         #{Month,jdbcType=VARCHAR},
-        #{ZROWID,jdbcType=CHAR},
-        #{VALUE01,jdbcType=DEC},
-        #{VALUE02,jdbcType=DEC}
+        #{zrowid,jdbcType=CHAR},
+        #{value01,jdbcType=DECIMAL},
+        #{value02,jdbcType=DECIMAL}
         )
     </insert>
     <update id="updateData" parameterType="map">
         UPDATE ET_PROFIT_REP SET
-        VALUE01=#{VALUE01,jdbcType=DEC} ,
-        VALUE02=#{VALUE02,jdbcType=DEC}
+        VALUE01=#{value01,jdbcType=DECIMAL} ,
+        VALUE02=#{value02,jdbcType=DECIMAL}
 
         WHERE
         YEAR = #{Year,jdbcType=VARCHAR} and
         MONTH = #{Month,jdbcType=VARCHAR} and
-        ZROWID= #{ZROWID,jdbcType=CHAR}
+        ZROWID= #{zrowid,jdbcType=CHAR}
     </update>
     <select id="getData" parameterType="map" resultType="map">
         select * from ET_PROFIT_REP

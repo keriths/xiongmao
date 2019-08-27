@@ -1,6 +1,8 @@
 package com.xm.job;
 
 import com.xm.platform.util.LogUtils;
+import com.xm.platform.util.MapUtils;
+import com.xm.platform.util.PrettyPrintingMap;
 import com.xm.webservice.client.*;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
@@ -12,7 +14,7 @@ import java.util.*;
 
 import com.xm.service.dao.cim.PanelProductLineCostDAO;
 import com.xm.service.dao.cim.PanelSalesIncomeCostDAO;
-
+import java.net.Authenticator;
 import javax.xml.ws.BindingProvider;
 /**
  * Created by fanshuai on 18/1/19.
@@ -32,26 +34,26 @@ public class SAPDataSyncTask {
         String year = String.valueOf(now.get(Calendar.YEAR));
 
         String month = "";
-
-        if (now.get(Calendar.MONTH) + 1 >= 10) {
-            month = String.valueOf(now.get(Calendar.MONTH) + 1);
+        //Calendar.MONTH 从0开始
+        if (now.get(Calendar.MONTH) >= 10) {
+            month = String.valueOf(now.get(Calendar.MONTH) );
         } else {
-            month = "0" + String.valueOf(now.get(Calendar.MONTH) + 1);
+            month = "0" + String.valueOf(now.get(Calendar.MONTH));
         }
-
+        //每个月去获取上月的数据 1月份拿不到数据
+        if (now.get(Calendar.MONTH)==0)
+        {
+            return;
+        }
 
         ZHBTPROFIT zhbtprofit=new ZHBTPROFIT();
         ZHBTSRCB zhbtsrcb=new ZHBTSRCB();
         try {
+            Authenticator.setDefault(new MyAuthenticator());
             Holder<ZHBTPROFIT> zhbtprofitholder = new Holder<ZHBTPROFIT>();
             Holder<ZHBTSRCB> zhbtsrcbholder = new Holder<ZHBTSRCB>();
             ZHBSENDRESULT2_Service servicefactory = new ZHBSENDRESULT2_Service();
             ZHBSENDRESULT2 zhbsendresult2 = servicefactory.getZHBSENDRESULT2();
-
-
-
-
-
             zhbsendresult2.zhbSENDRESULT2(year, month, zhbtprofitholder, zhbtsrcbholder);
             zhbtprofit = zhbtprofitholder.value;
             zhbtsrcb = zhbtsrcbholder.value;
@@ -67,10 +69,12 @@ public class SAPDataSyncTask {
 
     void CheckProductlineCostDATA(ZHBTPROFIT zhbtprofit, String _year, String _month) {
         List<ZHBSPROFIT> zhbsprofitList = zhbtprofit.getItem();
+        LogUtils.info(this.getClass(), "ProductlineCostDATA长度 " + String.valueOf(zhbsprofitList.size()));
+        List<Map<String, Object>> dateIndatabase = panelProductLineCostDAO.getData(_year, _month);
+
         for (ZHBSPROFIT _zhbtprofit : zhbsprofitList) {
-            List<Map<String, Object>> dateIndatabase = panelProductLineCostDAO.getData(_year, _month);
-            if (dateIndatabase != null) {
-                //当月有数据
+            //当月有数据
+            if (dateIndatabase.size() > 0) {
                 for (Map<String, Object> datarow : dateIndatabase) {
                     if (_zhbtprofit.getZROWID().equals(datarow.get("ZROWID"))) {
 
@@ -78,12 +82,15 @@ public class SAPDataSyncTask {
                             Map<String, Object> datamap = Obj2Map(_zhbtprofit);
                             datamap.put("Year", _year);
                             datamap.put("Month", _month);
+                            String mapstr = new PrettyPrintingMap<String, Object>(datamap).toString();
+                            LogUtils.info(this.getClass(), "转化后map  " + mapstr);
+
                             panelProductLineCostDAO.updateData(datamap);
 
                         } catch (Exception ex) {
                             LogUtils.error(this.getClass(), ex.getMessage());
+                            LogUtils.info(this.getClass(), "错误+" + ex.getMessage());
                         }
-
                     }
                 }
             } else {
@@ -92,12 +99,13 @@ public class SAPDataSyncTask {
                     Map<String, Object> datamap = Obj2Map(_zhbtprofit);
                     datamap.put("Year", _year);
                     datamap.put("Month", _month);
+                    String mapstr = new PrettyPrintingMap<String, Object>(datamap).toString();
+                    LogUtils.info(this.getClass(), "转化后map  " + mapstr);
                     panelProductLineCostDAO.addData(datamap);
-
                 } catch (Exception ex) {
                     LogUtils.error(this.getClass(), ex.getMessage());
+                    LogUtils.info(this.getClass(), "错误+" + ex.getMessage());
                 }
-
             }
         }
     }
@@ -105,25 +113,49 @@ public class SAPDataSyncTask {
 
     void CheckSaleIncomeCostDATA(ZHBTSRCB zhbtsrcb, String _year, String _month) {
         List<ZHBSSRCB> zhbssrcbList = zhbtsrcb.getItem();
+        LogUtils.info(this.getClass(), "SaleIncomeCostDATA长度 " + String.valueOf(zhbssrcbList.size()));
+
         for (ZHBSSRCB _zhbssrcb : zhbssrcbList) {
-            Map<String, Object> dateIndatabase = panelSalesIncomeCostDAO.getOneData(_year, _month, _zhbssrcb.getCPBM());
+
+            Map<String, Object> mapdata = MapUtils.newMap(
+                    "Year", _year,
+                    "Month", _month,
+                    "CPBM", _zhbssrcb.getCPBM()
+            );
+            String mapstr1 = new PrettyPrintingMap<String, Object>(mapdata).toString();
+
+
+            Map<String, Object> dateIndatabase = panelSalesIncomeCostDAO.getOneData(mapdata);
+
+            if (dateIndatabase != null) {
+                String mapstr = new PrettyPrintingMap<String, Object>(dateIndatabase).toString();
+                LogUtils.info(this.getClass(), "转化后结果map   " + mapstr);
+            }
             if (dateIndatabase != null) {
                 //当月此产品有数据
+                //  if (dateIndatabase.size() > 0) {
+                LogUtils.info(this.getClass(), "SaleIncomeCost当月此产品有数据");
                 try {
                     Map<String, Object> datamap = Obj2Map(_zhbssrcb);
                     datamap.put("Year", _year);
                     datamap.put("Month", _month);
+                    String mapstr = new PrettyPrintingMap<String, Object>(datamap).toString();
+                    LogUtils.info(this.getClass(), "转化后map  " + mapstr);
                     panelSalesIncomeCostDAO.updateData(datamap);
 
                 } catch (Exception ex) {
                     LogUtils.error(this.getClass(), ex.getMessage());
                 }
+                //  }
             } else {
                 //当月此产品没有数据
+                LogUtils.info(this.getClass(), "SaleIncomeCost当月此产品没有数据");
                 try {
                     Map<String, Object> datamap = Obj2Map(_zhbssrcb);
                     datamap.put("Year", _year);
                     datamap.put("Month", _month);
+                    String mapstr = new PrettyPrintingMap<String, Object>(datamap).toString();
+                    LogUtils.info(this.getClass(), "转化后map  " + mapstr);
                     panelSalesIncomeCostDAO.addData(datamap);
                 } catch (Exception ex) {
                     LogUtils.error(this.getClass(), ex.getMessage());
