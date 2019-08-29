@@ -32,7 +32,6 @@ public class ElectricityServiceImpl {
     @Resource(name = "elecEveryHourDataDAO")
     private ElecEveryHourDataDAO elecEveryHourDataDAO;
 
-
     @ApiMethodDoc(apiCode = "FMCS_ElecPlaceHourData", name = "某个区域每小时、每天、每月用电统计数据接口")
     public ElectricityPlaceRetDTO electricityPlaceRetDTO(@ApiParamDoc(desc = "区域，如4A-ARRAY,4E-纯水站，4M-食堂(必填)") String place,
                                                          @ApiParamDoc(desc = "统计时间类型小时hour、天day、月month(必填)") String dateType) {
@@ -125,6 +124,11 @@ public class ElectricityServiceImpl {
                 List<String> placeList = elecEveryHourDataDAO.queryPlaceByPlaceType(placeType);
                 Map<String, List<ElectricityPlaceDate>> dayPlaceListDataMap = new HashMap<>();
                 for (String place : placeList) {
+                    //其他数据不再需要废水站的数据  2019-0829-新需求//
+                    if (place.equals("4D-废水站")) {
+                        continue;
+                    }
+                    //+++++++++++++++++++++++++++++++++++++++++++//
                     List<ElectricityPlaceDate> electricityPlaceDateList = DayDataQueryTools.queryDayStatics(place, dateType,
                             new IQueryDayDataList() {
                                 @Override
