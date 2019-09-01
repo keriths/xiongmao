@@ -4,6 +4,7 @@ import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.RandomUtils;
 import com.xm.platform.util.ReturnDataUtils;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
@@ -11,7 +12,7 @@ import java.math.RoundingMode;
  * 面板产线成本费用月度数据采集表数据
  * Created by suziyue on 19/07/15.
  */
-public class PanelProductLineCostData {
+public class PanelProductLineCostData implements Serializable {
     @ApiResultFieldDesc(desc = "年")
     public String Year;
     @ApiResultFieldDesc(desc = "月")

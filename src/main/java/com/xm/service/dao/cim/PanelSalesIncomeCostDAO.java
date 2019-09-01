@@ -36,12 +36,7 @@ public interface PanelSalesIncomeCostDAO {
 
     void updateData(Map<String, Object> mapData);
 
-    Map<String,Object> getOneData(
-            @Param("Year") String Year,
-            @Param("Month") String Month,
-            @Param("CPBM") String CPBM
-
-    );
+    Map<String, Object> getOneData(Map<String, Object> mapData);
 
 
 

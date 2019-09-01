@@ -17,7 +17,7 @@ import javax.xml.ws.WebServiceFeature;
  * Generated source version: 2.2
  * 
  */
-@WebServiceClient(name = "ZHB_SEND_RESULT2", targetNamespace = "urn:sap-com:document:sap:rfc:functions", wsdlLocation = "http://10.80.40.26:50000/sap/bc/srt/wsdl/flv_10002A111AD1/bndg_url/sap/bc/srt/rfc/sap/zhb_send_result2/100/zhb_send_result2/zhb_send_result2?sap-client=100?S001?Passw0rd")
+@WebServiceClient(name = "ZHB_SEND_RESULT2", targetNamespace = "urn:sap-com:document:sap:rfc:functions", wsdlLocation = "http://10.80.40.23:8000/sap/bc/srt/wsdl/flv_10002A111AD1/bndg_url/sap/bc/srt/rfc/sap/zhb_send_result2/800/zhb_send_result2/zhb_send_result2?sap-client=800")
 public class ZHBSENDRESULT2_Service
     extends Service
 {
@@ -30,7 +30,7 @@ public class ZHBSENDRESULT2_Service
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("http://10.80.40.26:50000/sap/bc/srt/wsdl/flv_10002A111AD1/bndg_url/sap/bc/srt/rfc/sap/zhb_send_result2/100/zhb_send_result2/zhb_send_result2?sap-client=100?S001?Passw0rd");
+            url = new URL("http://10.80.40.23:8000/sap/bc/srt/wsdl/flv_10002A111AD1/bndg_url/sap/bc/srt/rfc/sap/zhb_send_result2/800/zhb_send_result2/zhb_send_result2?sap-client=800");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }

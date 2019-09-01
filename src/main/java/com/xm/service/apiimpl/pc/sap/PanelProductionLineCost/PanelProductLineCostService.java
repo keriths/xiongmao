@@ -9,6 +9,7 @@ import com.xm.platform.util.LogUtils;
 import com.xm.service.dao.cim.PanelProductLineCostDAO;
 
 
+import javafx.util.Pair;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -51,16 +52,23 @@ public class PanelProductLineCostService {
     }
 
     @ApiMethodDoc(apiCode = "SAP_PanelProductLineCostByYear", name = "面板产线成本费用月度数据采集年数据聚合")
-    public PanelProductLineCostDTO getPanelProductLineCostByYear(
-            @ApiParamDoc(desc = "年份") String _year
-
-    ) {
+    public PanelProductLineCostDTO getPanelProductLineCostByYear() {
         PanelProductLineCostDTO resultDTO = new PanelProductLineCostDTO();
 
         try {
+            Calendar now = Calendar.getInstance();
+            String _year = String.valueOf(now.get(Calendar.YEAR));
 
-
-            List<PanelProductLineCostData> panelProductLineCostDataList = getPanelProductLineCostDataByYear(_year);
+            List<Pair<String, String>> monthlist = getmonthlist();
+            List<PanelProductLineCostData> panelProductLineCostDataList = new ArrayList<PanelProductLineCostData>();
+            for (Pair<String, String> _month : monthlist) {
+                List<PanelProductLineCostData> _panelProductLineCostDataList = getPanelProductLineCostData(_month.getKey().trim(), _month.getValue().trim());
+                if (_panelProductLineCostDataList == null) {
+                    LogUtils.error(getClass(), _month.getKey().trim() + " " + _month.getValue().trim() + "数据为空");
+                    continue;
+                }
+                panelProductLineCostDataList.addAll(_panelProductLineCostDataList);
+            }
             resultDTO.setProductLineDetailDataList(panelProductLineCostDataList);
             return resultDTO;
         } catch (Exception e) {
@@ -70,6 +78,34 @@ public class PanelProductLineCostService {
             return resultDTO;
         }
 
+    }
+
+    List<Pair<String, String>> getmonthlist() {
+
+        List<Pair<String, String>> pairList = new ArrayList<Pair<String, String>>();
+
+        Calendar now = Calendar.getInstance();
+        int yearint = now.get(Calendar.YEAR);
+        String year = String.valueOf(now.get(Calendar.YEAR));
+        String month = "";
+        int monthint = now.get(Calendar.MONTH) + 1;//获取当月月份数字
+        for (int i = 0; i < 12; i++) {
+            String _month;
+            if (monthint >= 10) {
+                _month = String.valueOf(monthint);
+            } else {
+                _month = "0" + String.valueOf(monthint);
+            }
+            Pair<String, String> pair = new Pair<String, String>(String.valueOf(yearint), _month);
+            pairList.add(pair);
+            monthint--;
+
+            if (monthint == 0) {
+                monthint = 12;
+                yearint--;
+            }
+        }
+        return pairList;
     }
 
 
@@ -93,7 +129,6 @@ public class PanelProductLineCostService {
         return PanelProductLineCostDataList;
 
     }
-
 
 
 }

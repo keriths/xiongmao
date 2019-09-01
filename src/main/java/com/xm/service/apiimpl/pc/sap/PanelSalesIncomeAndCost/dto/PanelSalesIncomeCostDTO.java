@@ -1,4 +1,5 @@
 package com.xm.service.apiimpl.pc.sap.PanelSalesIncomeAndCost.dto;
+
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.RandomUtils;
@@ -12,17 +13,27 @@ import java.util.*;
 /**
  * Created by suziyue on 19/07/15.
  */
-public class PanelSalesIncomeCostDTO  extends  BaseRetDTO{
+public class PanelSalesIncomeCostDTO extends BaseRetDTO {
 
+    @ApiResultFieldDesc(desc = "产品销售收入清单，按月聚合")
+    public List<IncomeDataByMonth> IncomeDataByMonthList;
 
-    @ApiResultFieldDesc(desc = "返回数据详情")
-    public List<PanelSalesIncomeCostData>  PanelSalesIncomeCostDatalist ;
+  //  public List<DDEMonthGroup> ddeMonthGroupList;
+    @ApiResultFieldDesc(desc = "9个字段年、半年累计数据")
+    public DDEhalfYearAndYearGroup ddEhalfYearAndYearGroup;
 
-    public List<PanelSalesIncomeCostData> getPanelSalesIncomeCostDatalist() {
-        return PanelSalesIncomeCostDatalist;
+    public void setDDEhalfYearAndYearGroup(DDEhalfYearAndYearGroup _ddehalfYearAndYearGroup)
+    {
+        this.ddEhalfYearAndYearGroup=_ddehalfYearAndYearGroup;
     }
 
-    public void setProductLineDetailDataList(List<PanelSalesIncomeCostData> _PanelSalesIncomeCostDatalist) {
-        this.PanelSalesIncomeCostDatalist = _PanelSalesIncomeCostDatalist;
+    public void SetIncomeDataByMonthList(List<IncomeDataByMonth> _IncomeDataByMonthList)
+    {
+        this.IncomeDataByMonthList =_IncomeDataByMonthList;
+    }
+
+    public List<IncomeDataByMonth> getIncomeDataByMonthList()
+    {
+        return IncomeDataByMonthList;
     }
 }
