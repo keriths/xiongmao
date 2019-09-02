@@ -9,6 +9,7 @@ import com.xm.platform.annotations.ApiServiceDoc;
 import com.xm.platform.util.DateUtils;
 import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
+import com.xm.platform.util.PrettyPrintingMap;
 import com.xm.service.apiimpl.pc.fmcs.electricity.dto.ElectricityDate;
 import com.xm.service.apiimpl.pc.fmcs.electricity.dto.ElectricityPlaceDate;
 import com.xm.service.apiimpl.pc.fmcs.electricity.dto.ElectricityPlaceRetDTO;
@@ -16,6 +17,10 @@ import com.xm.service.apiimpl.pc.fmcs.electricity.dto.ElectricityRetDTO;
 import com.xm.service.constant.Constant;
 import com.xm.service.dao.fmcs.ElecEveryHourDataDAO;
 import com.xm.service.dto.DayDataDTO;
+
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -125,9 +130,14 @@ public class ElectricityServiceImpl {
                 List<String> placeList = elecEveryHourDataDAO.queryPlaceByPlaceType(placeType);
                 Map<String, List<ElectricityPlaceDate>> dayPlaceListDataMap = new HashMap<>();
                 for (String place : placeList) {
+
+                    //  LogUtils.info(getClass(), "ElectricityService______place:" + place);
+                    //其他数据不再需要废水站的数据  2019-0829-新需求//
                     if (place.equals("4D-废水站")) {
                         continue;
                     }
+                    //+++++++++++++++++++++++++++++++++++++++++++//
+
                     List<ElectricityPlaceDate> electricityPlaceDateList = DayDataQueryTools.queryDayStatics(place, dateType,
                             new IQueryDayDataList() {
                                 @Override
@@ -140,19 +150,30 @@ public class ElectricityServiceImpl {
                                     return new ElectricityPlaceDate(place, dateType, today, tomorrow, todayNum, tomorrowNum);
                                 }
                             });
-//                    Map<String,ElectricityPlaceDate> dayPlaceDataMap = MapUtils.listToMap(electricityPlaceDateList, "getDataDate");
+
+
+                    //   String str = JSON.toJSONString(electricityPlaceDateList);
+                    //    LogUtils.info(getClass(), "ElectricityServiceImplLIST______:" + str);
+
                     if (!CollectionUtils.isEmpty(electricityPlaceDateList)) {
                         for (ElectricityPlaceDate electricityPlaceDate : electricityPlaceDateList) {
                             String dataDate = electricityPlaceDate.getDataDate();
                             List<ElectricityPlaceDate> dayPlaceListData = dayPlaceListDataMap.get(dataDate);
+
                             if (dayPlaceListData == null) {
                                 dayPlaceListData = new ArrayList<>();
                                 dayPlaceListDataMap.put(dataDate, dayPlaceListData);
                             }
+
                             dayPlaceListData.add(electricityPlaceDate);
+
                         }
                     }
                 }
+
+                //   String strdayPlaceListDataMap = new PrettyPrintingMap<String, List<ElectricityPlaceDate>>(dayPlaceListDataMap).toString();
+                //  LogUtils.info(getClass(), "ElectricityServiceImplMAP______:" + strdayPlaceListDataMap);
+
                 List<ElectricityDate.ElectricityDetailDate> electricityPlaceDateList = new ArrayList<>();
                 for (Map.Entry<String, List<ElectricityPlaceDate>> entry : dayPlaceListDataMap.entrySet()) {
                     String dataDate = entry.getKey();
@@ -168,14 +189,20 @@ public class ElectricityServiceImpl {
                     electricityPlaceDateList.add(placeTypeDayData);
                 }
 
+
                 detailDataList.addAll(electricityPlaceDateList);
             }
+
+
+            
 
             Map<String, ElectricityDate.ElectricityDetailDate> dataMap = MapUtils.listToMap(detailDataList, "key");
             List<ElectricityDate> dataList = new ArrayList<ElectricityDate>();
             for (String date : dateList) {
                 ElectricityDate electricityDate = new ElectricityDate();
                 electricityDate.setDataDate(date);
+
+
 
                 List<ElectricityDate.ElectricityDetailDate> electricityDetailDateList = new ArrayList<ElectricityDate.ElectricityDetailDate>();
                 for (String placeType : Constant.electricityPlaceTypeList) {
