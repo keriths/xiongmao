@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.xm.service.dao.fmcs.ElecEveryHourDataDAO" >
+<mapper namespace="com.xm.service.dao.fmcs.ElecEveryHourDataDAO">
 
     <select id="queryDayDataByDateListByPlace" parameterType="map" resultType="com.xm.service.dto.DayDataDTO">
         SELECT TOTALNUM as totalNum,DATADATE as dataDate
         FROM ELECEVERYHOURDATA
-        WHERE  DATADATE IN
+        WHERE DATADATE IN
         <foreach collection="queryDays" item="queryDate" open="(" separator="," close=")">
             #{queryDate,jdbcType=DATE}
         </foreach>
@@ -17,7 +17,7 @@
     <select id="queryDayDataByDateListByPlaceType" parameterType="map" resultType="com.xm.service.dto.DayDataDTO">
         SELECT max(TOTALNUM) as totalNum,DATADATE as dataDate
         FROM ELECEVERYHOURDATA
-        WHERE  DATADATE IN
+        WHERE DATADATE IN
         <foreach collection="queryDays" item="queryDate" open="(" separator="," close=")">
             #{queryDate,jdbcType=DATE}
         </foreach>
@@ -30,117 +30,117 @@
 
     <!--&lt;!&ndash;查询某个区域每小时、每天、每月用电统计数据&ndash;&gt;-->
     <!--<select id="queryElectricityPlaceDate" resultType="com.xm.service.apiimpl.pc.fmcs.electricity.dto.ElectricityPlaceDate" parameterType="Map">-->
-        <!--select-->
-            <!--sum(TOTALNUM) as totalNum,-->
-            <!--<if test="dateType=='month'.toString()">/*按月*/-->
-                <!--TO_CHAR(DATADATE,'MM')||'月'-->
-            <!--</if>-->
-            <!--<if test="dateType=='day'.toString()">/*按天*/-->
-                <!--TO_CHAR(DATADATE,'mm/dd')-->
-            <!--</if>-->
-            <!--<if test="dateType=='hour'.toString()">/*小时*/-->
-                <!--TO_CHAR(DATADATE,'HH24')||':00'-->
-            <!--</if>-->
-            <!--as dataDate-->
-        <!--from ELECEVERYHOURDATA-->
-        <!--WHERE-->
-            <!--<![CDATA[-->
-               <!--DATADATE >= #{beginDate}-->
-              <!--and DATADATE <= #{endDate}-->
-             <!--]]>-->
-            <!--<if test="place!=null and place!=''">-->
-                <!--AND PLACE=#{place,jdbcType=VARCHAR}-->
-            <!--</if>-->
-        <!--GROUP BY-->
-            <!--<if test="dateType=='month'.toString()">/*按月*/-->
-                <!--TO_CHAR(DATADATE,'MM')||'月'-->
-            <!--</if>-->
-            <!--<if test="dateType=='day'.toString()">-->
-                <!--TO_CHAR(DATADATE,'mm/dd')-->
-            <!--</if>-->
-            <!--<if test="dateType=='hour'.toString()">/*小时*/-->
-                <!--TO_CHAR(DATADATE,'HH24')||':00'-->
-            <!--</if>-->
+    <!--select-->
+    <!--sum(TOTALNUM) as totalNum,-->
+    <!--<if test="dateType=='month'.toString()">/*按月*/-->
+    <!--TO_CHAR(DATADATE,'MM')||'月'-->
+    <!--</if>-->
+    <!--<if test="dateType=='day'.toString()">/*按天*/-->
+    <!--TO_CHAR(DATADATE,'mm/dd')-->
+    <!--</if>-->
+    <!--<if test="dateType=='hour'.toString()">/*小时*/-->
+    <!--TO_CHAR(DATADATE,'HH24')||':00'-->
+    <!--</if>-->
+    <!--as dataDate-->
+    <!--from ELECEVERYHOURDATA-->
+    <!--WHERE-->
+    <!--<![CDATA[-->
+    <!--DATADATE >= #{beginDate}-->
+    <!--and DATADATE <= #{endDate}-->
+    <!--]]>-->
+    <!--<if test="place!=null and place!=''">-->
+    <!--AND PLACE=#{place,jdbcType=VARCHAR}-->
+    <!--</if>-->
+    <!--GROUP BY-->
+    <!--<if test="dateType=='month'.toString()">/*按月*/-->
+    <!--TO_CHAR(DATADATE,'MM')||'月'-->
+    <!--</if>-->
+    <!--<if test="dateType=='day'.toString()">-->
+    <!--TO_CHAR(DATADATE,'mm/dd')-->
+    <!--</if>-->
+    <!--<if test="dateType=='hour'.toString()">/*小时*/-->
+    <!--TO_CHAR(DATADATE,'HH24')||':00'-->
+    <!--</if>-->
 
     <!--</select>-->
 
 
     <!--&lt;!&ndash;查询所有区域每小时、每天、每月用电统计数据&ndash;&gt;-->
     <!--<select id="queryElectricityDate" resultType="com.xm.service.apiimpl.pc.fmcs.electricity.dto.ElectricityDate$ElectricityDetailDate" parameterType="Map">-->
-        <!--select-->
-            <!--sum(TOTALNUM) as totalNum,-->
-            <!--PLACETYPE as placeType,-->
-            <!--<if test="dateType=='month'.toString()">/*按月*/-->
-                <!--TO_CHAR(DATADATE,'MM')||'月'-->
-            <!--</if>-->
-            <!--<if test="dateType=='day'.toString()">/*按天*/-->
-                <!--TO_CHAR(DATADATE,'mm/dd')-->
-            <!--</if>-->
-            <!--<if test="dateType=='hour'.toString()">/*小时*/-->
-                <!--TO_CHAR(DATADATE,'HH24')||':00'-->
-            <!--</if>-->
-            <!--as dataDate-->
-        <!--from ELECEVERYHOURDATA-->
-        <!--WHERE-->
-            <!--<![CDATA[-->
-               <!--DATADATE >= #{beginDate}-->
-              <!--and DATADATE <= #{endDate}-->
-             <!--]]>-->
-        <!--GROUP BY-->
-            <!--placeType,-->
-            <!--<if test="dateType=='month'.toString()">/*按月*/-->
-                <!--TO_CHAR(DATADATE,'MM')||'月'-->
-            <!--</if>-->
-            <!--<if test="dateType=='day'.toString()">-->
-                <!--TO_CHAR(DATADATE,'mm/dd')-->
-            <!--</if>-->
-            <!--<if test="dateType=='hour'.toString()">/*小时*/-->
-                <!--TO_CHAR(DATADATE,'HH24')||':00'-->
-            <!--</if>-->
+    <!--select-->
+    <!--sum(TOTALNUM) as totalNum,-->
+    <!--PLACETYPE as placeType,-->
+    <!--<if test="dateType=='month'.toString()">/*按月*/-->
+    <!--TO_CHAR(DATADATE,'MM')||'月'-->
+    <!--</if>-->
+    <!--<if test="dateType=='day'.toString()">/*按天*/-->
+    <!--TO_CHAR(DATADATE,'mm/dd')-->
+    <!--</if>-->
+    <!--<if test="dateType=='hour'.toString()">/*小时*/-->
+    <!--TO_CHAR(DATADATE,'HH24')||':00'-->
+    <!--</if>-->
+    <!--as dataDate-->
+    <!--from ELECEVERYHOURDATA-->
+    <!--WHERE-->
+    <!--<![CDATA[-->
+    <!--DATADATE >= #{beginDate}-->
+    <!--and DATADATE <= #{endDate}-->
+    <!--]]>-->
+    <!--GROUP BY-->
+    <!--placeType,-->
+    <!--<if test="dateType=='month'.toString()">/*按月*/-->
+    <!--TO_CHAR(DATADATE,'MM')||'月'-->
+    <!--</if>-->
+    <!--<if test="dateType=='day'.toString()">-->
+    <!--TO_CHAR(DATADATE,'mm/dd')-->
+    <!--</if>-->
+    <!--<if test="dateType=='hour'.toString()">/*小时*/-->
+    <!--TO_CHAR(DATADATE,'HH24')||':00'-->
+    <!--</if>-->
     <!--</select>-->
 
 
     <!--<select id="queryElectricityByDate" parameterType="map" resultType="com.xm.service.apiimpl.pc.integrateData.humidity.dto.WaterElectricityCollectDataDTO$WaterElectricityCollectData">-->
-        <!--SELECT-->
-        <!--sum(TOTALNUM) as totalNum-->
-        <!--FROM-->
-        <!--ELECEVERYHOURDATA-->
-        <!--WHERE-->
-        <!--<![CDATA[-->
-          <!--DATADATE >= #{startDate}-->
-          <!--and DATADATE <= #{endDate}-->
-        <!--]]>-->
+    <!--SELECT-->
+    <!--sum(TOTALNUM) as totalNum-->
+    <!--FROM-->
+    <!--ELECEVERYHOURDATA-->
+    <!--WHERE-->
+    <!--<![CDATA[-->
+    <!--DATADATE >= #{startDate}-->
+    <!--and DATADATE <= #{endDate}-->
+    <!--]]>-->
     <!--</select>-->
     <select id="elecPlaceList" resultType="java.lang.String">
-        SELECT DISTINCT PLACE  FROM ELECEVERYHOURDATA
+        SELECT DISTINCT PLACE FROM ELECEVERYHOURDATA
     </select>
     <select id="queryTwoDaysElectricityByQueryData" parameterType="map" resultType="com.xm.service.dto.TwoDaysDataDTO">
         SELECT
-            beforTotalNum,
-            beforDataDate,
-            afterTotalNum,
-            afterDataDate
+        beforTotalNum,
+        beforDataDate,
+        afterTotalNum,
+        afterDataDate
         FROM (
-            SELECT
-            max(TOTALNUM) as beforTotalNum,DATADATE as beforDataDate
-            FROM
-            ELECEVERYHOURDATA
-            WHERE DATADATE = #{beforDate,jdbcType=DATE}
-            and PLACE = #{place}
-            and TotalNum is not null
-            and TotalNum != -2147483648
-            group by DATADATE
+        SELECT
+        max(TOTALNUM) as beforTotalNum,DATADATE as beforDataDate
+        FROM
+        ELECEVERYHOURDATA
+        WHERE DATADATE = #{beforDate,jdbcType=DATE}
+        and PLACE = #{place}
+        and TotalNum is not null
+        and TotalNum != -2147483648
+        group by DATADATE
         ) a
         join (
-            SELECT
-            max(TOTALNUM) as afterTotalNum,DATADATE as afterDataDate
-            FROM
-            ELECEVERYHOURDATA
-            WHERE DATADATE = #{afterDate,jdbcType=DATE}
-            and PLACE = #{place}
-            and TotalNum is not null
-            and TotalNum != -2147483648
-            group by DATADATE
+        SELECT
+        max(TOTALNUM) as afterTotalNum,DATADATE as afterDataDate
+        FROM
+        ELECEVERYHOURDATA
+        WHERE DATADATE = #{afterDate,jdbcType=DATE}
+        and PLACE = #{place}
+        and TotalNum is not null
+        and TotalNum != -2147483648
+        group by DATADATE
         ) b on 1=1
     </select>
 
@@ -148,7 +148,7 @@
         SELECT distinct PLACE
         FROM ELECEVERYHOURDATA
         WHERE
-         PLACETYPE=#{placeType}
+        PLACETYPE=#{placeType}
     </select>
 
 </mapper>

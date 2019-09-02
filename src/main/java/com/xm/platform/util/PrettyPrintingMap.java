@@ -3,6 +3,9 @@ package com.xm.platform.util;
 
 import java.util.Iterator;
 import java.util.Map;
+
+import com.alibaba.fastjson.JSON;
+
 ///将map转成string字符串
 public class PrettyPrintingMap<K, V> {
     private Map<K, V> map;
@@ -18,7 +21,7 @@ public class PrettyPrintingMap<K, V> {
             Map.Entry<K, V> entry = iter.next();
             sb.append(entry.getKey());
             sb.append('=').append('"');
-            sb.append(entry.getValue());
+            sb.append(JSON.toJSONString(entry.getValue()));
             sb.append('"');
             if (iter.hasNext()) {
                 sb.append(',').append(' ');
