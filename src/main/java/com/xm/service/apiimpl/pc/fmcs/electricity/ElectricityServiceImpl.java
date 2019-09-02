@@ -130,8 +130,8 @@ public class ElectricityServiceImpl {
                 Map<String, List<ElectricityPlaceDate>> dayPlaceListDataMap = new HashMap<>();
                 for (String place : placeList) {
                     //  LogUtils.info(getClass(), "ElectricityService______place:" + place);
-                    //其他数据不再需要废水站的数据  2019-0829-新需求//
-                    if (place.equals("4D-废水站")) {
+                    //其他数据不再需要废水站(食堂)的数据  2019-0829（0902）-新需求//
+                    if (place.equals("4D-废水站")||place.equals("4M-食堂")) {
                         continue;
                     }
                     //+++++++++++++++++++++++++++++++++++++++++++//
