@@ -40,10 +40,12 @@ public class SAPDataSyncTask {
         } else {
             month = "0" + String.valueOf(now.get(Calendar.MONTH));
         }
-        //每个月去获取上月的数据 1月份拿不到数据
+        //每个月去获取上月的数据 1月份获取去年12月的数据
         if (now.get(Calendar.MONTH)==0)
         {
-            return;
+            year = String.valueOf(now.get(Calendar.YEAR-1));
+            month="12";
+            //return;
         }
 
         ZHBTPROFIT zhbtprofit=new ZHBTPROFIT();
