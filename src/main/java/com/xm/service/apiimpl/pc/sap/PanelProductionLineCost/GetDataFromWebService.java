@@ -7,14 +7,12 @@ import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.MapUtils;
 import com.xm.platform.util.PrettyPrintingMap;
 import com.xm.service.apiimpl.pc.sap.PanelProductionLineCost.dto.PanelProductLineCostDTO;
-import com.xm.service.apiimpl.pc.sap.PanelSalesIncomeAndCost.dto.PanelSalesIncomeCostData;
 import com.xm.service.dao.cim.PanelProductLineCostDAO;
 import com.xm.service.dao.cim.PanelSalesIncomeCostDAO;
 import com.xm.webservice.client.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.xml.ws.BindingProvider;
 import javax.xml.ws.Holder;
 import java.lang.reflect.Field;
 import java.net.Authenticator;
@@ -164,7 +162,15 @@ public class GetDataFromWebService {
                     datamap.put("Month", _month);
                     String mapstr = new PrettyPrintingMap<String, Object>(datamap).toString();
                     LogUtils.info(this.getClass(), "转化后map  " + mapstr);
-                    panelSalesIncomeCostDAO.addData(datamap);
+
+                    try {
+                        panelSalesIncomeCostDAO.addData(datamap);
+                    } catch (Exception ex) {
+                        panelSalesIncomeCostDAO.updateData(datamap);
+                        LogUtils.info(this.getClass(), "执行更新sql");
+                        LogUtils.info(this.getClass(), ex.getMessage());
+                    }
+
                 } catch (Exception ex) {
                     LogUtils.error(this.getClass(), ex.getMessage());
                 }

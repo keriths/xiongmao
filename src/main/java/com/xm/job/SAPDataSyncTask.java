@@ -158,7 +158,13 @@ public class SAPDataSyncTask {
                     datamap.put("Month", _month);
                     String mapstr = new PrettyPrintingMap<String, Object>(datamap).toString();
                     LogUtils.info(this.getClass(), "转化后map  " + mapstr);
-                    panelSalesIncomeCostDAO.addData(datamap);
+                    try {
+                        panelSalesIncomeCostDAO.addData(datamap);
+                    } catch (Exception ex) {
+                        panelSalesIncomeCostDAO.updateData(datamap);
+                        LogUtils.info(this.getClass(), "add违反唯一键约束 执行updata sql");
+                       // LogUtils.error(this.getClass(), ex.getMessage());
+                    }
                 } catch (Exception ex) {
                     LogUtils.error(this.getClass(), ex.getMessage());
                 }
