@@ -29,50 +29,7 @@ import java.util.Map;
  */
 @Component
 public class ServiceAPIDocumentBeanPostProcessor implements BeanPostProcessor {
-//    private boolean isSameMethod(Method method,CtMethod ctMethod){
-//        if (!method.getName().equals(ctMethod.getName())){
-//            return false;
-//        }
-//        Class[] parameterTypes = method.getParameterTypes();
-//        CtClass[] ctParameterTypes = null;
-//        try {
-//            ctParameterTypes = ctMethod.getParameterTypes();
-//        } catch (NotFoundException e) {
-//            throw new RuntimeException(e);
-//        }
-//        if ((parameterTypes==null || parameterTypes.length==0) && (ctParameterTypes==null || ctParameterTypes.length==0)){
-//            return true;
-//        }
-//        if (parameterTypes!=null && ctParameterTypes!=null && parameterTypes.length==ctParameterTypes.length){
-//            for (int i = 0;i<parameterTypes.length;i++){
-//                Class parameterType = parameterTypes[i];
-//                CtClass ctParameterType = ctParameterTypes[i];
-//                if (!parameterType.getName().equals(ctParameterType.getName())){
-//                    return false;
-//                }
-//            }
-//            return true;
-//        }
-//        return false;
-//    }
-//    private CtMethod getCtMethod(CtClass ctClass,Method method){
-//        CtMethod ctMethod = null;
-//        try {
-//            ctMethod = ctClass.getDeclaredMethod(method.getName());
-//        } catch (NotFoundException e) {
-//            throw new RuntimeException(e);
-//        }
-//        if (isSameMethod(method,ctMethod)){
-//            return ctMethod;
-//        }
-//        CtMethod[] ctMethods = ctClass.getMethods();
-//        for (CtMethod ctMet : ctMethods){
-//            if (isSameMethod(method,ctMet)){
-//                return ctMet;
-//            }
-//        }
-//        throw new RuntimeException("not found ctMethod"+method.getName());
-//    }
+
     public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
         Map<String, Object> apiServiceMap = beanFactory.getBeansWithAnnotation(ApiServiceDoc.class);
         if (CollectionUtils.isEmpty(apiServiceMap)){
@@ -88,9 +45,6 @@ public class ServiceAPIDocumentBeanPostProcessor implements BeanPostProcessor {
             if (ApiManager.getServiceMethodList(apiServiceDesc)!=null){
                 throw new RuntimeException(apiServiceDesc+" cant more then one");
             }
-
-//            CtClass ctClass = getCtClass(serviceClass);
-
             Method[] methods = serviceClass.getMethods();
             for (Method method : methods){
                 ApiMethodDoc apiMethodDoc = method.getAnnotation(ApiMethodDoc.class);
