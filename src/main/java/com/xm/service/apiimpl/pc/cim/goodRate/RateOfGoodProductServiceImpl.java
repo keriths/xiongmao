@@ -170,7 +170,8 @@ public class RateOfGoodProductServiceImpl {
                 BigDecimal cellVal = cell==null?null:cell.getInLine();
                 BigDecimal planVal = plan==null?null:plan.getYieldVal();
                 if (planVal==null && productGoodRateDTO.getPerioddate()!=null){
-                    planVal = dwsProductLineYieldFidsDAO.queryProductGoodRateLeastPlanSA(productIdList, productGoodRateDTO.getPerioddate(), dateType);
+                    //planVal = new BigDecimal(0.997);
+                    //dwsProductLineYieldFidsDAO.queryProductGoodRateLeastPlanSA(productIdList, productGoodRateDTO.getPerioddate(), dateType);
                 }
                 BigDecimal slVal = sl==null?null:sl.getYieldVal();
                 BigDecimal slsaVal = sl_sa==null?null:sl_sa.getYieldVal();
@@ -183,9 +184,21 @@ public class RateOfGoodProductServiceImpl {
                 BigDecimal yield = (arrayVal==null?BigDecimal.ZERO:arrayVal).multiply((cellVal==null?BigDecimal.ZERO:cellVal)).multiply((slVal==null?BigDecimal.ZERO:slVal)).divide(new BigDecimal("10000"),2,BigDecimal.ROUND_HALF_UP);
                 BigDecimal yieldActualSA = (arrayVal==null?BigDecimal.ZERO:arrayVal).multiply((cellVal == null ? BigDecimal.ZERO : cellVal)).multiply((slsaVal == null ? BigDecimal.ZERO : slsaVal)).divide(new BigDecimal("10000"), 2, BigDecimal.ROUND_HALF_UP);
                 productGoodRateDTO.setYield(yield);
-                productGoodRateDTO.setYieldPlanSA(planVal);
+                BigDecimal yield2=productGoodRateDTO.getYield();
+                productGoodRateDTO.setYield(yield2);
+
                 productGoodRateDTO.setYieldActualSA(yieldActualSA);
+                BigDecimal yieldActualSA2=productGoodRateDTO.getYieldActualSA();
+                productGoodRateDTO.setYieldActualSA(yieldActualSA2);
+
+                productGoodRateDTO.setYieldPlanSA(planVal);
+                BigDecimal planVal2=productGoodRateDTO.getYieldPlanSA();
+                productGoodRateDTO.setYieldPlanSA(planVal2);
+
                 productGoodRateDTO.setSlYield(slVal);
+                BigDecimal slVal2=productGoodRateDTO.getSlYield();
+                productGoodRateDTO.setSlYield(slVal2);
+
                 retList.add(productGoodRateDTO);
             }
             resultDto.setGoodRateDTOList(retList);

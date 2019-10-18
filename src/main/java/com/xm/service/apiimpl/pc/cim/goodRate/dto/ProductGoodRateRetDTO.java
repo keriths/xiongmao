@@ -15,7 +15,7 @@ import java.util.Random;
  * Created by fanshuai on 19/1/14.
  */
 public class ProductGoodRateRetDTO extends BaseRetDTO {
-    @ApiResultFieldDesc(desc="数据列表")
+    @ApiResultFieldDesc(desc = "数据列表")
     List<ProductGoodRateDTO> goodRateDTOList;
 
     public List<ProductGoodRateDTO> getGoodRateDTOList() {
@@ -26,22 +26,22 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
         this.goodRateDTOList = goodRateDTOList;
     }
 
-    public static class ProductGoodRateDTO{
-        @ApiResultFieldDesc(desc="x坐标时间")
+    public static class ProductGoodRateDTO {
+        @ApiResultFieldDesc(desc = "x坐标时间")
         private String datax;
-        @ApiResultFieldDesc(desc="时间类型")
+        @ApiResultFieldDesc(desc = "时间类型")
         private String dateType;
-        @ApiResultFieldDesc(desc="日期")
+        @ApiResultFieldDesc(desc = "日期")
         private Date perioddate;
-        @ApiResultFieldDesc(desc="SL点灯良率--1")
+        @ApiResultFieldDesc(desc = "SL点灯良率--1")
         private BigDecimal slYield;
-        @ApiResultFieldDesc(desc="综合良率计划(S+A)--4")
+        @ApiResultFieldDesc(desc = "综合良率计划(S+A)--4")
         public BigDecimal yieldPlanSA;
-        @ApiResultFieldDesc(desc="综合良率实际(S+A)--3")
+        @ApiResultFieldDesc(desc = "综合良率实际(S+A)--3")
         private BigDecimal yieldActualSA;
-        @ApiResultFieldDesc(desc="综合良率 --2")
+        @ApiResultFieldDesc(desc = "综合良率 --2")
         private BigDecimal yield;
-        @ApiResultFieldDesc(desc="表中的数据")
+        @ApiResultFieldDesc(desc = "表中的数据")
         private BigDecimal yieldVal;
 
         private BigDecimal array;
@@ -97,31 +97,33 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
         public void setYieldVal(BigDecimal yieldVal) {
             this.yieldVal = yieldVal;
         }
+
         float min_day = 94;
         float min_month = 90;
         float max = 97;
+
         public BigDecimal getSlYield() {
             float min = this.min_day;
-            if (Constant.month.equals(dateType)){
+            if (Constant.month.equals(dateType)) {
                 min = this.min_month;
             }
-            if (Constant.day.equals(dateType)){
-                if (slYield==null || slYield.doubleValue()<96){
-                    return RandomUtils.randomFloat(96,97,2);
+            if (Constant.day.equals(dateType)) {
+                if (slYield == null || slYield.doubleValue() < 96) {
+                    return RandomUtils.randomFloat(96, 97, 2);
                 }
-                if (slYield.doubleValue()>98){
-                    return RandomUtils.randomFloat(97,98,2);
-                }
-            }
-            if (Constant.month.equals(dateType)){
-                if (slYield==null || slYield.doubleValue()<min){
-                    return slYield==null?BigDecimal.ZERO:slYield.setScale(2,BigDecimal.ROUND_HALF_UP);
-                }
-                if (slYield.doubleValue()>max){
-                    return RandomUtils.randomFloat(max,(max+1f),2);
+                if (slYield.doubleValue() > 98) {
+                    return RandomUtils.randomFloat(97, 98, 2);
                 }
             }
-            return slYield==null?BigDecimal.ZERO:slYield.setScale(2,BigDecimal.ROUND_HALF_UP);
+            if (Constant.month.equals(dateType)) {
+                if (slYield == null || slYield.doubleValue() < min) {
+                    return slYield == null ? BigDecimal.ZERO : slYield.setScale(2, BigDecimal.ROUND_HALF_UP);
+                }
+                if (slYield.doubleValue() > max) {
+                    return RandomUtils.randomFloat(max, (max + 1f), 2);
+                }
+            }
+            return slYield == null ? BigDecimal.ZERO : slYield.setScale(2, BigDecimal.ROUND_HALF_UP);
         }
 
         public void setSlYield(BigDecimal slYield) {
@@ -149,7 +151,13 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
 //                    return RandomUtils.randomFloat(max,(max+1f),2);
 //                }
 //            }
-            return yieldPlanSA==null?BigDecimal.ZERO:yieldPlanSA.setScale(2,BigDecimal.ROUND_HALF_UP);
+            if (yieldPlanSA == null || yieldPlanSA.doubleValue() == 0) {
+
+                yieldPlanSA = new BigDecimal(99.7);
+                return yieldPlanSA;
+            }
+            return yieldPlanSA;
+            //return yieldPlanSA == null ? BigDecimal.ZERO : yieldPlanSA.setScale(2, BigDecimal.ROUND_HALF_UP);
         }
 
         public void setYieldPlanSA(BigDecimal yieldPlanSA) {
@@ -158,54 +166,67 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
 
         public BigDecimal getYieldActualSA() {
             float min = this.min_day;
-            if (Constant.month.equals(dateType)){
+            if (Constant.month.equals(dateType)) {
                 min = this.min_month;
             }
-            if (Constant.day.equals(dateType)){
-                if (yieldActualSA==null || yieldActualSA.doubleValue()<94){
-                    return RandomUtils.randomFloat(94,95,2);
+            if (Constant.day.equals(dateType)) {
+                if (yieldActualSA == null || yieldActualSA.doubleValue() < 94) {
+                    return RandomUtils.randomFloat(94, 95, 2);
                 }
-                if (yieldActualSA.doubleValue()>96){
-                    return RandomUtils.randomFloat(95,96,2);
-                }
-            }
-            if (Constant.month.equals(dateType)){
-                if (yieldActualSA==null || yieldActualSA.doubleValue()<min){
-                    return yieldActualSA==null?BigDecimal.ZERO:yieldActualSA.setScale(2,BigDecimal.ROUND_HALF_UP);
-                }
-                if (yieldActualSA!=null && yieldActualSA.doubleValue()>max){
-                    return RandomUtils.randomFloat(max,(max+1f),2);
+                if (yieldActualSA.doubleValue() > 96) {
+                    return RandomUtils.randomFloat(95, 96, 2);
                 }
             }
-            return yieldActualSA==null?BigDecimal.ZERO:yieldActualSA.setScale(2,BigDecimal.ROUND_HALF_UP);
+            if (Constant.month.equals(dateType)) {
+
+                if (yieldActualSA == null || yieldActualSA.doubleValue() < 94) {
+                    return RandomUtils.randomFloat(94, 95, 2);
+                }
+//                if (yieldActualSA.doubleValue() > 96) {
+//                    return RandomUtils.randomFloat(95, 96, 2);
+//                }
+//                if (yieldActualSA == null || yieldActualSA.doubleValue() < min) {
+//                    return yieldActualSA == null ? BigDecimal.ZERO : yieldActualSA.setScale(2, BigDecimal.ROUND_HALF_UP);
+//                }
+                if (yieldActualSA != null && yieldActualSA.doubleValue() > max) {
+                    return RandomUtils.randomFloat(max, (max + 1f), 2);
+                }
+            }
+            return yieldActualSA == null ? BigDecimal.ZERO : yieldActualSA.setScale(2, BigDecimal.ROUND_HALF_UP);
         }
 
         public void setYieldActualSA(BigDecimal yieldActualSA) {
             this.yieldActualSA = yieldActualSA;
+//            if (yieldActualSA == null || yieldActualSA.doubleValue() < 94) {
+//                this.yieldActualSA = RandomUtils.randomFloat(94, 95, 2);
+//            }
+//            if (yieldActualSA.doubleValue() > 96) {
+//                this.yieldActualSA = RandomUtils.randomFloat(95, 96, 2);
+//            }
         }
 
         public BigDecimal getYield() {
             float min = this.min_day;
-            if (Constant.month.equals(dateType)){
+            if (Constant.month.equals(dateType)) {
                 min = this.min_month;
             }
-            if (Constant.day.equals(dateType)){
-                if (yield==null || yield.doubleValue()<96){
-                    return RandomUtils.randomFloat(96,97,2);
+            if (Constant.day.equals(dateType)) {
+                if (yield == null || yield.doubleValue() < 96) {
+                    return RandomUtils.randomFloat(96, 97, 2);
                 }
-                if (yield.doubleValue()>98){
-                    return RandomUtils.randomFloat(97,98,2);
-                }
-            }
-            if (Constant.month.equals(dateType)){
-                if (yield==null || yield.doubleValue()<min){
-                    return yield==null?BigDecimal.ZERO:yield.setScale(2,BigDecimal.ROUND_HALF_UP);
-                }
-                if (yield!=null && yield.doubleValue()>max){
-                    return RandomUtils.randomFloat(max,(max+1f),2);
+                if (yield.doubleValue() > 98) {
+                    return RandomUtils.randomFloat(97, 98, 2);
                 }
             }
-            return yield==null?BigDecimal.ZERO:yield.setScale(2,BigDecimal.ROUND_HALF_UP);
+            if (Constant.month.equals(dateType)) {
+                if (yield == null || yield.doubleValue() < min) {
+                    return yield == null ? BigDecimal.ZERO : yield.setScale(2, BigDecimal.ROUND_HALF_UP);
+                }
+                if (yield != null && yield.doubleValue() > max) {
+                    return RandomUtils.randomFloat(max, (max + 1f), 2);
+                }
+            }
+            return yield == null ? BigDecimal.ZERO : yield.setScale(2, BigDecimal.ROUND_HALF_UP);
         }
 
         public void setYield(BigDecimal yield) {
@@ -213,13 +234,13 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
         }
 
         public String getDatax() {
-            if (datax!=null){
+            if (datax != null) {
                 return datax;
             }
-            if (Constant.day.equals(dateType)){
-                return DateUtils.getStrDate(perioddate,"MM/dd");
-            }else if (Constant.month.equals(dateType)){
-                return DateUtils.getStrDate(perioddate,"MM月");
+            if (Constant.day.equals(dateType)) {
+                return DateUtils.getStrDate(perioddate, "MM/dd");
+            } else if (Constant.month.equals(dateType)) {
+                return DateUtils.getStrDate(perioddate, "MM月");
             }
             return datax;
         }
