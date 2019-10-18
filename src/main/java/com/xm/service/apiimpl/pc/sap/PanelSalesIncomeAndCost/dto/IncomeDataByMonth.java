@@ -53,6 +53,8 @@ public class IncomeDataByMonth implements Serializable {
 
             ddeMonthGroup.CCL01Group = ddeMonthGroup.CCL01Group.add(panelSalesIncomeCostData.CCL01);
 
+            ddeMonthGroup.CKL01Group =ddeMonthGroup.CKL01Group.add(panelSalesIncomeCostData.CKL01);
+
             ddeMonthGroup.Month = panelSalesIncomeCostData.MONTH;
         }
         this.ddeMonthGroup = ddeMonthGroup;

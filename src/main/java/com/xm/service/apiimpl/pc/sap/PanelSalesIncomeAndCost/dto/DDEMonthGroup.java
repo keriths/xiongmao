@@ -19,6 +19,10 @@ public class DDEMonthGroup implements Serializable {
     @ApiResultFieldDesc(desc = "销售量-本月折合大板数")
     public BigDecimal XSL02Group;
 
+    @ApiResultFieldDesc(desc = "出口量-本月")
+    public BigDecimal CKL01Group;
+
+
 
     @ApiResultFieldDesc(desc = "库存量-本月")
     public BigDecimal KCL01Group;
@@ -50,6 +54,7 @@ public class DDEMonthGroup implements Serializable {
         XSSR01Group=new BigDecimal("0.00");
         CCL01Group=new BigDecimal("0.00");
         CKSR01Group=new BigDecimal("0.00");
+        CKL01Group=new BigDecimal("0.00");
     }
 
 }
