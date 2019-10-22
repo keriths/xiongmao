@@ -2,6 +2,7 @@ package com.xm.service.apiimpl.pc.cim.goodRate.dto;
 
 import com.xm.platform.annotations.ApiResultFieldDesc;
 import com.xm.platform.util.DateUtils;
+import com.xm.platform.util.LogUtils;
 import com.xm.platform.util.RandomUtils;
 import com.xm.service.constant.Constant;
 import com.xm.service.dto.BaseRetDTO;
@@ -108,7 +109,10 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
                 min = this.min_month;
             }
             if (Constant.day.equals(dateType)) {
-                if (slYield == null || slYield.doubleValue() < 96) {
+                if (slYield == null || slYield.doubleValue() == 0) {
+                    return BigDecimal.ZERO;
+                }
+                if (slYield.doubleValue() < 96) {
                     return RandomUtils.randomFloat(96, 97, 2);
                 }
                 if (slYield.doubleValue() > 98) {
@@ -151,17 +155,26 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
 //                    return RandomUtils.randomFloat(max,(max+1f),2);
 //                }
 //            }
-            if (yieldPlanSA == null || yieldPlanSA.doubleValue() == 0) {
-
-                yieldPlanSA = new BigDecimal(99.7);
-                return yieldPlanSA;
-            }
-            return yieldPlanSA;
-            //return yieldPlanSA == null ? BigDecimal.ZERO : yieldPlanSA.setScale(2, BigDecimal.ROUND_HALF_UP);
+//            if (yieldPlanSA == null || yieldPlanSA.doubleValue() == 0) {
+//
+//                yieldPlanSA = new BigDecimal(99.7);
+//                return yieldPlanSA.setScale(2, BigDecimal.ROUND_HALF_UP);
+//            }
+//            return yieldPlanSA.setScale(2, BigDecimal.ROUND_HALF_UP);
+            return yieldPlanSA == null ? BigDecimal.ZERO : yieldPlanSA.setScale(2, BigDecimal.ROUND_HALF_UP);
         }
 
         public void setYieldPlanSA(BigDecimal yieldPlanSA) {
-            this.yieldPlanSA = yieldPlanSA;
+
+            if (yieldPlanSA == null || yieldPlanSA.doubleValue() == 0) {
+
+                this.yieldPlanSA = new BigDecimal(99.7);
+
+            } else {
+                this.yieldPlanSA = yieldPlanSA;
+            }
+            LogUtils.info(this.getClass(), " this.yieldPlanSA : " + this.yieldPlanSA);
+
         }
 
         public BigDecimal getYieldActualSA() {
@@ -170,7 +183,10 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
                 min = this.min_month;
             }
             if (Constant.day.equals(dateType)) {
-                if (yieldActualSA == null || yieldActualSA.doubleValue() < 94) {
+                if (yieldActualSA == null || yieldActualSA.doubleValue() == 0) {
+                    return BigDecimal.ZERO;
+                }
+                if (yieldActualSA.doubleValue() < 94) {
                     return RandomUtils.randomFloat(94, 95, 2);
                 }
                 if (yieldActualSA.doubleValue() > 96) {
@@ -178,16 +194,12 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
                 }
             }
             if (Constant.month.equals(dateType)) {
-
-                if (yieldActualSA == null || yieldActualSA.doubleValue() < 94) {
+                if (yieldActualSA.doubleValue() == 0) {
+                    return yieldActualSA.setScale(2, BigDecimal.ROUND_HALF_UP);
+                }
+                if (yieldActualSA.doubleValue() < 94) {
                     return RandomUtils.randomFloat(94, 95, 2);
                 }
-//                if (yieldActualSA.doubleValue() > 96) {
-//                    return RandomUtils.randomFloat(95, 96, 2);
-//                }
-//                if (yieldActualSA == null || yieldActualSA.doubleValue() < min) {
-//                    return yieldActualSA == null ? BigDecimal.ZERO : yieldActualSA.setScale(2, BigDecimal.ROUND_HALF_UP);
-//                }
                 if (yieldActualSA != null && yieldActualSA.doubleValue() > max) {
                     return RandomUtils.randomFloat(max, (max + 1f), 2);
                 }
@@ -196,13 +208,8 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
         }
 
         public void setYieldActualSA(BigDecimal yieldActualSA) {
+
             this.yieldActualSA = yieldActualSA;
-//            if (yieldActualSA == null || yieldActualSA.doubleValue() < 94) {
-//                this.yieldActualSA = RandomUtils.randomFloat(94, 95, 2);
-//            }
-//            if (yieldActualSA.doubleValue() > 96) {
-//                this.yieldActualSA = RandomUtils.randomFloat(95, 96, 2);
-//            }
         }
 
         public BigDecimal getYield() {
@@ -211,7 +218,11 @@ public class ProductGoodRateRetDTO extends BaseRetDTO {
                 min = this.min_month;
             }
             if (Constant.day.equals(dateType)) {
-                if (yield == null || yield.doubleValue() < 96) {
+                if (yield == null || yield.doubleValue() ==0) {
+                    return BigDecimal.ZERO;
+                }
+                if(yield.doubleValue() < 96)
+                {
                     return RandomUtils.randomFloat(96, 97, 2);
                 }
                 if (yield.doubleValue() > 98) {
