@@ -71,11 +71,14 @@ public class PanelSalesIncomeCostService {
         }
         DDEhalfYearAndYearGroup ddEhalfYearAndYearGroup = new DDEhalfYearAndYearGroup();
 
-        int count = 0;
+        //int count = 0;
         //上半年全年统计
-        for (int i = incomeDataByMonthList.size() - 1; i >= 0; i--) {
+        for (int i = 0; i < incomeDataByMonthList.size(); i++) {
 
-            if (count < 6) {
+            //上半年数据只有1-6个月的，不足6个月则半年数据和全年数据相同，下半年数据相减可得
+            if (i < 6) {
+                ddEhalfYearAndYearGroup.CKL01halfyear = ddEhalfYearAndYearGroup.CKL01halfyear.add(incomeDataByMonthList.get(i).getDdeMonthGroup().CKL01Group);
+
                 ddEhalfYearAndYearGroup.CCL01halfYear = ddEhalfYearAndYearGroup.CCL01halfYear.add(incomeDataByMonthList.get(i).getDdeMonthGroup().CCL01Group);
 
                 ddEhalfYearAndYearGroup.XSSR01halfYear = ddEhalfYearAndYearGroup.XSSR01halfYear.add(incomeDataByMonthList.get(i).getDdeMonthGroup().XSSR01Group);
@@ -116,7 +119,8 @@ public class PanelSalesIncomeCostService {
 
             ddEhalfYearAndYearGroup.CKSR01Year = ddEhalfYearAndYearGroup.CKSR01Year.add(incomeDataByMonthList.get(i).getDdeMonthGroup().CKSR01Group);
 
-            count++;
+            ddEhalfYearAndYearGroup.CKL01Year = ddEhalfYearAndYearGroup.CKL01Year.add(incomeDataByMonthList.get(i).getDdeMonthGroup().CKL01Group);
+            //count++;
         }
 
         panelSalesIncomeCostDTO.setDDEhalfYearAndYearGroup(ddEhalfYearAndYearGroup);
@@ -158,7 +162,7 @@ public class PanelSalesIncomeCostService {
         int yearint = now.get(Calendar.YEAR);
         String year = String.valueOf(now.get(Calendar.YEAR));
         String month = "";
-        int monthint = now.get(Calendar.MONTH) ;//获取上月月份数字
+        int monthint = now.get(Calendar.MONTH);//获取上月月份数字
         for (int i = 0; i < 12; i++) {
             String _month;
             if (monthint == 0) {

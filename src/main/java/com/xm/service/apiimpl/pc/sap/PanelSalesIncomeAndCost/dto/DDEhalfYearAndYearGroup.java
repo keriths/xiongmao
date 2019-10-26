@@ -55,6 +55,10 @@ public class DDEhalfYearAndYearGroup implements Serializable {
     @ApiResultFieldDesc(desc = "产出量一年")
     public BigDecimal CCL01Year;
 
+    @ApiResultFieldDesc(desc = "出口量半年")
+    public BigDecimal CKL01halfyear;
+    @ApiResultFieldDesc(desc = "出口量一年")
+    public BigDecimal CKL01Year;
 
     @ApiResultFieldDesc(desc = "出口销售收入半年")
     public BigDecimal CKSR01halfYear;
@@ -62,35 +66,38 @@ public class DDEhalfYearAndYearGroup implements Serializable {
     public BigDecimal CKSR01Year;
 
     public DDEhalfYearAndYearGroup() {
-        DDL01halfYear =new BigDecimal("0.00");
-        DDL01Year =new BigDecimal("0.00");
+        DDL01halfYear = new BigDecimal("0.00");
+        DDL01Year = new BigDecimal("0.00");
 
-        DDE01halfYear =new BigDecimal("0.00");
-        DDE01Year =new BigDecimal("0.00");
+        DDE01halfYear = new BigDecimal("0.00");
+        DDE01Year = new BigDecimal("0.00");
 
-        XSL01halfYear =new BigDecimal("0.00");
-        XSL01Year =new BigDecimal("0.00");
+        XSL01halfYear = new BigDecimal("0.00");
+        XSL01Year = new BigDecimal("0.00");
 
-        XSL02halfYear =new BigDecimal("0.00");
-        XSL02Year =new BigDecimal("0.00");
+        XSL02halfYear = new BigDecimal("0.00");
+        XSL02Year = new BigDecimal("0.00");
 
-        KCL01halfYear =new BigDecimal("0.00");
-        KCL01Year =new BigDecimal("0.00");
+        KCL01halfYear = new BigDecimal("0.00");
+        KCL01Year = new BigDecimal("0.00");
 
-        KCL02halfYear =new BigDecimal("0.00");
-        KCL02Year =new BigDecimal("0.00");
+        KCL02halfYear = new BigDecimal("0.00");
+        KCL02Year = new BigDecimal("0.00");
 
-        KCZE01halfYear =new BigDecimal("0.00");
-        KCZE01Year =new BigDecimal("0.00");
+        KCZE01halfYear = new BigDecimal("0.00");
+        KCZE01Year = new BigDecimal("0.00");
 
-        XSSR01halfYear =new BigDecimal("0.00");
-        XSSR01Year =new BigDecimal("0.00");
+        XSSR01halfYear = new BigDecimal("0.00");
+        XSSR01Year = new BigDecimal("0.00");
 
-        CCL01halfYear =new BigDecimal("0.00");
-        CCL01Year =new BigDecimal("0.00");
+        CCL01halfYear = new BigDecimal("0.00");
+        CCL01Year = new BigDecimal("0.00");
 
 
-        CKSR01halfYear =new BigDecimal("0.00");
-        CKSR01Year =new BigDecimal("0.00");
+        CKSR01halfYear = new BigDecimal("0.00");
+        CKSR01Year = new BigDecimal("0.00");
+
+        CKL01halfyear = new BigDecimal("0.00");
+        CKL01Year = new BigDecimal("0.00");
     }
 }
