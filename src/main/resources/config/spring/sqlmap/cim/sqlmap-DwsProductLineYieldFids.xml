@@ -215,13 +215,13 @@
                 (
                     (
                         FACTORY in ('ARRAY','CELL')
-                        and PRODUCTTYPE  IN ('CS','MP','CM')
+                        and PRODUCTTYPE  IN ('MP')
 
                     )
                     OR
                     (
                         FACTORY IN ('CF')
-                        and PRODUCTTYPE  IN ('CS','MP','CM')
+                        and PRODUCTTYPE  IN ('MP')
 
                     )
                     OR
